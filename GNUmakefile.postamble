@@ -1,0 +1,6 @@
+before-all::
+	rm -rf Source/UnitKit
+	$(LN_S) $(PWD)/Source/FrameworkSource Source/UnitKit
+
+after-clean::
+	rm -rf Source/UnitKit
