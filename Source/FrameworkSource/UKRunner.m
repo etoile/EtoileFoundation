@@ -192,8 +192,6 @@
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         id testObject;
 
-// FIXME: old objc exceptions macro don't work inside #ifdef statements	?	
-/*
 #ifdef NEW_EXCEPTION_MODEL
 
         @try {
@@ -234,8 +232,8 @@
             [pool release];
             return;
         }
-*/	
-//#else
+
+#else
 
         NS_DURING
 		{
@@ -296,7 +294,7 @@
 		}
         NS_ENDHANDLER
         
-//#endif        
+#endif        
         
         [pool release];
     }

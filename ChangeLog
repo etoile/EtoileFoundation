@@ -1,3 +1,9 @@
+2005-03-18  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * Source/FrameworkSource/UKRunner.m:.
+    (-runTests:onClass:): Activated conditional compilation in order UnitKit
+    uses new try/catch exception model on Mac OS X.
+    
 2005-03-11  Quentin Mathe <qmathe@club-internet.fr>
     
     * Source/TestSource/TestBundle/GNUmakefile: Added.
