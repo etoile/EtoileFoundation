@@ -2,7 +2,7 @@ Required software
 -----------------
 
 You need to have the GNUstep core libraries installed in order to
-compile and use Gorm. The core packages are, at a minimum:
+compile and use EtoileExtensionsKit. The core packages are, at a minimum:
 
    * gnustep-make
 

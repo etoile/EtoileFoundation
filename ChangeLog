@@ -1,3 +1,8 @@
+2005-03-10  Quentin Mathe <qmathe@club-internet.fr>
+	
+	* INSTALL: Updated in order to talk about EtoileExtensions and not Gorm.
+	* Source/GNUmakefile: Improved formatting.
+
 2005-01-04  Quentin Mathe <qmathe@club-internet.fr>
 	
 	* Headers/EtoileCompatibility.h: Added.

@@ -1,7 +1,7 @@
 #
 #	GNUmakefile
 #
-#	Makefile for Etoile Extensions Kit
+#	Makefile for EtoileExtensionsKit
 #
 #	Copyright (C) 2005 Quentin Mathe <qmathe@club-internet.fr>
 #
@@ -33,10 +33,10 @@ ADDITIONAL_INCLUDE_DIRS = -I../Headers
 #
 # Main application
 #
-LIBRARY_NAME=		libEtoileExtensions	
-VERSION=		0.1
+LIBRARY_NAME = libEtoileExtensions	
+VERSION = 0.1
 
-FRAMEWORKS= # TrackerKit
+FRAMEWORKS = #TrackerKit
 
 #
 # Resource files
