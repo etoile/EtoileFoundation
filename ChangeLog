@@ -1,0 +1,16 @@
+2005-03-07  Quentin Mathe <qmathe@club-internet.fr>
+
+        * ChangeLog: Added.
+        * README.GNUstep: Added old README written by Nicolas Roard.
+        * GNUmakefile: Updated.
+        * Source/FrameworkSource/GNUmakefile: Modified to build a library and
+        not a framework (GNUstep framework support on Mac OS X isn't perfect).
+        * Source/FrameworkSource/UKTask.m: Updated to work without Carbon.
+        * Source/FrameworkSource/UKRunner.m: Modified to support GNUstep and
+        improved conditional compilation.
+        (UKTestClasseNamesFromBundle()): Added code to handle tested classes
+        with categories.
+        (+runTests): Added AppKit related testing support and support for 
+        messages -initForTest -releaseForTest sent to test objects.
+        * Source/ToolSource/GNUmakefile: Removed framework link.
+        

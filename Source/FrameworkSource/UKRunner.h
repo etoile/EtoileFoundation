@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <ApplicationKit/ApplicationKit.h>
 
 @interface UKRunner : NSObject {
     int testClassesRun;

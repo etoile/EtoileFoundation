@@ -6,6 +6,8 @@
  
  Copyright (c)2004 James Duncan Davidson
  
+ Contributions by Quentin mathe
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -27,6 +29,10 @@
 // XXX this will leave turds around in /tmp if not released... need to do
 // the stdin/out/err in memory really....
 
+#ifdef GNUSTEP
+	static int gsuuid = 0;
+#endif
+
 @implementation UKTask
 
 - (id) init
@@ -39,6 +45,8 @@
     
     // create our temp file nameswith a UUID
     
+#ifndef GNUSTEP
+	
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
     stdInPath = [[NSString stringWithFormat:@"/tmp/%@-stdin", uuidString] retain];
@@ -46,6 +54,16 @@
     stdErrPath = [[NSString stringWithFormat:@"/tmp/%@-stderr", uuidString] retain];
     CFRelease(uuidString);
     CFRelease(uuid);
+	
+#else
+	
+	gsuuid++;
+	NSString *uuidString = [NSString stringWithFormat:@"%d", gsuuid];
+	stdInPath = [[NSString stringWithFormat:@"/tmp/%@-stdin", uuidString] retain];
+    stdOutPath = [[NSString stringWithFormat:@"/tmp/%@-stdout", uuidString] retain];
+    stdErrPath = [[NSString stringWithFormat:@"/tmp/%@-stderr", uuidString] retain];
+	
+#endif
     
     // "touch" our temp files. This could be done better...
     

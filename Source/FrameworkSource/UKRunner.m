@@ -6,7 +6,7 @@
  
  Copyright (c)2004 James Duncan Davidson
  
- Contributions by Mark Dalrymple
+ Contributions by Mark Dalrymple, Nicolas Roard, Quentin mathe
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -28,11 +28,18 @@
 #import "UKTest.h"
 #import "UKTestHandler.h"
 
+/* For GNUstep, but we should check it is really needed */
+#import <Foundation/NSException.h>
+
 #ifndef GNUSTEP
-#import <objc/objc-runtime.h>
+	#ifdef AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER
+		#define NEW_EXCEPTION_MODEL
+	#endif
+	#import <objc/objc-runtime.h>
 #else
-#import <GNUstepBase/GSObjCRuntime.h>
-#endif
+	#import <GNUstepBase/GSObjCRuntime.h>
+#endif 
+
 
 @implementation UKRunner
 
@@ -63,6 +70,7 @@
      test class found. Otherwise
      */
     
+	NSApplication *app = [NSApplication sharedApplication];
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
@@ -171,6 +179,8 @@
      The hairy thing about this method is catching and dealing with all of 
      the permutations of uncaught exceptions that might be heading our way. 
      */
+	 
+	//NSLog(@"testClass %@", testClass);
     
     NSEnumerator *e = [testMethods objectEnumerator];
     NSString *testMethodName;
@@ -178,8 +188,10 @@
         testMethodsRun++;
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         id testObject;
-    
-# ifdef AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER
+
+// FIXME: old objc exceptions macro don't work inside #ifdef statements	?	
+/*
+#ifdef NEW_EXCEPTION_MODEL
 
         @try {
             testObject = [[testClass alloc] init];
@@ -219,47 +231,70 @@
             [pool release];
             return;
         }
+*/	
+//#else
 
-#else
-
-        NS_DURING {
-            testObject = [[testClass alloc] init];
-        }
-        NS_HANDLER {
+        //NS_DURING
+		//{
+            testObject = [testClass alloc];
+			if ([testObject respondsToSelector: @selector(initForTest)])
+			{
+				testObject = [testObject initForTest];
+			}
+			else
+			{
+				testObject = [testObject init];
+			}
+			NSLog(@"testObject %@", testObject);
+		/*}
+        NS_HANDLER
+		{
             NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
             [pool release];
-            return;
-        } 
+            return;	
+		}
         NS_ENDHANDLER
-        
-        NS_DURING {
+        */
+        //NS_DURING
+		//{
             SEL testSel = NSSelectorFromString(testMethodName);
             [testObject performSelector:testSel];
-        }
-
-        NS_HANDLER {
+		/*}
+        NS_HANDLER
+		{
             NSString *msg = [UKRunner 
                 localizedString:@"errExceptionInTestMethod"];            
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), testMethodName, [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
-        }
+			[pool release];
+			return;
+		}
         NS_ENDHANDLER
-        
-        NS_DURING {
-            [testObject release];
-        }
-        NS_HANDLER {
+        */
+        //NS_DURING
+		//{
+            if ([testObject respondsToSelector: @selector(releaseForTest)])
+			{
+				[testObject releaseForTest];
+			}
+			else
+			{
+				[testObject release];
+			}
+		/*}
+        NS_HANDLER
+		{
             NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
             [pool release];
             return;
-        }
+		}
         NS_ENDHANDLER
-        
-#endif        
+        */
+//#endif        
         
         [pool release];
     }
@@ -326,16 +361,18 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
      from a bundle.
      */
     
-    Class class;
+    Class c;
     void *es = NULL;
-    while ((class = objc_next_class (&es)) != Nil)
+    while ((c = objc_next_class (&es)) != Nil)
     {
-        NSBundle* classBundle = [NSBundle bundleForClass: class];
+        NSBundle *classBundle = [NSBundle bundleForClass: c];
         if (bundle == classBundle && 
-            [class conformsToProtocol: @protocol (UKTest)]) {
-            [testClasseNames addObject:NSStringFromClass(class)];
+            [c conformsToProtocol:@protocol(UKTest)]) {
+            [testClasseNames addObject:NSStringFromClass(c)];
         }
     }
+	
+	//NSLog(@"testClasses %@", testClasseNames);
 
 #endif
     
@@ -381,20 +418,25 @@ NSArray *UKTestMethodNamesFromClass(Class c)
      Nicolas Roard contributed the following code to pick up test classes
      from a bundle.
      */
-    
-    MethodList_t _methods = c->methods;
-	int i;
-	for (i=0; i < _methods->method_count; i++) {
-		Method_t method = &(_methods->method_list[i]);
-		if (method == NULL) {
-			continue;
+	 
+	MethodList_t methods = c->methods;	
+	while (methods != NULL) {
+		int i;		
+		for (i = 0; i < methods->method_count; i++) {
+			Method_t method = &(methods->method_list[i]);			
+			if (method == METHOD_NULL) {
+				continue;
+			}
+			SEL sel = method->method_name;
+			NSString *methodName = NSStringFromSelector(sel);
+			if ([methodName hasPrefix:@"test"]) {
+				[testMethods addObject:methodName];
+			}
 		}
-		SEL sel = method->method_name;
-		NSString *methodName = NSStringFromSelector(sel);
-		if ([methodName hasPrefix:@"test"]) {
-			[testMethods addObject:methodName];
-		}
+		methods = methods->method_next;
 	}
+	
+	//NSLog(@"testMethods %@", testMethods);
         
 #endif
 
