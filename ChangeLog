@@ -1,3 +1,15 @@
+2005-01-03  Quentin Mathe <qmathe@club-internet.fr>
+	
+	* .DS_Store:
+	* Headers/.DS_Store:
+	* Source/.DS_Store:
+	Removed.
+	* .cvsignore:
+	* Headers/.cvsignore:
+	* Headers/Cocoa/.cvsignore:
+	* Source/.cvsignore:
+	Added.
+
 2005-01-02  Quentin Mathe <qmathe@club-internet.fr>
 	
 	* Headers/Cocoa/Cocoa.h:
