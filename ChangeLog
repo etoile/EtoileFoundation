@@ -1,0 +1,29 @@
+2005-01-02  Quentin Mathe <qmathe@club-internet.fr>
+	
+	* Headers/Cocoa/Cocoa.h:
+	* Headers/NSBezierPathCappedBoxes.h:
+	* Headers/NSFileManager+NameForTempFile.h:
+	* Headers/NSImage+NiceScaling.h:
+	* Headers/UKDistributedView.h:
+	* Headers/UKFinderIconCell.h:
+	* Headers/UKKQueue.h:
+	* Headers/UKMainThreadProxy.h:
+	* Headers/UKNibOwner.h:
+	* Headers/UKPushbackMesssenger.h:
+	* Headers/UKThreadMessenger.h:
+	* Source/NSBezierPathCappedBoxes.h:
+	* Source/NSFileManager+NameForTempFile.h:
+	* Source/NSImage+NiceScaling.h:
+	* Source/UKDistributedView.h:
+	* Source/UKFinderIconCell.h:
+	* Source/UKKQueue.h:
+	* Source/UKMainThreadProxy.h:
+	* Source/UKNibOwner.h:
+	* Source/UKPushbackMesssenger.h:
+	* Source/UKThreadMessenger.h:
+        * Source/GNUmakefile:
+	* README:
+	* INSTALL:
+	* GNUmakefile:
+        Initial import (the framework compiles but needs C99 support).
+        
