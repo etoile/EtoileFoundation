@@ -1,5 +1,10 @@
 2005-03-08  Quentin Mathe <qmathe@club-internet.fr>
 
+        * Source/FrameworkSource/UnitKit.h: Added new line at end of file to
+        avoid compiler warning when you include this file.
+
+2005-03-08  Quentin Mathe <qmathe@club-internet.fr>
+
         * Source/FrameworkSource/UKRunner.m:
 	   (-runTests:onClass:): Reactivated support to catch exceptions thrown by
 	   tests objects (code was commented).
