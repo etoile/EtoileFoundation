@@ -42,9 +42,9 @@
 	* Source/UKNibOwner.h:
 	* Source/UKPushbackMesssenger.h:
 	* Source/UKThreadMessenger.h:
-        * Source/GNUmakefile:
+    * Source/GNUmakefile:
 	* README:
 	* INSTALL:
 	* GNUmakefile:
-        Initial import (the framework compiles but needs C99 support).
+    Initial import (the framework compiles but needs C99 support).
         

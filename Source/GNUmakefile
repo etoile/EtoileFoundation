@@ -41,22 +41,22 @@ FRAMEWORKS = #TrackerKit
 #
 # Resource files
 #
-libEtoileExtensions_MAIN_MODEL_FILE=
+libEtoileExtensions_MAIN_MODEL_FILE =
 
-libEtoileExtensions_RESOURCE_FILES=
+libEtoileExtensions_RESOURCE_FILES =
 
-libEtoileExtensions_LOCALIZED_RESOURCE_FILES=
+libEtoileExtensions_LOCALIZED_RESOURCE_FILES =
 
 #
 # Languages we're localized for
 #
-libEtoileExtensions_LANGUAGES= \
+libEtoileExtensions_LANGUAGES = \
 	English
 	
 #
 # Class files
 #
-libEtoileExtensions_OBJC_FILES= \
+libEtoileExtensions_OBJC_FILES = \
 	NSBezierPathCappedBoxes.m \
 	NSFileManager+NameForTempFile.m \
 	NSImage+NiceScaling.m \
@@ -103,7 +103,7 @@ libEtoileExtensions_HEADER_FILES = \
 #
 # C files
 #
-libEtoileExtensions_C_FILES=
+libEtoileExtensions_C_FILES =
 
 -include GNUmakefile.preamble
 
