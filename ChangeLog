@@ -1,3 +1,11 @@
+2005-03-08  Quentin Mathe <qmathe@club-internet.fr>
+
+        * Source/FrameworkSource/UKRunner.h:
+        * Source/FrameworkSource/UKRunner.m:
+        Added workaround to correct problem with AppKit import declaration
+        (UnitKit should compile now).
+        * Source/FrameworkSource/GNUmakefile: Improved look :-).
+
 2005-03-07  Quentin Mathe <qmathe@club-internet.fr>
 
         * ChangeLog: Added.

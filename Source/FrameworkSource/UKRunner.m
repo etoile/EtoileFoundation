@@ -28,7 +28,10 @@
 #import "UKTest.h"
 #import "UKTestHandler.h"
 
-/* For GNUstep, but we should check it is really needed */
+// FIXME: we shouldn't need to put import for AppKit.h here (see UKRunner.h)
+#import <AppKit/AppKit.h>
+
+/* For GNUstep, but we should check if it is really needed */
 #import <Foundation/NSException.h>
 
 #ifndef GNUSTEP
