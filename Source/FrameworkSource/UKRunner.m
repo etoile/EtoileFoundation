@@ -237,8 +237,8 @@
 */	
 //#else
 
-        //NS_DURING
-		//{
+        NS_DURING
+		{
             testObject = [testClass alloc];
 			if ([testObject respondsToSelector: @selector(initForTest)])
 			{
@@ -249,7 +249,7 @@
 				testObject = [testObject init];
 			}
 			NSLog(@"testObject %@", testObject);
-		/*}
+		}
         NS_HANDLER
 		{
             NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
@@ -259,25 +259,24 @@
             return;	
 		}
         NS_ENDHANDLER
-        */
-        //NS_DURING
-		//{
+        
+        NS_DURING
+		{
             SEL testSel = NSSelectorFromString(testMethodName);
             [testObject performSelector:testSel];
-		/*}
+		}
         NS_HANDLER
 		{
-            NSString *msg = [UKRunner 
-                localizedString:@"errExceptionInTestMethod"];            
+            NSString *msg = [UKRunner localizedString:@"errExceptionInTestMethod"];            
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), testMethodName, [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
 			[pool release];
 			return;
 		}
         NS_ENDHANDLER
-        */
-        //NS_DURING
-		//{
+        
+        NS_DURING
+		{
             if ([testObject respondsToSelector: @selector(releaseForTest)])
 			{
 				[testObject releaseForTest];
@@ -286,7 +285,7 @@
 			{
 				[testObject release];
 			}
-		/*}
+		}
         NS_HANDLER
 		{
             NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
@@ -296,7 +295,7 @@
             return;
 		}
         NS_ENDHANDLER
-        */
+        
 //#endif        
         
         [pool release];

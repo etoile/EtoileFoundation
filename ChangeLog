@@ -1,5 +1,11 @@
 2005-03-08  Quentin Mathe <qmathe@club-internet.fr>
 
+        * Source/FrameworkSource/UKRunner.m:
+	   (-runTests:onClass:): Reactivated support to catch exceptions thrown by
+	   tests objects (code was commented).
+
+2005-03-08  Quentin Mathe <qmathe@club-internet.fr>
+
         * Source/FrameworkSource/UKRunner.h:
         * Source/FrameworkSource/UKRunner.m:
         Added workaround to correct problem with AppKit import declaration
@@ -18,7 +24,7 @@
         improved conditional compilation.
         (UKTestClasseNamesFromBundle()): Added code to handle tested classes
         with categories.
-        (+runTests): Added AppKit related testing support and support for 
-        messages -initForTest -releaseForTest sent to test objects.
+        (-runTests:onClass:): Added AppKit related testing support and support
+        for messages -initForTest -releaseForTest sent to test objects.
         * Source/ToolSource/GNUmakefile: Removed framework link.
         
