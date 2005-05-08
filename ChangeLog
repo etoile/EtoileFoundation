@@ -1,3 +1,9 @@
+2005-05-09  Quentin Mathe <qmathe@club-internet.fr>
+	
+	* Source/GNUmakefile: Added GNUSTEP_HOST_OS check in order to allow compilation 
+	on platforms where kqueue isn't available (like Linux), by discarding UKKQueue 
+	when needed.
+		
 2005-03-10  Quentin Mathe <qmathe@club-internet.fr>
 	
 	* INSTALL: Updated in order to talk about EtoileExtensions and not Gorm.

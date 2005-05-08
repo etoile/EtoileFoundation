@@ -26,6 +26,30 @@
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
+#
+# kqueue support check
+#
+ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
+
+    kqueue_supported ?= yes
+
+endif
+
+ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
+
+    kqueue_supported ?= yes
+
+endif
+
+ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
+
+    kqueue_supported ?= yes
+
+endif
+
+kqueue_supported ?= no
+
+
 ADDITIONAL_OBJCFLAGS = -Wno-import
 
 ADDITIONAL_INCLUDE_DIRS = -I../Headers
@@ -65,7 +89,6 @@ libEtoileExtensions_OBJC_FILES = \
 	UKMainThreadProxy.m \
 	UKNibOwner.m \
 	UKPushbackMessenger.m \
-	UKKQueue.m \
 	UKThreadMessenger.m
 
 libEtoileExtensions_HEADER_FILES = \
@@ -78,8 +101,15 @@ libEtoileExtensions_HEADER_FILES = \
 	UKMainThreadProxy.h \
 	UKNibOwner.h \
 	UKPushbackMessenger.h \
-	UKKQueue.h \
 	UKThreadMessenger.h
+	
+ifeq ($(kqueue_supported), yes)
+
+libEtoileExtensions_OBJC_FILES += UKKQueue.m
+
+libEtoileExtensions_HEADER_FILES += UKKQueue.h
+
+endif
 
 #
 # Header files
@@ -97,8 +127,13 @@ libEtoileExtensions_HEADER_FILES = \
 	UKMainThreadProxy.h \
 	UKNibOwner.h \
 	UKPushbackMessenger.h \
-	UKKQueue.h \
 	UKThreadMessenger.h
+	
+ifeq ($(kqueue_supported), yes)
+
+libEtoileExtensions_HEADER_FILES += UKKQueue.h
+
+endif
 
 #
 # C files
