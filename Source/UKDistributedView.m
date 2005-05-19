@@ -1023,7 +1023,12 @@ NSString*		UKDistributedViewSelectionDidChangeNotification = @"UKDistributedView
 
 				// Next, draw our cell and grab the color at our mouse:
 				[prototype drawWithFrame:box inView:self];
+				#ifndef GNUSTEP
+				// FIXME: Implement NSReadPixel in GNUstep AppKit
 				colorAtPoint = NSReadPixel(aPoint);
+				#else
+				colorAtPoint = [NSColor redColor];
+				#endif
 			[self unlockFocus];
 
 			[self setNeedsDisplayInRect: box];  // Update or our temporary drawing screws up the looks.

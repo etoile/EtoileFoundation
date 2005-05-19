@@ -28,6 +28,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+#ifdef GNUSTEP
+#import "EtoileCompatibility.h"
+#endif
+
 
 /* -----------------------------------------------------------------------------
 	Constants:

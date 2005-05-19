@@ -1,3 +1,16 @@
+2005-05-19  Quentin Mathe <qmathe@club-internet.fr>
+	
+	* Headers/EtoileCompatibility.h: Added GCC_VERSION macro and truncf macro to 
+	replace truncf C99 function by an (int) cast when we compile on Darwin with 
+	FSF GCC (truncf returns absurd results on such system).
+	* Headers/UKDistributedView.h:
+	* Headers/UKFinderIconCell.h: 
+	Added import directive for 'EtoileCompatibility.h' in order to override truncf
+	function in implementation code.
+	* Source/UKDistributedView.m (-getItemIndexAtPoint:): Added conditional 
+	compilation directive to disable NSReadPixel function not supported by GNUstep 
+	currently.
+
 2005-05-09  Quentin Mathe <qmathe@club-internet.fr>
 	
 	* Source/GNUmakefile: Added GNUSTEP_HOST_OS check in order to allow compilation 
