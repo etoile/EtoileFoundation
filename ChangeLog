@@ -1,3 +1,18 @@
+2005-06-07  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * GNUmakefile.postamble: Fixed framework build on Linux, probably related 
+    to GNU Make. Unlike with BSD make, it looks like $PWD variable isn't 
+    updated in recursive build, we must use special similar Make variable 
+    $CURDIR.
+    * Source/ToolSource/GNUmakefile: Replaced ukrun_LIB_DIRS with 
+    ADDITIONAL_LIB_DIRS.
+
+2005-03-18  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * Source/FrameworkSource/UKRunner.m:.
+    (-runTests:onClass:): Activated conditional compilation in order UnitKit
+    uses new try/catch exception model on Mac OS X.
+
 2005-03-18  Quentin Mathe <qmathe@club-internet.fr>
     
     * Source/FrameworkSource/UKRunner.m:.
