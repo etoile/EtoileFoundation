@@ -90,24 +90,10 @@ libEtoileExtensions_OBJC_FILES = \
 	UKNibOwner.m \
 	UKPushbackMessenger.m \
 	UKThreadMessenger.m
-
-libEtoileExtensions_HEADER_FILES = \
-	Cocoa/Cocoa.h \
-	NSBezierPathCappedBoxes.h \
-	NSFileManager+NameForTempFile.h \
-	NSImage+NiceScaling.h \
-	UKDistributedView.h \
-	UKFinderIconCell.h \
-	UKMainThreadProxy.h \
-	UKNibOwner.h \
-	UKPushbackMessenger.h \
-	UKThreadMessenger.h
 	
 ifeq ($(kqueue_supported), yes)
 
 libEtoileExtensions_OBJC_FILES += UKKQueue.m
-
-libEtoileExtensions_HEADER_FILES += UKKQueue.h
 
 endif
 
@@ -119,6 +105,8 @@ libEtoileExtensions_HEADER_FILES_DIR = ../Headers
 libEtoileExtensions_HEADER_FILES_INSTALL_DIR = /EtoileExtensions
 
 libEtoileExtensions_HEADER_FILES = \
+	Cocoa/Cocoa.h \
+	EtoileCompatibility.h \
 	NSBezierPathCappedBoxes.h \
 	NSFileManager+NameForTempFile.h \
 	NSImage+NiceScaling.h \

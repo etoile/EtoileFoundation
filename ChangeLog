@@ -1,3 +1,9 @@
+2005-12-07  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * Source/GNUmakefile: Included EtoileCompatibility.h in headers to be
+    installed and removed the first HEADER_FILES variable use which is
+    redundant.
+
 2005-05-19  Quentin Mathe <qmathe@club-internet.fr>
 	
 	* Headers/EtoileCompatibility.h: Added GCC_VERSION macro and truncf macro to 
