@@ -1,3 +1,9 @@
+2006-01-18  Yen-Ju Chen <yjchenx at gmail>
+
+    * Update to UKKQueue 0.4 (http://www.zathras.de).
+    * Fix compilation on Cocoa.
+
+
 2005-12-07  Quentin Mathe <qmathe@club-internet.fr>
     
     * Source/GNUmakefile: Included EtoileCompatibility.h in headers to be

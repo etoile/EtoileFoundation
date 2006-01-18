@@ -182,6 +182,7 @@ NSString*		UKDistributedViewSelectionDidChangeNotification = @"UKDistributedView
 	[visibleItems release];
 	[selectionSet release];
 	[prototype release];
+	[super dealloc];
 }
 
 

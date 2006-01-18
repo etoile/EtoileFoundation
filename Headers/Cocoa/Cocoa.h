@@ -32,6 +32,8 @@
 #include <Foundation/Foundation.h>
 #include <AppKit/AppKit.h>
 
+#ifdef GNUSTEP
+
 #ifndef M_PI
 #define M_PI 3.1415926535897932384626433
 #endif
@@ -41,5 +43,7 @@ typedef BOOL bool;
 #define false NO
 #define true  YES
 #endif 
+
+#endif /* GNUSTEP */
 
 #endif /* _GNUstep_H_COCOA */
