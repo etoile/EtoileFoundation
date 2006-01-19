@@ -1,8 +1,17 @@
+2006-01-19  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * COPYING: Added.
+    * GNUmakefile:
+    * Source/GNUmakefile: 
+    Removed superfluous license notices.
+    * Headers/EtoileCompatibility.h: Updated license notice in a broad way (was
+    under LGPL until now, thus not compatible with other EtoileExtensionsKit
+    files).
+
 2006-01-18  Yen-Ju Chen <yjchenx at gmail>
 
     * Update to UKKQueue 0.4 (http://www.zathras.de).
     * Fix compilation on Cocoa.
-
 
 2005-12-07  Quentin Mathe <qmathe@club-internet.fr>
     

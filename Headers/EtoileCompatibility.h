@@ -1,30 +1,17 @@
-/*
-   EtoileCompatibility.h
+/***
+    EtoileCompatibility.h
 
-   Etoile declarations to be compatible with other projects
+    Etoile declarations to be compatible with other projects
 
-   Copyright (C) 2005 Quentin Mathe
+    Copyright (C) 2005 Quentin Mathe
 
-   Author:  Quentin Mathe <qmathe@club-internet.fr
-   Date: 2005
+    Author:  Quentin Mathe <qmathe@club-internet.fr
+    Date: 2005
 
-   This file is part of the GNUstep GUI Library.
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License as published by the Free Software Foundation; either
-   version 2 of the License, or (at your option) any later version.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public
-   License along with this library; see the file COPYING.LIB.
-   If not, write to the Free Software Foundation,
-   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-*/
+    This file may be used under the terms of either GNU Lesser General Public
+    License Version 2.1 (or later), GNU General Public License Version 2 (or
+    later), BSD modified license or Apache License Version 2.
+ ***/
 
 #define __ETOILE__
 
