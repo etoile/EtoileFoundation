@@ -60,6 +60,7 @@ libEtoileExtensions_OBJC_FILES = \
 	NSImage+NiceScaling.m \
 	UKDistributedView.m \
 	UKFinderIconCell.m \
+	UKMainThreadProxy.m \
 	UKNibOwner.m \
 	UKPushbackMessenger.m \
 	UKThreadMessenger.m
@@ -96,7 +97,6 @@ ifeq ($(kqueue_supported), yes)
 
 libEtoileExtensions_HEADER_FILES += \
 	UKKQueue.h \
-	UKMainThreadProxy.h \
 	UKFileWatcher.h
 
 endif

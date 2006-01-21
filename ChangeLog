@@ -1,3 +1,11 @@
+2006-01-21  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * Source/UKQueue.m: Updated to disable @synchronized use with GNUstep when
+    kqueue is available (like on FreeBSD). 
+    NOTE: @synchronized isn't supported at this time with GNU runtime.
+    * Source/GNUmakefile: Modified to compile UKMainThreadProxy (not only
+    installing the related header).
+
 2006-01-19  Quentin Mathe <qmathe@club-internet.fr>
     
     * COPYING: Added.

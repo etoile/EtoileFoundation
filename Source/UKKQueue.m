@@ -30,7 +30,9 @@
 // @synchronized isn't available prior to 10.3, so we use a typedef so
 //  this class is thread-safe on Panther but still compiles on older OSs.
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
+
+#if defined(NeXT_RUNTIME) \
+    && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
 #define AT_SYNCHRONIZED(n)      @synchronized(n)
 #else
 #define AT_SYNCHRONIZED(n)
