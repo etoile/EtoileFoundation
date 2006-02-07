@@ -1,3 +1,8 @@
+2006-02-07  Quentin Mathe <qmathe@club-internet.fr>
+
+    * INSTALL: Added.
+    * README.GNUstep: Updated for release 0.1.
+
 2005-06-07  Quentin Mathe <qmathe@club-internet.fr>
     
     * GNUmakefile.postamble: Fixed framework build on Linux, probably related 
