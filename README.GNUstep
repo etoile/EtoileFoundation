@@ -6,6 +6,8 @@ This is a port of the UnitKit test framework on GNUstep. GNUstep is a free
 software implementation of the OpenStep specifications and is available on 
 <http://www.gnustep.org>
 
+This framework is released under Apache License 2.0 (see LICENSE document).
+
 Maintainer: Quentin Mathe <qmathe@club-internet.fr>
 Authors: James Duncan Davidson, Nicolas Roard, Quentin Mathe
 
