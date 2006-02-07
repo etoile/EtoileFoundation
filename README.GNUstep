@@ -2,7 +2,9 @@
 UnitKit (GNUstep) 1.1 README
 ============================
 
-This is a port of the UnitKit test framework on GNUstep. GNUstep is a free software implementation of the OpenStep specifications and is available on <http://www.gnustep.org>
+This is a port of the UnitKit test framework on GNUstep. GNUstep is a free 
+software implementation of the OpenStep specifications and is available on 
+<http://www.gnustep.org>
 
 Maintainer: Quentin Mathe <qmathe@club-internet.fr>
 Authors: James Duncan Davidson, Nicolas Roard, Quentin Mathe
@@ -41,13 +43,16 @@ Then, just type:
 
     * ukrun Test.bundle
 
-And you should have the list of the tests and their status. If somebody want to add UnitKit support to ProjectCenter (the GNUstep IDE) or even work on the standalone graphical launcher UnitTests, be sure it will be appreciated :-)
+And you should have the list of the tests and their status. If somebody want to 
+add UnitKit support to ProjectCenter (the GNUstep IDE) or even work on the 
+standalone graphical launcher UnitTests, be sure it will be appreciated :-)
 
 
 UnitTests utility
 -----------------
 
-It is still in very rough state, but you can take a look at it in the repository just here: /trunk/Etoile/Developer/Services/UnitTests
+It is still in very rough state, but you can take a look at it in the repository 
+just here: /trunk/Etoile/Developer/Services/UnitTests
 
 
 Developer notes
