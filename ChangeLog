@@ -1,5 +1,12 @@
 2006-02-08  Quentin Mathe <qmathe@club-internet.fr>
     
+    * Source/UKDistributedView.m:
+    * Source/UKFinderIconCell.m:
+    Added 'math.h' include directive (reported by Chris B. Vetter).
+     * Source/GNUmakefile: Linked 'libm' to fix compilation on FreeBSD 
+
+2006-02-08  Quentin Mathe <qmathe@club-internet.fr>
+    
     * Source/UKQueue.m: Taken in account kqueue Darwinism to fix compilation
     on FreeBSD (patch by Chris B. Vetter).
 

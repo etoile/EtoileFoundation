@@ -20,6 +20,8 @@
 #import "NSBezierPathCappedBoxes.h"
 #import "NSImage+NiceScaling.h"
 
+// With some platforms (like FreeBSD), truncf isn't automatically included
+#import <math.h>
 
 // -----------------------------------------------------------------------------
 //  Private Methods:

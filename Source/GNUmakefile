@@ -36,6 +36,9 @@ VERSION = 0.1
 
 FRAMEWORKS = #TrackerKit
 
+# For FreeBSD at least
+LIBRARIES_DEPEND_UPON = -lm
+
 #
 # Resource files
 #

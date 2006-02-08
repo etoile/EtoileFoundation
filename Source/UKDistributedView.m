@@ -36,6 +36,8 @@
 #import "UKDistributedView.h"
 #import <limits.h>
 
+// With some platforms (like FreeBSD), truncf isn't automatically included
+#import <math.h>
 
 /* -----------------------------------------------------------------------------
 	Notifications:
