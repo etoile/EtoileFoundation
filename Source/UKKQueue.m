@@ -27,10 +27,14 @@
 //  Macros:
 // -----------------------------------------------------------------------------
 
+// O_EVTONLY is Darwin specific extension to kqueue, the closest on FreeBSD 
+// (and other BSDs probably) is EVFILT_VNODE.
+#ifndef __APPLE__
+#define O_EVTONLY EVFILT_VNODE
+#endif
+
 // @synchronized isn't available prior to 10.3, so we use a typedef so
 //  this class is thread-safe on Panther but still compiles on older OSs.
-
-
 #if defined(NeXT_RUNTIME) \
     && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
 #define AT_SYNCHRONIZED(n)      @synchronized(n)
