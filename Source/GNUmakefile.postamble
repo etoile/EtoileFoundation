@@ -1,0 +1,12 @@
+before-all::
+	rm -f $(CURDIR)/../Headers/Cocoa.h
+	$(LN_S) $(CURDIR)/../Headers/Cocoa/Cocoa.h \
+		$(CURDIR)/../Headers/Cocoa.h
+
+after-all::
+
+after-clean::
+	rm -f $(CURDIR)/../Headers/Cocoa.h
+
+after-distclean::
+

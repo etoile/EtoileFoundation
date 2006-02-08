@@ -84,7 +84,7 @@ libEtoileExtensions_HEADER_FILES_DIR = ../Headers
 libEtoileExtensions_HEADER_FILES_INSTALL_DIR = /EtoileExtensions
 
 libEtoileExtensions_HEADER_FILES = \
-	Cocoa/Cocoa.h \
+	Cocoa.h \
 	EtoileCompatibility.h \
 	NSBezierPathCappedBoxes.h \
 	NSFileManager+NameForTempFile.h \

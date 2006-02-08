@@ -1,5 +1,11 @@
 2006-02-08  Quentin Mathe <qmathe@club-internet.fr>
     
+    * Source/GNUmakefile:
+    * Source/GNUmakefile.postamble: Added to remove the warning "Cocoa/Cocoa.h:
+    No such file or directory" at install phase (reported by Chris B. Vetter).
+
+2006-02-08  Quentin Mathe <qmathe@club-internet.fr>
+    
     * Source/UKDistributedView.m:
     * Source/UKFinderIconCell.m:
     Added 'math.h' include directive (reported by Chris B. Vetter).
