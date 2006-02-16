@@ -1,4 +1,4 @@
-2006-02-16  Quentin Mathe <qmathe@club-internet.fr>
+2006-02-16 Yen-Ju Chen <yjchen at gmail>
 
     * Source/GNUmakefile:
     Make it compile on mac.
