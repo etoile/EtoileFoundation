@@ -1,3 +1,8 @@
+2006-02-16  Quentin Mathe <qmathe@club-internet.fr>
+
+    * Source/GNUmakefile:
+    Make it compile on mac.
+
 2006-02-08  Quentin Mathe <qmathe@club-internet.fr>
     
     * Source/GNUmakefile:
