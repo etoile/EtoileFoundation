@@ -1,3 +1,23 @@
+2006-04-16  Quentin Mathe <qmathe@club-internet.fr>
+    
+    UnitKit project seems to be no longer supported on Mac OS X (version 2.0 
+    being never been released), then it's probably time to include complete
+    Mac OS X support (with Xcode project and integration) in our own version. 
+    That means UnitKit (GNUstep) specific features can now be used with Xcode 
+    projects out of the box.
+    * Source/UnitKit.xcodeproj
+    * Source/XcodeIntegration/TargetTemplates/UnitKitBundle.trgttmpl:
+    * Source/XcodeIntegration/FileTemplates/class.m:
+    * Source/XcodeIntegration/FileTemplates/TemplateInfo.plist:
+    * Source/XcodeIntegration/FileTemplates/class.h:
+    * Source/Package/Info.plist:
+    * Source/Package/Resources:
+    * Source/Package/Resources/License.txt:
+    * Source/Package/Resources/Welcome.txt:
+    * Source/Package/Resources/Readme.txt:
+    * Source/Package/Description.plist:
+    Added.
+    
 2006-02-07  Quentin Mathe <qmathe@club-internet.fr>
 
     * INSTALL: Added.
