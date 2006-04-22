@@ -1,3 +1,16 @@
+2006-04-23  Quentin Mathe <qmathe@club-internet.fr>
+    
+    Updated to take in account recent Xcode versions and bumped 
+    UnitKit (GNUstep) version to 1.2.
+    * Source/UnitKit.xcodeproj: Updated path references to 
+    'Source/FrameworkSource/Info.plist', 'Source/TestSource/UnitKitTests/Info.plist', 
+    'Source/TestSource/TestFramework/Info.plist', 'Source/TestSource/TestBundle/Info.plist'
+    and 'Source/XcodeIntegration/FileTemplates/TemplateInfo.plist'.
+    * Source/XcodeIntegration/TargetTemplates/UnitKitBundle.trgttmpl:
+    Replaced $BUILD_DIR by $TARGET_BUILD_DIR to have the correct tests bundle 
+    path (in Run Script phase context).
+    * Source/FrameworkSource/Info.plist: Bumped version.
+
 2006-04-16  Quentin Mathe <qmathe@club-internet.fr>
     
     UnitKit project seems to be no longer supported on Mac OS X (version 2.0 

@@ -40,6 +40,7 @@
 		600CE53309F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		600CE53409F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		600CE53509F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
+		60FBE08A09FAE81900F734E1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE70B65505F7100400D56367 /* Info.plist */; };
 		8DC2EF510486A6940098B216 /* Info.plist in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* Info.plist */; settings = {ATTRIBUTES = (); }; };
 		AE390EF10724F2530036A22B /* TestFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBED01906AFADB000451E26 /* TestFramework.framework */; };
 		AE41F3D206812A3F0044760C /* UKRunner.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE41F3D106812A3F0044760C /* UKRunner.strings */; };
@@ -67,7 +68,7 @@
 		AE70B72C05F73A3F00D56367 /* TestThree.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B72A05F73A3F00D56367 /* TestThree.m */; };
 		AE73F22105F1573200CAFD4D /* UKTest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE73F21F05F1573200CAFD4D /* UKTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE8CCFC40680B80F008CA594 /* TemplateInfo.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */; };
-		AE8CCFC50680B80F008CA594 /* UnitKit Bundle.trgttmpl in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF780680B56F008CA594 /* UnitKit Bundle.trgttmpl */; };
+		AE8CCFC50680B80F008CA594 /* UnitKitBundle.trgttmpl in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */; };
 		AE8CCFC60680B810008CA594 /* class.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF690680B539008CA594 /* class.m */; };
 		AE8CCFC70680B810008CA594 /* class.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF680680B539008CA594 /* class.h */; };
 		AE923B6405C3B44600549058 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
@@ -195,7 +196,7 @@
 			dstPath = "/Library/Application Support/Apple/Developer Tools/Target Templates/Cocoa";
 			dstSubfolderSpec = 0;
 			files = (
-				AE8CCFC50680B80F008CA594 /* UnitKit Bundle.trgttmpl in CopyFiles */,
+				AE8CCFC50680B80F008CA594 /* UnitKitBundle.trgttmpl in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -213,6 +214,7 @@
 /* Begin PBXFileReference section */
 		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		600CE53109F2474F008BA30D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		60FBE0B709FAEA9700F734E1 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../ChangeLog; sourceTree = SOURCE_ROOT; };
 		8DC2EF5B0486A6940098B216 /* UnitKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnitKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE39C80605FBFF7F0011F066 /* UKTaskTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTaskTests.h; path = UnitKitTests/UKTaskTests.h; sourceTree = "<group>"; };
 		AE39C80705FBFF7F0011F066 /* UKTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTaskTests.m; path = UnitKitTests/UKTaskTests.m; sourceTree = "<group>"; };
@@ -234,10 +236,10 @@
 		AE70B72905F73A3F00D56367 /* TestThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestThree.h; path = ../../TestSource/TestBundle/TestThree.h; sourceTree = "<group>"; };
 		AE70B72A05F73A3F00D56367 /* TestThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestThree.m; path = ../../TestSource/TestBundle/TestThree.m; sourceTree = "<group>"; };
 		AE73F21F05F1573200CAFD4D /* UKTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTest.h; sourceTree = "<group>"; };
-		AE8CCF680680B539008CA594 /* class.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = class.h; path = "XcodeIntegration/File Templates/class.h"; sourceTree = "<group>"; };
-		AE8CCF690680B539008CA594 /* class.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = class.m; path = "XcodeIntegration/File Templates/class.m"; sourceTree = "<group>"; };
-		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = TemplateInfo.plist; path = "XcodeIntegration/File Templates/TemplateInfo.plist"; sourceTree = "<group>"; };
-		AE8CCF780680B56F008CA594 /* UnitKit Bundle.trgttmpl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "UnitKit Bundle.trgttmpl"; path = "XcodeIntegration/Target Templates/UnitKit Bundle.trgttmpl"; sourceTree = "<group>"; };
+		AE8CCF680680B539008CA594 /* class.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = class.h; path = XcodeIntegration/FileTemplates/class.h; sourceTree = "<group>"; };
+		AE8CCF690680B539008CA594 /* class.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = class.m; path = XcodeIntegration/FileTemplates/class.m; sourceTree = "<group>"; };
+		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = TemplateInfo.plist; path = XcodeIntegration/FileTemplates/TemplateInfo.plist; sourceTree = "<group>"; };
+		AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = UnitKitBundle.trgttmpl; path = XcodeIntegration/TargetTemplates/UnitKitBundle.trgttmpl; sourceTree = "<group>"; };
 		AE923B2C05C3B1CE00549058 /* ukrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ukrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitKitTests.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3705C3B1DF00549058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = UnitKitTests/Info.plist; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 		0867D691FE84028FC02AAC07 /* UnitKit */ = {
 			isa = PBXGroup;
 			children = (
+				60FBE0B709FAEA9700F734E1 /* ChangeLog */,
 				600CE53109F2474F008BA30D /* AppKit.framework */,
 				AEA6373D06D16EAE004DF854 /* README.txt */,
 				AEEB74D006B1BEFD00BE53E8 /* LICENSE */,
@@ -395,7 +398,7 @@
 		AE8CCE010680B4E6008CA594 /* Target Templates */ = {
 			isa = PBXGroup;
 			children = (
-				AE8CCF780680B56F008CA594 /* UnitKit Bundle.trgttmpl */,
+				AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */,
 			);
 			name = "Target Templates";
 			sourceTree = "<group>";
@@ -860,6 +863,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60FBE08A09FAE81900F734E1 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,7 +919,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS\n$BUILD_DIR/ukrun \"$BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
+			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS\n$TARGET_BUILD_DIR/ukrun \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1366,7 +1370,7 @@
 				GCC_PREFIX_HEADER = Prefix.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "Test Source/TestBundle/Info.plist";
+				INFOPLIST_FILE = TestSource/TestBundle/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1457,7 +1461,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.h;
-				INFOPLIST_FILE = "Test Source/TestFramework/Info.plist";
+				INFOPLIST_FILE = TestSource/TestFramework/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1557,7 +1561,7 @@
 				GCC_PREFIX_HEADER = Prefix.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "Test Source/UnitKitTests/Info.plist";
+				INFOPLIST_FILE = TestSource/UnitKitTests/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (

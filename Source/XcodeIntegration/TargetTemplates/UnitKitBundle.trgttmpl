@@ -42,7 +42,7 @@
 	{
 	    Class = ShellScript;
 	    ShellPath = /bin/bash;
-	    ShellScript = "/usr/local/bin/ukrun \"$BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
+	    ShellScript = "/usr/local/bin/ukrun \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
 	},
 	);
 }
