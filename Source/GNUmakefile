@@ -65,6 +65,7 @@ libEtoileExtensions_OBJC_FILES = \
 	UKFinderIconCell.m \
 	UKMainThreadProxy.m \
 	UKNibOwner.m \
+	UKPluginsRegistry.m \
 	UKPushbackMessenger.m \
 	UKThreadMessenger.m
 	
@@ -93,6 +94,7 @@ libEtoileExtensions_HEADER_FILES = \
 	UKFinderIconCell.h \
 	UKMainThreadProxy.h \
 	UKNibOwner.h \
+	UKPluginsRegistry.h \
 	UKPushbackMessenger.h \
 	UKThreadMessenger.h
 	

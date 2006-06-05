@@ -1,3 +1,12 @@
+2006-06-05  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * Headers/UKPluginsRegistry.h:
+    * Source/UKPluginsRegistry.m:
+    Imported from PreferencesKit. Probably going to remove them in this
+    framework.
+    * Source/GNUmakefile:
+    Updated.
+
 2006-02-16 Yen-Ju Chen <yjchen at gmail>
 
     * Source/GNUmakefile:
