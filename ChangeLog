@@ -1,3 +1,9 @@
+2006-08-18  Guenther Noack <guenther@unix-ag.uni-kl.de>
+    * Source/UKNibOwner.m:
+    Made UKNibOwner load the bundle from the concrete classes bundle.
+	Added -bundle and -loadNib methods.
+	Converted documentation to doxygen format.
+
 2006-06-05  Quentin Mathe <qmathe@club-internet.fr>
     
     * Headers/UKPluginsRegistry.h:
