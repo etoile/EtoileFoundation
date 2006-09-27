@@ -1,4 +1,11 @@
+2006-09-27  Quentin Mathe <qmathe@club-internet.fr>
+    
+    * GNUmakefile: Updated to include etoile.make. Just does nothing for now
+    since project name EtoileExtensionsKit doesn't match library name 
+    EtoileExtensions.
+
 2006-08-18  Guenther Noack <guenther@unix-ag.uni-kl.de>
+
     * Source/UKNibOwner.m:
     Made UKNibOwner load the bundle from the concrete classes bundle.
 	Added -bundle and -loadNib methods.
