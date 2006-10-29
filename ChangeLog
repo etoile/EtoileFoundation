@@ -1,3 +1,12 @@
+2006-10-29  Quentin Mathe <qmathe@club-internet.fr>
+
+    * Source/UKDistributedView.m:
+    * Source/UKFinderIconCell.m:
+    Removed math.h import statement.
+    * Headers/EtoileCompatibility.h: Modified truncf compatibility macro 
+    quickly hacked in the past in order it relies now on GCC related builtin 
+    function.
+    
 2006-09-27  Quentin Mathe <qmathe@club-internet.fr>
     
     * GNUmakefile: Updated to include etoile.make. Just does nothing for now

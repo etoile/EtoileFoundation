@@ -28,12 +28,10 @@
 
 #ifdef GNUSTEP
 
-// Hack to fix invalid truncf function result when FSF GCC is used on Darwin 
-// (observed with FSF GCC 3.3.5).
-#if defined(__MACH__) && defined(__APPLE__)
-#define truncf(x) (int)((x))
-#endif
-
-// #define truncf(x) truncf((float)( (x) ))
+/* For truncf on Linux and other platforms probably...
+   #import <math.h> doesn't work on many Linux systems since truncf is often 
+   not part of this header currently. That's why we rely on GCC equivalent 
+   builtin function. */
+#define truncf(x)  __builtin_truncf(x)
 
 #endif // GNUSTEP
