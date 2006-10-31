@@ -1,4 +1,4 @@
-PACKAGE_NAME = EtoileExtensionsKit
+PACKAGE_NAME = EtoileFoundation
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
