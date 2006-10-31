@@ -31,7 +31,7 @@ ADDITIONAL_INCLUDE_DIRS = -I../Headers
 #
 # Main application
 #
-LIBRARY_NAME = libEtoileFoundation	
+LIBRARY_NAME = libEtoileFoundation
 VERSION = 0.1
 
 # For FreeBSD at least
