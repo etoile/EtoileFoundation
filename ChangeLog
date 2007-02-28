@@ -1,4 +1,8 @@
-2007-02 19  Yen-Ju Chen <yjchenx at gmail>
+2007-02-28  Yen-Ju Chen <yjchenx at gmail>
+
+	* Move UKNibOwner to EtoileUI (Bug #8511).
+
+2007-02-19  Yen-Ju Chen <yjchenx at gmail>
 
 	* Format README in reStructuedText
 
