@@ -1,4 +1,14 @@
-2007 02 17  Yen-Ju Chen <yjchenx at gmail>
+2007-03-12  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Source/FrameworkSource/UKRunner.h:
+	* Source/FrameworkSource/UKRunner.m:
+	(-runTests:onObject:): Renamed and improved method runTests:onClass: to 
+	support running tests either on an instance or a class object itself.
+	(-runTestsInClass:): Updated to call runTests:onObject:. First with the 
+	class itself and class methods then with an uninitialized instance and 
+	instance methods.
+
+2007-02-17  Yen-Ju Chen <yjchenx at gmail>
 
     * Move README.GNUstep to README.
     * Format README in reStructuredText.

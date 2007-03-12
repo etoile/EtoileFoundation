@@ -34,6 +34,7 @@
 + (int) runTests;
 
 - (void) runTestsInBundle:(NSBundle *)bundle;
+- (void) runTests:(NSArray *)testMethods onObject:(id)testObject;
 
 @end
 

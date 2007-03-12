@@ -169,33 +169,43 @@
 #endif
 
 /*!
- @method runTests:onClass:
- @param testMethods An array containing the list of method names to execute on the test class.
- @param testClass The class on which to perform the test methods on
- @abstract Runs a set of tests on instances of the given class
- @discussion This method takes a class and a list of methods that should be executed on it. For each method in the list, an object instance of the class will be created and the method called on it. If there is a problem with the instanation of the class, or in the release of that object instance, an error will be reported and all test execution on the class will end. If there is an error while running the test method, an error will be reported and execution will move on to the next method.
+ @method runTests:onObject:
+ @param testMethods An array containing the list of method names to execute on the test object.
+ @param testObject The instance or the class object on which to perform the test methods on
+ @abstract Runs a set of tests on the given object (either an instance or a class)
+ @discussion This method takes an object and a list of methods that should be executed on it. For each method in the list, the test object will be initialized by -initForTest when implemented or -init as a fallback and the method called on it. If there is a problem with the initialization, or in the release of that object instance, an error will be reported and all test execution on the object will end. If there is an error while running the test method, an error will be reported and execution will move on to the next method.
  */
 
-- (void) runTests:(NSArray *)testMethods onClass:(Class)testClass
+- (void) runTests:(NSArray *)testMethods onObject:(id)testObject
 {
     /*
      The hairy thing about this method is catching and dealing with all of 
      the permutations of uncaught exceptions that might be heading our way. 
      */
 	 
-	//NSLog(@"testClass %@", testClass);
+	//NSLog(@"testObject %@", testObject);
     
+    Class testClass = nil;
     NSEnumerator *e = [testMethods objectEnumerator];
     NSString *testMethodName;
+
+	if (object_is_class(testObject))
+	{
+		testClass = testObject;
+	}
+	else
+	{
+		testClass = [testObject class];
+	}
+
     while (testMethodName = [e nextObject]) {
         testMethodsRun++;
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        id testObject;
 
 #ifdef NEW_EXCEPTION_MODEL
 
         @try {
-            testObject = [[testClass alloc] init];
+            testObject = [testObject init];
         }
         @catch (id exc) {
             NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
@@ -237,16 +247,14 @@
 
         NS_DURING
 		{
-            testObject = [testClass alloc];
 			if ([testObject respondsToSelector: @selector(initForTest)])
 			{
 				testObject = [testObject initForTest];
 			}
-			else
+			else if ([testObject respondsToSelector: @selector(init)])
 			{
 				testObject = [testObject init];
 			}
-			NSLog(@"testObject %@", testObject);
 		}
         NS_HANDLER
 		{
@@ -279,7 +287,7 @@
 			{
 				[testObject releaseForTest];
 			}
-			else
+			else if ([testObject respondsToSelector: @selector(release)])
 			{
 				[testObject release];
 			}
@@ -303,8 +311,15 @@
 - (void) runTestsInClass:(Class)testClass
 {
     testClassesRun++;
-    NSArray *testMethods = UKTestMethodNamesFromClass(testClass);
-    [self runTests:testMethods onClass:testClass];
+
+    NSArray *testMethods = nil;
+
+    /* Test class methods */
+    testMethods = UKTestMethodNamesFromClass(object_get_meta_class(testClass));
+    [self runTests:testMethods onObject:testClass];
+    /* Test instance methods */
+    testMethods = UKTestMethodNamesFromClass(testClass);
+    [self runTests:testMethods onObject: [testClass alloc]];
 }
 
 - (void) runTestsInBundle:(NSBundle *)bundle
@@ -312,6 +327,7 @@
     NSArray *testClasses = UKTestClasseNamesFromBundle(bundle);
     NSEnumerator *e = [testClasses objectEnumerator];
     NSString *testClassName;
+
     while (testClassName = [e nextObject]) {
         [self runTestsInClass:NSClassFromString(testClassName)];
     }
@@ -436,7 +452,7 @@ NSArray *UKTestMethodNamesFromClass(Class c)
 		methods = methods->method_next;
 	}
 	
-	//NSLog(@"testMethods %@", testMethods);
+	NSLog(@"testMethods %@", testMethods);
         
 #endif
 
