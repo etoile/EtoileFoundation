@@ -1,3 +1,9 @@
+2007-03-21  Yen-Ju Chen <yjchenx at gmail>
+
+	* Source/FrameworkSource/UKRunner.m:
+	Clean up autorelease pool so that GNUstep won't complain
+	that there are too many open files.
+
 2007-03-12  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/FrameworkSource/UKRunner.h:

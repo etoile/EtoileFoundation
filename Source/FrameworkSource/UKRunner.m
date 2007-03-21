@@ -73,7 +73,7 @@
      test class found. Otherwise
      */
     
-	NSApplication *app = [NSApplication sharedApplication];
+    [NSApplication sharedApplication];
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
@@ -198,7 +198,7 @@
 		testClass = [testObject class];
 	}
 
-    while (testMethodName = [e nextObject]) {
+    while ((testMethodName = [e nextObject])) {
         testMethodsRun++;
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -328,7 +328,7 @@
     NSEnumerator *e = [testClasses objectEnumerator];
     NSString *testClassName;
 
-    while (testClassName = [e nextObject]) {
+    while ((testClassName = [e nextObject])) {
         [self runTestsInClass:NSClassFromString(testClassName)];
     }
 }
@@ -337,7 +337,7 @@
 
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 {        
-    NSMutableArray *testClasseNames = [NSMutableArray array];
+    NSMutableArray *testClasseNames = [[NSMutableArray alloc] init];
     
 #ifndef GNU_RUNTIME
 
@@ -379,21 +379,33 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
     
     Class c;
     void *es = NULL;
+    int i = 0;
+    /* We clean up memory every 20 iteration,
+       otherwise, GNUstep will complain that there are too many open files.
+       The number of iteration may need to be adjusted. */
+    NSAutoreleasePool *x = [[NSAutoreleasePool alloc] init];
     while ((c = objc_next_class (&es)) != Nil)
     {
+	i++;
         NSBundle *classBundle = [NSBundle bundleForClass: c];
         if (bundle == classBundle && 
             [c conformsToProtocol:@protocol(UKTest)]) {
             [testClasseNames addObject:NSStringFromClass(c)];
         }
+        if (i > 20)
+        {
+	    DESTROY(x);
+            x = [[NSAutoreleasePool alloc] init];
+        }
     }
+    DESTROY(x);
 	
-	//NSLog(@"testClasses %@", testClasseNames);
+	NSLog(@"testClasses %@", testClasseNames);
 
 #endif
     
-    return [testClasseNames
-        sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    return [[testClasseNames
+        sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] autorelease];
 }
 
 NSArray *UKTestMethodNamesFromClass(Class c)
