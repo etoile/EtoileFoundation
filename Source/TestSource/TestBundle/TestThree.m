@@ -32,6 +32,11 @@
     UKFail();
 }
 
++ (void) testClass1
+{
+    UKPass();
+}
+
 - (void) testOne
 {
     UKPass();

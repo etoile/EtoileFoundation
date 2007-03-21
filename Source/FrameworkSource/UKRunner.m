@@ -183,20 +183,34 @@
      the permutations of uncaught exceptions that might be heading our way. 
      */
 	 
-	//NSLog(@"testObject %@", testObject);
+    //NSLog(@"testObject %@", testObject);
     
     Class testClass = nil;
     NSEnumerator *e = [testMethods objectEnumerator];
     NSString *testMethodName;
+    BOOL isClass = NO;
+    id object = nil;
 
-	if (object_is_class(testObject))
-	{
-		testClass = testObject;
-	}
-	else
-	{
-		testClass = [testObject class];
-	}
+    /* We use local variable so that the testObject will not be messed up.
+       And we have to distinguish class and instance
+       because -init and -release apply to instance.
+       And -release also dealloc object, which will cause memory problem */
+    /* FIXME: there is a memory leak because testObject comes 
+       here as allocated to tell whether it is class or instance.
+       We can dealloc it here, but it is not really a good practice.
+       Object is better to be pass as autoreleased. */
+    if (object_is_class(testObject))
+    {
+	testClass = testObject;
+	object = testClass;
+	isClass = YES;
+    }
+    else
+    {
+	testClass = [testObject class];
+        /* It is instance, we instanize and release it in the loop */
+	isClass = NO;
+    }
 
     while ((testMethodName = [e nextObject])) {
         testMethodsRun++;
@@ -204,22 +218,26 @@
 
 #ifdef NEW_EXCEPTION_MODEL
 
-        @try {
-            testObject = [testObject init];
-        }
-        @catch (id exc) {
-            NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
-            NSString *excstring = [UKRunner displayStringForException:exc];
-            msg = [NSString stringWithFormat:msg, 
-                NSStringFromClass(testClass), excstring];
-            [[UKTestHandler handler] reportWarning:msg];
-            [pool release];
-            return;
+        if (isClass == NO)
+        {
+            object = [testClass alloc];
+            @try {
+                 object = [object init];
+            }
+            @catch (id exc) {
+                NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
+                NSString *excstring = [UKRunner displayStringForException:exc];
+                msg = [NSString stringWithFormat:msg, 
+                    NSStringFromClass(testClass), excstring];
+                [[UKTestHandler handler] reportWarning:msg];
+                [pool release];
+                return;
+           }
         } 
-        
+
         @try {
             SEL testSel = NSSelectorFromString(testMethodName);
-            [self runTest:testSel onObject:testObject];
+            [self runTest:testSel onObject: object];
         }
         @catch (id exc) {
             NSString *msg = [UKRunner 
@@ -230,80 +248,90 @@
             [[UKTestHandler handler] reportWarning:msg];
         }
         
-        @try {
-            [testObject release];
-        }
-        @catch (id exc) {
-            NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
-            NSString *excstring = [UKRunner displayStringForException:exc];
-            msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass),
-                excstring];
-            [[UKTestHandler handler] reportWarning:msg];
-            [pool release];
-            return;
+        if (isClass == NO)
+        {
+            @try {
+                [object release];
+            }
+            @catch (id exc) {
+                NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
+                NSString *excstring = [UKRunner displayStringForException:exc];
+                msg = [NSString stringWithFormat:msg, 
+                                  NSStringFromClass(testClass), excstring];
+                [[UKTestHandler handler] reportWarning:msg];
+                [pool release];
+                return;
+            }
         }
 
 #else
 
         NS_DURING
+	{
+	    if (isClass == NO)
+	    {
+		object = [testClass alloc];
+		if ([object respondsToSelector: @selector(initForTest)])
 		{
-			if ([testObject respondsToSelector: @selector(initForTest)])
-			{
-				testObject = [testObject initForTest];
-			}
-			else if ([testObject respondsToSelector: @selector(init)])
-			{
-				testObject = [testObject init];
-			}
+			object = [object initForTest];
 		}
-        NS_HANDLER
+		else if ([object respondsToSelector: @selector(init)])
 		{
+			object = [object init];
+		}
+	    }
+	}
+        NS_HANDLER
+	{
             NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
             [pool release];
-            return;	
-		}
+            NS_VOIDRETURN;	
+	}
         NS_ENDHANDLER
         
         NS_DURING
-		{
+	{
             SEL testSel = NSSelectorFromString(testMethodName);
-            [testObject performSelector:testSel];
-		}
+            [object performSelector:testSel];
+	}
         NS_HANDLER
-		{
+	{
             NSString *msg = [UKRunner localizedString:@"errExceptionInTestMethod"];            
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), testMethodName, [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
-			[pool release];
-			return;
-		}
+	    [pool release];
+	    NS_VOIDRETURN;
+	}
         NS_ENDHANDLER
         
         NS_DURING
+	{
+	    if (isClass == NO)
+	    {
+		if ([object respondsToSelector: @selector(releaseForTest)])
 		{
-            if ([testObject respondsToSelector: @selector(releaseForTest)])
-			{
-				[testObject releaseForTest];
-			}
-			else if ([testObject respondsToSelector: @selector(release)])
-			{
-				[testObject release];
-			}
+		    [object releaseForTest];
 		}
-        NS_HANDLER
+		else if ([testObject respondsToSelector: @selector(release)])
 		{
+		    [object release];
+		}
+		object = nil;
+	    }
+	}
+        NS_HANDLER
+	{
             NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
             [pool release];
-            return;
-		}
+            NS_VOIDRETURN;
+	}
         NS_ENDHANDLER
         
 #endif        
-        
         [pool release];
     }
 }

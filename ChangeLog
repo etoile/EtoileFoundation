@@ -3,6 +3,10 @@
 	* Source/FrameworkSource/UKRunner.m:
 	Clean up autorelease pool so that GNUstep won't complain
 	that there are too many open files.
+	Fix memory leak for instance methods.
+	* Source/TestBundle/TestThree.m:
+	* Source/TestBundle/TestTwo.m:
+	Add tests for class methods.
 
 2007-03-12  Quentin Mathe <qmathe@club-internet.fr>
 
