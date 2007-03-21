@@ -396,6 +396,7 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
         {
 	    DESTROY(x);
             x = [[NSAutoreleasePool alloc] init];
+	    i = 0;
         }
     }
     DESTROY(x);
