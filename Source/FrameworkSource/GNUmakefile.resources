@@ -1,0 +1,13 @@
+
+include $(GNUSTEP_MAKEFILES)/common.make
+
+RESOURCE_SET_NAME = UnitKitResources
+
+UnitKitResources_INSTALL_DIR = \
+	$(GNUSTEP_LIBRARY)/Libraries/Resources/UnitKit/Resources
+UnitKitResources_LANGUAGES = English
+UnitKitResources_LOCALIZED_RESOURCE_FILES = \
+	UKRunner.strings UKTestHandler.strings
+
+include $(GNUSTEP_MAKEFILES)/resource-set.make
+

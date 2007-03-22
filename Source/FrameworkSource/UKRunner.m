@@ -48,7 +48,11 @@
 
 + (NSString *) localizedString:(NSString *)key
 {
+#ifdef GNUSTEP
+    NSBundle *bundle = [NSBundle bundleForLibrary: @"UnitKit"];
+#else
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+#endif
     return NSLocalizedStringFromTableInBundle(key, @"UKRunner", 
                                               bundle, @"");
 }

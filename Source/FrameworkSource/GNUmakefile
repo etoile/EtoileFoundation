@@ -12,9 +12,10 @@ UnitKit_OBJC_FILES = UKRunner.m UKTestHandler.m UKTask.m
 
 UnitKit_HEADER_FILES_INSTALL_DIR = /UnitKit
 
-UnitKit_LOCALIZED_RESOURCE_FILES = UKRunner.strings UKTestHandler.strings
-UnitKit_LANGUAGES = English
+#UnitKit_LOCALIZED_RESOURCE_FILES = UKRunner.strings UKTestHandler.strings
+#UnitKit_LANGUAGES = English
 
 include $(GNUSTEP_MAKEFILES)/library.make
+-include GNUmakefile.resources
 
 

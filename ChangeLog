@@ -4,9 +4,15 @@
 	Clean up autorelease pool so that GNUstep won't complain
 	that there are too many open files.
 	Fix memory leak for instance methods.
+	Fix localization
+	* Source/FrameworkSource/UKTestHandler.m:
+	Fix localization
+	* Source/FrameworkSource/GNUmakefile.resource:
+	Add. Support resources for library.
 	* Source/TestBundle/TestThree.m:
 	* Source/TestBundle/TestTwo.m:
 	Add tests for class methods.
+
 
 2007-03-12  Quentin Mathe <qmathe@club-internet.fr>
 
