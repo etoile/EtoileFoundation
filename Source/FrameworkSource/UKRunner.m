@@ -433,8 +433,9 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 
 #endif
     
-    return [[testClasseNames
-        sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] autorelease];
+    AUTORELEASE(testClasseNames);
+    return [testClasseNames
+        sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 NSArray *UKTestMethodNamesFromClass(Class c)
