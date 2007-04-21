@@ -60,7 +60,8 @@ $(LIBRARY_NAME)_OBJC_FILES = \
 	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \
 	UKPushbackMessenger.m \
-	UKThreadMessenger.m
+	UKThreadMessenger.m \
+	OSBundleExtensionLoader.m
 	
 ifeq ($(kqueue_supported), yes)
 
@@ -83,7 +84,8 @@ $(LIBRARY_NAME)_HEADER_FILES = \
 	UKMainThreadProxy.h \
 	UKPluginsRegistry.h \
 	UKPushbackMessenger.h \
-	UKThreadMessenger.h
+	UKThreadMessenger.h \
+	OSBundleExtensionLoader.h
 	
 ifeq ($(kqueue_supported), yes)
 
