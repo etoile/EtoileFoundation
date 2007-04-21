@@ -1,6 +1,4 @@
-
 #import <Foundation/NSObject.h>
-
 #import <Foundation/NSPathUtilities.h>
 
 @class NSString, NSDictionary;
@@ -28,7 +26,7 @@ app uses bundles for it's preferences modules).
 @interface OSBundleExtensionLoader : NSObject
 
  /// Returns a shared instance of OSBundleExtensionLoader.
-+ shared;
++ (OSBundleExtensionLoader *) sharedLoader;
 
  /**
     Searches the filesystem for extension bundles.
