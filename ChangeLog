@@ -1,3 +1,7 @@
+2007-04-28  Yen-Ju Chen <yjchenx at gmail>
+
+	* Change UnitKit into framework.
+
 2007-03-21  Yen-Ju Chen <yjchenx at gmail>
 
 	* Source/FrameworkSource/UKRunner.m:

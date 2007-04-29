@@ -48,11 +48,7 @@
 
 + (NSString *) localizedString:(NSString *)key
 {
-#ifdef GNUSTEP
-    NSBundle *bundle = [NSBundle bundleForLibrary: @"UnitKit"];
-#else
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-#endif
     return NSLocalizedStringFromTableInBundle(key, @"UKRunner", 
                                               bundle, @"");
 }
@@ -103,7 +99,7 @@
 
         while (i < argCount) {
             NSString *bundlePath = [args objectAtIndex:i];
-            NSLog (@"bundle path: %@", bundlePath);
+            //NSLog (@"bundle path: %@", bundlePath);
             bundlePath = [bundlePath stringByExpandingTildeInPath];
             if ( ![bundlePath isAbsolutePath]) {
                 bundlePath = [cwd stringByAppendingPathComponent:bundlePath];
@@ -433,7 +429,7 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
     }
     DESTROY(x);
 	
-	NSLog(@"testClasses %@", testClasseNames);
+	//NSLog(@"testClasses %@", testClasseNames);
 
 #endif
     
@@ -498,7 +494,7 @@ NSArray *UKTestMethodNamesFromClass(Class c)
 		methods = methods->method_next;
 	}
 	
-	NSLog(@"testMethods %@", testMethods);
+	//NSLog(@"testMethods %@", testMethods);
         
 #endif
 
