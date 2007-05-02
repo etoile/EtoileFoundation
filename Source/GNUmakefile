@@ -76,7 +76,6 @@ endif
 EtoileFoundation_HEADER_FILES_DIR = ../Headers
 
 EtoileFoundation_HEADER_FILES = \
-	Cocoa.h \
 	EtoileCompatibility.h \
 	NSFileManager+NameForTempFile.h \
 	UKMainThreadProxy.h \

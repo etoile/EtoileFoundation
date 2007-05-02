@@ -40,7 +40,7 @@
 //  Headers:
 // -----------------------------------------------------------------------------
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 @interface UKPushbackMessenger : NSObject
 {

@@ -16,7 +16,7 @@
 //  Headers:
 // -----------------------------------------------------------------------------
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 
 /*
 	UKThreadMessenger is a proxy object that executes all messages you send to
