@@ -31,7 +31,7 @@ ADDITIONAL_INCLUDE_DIRS = -I../Headers
 #
 # Main application
 #
-LIBRARY_NAME = libEtoileFoundation
+FRAMEWORK_NAME = EtoileFoundation
 VERSION = 0.1
 
 # For FreeBSD at least
@@ -40,22 +40,22 @@ LIBRARIES_DEPEND_UPON += -lm
 #
 # Resource files
 #
-$(LIBRARY_NAME)_MAIN_MODEL_FILE =
+EtoileFoundation_MAIN_MODEL_FILE =
 
-$(LIBRARY_NAME)_RESOURCE_FILES =
+EtoileFoundation_RESOURCE_FILES =
 
-$(LIBRARY_NAME)_LOCALIZED_RESOURCE_FILES =
+EtoileFoundation_LOCALIZED_RESOURCE_FILES =
 
 #
 # Languages we're localized for
 #
-$(LIBRARY_NAME)_LANGUAGES = \
+EtoileFoundation_LANGUAGES = \
 	English
 	
 #
 # Class files
 #
-$(LIBRARY_NAME)_OBJC_FILES = \
+EtoileFoundation_OBJC_FILES = \
 	NSFileManager+NameForTempFile.m \
 	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \
@@ -65,7 +65,7 @@ $(LIBRARY_NAME)_OBJC_FILES = \
 	
 ifeq ($(kqueue_supported), yes)
 
-$(LIBRARY_NAME)_OBJC_FILES += \
+EtoileFoundation_OBJC_FILES += \
 	UKKQueue.m
 
 endif
@@ -73,11 +73,9 @@ endif
 #
 # Header files to be installed
 #
-$(LIBRARY_NAME)_HEADER_FILES_DIR = ../Headers
+EtoileFoundation_HEADER_FILES_DIR = ../Headers
 
-$(LIBRARY_NAME)_HEADER_FILES_INSTALL_DIR = /EtoileFoundation
-
-$(LIBRARY_NAME)_HEADER_FILES = \
+EtoileFoundation_HEADER_FILES = \
 	Cocoa.h \
 	EtoileCompatibility.h \
 	NSFileManager+NameForTempFile.h \
@@ -89,7 +87,7 @@ $(LIBRARY_NAME)_HEADER_FILES = \
 	
 ifeq ($(kqueue_supported), yes)
 
-$(LIBRARY_NAME)_HEADER_FILES += \
+EtoileFoundation_HEADER_FILES += \
 	UKKQueue.h \
 	UKFileWatcher.h
 
@@ -98,10 +96,9 @@ endif
 #
 # C files
 #
-$(LIBRARY_NAME)_C_FILES =
+EtoileFoundation_C_FILES =
 
 -include GNUmakefile.preamble
-
-include $(GNUSTEP_MAKEFILES)/library.make
-
+include $(GNUSTEP_MAKEFILES)/framework.make
 -include GNUmakefile.postamble
+
