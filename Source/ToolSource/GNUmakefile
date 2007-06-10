@@ -6,7 +6,7 @@ ADDITIONAL_INCLUDE_DIRS = -I../
 
 TOOL_NAME = ukrun
 
-ukrun_TOOL_LIBS = -lUnitKit -lgnustep-gui
+ukrun_TOOL_LIBS = -L../FrameworkSource/UnitKit.framework/ -lUnitKit -lgnustep-gui
 
 ukrun_OBJC_FILES = main.m
 

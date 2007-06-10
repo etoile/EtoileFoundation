@@ -1,3 +1,7 @@
+2007-06-10  Yen-Ju Chen <yjchenx at gmail>
+
+	* Fix clean compilation.
+
 2007-04-28  Yen-Ju Chen <yjchenx at gmail>
 
 	* Change UnitKit into framework.
