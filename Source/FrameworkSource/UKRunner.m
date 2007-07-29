@@ -417,6 +417,7 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 	i++;
         NSBundle *classBundle = [NSBundle bundleForClass: c];
         if (bundle == classBundle && 
+			![c isProxy] &&
             [c conformsToProtocol:@protocol(UKTest)]) {
             [testClasseNames addObject:NSStringFromClass(c)];
         }
