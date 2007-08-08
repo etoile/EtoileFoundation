@@ -23,8 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-// FIXME: import for AppKit.h doesn't work when used here with GNUstep
-//#import <ApplicationKit/ApplicationKit.h>
 
 @interface UKRunner : NSObject {
     int testClassesRun;

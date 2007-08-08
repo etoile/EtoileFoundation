@@ -28,9 +28,6 @@
 #import "UKTest.h"
 #import "UKTestHandler.h"
 
-// FIXME: we shouldn't need to put import for AppKit.h here (see UKRunner.h)
-#import <AppKit/AppKit.h>
-
 /* For GNUstep, but we should check if it is really needed */
 #import <Foundation/NSException.h>
 
@@ -73,7 +70,7 @@
      test class found. Otherwise
      */
     
-    [NSApplication sharedApplication];
+    //[NSApplication sharedApplication];
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
@@ -363,6 +360,35 @@
 
 @end
 
+#ifdef GNU_RUNTIME
+/**
+ * Implementation of +conformsToProtocol that does not require sending a
+ * message to the class.  This prevents +initialize being sent to classes that
+ * are not explicitly used.
+ */
+BOOL conformsToProtocol(Class aClass, Protocol * aProtocol)
+{
+	struct objc_protocol_list* protocol_list =((struct objc_class*)aClass)->protocols;
+
+	while(NULL != protocol_list)
+	{
+		for(unsigned int i=0 ; i<protocol_list->count ; i++)
+		{
+			if([protocol_list->list[i] conformsTo:aProtocol])
+			{
+				return YES;
+			}
+		}
+		protocol_list = protocol_list->next;
+	}
+	if(Nil != ((struct objc_class*)aClass)->super_class)
+	{
+		return conformsToProtocol(((struct objc_class*)aClass)->super_class, aProtocol);
+	}
+	return NO;
+}
+#endif
+
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 {        
     NSMutableArray *testClasseNames = [[NSMutableArray alloc] init];
@@ -414,11 +440,11 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
     NSAutoreleasePool *x = [[NSAutoreleasePool alloc] init];
     while ((c = objc_next_class (&es)) != Nil)
     {
-	i++;
+		i++;
         NSBundle *classBundle = [NSBundle bundleForClass: c];
         if (bundle == classBundle && 
-			![c isProxy] &&
-            [c conformsToProtocol:@protocol(UKTest)]) {
+			conformsToProtocol(c, @protocol(UKTest))) 
+		{
             [testClasseNames addObject:NSStringFromClass(c)];
         }
         if (i > 20)
