@@ -9,7 +9,7 @@ ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
 
 endif
 
-ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
+Ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
 
     kqueue_supported ?= yes
 
@@ -31,7 +31,10 @@ EtoileFoundation_SUBPROJECTS = Source
 EtoileFoundation_HEADER_FILES_DIR = Headers
 
 EtoileFoundation_HEADER_FILES = \
+		EtoileFoundation.h\
         EtoileCompatibility.h \
+		ETCArray.h\
+		Macros.h\
         NSFileManager+NameForTempFile.h \
         UKMainThreadProxy.h \
         UKPluginsRegistry.h \

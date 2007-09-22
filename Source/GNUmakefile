@@ -15,6 +15,9 @@ libEtoileFoundation_OBJC_FILES = \
 	UKPushbackMessenger.m \
 	UKThreadMessenger.m \
 	OSBundleExtensionLoader.m
+
+libEtoileFoundation_C_FILES = \
+	ETCArray.m
 	
 ifeq ($(kqueue_supported), yes)
 
