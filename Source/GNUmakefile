@@ -17,7 +17,7 @@ libEtoileFoundation_OBJC_FILES = \
 	OSBundleExtensionLoader.m
 
 libEtoileFoundation_C_FILES = \
-	ETCArray.m
+	ETCArray.c
 	
 ifeq ($(kqueue_supported), yes)
 
@@ -25,6 +25,8 @@ libEtoileFoundation_OBJC_FILES += \
 	UKKQueue.m
 
 endif
+
+libEtoileFoundation_CFLAGS += -std=c99
 
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/subproject.make

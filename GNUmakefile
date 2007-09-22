@@ -9,7 +9,7 @@ ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
 
 endif
 
-Ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
+ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
 
     kqueue_supported ?= yes
 
