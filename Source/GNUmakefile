@@ -9,6 +9,7 @@ LIBRARIES_DEPEND_UPON += -lm
 # Class files
 #
 libEtoileFoundation_OBJC_FILES = \
+	NSArray+map.m\
 	NSFileManager+NameForTempFile.m \
 	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \

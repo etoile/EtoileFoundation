@@ -13,6 +13,10 @@
  * Simple macro for safely initialising the current class.
  */
 #define SELFINIT if((self = [self init]) == nil) {return nil;}
+/**
+ * Macro for creating dealloc methods.
+ */
+#define DEALLOC(x) - (void) dealloc { x ; [super dealloc]; }
 
 /**
  * Set of macros providing a for each statement on collections, with IMP
