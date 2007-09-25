@@ -1,4 +1,4 @@
-#import "NSArray+Map.h"
+#import "NSArray+map.h"
 #import "Macros.h"
 
 @interface NSArrayMapProxy : NSObject {
