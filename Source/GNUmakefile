@@ -10,7 +10,7 @@ LIBRARIES_DEPEND_UPON += -lm
 #
 libEtoileFoundation_OBJC_FILES = \
 	NSArray+map.m\
-	NSObject+Mixins.h\
+	NSObject+Mixins.m\
 	NSFileManager+NameForTempFile.m \
 	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \
@@ -28,7 +28,7 @@ libEtoileFoundation_OBJC_FILES += \
 
 endif
 
-libEtoileFoundation_CFLAGS += -std=c99
+libEtoileFoundation_OBJCFLAGS += -std=c99
 
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/subproject.make
