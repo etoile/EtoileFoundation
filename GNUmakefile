@@ -36,6 +36,7 @@ EtoileFoundation_HEADER_FILES = \
 		ETCArray.h\
 		Macros.h\
 		NSArray+map.h\
+		NSObject+Mixins.h\
         NSFileManager+NameForTempFile.h \
         UKMainThreadProxy.h \
         UKPluginsRegistry.h \

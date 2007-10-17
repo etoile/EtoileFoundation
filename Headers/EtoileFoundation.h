@@ -9,3 +9,4 @@
 #import <EtoileFoundation/UKPluginsRegistry.h>
 #import <EtoileFoundation/UKPushbackMessenger.h>
 #import <EtoileFoundation/UKThreadMessenger.h>
+#import <EtoileFoundation/NSObject+Mixins.h>
