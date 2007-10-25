@@ -185,7 +185,11 @@
     Class testClass = nil;
     NSEnumerator *e = [testMethods objectEnumerator];
     NSString *testMethodName;
-    BOOL isClass = NO;
+#ifndef GNU_RUNTIME
+    BOOL isClass = testObject != nil && testObject->isa != nil && (testObject->isa->info & CLS_META);
+#else
+	BOOL isClass = object_is_class(testObject));
+#endif
     id object = nil;
 
     /* We use local variable so that the testObject will not be messed up.
@@ -196,17 +200,16 @@
        here as allocated to tell whether it is class or instance.
        We can dealloc it here, but it is not really a good practice.
        Object is better to be pass as autoreleased. */
-    if (object_is_class(testObject))
+
+    if (isClass)
     {
 	testClass = testObject;
 	object = testClass;
-	isClass = YES;
     }
     else
     {
 	testClass = [testObject class];
         /* It is instance, we instanize and release it in the loop */
-	isClass = NO;
     }
 
     while ((testMethodName = [e nextObject])) {
@@ -340,7 +343,13 @@
     NSArray *testMethods = nil;
 
     /* Test class methods */
+#ifndef GNU_RUNTIME
+	if (testClass != nil)
+		testMethods = UKTestMethodNamesFromClass(objc_getMetaClass(testClass->name));
+    //testMethods = UKTestMethodNamesFromClass(objc_getClass(testClass));
+#else
     testMethods = UKTestMethodNamesFromClass(object_get_meta_class(testClass));
+#endif
     [self runTests:testMethods onObject:testClass];
     /* Test instance methods */
     testMethods = UKTestMethodNamesFromClass(testClass);
@@ -460,7 +469,7 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 
 #endif
     
-    AUTORELEASE(testClasseNames);
+    [testClasseNames autorelease];
     return [testClasseNames
         sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
