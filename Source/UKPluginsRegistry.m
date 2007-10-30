@@ -225,6 +225,11 @@ static NSFileManager *fm = nil;
 }
 #endif
 
+- (id) loadIconForPath:(NSString*) aString
+{
+	return nil;
+}
+
 /** <p>Loads the plugin bundle located at <var>path</var>, checks it conforms to 
     <em>Plugin schema</em> stored in the related bundle property list.
     </p>
@@ -253,7 +258,7 @@ static NSFileManager *fm = nil;
 	{
 		NSBundle *bundle = [NSBundle bundleWithPath: path];
         NSString *identifier;
-        NSImage *image;
+        id image;
 		NSString *name;
         
         /* We retrieve plugin's name */
@@ -292,14 +297,7 @@ static NSFileManager *fm = nil;
 		if (iconFileName != nil) 
             iconPath = [bundle pathForImageResource: iconFileName];
             
-        if (iconPath == nil)
-        {
-            image = [NSImage imageNamed: @"NSApplicationIcon"];
-        }
-        else
-        {
-            image = [[[NSImage alloc] initWithContentsOfFile: iconPath] autorelease];
-        }
+		[self loadIconForPath:iconPath];
         
         /* When image loading has failed, we set its value to null object in
            in order to be able to create info dictionary without glitches a
