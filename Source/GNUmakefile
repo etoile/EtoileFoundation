@@ -30,6 +30,8 @@ endif
 
 libEtoileFoundation_OBJCFLAGS += -std=c99
 
+libEtoileFoundation_CFLAGS += -std=c99
+
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/subproject.make
 -include GNUmakefile.postamble
