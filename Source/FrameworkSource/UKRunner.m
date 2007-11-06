@@ -188,7 +188,7 @@
 #ifndef GNU_RUNTIME
     BOOL isClass = testObject != nil && testObject->isa != nil && (testObject->isa->info & CLS_META);
 #else
-	BOOL isClass = object_is_class(testObject));
+	BOOL isClass = object_is_class(testObject);
 #endif
     id object = nil;
 
