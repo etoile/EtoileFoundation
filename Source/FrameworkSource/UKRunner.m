@@ -301,6 +301,7 @@
             NSString *msg = [UKRunner localizedString:@"errExceptionInTestMethod"];            
             msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), testMethodName, [localException name]];
             [[UKTestHandler handler] reportWarning:msg];
+            [[UKTestHandler handler] reportWarning:[localException reason]];
 	    [pool release];
 	    NS_VOIDRETURN;
 	}
