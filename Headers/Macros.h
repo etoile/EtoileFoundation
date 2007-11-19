@@ -35,3 +35,5 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 												   enumerator,\
 												   @selector(nextObject))))
 
+#define D(...) [NSDictionary dictionaryWithObjectsAndKeys:__VA_ARGS__ , nil]
+#define A(...) [NSArray arrayWithObjects:__VA_ARGS__ , nil]
