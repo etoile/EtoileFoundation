@@ -20,6 +20,7 @@
  * Basic implementation of prototypes in Objective-C
  */
 @interface ETPrototype : NSObject<ETPrototype> {
+	id prototype;
 	BOOL isPrototype;
 	NSMapTable * dtable;
 	NSMapTable * otherIvars;
