@@ -34,7 +34,12 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 	/* Avoid map lookup if there are no methods added yet. */
 	if(ivars->isPrototype)
 	{
-		return NSMapGet(ivars->dtable, sel_get_name(aSelector));
+		IMP method = (IMP)NSMapGet(ivars->dtable, sel_get_name(aSelector));
+		if(method == NULL && (anObject->prototype) != NULL)
+		{
+			return [self messageLookupForObject:(anObject->prototype) selector:aSelector];
+		}
+		return method;
 	}
 	return NULL;
 }
@@ -55,7 +60,10 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 }
 - (id) clone
 {
-	return [self copyWithZone:NULL];
+	id obj = [[[self class] alloc] init];
+	ETPrototype_t ivars = (ETPrototype_t) obj;
+	ivars->prototype = self;
+	return obj;
 }
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
@@ -70,11 +78,17 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 }
 - (id)valueForUndefinedKey:(NSString *)key
 {
+	ETPrototype_t ivars = (ETPrototype_t) anObject;
 	if(otherIvars == NULL)
 	{
 		return NULL;
 	}
-	return NSMapGet(otherIvars, key);
+	id val = NSMapGet(otherIvars, key);
+	if(val == NULL && (anObject->prototype) != NULL)
+	{
+		return [(anObject->prototype) valueForUndefinedKey:aSelector];
+	}
+	return NULL;
 }
 - (void) dealloc
 {
