@@ -1,5 +1,7 @@
-#import "ETPrototype.h"
 #include <objc/objc-api.h>
+//Check if a patched GNU libobjc is installed.
+#ifdef CLS_SETOBJECTMESSAGEDISPATCH
+#import "ETPrototype.h"
 
 typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 @implementation ETPrototype
@@ -97,3 +99,6 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 	[super dealloc];
 }
 @end
+#else
+#warning Your Objective-C runtime is not compatible with prototypes.
+#endif
