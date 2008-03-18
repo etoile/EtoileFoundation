@@ -42,7 +42,19 @@ EtoileFoundation_HEADER_FILES = \
         UKPluginsRegistry.h \
         UKPushbackMessenger.h \
         UKThreadMessenger.h \
-        OSBundleExtensionLoader.h
+        OSBundleExtensionLoader.h \
+	ETCollection.h \
+	ETFilter.h \
+	ETObjectChain.h \
+	ETObjectRegistry.h \
+	ETPropertyValueCoding.h \
+	ETRendering.h \
+	ETTransform.h \
+	NSIndexPath+Etoile.h \
+	NSIndexSet+Etoile.h \
+	NSObject+Etoile.h \
+	NSObject+Model.h \
+	NSString+Etoile.h
 
 ifeq ($(kqueue_supported), yes)
 
@@ -54,5 +66,6 @@ endif
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
+-include etoile.make
 include $(GNUSTEP_MAKEFILES)/framework.make
 

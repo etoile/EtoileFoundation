@@ -15,6 +15,9 @@
 
 #define __ETOILE__
 
+// FIXME: Temporary hack until ETLog class is available
+#define ETLog NSLog
+
 
 /* GCC version test code by Kazunobu Kuriyama */
 #ifndef GCC_VERSION
@@ -27,11 +30,18 @@
 
 
 #ifdef GNUSTEP
-
 /* For truncf on Linux and other platforms probably...
    #import <math.h> doesn't work on many Linux systems since truncf is often 
    not part of this header currently. That's why we rely on GCC equivalent 
    builtin function. */
 #define truncf(x)  __builtin_truncf(x)
-
 #endif // GNUSTEP
+
+#ifdef GNUSTEP
+#import <GNUstepBase/GNUstep.h>
+#else
+/* For now, GNUstepBase (Foundation Additions) hasn't been ported to Leopard */
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+#import <EtoileUI/GNUstep.h>
+#endif
+#endif // GNUstep

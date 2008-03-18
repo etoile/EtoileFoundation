@@ -16,7 +16,18 @@ libEtoileFoundation_OBJC_FILES = \
 	UKPluginsRegistry.m \
 	UKPushbackMessenger.m \
 	UKThreadMessenger.m \
-	OSBundleExtensionLoader.m
+	OSBundleExtensionLoader.m \
+	ETCollection.m \
+	ETFilter.m \
+	ETObjectChain.m \
+	ETObjectRegistry.m \
+	ETPropertyValueCoding.m \
+	ETTransform.m \
+	NSIndexPath+Etoile.m \
+	NSIndexSet+Etoile.m \
+	NSObject+Etoile.m \
+	NSObject+Model.m \
+	NSString+Etoile.m
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
