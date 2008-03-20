@@ -1,3 +1,8 @@
+2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Source/FrameworkSource/UKRunner.m: Fixed incorrect use of AppleScript 
+	extension -isEqualTo: by replacing it with -isEqual:.
+
 2007-06-10  Yen-Ju Chen <yjchenx at gmail>
 
 	* Fix clean compilation.
@@ -20,7 +25,6 @@
 	* Source/TestBundle/TestThree.m:
 	* Source/TestBundle/TestTwo.m:
 	Add tests for class methods.
-
 
 2007-03-12  Quentin Mathe <qmathe@club-internet.fr>
 

@@ -260,7 +260,7 @@
     NSString *dispA =[UKTestHandler displayStringForObject:a];
     NSString *dispB = [UKTestHandler displayStringForObject:b];
 
-    if ([a isEqualTo:b]) {
+    if ([a isEqual:b]) {
         msg = [UKTestHandler localizedString:@"msgUKObjectsEqual.pass"];
         msg = [NSString stringWithFormat:msg, dispA, dispB];
         [self reportStatus:YES inFile:filename line:line message:msg];
@@ -277,7 +277,7 @@
     NSString *dispA =[UKTestHandler displayStringForObject:a];
     NSString *dispB = [UKTestHandler displayStringForObject:b];
     
-    if (![a isEqualTo:b]) {
+    if (![a isEqual:b]) {
         msg = [UKTestHandler localizedString:@"msgUKObjectsNotEqual.pass"];
         msg = [NSString stringWithFormat:msg, dispA, dispB];
         [self reportStatus:YES inFile:filename line:line message:msg];
