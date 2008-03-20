@@ -215,7 +215,7 @@
 		@"stringValue", @"objectValue", @"isCollection", @"isGroup", 
 		@"isMutable", @"isMutableCollection", @"isCommonObjectValue", 
 		@"isNumber", @"isString", @"isClass", @"description", 
-		@"primtiveDescription", nil];
+		@"primitiveDescription", nil];
 }
 
 - (id) valueForProperty: (NSString *)key

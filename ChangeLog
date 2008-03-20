@@ -1,3 +1,7 @@
+2008-03-20  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Source/NSObject+Model.m: Fixed a typo in -properties.
+
 2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/NSURL+Etoile.h:
