@@ -157,17 +157,19 @@ static ETObjectRegistry *rootObjectRegistry = nil;
 	prototype for the new instance. 
 	Instance clones are mutable by default unlike instance copies. 
 	Resulting clone object is retained exactly like an object copy. */
-- (id) clone
-{
-	return [self cloneWithZone: NSDefaultMallocZone()];
-}
-
 - (id) cloneWithZone: (NSZone *)zone
 {
-	ETObjectRegistry *reg = [[ETObjectRegistry alloc] initWithRegistry: self];
+	ETObjectRegistry *reg = [[ETObjectRegistry allocWithZone: zone] 
+		initWithRegistry: self];
 	
 	return reg;
 }
+
+/** ETObjectRegistry instances aren't true clone objects to which you can add 
+	new methods. 
+	This method has no effects and is mostly a dummy declaration to comply to
+	ETPrototype protocol. */
+- (void) setMethod: (IMP)aMethod forSelector: (SEL)aSelector { }
 
 /** Returns the object registry known by key. If the receiver isn't a registry 
 	group, then returns nil.

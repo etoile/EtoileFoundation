@@ -13,7 +13,14 @@
  * Adds the specified method to this instance.
  */
 - (void) setMethod:(IMP)aMethod forSelector:(SEL)aSelector;
-- (id) clone;
+/** 
+  * Returns a clone object of the receiver. The receiver plays the role of
+  * prototype for the new instance. 
+  * Instance clones are mutable by default unlike instance copies. 
+  */
+- (id) cloneWithZone: (NSZone *)zone;
+- (id) prototype;
+- (void) setPrototype: (id)proto;
 @end
 
 /**

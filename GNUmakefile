@@ -48,6 +48,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETObjectChain.h \
 	ETObjectRegistry.h \
 	ETPropertyValueCoding.h \
+	ETPrototype.h \
 	ETRendering.h \
 	ETTransform.h \
 	NSIndexPath+Etoile.h \

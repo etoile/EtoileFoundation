@@ -33,16 +33,29 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSString+Etoile.h"
+#import <EtoileFoundation/NSString+Etoile.h>
 
 
 @implementation NSString (Etoile)
 
-- (NSString *) append: (NSString *)string
+/** Shortcut for -stringByAppendingString:. 
+	Take note this method doesn't follow GNUstep/Cocoa naming style. */
+- (NSString *) append: (NSString *)aString
 {
-	return [self stringByAppendingString: string];
+	return [self stringByAppendingString: aString];
 }
 
+/** Shortcut for -stringByAppendingPathComponent:. 
+	Take note this method doesn't follow GNUstep/Cocoa naming style. */
+- (NSString *) appendPath: (NSString *)aPath
+{
+	return [self stringByAppendingPathComponent: aPath];
+}
+
+/** Returns the first path component of the receiver. If the receiver isn't a 
+	path, returns the a new instance of the entire string. 
+	If the path is '/', returns '/'.
+	If the path is '/where/who' or 'where/who', returns 'where'. */
 - (NSString *) firstPathComponent
 {
 	NSArray *pathComponents = [self pathComponents];
@@ -54,6 +67,8 @@
 	return firstPathComp;
 }
 
+/** Returns a new string instance by stripping the first path component as 
+	defined by -firstPathComponent. */
 - (NSString *) stringByDeletingFirstPathComponent
 {
 	NSArray *pathComponents = [self pathComponents];
@@ -63,6 +78,7 @@
 	return [NSString pathWithComponents: pathComponents];
 }
 
+// FIXME: Implement
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator
 {
 	return nil;

@@ -60,13 +60,23 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 	((ETPrototype_t)copy)->otherIvars = NSCopyMapTableWithZone(otherIvars, zone);
 	return copy;
 }
-- (id) clone
+- (id) cloneWithZone: (NSZone *)zone
 {
-	id obj = [[[self class] alloc] init];
-	ETPrototype_t ivars = (ETPrototype_t) obj;
-	ivars->prototype = self;
+	id obj = [[[self class] allocWithZone: zone] init];
+	[obj setPrototype: self];
 	return obj;
 }
+
+- (id) prototype
+{
+	return prototype;
+}
+
+- (void) setPrototype: (id)proto
+{
+	ASSIGN(prototype, proto);
+}
+
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
 	if(otherIvars == NULL)
@@ -96,6 +106,7 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 {
 	NSFreeMapTable(dtable);
 	NSFreeMapTable(otherIvars);
+	DESTROY(prototype);
 	[super dealloc];
 }
 @end

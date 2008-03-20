@@ -1,3 +1,27 @@
+2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETPrototype.h:
+	* Source/ETPrototype.m:
+	Extended ETPrototype protocol and class.
+	(-prototype, -setPrototype:): New accessors.
+	(-cloneWithZone:) New method. Fixed missing prototype retain by calling 
+	-setPrototype.
+	(-clone): Moved code into -cloneWithZone: and the method itself into
+	NSObject+Etoile.
+	(-dealloc): Fixed missing prototype release.
+	* Headers/NSObject+Etoile.h:
+	* Headers/NSObject+Etoile.m:
+	(-clone:, -isPrototype:): New methods.
+	* Headers/ETObjectRegistry.h: 
+	* Headers/ETObjectRegistry.m: 
+	Removed ETPrototype protocol declaration now superceded by the one in 
+	ETPrototype.h.
+	(-setMethod:forSelector:): New dummy method to conform to ETPrototype.
+	(-clone): Removed.
+	* Source/GNUmakefile:
+	* GNUmakefile:
+	Updated to include ETPrototype.
+
 2008-03-17  Quentin Mathe <qmathe@club-internet.fr>
 
 	[branches/qmathe/Container/EtoileFoundation]

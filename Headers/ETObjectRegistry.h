@@ -37,19 +37,12 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETCollection.h>
+#import <EtoileFoundation/ETPrototype.h>
+
 
 // TODO: Break this class in ETObject root class and ETObjectRegistry subclass
 // to allow reusing the prototype-system support.
 // May be this class would be better named ETAspectRegistry?
-
-@protocol ETPrototype
-/** Returns a clone object of the receiver. The receiver plays the role of
-	prototype for the new instance. 
-	Instance clones are mutable by default unlike instance copies. */
-- (id) cloneWithZone: (NSZone *)zone;
-- (void) setPrototype: (id)parent;
-- (id) prototype;
-@end
 
 /** ETObjectRegistry class provides a prototype-system which allows to infer
 	both state and behaviors of Etoile objects based on other objects. State
@@ -95,7 +88,6 @@
 - (id) initWithRegistry: (ETObjectRegistry *)registry;
 - (ETObjectRegistry *) parentRegistry;
 - (void) setParentRegistry: (ETObjectRegistry *)registry;
-- (id) clone;
 
 /* Registry Tracking */
 
