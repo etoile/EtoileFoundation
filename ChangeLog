@@ -1,5 +1,12 @@
 2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Headers/NSString+Etoile.h:
+	* Source/NSString+Etoile.m:
+	Documented methods.
+	(-appendPath:): New shortcut method.
+
+2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/ETPrototype.h:
 	* Source/ETPrototype.m:
 	Extended ETPrototype protocol and class.
