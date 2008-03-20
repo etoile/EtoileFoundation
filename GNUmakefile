@@ -55,7 +55,8 @@ EtoileFoundation_HEADER_FILES = \
 	NSIndexSet+Etoile.h \
 	NSObject+Etoile.h \
 	NSObject+Model.h \
-	NSString+Etoile.h
+	NSString+Etoile.h \
+	NSURL+Etoile.h
 
 ifeq ($(kqueue_supported), yes)
 

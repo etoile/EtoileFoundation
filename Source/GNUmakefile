@@ -28,7 +28,8 @@ libEtoileFoundation_OBJC_FILES = \
 	NSIndexSet+Etoile.m \
 	NSObject+Etoile.m \
 	NSObject+Model.m \
-	NSString+Etoile.m
+	NSString+Etoile.m \
+	NSURL+Etoile.m
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c

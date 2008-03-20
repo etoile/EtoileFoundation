@@ -1,5 +1,15 @@
 2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Headers/NSURL+Etoile.h:
+	* Source/NSURL+Etoile.m:
+	Added.
+	* Headers/EtoileFoundation.h:
+	* Source/GNUmakefile:
+	* GNUmakefile:
+	Updated.
+
+2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/NSString+Etoile.h:
 	* Source/NSString+Etoile.m:
 	Documented methods.
@@ -25,6 +35,7 @@
 	ETPrototype.h.
 	(-setMethod:forSelector:): New dummy method to conform to ETPrototype.
 	(-clone): Removed.
+	* Headers/EtoileFoundation.h:
 	* Source/GNUmakefile:
 	* GNUmakefile:
 	Updated to include ETPrototype.
