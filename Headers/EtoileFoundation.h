@@ -4,7 +4,6 @@
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
 #import <EtoileFoundation/OSBundleExtensionLoader.h>
 #import <EtoileFoundation/UKFileWatcher.h>
-#import <EtoileFoundation/UKKQueue.h>
 #import <EtoileFoundation/UKMainThreadProxy.h>
 #import <EtoileFoundation/UKPluginsRegistry.h>
 #import <EtoileFoundation/UKPushbackMessenger.h>

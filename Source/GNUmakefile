@@ -9,8 +9,8 @@ LIBRARIES_DEPEND_UPON += -lm
 # Class files
 #
 libEtoileFoundation_OBJC_FILES = \
-	NSArray+map.m\
-	NSObject+Mixins.m\
+	NSArray+map.m \
+	NSObject+Mixins.m \
 	NSFileManager+NameForTempFile.m \
 	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \
@@ -33,7 +33,7 @@ libEtoileFoundation_OBJC_FILES = \
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
-	
+
 ifeq ($(kqueue_supported), yes)
 
 libEtoileFoundation_OBJC_FILES += \

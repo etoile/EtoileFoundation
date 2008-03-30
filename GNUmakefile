@@ -31,18 +31,19 @@ EtoileFoundation_SUBPROJECTS = Source
 EtoileFoundation_HEADER_FILES_DIR = Headers
 
 EtoileFoundation_HEADER_FILES = \
-		EtoileFoundation.h\
-        EtoileCompatibility.h \
-		ETCArray.h\
-		Macros.h\
-		NSArray+map.h\
-		NSObject+Mixins.h\
-        NSFileManager+NameForTempFile.h \
-        UKMainThreadProxy.h \
-        UKPluginsRegistry.h \
-        UKPushbackMessenger.h \
-        UKThreadMessenger.h \
-        OSBundleExtensionLoader.h \
+	EtoileFoundation.h \
+	EtoileCompatibility.h \
+	ETCArray.h \
+	Macros.h \
+	NSArray+map.h \
+	NSObject+Mixins.h \
+	NSFileManager+NameForTempFile.h \
+	UKMainThreadProxy.h \
+	UKPluginsRegistry.h \
+	UKPushbackMessenger.h \
+	UKThreadMessenger.h \
+	UKFileWatcher.h \
+	OSBundleExtensionLoader.h \
 	ETCollection.h \
 	ETFilter.h \
 	ETObjectChain.h \
@@ -61,8 +62,7 @@ EtoileFoundation_HEADER_FILES = \
 ifeq ($(kqueue_supported), yes)
 
 EtoileFoundation_HEADER_FILES += \
-        UKKQueue.h \
-        UKFileWatcher.h
+        UKKQueue.h
 
 endif
 

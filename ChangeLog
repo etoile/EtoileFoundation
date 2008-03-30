@@ -1,3 +1,12 @@
+2008-03-31  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/EtoileFoundation: Removed UKKQueue.h to avoid compiler warnings 
+	when kqueue isn't available and that header isn't installed.
+	* GNUmakefile: 
+	* Source/GNUmakefile:
+	Tidied a bit. Modified to always install UKFileWatcher.h even kqueue isn't 
+	available.
+
 2008-03-20  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/NSObject+Model.m: Fixed a typo in -properties.
