@@ -11,7 +11,7 @@ LIBRARIES_DEPEND_UPON += -lm
 libEtoileFoundation_OBJC_FILES = \
 	NSArray+map.m \
 	NSObject+Mixins.m \
-	NSFileManager+NameForTempFile.m \
+	NSFileManager+TempFile.m\
 	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \
 	UKPushbackMessenger.m \

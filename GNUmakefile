@@ -1,5 +1,7 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
+SUBPROJECTS = Source EtoileThread
+
 #
 # kqueue support check
 #
@@ -26,7 +28,7 @@ kqueue_supported ?= no
 FRAMEWORK_NAME = EtoileFoundation
 VERSION = 0.1
 
-EtoileFoundation_SUBPROJECTS = Source
+FRAMEWORKS_DEPEND_UPON = -lEtoileThread
 
 EtoileFoundation_HEADER_FILES_DIR = Headers
 
@@ -37,7 +39,7 @@ EtoileFoundation_HEADER_FILES = \
 	Macros.h \
 	NSArray+map.h \
 	NSObject+Mixins.h \
-	NSFileManager+NameForTempFile.h \
+	NSFileManager+TempFile.h \
 	UKMainThreadProxy.h \
 	UKPluginsRegistry.h \
 	UKPushbackMessenger.h \
