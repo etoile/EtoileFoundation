@@ -1,5 +1,12 @@
 2008-03-31  Quentin Mathe <qmathe@club-internet.fr>
 
+	* GNUmakefile: 
+	* EtoileThread/GNUmakefile:
+	Modified to include EtoileThread in the build and links it. Forced 
+	to create explicit library references at linking time.
+
+2008-03-31  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/EtoileFoundation: Removed UKKQueue.h to avoid compiler warnings 
 	when kqueue isn't available and that header isn't installed.
 	* GNUmakefile: 
