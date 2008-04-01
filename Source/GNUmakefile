@@ -2,8 +2,8 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 SUBPROJECT_NAME = libEtoileFoundation
 
-# For FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm
+libEtoileFoundation_OBJCFLAGS += -std=c99
+libEtoileFoundation_CFLAGS += -std=c99
 
 #
 # Class files
@@ -40,10 +40,6 @@ libEtoileFoundation_OBJC_FILES += \
 	UKKQueue.m
 
 endif
-
-libEtoileFoundation_OBJCFLAGS += -std=c99
-
-libEtoileFoundation_CFLAGS += -std=c99
 
 -include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/subproject.make

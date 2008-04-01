@@ -1,3 +1,11 @@
+2008-04-02  Quentin Mathe <qmathe@club-internet.fr>
+
+	* GNUmakefile: 
+	* Source/GNUmakefile:
+	Cleaned these GNUmakefiles and corrected the compilation of the 
+	framework to build the Source as a compilation unit subproject of 
+	EtoileFoundation and not a standalone subproject as EtoileThread.
+
 2008-04-01  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/NSObject+Model.n:

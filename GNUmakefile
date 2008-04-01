@@ -1,6 +1,6 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
-SUBPROJECTS = EtoileThread Source
+SUBPROJECTS = EtoileThread
 
 #
 # kqueue support check
@@ -28,7 +28,10 @@ kqueue_supported ?= no
 FRAMEWORK_NAME = EtoileFoundation
 VERSION = 0.1
 
-LIBRARIES_DEPEND_UPON += -lETThread $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
+# -lm for FreeBSD at least
+LIBRARIES_DEPEND_UPON += -lm -lETThread $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
+
+EtoileFoundation_SUBPROJECTS = Source
 
 EtoileFoundation_HEADER_FILES_DIR = Headers
 
