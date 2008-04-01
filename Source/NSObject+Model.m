@@ -270,15 +270,6 @@
 	return [self description];
 }
 
-/** Returns the icon used to represent unknown object.
-	Subclasses can override this method to return an icon that suits and 
-	describes better their own objects. */
-- (NSImage *) icon
-{
-	// FIXME: Asks Jesse to create an icon representing an unknown object
-	return nil;
-}
-
 /** Returns YES when the receiver is an object which can be passed to 
 	-setObjectValue: or returned by -objectValue. Some common object values
 	like string and number can be displayed and edited transparently (in an 
@@ -333,10 +324,6 @@
 @end
 
 @implementation NSNumber (EtoileModel)
-- (BOOL) isCommonObjectValue { return YES; }
-@end
-
-@implementation NSImage (EtoileModel)
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 

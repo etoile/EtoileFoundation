@@ -1,3 +1,10 @@
+2008-04-01  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSObject+Model.n:
+	* Source/NSObject+Model.m:
+	Removed the AppKit dependency on NSImage by moving it to 
+	/branches/qmathe/Container (that will become EtoileUI).
+
 2008-03-31  Quentin Mathe <qmathe@club-internet.fr>
 
 	* GNUmakefile: 

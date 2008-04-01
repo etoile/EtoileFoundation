@@ -34,7 +34,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 
 
@@ -62,7 +61,8 @@
 /* Basic Properties */
 
 - (NSString *) displayName;
-- (NSImage *) icon;
+/* NSObject+EtoileUI offers also the following basic property
+  - (NSImage *) icon; */
 
 - (NSString *) primitiveDescription;
 
@@ -84,10 +84,6 @@
 @end
 
 @interface NSNumber (EtoileModel)
-- (BOOL) isCommonObjectValue;
-@end
-
-@interface NSImage (EtoileModel)
 - (BOOL) isCommonObjectValue;
 @end
 
