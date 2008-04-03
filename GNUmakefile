@@ -1,3 +1,5 @@
+PACKAGE_NAME = EtoileFoundation
+
 include $(GNUSTEP_MAKEFILES)/common.make
 
 SUBPROJECTS = EtoileThread
@@ -29,7 +31,8 @@ FRAMEWORK_NAME = EtoileFoundation
 VERSION = 0.1
 
 # -lm for FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm -lETThread $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
+LIBRARIES_DEPEND_UPON += -lm -lEtoileThread \
+	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 EtoileFoundation_SUBPROJECTS = Source
 
@@ -75,4 +78,3 @@ include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
 -include etoile.make
 include $(GNUSTEP_MAKEFILES)/framework.make
-
