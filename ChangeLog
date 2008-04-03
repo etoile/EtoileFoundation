@@ -1,5 +1,10 @@
 2008-04-03  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Headers/EtoileFoundation.h: Added a license notice and import statements 
+	for all EtoileThread headers.
+
+2008-04-03  Quentin Mathe <qmathe@club-internet.fr>
+
 	* EtoileThread/GNUmakefile: Renamed the framework EtoileThread instead of 
 	ETThread. Removed the debug flag -g because gnustep-make passes it by 
 	default. Some extra cleaning too.
