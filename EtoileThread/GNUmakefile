@@ -23,7 +23,7 @@ $(FRAMEWORK_NAME)_HEADER_FILES = \
 	NSObject+Threaded.h \
 	NSObject+Futures.h
 
-$(DOCUMENT_NAME)_AGSDOC_FILES = $(⁽FRAMEWORK_NAME)_HEADER_FILES)
+$(DOCUMENT_NAME)_AGSDOC_FILES = $((FRAMEWORK_NAME)_HEADER_FILES)
 
 include $(GNUSTEP_MAKEFILES)/documentation.make
 -include ../../../etoile.make
