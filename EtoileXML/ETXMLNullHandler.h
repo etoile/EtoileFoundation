@@ -46,7 +46,7 @@
 @interface ETXMLNullHandler : NSObject<ETXMLParserDelegate> {
 	unsigned int depth;
 	id parser;
-	id<NSObject,ETXMLParserDelegate> parent;
+	id<ETXMLParserDelegate> parent;
 	id key;
 	id value;
 }
@@ -60,7 +60,7 @@
  * 'value' instance variable when -notifyParent: is called.  This is only
  * relevant to sub-classes.
  */
-- (id) initWithXMLParser:(id)aParser parent:(id<NSObject,ETXMLParserDelegate>)aParent key:(id)aKey;
+- (id) initWithXMLParser:(id)aParser parent:(id<ETXMLParserDelegate>)aParent key:(id)aKey;
 /**
  * Dynamic dispatch method that calls [self add{aChild}:aKey] if the object
  * responds to add{aChild}:.  This is similar to the KVC mechamism, but used

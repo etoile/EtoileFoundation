@@ -35,7 +35,7 @@
 #import "../Macros.h"
 
 @implementation ETXMLNullHandler
-- (id) initWithXMLParser:(id)aParser parent:(id<NSObject,ETXMLParserDelegate>)aParent key:(id)aKey
+- (id) initWithXMLParser:(id)aParser parent:(id<ETXMLParserDelegate>)aParent key:(id)aKey
 {
 	SELFINIT
 	[aParser setContentHandler:self];

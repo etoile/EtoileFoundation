@@ -39,12 +39,12 @@
 #define TEMPORARYFAILURE 1
 
 @implementation ETXMLParser
-+ (id) parserWithContentHandler:(id <NSObject, ETXMLParserDelegate>) _contentHandler
++ (id) parserWithContentHandler:(id <ETXMLParserDelegate>) _contentHandler
 {
 	return [[[ETXMLParser alloc] initWithContentHandler:_contentHandler] autorelease];
 }
 
-- (id) initWithContentHandler:(id <NSObject, ETXMLParserDelegate>) _contentHandler
+- (id) initWithContentHandler:(id <ETXMLParserDelegate>) _contentHandler
 {
 	[self init];
 	[self setContentHandler:_contentHandler];
@@ -61,7 +61,7 @@
 	return [super init];
 }
 
-- (id) setContentHandler:(id<NSObject, ETXMLParserDelegate>) _contentHandler
+- (id) setContentHandler:(id<ETXMLParserDelegate>) _contentHandler
 {
 	[delegate release];
 	delegate = [_contentHandler retain];

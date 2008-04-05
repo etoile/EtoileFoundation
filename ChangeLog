@@ -1,5 +1,16 @@
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
 
+	* EtoileXML/ETXMLParserDelegate.h: Modified ETXMLParserDelegate protocol to 
+	inherit from NSObject protocol.
+	* EtoileXML/ETXMLNullHandler.h:
+	* EtoileXML/ETXMLNullHandler.m:
+	* EtoileXML/ETXMLParser.h:
+	* EtoileXML/ETXMLParser.m:
+	Removed NSObject protocol in the type of the parameters that must conform to
+	ETXMLParserDelegate.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* COPYING: Updated copyright holders and replaced outdated 
 	EtoileExtensionsKit mentions by EtoileFoundation.
 

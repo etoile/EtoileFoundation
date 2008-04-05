@@ -72,7 +72,7 @@ static inline NSMutableString* unescapeXMLCData(NSString* _XMLString)
  * The ETXMLParserDelegate protocol is a formal protocol that must be 
  * implemented by classes used as delegates for XML parsing.  
  */
-@protocol ETXMLParserDelegate
+@protocol ETXMLParserDelegate <NSObject>
 /**
  * Called by the parser whenever character data is parsed.  The parser will 
  * attempt to compromise between getting the data to the handler as soon as 
