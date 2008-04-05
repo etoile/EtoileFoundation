@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ETXMLParserDelegate.h"
-#import "ETXMLParser.h"
+#import <EtoileXML/ETXMLParserDelegate.h>
+#import <EtoileXML/ETXMLParser.h>
 
 /**
  * The ETXMLNode class represents a single XML element, which may contain 

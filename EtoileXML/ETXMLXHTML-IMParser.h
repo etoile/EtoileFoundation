@@ -6,7 +6,9 @@
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-#import "ETXMLNullHandler.h"
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#import <EtoileXML/ETXMLNullHandler.h>
 
 /**
  * The ETXMLXHTML_IMParser class constructs an NSAttributedString from a series

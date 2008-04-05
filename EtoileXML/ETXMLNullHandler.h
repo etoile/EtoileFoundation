@@ -6,8 +6,9 @@
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "ETXMLParser.h"
+#import <Foundation/Foundation.h>
+#import <EtoileXML/ETXMLParser.h>
+
 /**
  * The ETXMLNullHandler class serves two purposes.  First, it is used when
  * parsing to ignore an XML element and all of its children.  It simply 

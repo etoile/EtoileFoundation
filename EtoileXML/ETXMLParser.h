@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ETXMLParserDelegate.h"
+#import <EtoileXML/ETXMLParserDelegate.h>
 
 /**
  * An XML stream parse class.  This parser is statefull, and will cache any 

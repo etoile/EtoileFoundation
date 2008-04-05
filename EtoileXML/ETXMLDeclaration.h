@@ -6,7 +6,8 @@
 //  Copyright (c) 2007 __MyCompanyName__. All rights reserved.
 //
 
-#import "ETXMLNode.h"
+#import <Foundation/Foundation.h>
+#import <EtoileXML/ETXMLNode.h>
 
 /**
  * The ETXMLDeclaration is a ETXMLNode representing the XML header 

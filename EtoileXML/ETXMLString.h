@@ -6,7 +6,8 @@
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-#import "ETXMLNullHandler.h"
+#import <Foundation/Foundation.h>
+#import <EtoileXML/ETXMLNullHandler.h>
 
 /**
  * The ETXMLString class parses XML elements of the form &lt;element&gt;some
