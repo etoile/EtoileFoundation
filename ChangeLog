@@ -1,5 +1,13 @@
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Headers/EtoileFoundation.h: Included EtoileXML headers.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
+	* EtoileXML/*.[hm]: Made all license notices consistent and pretty :-)
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* EtoileXML/*.h: Modified all import statements to be consistent and allows 
 	these headers to be imported by other modules when compiling against the 
 	framework.

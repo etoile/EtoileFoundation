@@ -68,3 +68,12 @@
 #import <EtoileThread/ETThreadProxyReturn.h>
 #import <EtoileThread/NSObject+Futures.h>
 #import <EtoileThread/NSObject+Threaded.h>
+
+#import <EtoileXML/ETXMLDeclaration.h>
+#import <EtoileXML/ETXMLNode.h>
+#import <EtoileXML/ETXMLNullHandler.h>
+#import <EtoileXML/ETXMLParserDelegate.h>
+#import <EtoileXML/ETXMLParser.h>
+#import <EtoileXML/ETXMLString.h>
+#import <EtoileXML/ETXMLXHTML-IMParser.h>
+#import <EtoileXML/NSAttributedString+HTML.h>
