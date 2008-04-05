@@ -35,7 +35,10 @@
 #import "../Macros.h"
 
 @implementation ETXMLNullHandler
-- (id) initWithXMLParser:(id)aParser parent:(id<ETXMLParserDelegate>)aParent key:(id)aKey
+
+- (id) initWithXMLParser: (id)aParser 
+                  parent: (id <ETXMLParserDelegate>)aParent 
+                     key: (id)aKey
 {
 	SELFINIT
 	[aParser setContentHandler:self];
@@ -52,29 +55,29 @@
 	return self;
 }
 
-- (void) setParser:(id) XMLParser
+- (void) setParser: (id)XMLParser
 {
 	[self retain];
 	parser = XMLParser;
 }
 
-- (void) setParent:(id) newParent
+- (void) setParent: (id)newParent
 {
 	parent = newParent;
 }
 
-- (void)characters:(NSString *)_chars
+- (void)characters: (NSString *)_chars
 {
 	//Ignore cdata
 }
 
-- (void)startElement:(NSString *)_Name
-		  attributes:(NSDictionary*)_attributes
+- (void)startElement: (NSString *)_Name
+          attributes: (NSDictionary*)_attributes
 {
 	depth++;
 }
 
-- (void)endElement:(NSString *)_Name
+- (void)e ndElement: (NSString *)_Name
 {
 	depth--;
 	if(depth == 0)
@@ -84,7 +87,7 @@
 		[self release];
 	}
 }
-- (void) addChild:(id)aChild forKey:aKey
+- (void) addChild: (id)aChild forKey: (id)aKey
 {
 	NSString * childSelectorName = [NSString stringWithFormat:@"add%@:", aKey];
 	SEL childSelector = NSSelectorFromString(childSelectorName);
@@ -108,10 +111,10 @@
 	[value release];
 }
 
-
 - (void) dealloc
 {
 	[key release];
 	[super dealloc];
 }
+
 @end

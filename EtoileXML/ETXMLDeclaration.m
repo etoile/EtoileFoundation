@@ -42,7 +42,7 @@
 	return [decl autorelease];
 }
 
-- (NSString*) stringValueWithIndent:(int)indent
+- (NSString *) stringValueWithIndent:(int)indent
 {
 	/* Because this is the first element, we don't really care about indent */
 
@@ -87,17 +87,17 @@
 	return XML;
 }
 
-- (void) addCData:(id)newCData
+- (void) addCData: (id)newCData
 {
 	/* We do nothing here */
 }
 
-- (void) setParent:(id) newParent
+- (void) setParent: (id) newParent
 {
 	/* We cannot have parent */
 }
 
-- (void) setCData:(NSString*)newCData
+- (void) setCData: (NSString *)newCData
 {
 	/* We do nothing here */
 }
@@ -106,5 +106,6 @@
 {
 	[super dealloc];
 }
+
 @end
 

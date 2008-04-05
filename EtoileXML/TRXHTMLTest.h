@@ -35,9 +35,10 @@
 #import <AppKit/AppKit.h>
 
 
-@interface TRXHTMLTest : NSObject {
-	IBOutlet NSTextView * inHTML;
-	IBOutlet NSTextView * outHTML;	
+@interface TRXHTMLTest : NSObject 
+{
+	IBOutlet NSTextView *inHTML;
+	IBOutlet NSTextView *outHTML;	
 }
 - (IBAction) update:(id)sender;
 @end

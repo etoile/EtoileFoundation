@@ -45,10 +45,9 @@
  * and write out a string of XML document or serves as a root 
  * for ETXMLParser.
  */
+@interface ETXMLDeclaration : ETXMLNode
 
-@interface ETXMLDeclaration: ETXMLNode
-
-/* Return a node representing &lt;?xml version="1.0" encoding="UTF-8" ?&gt; */
+/** Return a node representing &lt;?xml version="1.0" encoding="UTF-8" ?&gt; */
 + (id) ETXMLDeclaration;
 
 @end

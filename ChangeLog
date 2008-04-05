@@ -1,5 +1,12 @@
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
 
+	* EtoileXML/*.[hm]: Made method names, class declarations and spacing 
+	between these constructs consistent and compliant with Etoile coding 
+	guidelines. Various method names or parameters will have to be reworked 
+	though.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* EtoileXML/ETXMLParserDelegate.h: Modified ETXMLParserDelegate protocol to 
 	inherit from NSObject protocol.
 	* EtoileXML/ETXMLNullHandler.h:

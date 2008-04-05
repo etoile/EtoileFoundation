@@ -43,7 +43,8 @@
  * implements the required functionality for a parser delegate, and so can be
  * easily extended through subclassing.
  */
-@interface ETXMLNullHandler : NSObject<ETXMLParserDelegate> {
+@interface ETXMLNullHandler : NSObject <ETXMLParserDelegate> 
+{
 	unsigned int depth;
 	id parser;
 	id<ETXMLParserDelegate> parent;
@@ -60,13 +61,15 @@
  * 'value' instance variable when -notifyParent: is called.  This is only
  * relevant to sub-classes.
  */
-- (id) initWithXMLParser:(id)aParser parent:(id<ETXMLParserDelegate>)aParent key:(id)aKey;
+- (id) initWithXMLParser: (id)aParser 
+                  parent: (id <ETXMLParserDelegate>)aParent 
+                     key: (id)aKey;
 /**
  * Dynamic dispatch method that calls [self add{aChild}:aKey] if the object
  * responds to add{aChild}:.  This is similar to the KVC mechamism, but used
  * instead so subclasses do not have to be fully KVC compliant.
  */
-- (void) addChild:(id)aChild forKey:aKey;
+- (void) addChild: (id)aChild forKey: (id)aKey;
 /**
  * Pass the instance variable 'value' up to the parent.  
  */

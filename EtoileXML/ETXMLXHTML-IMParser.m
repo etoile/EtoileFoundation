@@ -47,7 +47,7 @@ static inline id attributeForCaseInsensitiveKey(NSDictionary *attrs, id key)
 #define NSStrikethroughStyleAttributeName @"NSStrikethroughStyleAttributeName"
 #endif
 
-static inline NSColor * colourFromCSSColourString(NSString * aColour)
+static inline NSColor * colourFromCSSColourString(NSString *aColour)
 {
 	const char * colourString = [aColour UTF8String];
 	int r,g,b;
@@ -164,8 +164,8 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 
 @implementation ETXMLXHTML_IMParser
 
-- (NSMutableDictionary *) attributes: (NSMutableDictionary *) attributes
-                          fromStyle:  (NSString *) style
+- (NSMutableDictionary *) attributes: (NSMutableDictionary *)attributes
+                           fromStyle:  (NSString *)style
 {
 	NSFontManager * fontManager = [NSFontManager sharedFontManager];
 	NSFont * font = [attributes objectForKey:NSFontAttributeName];
@@ -278,7 +278,8 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 				   forKey:NSFontAttributeName];
 	return attributes;
 }
-- (void) loadStyles:(id)unused
+
+- (void) loadStyles: (id)unused
 {
 //	stylesForTags = [[NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"XHTML-IM HTML Styles"]] retain];
 	FONT_SIZES = [[NSDictionary dictionaryWithObjectsAndKeys:
@@ -336,7 +337,7 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 	return self;
 }
 
-- (void)characters:(NSString *)_chars
+- (void) characters: (NSString *)_chars
 {
 	NSMutableString * text = unescapeXMLCData(_chars);
 
@@ -376,8 +377,8 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 	}
 }
 
-- (void)startElement:(NSString *)_Name
-		  attributes:(NSDictionary*)_attributes;
+- (void) startElement: (NSString *)_Name
+           attributes: (NSDictionary *)_attributes;
 {
 	_Name = [_Name lowercaseString];
 	if([_Name isEqualToString:@"html"])
@@ -437,7 +438,8 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 		//Increment the depth counter.  This should always be equal to [attributeStack count] + 1, and it might be worth using this for validation
 	}
 }
-- (void)endElement:(NSString *)_Name
+
+- (void) endElement: (NSString *)_Name
 {
 	_Name = [_Name lowercaseString];
 	if([_Name isEqualToString:@"html"])
@@ -463,10 +465,12 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 		[attributeStack removeLastObject];
 	}
 }
+
 - (void) notifyParent
 {
 	[(id)parent addChild:string forKey:key];
 }
+
 - (void) dealloc
 {
 	[currentAttributes release];
@@ -478,4 +482,5 @@ static inline NSColor * colourFromCSSColourString(NSString * aColour)
 	[lineBreakBeforeTags release];
 	[super dealloc];
 }
+
 @end

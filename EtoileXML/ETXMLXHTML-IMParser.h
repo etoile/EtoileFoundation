@@ -41,15 +41,16 @@
  *
  * Not yet finished.
  */
-@interface ETXMLXHTML_IMParser : ETXMLNullHandler {
-	NSMutableDictionary * currentAttributes;
-	NSMutableArray * attributeStack;
-	NSMutableAttributedString * string;
+@interface ETXMLXHTML_IMParser : ETXMLNullHandler 
+{
+	NSMutableDictionary *currentAttributes;
+	NSMutableArray *attributeStack;
+	NSMutableAttributedString *string;
 
-	NSMutableDictionary * stylesForTags;
-	NSSet * lineBreakBeforeTags;
-	NSSet * lineBreakAfterTags;
-	NSDictionary * FONT_SIZES;
+	NSMutableDictionary *stylesForTags;
+	NSSet *lineBreakBeforeTags;
+	NSSet *lineBreakAfterTags;
+	NSDictionary *FONT_SIZES;
 }
 
 @end

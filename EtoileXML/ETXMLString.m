@@ -35,12 +35,14 @@
 #import "../Macros.h"
 
 @implementation ETXMLString
+
 - (id) init
 {
 	SUPERINIT;
 	value = nil;
 	return self;
 }
+
 - (void) notifyParent
 {
 	if(value != nil)
@@ -51,7 +53,8 @@
 	}
 	[super notifyParent];
 }
-- (void)characters:(NSString *)aString
+
+- (void) characters: (NSString *)aString
 {
 	if(value == nil)
 	{
@@ -64,4 +67,5 @@
 		value = new;
 	}
 }
+
 @end

@@ -36,20 +36,23 @@
 #import "ETXMLXHTML-IMParser.h"
 #import "ETXMLNullHandler.h"
 
-@interface XHTMLCollector : ETXMLNullHandler {
-@public
+@interface XHTMLCollector : ETXMLNullHandler 
+{
+	@public
 	NSAttributedString * html;
 }
 @end
+
 @implementation XHTMLCollector
-- (void) addhtml:(NSAttributedString*)aString
+- (void) addhtml: (NSAttributedString *)aString
 {
 	html = aString;
 }
 @end
 
 @implementation NSAttributedString (HTML)
-+ (NSAttributedString*) attributedStringWithHTML:(NSString*)aString
+
++ (NSAttributedString *) attributedStringWithHTML: (NSString *)aString
 {
 	ETXMLParser * p = [[ETXMLParser alloc] init];
 	XHTMLCollector * c = [[XHTMLCollector alloc] init];
@@ -63,4 +66,5 @@
 	[c release];
 	return html;
 }
+
 @end

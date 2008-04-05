@@ -36,7 +36,7 @@
 /**
  * Helper function for escaping XML character data.
  */
-static inline NSMutableString* escapeXMLCData(NSString* _XMLString)
+static inline NSMutableString * escapeXMLCData(NSString *_XMLString)
 {
 	if(_XMLString == nil)
 	{
@@ -54,7 +54,7 @@ static inline NSMutableString* escapeXMLCData(NSString* _XMLString)
 /**
  * Helper function for unescaping XML character data.
  */
-static inline NSMutableString* unescapeXMLCData(NSString* _XMLString)
+static inline NSMutableString * unescapeXMLCData(NSString *_XMLString)
 {
 	if(_XMLString == nil)
 	{
@@ -70,7 +70,7 @@ static inline NSMutableString* unescapeXMLCData(NSString* _XMLString)
 }
 /**
  * The ETXMLParserDelegate protocol is a formal protocol that must be 
- * implemented by classes used as delegates for XML parsing.  
+ * implemented by classes used as delegates for XML parsing.
  */
 @protocol ETXMLParserDelegate <NSObject>
 /**
@@ -80,31 +80,31 @@ static inline NSMutableString* unescapeXMLCData(NSString* _XMLString)
  * either be passed a complete CDATA run in one go, or it will be passed the 
  * longest available CDATA section in the current parse buffer.
  */
-- (void)characters:(NSString *)_chars;
+- (void)characters: (NSString *)_chars;
 /**
  * Called whenever a new XML element is started.  Attributes are passed in a 
  * dictionary in the same key-value pairs in the XML source.
  */
-- (void)startElement:(NSString *)_Name
-          attributes:(NSDictionary*)_attributes;
+- (void)startElement: (NSString *)_Name
+          attributes: (NSDictionary*)_attributes;
 /**
  * Called whenever an XML element is terminated.  Short form XML elements
  * (e.g.  &lt;br /&gt;) will cause immediate calls to the start and end element
  * methods in the delegate.
  */
-- (void)endElement:(NSString *)_Name;
+- (void)endElement: (NSString *)_Name;
 /**
- * Used to set the associated parser.  
+ * Used to set the associated parser.
  *
  * Note: It might be better to parse the parser in to the other methods as an 
  * argument (e.g. characters:fromParser:).  Anyone wishing to make this change
  * should be aware that it will require a significant amount of refactoring in
  * the XMPP code.
  */
-- (void) setParser:(id) XMLParser;
+- (void) setParser: (id)XMLParser;
 /**
  * Sets the parent.  When the delegate has finished parsing it should return 
  * control to the parent by setting the delegate in the associated parser.
  */
-- (void) setParent:(id) newParent;
+- (void) setParent: (id)newParent;
 @end

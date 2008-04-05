@@ -39,12 +39,13 @@
 #define TEMPORARYFAILURE 1
 
 @implementation ETXMLParser
-+ (id) parserWithContentHandler:(id <ETXMLParserDelegate>) _contentHandler
+
++ (id) parserWithContentHandler: (id <ETXMLParserDelegate>)_contentHandler
 {
 	return [[[ETXMLParser alloc] initWithContentHandler:_contentHandler] autorelease];
 }
 
-- (id) initWithContentHandler:(id <ETXMLParserDelegate>) _contentHandler
+- (id) initWithContentHandler: (id <ETXMLParserDelegate>)_contentHandler
 {
 	[self init];
 	[self setContentHandler:_contentHandler];
@@ -61,7 +62,7 @@
 	return [super init];
 }
 
-- (id) setContentHandler:(id<ETXMLParserDelegate>) _contentHandler
+- (id) setContentHandler: (id <ETXMLParserDelegate>)_contentHandler
 {
 	[delegate release];
 	delegate = [_contentHandler retain];
@@ -69,7 +70,7 @@
 	return self;
 }
 
-- (int) parseFrom:(int)_index to:(unichar)_endCharacter
+- (int) parseFrom: (int)_index to: (unichar)_endCharacter
 {
 	int end = [buffer length];
 	//TODO:  Make this a bit less slow.
@@ -84,7 +85,7 @@
 	return -1;
 }
 
-- (int) ignoreWhiteSpaceFrom:(int)_index
+- (int) ignoreWhiteSpaceFrom: (int)_index
 {
 	int end = [buffer length];
 	if(_index >= end)
@@ -110,7 +111,9 @@
 
 #define ISCOMMENT(tag) (([tag length] > 2) && [[tag substringToIndex:3] isEqualToString:@"!--"])
 
-- (int) parseTagFrom:(int*) _index named:(NSMutableString*)_name withAttributes:(NSMutableDictionary*)_attributes
+- (int) parseTagFrom: (int *)_index 
+               named: (NSMutableString *)_name 
+      withAttributes:(NSMutableDictionary*)_attributes
 {
 #define RETURN(x) (*_index) = current ; return x
 #define SKIPWHITESPACE 	start = [self ignoreWhiteSpaceFrom:start]; if(start == -1) {RETURN(TEMPORARYFAILURE);} 	current = start;
@@ -230,7 +233,7 @@
 #undef SEARCHTO
 }
 
-- (BOOL) parseFromSource:(NSString*) data
+- (BOOL) parseFromSource: (NSString *)data
 {
 //Macro to end parsing neatly if a particular condition is met
 //Invoking this stores the unparsed buffer and returns YES.
@@ -461,8 +464,10 @@
 #undef ENDPARSINGIF
 #undef SKIPTO
 }
-- (void) setMode:(enum MarkupLanguage)aMode
+
+- (void) setMode: (enum MarkupLanguage)aMode
 {
 	mode = aMode;
 }
+
 @end

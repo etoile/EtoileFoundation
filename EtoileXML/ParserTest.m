@@ -37,7 +37,7 @@
 @interface ParserTest :NSObject <ETXMLParserDelegate>
 @end
 @implementation ParserTest
-- (void)characters:(NSString *)_chars
+- (void) characters:(NSString *)_chars
 {
 	NSLog(@"CDATA: %@", _chars);
 }

@@ -36,5 +36,5 @@
 
 
 @interface NSAttributedString (HTML)
-+ (NSAttributedString*) attributedStringWithHTML:(NSString*)aString;
++ (NSAttributedString *) attributedStringWithHTML: (NSString *)aString;
 @end

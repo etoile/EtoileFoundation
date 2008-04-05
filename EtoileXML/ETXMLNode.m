@@ -41,20 +41,24 @@
 	unsigned int index;
 	NSArray * elements;
 }
-+ (ETXMLNodeChildEnumerator*) enumeratorWithElements:(NSArray*)anArray;
++ (ETXMLNodeChildEnumerator *) enumeratorWithElements: (NSArray *)anArray;
 @end
+
 @implementation ETXMLNodeChildEnumerator
-- (ETXMLNodeChildEnumerator*) initWithElements:(NSArray*)anArray
+
+- (ETXMLNodeChildEnumerator *) initWithElements: (NSArray *)anArray
 {
 	SUPERINIT;
 	elements = [anArray retain];
 	return self;
 }
-+ (ETXMLNodeChildEnumerator*) enumeratorWithElements:(NSArray*)anArray
+
++ (ETXMLNodeChildEnumerator *) enumeratorWithElements: (NSArray *)anArray
 {
 	return [[ETXMLNodeChildEnumerator alloc] initWithElements:anArray];
 }
-- (NSArray *)allObjects
+
+- (NSArray *) allObjects
 {
 	NSMutableArray * elementsLeft = AUTORELEASED(NSMutableArray);
 	ETXMLNode * nextObject;
@@ -64,7 +68,8 @@
 	}
 	return elementsLeft;
 }
-- (id)nextObject
+
+- (id) nextObject
 {
 	unsigned int count = [elements count];
 	while(index < count)
@@ -77,6 +82,7 @@
 	}
 	return nil;
 }
+
 @end
 
 @implementation ETXMLNode
@@ -89,31 +95,30 @@
 	return [super init];
 }
 
-+ (id) ETXMLNodeWithType:(NSString*)type
++ (id) ETXMLNodeWithType: (NSString *)type
 {
 	return [[[ETXMLNode alloc] initWithType:type]autorelease];
 }
 
-+ (id) ETXMLNodeWithType:(NSString*)type attributes:(NSDictionary*)_attributes
++ (id) ETXMLNodeWithType: (NSString *)type attributes: (NSDictionary *)_attributes
 {
 	return [[[ETXMLNode alloc] initWithType:type attributes:_attributes] autorelease];
 }
 
-- (id) initWithType:(NSString*)type
+- (id) initWithType: (NSString *)type
 {
 	return [self initWithType:type attributes:nil];
 }
 
-- (id) initWithType:(NSString*)type attributes:(NSDictionary*)_attributes
+- (id) initWithType: (NSString *)type attributes: (NSDictionary *)_attributes
 {
 	nodeType = [type retain];
 	attributes = [_attributes retain];
 	return [self init];
 }
 
-
 //Default implementation.  Returns parse control to parent at end of node.
-- (void)endElement:(NSString *)_Name
+- (void) endElement: (NSString *)_Name
 {
 /*	NSLog(@"Ending Element %@", _Name);*/
 	if([_Name isEqualToString:nodeType])
@@ -123,8 +128,8 @@
 	}
 }
 
-- (void)startElement:(NSString *)_Name
-		  attributes:(NSDictionary *)_attributes
+- (void) startElement: (NSString *)_Name
+           attributes: (NSDictionary *)_attributes
 {
 /*	NSLog(@"Starting element %@ with attributes:", _Name);
 	NSEnumerator * enumerator = [_attributes keyEnumerator];
@@ -159,12 +164,12 @@
 	[plainCDATA appendString:plainChars];
 }
 
-- (NSString*) type
+- (NSString *) type
 {
 	return nodeType;
 }
 
-- (NSString*) stringValueWithIndent:(int)indent
+- (NSString *) stringValueWithIndent:(int)indent
 {
 	//Open tag
 	NSMutableString * XML = [NSMutableString stringWithFormat:@"<%@",nodeType];
@@ -252,16 +257,16 @@
 }
 
 
-- (NSString*) stringValue
+- (NSString *) stringValue
 {
 	return [self stringValueWithIndent:0];
 }
-- (NSString*) unindentedStringValue
+- (NSString *) unindentedStringValue
 {
 	return [self stringValueWithIndent:-1];
 }
 
-- (void) addChild:(id)anElement
+- (void) addChild: (id)anElement
 {
 	if(![anElement isKindOfClass:[ETXMLNode class]])
 	{
@@ -293,7 +298,7 @@
 	[childrenWithName addObject:anElement];
 }
 
-- (void) addCData:(id)newCData
+- (void) addCData: (id)newCData
 {
 	if([newCData isKindOfClass:[NSString class]])
 	{
@@ -304,13 +309,14 @@
 		[self characters:[newCData stringValue]];
 	}
 }
+
 //TODO: Implement hash: and isEqual so that this set actually works...
-- (NSArray*) elements
+- (NSArray *) elements
 {
 	return elements;
 }
 
-- (NSSet*) getChildrenWithName:(NSString*)_name
+- (NSSet *) getChildrenWithName:(NSString *)_name
 {
 	return [childrenByName objectForKey:_name];
 }
@@ -320,29 +326,29 @@
 	return children;
 }
 
-- (NSEnumerator*) childEnumerator
+- (NSEnumerator *) childEnumerator
 {
 	return [ETXMLNodeChildEnumerator enumeratorWithElements:elements];
 }
 
 
-- (void) setParser:(id) XMLParser
+- (void) setParser: (id)XMLParser
 {
 	//Don't retain, since we can't release.
 	parser = XMLParser;
 }
 
-- (void) setParent:(id) newParent
+- (void) setParent: (id)newParent
 {
 	parent = newParent;
 }
 
-- (NSString*) get:(NSString*)attribute
+- (NSString *) get: (NSString *)attribute
 {
 	return (NSString*)[attributes objectForKey:attribute];
 }
 
-- (void) set:(NSString*)attribute to:(NSString*) value
+- (void) set: (NSString *)attribute to: (NSString *) value
 {
 	if(attributes == nil)
 	{
@@ -363,7 +369,7 @@
 	return plainCDATA;
 }
 
-- (void) setCData:(NSString*)newCData
+- (void) setCData: (NSString *)newCData
 {
 	[plainCDATA release];
 	plainCDATA = [newCData retain];
@@ -387,5 +393,6 @@
 	[childrenByName release];
 	[super dealloc];
 }
+
 @end
 
