@@ -107,20 +107,20 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  */
 #define INSERT(x,r) do {\
 	/* Wait for space in the buffer */\
-	while(ISFULL)\
+	while (ISFULL)\
 	{\
 		sched_yield();\
 	}\
 	invocations[MASK(producer)] = x;\
 	invocations[MASK(producer+1)] = r;\
 	__sync_fetch_and_add(&producer, 2);\
-	if(producer - consumer == 2)\
+	if (producer - consumer == 2)\
 	{\
 		pthread_mutex_lock(&mutex);\
 		pthread_cond_signal(&conditionVariable);\
 		pthread_mutex_unlock(&mutex);\
 	}\
-}while(0);
+} while(0);
 /**
  * Removing an element from the queue involves the following steps:
  *
@@ -133,53 +133,59 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * 3) Incrememt the consumer counter.
  */
 #define REMOVE(x,r) do {\
-	while(ISEMPTY)\
+	while (ISEMPTY)\
 	{\
 		pthread_mutex_lock(&mutex);\
-		if(ISEMPTY)\
+		if (ISEMPTY)\
 		{\
 			pthread_cond_wait(&conditionVariable, &mutex);\
 		}\
 		pthread_mutex_unlock(&mutex);\
-		if(terminate) { return; }\
+		if (terminate) { return; }\
 	}\
 	x = invocations[MASK(consumer)];\
 	r = invocations[MASK(consumer+1)];\
 	__sync_fetch_and_add(&consumer, 2);\
-}while(0);
+} while(0);
 
 @implementation ETThreadedObject
+
+/* Designated initializer */
 - (id) init
 {
 	pthread_cond_init(&conditionVariable, NULL);
 	pthread_mutex_init(&mutex, NULL);
 	return self;
 }
-- (id) initWithClass:(Class) aClass
+
+- (id) initWithClass: (Class)aClass
 {
-	if(nil == (self = [self init]))
+	if (nil == (self = [self init]))
 	{
 		return nil;
 	}
 	object = [[aClass alloc] init];
 	return self;
 }
-- (id) initWithObject:(id) anObject
+
+- (id) initWithObject: (id)anObject
 {
-	if(nil == (self = [self init]))
+	if (nil == (self = [self init]))
 	{
 		return nil;
 	}
 	object = [anObject retain];
 	return self;
 }
+
 - (void) dealloc
 {
 	/* Instruct worker thread to exit */
 	pthread_mutex_lock(&mutex);
 	terminate = YES;
+
 	/* Wait for worker thread to let us know which thread object belongs to it*/
-	while(thread == nil)
+	while (thread == nil)
 	{
 		pthread_cond_signal(&conditionVariable);
 		pthread_mutex_unlock(&mutex);
@@ -187,16 +193,19 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	}
 	pthread_cond_signal(&conditionVariable);
 	pthread_mutex_unlock(&mutex);
+
 	/* Wait for worker thread to terminate */
 	[thread waitForTermination];
 	[thread release];
+
 	/* Destroy synchronisation objects */
 	pthread_cond_destroy(&conditionVariable);
 	pthread_mutex_destroy(&mutex);
+
 	[super dealloc];
 }
 
-- (void) runloop:(id)sender
+- (void) runloop: (id)sender
 {
 	thread = [[ETThread currentThread] retain];
 	while (object)
@@ -204,17 +213,17 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 		/* Take the first invocation from the queue */
 		NSInvocation * anInvocation;
-		
-		ETThreadProxyReturn * retVal;
+
+		ETThreadProxyReturn *retVal;
 		REMOVE(anInvocation, retVal);
 		/*
-		if([[anInvocation methodSignature] methodReturnType][0] == '@')
+		if ([[anInvocation methodSignature] methodReturnType][0] == '@')
 		{
 			//TODO: Implement auto-boxing for non-object returns
 		}
 		*/
 		[anInvocation invokeWithTarget:object];
-		if(retVal != nil)
+		if (retVal != nil)
 		{
 			id realReturn;
 			[anInvocation getReturnValue:&realReturn];
@@ -233,7 +242,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	}
 }
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+- (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
 {
 	return [object methodSignatureForSelector:aSelector];
 }
@@ -243,17 +252,20 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	return proxy;
 }
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
+- (void) forwardInvocation: (NSInvocation *)anInvocation
 {
 	BOOL concreteType = NO;
 	int rc = [anInvocation retainCount];
-	if(![anInvocation argumentsRetained])
+
+	if (![anInvocation argumentsRetained])
 	{
 		[anInvocation retainArguments];
 	}
+
 	ETThreadProxyReturn * retVal = nil;
 	char returnType = [[anInvocation methodSignature] methodReturnType][0];
-	if(returnType == '@')
+
+	if (returnType == '@')
 	{
 		retVal = [[[ETThreadProxyReturn alloc] init] autorelease];
 		proxy = retVal;
@@ -266,7 +278,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 		[anInvocation setSelector:selector];
 	}
 	//Non-void, non-object, return
-	else if(returnType != 'v')
+	else if (returnType != 'v')
 	{
 		/*
 		 * This is a hack.. if the method returns a concrete type (eg not an
@@ -289,7 +301,8 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	}
 	[anInvocation retain];
 	INSERT(anInvocation, retVal);
-	if(concreteType)
+
+	if (concreteType)
 	{
 		while ([anInvocation retainCount] > rc) 
 		{
@@ -298,4 +311,5 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 		}
 	}
 }
+
 @end

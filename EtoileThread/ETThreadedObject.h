@@ -51,7 +51,8 @@
  * Instead, the [NSObject(Threaded)+threadedNew] method should be 
  * used.
  */
-@interface ETThreadedObject : NSProxy{
+@interface ETThreadedObject : NSProxy
+{
 	/**
 	 * Proxied object.
 	 */
@@ -71,18 +72,18 @@
 	unsigned long consumer;
 	id proxy;
 	BOOL terminate;
-	ETThread * thread;
+	ETThread *thread;
 }
 /**
  * Create a threaded instance of aClass
  */
-- (id) initWithClass:(Class) aClass;
+- (id) initWithClass: (Class)aClass;
 /**
  * Create a thread and run loop for anObject
  */
-- (id) initWithObject:(id) anObject;
+- (id) initWithObject: (id)anObject;
 /**
  * Method encapsulating the run loop.  Should not be called directly
  */
-- (void) runloop:(id)sender;
+- (void) runloop: (id)sender;
 @end

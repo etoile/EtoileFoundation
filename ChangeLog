@@ -1,5 +1,10 @@
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
 
+	* EtoileThread/*.[hm]: Made all the coding style consistent and conform to 
+	Etoile guidelines.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* EtoileThread/*.[hm]: Made all license notices consistent and pretty :-)
 
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>

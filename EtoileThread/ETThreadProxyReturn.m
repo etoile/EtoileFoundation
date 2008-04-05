@@ -34,6 +34,7 @@
 #import "ETThreadProxyReturn.h"
 
 @implementation ETThreadProxyReturn
+
 - (id) init
 {
 	object = nil;
@@ -50,7 +51,7 @@
 	[super dealloc];
 }
 
-- (void) setProxyObject:(id)anObject
+- (void) setProxyObject: (id)anObject
 {
 	pthread_mutex_lock(&mutex);
 	object = [anObject retain];
@@ -60,10 +61,10 @@
 
 - (id) value
 {
-	if(object == nil)
+	if (object == nil)
 	{
 		pthread_mutex_lock(&mutex);
-		if(nil == object)
+		if (nil == object)
 		{
 			pthread_cond_wait(&conditionVariable, &mutex);
 		}
@@ -71,26 +72,29 @@
 	}
 	return object;
 }
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+- (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
 {
-	//If we haven't yet got the object, then block until we have, otherwise do this quickly
-	if(object == nil)
+	/* If we haven't yet got the object, then block until we have, otherwise do 
+	   this quickly */
+	if (object == nil)
 	{
 		[self value];
 	}
 	return [object methodSignatureForSelector:aSelector];
 }
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
+- (void) forwardInvocation: (NSInvocation *)anInvocation
 {
-	if(nil == object)
+	if (nil == object)
 	{
 		[self value];
 	}
 	[anInvocation invokeWithTarget:object];
 }
+
 - (BOOL) isFuture
 {
 	return YES;
 }
+
 @end

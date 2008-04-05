@@ -38,7 +38,7 @@ struct ETThreadInitialiser
 	id object;
 	SEL selector;
 	id target;
-	ETThread * thread;
+	ETThread *thread;
 };
 
 static pthread_key_t threadObjectKey;
@@ -49,19 +49,23 @@ void * threadStart(void* initialiser)
 #ifdef GNUSTEP
 	GSRegisterCurrentThread ();
 #endif
-	struct ETThreadInitialiser * init = initialiser;
+	struct ETThreadInitialiser *init = initialiser;
 	id object = init->object;
 	id target = init->target;
 	SEL selector = init->selector;
-	ETThread * thread = init->thread;
+	ETThread *thread = init->thread;
+
 	free(init);
 	pthread_setspecific(threadObjectKey, thread);
 	thread->pool = [[NSAutoreleasePool alloc] init];
+
 	id result = [target performSelector:selector 
 				  		     withObject:object];
-	//NOTE: Not reached if exitWithValue: is called
+
+	// NOTE: Not reached if exitWithValue: is called
 	[thread->pool release];
 	[thread release];
+
 	return result;
 }
 
@@ -72,47 +76,52 @@ void * threadStart(void* initialiser)
 	pthread_key_create(&threadObjectKey, NULL);
 }
 
-+ (id) detachNewThreadSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anArgument
++ (id) detachNewThreadSelector: (SEL)aSelector 
+                      toTarget: (id)aTarget 
+                    withObject: (id)anArgument
 {
-	ETThread * thread = [[ETThread alloc] init];
-	if(thread == nil)
+	ETThread *thread = [[ETThread alloc] init];
+
+	if (thread == nil)
 	{
 		return nil;
 	}
-	struct ETThreadInitialiser * threadArgs = 
+
+	struct ETThreadInitialiser *threadArgs = 
 		malloc(sizeof(struct ETThreadInitialiser));
 	threadArgs->object = anArgument;
 	threadArgs->selector = aSelector;
 	threadArgs->thread = thread;
 	threadArgs->target = aTarget;
 	pthread_create(&thread->thread, NULL, threadStart, threadArgs);
+
 	return thread;
 }
 
-+ (ETThread*) currentThread
++ (ETThread *) currentThread
 {
-	return (ETThread*)pthread_getspecific(threadObjectKey);
+	return (ETThread *)pthread_getspecific(threadObjectKey);
 }
 
 - (id) waitForTermination
 {
-	void * retVal = nil;
+	void *retVal = nil;
 	pthread_join(thread, &retVal);
 	return (id)retVal;
 }
 
 - (BOOL) isCurrentThread
 {
-	if(pthread_equal(pthread_self(), thread) == 0)
+	if (pthread_equal(pthread_self(), thread) == 0)
 	{
 		return YES;
 	}
 	return NO;
 }
 
-- (void) exitWithValue:(id)aValue
+- (void) exitWithValue: (id)aValue
 {
-	if([self isCurrentThread])
+	if ([self isCurrentThread])
 	{
 		[pool release];
 		[self release];
@@ -130,9 +139,10 @@ void * threadStart(void* initialiser)
 {
 	/* If no one has a reference to this object, don't keep the return value
 	 * around */
-	//NOTE: It might be worth catching the return value and releasing it to
-	//prevent leaking.
+	// NOTE: It might be worth catching the return value and releasing it to
+	// prevent leaking.
 	pthread_detach(thread);
 	[super dealloc];
 }
+
 @end

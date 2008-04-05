@@ -31,7 +31,6 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Foundation/Foundation.h>
 #include <pthread.h>
 
@@ -40,10 +39,11 @@
  * functionality.  This extends NSThread by allowing a thread to wait
  * for another to terminate, and for an exit value to be returned.
  */
-@interface ETThread : NSObject {
+@interface ETThread : NSObject 
+{
 	pthread_t thread;
 @public
-	NSAutoreleasePool * pool;
+	NSAutoreleasePool *pool;
 }
 /**
  * Similar to NSThread's method of the same name.  Creates a new thread and
@@ -52,12 +52,14 @@
  * frees it afterwards.  This method can thus be used on any side-effect-free
  * method, without modification.
  */
-+ (id) detachNewThreadSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anArgument;
++ (id) detachNewThreadSelector: (SEL)aSelector 
+                      toTarget: (id)aTarget 
+                    withObject: (id)anArgument;
 /**
  * Returns an ETThread representing the current thread.  The behaviour for this
  * method is undefined if called from a thread not created by an ETThread.
  */
-+ (ETThread*) currentThread;
++ (ETThread *) currentThread;
 /**
  * Blocks execution in the caller until the thread exits.  If the method used 
  * to create the thread returns a value, or the thread is terminated with
@@ -73,7 +75,7 @@
  * This method can only be called from the thread represented by the receiver
  * and will silently fail otherwise.  
  */
-- (void) exitWithValue:(id)aValue;
+- (void) exitWithValue: (id)aValue;
 /**
  * Causes immediate termination of the receiver's thread.
  */
