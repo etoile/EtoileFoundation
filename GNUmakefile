@@ -2,7 +2,7 @@ PACKAGE_NAME = EtoileFoundation
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
-SUBPROJECTS = EtoileThread
+SUBPROJECTS = EtoileThread EtoileXML
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
     kqueue_supported ?= yes
@@ -44,7 +44,7 @@ endif
 # and the uuid code is directly part of libc.
 
 # -lm for FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm -lEtoileThread \
+LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 EtoileFoundation_SUBPROJECTS += Source

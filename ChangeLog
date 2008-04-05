@@ -1,5 +1,30 @@
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
 
+	* EtoileXML: Added by copying ETXML from Services/Jabber.
+	* EtoileXML/GNUmakefile: Modified to compile as a framework, reference
+	library symbols explicitly and integrate well in the build process. Also 
+	cleaned a bit.
+	* EtoileXML/Macros.h: Copied from Services/Jabber/ to make EtoileXML 
+	compiles. Should probably be cleaned or removed at later point.
+	* GNUmakefile: Updated to handle EtoileXML as a subframework.
+	* EtoileThread/GNUmakefile: Modified to reference library symbols 
+	explicitly.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETUUID.h:
+	* Source/ETUUID.m:
+	Added by copying COUUID.h and COUUID.m from CoreObject.
+	* GNUmakefile.postamble:
+	Added to handle linking uuid_dce.h into ./EtoileFoundation on build.
+	* Headers/EtoileFoundation.h:
+	* Source/GNUmakefile:
+	Updated.
+	* GNUmakefile: Declared libuuid_embedded variable that specifies whether 
+	UUID (libossp-uuid) should be compiled and linked in a static way.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/ETUUID.h:
 	* Source/ETUUID.m:
 	Added by copying COUUID.h and COUUID.m from CoreObject.
