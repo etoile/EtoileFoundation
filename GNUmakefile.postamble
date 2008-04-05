@@ -1,0 +1,42 @@
+# Make a temporary directory in order to have library/bundle compiled
+# uuid_dce.h isn't located in ./Headers unlike other headers
+
+before-all::
+	$(ECHO_NOTHING) \
+	if [ -d "$(PROJECT_DIR)/EtoileFoundation" ]; then \
+	  rm -rf $(PROJECT_DIR)/EtoileFoundation; \
+	  echo " Removed previous EtoileFoundation flat headers directory"; \
+	fi; \
+	mkdir $(PROJECT_DIR)/EtoileFoundation; \
+	$(LN_S) $(PROJECT_DIR)/Headers/*.h $(PROJECT_DIR)/EtoileFoundation/; \
+	$(LN_S) $(PROJECT_DIR)/UUID/*.h $(PROJECT_DIR)/EtoileFoundation/; \
+	$(END_ECHO); \
+	echo " Created EtoileFoundation flat headers directory"; \
+	echo "";
+
+after-install::
+	$(ECHO_NOTHING) \
+	if [ -d "$(PROJECT_DIR)/EtoileFoundation" ]; then \
+	  rm -rf $(PROJECT_DIR)/EtoileFoundation; \
+	  echo " Removed EtoileFoundation flat headers directory"; \
+	  echo ""; \
+	fi \
+	$(END_ECHO);
+
+after-clean::
+	$(ECHO_NOTHING) \
+	if [ -d "$(PROJECT_DIR)/EtoileFoundation" ]; then \
+	  rm -rf $(PROJECT_DIR)/EtoileFoundation; \
+	  echo " Removed old EtoileFoundation flat headers directory"; \
+	  echo ""; \
+	fi \
+	$(END_ECHO);
+
+after-distclean::
+	$(ECHO_NOTHING) \
+	if [ -d "$(PROJECT_DIR)/EtoileFoundation" ]; then \
+	  rm -rf $(PROJECT_DIR)/EtoileFoundation; \
+	  echo " Removed old EtoileFoundation flat headers directory"; \
+	  echo ""; \
+	fi \
+	$(END_ECHO);

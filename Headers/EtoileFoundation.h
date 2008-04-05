@@ -59,6 +59,7 @@
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETFilter.h>
 #import <EtoileFoundation/ETRendering.h>
+#import <EtoileFoundation/ETUUID.h>
 
 /* EtoileFoundation subframeworks */
 

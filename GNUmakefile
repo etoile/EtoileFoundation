@@ -4,39 +4,54 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 SUBPROJECTS = EtoileThread
 
-#
-# kqueue support check
-#
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
-
     kqueue_supported ?= yes
-
 endif
 
 ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
-
     kqueue_supported ?= yes
+    libuuid_embedded ?= yes
+endif
 
+ifneq ($(findstring linux, $(GNUSTEP_HOST_OS)),)
+    libuuid_embedded ?= yes
 endif
 
 ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
-
     kqueue_supported ?= yes
-
 endif
 
 kqueue_supported ?= no
+libuuid_embedded ?= no
 
 FRAMEWORK_NAME = EtoileFoundation
 VERSION = 0.1
+
+ifeq ($(libuuid_embedded), yes)
+EtoileFoundation_SUBPROJECTS = UUID
+endif
+
+# Linux distributions like Ubuntu doesn't install uuid_dce.h with 
+# libosspuuid-dev neither provide a standalone package like libuuid-dce-devel 
+# (RPM) on Fedora. When these DCE-compatible header will be widely available we 
+# could get rid of our embedded libosspuuid. The following flags returned by 
+# uuid-config will have to be used then:
+#
+# EtoileFoundation_LIBRARY_DIRS += $(shell uuid-config --ldflags)
+# LIBRARIES_DEPEND_UPON += $(shell uuid-config --libs)
+#
+# On plaftorms like FreeBSD, DragonFlyBSD and NetBSD, uuid.h is DCE-compliant 
+# and the uuid code is directly part of libc.
 
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileThread \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
-EtoileFoundation_SUBPROJECTS = Source
+EtoileFoundation_SUBPROJECTS += Source
 
-EtoileFoundation_HEADER_FILES_DIR = Headers
+# We import external headers like uuid_dce.h by collecting all headers in a 
+# common directory 'EtoileFoundation' with before-all:: (see GNUmakefile.postamble)
+EtoileFoundation_HEADER_FILES_DIR = ./EtoileFoundation
 
 EtoileFoundation_HEADER_FILES = \
 	EtoileFoundation.h \
@@ -60,6 +75,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETPrototype.h \
 	ETRendering.h \
 	ETTransform.h \
+	ETUUID.h \
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
 	NSObject+Etoile.h \
@@ -68,13 +84,15 @@ EtoileFoundation_HEADER_FILES = \
 	NSURL+Etoile.h
 
 ifeq ($(kqueue_supported), yes)
+EtoileFoundation_HEADER_FILES += UKKQueue.h
+endif
 
-EtoileFoundation_HEADER_FILES += \
-        UKKQueue.h
-
+ifeq ($(libuuid_embedded), yes)
+EtoileFoundation_HEADER_FILES += uuid_dce.h
 endif
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
 -include etoile.make
+-include GNUmakefile.postamble
 include $(GNUSTEP_MAKEFILES)/framework.make

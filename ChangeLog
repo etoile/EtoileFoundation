@@ -1,3 +1,16 @@
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETUUID.h:
+	* Source/ETUUID.m:
+	Added by copying COUUID.h and COUUID.m from CoreObject.
+	* GNUmakefile.postamble:
+	Added to handle linking uuid_dce.h into ./EtoileFoundation on build.
+	* Headers/EtoileFoundation.h:
+	* Source/GNUmakefile:
+	Updated.
+	* GNUmakefile: Declared libuuid_embedded variable that specifies whether 
+	UUID (libossp-uuid) should be compiled and linked in a static way.
+
 2008-04-03  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/EtoileFoundation.h: Added a license notice and import statements 

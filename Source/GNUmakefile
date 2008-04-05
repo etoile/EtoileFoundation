@@ -2,7 +2,9 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 SUBPROJECT_NAME = libEtoileFoundation
 
-libEtoileFoundation_OBJCFLAGS += -std=c99
+# At a future point, we could use libosspuuid (see ../GNUmakefile):
+#libEtoileFoundation_INCLUDE_DIRS += $(shell uuid-config --cflags)
+libEtoileFoundation_OBJCFLAGS += -std=c99 
 libEtoileFoundation_CFLAGS += -std=c99
 
 #
@@ -24,6 +26,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETPropertyValueCoding.m \
 	ETPrototype.m \
 	ETTransform.m \
+	ETUUID.m \
 	NSIndexPath+Etoile.m \
 	NSIndexSet+Etoile.m \
 	NSObject+Etoile.m \
