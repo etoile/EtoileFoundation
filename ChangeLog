@@ -1,5 +1,10 @@
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
 
+	* COPYING: Updated copyright holders and replaced outdated 
+	EtoileExtensionsKit mentions by EtoileFoundation.
+
+2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/EtoileFoundation.h: Included EtoileXML headers.
 
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
