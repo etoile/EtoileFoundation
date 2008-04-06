@@ -66,18 +66,18 @@
 	parent = newParent;
 }
 
-- (void)characters: (NSString *)_chars
+- (void) characters: (NSString *)_chars
 {
 	//Ignore cdata
 }
 
-- (void)startElement: (NSString *)_Name
-          attributes: (NSDictionary*)_attributes
+- (void) startElement: (NSString *)_Name
+           attributes: (NSDictionary*)_attributes
 {
 	depth++;
 }
 
-- (void)e ndElement: (NSString *)_Name
+- (void) endElement: (NSString *)_Name
 {
 	depth--;
 	if(depth == 0)

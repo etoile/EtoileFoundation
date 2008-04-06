@@ -1,5 +1,10 @@
 2008-04-06  Quentin Mathe <qmathe@club-internet.fr>
 
+	* EtoileXML/ETXMLNullHandler.m: Fixed a small typo that prevented the 
+	compilation and surely introduced by recent reformatting of the code.
+
+2008-04-06  Quentin Mathe <qmathe@club-internet.fr>
+
 	* EtoileXML/COPYING: Added.
 
 2008-04-05  Quentin Mathe <qmathe@club-internet.fr>
