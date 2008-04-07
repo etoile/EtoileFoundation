@@ -1,5 +1,10 @@
 2008-04-07  Quentin Mathe <qmathe@club-internet.fr>
 
+	* EtoileXML/GNUmakefile: Fixed to deploy NSAttributedString+HTML.h as 
+	expected.
+
+2008-04-07  Quentin Mathe <qmathe@club-internet.fr>
+
 	* GNUmakefile.postamble: Fixed small syntax issues that make the compilation  
 	fails time to time.
 	* UUID/GNUmakefile: Modified to pass --with-dce flag for ./configure to 

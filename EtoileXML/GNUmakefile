@@ -27,7 +27,8 @@ $(FRAMEWORK_NAME)_HEADER_FILES = \
 	ETXMLString.h \
 	ETXMLNullHandler.h \
 	ETXMLXHTML-IMParser.h \
-	ETXMLParserDelegate.h
+	ETXMLParserDelegate.h \
+	NSAttributedString+HTML.h
 
 $(DOCUMENT_NAME)_AGSDOC_FILES = $($(FRAMEWORK_NAME)_HEADER_FILES)
 
