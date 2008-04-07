@@ -11,7 +11,7 @@ before-all::
 		echo "Configured"; \
 	else \
 		echo "Configuring ..."; \
-		./configure; \
+		./configure --with-dce; \
 	fi; \
 	\
 	if [ ! -f config.h ]; then \

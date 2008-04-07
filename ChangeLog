@@ -1,3 +1,11 @@
+2008-04-07  Quentin Mathe <qmathe@club-internet.fr>
+
+	* GNUmakefile.postamble: Fixed small syntax issues that make the compilation  
+	fails time to time.
+	* UUID/GNUmakefile: Modified to pass --with-dce flag for ./configure to 
+	eliminate undefined symbol references about functions declared in uuid_dce.h 
+	when launching a program that links EtoileFoundation.
+
 2008-04-06  Quentin Mathe <qmathe@club-internet.fr>
 
 	* EtoileXML/ETXMLNullHandler.m: Fixed a small typo that prevented the 
