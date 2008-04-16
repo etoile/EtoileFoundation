@@ -13,6 +13,8 @@ ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
     libuuid_embedded ?= yes
 endif
 
+libuuid_embedded ?= yes
+
 ifneq ($(findstring linux, $(GNUSTEP_HOST_OS)),)
     libuuid_embedded ?= yes
 endif

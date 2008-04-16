@@ -7,7 +7,7 @@
 */
 
 #import <Foundation/Foundation.h>
-#if defined(__linux__) || defined(__APPLE__)
+#if 1 || defined(__linux__) || defined(__APPLE__)
 #import <EtoileFoundation/uuid_dce.h>
 #else /* FreeBSD, DragonFlyBSD, NetBSD */
 #import <uuid.h>

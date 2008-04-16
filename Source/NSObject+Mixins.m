@@ -87,7 +87,9 @@ id test(id self, SEL cmd)
 {
 	return nil;
 }
+//Objective-C runtime library private function
 void __objc_update_dispatch_table_for_class(Class);
+
 static inline void addMethods(Class aClass, struct objc_method_list * methods)
 {
 	struct objc_method_list * newMethods = malloc(
@@ -95,8 +97,8 @@ static inline void addMethods(Class aClass, struct objc_method_list * methods)
 			+
 			(methods->method_count * sizeof(struct objc_method)));
 	int usedMethods = 0;
-	/* We need to copy the entire method list, because otherwise replacing methods in
-	 * it will cause us problems later. */
+	/* We need to copy the entire method list, because otherwise replacing
+	 * methods in it will cause us problems later. */
 	for(unsigned int i=0 ; i<methods->method_count ; i++)
 	{
 		Method_t mixinMethod = &methods->method_list[i];
@@ -138,31 +140,77 @@ static inline void addMethods(Class aClass, struct objc_method_list * methods)
 	}
 }
 
-@implementation NSObject (Mixins)
-+ (void) mixInClass:(Class)aClass
+static void checkSafeComposition(Class class, Class aClass)
 {
-	Class class = (Class)self;
 	/* Check that the mixin will never try to access ivars from after the end of the 
 	 * object */
 	if(class->instance_size < aClass->instance_size)
 	{
-		//TODO: Tidy these exceptions up a bit.
-		[[NSException exceptionWithName:@"MixinTooBigException"
-								reason:[NSString stringWithFormat:@"Class %@ is smaller than mixin %@.  Instance variables access from mixin is unsafe.", self, aClass]
-							  userInfo:nil] raise];
+		[NSException raise:@"MixinTooBigException"
+		            format:@"Class %@ is smaller than composed class %@.  Instance variables access from mixin is unsafe.", class, aClass];
 	}
 	if(!iVarTypesMatch(class, aClass))
 	{
-		[[NSException exceptionWithName:@"MixinIVarTypeMismatchException"
-								reason:[NSString stringWithFormat:@"Instance variables of class %@ do not match those of mixin %@.  Instance variables access from mixin is unsafe.", self, aClass]
-							  userInfo:nil] raise];
+		[NSException raise:@"MixinIVarTypeMismatchException"
+		            format:@"Instance variables of class %@ do not match those of composed class %@.  Instance variables access from composed class is unsafe.", class, aClass];
 	}
 	if(!methodTypesMatch(class, aClass))
 	{
-		[[NSException exceptionWithName:@"MixinMethodTypeMismatchException"
-								reason:[NSString stringWithFormat:@"Method types of class %@ do not match those of mixin %@.", self, aClass]
-							  userInfo:nil] raise];
+		[NSException raise:@"MixinMethodTypeMismatchException"
+					format:@"Method types of class %@ do not match those of mixin %@.", class, aClass];
 	}
+}
+
+@implementation NSObject (Mixins)
+
++ (void) mixInClass:(Class)aClass
+{
+	Class class = (Class)self;
+	checkSafeComposition(class, aClass);
+	Class newSuper = calloc(1,sizeof(struct objc_class));
+	/* Move ivar and method definitions to the new superclass */
+	newSuper->ivars = class->ivars; class->ivars = NULL;
+	newSuper->methods = class->methods; class->methods = aClass->methods;
+	newSuper->instance_size = class->instance_size;
+	/* Insert into the class hierarchy */
+	newSuper->super_class = class->super_class;
+	class->super_class = newSuper;
+	newSuper->dtable = sarray_new (200, 0);
+	__objc_update_dispatch_table_for_class(newSuper);
+	__objc_update_dispatch_table_for_class(class);
+}
++ (void) applyTraitsFromClass:(Class)aClass
+{
+	Class class = (Class)self;
+	checkSafeComposition(class, aClass);
+	struct objc_method_list * methods = aClass->methods;
+	while(methods != NULL)
+	{
+		// Check that the method doesn't exist in this class
+		for(unsigned int i=0 ; i<methods->method_count ; i++)
+		{
+			Method_t method = &methods->method_list[i];
+			if(findMethod((char*)sel_get_name(method->method_name), class, NO) != NULL)
+			{
+				[NSException raise:@"TraitMethodExistsException"
+							format:@"Methods class %@ redefined in %@.", self, aClass];
+			}
+		}
+		methods = methods->method_next;
+	}
+	methods = aClass->methods;
+	/* Add all of the methods from the class to the mixin */
+	while(methods != NULL)
+	{
+		addMethods(class, methods);
+		methods = methods->method_next;
+	}
+	__objc_update_dispatch_table_for_class(class);
+}
++ (void) flattenedMixinFromClass:(Class)aClass
+{
+	Class class = (Class)self;
+	checkSafeComposition(class, aClass);
 	struct objc_method_list * methods = aClass->methods;
 	/* Add all of the methods from the class to the mixin */
 	while(methods != NULL)
