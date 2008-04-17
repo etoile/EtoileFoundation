@@ -14,7 +14,7 @@
 #endif
 
 
-@interface COUUID : NSObject 
+@interface ETUUID : NSObject 
 {
 	uuid_t uuid;
 }
@@ -31,9 +31,9 @@
 - (uuid_t*) uuid;
 @end
 
-#define COUUIDSize (36 * sizeof(char))
+#define ETUUIDSize (36 * sizeof(char))
 
-@interface NSString (COUUID)
+@interface NSString (ETUUID)
 
 + (NSString *) UUIDString;
 @end

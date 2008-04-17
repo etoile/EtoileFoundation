@@ -1,3 +1,9 @@
+2008-04-17  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETUUID.h:
+	* Source/ETUUID.m: 
+	Renamed COUUID to ETUUID, I forgot to do it previously.
+
 2008-04-07  Quentin Mathe <qmathe@club-internet.fr>
 
 	* EtoileXML/GNUmakefile: Fixed to deploy NSAttributedString+HTML.h as 

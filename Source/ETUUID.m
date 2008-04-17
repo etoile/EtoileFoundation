@@ -8,7 +8,7 @@
 
 #import "ETUUID.h"
 
-@implementation COUUID
+@implementation ETUUID
 - (id) init
 {
 	if(nil == (self = [super init])) { return nil; }
@@ -69,10 +69,10 @@
 @end
 
 
-@implementation NSString (COUUID)
+@implementation NSString (ETUUID)
 + (NSString *) UUIDString
 {
-	COUUID * uuid = [[COUUID alloc] init];
+	ETUUID * uuid = [[ETUUID alloc] init];
 	NSString * str = [uuid stringValue];
 	[uuid release];
 	return str;
