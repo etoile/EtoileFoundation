@@ -39,7 +39,7 @@
 	}
 	return self;
 }
-- (BOOL) isEqualTo:(id)anObject
+- (BOOL) isEqual:(id)anObject
 {
 	if(![anObject isKindOfClass:[self class]])
 	{

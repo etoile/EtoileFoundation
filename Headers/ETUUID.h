@@ -26,7 +26,7 @@
  * Initialize the UUID object from a string representation.
  */
 - (id) initWithString:(NSString*)aString;
-- (BOOL) isEqualTo:(id)anObject;
+- (BOOL) isEqual:(id)anObject;
 - (NSString*) stringValue;
 - (uuid_t*) uuid;
 @end
