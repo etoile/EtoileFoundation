@@ -18,22 +18,23 @@
 {
 	uuid_t uuid;
 }
+
 /**
  * Initialize the UUID object with a 128-bit binary value
  */
-- (id) initWithUUID:(uuid_t*)aUUID;
+- (id) initWithUUID: (uuid_t *)aUUID;
 /**
  * Initialize the UUID object from a string representation.
  */
-- (id) initWithString:(NSString*)aString;
-- (BOOL) isEqual:(id)anObject;
-- (NSString*) stringValue;
-- (uuid_t*) uuid;
+- (id) initWithString: (NSString *)aString;
+- (BOOL) isEqual: (id)anObject;
+- (NSString *) stringValue;
+- (uuid_t *) uuid;
+
 @end
 
 #define ETUUIDSize (36 * sizeof(char))
 
 @interface NSString (ETUUID)
-
 + (NSString *) UUIDString;
 @end

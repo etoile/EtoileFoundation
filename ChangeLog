@@ -2,6 +2,13 @@
 
 	* Headers/ETUUID.h:
 	* Source/ETUUID.m: 
+	Made conform to Etoile coding style guidelines and modified to use SUPERINIT 
+	macro.
+
+2008-04-19  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETUUID.h:
+	* Source/ETUUID.m: 
 	(-isEqual:): Renamed -isEqualTo: that is not the standard equality test 
 	method but an AppleScript extension.
 
