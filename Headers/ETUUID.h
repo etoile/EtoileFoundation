@@ -13,11 +13,13 @@
 #import <uuid.h>
 #endif
 
-
+/** ETUUID does not have a designated initializer. */
 @interface ETUUID : NSObject 
 {
 	uuid_t uuid;
 }
+
++ (id) UUID;
 
 /**
  * Initialize the UUID object with a 128-bit binary value
@@ -29,7 +31,7 @@
 - (id) initWithString: (NSString *)aString;
 - (BOOL) isEqual: (id)anObject;
 - (NSString *) stringValue;
-- (uuid_t *) uuid;
+- (uuid_t *) UUIDValue;
 
 @end
 

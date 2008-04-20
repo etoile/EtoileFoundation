@@ -1,5 +1,15 @@
 2008-04-19  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Headers/ETUUID.h:
+	* Source/ETUUID.m: 
+	Replaced -release use by the RELEASE macro to be inline with the rest of 
+	the framework code.
+	(+UUID): New factory method.
+	(-UUIDValue): Renamed -UUID to make clear the method returns a C value and 
+	the distinction with -UUID that core objects implement.
+
+2008-04-19  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/NSInvocation+Etoile.h:
 	* Source/NSInvocation+Etoile.m:
 	Added.

@@ -12,6 +12,11 @@
 
 @implementation ETUUID
 
++ (id) UUID
+{
+	return AUTORELEASE([[ETUUID alloc] init]);
+}
+
 - (id) init
 {
 	SUPERINIT
@@ -22,7 +27,7 @@
 
 	if (status != uuid_s_ok)
 	{
-		[self release];
+		RELEASE(self);
 		return nil;
 	}
 
@@ -48,7 +53,7 @@
 
 	if (status != uuid_s_ok)
 	{
-		[self release];
+		RELEASE(self);
 		return nil;
 	}
 
@@ -64,7 +69,7 @@
 
 	int status;
 
-	uuid_t *u2 = [anObject uuid];
+	uuid_t *u2 = [anObject UUIDValue];
 
 	return (uuid_compare(&uuid, u2, &status) == 0);
 }
@@ -86,7 +91,7 @@
 	return u;
 }
 
-- (uuid_t *) uuid
+- (uuid_t *) UUIDValue
 {
 	return &uuid;
 }
@@ -101,7 +106,7 @@
 	ETUUID *uuid = [[ETUUID alloc] init];
 	NSString *str = [uuid stringValue];
 
-	[uuid release];
+	RELEASE(uuid);
 	return str;
 }
 
