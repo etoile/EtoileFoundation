@@ -38,6 +38,7 @@
 #import <EtoileFoundation/ETCArray.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
 #import <EtoileFoundation/Macros.h>
+#import <EtoileFoundation/NSFileManager+TempFile.h>
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
 #import <EtoileFoundation/OSBundleExtensionLoader.h>
 #import <EtoileFoundation/UKFileWatcher.h>
@@ -50,6 +51,7 @@
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSIndexSet+Etoile.h>
 #import <EtoileFoundation/NSIndexPath+Etoile.h>
+#import <EtoileFoundation/NSInvocation+Etoile.h>
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
 #import <EtoileFoundation/ETCollection.h>

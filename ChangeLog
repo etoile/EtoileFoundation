@@ -1,5 +1,17 @@
 2008-04-19  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Headers/NSInvocation+Etoile.h:
+	* Source/NSInvocation+Etoile.m:
+	Added.
+	* Headers/EtoileFoundation.h:
+	* GNUmakefile: 
+	* Source/GNUmakefile: 
+	Updated and reincluded NSFileManager+NameForTempFile as deprecated because 
+	various modules relies on it presently and have to be modified.
+	* Headers/NSFileManager+NameForTempFile.h: Added a deprecation warning.
+
+2008-04-19  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/ETUUID.h:
 	* Source/ETUUID.m: 
 	Made conform to Etoile coding style guidelines and modified to use SUPERINIT 

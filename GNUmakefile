@@ -13,8 +13,6 @@ ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
     libuuid_embedded ?= yes
 endif
 
-libuuid_embedded ?= yes
-
 ifneq ($(findstring linux, $(GNUSTEP_HOST_OS)),)
     libuuid_embedded ?= yes
 endif
@@ -23,8 +21,9 @@ ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
     kqueue_supported ?= yes
 endif
 
-kqueue_supported ?= no
-libuuid_embedded ?= no
+export kqueue_supported ?= no
+export libuuid_embedded ?= no
+export build_deprecated ?= yes
 
 FRAMEWORK_NAME = EtoileFoundation
 VERSION = 0.1
@@ -80,10 +79,15 @@ EtoileFoundation_HEADER_FILES = \
 	ETUUID.h \
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
+	NSInvocation+Etoile.h \
 	NSObject+Etoile.h \
 	NSObject+Model.h \
 	NSString+Etoile.h \
 	NSURL+Etoile.h
+
+ifeq ($(build_deprecated), yes)
+EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
+endif
 
 ifeq ($(kqueue_supported), yes)
 EtoileFoundation_HEADER_FILES += UKKQueue.h

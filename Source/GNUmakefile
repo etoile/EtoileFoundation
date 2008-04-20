@@ -29,6 +29,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETUUID.m \
 	NSIndexPath+Etoile.m \
 	NSIndexSet+Etoile.m \
+	NSInvocation+Etoile.m \
 	NSObject+Etoile.m \
 	NSObject+Model.m \
 	NSString+Etoile.m \
@@ -36,6 +37,10 @@ libEtoileFoundation_OBJC_FILES = \
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
+
+ifeq ($(build_deprecated), yes)
+libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
+endif
 
 ifeq ($(kqueue_supported), yes)
 
