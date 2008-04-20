@@ -20,6 +20,8 @@
 
 #import <Foundation/Foundation.h>
 
+// WARNING: Deprecated API, update your code to use the replacement API
+// NSFileManager+Etoile.
 
 // -----------------------------------------------------------------------------
 //  Categories:
