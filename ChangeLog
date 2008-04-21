@@ -1,3 +1,7 @@
+2008-04-20  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Source/TestUUID.m: Added by moving it out of CoreObject.
+
 2008-04-19  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/ETUUID.h:
