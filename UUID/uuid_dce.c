@@ -231,7 +231,6 @@ void uuid_dce_to_string(uuid_dce_t *uuid_dce, char **str, int *status)
 {
     uuid_t *uuid = NULL;
     size_t len;
-    void *vp;
 
     /* initialize status */
     if (status != NULL)
@@ -246,9 +245,8 @@ void uuid_dce_to_string(uuid_dce_t *uuid_dce, char **str, int *status)
         LEAVE;
     if (uuid_import(uuid, UUID_FMT_BIN, uuid_dce, UUID_LEN_BIN) != UUID_RC_OK)
         LEAVE;
-    vp  = str;
     len = UUID_LEN_STR;
-    if (uuid_export(uuid, UUID_FMT_STR, &vp, &len) != UUID_RC_OK)
+    if (uuid_export(uuid, UUID_FMT_STR, (void *)str, &len) != UUID_RC_OK)
         LEAVE;
 
     /* indicate successful operation */

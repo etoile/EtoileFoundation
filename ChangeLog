@@ -1,3 +1,17 @@
+2008-04-21  Quentin Mathe <qmathe@club-internet.fr>
+
+	Refactored UUID tests. All tests pass. 
+	* UUID/uuid_dce.c (uuid_dce_to_string): Fixed str parameter wronly passed 
+	byref to uuid_export().
+	* Source/ETUUID.m:
+	Polished the code a bit.
+	(-isEqual:): Modified to use uuid_equal() instead of uuid_compare().
+	* Source/TestUUID.m: Extended to test the new ETUUID class and the 
+	DCE-compatible API.
+	* Source/GNUmakefile:
+	* GNUmakefile:
+	Modified to support generating a test bundle.
+
 2008-04-20  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/TestUUID.m: Added by moving it out of CoreObject.

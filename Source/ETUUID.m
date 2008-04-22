@@ -68,19 +68,24 @@
 	}
 
 	int status;
-
 	uuid_t *u2 = [anObject UUIDValue];
+	int result = uuid_equal(&uuid, u2, &status);
 
-	return (uuid_compare(&uuid, u2, &status) == 0);
+	if (status != uuid_s_ok)
+	{
+		return NO;
+	}
+
+	return (result != 0);
 }
 
 - (NSString *) stringValue
 {
-	char *str;
+	char *str = NULL;
 	int status;
 
-	uuid_to_string(&uuid, &str, &status);
-	if(status != uuid_s_ok)
+	uuid_dce_to_string(&uuid, &str, &status);
+	if (status != uuid_s_ok)
 	{
 		return nil;
 	}

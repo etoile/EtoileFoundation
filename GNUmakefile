@@ -2,7 +2,9 @@ PACKAGE_NAME = EtoileFoundation
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
+ifneq ($(test), yes)
 SUBPROJECTS = EtoileThread EtoileXML
+endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
     kqueue_supported ?= yes
@@ -25,7 +27,12 @@ export kqueue_supported ?= no
 export libuuid_embedded ?= no
 export build_deprecated ?= yes
 
+ifeq ($(test), yes)
+BUNDLE_NAME = EtoileFoundation
+else
 FRAMEWORK_NAME = EtoileFoundation
+endif
+
 VERSION = 0.1
 
 ifeq ($(libuuid_embedded), yes)
@@ -47,6 +54,10 @@ endif
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
+
+ifeq ($(test), yes)
+EtoileFoundation_LDFLAGS += -lUnitKit
+endif
 
 EtoileFoundation_SUBPROJECTS += Source
 
@@ -101,4 +112,8 @@ include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
 -include etoile.make
 -include GNUmakefile.postamble
+ifeq ($(test), yes)
+include $(GNUSTEP_MAKEFILES)/bundle.make
+else
 include $(GNUSTEP_MAKEFILES)/framework.make
+endif

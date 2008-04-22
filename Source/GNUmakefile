@@ -43,10 +43,11 @@ libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
 ifeq ($(kqueue_supported), yes)
+libEtoileFoundation_OBJC_FILES += UKKQueue.m
+endif
 
-libEtoileFoundation_OBJC_FILES += \
-	UKKQueue.m
-
+ifeq ($(test), yes)
+libEtoileFoundation_OBJC_FILES += TestUUID.m
 endif
 
 -include GNUmakefile.preamble
