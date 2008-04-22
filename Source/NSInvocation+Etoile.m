@@ -58,6 +58,7 @@
 	int i = 2;
 
 	[inv setTarget: target];
+	[inv setSelector: selector];
 	FOREACHI(args, object)
 	{
 		[inv setArgument: &object atIndex: i];
