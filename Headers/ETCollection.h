@@ -54,7 +54,7 @@
 	such, content may hold one or no objects (empty collection).
 	When adopted, this method must never return nil. */
 - (id) content;
-/** Returns the content as an NSArray-based collection of objects. 
+/** Returns the content as a new NSArray-based collection of objects. 
 	When adopted, this method must never return nil, you should generally 
 	return an empty NSArray instead. */
 - (NSArray *) contentArray;

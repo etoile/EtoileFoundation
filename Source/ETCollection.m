@@ -78,7 +78,7 @@
 
 - (NSArray *) contentArray
 {
-	return self;
+	return [NSArray arrayWithArray: self];
 }
 
 - (NSString *) stringValue

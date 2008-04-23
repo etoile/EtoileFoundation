@@ -1,3 +1,10 @@
+2008-04-23  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETCollection.h:
+	* Source/ETCollection.m:
+	(-[NSArray contentArray]): Modified to return a new instance that can be 
+	mutated without worrying about the state of the original one.
+
 2008-04-22  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/NSInvocation+Etoile.m: Fixed missing selector in built invocation. 
