@@ -46,9 +46,9 @@
 }
 
 /** <init /> Returns a new filter by chaining filters passed in parameter. */
-- (id) initWithFilters: (NSArray *)filters
+- (id) initWithCollection: (id <ETCollection>)filters
 {
-	return [self initWithObjects: filters];
+	return [super initWithCollection: filters];
 }
 
 /** Returns the filter following the receiver in the filter chain. */

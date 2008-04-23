@@ -49,7 +49,7 @@
 /* Initialization */
 
 - (id) initWithObject: (ETObjectChain *)object;
-- (id) initWithObjects: (NSArray *)object;
+- (id) initWithCollection: (id <ETCollection>)objects;
 
 /* Object Chaining */
 

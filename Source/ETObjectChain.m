@@ -37,7 +37,7 @@
 #import <EtoileFoundation/EtoileCompatibility.h>
 
 @interface ETObjectChain (Private)
-- (void) _buildLinkedListWithArray: (NSArray *)objects;
+- (void) _buildLinkedListWithCollection: (id <ETCollection>)objects;
 @end
 
 
@@ -51,25 +51,28 @@
 /** Returns a new object chain connected to an existing object chain. */
 - (id) initWithObject: (ETObjectChain *)object
 {
-	return [self initWithObjects: [NSArray arrayWithObject: object]];
+	return [self initWithCollection: [NSArray arrayWithObject: object]];
 }
 
 /** <init /> Returns a new object chain by chaining objects passed as parameter */
-- (id) initWithObjects: (NSArray *)objects
+- (id) initWithCollection: (id <ETCollection>)objects
 {
 	self = [super init];
 	
 	if (self != nil)
 	{
-		[self _buildLinkedListWithArray: objects];
+		[self _buildLinkedListWithCollection: objects];
 	}
 	
 	return self;
 }
 
-- (void) _buildLinkedListWithArray: (NSArray *)objects
+- (void) _buildLinkedListWithCollection: (id <ETCollection>)objects
 {
-	NSEnumerator *e = [objects objectEnumerator];
+	// TODO: Remove -contentArray call once we have found a way to declare 
+	// already implemented methods in a protocol and adopts this protocol by the 
+	// mean of a category (take a look at ETCollection).
+	NSEnumerator *e = [[objects contentArray] objectEnumerator];
 	id prevObject = self;
 	id object = nil;
 	

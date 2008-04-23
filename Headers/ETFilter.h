@@ -70,7 +70,7 @@
 /* Initialization */
 
 - (id) initWithFilter: (ETFilter *)filter;
-- (id) initWithFilters: (NSArray *)filter;
+- (id) initWithCollection: (id <ETCollection>)filters;
 
 /* Filter Chaining */
 
