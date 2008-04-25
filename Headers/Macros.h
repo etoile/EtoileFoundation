@@ -19,6 +19,23 @@
 #define DEALLOC(x) - (void) dealloc { x ; [super dealloc]; }
 
 /**
+ * Cleanup function used for stack-scoped objects.
+ */
+static void ETStackAutoRelease(void* object)
+{
+	[*(id*)object release];
+}
+/**
+ * Macro used to declare objects with lexical scoping.  The object will be sent
+ * a release message when it goes out of scope.  
+ *
+ * Example:
+ *
+ * STACK Foo * foo = [[Foo alloc] init];
+ */
+#define STACK __attribute__((cleanup(ETStackAutoRelease))) 
+
+/**
  * Set of macros providing a for each statement on collections, with IMP
  * caching.
  */
