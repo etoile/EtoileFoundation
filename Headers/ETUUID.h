@@ -14,7 +14,7 @@
 #endif
 
 /** ETUUID does not have a designated initializer. */
-@interface ETUUID : NSObject 
+@interface ETUUID : NSObject <NSCopying>
 {
 	uuid_t uuid;
 }

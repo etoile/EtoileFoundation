@@ -14,7 +14,7 @@
 
 + (id) UUID
 {
-	return AUTORELEASE([[ETUUID alloc] init]);
+	return AUTORELEASE([[self alloc] init]);
 }
 
 - (id) init
@@ -58,6 +58,11 @@
 	}
 
 	return self;
+}
+
+- (id) copyWithZone: (NSZone *)zone
+{
+	return RETAIN(self);
 }
 
 - (BOOL) isEqual: (id)anObject
