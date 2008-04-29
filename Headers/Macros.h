@@ -21,7 +21,7 @@
 /**
  * Cleanup function used for stack-scoped objects.
  */
-static void ETStackAutoRelease(void* object)
+__attribute__((unused)) static void ETStackAutoRelease(void* object)
 {
 	[*(id*)object release];
 }

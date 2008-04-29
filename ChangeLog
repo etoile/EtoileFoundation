@@ -1,3 +1,8 @@
+2008-04-29  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/Macros.h: Inserted 'unused' attribute to disable warnings when the 
+	header is imported.
+
 2008-04-28  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/ETUUID.h: Made conform to NSCopying.
