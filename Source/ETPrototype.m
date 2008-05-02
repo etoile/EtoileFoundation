@@ -37,9 +37,9 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 	if(ivars->isPrototype)
 	{
 		IMP method = (IMP)NSMapGet(ivars->dtable, sel_get_name(aSelector));
-		if(method == NULL && (anObject->prototype) != NULL)
+		if(method == NULL && (ivars->prototype) != NULL)
 		{
-			return [self messageLookupForObject:(anObject->prototype) selector:aSelector];
+			return [self messageLookupForObject:(ivars->prototype) selector:aSelector];
 		}
 		return method;
 	}
@@ -88,17 +88,16 @@ typedef struct { @defs(ETPrototype) }* ETPrototype_t;
 	}
 	NSMapInsert(otherIvars, key, value);
 }
-- (id)valueForUndefinedKey:(NSString *)key
+- (id)valueForUndefinedKey:(NSString *)aKey
 {
-	ETPrototype_t ivars = (ETPrototype_t) anObject;
 	if(otherIvars == NULL)
 	{
 		return NULL;
 	}
-	id val = NSMapGet(otherIvars, key);
-	if(val == NULL && (anObject->prototype) != NULL)
+	id val = NSMapGet(otherIvars, aKey);
+	if(val == NULL && prototype != NULL)
 	{
-		return [(anObject->prototype) valueForUndefinedKey:aSelector];
+		return [prototype valueForUndefinedKey:aKey];
 	}
 	return NULL;
 }
