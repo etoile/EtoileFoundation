@@ -8,6 +8,7 @@ endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
     kqueue_supported ?= yes
+    libuuid_embedded ?= yes
 endif
 
 ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
