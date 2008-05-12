@@ -18,6 +18,10 @@
  */
 #define DEALLOC(x) - (void) dealloc { x ; [super dealloc]; }
 
+@protocol MakeReleaseSelectorNotFoundErrorGoAway
+- (void) release;
+@end
+
 /**
  * Cleanup function used for stack-scoped objects.
  */
