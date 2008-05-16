@@ -38,20 +38,6 @@
 
 @implementation NSString (Etoile)
 
-/** Shortcut for -stringByAppendingString:. 
-	Take note this method doesn't follow GNUstep/Cocoa naming style. */
-- (NSString *) append: (NSString *)aString
-{
-	return [self stringByAppendingString: aString];
-}
-
-/** Shortcut for -stringByAppendingPathComponent:. 
-	Take note this method doesn't follow GNUstep/Cocoa naming style. */
-- (NSString *) appendPath: (NSString *)aPath
-{
-	return [self stringByAppendingPathComponent: aPath];
-}
-
 /** Returns the first path component of the receiver. If the receiver isn't a 
 	path, returns the a new instance of the entire string. 
 	If the path is '/', returns '/'.
@@ -82,6 +68,24 @@
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator
 {
 	return nil;
+}
+
+/* Deprecated */
+
+/** Deprecated... Do not use.
+	Shortcut for -stringByAppendingString:. 
+	Take note this method doesn't follow GNUstep/Cocoa naming style. */
+- (NSString *) append: (NSString *)aString
+{
+	return [self stringByAppendingString: aString];
+}
+
+/** Deprecated... Do not use.
+	Shortcut for -stringByAppendingPathComponent:. 
+	Take note this method doesn't follow GNUstep/Cocoa naming style. */
+- (NSString *) appendPath: (NSString *)aPath
+{
+	return [self stringByAppendingPathComponent: aPath];
 }
 
 @end

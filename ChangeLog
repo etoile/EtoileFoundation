@@ -1,3 +1,13 @@
+2008-05-16  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSString.h:
+	* Source/NSString.m:
+	(-appendString:, -appendPath:): Deprecated.
+	* Headers/NSURL.h:
+	* Source/NSURL.m:
+	(-appendPath:): Deprecated.
+	(-URLByAppendingPath:): New replacement method for -appendPath:.
+
 2008-04-29  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/Macros.h: Inserted 'unused' attribute to disable warnings when the 

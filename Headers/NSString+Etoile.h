@@ -38,9 +38,11 @@
 
 
 @interface NSString (Etoile)
-- (NSString *) append: (NSString *)aString;
-- (NSString *) appendPath: (NSString *)aPath;
 - (NSString *) firstPathComponent;
 - (NSString *) stringByDeletingFirstPathComponent;
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator;
+
+/* Deprecated */
+- (NSString *) append: (NSString *)aString;
+- (NSString *) appendPath: (NSString *)aPath;
 @end

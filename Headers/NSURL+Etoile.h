@@ -40,5 +40,8 @@
 @interface NSURL (Etoile)
 - (NSURL *) parentURL;
 - (NSString *) lastPathComponent;
+- (NSURL *) URLByAppendingPath: (NSString *)aPath;
+
+/* Deprecated */
 - (NSURL *) appendPath: (NSString *)aPath;
 @end

@@ -54,9 +54,19 @@
 
 /** Returns a new URL instance with aPath appended to the part partion of the 
 	receiver. */
+- (NSURL *) URLByAppendingPath: (NSString *)aPath
+{
+	return [NSURL fileURLWithPath: [[self path] stringByAppendingPathComponent: aPath]];
+}
+
+/* Deprecated */
+
+/** Deprecated... Do not use.
+	Returns a new URL instance with aPath appended to the part partion of the 
+	receiver. */
 - (NSURL *) appendPath: (NSString *)aPath
 {
-	return [NSURL fileURLWithPath: [[self path] appendPath: aPath]];
+	return [self URLByAppendingPath: aPath];
 }
 
 @end
