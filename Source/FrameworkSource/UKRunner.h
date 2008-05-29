@@ -34,6 +34,14 @@
 - (void) runTestsInBundle:(NSBundle *)bundle;
 - (void) runTests:(NSArray *)testMethods onObject:(id)testObject;
 
+#ifndef GNUSTEP
++ (void) performGrowlNotification
+:(int) testsPassed 
+:(int) testsFailed
+:(int) testClassesRun
+:(int) testMethodsRun;
+#endif
+
 @end
 
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle);

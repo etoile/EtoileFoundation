@@ -1,5 +1,15 @@
 2008-05-29  Nicolas Roard <nicolas@roard.com>
-	* Source/FrameworkSource/UKTestHandler.h
+	* Source/UnitKit.xcodeproj/project.pbxproj
+	* Source/FrameworkSource/UKRunner.h
+	* Source/FrameworkSource/UKRunner.m
+	* Source/FrameworkSource/Icon-Pass.tiff
+	* Source/FrameworkSource/Icon-Fail.tiff:
+	Added a growl notification (code borrowed from a more recent version
+	of UnitKit than what we have in our repository, see
+	http://www.rhonabwy.com/wp/2008/01/30/unitkit/). 
+         
+2008-05-29  Nicolas Roard <nicolas@roard.com>
+        * Source/FrameworkSource/UKTestHandler.h
 	* Source/FrameworkSource/UKTest.h
 	* Source/FrameworkSource/UKTestHandler.m
 	* Source/FrameworkSource/English.lproj/UKTestHandler.strings:

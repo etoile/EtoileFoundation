@@ -139,7 +139,11 @@
     
     // XXX i18n
     printf("Result: %i classes, %i methods, %i tests, %i failed\n", testClasses, testMethods, (testsPassed + testsFailed), testsFailed);
-    
+
+#ifndef GNUSTEP
+    [self performGrowlNotification: testsPassed :testsFailed :testClasses :testMethods];
+#endif
+
     if (testsFailed == 0) {
         return 0;
     } else {
@@ -147,6 +151,51 @@
     }
 
 }
+
+#ifndef GNUSTEP
++ (void) performGrowlNotification
+:(int) testsPassed 
+:(int) testsFailed
+:(int) testClassesRun
+:(int) testMethodsRun
+{
+    NSString *title;
+    
+    if (testsFailed == 0) {
+        title = @"UnitKit Test Run Passed";
+    } else {
+        title = @"UnitKit Test Run Failed";
+    }
+    
+    NSString *msg = [NSString stringWithFormat:
+					 @"%i test classes, %i methods\n%i assertions passed, %i failed",
+					 testClassesRun, testMethodsRun,  testsPassed, testsFailed];
+    
+    NSMutableDictionary *notiInfo = [NSMutableDictionary dictionary];
+    [notiInfo setObject:@"UnitKit Notification" forKey:@"NotificationName"];
+    [notiInfo setObject:@"UnitKit" forKey:@"ApplicationName"];
+    [notiInfo setObject:title forKey:@"NotificationTitle"];
+    [notiInfo setObject:msg forKey:@"NotificationDescription"];
+    
+    NSString *iconPath;
+    
+    if (testsFailed == 0) {
+        iconPath = [[NSBundle bundleForClass:[self class]]
+					pathForImageResource:@"Icon-Pass"];
+    } else {
+        iconPath = [[NSBundle bundleForClass:[self class]]
+					pathForImageResource:@"Icon-Fail"];
+    }
+    
+    NSData *icon = [NSData dataWithContentsOfFile:iconPath];
+    
+    [notiInfo setObject:icon forKey:@"NotificationIcon"];
+    
+    [[NSDistributedNotificationCenter defaultCenter]
+	 postNotificationName:@"GrowlNotification" 
+	 object:nil userInfo:notiInfo];    
+}
+#endif
 
 #ifndef GNUSTEP
 - (void) runTest:(SEL)testSelector onObject:(id)testObject

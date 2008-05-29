@@ -23,6 +23,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		03BC00BE0DEE32AD009AFC82 /* Icon-Pass.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 03BC00BC0DEE32AD009AFC82 /* Icon-Pass.tiff */; };
+		03BC00BF0DEE32AD009AFC82 /* Icon-Fail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */; };
 		600CE53209F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		600CE53309F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		600CE53409F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
@@ -167,6 +169,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03BC00BC0DEE32AD009AFC82 /* Icon-Pass.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Pass.tiff"; sourceTree = "<group>"; };
+		03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Fail.tiff"; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		600CE53109F2474F008BA30D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		60FBE0B709FAEA9700F734E1 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../ChangeLog; sourceTree = SOURCE_ROOT; };
@@ -361,6 +365,8 @@
 		AE923A0F05C3B11600549058 /* FrameworkSource */ = {
 			isa = PBXGroup;
 			children = (
+				03BC00BC0DEE32AD009AFC82 /* Icon-Pass.tiff */,
+				03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */,
 				AE923B6D05C3B57600549058 /* UnitKit.h */,
 				AE73F21F05F1573200CAFD4D /* UKTest.h */,
 				AE613E6705F181AE009B020F /* UKTestHandler.h */,
@@ -612,6 +618,8 @@
 				AE41F3D206812A3F0044760C /* UKRunner.strings in Resources */,
 				AEBED16906B0603600451E26 /* NOTICE in Resources */,
 				AEEB74D106B1BEFD00BE53E8 /* LICENSE in Resources */,
+				03BC00BE0DEE32AD009AFC82 /* Icon-Pass.tiff in Resources */,
+				03BC00BF0DEE32AD009AFC82 /* Icon-Fail.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
