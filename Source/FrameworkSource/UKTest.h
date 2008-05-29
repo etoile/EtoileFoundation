@@ -53,6 +53,8 @@
 
 #define UKFloatsNotEqual(a, b, d) [[UKTestHandler handler] testFloat:(a) notEqualTo:(b) delta:(d) inFile:__FILE__ line:__LINE__]
 
+#define UKObjectKindOf(a, b) [[UKTestHandler handler] testObject:(a) kindOf:[b class] inFile:__FILE__ line:__LINE__]
+
 #define UKObjectsEqual(a, b) [[UKTestHandler handler] testObject:(a) equalTo:(b) inFile:__FILE__ line:__LINE__]
 
 #define UKObjectsNotEqual(a, b) [[UKTestHandler handler] testObject:(a) notEqualTo:(b) inFile:__FILE__ line:__LINE__]

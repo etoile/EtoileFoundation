@@ -1,3 +1,13 @@
+2008-05-29  Nicolas Roard <nicolas@roard.com>
+	* Source/FrameworkSource/UKTestHandler.h
+	* Source/FrameworkSource/UKTest.h
+	* Source/FrameworkSource/UKTestHandler.m
+	* Source/FrameworkSource/English.lproj/UKTestHandler.strings:
+	Added a new macro, UKObjectKindOf(a,b), that uses -isKindOfClass:
+	Most of the time UKObjectsEqual([a class], [b class]) would be
+	similar, but not always (i.e. NSCFArray/NSArray on OSX). Example:
+	UKObjectKindOf(myObject, NSArray)
+
 2008-03-19  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/FrameworkSource/UKRunner.m: Fixed incorrect use of AppleScript 

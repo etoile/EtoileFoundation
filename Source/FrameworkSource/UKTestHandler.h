@@ -67,6 +67,8 @@
 
 - (void) testFloat:(float)a notEqualTo:(float)b delta:(float)delta inFile:(char *)filename line:(int)line;
 
+- (void) testObject:(id)a kindOf:(id)b inFile:(char *)filename line:(int)line;
+
 - (void) testObject:(id)a equalTo:(id)b inFile:(char *)filename line:(int)line;
 
 - (void) testObject:(id)a notEqualTo:(id)b inFile:(char *)filename line:(int)line;

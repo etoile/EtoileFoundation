@@ -254,6 +254,23 @@
         [self reportStatus:NO inFile:filename line:line message:msg];    }
 }
 
+- (void) testObject:(id)a kindOf:(id)b inFile:(char *)filename line:(int)line
+{
+    NSString *msg;
+    NSString *dispA = [UKTestHandler displayStringForObject:[a class]];
+    NSString *dispB = [UKTestHandler displayStringForObject:b];
+    
+	if ([a isKindOfClass: b]) {
+        msg = [UKTestHandler localizedString:@"msgUKObjectKindOf.pass"];
+        msg = [NSString stringWithFormat:msg, dispB, dispA];
+        [self reportStatus:YES inFile:filename line:line message:msg];
+    } else {
+        msg = [UKTestHandler localizedString:@"msgUKObjectKindOf.fail"];
+        msg = [NSString stringWithFormat:msg, dispB, dispA];
+        [self reportStatus:NO inFile:filename line:line message:msg];
+    }
+}
+
 - (void) testObject:(id)a equalTo:(id)b inFile:(char *)filename line:(int)line
 {
     NSString *msg;
