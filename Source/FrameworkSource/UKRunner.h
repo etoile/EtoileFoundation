@@ -34,6 +34,8 @@
 - (void) runTestsInBundle:(NSBundle *)bundle;
 - (void) runTests:(NSArray *)testMethods onObject:(id)testObject;
 
+- (void) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle;
+
 #ifndef GNUSTEP
 + (void) performGrowlNotification
 :(int) testsPassed 

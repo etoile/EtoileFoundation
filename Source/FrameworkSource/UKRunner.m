@@ -70,7 +70,6 @@
      test class found. Otherwise
      */
     
-    //[NSApplication sharedApplication];
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
@@ -412,9 +411,40 @@
     NSEnumerator *e = [testClasses objectEnumerator];
     NSString *testClassName;
 
+    [self setUpAppObjectIfNeededForBundle: bundle];
+
     while ((testClassName = [e nextObject])) {
         [self runTestsInClass:NSClassFromString(testClassName)];
     }
+}
+
+/* GNUstep doesn't take care of calling -[NSApp sharedApplication] if your code 
+   doesn't. Unlike Cocoa, it just raises an exception if you try to create a 
+   window. 
+   By decreasing order of priority, this method tries to create an app
+   instance by sending -sharedApplication to:
+   - The principal class of the test bundle (declared in the bundle property list)
+   - ETApplication 
+   - NSApplication
+*/
+- (void) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
+{
+	Class appClass = NSClassFromString(@"NSApplication");
+
+	if (appClass == nil) /* AppKit not loaded */
+		return;
+
+	appClass = NSClassFromString(@"ETApplication");
+	if (appClass == nil) /* EtoileUI not loaded */
+		return;
+
+	Class principalClass = [testBundle principalClass];
+
+	/* Use NSApplication subclass if declared as the bundle principal class */
+	if ([principalClass isKindOfClass: appClass])
+		appClass = principalClass;
+
+	[appClass performSelector: @selector(sharedApplication)];
 }
 
 @end

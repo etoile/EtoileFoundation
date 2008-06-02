@@ -1,4 +1,15 @@
+2008-06-02  Quentin Mathe <qmathe@club-internet.fr>
+
+	Implemented initialization for testing of projects based on AppKit or 
+	EtoileUI, by creating the application class dynamically instead of directly 
+	linking the frameworks (as previously done and disabled with r2298).
+	* Source/FrameworkSource/UKRunner.h
+	* Source/FrameworkSource/UKRunner.m
+	(-setUpAppObjectIfNeededForBundle:): New method.
+	(-runTestsInBundle:): Modified to call the previous method.
+
 2008-05-29  Nicolas Roard <nicolas@roard.com>
+
 	* Source/UnitKit.xcodeproj/project.pbxproj
 	* Source/FrameworkSource/UKRunner.h
 	* Source/FrameworkSource/UKRunner.m
@@ -7,9 +18,10 @@
 	Added a growl notification (code borrowed from a more recent version
 	of UnitKit than what we have in our repository, see
 	http://www.rhonabwy.com/wp/2008/01/30/unitkit/). 
-         
+
 2008-05-29  Nicolas Roard <nicolas@roard.com>
-        * Source/FrameworkSource/UKTestHandler.h
+
+	* Source/FrameworkSource/UKTestHandler.h
 	* Source/FrameworkSource/UKTest.h
 	* Source/FrameworkSource/UKTestHandler.m
 	* Source/FrameworkSource/English.lproj/UKTestHandler.strings:
