@@ -1,7 +1,7 @@
 /*
 **  OSSP uuid - Universally Unique Identifier
-**  Copyright (c) 2004-2007 Ralf S. Engelschall <rse@engelschall.com>
-**  Copyright (c) 2004-2007 The OSSP Project <http://www.ossp.org/>
+**  Copyright (c) 2004-2008 Ralf S. Engelschall <rse@engelschall.com>
+**  Copyright (c) 2004-2008 The OSSP Project <http://www.ossp.org/>
 **
 **  This file is part of OSSP uuid, a library for the generation
 **  of UUIDs which can found at http://www.ossp.org/pkg/lib/uuid/
@@ -39,6 +39,7 @@
 #include <fcntl.h>
 
 /* own headers (part 2/2) */
+#include "uuid_time.h"
 #include "uuid_prng.h"
 #include "uuid_md5.h"
 
@@ -50,7 +51,9 @@ struct prng_st {
 
 prng_rc_t prng_create(prng_t **prng)
 {
+#if !defined(WIN32)
     int fd = -1;
+#endif
     struct timeval tv;
     pid_t pid;
     unsigned int i;
@@ -65,12 +68,14 @@ prng_rc_t prng_create(prng_t **prng)
 
     /* try to open the system PRNG device */
     (*prng)->dev = -1;
+#if !defined(WIN32)
     if ((fd = open("/dev/urandom", O_RDONLY)) == -1)
         fd = open("/dev/random", O_RDONLY|O_NONBLOCK);
     if (fd != -1) {
         (void)fcntl(fd, F_SETFD, FD_CLOEXEC);
         (*prng)->dev = fd;
     }
+#endif
 
     /* initialize MD5 engine */
     if (md5_create(&((*prng)->md5)) != MD5_RC_OK) {
@@ -82,7 +87,7 @@ prng_rc_t prng_create(prng_t **prng)
     (*prng)->cnt = 0;
 
     /* seed the C library PRNG once */
-    (void)gettimeofday(&tv, NULL);
+    (void)time_gettimeofday(&tv, NULL);
     pid = getpid();
     srand((unsigned int)(
         ((unsigned int)pid << 16)
@@ -137,7 +142,7 @@ prng_rc_t prng_data(prng_t *prng, void *data_ptr, size_t data_len)
     /* approach 2: try to gather data via weaker libc PRNG API. */
     while (n > 0) {
         /* gather new entropy */
-        (void)gettimeofday(&(entropy.tv), NULL);            /* source: libc time */
+        (void)time_gettimeofday(&(entropy.tv), NULL);       /* source: libc time */
         entropy.rnd = rand();                               /* source: libc PRNG */
         entropy.cnt = prng->cnt++;                          /* source: local counter */
 

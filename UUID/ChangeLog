@@ -11,6 +11,24 @@
   This is a list of all changes to OSSP uuid.
   For a more brief summary please have a look at the NEWS file.
 
+  Changes between 1.6.0 and 1.6.1 (19-May-2007 to 21-Feb-2008)
+
+   o Port to Win32 API.
+     [Hiroshi Saito, Wu Yongwei, Ralf S. Engelschall]
+
+   o Adjust copyright messages for new year 2008.
+     [Ralf S. Engelschall]
+   
+   o Fix __VA_COPY_USE_{CSP,CPP} fallback macros for va_copy.
+     [Mark A. Lindner <mark.a.lindner@gmail.com>]
+
+   o PostgreSQL bindings: use SET_VARSIZE() instead
+     of assigning to bytea->v_len under PostgreSQL >= 8.3
+     [Ralf S. Engelschall]
+
+   o Upgrade build environment to GNU libtool 1.5.26
+     [Ralf S. Engelschall]
+
   Changes between 1.5.1 and 1.6.0 (31-Jul-2006 to 19-May-2007)
 
    o Expand unused "datarootdir" in Makefile.in and uuid-config.in to

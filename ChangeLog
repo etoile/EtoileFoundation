@@ -1,3 +1,9 @@
+2008-06-05  Yen-Ju Chen <yjchenx gmail>
+
+	* UUID:
+	  Update to 1.6.1 with Quentin's fix on uuid_dce_to_string (uuid_dce.c)
+	  It passes all tests.
+
 2008-05-16  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/NSString.h:

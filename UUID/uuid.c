@@ -1,7 +1,7 @@
 /*
 **  OSSP uuid - Universally Unique Identifier
-**  Copyright (c) 2004-2007 Ralf S. Engelschall <rse@engelschall.com>
-**  Copyright (c) 2004-2007 The OSSP Project <http://www.ossp.org/>
+**  Copyright (c) 2004-2008 Ralf S. Engelschall <rse@engelschall.com>
+**  Copyright (c) 2004-2008 The OSSP Project <http://www.ossp.org/>
 **
 **  This file is part of OSSP uuid, a library for the generation
 **  of UUIDs which can found at http://www.ossp.org/pkg/lib/uuid/
@@ -49,6 +49,7 @@
 #include "uuid_sha1.h"
 #include "uuid_prng.h"
 #include "uuid_mac.h"
+#include "uuid_time.h"
 #include "uuid_ui64.h"
 #include "uuid_ui128.h"
 #include "uuid_str.h"
@@ -873,11 +874,6 @@ static void uuid_brand(uuid_t *uuid, unsigned int version)
 static uuid_rc_t uuid_make_v1(uuid_t *uuid, unsigned int mode, va_list ap)
 {
     struct timeval time_now;
-#ifdef HAVE_NANOSLEEP
-    struct timespec ts;
-#else
-    struct timeval tv;
-#endif
     ui64_t t;
     ui64_t offset;
     ui64_t ov;
@@ -890,7 +886,7 @@ static uuid_rc_t uuid_make_v1(uuid_t *uuid, unsigned int mode, va_list ap)
     /* determine current system time and sequence counter */
     for (;;) {
         /* determine current system time */
-        if (gettimeofday(&time_now, NULL) == -1)
+        if (time_gettimeofday(&time_now, NULL) == -1)
             return UUID_RC_SYS;
 
         /* check whether system time changed since last retrieve */
@@ -910,17 +906,7 @@ static uuid_rc_t uuid_make_v1(uuid_t *uuid, unsigned int mode, va_list ap)
 
         /* stall the UUID generation until the system clock (which
            has a gettimeofday(2) resolution of 1us) catches up */
-#ifdef HAVE_NANOSLEEP
-        /* sleep for 500ns (1/2us) */
-        ts.tv_sec  = 0;
-        ts.tv_nsec = 500;
-        nanosleep(&ts, NULL);
-#else
-        /* sleep for 1000ns (1us) */
-        tv.tv_sec  = 0;
-        tv.tv_usec = 1;
-        select(0, NULL, NULL, NULL, &tv);
-#endif
+        time_usleep(1);
     }
 
     /* convert from timeval (sec,usec) to OSSP ui64 (100*nsec) format */

@@ -5,7 +5,7 @@
   |_|_|_|  \___/|____/____/|_|      \__,_|\__,_|_|\__,_|
 
   OSSP uuid - Universally Unique Identifier
-  Version 1.6.0 (19-May-2007)
+  Version 1.6.1 (21-Feb-2008)
 
   ABSTRACT
 
@@ -29,8 +29,8 @@
 
   COPYRIGHT AND LICENSE
 
-  Copyright (c) 2004-2007 Ralf S. Engelschall <rse@engelschall.com>
-  Copyright (c) 2004-2007 The OSSP Project <http://www.ossp.org/>
+  Copyright (c) 2004-2008 Ralf S. Engelschall <rse@engelschall.com>
+  Copyright (c) 2004-2008 The OSSP Project <http://www.ossp.org/>
 
   This file is part of OSSP uuid, a library for the generation
   of UUIDs which can found at http://www.ossp.org/pkg/lib/uuid/

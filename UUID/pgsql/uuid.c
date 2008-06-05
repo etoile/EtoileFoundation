@@ -200,7 +200,11 @@ Datum pg_uuid_send(PG_FUNCTION_ARGS)
     if ((uuid_bytea = (bytea *)palloc(VARHDRSZ + UUID_LEN_BIN)) == NULL)
         ereport(ERROR, (errcode(ERRCODE_DATA_EXCEPTION),
                 errmsg("failed to allocate UUID bytea")));
+#if defined(SET_VARSIZE) /* PostgreSQL >= 8.3 */
+    SET_VARSIZE(uuid_bytea, VARHDRSZ + UUID_LEN_BIN);
+#else
     uuid_bytea->vl_len = VARHDRSZ + UUID_LEN_BIN;
+#endif
     memcpy(uuid_bytea->vl_dat, uuid_datum->uuid_bin, UUID_LEN_BIN);
 
     /* return UUID bytea */

@@ -74,6 +74,8 @@ uuid_sha1.c
 uuid_sha1.h
 uuid_str.c
 uuid_str.h
+uuid_time.c
+uuid_time.h
 uuid_ui128.c
 uuid_ui128.h
 uuid_ui64.c
