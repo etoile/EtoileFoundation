@@ -21,6 +21,7 @@ libEtoileFoundation_OBJC_FILES = \
 	OSBundleExtensionLoader.m \
 	ETCollection.m \
 	ETFilter.m \
+	ETGetOptionsDictionary.m \
 	ETObjectChain.m \
 	ETObjectRegistry.m \
 	ETPropertyValueCoding.m \

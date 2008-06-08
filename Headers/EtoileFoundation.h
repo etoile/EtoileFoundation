@@ -62,6 +62,7 @@
 #import <EtoileFoundation/ETFilter.h>
 #import <EtoileFoundation/ETRendering.h>
 #import <EtoileFoundation/ETUUID.h>
+#import <EtoileFoundation/ETGetOptionsDictionary.h>
 
 /* EtoileFoundation subframeworks */
 
