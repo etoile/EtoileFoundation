@@ -1,3 +1,10 @@
+2008-06-17  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Source/ETGetOptionsDictionary.m: Fixed compilation on Ubuntu by declaring 
+	optopt and optarg. Needs further investigation because getopt() is reported 
+	as an implicit function and doesn't seem to appear by default in unistd.h
+	as it should. Bug reported by kpropell on etoile-discuss.
+
 2008-06-05  Yen-Ju Chen <yjchenx gmail>
 
 	* UUID:

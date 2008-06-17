@@ -7,7 +7,8 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	NSNumber *True = [NSNumber numberWithBool: YES];
 	NSNumber *False = [NSNumber numberWithBool: NO];
-	for(char *opts = optString ; '\0' != *opts ; opts++)
+
+	for (char *opts = optString ; '\0' != *opts ; opts++)
 	{
 		// Initialise options to False.
 		if (*opts != ':')
@@ -19,6 +20,8 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 		}
 	}
 
+	extern int optopt;
+	extern char *optarg;
 	int ch;
 	while ((ch = getopt(argc, argv, optString)) != -1)
 	{
