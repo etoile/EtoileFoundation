@@ -68,6 +68,7 @@ EtoileFoundation_HEADER_FILES_DIR = ./EtoileFoundation
 
 EtoileFoundation_HEADER_FILES = \
 	EtoileFoundation.h \
+	ETGetOptionsDictionary.h \
 	EtoileCompatibility.h \
 	ETCArray.h \
 	Macros.h \
