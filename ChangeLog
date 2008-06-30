@@ -1,3 +1,9 @@
+2008-06-30  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSString+Etoile.h:
+	* Headers/NSURL+Etoile.h:
+	Removed AppKit import.
+
 2008-06-17  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/ETGetOptionsDictionary.m: Fixed compilation on Ubuntu by declaring 
