@@ -1,5 +1,12 @@
 2008-06-30  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Source/GNUmakefile: Fixed properly the Linux compilation bug that got 
+	previously worked around with r3198. Done by declaring the right POSIX flag.
+	* Source/ETGetOptionsDictionary.m:
+	Removed stuff from r3198.
+
+2008-06-30  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/NSString+Etoile.h:
 	* Headers/NSURL+Etoile.h:
 	Removed AppKit import.

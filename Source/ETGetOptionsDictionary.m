@@ -20,8 +20,6 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 		}
 	}
 
-	extern int optopt;
-	extern char *optarg;
 	int ch;
 	while ((ch = getopt(argc, argv, optString)) != -1)
 	{
