@@ -1,5 +1,6 @@
-#include <unistd.h>
 #import "NSFileManager+TempFile.h"
+#include <unistd.h>
+#include <string.h>
 
 static char * makeTempPattern(void)
 {

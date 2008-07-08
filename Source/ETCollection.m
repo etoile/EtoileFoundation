@@ -183,7 +183,7 @@
 	unsigned int *copiedIndexes = calloc(sizeof(unsigned int), nbOfIndexes);
 	
 	nbOfCopiedIndexes = [self getIndexes: copiedIndexes maxCount: nbOfIndexes
-		inIndexRange: nil];
+		inIndexRange: NULL];
 	
 	NSAssert2(nbOfCopiedIndexes > -1, @"Invalid number of copied indexes for "
 		@"%@, expected value is %d", self, nbOfIndexes);

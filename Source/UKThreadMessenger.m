@@ -17,6 +17,7 @@
 // -----------------------------------------------------------------------------
 
 #import "UKThreadMessenger.h"
+#include <unistd.h>
 
 
 @implementation UKThreadMessenger

@@ -134,7 +134,9 @@
 -(NSMethodSignature*)	methodSignatureForSelector: (SEL)itemAction
 {
     BOOL                does = [super respondsToSelector: itemAction];
-	NSMethodSignature*	sig = does? [super methodSignatureForSelector: itemAction] : nil;
+	NSMethodSignature*	sig = does
+		? [super methodSignatureForSelector: itemAction] 
+		: (NSMethodSignature*)nil;
 
 	if( sig )
 		return sig;
