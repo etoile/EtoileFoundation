@@ -11,7 +11,7 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 	for (char *opts = optString ; '\0' != *opts ; opts++)
 	{
 		// Initialise options to False.
-		if (*opts != ':')
+		if ((*opts != ':') && (*(opts + 1) != ':' ))
 		{
 			unichar opt = (unichar)*opts;
 			NSString *key = [NSString stringWithCharacters: &opt length: 1];
