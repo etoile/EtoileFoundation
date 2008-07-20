@@ -60,6 +60,32 @@
     }
 }
 
+static void loadBundle(UKRunner *runner, NSString *bundlePath)
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	//NSLog (@"bundle path: %@", bundlePath);
+
+	printf("looking for bundle at path: %s\n", [bundlePath UTF8String]);
+	// make sure bundle exists and is loaded
+
+    NSBundle *testBundle = [NSBundle bundleWithPath:bundlePath];
+	if (testBundle == nil) {
+		// XXX i18n as well as message improvements
+		printf("Test bundle %s could not be found\n", 
+				[bundlePath UTF8String]);
+		[pool release];
+		return;
+	}
+	if (![testBundle load]) {
+		// XXX i18n as well as message improvements
+		printf("Test bundle could not be loaded\n");
+		[pool release];
+		return;            
+	}
+	[runner runTestsInBundle:testBundle];
+	[pool release];
+}
+
 + (int) runTests
 {    
     /*
@@ -70,9 +96,10 @@
      test class found. Otherwise
      */
     
+	NSFileManager *fm = [NSFileManager defaultManager];
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
+    NSString *cwd = [fm currentDirectoryPath];
     //printf("ukrun starting\n");
     //printf("cwd: %s\n", [cwd UTF8String]);
 
@@ -80,52 +107,55 @@
     int argCount = [args count];
     
     UKRunner *runner = [[UKRunner alloc] init];
-    NSBundle *testBundle;
     
-    if (argCount >= 2) {
+	int bundles = 0;
+    if (argCount >= 2) 
+	{
         printf("ukrun version 1.1\n"); // XXX replace with a real auto version
-        int i = 1;
 
         // Mark Dalrymple contributed this bit about going quiet.
         
-        if ([[args objectAtIndex:1] isEqualToString: @"-q"]) {
-            [[UKTestHandler handler] setQuiet: YES];
-            i++;
+        for (int i=1 ; i < argCount ; i++)
+		{
+			if ([[args objectAtIndex:i] isEqualToString: @"-q"])
+			{
+				[[UKTestHandler handler] setQuiet: YES];
+				i++;
+			}
+			else
+			{
+				NSString *bundlePath = [args objectAtIndex:i];
+				bundlePath = [bundlePath stringByExpandingTildeInPath];
+				if ( ![bundlePath isAbsolutePath]) {
+					bundlePath = 
+						[cwd stringByAppendingPathComponent:bundlePath];
+					bundlePath = [bundlePath stringByStandardizingPath];
+				}
+				loadBundle(runner, bundlePath);
+				bundles++;
+			}
         }
+    } 
+	// If no bundles are specified, then just run every bundle in this folder.
+	if (bundles == 0)
+	{
+		NSArray *files = [fm directoryContentsAtPath:cwd];
+		NSEnumerator *e = [files objectEnumerator];
+		NSString *file;
+		while (nil != (file = [e nextObject]))
+		{
+			BOOL isDir = NO;
+			if ([fm fileExistsAtPath:file isDirectory:&isDir] && isDir)
+			{
+				int len = [file length];
+				if(len > 8 && [[file substringFromIndex:(len - 6)] isEqualToString:@"bundle"])
+				{
+					loadBundle(runner, file);
+				}
+			}
+		}
 
-        while (i < argCount) {
-            NSString *bundlePath = [args objectAtIndex:i];
-            //NSLog (@"bundle path: %@", bundlePath);
-            bundlePath = [bundlePath stringByExpandingTildeInPath];
-            if ( ![bundlePath isAbsolutePath]) {
-                bundlePath = [cwd stringByAppendingPathComponent:bundlePath];
-                bundlePath = [bundlePath stringByStandardizingPath];
-            }
-        
-            printf("looking for bundle at path: %s\n", [bundlePath UTF8String]);
-            // make sure bundle exists and is loaded
-        
-            testBundle = [NSBundle bundleWithPath:bundlePath];
-            if (testBundle == nil) {
-                // XXX i18n as well as message improvements
-                printf("Test bundle %s could not be found\n", [bundlePath UTF8String]);
-                [pool release];
-                return -1;
-            }
-            if (![testBundle load]) {
-                // XXX i18n as well as message improvements
-                printf("Test bundle could not be loaded\n");
-                [pool release];
-                return -1;            
-            }
-            [runner runTestsInBundle:testBundle];
-            i++;
-        }
-    } else {
-        printf("Usage: ukrun [-q] [bundlename]\n");
-        [pool release];
-        return -1;
-    }
+	}
     
         
     int testsPassed = [[UKTestHandler handler] testsPassed];
