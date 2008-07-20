@@ -60,8 +60,13 @@
     }
 }
 
-static void loadBundle(UKRunner *runner, NSString *bundlePath)
+static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 {
+	bundlePath = [bundlePath stringByExpandingTildeInPath];
+	if ( ![bundlePath isAbsolutePath]) {
+		bundlePath = [cwd stringByAppendingPathComponent:bundlePath];
+		bundlePath = [bundlePath stringByStandardizingPath];
+	}
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	//NSLog (@"bundle path: %@", bundlePath);
 
@@ -125,13 +130,7 @@ static void loadBundle(UKRunner *runner, NSString *bundlePath)
 			else
 			{
 				NSString *bundlePath = [args objectAtIndex:i];
-				bundlePath = [bundlePath stringByExpandingTildeInPath];
-				if ( ![bundlePath isAbsolutePath]) {
-					bundlePath = 
-						[cwd stringByAppendingPathComponent:bundlePath];
-					bundlePath = [bundlePath stringByStandardizingPath];
-				}
-				loadBundle(runner, bundlePath);
+				loadBundle(runner, cwd, bundlePath);
 				bundles++;
 			}
         }
@@ -150,7 +149,7 @@ static void loadBundle(UKRunner *runner, NSString *bundlePath)
 				int len = [file length];
 				if(len > 8 && [[file substringFromIndex:(len - 6)] isEqualToString:@"bundle"])
 				{
-					loadBundle(runner, file);
+					loadBundle(runner, cwd, file);
 				}
 			}
 		}
