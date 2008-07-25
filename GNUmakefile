@@ -36,22 +36,6 @@ endif
 
 VERSION = 0.1
 
-ifeq ($(libuuid_embedded), yes)
-EtoileFoundation_SUBPROJECTS = UUID
-endif
-
-# Linux distributions like Ubuntu doesn't install uuid_dce.h with 
-# libosspuuid-dev neither provide a standalone package like libuuid-dce-devel 
-# (RPM) on Fedora. When these DCE-compatible header will be widely available we 
-# could get rid of our embedded libosspuuid. The following flags returned by 
-# uuid-config will have to be used then:
-#
-# EtoileFoundation_LIBRARY_DIRS += $(shell uuid-config --ldflags)
-# LIBRARIES_DEPEND_UPON += $(shell uuid-config --libs)
-#
-# On plaftorms like FreeBSD, DragonFlyBSD and NetBSD, uuid.h is DCE-compliant 
-# and the uuid code is directly part of libc.
-
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
@@ -100,14 +84,6 @@ EtoileFoundation_HEADER_FILES = \
 
 ifeq ($(build_deprecated), yes)
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
-endif
-
-ifeq ($(kqueue_supported), yes)
-EtoileFoundation_HEADER_FILES += UKKQueue.h
-endif
-
-ifeq ($(libuuid_embedded), yes)
-EtoileFoundation_HEADER_FILES += uuid_dce.h
 endif
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make

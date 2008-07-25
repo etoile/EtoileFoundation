@@ -44,10 +44,6 @@ ifeq ($(build_deprecated), yes)
 libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
-ifeq ($(kqueue_supported), yes)
-libEtoileFoundation_OBJC_FILES += UKKQueue.m
-endif
-
 ifeq ($(test), yes)
 libEtoileFoundation_OBJC_FILES += TestUUID.m
 endif

@@ -6,17 +6,13 @@
 
 */
 
-#import <Foundation/Foundation.h>
-#if 1 || defined(__linux__) || defined(__APPLE__)
-#import <EtoileFoundation/uuid_dce.h>
-#else /* FreeBSD, DragonFlyBSD, NetBSD */
-#import <uuid.h>
-#endif
+#import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
 
 /** ETUUID does not have a designated initializer. */
 @interface ETUUID : NSObject <NSCopying>
 {
-	uuid_t uuid;
+	unsigned char uuid[16];
 }
 
 + (id) UUID;
@@ -24,14 +20,14 @@
 /**
  * Initialize the UUID object with a 128-bit binary value
  */
-- (id) initWithUUID: (uuid_t *)aUUID;
+- (id) initWithUUID: (unsigned char *)aUUID;
 /**
  * Initialize the UUID object from a string representation.
  */
 - (id) initWithString: (NSString *)aString;
 - (BOOL) isEqual: (id)anObject;
 - (NSString *) stringValue;
-- (uuid_t *) UUIDValue;
+- (unsigned char *) UUIDValue;
 
 @end
 

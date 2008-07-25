@@ -7,11 +7,32 @@
 */
 
 #import "ETUUID.h"
+#include <stdlib.h>
+// On *BSD, we have a srandomdev() function which seeds the random number
+// generator with entropy collected from a variety of sources.  On other
+// platforms we don't, so we use some not-very random data to seed the random
+// number generator.
+#ifdef __BSD__
+#define INITRANDOM() srandomdev()
+#else
+#include <time.h>
+#define INITRANDOM() srandom((unsigned int) clock())
+#endif
 #import "Macros.h"
 
 
-@implementation ETUUID
+#define TIME_LOW(uuid) (*(uint32_t*)(uuid))
+#define TIME_MID(uuid) (*(uint16_t*)(&(uuid)[4]))
+#define TIME_HI_AND_VERSION(uuid) (*(uint16_t*)(&(uuid)[6]))
+#define CLOCK_SEQ_HI_AND_RESERVED(uuid) (*(&(uuid)[8]))
+#define CLOCK_SEQ_LOW(uuid) (*(&(uuid)[9]))
+#define NODE(uuid) ((char*)(&(uuid)[10]))
 
+@implementation ETUUID
++ (void) initialize
+{
+	INITRANDOM();
+}
 + (id) UUID
 {
 	return AUTORELEASE([[self alloc] init]);
@@ -21,20 +42,24 @@
 {
 	SUPERINIT
 
-	int status;
-
-	uuid_create(&uuid, &status);
-
-	if (status != uuid_s_ok)
+	// Initialise with random data.
+	for (unsigned i=0 ; i<16 ; i++)
 	{
-		RELEASE(self);
-		return nil;
+		long r = random();
+		uuid[i] = (unsigned char)r;
 	}
-
+	// Clear bits 6 and 7
+	CLOCK_SEQ_HI_AND_RESERVED(uuid) &= (unsigned char)63;
+	// Set bit 6
+	CLOCK_SEQ_HI_AND_RESERVED(uuid) |= (unsigned char)64;
+	// Clear the top 4 bits
+	TIME_HI_AND_VERSION(uuid) &= 4095;
+	// Set the top 4 bits to the version
+	TIME_HI_AND_VERSION(uuid) |= 16384;
 	return self;
 }
 
-- (id) initWithUUID: (uuid_t *)aUUID
+- (id) initWithUUID: (unsigned char *)aUUID
 {
 	SUPERINIT
 
@@ -47,16 +72,22 @@
 {
 	SUPERINIT
 
-	int status;
+	const char *data = [aString UTF8String];
+	sscanf(data, "%x-%hx-%hx-%2hhx%2hhx-%2hhx%2hhx%2hhx%2hhx%2hhx%2hhx", 
+	   &TIME_LOW(uuid), 
+	   &TIME_MID(uuid),
+	   &TIME_HI_AND_VERSION(uuid),
+	   &CLOCK_SEQ_HI_AND_RESERVED(uuid),
+	   &CLOCK_SEQ_LOW(uuid),
+	   &NODE(uuid)[0],
+	   &NODE(uuid)[1],
+	   &NODE(uuid)[2],
+	   &NODE(uuid)[3],
+	   &NODE(uuid)[4],
+	   &NODE(uuid)[5]);
 
-	uuid_from_string([aString UTF8String], &uuid, &status);
-
-	if (status != uuid_s_ok)
-	{
-		RELEASE(self);
-		return nil;
-	}
-
+	NSLog(@"Initialising self with \n%@\n%@", aString, [self stringValue]);
+	
 	return self;
 }
 
@@ -71,41 +102,43 @@
 	{
 		return NO;
 	}
-
-	int status;
-	uuid_t *u2 = [anObject UUIDValue];
-	int result = uuid_equal(&uuid, u2, &status);
-
-	if (status != uuid_s_ok)
+	const unsigned char *other_uuid = [anObject UUIDValue];
+	for (unsigned i=0 ; i<16 ; i++)
 	{
-		return NO;
+		if (uuid[i] != other_uuid[i])
+		{
+			return NO;
+		}
 	}
-
-	return (result != 0);
+	return YES;
 }
 
 - (NSString *) stringValue
 {
-	char *str = NULL;
-	int status;
-
-	uuid_dce_to_string(&uuid, &str, &status);
-	if (status != uuid_s_ok)
-	{
-		return nil;
-	}
-
-	NSString *u = [NSString stringWithUTF8String: str];
-	free(str);
-
-	return u;
+	return [NSString stringWithFormat:
+		@"%0x-%0hx-%0hx-%0hhx%0hhx-%0hhx%0hhx%0hhx%0hhx%0hhx%0hhx", 
+		   TIME_LOW(uuid), 
+		   TIME_MID(uuid),
+		   TIME_HI_AND_VERSION(uuid),
+		   CLOCK_SEQ_HI_AND_RESERVED(uuid),
+		   CLOCK_SEQ_LOW(uuid),
+		   NODE(uuid)[0],
+		   NODE(uuid)[1],
+		   NODE(uuid)[2],
+		   NODE(uuid)[3],
+		   NODE(uuid)[4],
+		   NODE(uuid)[5]];
 }
 
-- (uuid_t *) UUIDValue
+- (const unsigned char *) UUIDValue
 {
-	return &uuid;
+	return uuid;
 }
 
+- (NSString*) description
+{
+	return [self stringValue];
+}
 @end
 
 
