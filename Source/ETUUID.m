@@ -12,7 +12,7 @@
 // generator with entropy collected from a variety of sources.  On other
 // platforms we don't, so we use some not-very random data to seed the random
 // number generator.
-#ifdef __BSD__
+#if defined(__FreeBSD__) || defined(__OpenBSD)
 #define INITRANDOM() srandomdev()
 #else
 #include <time.h>
