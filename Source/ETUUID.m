@@ -86,8 +86,6 @@
 	   &NODE(uuid)[4],
 	   &NODE(uuid)[5]);
 
-	NSLog(@"Initialising self with \n%@\n%@", aString, [self stringValue]);
-	
 	return self;
 }
 
@@ -116,7 +114,7 @@
 - (NSString *) stringValue
 {
 	return [NSString stringWithFormat:
-		@"%0x-%0hx-%0hx-%0hhx%0hhx-%0hhx%0hhx%0hhx%0hhx%0hhx%0hhx", 
+		@"%0.2x-%0.2hx-%0.2hx-%0.2hhx%0.2hhx-%0.2hhx%0.2hhx%0.2hhx%0.2hhx%0.2hhx%0.2hhx", 
 		   TIME_LOW(uuid), 
 		   TIME_MID(uuid),
 		   TIME_HI_AND_VERSION(uuid),
