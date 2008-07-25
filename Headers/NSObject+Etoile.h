@@ -156,6 +156,8 @@
 	Protocol *_protocol;
 }
 
++ (Protocol *) protocolForName: (NSString *)name;
+
 - (NSString *) name;
 - (ETUTI *) type;
 - (NSString *) typeName;

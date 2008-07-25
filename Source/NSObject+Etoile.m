@@ -376,6 +376,12 @@
 /** A Protocol counterpart for Foundation and NSObject root class */
 @implementation ETProtocol
 
+/** Returns an ObjC runtime protocol object for the given protocol name. */
++ (Protocol *) protocolForName: (NSString *)name
+{
+	return GSProtocolFromName([name UTF8String]);
+}
+
 - (NSString *) name
 {
 	return nil;
