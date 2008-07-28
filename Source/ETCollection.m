@@ -33,6 +33,19 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// This is a really ugly hack.  We define ETCollectionMutation before we define
+// the prototype for it.  This allows us to not implement all of the methods
+// that the protocol requires, which gets rid of a spurious GCC warning.
+#import <Foundation/NSSet.h>
+@implementation NSMutableSet (ETCollectionMutation)
+
+- (void) insertObject: (id)object atIndex: (unsigned int)index
+{
+	[self addObject: object];
+}
+
+@end
+
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
@@ -251,15 +264,6 @@
 	{
 		[self removeObjectForKey: key];
 	}
-}
-
-@end
-
-@implementation NSMutableSet (ETCollectionMutation)
-
-- (void) insertObject: (id)object atIndex: (unsigned int)index
-{
-	[self addObject: object];
 }
 
 @end
