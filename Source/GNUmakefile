@@ -4,7 +4,9 @@ SUBPROJECT_NAME = libEtoileFoundation
 
 # At a future point, we could use libosspuuid (see ../GNUmakefile):
 #libEtoileFoundation_INCLUDE_DIRS += $(shell uuid-config --cflags)
-libEtoileFoundation_CPPFLAGS += -D_POSIX_C_SOURCE=199506 -D__BSD_VISIBLE -D__XSI_VISIBLE
+libEtoileFoundation_CPPFLAGS += -D_POSIX_C_SOURCE=199506 -D__BSD_VISIBLE \
+	-D__XSI_VISIBLE -D_GNU_SOURCE
+
 libEtoileFoundation_OBJCFLAGS += -std=c99 
 libEtoileFoundation_CFLAGS += -std=c99
 
@@ -26,7 +28,6 @@ libEtoileFoundation_OBJC_FILES = \
 	ETObjectChain.m \
 	ETObjectRegistry.m \
 	ETPropertyValueCoding.m \
-	ETPrototype.m \
 	ETTransform.m \
 	ETUUID.m \
 	NSIndexPath+Etoile.m \
@@ -36,6 +37,10 @@ libEtoileFoundation_OBJC_FILES = \
 	NSObject+Model.m \
 	NSString+Etoile.m \
 	NSURL+Etoile.m
+
+ifeq ($(custom_libobjc), yes)
+libEtoileFoundation_OBJC_FILES += ETPrototype.m
+endif
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c

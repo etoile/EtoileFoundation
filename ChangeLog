@@ -1,3 +1,11 @@
+2008-07-28  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/EtoileFoundation.h: Removed ETPrototype.h.
+	* Source/GNUmakefile:
+	* GNUmakefile:
+	Tweaked to build on Ubuntu with no warnings and only compiles ETPrototype.m
+	if needed.
+
 2008-07-25  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/NSObject+Etoile.h:

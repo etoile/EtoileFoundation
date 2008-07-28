@@ -70,7 +70,6 @@ EtoileFoundation_HEADER_FILES = \
 	ETObjectChain.h \
 	ETObjectRegistry.h \
 	ETPropertyValueCoding.h \
-	ETPrototype.h \
 	ETRendering.h \
 	ETTransform.h \
 	ETUUID.h \
@@ -81,6 +80,10 @@ EtoileFoundation_HEADER_FILES = \
 	NSObject+Model.h \
 	NSString+Etoile.h \
 	NSURL+Etoile.h
+
+ifeq ($(custom_libobjc), yes)
+libEtoileFoundation_HEADER_FILES += ETPrototype.h
+endif
 
 ifeq ($(build_deprecated), yes)
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
