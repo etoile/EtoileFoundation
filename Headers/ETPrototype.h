@@ -23,6 +23,8 @@
 - (void) setPrototype: (id)proto;
 @end
 
+#ifdef CUSTOM_RUNTIME
+
 /**
  * Basic implementation of prototypes in Objective-C
  */
@@ -35,3 +37,5 @@
 @end
 
 #define DEFMETHOD(name, ...) id name(id self, SEL cmd, ## __VA_ARGS__)
+
+#endif

@@ -56,6 +56,7 @@
 #import <EtoileFoundation/NSURL+Etoile.h>
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
+#import <EtoileFoundation/ETPrototype.h>
 #import <EtoileFoundation/ETObjectRegistry.h>
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETFilter.h>
