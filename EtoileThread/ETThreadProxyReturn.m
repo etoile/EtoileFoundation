@@ -76,7 +76,7 @@
 {
 	/* If we haven't yet got the object, then block until we have, otherwise do 
 	   this quickly */
-	if (object == nil)
+	if (INVALID_OBJECT == object)
 	{
 		[self value];
 	}
@@ -85,7 +85,7 @@
 
 - (void) forwardInvocation: (NSInvocation *)anInvocation
 {
-	if (nil == object)
+	if (INVALID_OBJECT == object)
 	{
 		[self value];
 	}
