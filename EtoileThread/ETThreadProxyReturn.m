@@ -32,12 +32,12 @@
  */
 
 #import "ETThreadProxyReturn.h"
-
+#define INVALID_OBJECT ((id)-1)
 @implementation ETThreadProxyReturn
 
 - (id) init
 {
-	object = nil;
+	object = INVALID_OBJECT;
 	pthread_cond_init(&conditionVariable, NULL);
 	pthread_mutex_init(&mutex, NULL);
 	return self;
@@ -61,10 +61,10 @@
 
 - (id) value
 {
-	if (object == nil)
+	if (INVALID_OBJECT == object)
 	{
 		pthread_mutex_lock(&mutex);
-		if (nil == object)
+		if (INVALID_OBJECT == object)
 		{
 			pthread_cond_wait(&conditionVariable, &mutex);
 		}
