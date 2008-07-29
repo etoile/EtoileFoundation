@@ -73,7 +73,11 @@ void * threadedInvocationTrampoline(void *initialiser)
 
 - (id) inNewThread
 {
-	return [[[ETThreadedObject alloc] initWithObject: self] autorelease];
+	id proxy = [[[ETThreadedObject alloc] initWithObject: self] autorelease];
+	[ETThread detachNewThreadSelector: @selector(runloop:)
+	                         toTarget: proxy
+	                       withObject: nil];
+    return proxy;
 }
 
 @end

@@ -33,6 +33,7 @@
 
 #import <Foundation/Foundation.h>
 #import <EtoileThread/ETThread.h>
+#import <EtoileThread/NSObject+Threaded.h>
 #include <pthread.h>
 
 #define QUEUE_SIZE 256

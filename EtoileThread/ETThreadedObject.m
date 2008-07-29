@@ -135,12 +135,19 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 #define REMOVE(x,r) do {\
 	while (ISEMPTY)\
 	{\
-		pthread_mutex_lock(&mutex);\
-		if (ISEMPTY)\
+		if (idle && [object shouldIdle])\
 		{\
-			pthread_cond_wait(&conditionVariable, &mutex);\
+			[object idle];\
 		}\
-		pthread_mutex_unlock(&mutex);\
+		else\
+		{\
+			pthread_mutex_lock(&mutex);\
+			if (ISEMPTY)\
+			{\
+					pthread_cond_wait(&conditionVariable, &mutex);\
+			}\
+			pthread_mutex_unlock(&mutex);\
+		}\
 		if (terminate) { return; }\
 	}\
 	x = invocations[MASK(consumer)];\
@@ -208,6 +215,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 - (void) runloop: (id)sender
 {
 	thread = [[ETThread currentThread] retain];
+	BOOL idle = [object conformsToProtocol:@protocol(Idle)];
 	while (object)
 	{
 		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
@@ -228,6 +236,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 			id realReturn;
 			[anInvocation getReturnValue:&realReturn];
 			[retVal setProxyObject:realReturn];
+			[retVal release];
 			/*
 			  Proxy return object is created with a retain count of 2 and an
 			  autorelease count of 1 in the main thread.  This will set it to a
@@ -268,6 +277,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	if (returnType == '@')
 	{
 		retVal = [[[ETThreadProxyReturn alloc] init] autorelease];
+		[retVal retain];
 		proxy = retVal;
 		/*
 		  This is a hack to force the invocation to stop blocking the caller.

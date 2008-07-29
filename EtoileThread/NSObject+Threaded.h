@@ -34,6 +34,26 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * Threaded objects should implement the Idle protocol if they wish to do
+ * something while waiting for messages.  If they have work to do, they should
+ * return YES to -shouldIdle, which will cause -idle to be called.  If they
+ * return NO then the object will enter a blocking state until it receives a
+ * message from the creating thread, after which it will attempt to run the
+ * idle method again.
+ */
+@protocol Idle
+/**
+ * Returns YES if the object's idle method should be called.
+ */
+- (BOOL) shouldIdle;
+/**
+ * Method which will be called in an object when there are no messages waiting
+ * for it.
+ */
+- (void) idle;
+@end
+
+/**
  * The Threaded category adds methods to NSObject
  * for creating object graphs in another thread.
  */
