@@ -1,3 +1,11 @@
+2008-07-30  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSObject+Etoile.h:
+	* Source/NSObject+Etoile.m:
+	(+allSubclasses):
+	(+directSubclasses):
+	New methods based on GSObjCRuntime API and NeXT runtime API.
+
 2008-07-28  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/EtoileFoundation.h: Removed ETPrototype.h.

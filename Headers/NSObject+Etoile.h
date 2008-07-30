@@ -60,6 +60,9 @@
 
 @interface NSObject (Etoile) //<ETInspectableObject>
 
++ (NSArray *) allSubclasses;
++ (NSArray *) directSubclasses;
+
 - (id) clone;
 - (BOOL) isPrototype;
 

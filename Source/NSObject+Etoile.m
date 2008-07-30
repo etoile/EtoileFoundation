@@ -36,6 +36,9 @@
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/ETPrototype.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
+#ifndef GNUSTEP
+#import <objc/runtime.h>
+#endif
 
 @interface NSObject (PrivateEtoile)
 - (ETInstanceVariable *) instanceVariableForName: (NSString *)ivarName;
@@ -43,6 +46,79 @@
 
 
 @implementation NSObject (Etoile) //<ETInspectableObject>
+
+/** Returns all descendant subclasses of the receiver class. 
+    The returned array doesn't include the receiver class. */
++ (NSArray *) allSubclasses
+{
+	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
+	return GSObjCAllSubclassesOfClass(self);
+	#else
+	
+	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
+	Class *allClasses = NULL;
+	int numberOfClasses;
+
+	allClasses = NULL;
+	numberOfClasses = objc_getClassList(NULL, 0);
+
+	if (numberOfClasses > 0)
+	{
+		allClasses = malloc(sizeof(Class) * numberOfClasses);
+		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
+		for (int i = 0; i > numberOfClasses; i++)
+		{
+			if ([allClasses[i] isSubclassOfClass: self] && allClasses[i] != self)
+				[subclasses addObject: allClasses[i]];
+		}
+		free(allClasses);
+	}
+
+	return subclasses;
+
+	#endif
+}
+
+/** Returns all subclasses which inherit directly from the receiver class. 
+    Subclasses that belongs to the class hierarchy of the receiver class but 
+	whose superclasses aren't equal to it, are excluded.
+    The returned array doesn't include the receiver class. */
++ (NSArray *) directSubclasses
+{
+	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
+	return GSObjCDirectSubclassesOfClass(self);
+	#else
+	
+	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 30];
+	Class *allClasses = NULL;
+	int numberOfClasses;
+	 
+	allClasses = NULL;
+	numberOfClasses = objc_getClassList(NULL, 0);
+	 
+	if (numberOfClasses > 0)
+	{
+		allClasses = malloc(sizeof(Class) * numberOfClasses);
+		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
+		for (int i = 0; i > numberOfClasses; i++)
+		{
+			// NOTE: [allClasses[i] superclass] is may be fast enough...
+			#ifdef NEXT_RUNTIME_2
+			if (class_getSuperclass(allClasses[i]) == self)
+			#else /* NEXT_RUNTIME 1 */
+			if (allClasses[i]->superclass == self)
+			#endif
+			{
+				[subclasses addObject: allClasses[i]];
+			}
+		}
+		free(allClasses);
+	}
+	
+	return subclasses;
+	
+	#endif
+}
 
 /** Returns a cloned instance of the receiver by calling -cloneWithZone: 
 	declared by ETPrototype protocol. 
@@ -379,7 +455,11 @@
 /** Returns an ObjC runtime protocol object for the given protocol name. */
 + (Protocol *) protocolForName: (NSString *)name
 {
+#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	return GSProtocolFromName([name UTF8String]);
+#else
+	return nil;
+#endif
 }
 
 - (NSString *) name
