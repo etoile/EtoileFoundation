@@ -7,6 +7,7 @@
 */
 
 #import "ETUUID.h"
+#import "EtoileCompatibility.h"
 #include <stdlib.h>
 // On *BSD, we have a srandomdev() function which seeds the random number
 // generator with entropy collected from a variety of sources.  On other

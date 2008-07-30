@@ -35,7 +35,6 @@
 
 /* EtoileFoundation core */
 
-#import <EtoileFoundation/ETCArray.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
 #import <EtoileFoundation/Macros.h>
 #import <EtoileFoundation/NSFileManager+TempFile.h>
@@ -46,7 +45,6 @@
 #import <EtoileFoundation/UKPluginsRegistry.h>
 #import <EtoileFoundation/UKPushbackMessenger.h>
 #import <EtoileFoundation/UKThreadMessenger.h>
-#import <EtoileFoundation/NSObject+Mixins.h>
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSIndexSet+Etoile.h>
@@ -64,6 +62,11 @@
 #import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
 
+#ifdef GNUSTEP
+
+#import <EtoileFoundation/ETCArray.h>
+#import <EtoileFoundation/NSObject+Mixins.h>
+
 /* EtoileFoundation subframeworks */
 
 #import <EtoileThread/ETThread.h>
@@ -80,3 +83,5 @@
 #import <EtoileXML/ETXMLString.h>
 #import <EtoileXML/ETXMLXHTML-IMParser.h>
 #import <EtoileXML/NSAttributedString+HTML.h>
+
+#endif

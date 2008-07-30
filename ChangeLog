@@ -1,5 +1,14 @@
 2008-07-30  Quentin Mathe <qmathe@club-internet.fr>
 
+	Mac OS X backport.
+	* Headers/EtoileCompatibility.h: Replaced an incorrect reference to 
+	'EtoileUI' by 'EtoileFoundation'.
+	* Headers/EtoileFoundation.h: Disabled problematic headers on Mac OS X.
+	* Source/ETUUID.m: Modified to include GNUstep macros through 
+	EtoileCompatibility.h.
+
+2008-07-30  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/NSObject+Etoile.h:
 	* Source/NSObject+Etoile.m:
 	(+allSubclasses):

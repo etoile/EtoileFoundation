@@ -42,6 +42,6 @@
 #else
 /* For now, GNUstepBase (Foundation Additions) hasn't been ported to Leopard */
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-#import <EtoileUI/GNUstep.h>
+#import <EtoileFoundation/GNUstep.h>
 #endif
 #endif // GNUstep
