@@ -32,7 +32,7 @@
  */
 
 #import "ETXMLNode.h"
-#import "../Macros.h"
+#import "Macros.h"
 #include <stdio.h>
 
 //TODO: Generalise this as a filtered array enumerator

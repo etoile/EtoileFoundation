@@ -32,7 +32,7 @@
  */
 
 #import "ETXMLDeclaration.h"
-#import "../Macros.h"
+#import "Macros.h"
 
 @implementation ETXMLDeclaration
 

@@ -32,7 +32,7 @@
  */
 
 #import "ETXMLNullHandler.h"
-#import "../Macros.h"
+#import "Macros.h"
 
 @implementation ETXMLNullHandler
 
