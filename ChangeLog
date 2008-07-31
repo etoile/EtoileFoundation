@@ -1,3 +1,16 @@
+2008-07-31  Quentin Mathe <qmathe@club-internet.fr>
+
+	+allSubclasses and +directSubclasses tested with EtoileUI on Mac OS X.
+	* Headers/NSObject+Etoile.h:
+	* Source/NSObject+Etoile.m:
+	(+allSubclasses, +directSubclasses):
+	Fixed this buggy code I wrote yesterday. My loop test was wrong and I wasn't
+	taking in account the fact only NSObject root class implements 
+	-isSubclassOfClass:, other root classes may not (for example Object).
+	(ETGetSuperclass(), ETIsSubclassOfClass()): New private functions working
+	as a little abstraction layer over GNU, NeXT 1 and 2 runtimes. Could be made 
+	public in future.
+
 2008-07-30  Quentin Mathe <qmathe@club-internet.fr>
 
 	Mac OS X backport.
@@ -11,8 +24,7 @@
 
 	* Headers/NSObject+Etoile.h:
 	* Source/NSObject+Etoile.m:
-	(+allSubclasses):
-	(+directSubclasses):
+	(+allSubclasses, +directSubclasses):
 	New methods based on GSObjCRuntime API and NeXT runtime API.
 
 2008-07-28  Quentin Mathe <qmathe@club-internet.fr>

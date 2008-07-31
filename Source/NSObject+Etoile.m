@@ -44,6 +44,34 @@
 - (ETInstanceVariable *) instanceVariableForName: (NSString *)ivarName;
 @end
 
+/** Returns the superclass of the class passed in parameter. */
+static inline Class ETGetSuperclass(Class aClass)
+{
+#if defined(GNUSTEP_RUNTIME_COMPATIBILITY)
+	return GSObjCSuper(aClass);
+#elif defined(NEXT_RUNTIME_2)
+	return class_getSuperclass(aClass);
+#else /* NEXT_RUNTIME 1 */
+	return aClass->superclass;
+#endif
+}
+
+/** Returns YES if subclass inherits directly or inherits from aClass.
+	Unlike +[NSObject isSubclassOfClass:] returns no if subclass and aClass are 
+	equal. */
+static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
+{
+	Class parentClass = subclass;
+
+	while (parentClass != nil)
+	{
+		parentClass = ETGetSuperclass(parentClass);
+		if (parentClass == aClass)
+			return YES;
+    } 
+
+	return NO;
+}
 
 @implementation NSObject (Etoile) //<ETInspectableObject>
 
@@ -52,7 +80,8 @@
 + (NSArray *) allSubclasses
 {
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	return GSObjCAllSubclassesOfClass(self);
+	/* Fast because it uses the sibling class facility of GNU runtime */
+	return GSObjCAllSubclassesOfClass(self); 
 	#else
 	
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
@@ -66,10 +95,12 @@
 	{
 		allClasses = malloc(sizeof(Class) * numberOfClasses);
 		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
-		for (int i = 0; i > numberOfClasses; i++)
+		for (int i = 0; i < numberOfClasses; i++)
 		{
-			if ([allClasses[i] isSubclassOfClass: self] && allClasses[i] != self)
+			if (ETIsSubclassOfClass(allClasses[i], self))
+			 {
 				[subclasses addObject: allClasses[i]];
+			}
 		}
 		free(allClasses);
 	}
@@ -100,14 +131,9 @@
 	{
 		allClasses = malloc(sizeof(Class) * numberOfClasses);
 		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
-		for (int i = 0; i > numberOfClasses; i++)
+		for (int i = 0; i < numberOfClasses; i++)
 		{
-			// NOTE: [allClasses[i] superclass] is may be fast enough...
-			#ifdef NEXT_RUNTIME_2
-			if (class_getSuperclass(allClasses[i]) == self)
-			#else /* NEXT_RUNTIME 1 */
-			if (allClasses[i]->superclass == self)
-			#endif
+			if (ETGetSuperclass(allClasses[i]) == self)
 			{
 				[subclasses addObject: allClasses[i]];
 			}
