@@ -73,6 +73,10 @@ void * threadStart(void* initialiser)
 
 + (void) initialize
 {
+	NSLog(@"Going multithreaded.");
+	[[NSNotificationCenter defaultCenter]
+		postNotificationName:NSWillBecomeMultiThreadedNotification
+		              object:nil];
 	pthread_key_create(&threadObjectKey, NULL);
 }
 
