@@ -246,6 +246,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 			//[retVal release];
 		}
 
+		[anInvocation setTarget:nil];
 		[anInvocation release];
 		[pool release];
 	}
