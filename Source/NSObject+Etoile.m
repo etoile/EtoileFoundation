@@ -47,7 +47,16 @@
 /** Returns the superclass of the class passed in parameter. */
 static inline Class ETGetSuperclass(Class aClass)
 {
-#if defined(GNUSTEP_RUNTIME_COMPATIBILITY)
+#if defined(GNU_RUNTIME)
+	if (CLS_ISRESOLV(aClass))
+	{
+		return aClass->super_class;
+	}
+	else
+	{
+		return objc_lookup_class((char*)aClass->super_class);
+	}
+#elif defined(GNUSTEP_RUNTIME_COMPATIBILITY)
 	return GSObjCSuper(aClass);
 #elif defined(NEXT_RUNTIME_2)
 	return class_getSuperclass(aClass);
@@ -79,9 +88,28 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
     The returned array doesn't include the receiver class. */
 + (NSArray *) allSubclasses
 {
-	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
+	#if 0
+	//#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	/* Fast because it uses the sibling class facility of GNU runtime */
+
+	/* 
+	 * Not used, because it is broken for classes that have not yet received
+	 * their first message.
+	 */
 	return GSObjCAllSubclassesOfClass(self); 
+	#elif defined(GNU_RUNTIME)
+	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
+	void *state = NULL;
+	Class nextClass = Nil;
+	while(Nil != (nextClass = objc_next_class(&state)))
+	{
+		if (ETIsSubclassOfClass(nextClass, self))
+		 {
+			[subclasses addObject: nextClass];
+		}
+	}
+	return subclasses;
+
 	#else
 	
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
