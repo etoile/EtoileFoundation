@@ -380,7 +380,7 @@
 {
 	// NOTE: May be necessary to cache this value...
 	// or [[self representedObject] typeForKey: [self name]]
-	return [[self objectValue] type];
+	return [(ETProperty*)[self objectValue] type];
 }
 
 - (id) objectValue
