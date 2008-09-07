@@ -9,15 +9,76 @@
 #import "ETUUID.h"
 #import "EtoileCompatibility.h"
 #include <stdlib.h>
-// On *BSD, we have a srandomdev() function which seeds the random number
-// generator with entropy collected from a variety of sources.  On other
-// platforms we don't, so we use some not-very random data to seed the random
-// number generator.
-#if defined(__FreeBSD__) || defined(__OpenBSD)
+// On *BSD and Linux we have a srandomdev() function which seeds the random 
+// number generator with entropy collected from a variety of sources. On other
+// platforms we don't, so we use some less random data based on the current 
+// time and pid to seed the random number generator.
+#if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__)
 #define INITRANDOM() srandomdev()
-#else
+#elif defined(__linux__)
 #include <time.h>
-#define INITRANDOM() srandom((unsigned int) clock())
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+/** Returns a strong random number which can be used as a seed for srandom().
+    This random number is obtained from Linux entropy pool through /dev/random.
+    Unlike /dev/urandom, /dev/random blocks when the entropy estimate isn't 
+    positive enough. In this case, a random number is created by falling back on 
+    the following combination:
+   'current time' + 'pid' + 'an uninitialized var value' 
+    
+    ETSRandomDev is derived from FreeBSD libc/stdlib/random.c srandomdev(). */
+static void ETSRandomDev()
+{
+	int fd = -1;
+	unsigned int seed = 0;
+	size_t len = sizeof(seed);
+	BOOL hasSeed = NO;
+
+	fd = open("/dev/random", O_RDONLY | O_NONBLOCK, 0);
+	if (fd >= 0) 
+	{
+		if (errno != EWOULDBLOCK)
+		{
+			if (read(fd, &seed, len) == (ssize_t)len)
+			{
+				hasSeed = YES;
+			}
+		}
+		close(fd);
+	}
+
+	if (hasSeed == NO) 
+	{
+		struct timeval tv;
+		unsigned long junk;
+		
+		gettimeofday(&tv, NULL);
+		seed = ((getpid() << 16) ^ tv.tv_sec ^ tv.tv_usec ^ junk);
+	}
+	
+	srandom(seed);
+}
+#define INITRANDOM() ETSRandomDev()
+#else
+static void ETSRandomDev()
+{
+	struct timeval tv;
+	unsigned long junk;
+	unsigned int seed = 0;
+
+	/* Within a process, junk is always initialized to the same value (on Linux), 
+	   gettimeofday is microsecond-based and pid is fixed. This leads to many 
+	   collisions if you call ETSRandomDev() in a loop, as -testString does
+	   in TestUUID.m. */
+
+	gettimeofday(&tv, NULL);
+	seed = ((getpid() << 16) ^ tv.tv_sec ^ tv.tv_usec ^ junk);
+	//ETLog(@"seed %u --- sec %li usec %li junk %lu pid %u", seed, tv.tv_sec, tv.tv_usec, junk, getpid());
+
+	srandom(seed);
+}
+#define INITRANDOM() ETSRandomDev()
 #endif
 #import "Macros.h"
 

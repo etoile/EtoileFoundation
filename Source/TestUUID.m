@@ -43,7 +43,6 @@
 	UKObjectsEqual(uuid5, uuid4);
 }
 
-#if 0
 - (void) testString
 {
 	NSLog(@"Long testing begins. It should be less than minutes.");
@@ -51,8 +50,31 @@
 	NSMutableSet *set = [[NSMutableSet alloc] init];
 	int i, count = 10000;
 
+	/* Check collisions inside a random sequence */
 	for (i = 0; i < count; i++)
 	{
+		NSString *uuid = [NSString UUIDString];
+		UKNotNil(uuid);
+		UKFalse([set containsObject: uuid]);
+		[set addObject: uuid];
+		//NSLog(@"uuid %@", uuid);
+	}
+
+	/* Check collision accross random sequences. If such a collision occurs, it 
+	   is normally a seed collision that results in two or more identical 
+	   random sequences. 
+	   This loop puts pressure on the entropy pool, hence after after few 
+	   iterations ETSRandomDev (and probably srandomdev too) quickly switches to 
+	   the fallback seed creation based on gettimeofday(), which is the only 
+	   thing really exerced here. 
+	   A more exhaustive test would involve more iterations and relatively 
+	   random pid and junk value. These doesn't changed within a process time.*/
+	for (i = 0; i < 2000; i++)
+	{
+		 /* Wait 1 microsecond, otherwise collisions are numerous within a 
+		    single process, and beyond 3000 iterations collisions occur also. */
+		usleep(1);
+		[ETUUID initialize]; // call srandomdev or equivalent
 		NSString *uuid = [NSString UUIDString];
 		UKNotNil(uuid);
 		UKFalse([set containsObject: uuid]);
@@ -63,7 +85,5 @@
 
 	NSLog(@"Long testing is done");
 }
-#endif
-
 
 @end

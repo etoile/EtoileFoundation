@@ -1,3 +1,16 @@
+2008-09-08  Quentin Mathe <qmathe@club-internet.fr>
+
+	Fixed UUID collisions on Linux by porting FreeBSD srandomdev() to it. If a 
+	program is run several times, clock() returns relatively often an identical 
+	value and with the low precision: 13000, 17000 etc. for example with ukrun 
+	on my machine. This number is used as a seed, so identical sequences of 
+	UUIDs can easily happen on Linux. This problem would also occur for multiple 
+	programs that run concurrently and create UUIDs.
+	* Source/ETUUID.m: Added ETSRandomDev() and modified INITRANDOM to use it if
+	srandomdev() isn't available.
+	* Source/TestUUID.m (-testString): Added a new test for collisions between 
+	random sequences. Turned on collision test by default.
+
 2008-07-31  Quentin Mathe <qmathe@club-internet.fr>
 
 	+allSubclasses and +directSubclasses tested with EtoileUI on Mac OS X.
