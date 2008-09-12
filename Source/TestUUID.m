@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
+#import "Macros.h"
 #import "ETUUID.h"
 
 
@@ -43,6 +44,40 @@
 	UKObjectsEqual(uuid5, uuid4);
 }
 
+- (void) testHash
+{
+	id uuid = [ETUUID UUID];
+
+	UKTrue([uuid hash] == [uuid hash]);
+	UKFalse([uuid hash] == [[ETUUID UUID] hash]);
+	
+	/* Test collection lookup */
+	NSDictionary *dict = D(@"uuid1", uuid, @"uuid2", [ETUUID UUID]);
+	id uuidClone = AUTORELEASE([[ETUUID alloc] initWithUUID: [uuid UUIDValue]]);
+
+	UKObjectsEqual(@"uuid1", [dict objectForKey: uuid]);
+	UKObjectsEqual(@"uuid1", [dict objectForKey: uuidClone]);
+	UKNil([dict objectForKey: [ETUUID UUID]]);
+
+	/* Test hash collisions a bit */
+	NSMutableSet *hashSet = [NSMutableSet set];
+	NSNumber *hashNumber  = nil;
+
+#ifdef UKTEST_LONG
+	NSLog(@"Long testing begins. It should be less than minutes.");
+	for (int i = 0; i < 10000; i++)
+	{
+		uuid = [ETUUID UUID];
+		hashNumber = [NSNumber numberWithUnsignedInt: [uuid hash]];
+
+		UKFalse([hashSet containsObject: hashNumber]);
+		[hashSet addObject: hashNumber];
+	}
+	NSLog(@"Long testing is done");
+#endif
+}
+
+#ifdef UKTEST_LONG
 - (void) testString
 {
 	NSLog(@"Long testing begins. It should be less than minutes.");
@@ -85,5 +120,6 @@
 
 	NSLog(@"Long testing is done");
 }
+#endif
 
 @end

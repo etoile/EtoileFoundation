@@ -1,3 +1,12 @@
+2008-12-08  Quentin Mathe <qmathe@club-internet.fr>
+
+	Added -hash to ETUUID. The hash function produces around 1 collisions for 
+	100000 UUIDs.
+	* GNUmakefile: Defined UKTEST_LONG for long testing.
+	* Source/ETUUID.m (-hash): Added..
+	* Source/TestUUID.m (-testHash): Added a new test for collisions between 
+	UUID hashes.
+
 2008-09-08  Quentin Mathe <qmathe@club-internet.fr>
 
 	Fixed UUID collisions on Linux by porting FreeBSD srandomdev() to it. If a 
