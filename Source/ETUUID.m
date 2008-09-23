@@ -16,9 +16,12 @@
 #if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__)
 #define INITRANDOM() srandomdev()
 #elif defined(__linux__)
+#include <sys/time.h>
 #include <time.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <errno.h>
 /** Returns a strong random number which can be used as a seed for srandom().
     This random number is obtained from Linux entropy pool through /dev/random.
