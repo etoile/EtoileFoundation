@@ -1,4 +1,13 @@
-2008-12-08  Quentin Mathe <qmathe@club-internet.fr>
+2008-09-23  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSObject+Model.h:
+	* NSObject+Model.m: 
+	(-primitiveValueForKey:, -setPrimitiveValue:forKey:): Added.
+	(-valueForProperty:, -setValue:forProperty:): Updated to use the new 
+	methods.
+	Also updated these methods in ETProperty class.
+
+2008-09-12  Quentin Mathe <qmathe@club-internet.fr>
 
 	Added -hash to ETUUID. The hash function produces around 1 collisions for 
 	100000 UUIDs.

@@ -33,9 +33,9 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <EtoileFoundation/NSObject+Model.h>
-#import <EtoileFoundation/ETCollection.h>
-#import <EtoileFoundation/EtoileCompatibility.h>
+#import "NSObject+Model.h"
+#import "ETCollection.h"
+#import "EtoileCompatibility.h"
 #ifndef GNUSTEP
 #import <objc/runtime.h>
 #endif
@@ -224,7 +224,7 @@
 	
 	if ([[self properties] containsObject: key])
 	{
-		value = [self valueForKey: key];
+		value = [self primitiveValueForKey: key];
 	}
 	else
 	{
@@ -244,7 +244,7 @@
 	
 	if ([[self properties] containsObject: key])
 	{
-		[self setValue: value forKey: key];
+		[self setPrimitiveValue: value forKey: key];
 		result = YES;
 	}
 	else
@@ -258,6 +258,35 @@
 	}
 	
 	return result;
+}
+
+/* Key Value Coding */
+
+static id (*valueForKeyIMP)(id, SEL, NSString *) = NULL;
+static void (*setValueForKeyIMP)(id, SEL, id, NSString *) = NULL;
+
+/** Returns the value identified by key as NSObject does, even if -valueForKey:
+    is overriden.
+    This method allows to use basic KVC access (through ivars and accessors) 
+    from -valueForProperty: or other methods in subclasses, when a custom KVC 
+    strategy is implemented in subclasses for -valueForKey:. */
+- (id) primitiveValueForKey: (NSString *)key
+{
+	valueForKeyIMP = (id (*)(id, SEL, NSString *))[[NSObject class] 
+		instanceMethodForSelector: @selector(valueForKey:)];
+	return valueForKeyIMP(self, @selector(valueForKey:), key);
+}
+
+/** Sets the value identified by key as NSObject does, even if -setValue:forKey:
+    is overriden.
+    This method allows to use basic KVC access (through ivars and accessors) 
+    from -setValue:forProperty: or other methods in subclasses, when a custom 
+    KVC strategy is implemented in subclasses for -setValue:forKey:. */
+- (void) setPrimitiveValue: (id)value forKey: (NSString *)key
+{
+	setValueForKeyIMP = (void (*)(id, SEL, id, NSString *))[[NSObject class] 
+		instanceMethodForSelector: @selector(setValue:forKey:)];
+	setValueForKeyIMP(self, @selector(setValue:forKey:), value, key);
 }
 
 /* Basic Properties */
@@ -416,7 +445,7 @@
 		}
 		else /* name, type properties */
 		{
-			value = [self valueForKey: key];
+			value = [self primitiveValueForKey: key];
 		}
 	}
 	

@@ -58,6 +58,11 @@
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
+/* Key Value Coding */
+
+- (id) primitiveValueForKey: (NSString *)key;
+- (void) setPrimitiveValue: (id)value forKey: (NSString *)key;
+
 /* Basic Properties */
 
 - (NSString *) displayName;
