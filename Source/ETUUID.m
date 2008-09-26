@@ -94,13 +94,20 @@ static void ETSRandomDev()
 #define NODE(uuid) ((char*)(&(uuid)[10]))
 
 @implementation ETUUID
+
 + (void) initialize
 {
 	INITRANDOM();
 }
+
 + (id) UUID
 {
 	return AUTORELEASE([[self alloc] init]);
+}
+
++ (id) UUIDWithString: (NSString *)aString
+{
+	return AUTORELEASE([[self alloc] initWithString: aString]);
 }
 
 - (id) init

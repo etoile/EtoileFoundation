@@ -15,18 +15,37 @@
 	unsigned char uuid[16];
 }
 
+/**
+ * Returns a new autoreleased UUID object initialized with a random 128-bit 
+ * binary value.
+ */
 + (id) UUID;
+/**
+ * Returns an autoreleased UUID object for the given UUID string representation. 
+ */
++ (id) UUIDWithString: (NSString *)aString;
 
 /**
- * Initialize the UUID object with a 128-bit binary value
+ * Initializes the UUID object with a 128-bit binary value.
  */
 - (id) initWithUUID: (unsigned char *)aUUID;
 /**
- * Initialize the UUID object from a string representation.
+ * Initializes the UUID object from a string representation.
  */
 - (id) initWithString: (NSString *)aString;
+/** 
+ * Initializes a UUID object by generating a random 128-bit binary value. 
+ */
+- (id) init;
+
 - (BOOL) isEqual: (id)anObject;
+/** 
+ * Returns a string representation of the receiver.
+ */
 - (NSString *) stringValue;
+/**
+ * Returns a 128-bit binary value representation of the receiver.
+ */
 - (unsigned char *) UUIDValue;
 
 @end
@@ -34,5 +53,8 @@
 #define ETUUIDSize (36 * sizeof(char))
 
 @interface NSString (ETUUID)
+/**
+ * Returns an autoreleased UUID string representation (see ETUUID).
+ */
 + (NSString *) UUIDString;
 @end
