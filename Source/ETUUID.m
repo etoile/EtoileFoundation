@@ -249,3 +249,23 @@ static void ETSRandomDev()
 }
 
 @end
+
+
+@implementation NSUserDefaults (ETUUID)
+
+- (ETUUID *) UUIDForKey: (NSString *)aKey
+{
+	NSString *uuidString = [self stringForKey: aKey];
+	
+	if (uuidString == nil)
+		return nil;
+
+	return [ETUUID UUIDWithString: uuidString];
+}
+
+- (void) setUUID: (ETUUID *)aUUID forKey: (NSString *)aKey
+{
+	[self setObject: [aUUID stringValue] forKey: aKey];
+}
+
+@end

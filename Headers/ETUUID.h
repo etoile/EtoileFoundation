@@ -8,6 +8,7 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
+#import <Foundation/NSUserDefaults.h>
 
 /** ETUUID does not have a designated initializer. */
 @interface ETUUID : NSObject <NSCopying>
@@ -57,4 +58,17 @@
  * Returns an autoreleased UUID string representation (see ETUUID).
  */
 + (NSString *) UUIDString;
+@end
+
+@interface NSUserDefaults (ETUUID)
+/**
+ * Returns an autoreleased UUID object if the value for aKey is an UUID string 
+ * representation, otherwise returns nil.
+ * Also returns nil if aKey doesn't exist.
+ */
+- (ETUUID *) UUIDForKey: (NSString *)aKey;
+/**
+ * Sets the value as the string representation of aUUID for aKey.
+ */
+- (void) setUUID: (ETUUID *)aUUID forKey: (NSString *)aKey;
 @end
