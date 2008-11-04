@@ -256,9 +256,11 @@ static void ETSRandomDev()
 - (ETUUID *) UUIDForKey: (NSString *)aKey
 {
 	NSString *uuidString = [self stringForKey: aKey];
-	
+
 	if (uuidString == nil)
+	{
 		return nil;
+	}
 
 	return [ETUUID UUIDWithString: uuidString];
 }
