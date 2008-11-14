@@ -1,17 +1,14 @@
-=================
 UnitKit (GNUstep)
 =================
 
 :Maintainer: Quentin Mathe <qmathe@club-internet.fr>
-:Authors: James Duncan Davidson, Nicolas Roard, Quentin Mathe
+:Authors: James Duncan Davidson, Nicolas Roard, Quentin Mathe, David Chisnall, 
+Yen-Ju Chen
 :License: Apache License 2.0 (see LICENSE document)
-:Version: 1.1
+:Version: 1.3
 
-This is a port of the UnitKit test framework on GNUstep. GNUstep is a free 
-software implementation of the OpenStep specifications and is available on 
-<http://www.gnustep.org>
-
-To know more about `UnitKit <http://www.unitkit.org>`_
+This is a fork of the UnitKit test framework for GNUstep.
+To know more about UnitKit: <http://www.etoile-project.org/dev/0.4/UnitKit>
 
 
 Build and Install
@@ -23,8 +20,76 @@ Read INSTALL document.
 Mac OS X support
 ----------------
 
-Please use original UnitKit unless portability is considered.
-UnitKit (GNUstep) is compatible with Cocoa.
+UnitKit development has been halted for few years on Mac OS X and the official 
+project web site unitkit.org is no longer available. So you can use UnitKit 
+(GNUstep) as a replacement. 
+Both Cocoa and Xcode support are actively maintained and used by several 
+Etoile modules that can be built on Mac OS X.
+
+
+Features
+--------
+
+UnitKit (GNUstep) includes several new features over the original framework:
+
+* UKObjectKindOf(a, b) test macro that uses -isKindOfClass: behind the scene.
+  Most of the time UKObjectsEqual([a class], [b class]) would be similar, but 
+  not always (i.e. NSCFArray/NSArray on Mac OS X). Example:
+
+  UKObjectKindOf(myObject, NSArray)
+
+* Class test methods in addition to instance-only test methods. For example 
+  +testBirdFamily and -testBird are two tests methods that will be run if they 
+  belong to class that conforms UKTest.
+
+* Lazy instantiation of the application class. By decreasing order of priority, 
+  this method tries to create an application object by sending
+  -sharedApplication to:
+      * The principal class of the test bundle (declared in the bundle property list)
+      * ETApplication (from EtoileUI)
+      * NSApplication
+
+* -initForTest and -releaseForTest messages that allows to handle fixtures for 
+  test methods implemented in a class which is not a test class, and already 
+  has -init and -dealloc implemented.
+  -initForTest (or -init) and -releaseForTest (or -dealloc) plays the same role 
+  than set up and tear down methods in other unit testing framework. If these 
+  methods belong to a class that conforms to UKTest, then the test case object 
+  will be instantiated by calling -initForTest rather than -init and released by 
+  calling -releaseForTest a single time (instead of -release). For each test 
+  method that is run, a new test instance is created and these methods are 
+  called if implemented. 
+  Take note that you must return self for -initForTest and call [super release] 
+  in -releaseForTest.
+  Typically this allows to declare test methods in a category of an existing 
+  class and test the class from the inside like that:
+
+  @interface NSArray (VariousTestMethods) <UKTest>
+  @end
+
+  @implemented NSArray (VariousTestMethods)
+
+  - (id) initForTest
+  {
+     self = [self init];
+     // some additional set up.
+     return self;
+  }
+
+  - (void) testEmptyness
+  {
+    UKIntsEqual(0, [self count]);
+  }
+
+  - (id) releaseForTest
+  {
+     // tear down what has been set up in -initForTest
+     [super release];
+  }
+
+  @end
+
+* Grow notifications on Mac OS X borrowed from UnitKit 2.0 development version
 
 
 How to use UnitKit with GNUstep-make
@@ -44,9 +109,13 @@ Then, just type:
 
     * ukrun Test.bundle
 
-And you should have the list of the tests and their status. If somebody want to 
-add UnitKit support to ProjectCenter (the GNUstep IDE) or even work on the 
-standalone graphical launcher UnitTests, be sure it will be appreciated :-)
+And you should have the list of the tests and their status. You can omit the
+'Test.bundle' argument, if you do so ukrun will try to run any bundles (with 
+.bundle extension) located in the current directory.
+
+If somebody want to add UnitKit support to ProjectCenter (the GNUstep IDE) or 
+even work on the standalone graphical launcher UnitTests, be sure it will be 
+appreciated :-)
 
 
 UnitTests utility
@@ -71,14 +140,7 @@ UnitKit (bundled with Etoile) is required.
     * ukrun UnitKit.bundle
 
 
-Dependency
----------
-
-None.
-
-
 Contribute 
 ----------
 
 Read TODO document.
-

@@ -1,4 +1,3 @@
-=========================
 UnitKit (GNUstep) INSTALL
 =========================
 
@@ -12,9 +11,9 @@ compile and use UnitKit. The core packages are, at a minimum:
 
    * gnustep-base
    
-   * gnustep-back (will be optional soon)
+   * gnustep-back (optional)
    
-   * gnustep-gui (idem)
+   * gnustep-gui (ditto)
 
 See <http://www.gnustep.org/> for further information.
 
@@ -22,9 +21,13 @@ See <http://www.gnustep.org/> for further information.
 Build and Install
 -----------------
 
+Square brackets "[ ]" are used to indicate optional parameters.
+
    Steps to build:
 
-   * make install
+   * make
+
+   * [sudo [-E]] make install
 
 
 Trouble

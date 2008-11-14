@@ -3,6 +3,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 ADDITIONAL_OBJCFLAGS = -Wno-import
 
 FRAMEWORK_NAME = UnitKit
+UnitKit_VERSION = 1.3
 
 UnitKit_LIBRARIES_DEPEND_UPON = -lgnustep-base 
 

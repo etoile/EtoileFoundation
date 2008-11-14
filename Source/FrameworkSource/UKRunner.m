@@ -116,7 +116,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 	int bundles = 0;
     if (argCount >= 2) 
 	{
-        printf("ukrun version 1.1\n"); // XXX replace with a real auto version
+        printf("ukrun version 1.3 (GNUstep)\n"); // XXX replace with a real auto version
 
         // Mark Dalrymple contributed this bit about going quiet.
         

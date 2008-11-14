@@ -1,0 +1,32 @@
+UnitKit (GNUstep) NEWS
+======================
+
+1.3 (Etoile 0.4)
+------------------
+
+- Added UKObjectKindOf test macro
+- Lazy instantiation of the application class if needed. This allows to test 
+  EtoileUI-based code which use ETApplication instead of NSApplication
+- Growl notifications on Mac OS X (borrowed from UnitKit 2.0 development)
+- More useful feedback when an exception is raised while performing a test
+- Fix for running the tests when NSProxy subclasses are present at runtime
+- Updated Xcode support
+
+
+1.2 (Etoile 0.2)
+----------------
+
+- Memory leak fixes
+
+1.1 (Etoile 0.1)
+----------------
+
+- Updated UnitKit 1.0 GNUstep port to UnitKit 1.1 source code
+- Test class method support named like +testWhatever.
+- Added -initForTest and -releaseForTest as an alternative to -init and -dealloc 
+
+
+1.0
+---
+
+- First GNUstep release.
