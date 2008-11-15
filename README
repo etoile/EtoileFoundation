@@ -1,6 +1,67 @@
-================
 EtoileFoundation
 ================
 
-Thie framework contains various Etoile related extensions.
+:Maintainers: Quentin Mathe <qmathe@club-internet.fr>, David Chisnall
+:Authors: David Chisnall, Quentin Mathe, Uli Kusterer, Yen-Ju Chen
+:License: Modified BSD License
+:Version: 0.4
 
+EtoileFoundation is the core framework for all Etoile projects, providing numerous convenience methods on top of the OpenStep foundation and significantly better support for reflection. Here is a summary of some the interesting features: 
+- mixins and traits
+- restartable exceptions
+- collection class protocol and additions
+- UUID
+- convenient macros such as FOREACH
+- dynamic C array
+- prototypes (if you install the custom libobjc available in trunk/Etoile/Languages/libobjc)
+
+Two sub-frameworks are bundled with it: 
+- *EtoileThread* which allows objects to transparently be run in a separate thread. 
+- *EtoileXML* which is a light-weight and tolerant XML parsing framework whose main ability is to handle truncated and not well-formed XML documents. For example, with XML streams used by the XMPP protocol, the XML is received in fragments.
+
+Be wary that the framework is really much work-in-progress for now, so some parts really need improvements and the API is still a moving target.
+
+
+Build and Install
+-----------------
+
+Read INSTALL document.
+
+
+Mac OS X support
+----------------
+
+EtoileFoundation is supported on Mac OS X, minus the parts that only works with the GNU runtime (mixins/traits, prototypes and some introspection stuff).
+An Xcode project is available in Frameworks/EtoileUI to build both EtoileFoundation and EtoileUI on Mac OS X. EtoileThread and EtoileXML are not built by this Xcode project.
+
+
+Developer Notes
+===============
+
+If you want to use classes from EtoileThread or EtoileXML, you can use import EtoileFoundation.h which is an umbrella header for all the EtoileFoundation, EtoileThread and EtoileXML classes. However linking requires that you link EtoileXML and EtoileThread by yourself since EtoileFoundation does not.
+
+
+EtoileThread
+------------
+
+See the README in the EtoileThread subdirectory.
+
+
+EtoileXML
+---------
+
+See the README in the EtoileXML subdirectory.
+
+
+Tests suite
+-----------
+
+UnitKit (bundled with Etoile) is required.
+
+    Steps to produce a test bundle and run tests suite:
+
+    * make test=yes 
+
+    * ukrun
+
+The test suite doesn't test the classes that belong to EtoileThread and EtoileXML. For these, tests are available in their respective subdirectories but they currently don't use UnitKit.

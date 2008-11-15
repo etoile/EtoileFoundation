@@ -8,16 +8,13 @@ endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
     kqueue_supported ?= yes
-    libuuid_embedded ?= yes
 endif
 
 ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
     kqueue_supported ?= yes
-    libuuid_embedded ?= yes
 endif
 
 ifneq ($(findstring linux, $(GNUSTEP_HOST_OS)),)
-    libuuid_embedded ?= yes
 endif
 
 ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
@@ -25,7 +22,6 @@ ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
 endif
 
 export kqueue_supported ?= no
-export libuuid_embedded ?= no
 export build_deprecated ?= yes
 
 ifeq ($(test), yes)
@@ -34,7 +30,7 @@ else
 FRAMEWORK_NAME = EtoileFoundation
 endif
 
-VERSION = 0.1
+VERSION = 0.4
 
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML \
@@ -46,8 +42,6 @@ endif
 
 EtoileFoundation_SUBPROJECTS += Source
 
-# We import external headers like uuid_dce.h by collecting all headers in a 
-# common directory 'EtoileFoundation' with before-all:: (see GNUmakefile.postamble)
 EtoileFoundation_HEADER_FILES_DIR = ./EtoileFoundation
 
 EtoileFoundation_HEADER_FILES = \
@@ -89,7 +83,6 @@ endif
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
 -include etoile.make
--include GNUmakefile.postamble
 ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 else

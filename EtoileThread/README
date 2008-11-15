@@ -1,6 +1,10 @@
-============
 EtoileThread
 ============
+
+:Maintainer: David Chisnall
+:Authors: David Chisnall
+:License: Modified BSD License
+:Version: 0.1
 
 This directory contains a set of classes which provide a better interface to POSIX threading routines than the standard NSThread.  The GNUmakefile will, on GNUstep platforms, compile the example tool and the documentation.  The Makefile will compile the example tool (but not the documentation) on Mac OS X.  If you use this on OS X and create an XCode project for building the framework, adding it to the tree would be appreciated.
 
