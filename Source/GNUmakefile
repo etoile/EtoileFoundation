@@ -27,6 +27,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETObjectChain.m \
 	ETObjectRegistry.m \
 	ETPropertyValueCoding.m \
+	ETTranscript.m \
 	ETTransform.m \
 	ETUUID.m \
 	NSIndexPath+Etoile.m \
