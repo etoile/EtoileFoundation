@@ -154,6 +154,15 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	r = invocations[MASK(consumer+1)];\
 	__sync_fetch_and_add(&consumer, 2);\
 } while(0);
+@interface NSMethodSignature (TypeEncodings)
+- (const char*) _methodTypes;
+@end
+@implementation NSMethodSignature (TypeEncodings)
+- (const char*) _methodTypes
+{
+	return _methodTypes;
+}
+@end
 
 @implementation ETThreadedObject
 
@@ -254,7 +263,10 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 
 - (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
 {
-	return [object methodSignatureForSelector:aSelector];
+	NSMethodSignature *s = [object methodSignatureForSelector:aSelector];
+	NSCAssert3((sel_get_type(aSelector) == NULL) || (strcmp([s _methodTypes],
+					sel_get_type(aSelector)) == 0), @"Method %s called with incorrect signature (%s instead of %s)",  sel_get_name(aSelector), sel_get_type(aSelector), [s _methodTypes]);
+	return s;//[object methodSignatureForSelector:aSelector];
 }
 
 - (id) returnProxy

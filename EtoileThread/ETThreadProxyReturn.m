@@ -38,6 +38,9 @@
 - (id) init
 {
 	object = INVALID_OBJECT;
+	// Retain self so that the proxy isn't dealloc'd until after the real
+	// object is set.
+	[self retain];
 	pthread_cond_init(&conditionVariable, NULL);
 	pthread_mutex_init(&mutex, NULL);
 	return self;
@@ -57,6 +60,7 @@
 	object = [anObject retain];
 	pthread_cond_signal(&conditionVariable);
 	pthread_mutex_unlock(&mutex);
+	[self release];
 }
 
 - (id) value
