@@ -163,7 +163,9 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	return _methodTypes;
 }
 @end
-
+@interface NSInvocation (_Private)
+- (void) _storeRetval;
+@end
 @implementation ETThreadedObject
 
 /* Designated initializer */
@@ -239,13 +241,19 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 			//TODO: Implement auto-boxing for non-object returns
 		}
 		*/
+
+		// If we are returning an object, we don't want to be overwriting the
+		// proxy on the stack.
+		if (retVal != nil)
+		{
+			[anInvocation _storeRetval];
+		}
 		[anInvocation invokeWithTarget:object];
 		if (retVal != nil)
 		{
 			id realReturn;
 			[anInvocation getReturnValue:&realReturn];
 			[retVal setProxyObject:realReturn];
-			[retVal release];
 			/*
 			  Proxy return object is created with a retain count of 2 and an
 			  autorelease count of 1 in the main thread.  This will set it to a
@@ -263,10 +271,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 
 - (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
 {
-	NSMethodSignature *s = [object methodSignatureForSelector:aSelector];
-	NSCAssert3((sel_get_type(aSelector) == NULL) || (strcmp([s _methodTypes],
-					sel_get_type(aSelector)) == 0), @"Method %s called with incorrect signature (%s instead of %s)",  sel_get_name(aSelector), sel_get_type(aSelector), [s _methodTypes]);
-	return s;//[object methodSignatureForSelector:aSelector];
+	return [object methodSignatureForSelector:aSelector];
 }
 
 - (id) returnProxy
@@ -290,7 +295,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	if (returnType == '@')
 	{
 		retVal = [[[ETThreadProxyReturn alloc] init] autorelease];
-		[retVal retain];
 		proxy = retVal;
 		/*
 		  This is a hack to force the invocation to stop blocking the caller.
