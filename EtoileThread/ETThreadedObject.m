@@ -167,6 +167,14 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 - (void) _storeRetval;
 @end
 @implementation ETThreadedObject
+// Remove this when GNUstep is fixed.
++ (void) initialize
+{
+	if (Nil != NSClassFromString(@"GSFFCallInvocation"))
+	{
+		NSLog(@"WARNING: You are using FFCall-based NSInvocations.  This will result in random stack corruption.  Any bugs you file will be ignored.");
+	}
+}
 
 /* Designated initializer */
 - (id) init
