@@ -82,14 +82,11 @@ static BOOL deallocCalled;
 	id object = [ThreadTestClass threadedNew];
 	
 	id ret;
-	for (unsigned i =0; i<10; i++)
+	for (unsigned i =0; i<10000; i++)
 	{
-		if (i % 5000 == 0)
-		{
-			fprintf(stderr, "%d ", i);
-		}
 		id pool = [NSAutoreleasePool new];
 		ret = [object test];
+		usleep(i % 500);
 		[ret value];
 		[pool release];
 	}
@@ -107,11 +104,12 @@ static BOOL deallocCalled;
 	id object = [NSMutableArray threadedNew];
 	[object addObject: [[[ThreadTestClass alloc] init] autorelease]];
 
-	NSLog(@"%@", [object objectAtIndex: 0]);
+	[[object objectAtIndex: 0] description];
 
 	[object release];
  	[pool release];
 
+	sleep(1);
 	UKTrue(deallocCalled);
 }
 
@@ -124,6 +122,7 @@ static BOOL deallocCalled;
 	[object release];
 	[pool release];
 
+	sleep(1);
 	UKTrue(deallocCalled);
 }
 
@@ -135,6 +134,7 @@ static BOOL deallocCalled;
 	id object = [[[[ThreadTestClass alloc] init] autorelease] inNewThread];
 	[pool release];
 
+	sleep(1);
 	UKTrue(deallocCalled);
 }
 
