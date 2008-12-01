@@ -135,6 +135,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 #define REMOVE(x,r) do {\
 	while (ISEMPTY)\
 	{\
+		if (terminate) { return; }\
 		if (idle && [object shouldIdle])\
 		{\
 			[object idle];\
@@ -148,7 +149,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 			}\
 			pthread_mutex_unlock(&mutex);\
 		}\
-		if (terminate) { return; }\
 	}\
 	x = invocations[MASK(consumer)];\
 	r = invocations[MASK(consumer+1)];\
@@ -227,6 +227,8 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	/* Destroy synchronisation objects */
 	pthread_cond_destroy(&conditionVariable);
 	pthread_mutex_destroy(&mutex);
+
+	[object release];
 
 	[super dealloc];
 }
