@@ -154,25 +154,40 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	r = invocations[MASK(consumer+1)];\
 	__sync_fetch_and_add(&consumer, 2);\
 } while(0);
+
+
 @interface NSMethodSignature (TypeEncodings)
+/**
+ * Returns the ObjC encoded type string for this method.
+ */
 - (const char*) _methodTypes;
 @end
+
 @implementation NSMethodSignature (TypeEncodings)
 - (const char*) _methodTypes
 {
 	return _methodTypes;
 }
 @end
+
 @interface NSInvocation (_Private)
+/**
+ * Exposes the private method which tells the NSInvocation not to store its
+ * return value in the original location.
+ */
 - (void) _storeRetval;
 @end
+
+
 @implementation ETThreadedObject
 // Remove this when GNUstep is fixed.
 + (void) initialize
 {
 	if (Nil != NSClassFromString(@"GSFFCallInvocation"))
 	{
-		NSLog(@"WARNING: You are using FFCall-based NSInvocations.  This will result in random stack corruption.  Any bugs you file will be ignored.");
+		NSLog(@"WARNING: You are using FFCall-based NSInvocations.  "
+				"This will result in random stack corruption.  "
+				"Any bugs you file will be ignored.");
 	}
 }
 
