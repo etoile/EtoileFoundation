@@ -171,7 +171,7 @@
 /* Begin PBXFileReference section */
 		03BC00BC0DEE32AD009AFC82 /* Icon-Pass.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Pass.tiff"; sourceTree = "<group>"; };
 		03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Fail.tiff"; sourceTree = "<group>"; };
-		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		600CE53109F2474F008BA30D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		60FBE0B709FAEA9700F734E1 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../ChangeLog; sourceTree = SOURCE_ROOT; };
 		8DC2EF5B0486A6940098B216 /* UnitKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnitKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,7 +186,7 @@
 		AE702CC905FED1060049C79F /* UKRunnerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKRunnerTests.h; path = UnitKitTests/UKRunnerTests.h; sourceTree = "<group>"; };
 		AE702CCA05FED1060049C79F /* UKRunnerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKRunnerTests.m; path = UnitKitTests/UKRunnerTests.m; sourceTree = "<group>"; };
 		AE70B65405F7100400D56367 /* TestBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE70B65505F7100400D56367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = ../../TestSource/TestBundle/Info.plist; sourceTree = "<group>"; };
+		AE70B65505F7100400D56367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../TestSource/TestBundle/Info.plist; sourceTree = "<group>"; };
 		AE70B66405F71D5500D56367 /* TestOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestOne.h; path = ../../TestSource/TestBundle/TestOne.h; sourceTree = "<group>"; };
 		AE70B66505F71D5500D56367 /* TestOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestOne.m; path = ../../TestSource/TestBundle/TestOne.m; sourceTree = "<group>"; };
 		AE70B66E05F71E3F00D56367 /* Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = SOURCE_ROOT; };
@@ -197,11 +197,11 @@
 		AE73F21F05F1573200CAFD4D /* UKTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTest.h; sourceTree = "<group>"; };
 		AE8CCF680680B539008CA594 /* class.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = class.h; path = XcodeIntegration/FileTemplates/class.h; sourceTree = "<group>"; };
 		AE8CCF690680B539008CA594 /* class.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = class.m; path = XcodeIntegration/FileTemplates/class.m; sourceTree = "<group>"; };
-		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = TemplateInfo.plist; path = XcodeIntegration/FileTemplates/TemplateInfo.plist; sourceTree = "<group>"; };
+		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = TemplateInfo.plist; path = XcodeIntegration/FileTemplates/TemplateInfo.plist; sourceTree = "<group>"; };
 		AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = UnitKitBundle.trgttmpl; path = XcodeIntegration/TargetTemplates/UnitKitBundle.trgttmpl; sourceTree = "<group>"; };
 		AE923B2C05C3B1CE00549058 /* ukrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ukrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitKitTests.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE923B3705C3B1DF00549058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = UnitKitTests/Info.plist; sourceTree = "<group>"; };
+		AE923B3705C3B1DF00549058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UnitKitTests/Info.plist; sourceTree = "<group>"; };
 		AE923B6D05C3B57600549058 /* UnitKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitKit.h; sourceTree = "<group>"; };
 		AE923B7005C3B62B00549058 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE923D8505C3B90100549058 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 		AE923D8A05C3B9EC00549058 /* UKRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKRunner.m; sourceTree = "<group>"; };
 		AEA6373D06D16EAE004DF854 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
 		AEBED01906AFADB000451E26 /* TestFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AEBED01A06AFADB000451E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = TestSource/TestFramework/Info.plist; sourceTree = SOURCE_ROOT; };
+		AEBED01A06AFADB000451E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestSource/TestFramework/Info.plist; sourceTree = SOURCE_ROOT; };
 		AEBED02706AFAE7800451E26 /* TestClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestClass.h; path = ../../TestSource/TestFramework/TestClass.h; sourceTree = "<group>"; };
 		AEBED02806AFAE7800451E26 /* TestClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestClass.m; path = ../../TestSource/TestFramework/TestClass.m; sourceTree = "<group>"; };
 		AEBED04C06AFB1AB00451E26 /* UKTestFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFramework.h; path = UnitKitTests/UKTestFramework.h; sourceTree = "<group>"; };
@@ -1365,18 +1365,21 @@
 		600CE50D09F24490008BA30D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
 			};
 			name = Development;
 		};
 		600CE50E09F24490008BA30D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
 			};
 			name = Deployment;
 		};
 		600CE50F09F24490008BA30D /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
 			};
 			name = Default;
 		};
