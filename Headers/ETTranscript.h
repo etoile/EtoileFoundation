@@ -44,7 +44,7 @@
  * standard transcripts destination. ETTranscript will
  * then take the role of an additional level of indirection.
  */
-@interface ETTranscript
+@interface ETTranscript : NSObject
 /**
  * Writes the object's description to the standard transcript.
  */
