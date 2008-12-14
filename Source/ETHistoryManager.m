@@ -26,11 +26,10 @@
 
 @implementation ETHistoryManager
 
-- (ETHistoryManager *) init
+- (id) init
 {
-	[super init];
+	SUPERINIT;
 	history = [[NSMutableArray alloc] init];
-	future = nil;
 	max_size = 100;
 	index = -1;
 	return self;
