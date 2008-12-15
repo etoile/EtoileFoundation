@@ -61,6 +61,7 @@ EtoileFoundation_HEADER_FILES = \
 	OSBundleExtensionLoader.h \
 	ETCollection.h \
 	ETFilter.h \
+	ETHistoryManager.h \
 	ETObjectChain.h \
 	ETObjectRegistry.h \
 	ETPropertyValueCoding.h \

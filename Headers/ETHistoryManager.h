@@ -45,7 +45,7 @@
 /**
  * Initialize the history manager.
  */
-- (ETHistoryManager *) init;
+- (id) init;
 /**
  * Set new current object, discarding the forward history.
  */
