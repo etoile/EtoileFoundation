@@ -65,7 +65,6 @@ EtoileFoundation_HEADER_FILES = \
 	ETObjectChain.h \
 	ETObjectRegistry.h \
 	ETPropertyValueCoding.h \
-	ETPrototype.h \
 	ETRendering.h \
 	ETTranscript.h \
 	ETTransform.h \
@@ -75,12 +74,15 @@ EtoileFoundation_HEADER_FILES = \
 	NSInvocation+Etoile.h \
 	NSObject+Etoile.h \
 	NSObject+Model.h \
+	NSObject+Prototypes.h \
 	NSString+Etoile.h \
 	NSURL+Etoile.h
 
 ifeq ($(build_deprecated), yes)
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
 endif
+
+ADDITIONAL_OBJCFLAGS += -march=i586
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
