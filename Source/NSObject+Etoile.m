@@ -34,7 +34,6 @@
  */
 
 #import <EtoileFoundation/NSObject+Etoile.h>
-#import <EtoileFoundation/ETPrototype.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
 #ifndef GNUSTEP
 #import <objc/runtime.h>
@@ -172,23 +171,6 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	return subclasses;
 	
 	#endif
-}
-
-/** Returns a cloned instance of the receiver by calling -cloneWithZone: 
-	declared by ETPrototype protocol. 
-	If the receiver doesn't implement -cloneWithZone:, an exception is raised. */
-- (id) clone
-{
-	return [(id)self cloneWithZone: NSDefaultMallocZone()];
-}
-
-/** Returns whether the receiver is a prototype object that conforms to 
-	ETPrototype protocol.
-	A prototype object can be cloned and can declare new methods unlike usual
-	instances that returns NO. */
-- (BOOL) isPrototype
-{
-	return ([self conformsToProtocol: @protocol(ETPrototype)]);
 }
 
 /** Returns a object representing the receiver. Useful when sucblasses override

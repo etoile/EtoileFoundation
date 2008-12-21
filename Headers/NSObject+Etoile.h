@@ -63,9 +63,6 @@
 + (NSArray *) allSubclasses;
 + (NSArray *) directSubclasses;
 
-- (id) clone;
-- (BOOL) isPrototype;
-
 /** Returns a object representing the receiver. Useful when sucblasses override
     root class methods and make them unavailable to introspection. For example,
 	ETProtocol represents a protocol but overrides methods like -type, typeName

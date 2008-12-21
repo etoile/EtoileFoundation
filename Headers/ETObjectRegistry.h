@@ -37,7 +37,6 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETCollection.h>
-#import <EtoileFoundation/ETPrototype.h>
 
 
 // TODO: Break this class in ETObject root class and ETObjectRegistry subclass
@@ -76,7 +75,7 @@
 	mechanism will surely use CoreObject when it is available on the host system.
 	
 	This class is heavily used in EtoileUI framework. */
-@interface ETObjectRegistry : NSObject <ETPropertyValueCoding, ETPrototype, ETCollection>
+@interface ETObjectRegistry : NSObject <ETPropertyValueCoding, ETCollection>
 {
 	ETObjectRegistry *_parent;
 	NSMutableDictionary *_properties;
