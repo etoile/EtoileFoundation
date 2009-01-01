@@ -35,6 +35,7 @@
 
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
+#import <EtoileFoundation/Macros.h>
 #ifndef GNUSTEP
 #import <objc/runtime.h>
 #endif
@@ -315,25 +316,46 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 
 - (NSArray *) protocolNames
 {
-	return nil;
+	NSMutableArray *protocolNames = [NSMutableArray array];
+	FOREACH([self protocols], protocol, Protocol *)
+	{
+		[protocolNames addObject: [NSString stringWithUTF8String: [protocol name]]];
+	}
+	return protocolNames;
 }
 
-#if 0
+// FIXME: Not sure if this is the right interpretation for -protocols,
+//        currently it returns all protocols explicitly conformed to by the
+//        object's class, or its superclass, or superclasses's class, etc.,
+//        but not the ancestor protocols of those protocols.
+//        
+//        We also need a -allProtocols method which adds all the ancestors 
+//        to the protocols returned by this method.
 - (NSArray *) protocols
 {
+	#if defined(GNU_RUNTIME)
 	NSMutableArray *protocols = [NSMutableArray array];
-	NSEnumerator *e = [[self protocolNames] objectEnumerator];
-	NSString *protocolName = nil;
-	
-	while ((protocolName = [e nextObject]) != nil)
+
+	for (Class class = [self class]; ; class = ETGetSuperclass(class))
 	{
-		[protocols addObject: [self protocolForName: protocolName]];
+		for (struct objc_protocol_list* iter = class->protocols; iter != NULL; iter = iter->next)
+		{
+			for (size_t i = 0; i < iter->count; i++)
+			{
+				Protocol *protocol = iter->list[i];
+				[protocols addObject: protocol];
+			}
+		}
+
+		if (class == [NSObject class])
+			break;
 	}
-	
 	// FIXME: Return immutable array
 	return protocols;
+	#else
+	return nil;
+	#endif
 }
-#endif
 
 - (NSArray *) methods
 {

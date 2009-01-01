@@ -91,7 +91,7 @@
 - (id) typeForInstanceVariable: (NSString *)ivar;
 
 - (NSArray *) protocolNames;
-//- (NSArray *) protocols;
+- (NSArray *) protocols;
 
 - (NSArray *) methods;
 - (NSArray *) methodNames;
