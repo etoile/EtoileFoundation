@@ -357,6 +357,10 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 	obj->class_pointer = (Class)hiddenClassFromClass(obj->class_pointer);
 	return obj;
 }
+- (id) clone
+{
+	return [(id)self cloneWithZone: NSDefaultMallocZone()];
+}
 - (BOOL) isPrototype
 {
 	return CLS_ISHIDDEN(isa);

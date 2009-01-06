@@ -14,6 +14,10 @@
  */
 - (id) cloneWithZone: (NSZone *)zone;
 /**
+ * Returns a clone by calling cloneWithZone: passing NSDefaultMallocZone().
+ */
+- (id) clone;
+/**
  * Returns YES if this object is a prototype.
  */
 - (BOOL) isPrototype;
