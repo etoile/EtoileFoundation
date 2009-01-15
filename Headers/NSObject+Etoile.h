@@ -47,9 +47,8 @@
 #import <GNUstepBase/GSObjCRuntime.h>
 #endif
 
-#define ETUTI NSString
-
 @class ETMethod;
+@class ETUTI;
 
 /** Protocol which can be adopted by other object hierachy than NSObject rooted hierarchy */
 @protocol ETInspectableObject
@@ -167,4 +166,16 @@
 - (NSArray *) protocolNames;
 - (NSArray *) protocols;
 
+@end
+
+/**
+ * Provides some introspection on Class objects.
+ */
+@interface ETClass : NSObject
+/**
+ * Returns an array of the Protocol objects which aClass explicitly conforms
+ * to. (i.e., does not include protocols conformed to by aClass's superclasses
+ * or protocols which the returned protocols conform to themselves.)
+ */
++ (NSArray *) protocolsForClass: (Class)aClass;
 @end

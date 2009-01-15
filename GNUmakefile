@@ -76,7 +76,11 @@ EtoileFoundation_HEADER_FILES = \
 	NSObject+Model.h \
 	NSObject+Prototypes.h \
 	NSString+Etoile.h \
-	NSURL+Etoile.h
+	NSURL+Etoile.h \
+	ETUTI.h
+
+EtoileFoundation_RESOURCE_FILES = \
+	UTIDefinitions.plist
 
 ifeq ($(build_deprecated), yes)
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h

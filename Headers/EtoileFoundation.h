@@ -60,6 +60,7 @@
 #import <EtoileFoundation/ETRendering.h>
 #import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
+#import <EtoileFoundation/ETUTI.h>
 
 #ifdef GNUSTEP
 

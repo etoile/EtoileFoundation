@@ -35,6 +35,7 @@
 
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
+#import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/Macros.h>
 #ifndef GNUSTEP
 #import <objc/runtime.h>
@@ -192,8 +193,7 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	do it by overriding this method. */
 - (ETUTI *) type
 {
-	
-	return [self className];
+	return [ETUTI typeWithClass: [self class]];
 }
 
 /** Returns the type name which is the last component of type string returned 
@@ -201,9 +201,7 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	This method is a shortcut for [[self type] typeName]. */
 - (NSString *) typeName
 {
-	unsigned int prefixLength = [[[self class] typePrefix] length];
-	
-	return [[self type] substringFromIndex: prefixLength];
+	return nil;
 }
 
 /** Returns the type prefix, usually the prefix part of the type name returned
@@ -338,15 +336,7 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 
 	for (Class class = [self class]; ; class = ETGetSuperclass(class))
 	{
-		for (struct objc_protocol_list* iter = class->protocols; iter != NULL; iter = iter->next)
-		{
-			for (size_t i = 0; i < iter->count; i++)
-			{
-				Protocol *protocol = iter->list[i];
-				[protocols addObject: protocol];
-			}
-		}
-
+		[protocols addObjectsFromArray: [ETClass protocolsForClass: class]];
 		if (class == [NSObject class])
 			break;
 	}
@@ -430,12 +420,12 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	
 	#endif
 		
-	return [NSString stringWithCString: ivarType];
+	return nil;
 }
 
 - (NSString *) typeName
 {
-	return [self type];
+	return nil;
 }
 
 - (id) value
@@ -528,7 +518,7 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 
 - (ETUTI *) type
 {
-	return [self name];
+	return nil;
 }
 
 - (NSString *) typeName
@@ -568,4 +558,30 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	return nil;
 }
 
+@end
+
+@implementation ETClass
++ (NSArray *) protocolsForClass: (Class)aClass
+{
+#if defined(GNU_RUNTIME)
+	if (aClass == Nil)
+	{
+		return nil;
+	}
+	NSMutableArray *protocols = [NSMutableArray array];
+
+	for (struct objc_protocol_list* iter = aClass->protocols; iter != NULL; iter = iter->next)
+	{
+		for (size_t i = 0; i < iter->count; i++)
+		{
+			Protocol *protocol = iter->list[i];
+			[protocols addObject: protocol];
+		}
+	}
+	return protocols;
+#else
+#warning +protocolsForClass not supported on your ObjC runtime.
+	return nil;
+#endif
+}
 @end

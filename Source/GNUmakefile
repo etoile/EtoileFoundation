@@ -32,6 +32,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETTranscript.m \
 	ETTransform.m \
 	ETUUID.m \
+	ETUTI.m \
 	NSIndexPath+Etoile.m \
 	NSIndexSet+Etoile.m \
 	NSInvocation+Etoile.m \
