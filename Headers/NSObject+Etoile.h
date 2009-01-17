@@ -127,7 +127,6 @@
 - (id) possessor;
 
 - (NSString *) name;
-// FIXME: Replace by ETUTI class later
 - (ETUTI *) type;
 - (NSString *) typeName;
 - (id) value;

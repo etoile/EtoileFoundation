@@ -421,8 +421,13 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	return [NSString stringWithCString: ivarName];
 }
 
-// FIXME: Replace by ETUTI class later
 - (ETUTI *) type
+{
+	// TODO: Implement
+	return nil;
+}
+
+- (NSString *) typeName
 {
 	const char *ivarType = NULL;
 	
@@ -440,11 +445,6 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	{
 		return [NSString stringWithCString: ivarType];
 	}
-}
-
-- (NSString *) typeName
-{
-	return nil;
 }
 
 - (id) value
