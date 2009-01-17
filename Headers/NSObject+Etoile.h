@@ -35,6 +35,9 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#ifndef GNUSTEP
+#import <objc/runtime.h>
+#endif
 
 /* Runtime Checks */
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
@@ -116,6 +119,8 @@
 	id _possessor;
 #ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	GSIVar _ivar;
+#elif defined(NEXT_RUNTIME_2)
+	Ivar _ivar;
 #endif
 }
 

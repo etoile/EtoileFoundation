@@ -1,3 +1,12 @@
+2009-01-17  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSObject+Etoile.h: Modified _ivar in ETInstanceVariable to 
+	support NEXT_RUNTIME_2.
+	* Source/NSObject+Etoile.m:
+	(-instanceVariableForName:, -instanceVariableNames): 
+	(ETInstanceVariable -name, -type, -value, -setValue:):
+	Added NEXT_RUNTIME_2 support.
+
 2008-11-21  Günther Noack <guenther@unix-ag.uni-kl.de>
 
 	* ETTranscript class added

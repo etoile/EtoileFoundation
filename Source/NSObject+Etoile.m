@@ -33,13 +33,11 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <EtoileFoundation/NSObject+Etoile.h>
-#import <EtoileFoundation/EtoileCompatibility.h>
-#import <EtoileFoundation/ETUTI.h>
-#import <EtoileFoundation/Macros.h>
-#ifndef GNUSTEP
-#import <objc/runtime.h>
-#endif
+#import "NSObject+Etoile.h"
+#import "EtoileCompatibility.h"
+#import "ETUTI.h"
+#import "Macros.h"
+
 
 @interface NSObject (PrivateEtoile)
 - (ETInstanceVariable *) instanceVariableForName: (NSString *)ivarName;
@@ -91,13 +89,11 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 {
 	#if 0
 	//#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	/* Fast because it uses the sibling class facility of GNU runtime */
+	/* Fast because it uses the sibling class facility of GNU runtime
+	   NOTE: Not used, because it is broken for classes that have not yet 
+	   received their first message. */
+	return GSObjCAllSubclassesOfClass(self);
 
-	/* 
-	 * Not used, because it is broken for classes that have not yet received
-	 * their first message.
-	 */
-	return GSObjCAllSubclassesOfClass(self); 
 	#elif defined(GNU_RUNTIME)
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
 	void *state = NULL;
@@ -111,8 +107,7 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	}
 	return subclasses;
 
-	#else
-	
+	#else /* NEXT_RUNTIME and NEXT_RUNTIME_2 */	
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
 	Class *allClasses = NULL;
 	int numberOfClasses;
@@ -135,7 +130,6 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	}
 
 	return subclasses;
-
 	#endif
 }
 
@@ -147,8 +141,8 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 {
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	return GSObjCDirectSubclassesOfClass(self);
-	#else
-	
+
+	#else /* NEXT_RUNTIME and NEXT_RUNTIME_2 */
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 30];
 	Class *allClasses = NULL;
 	int numberOfClasses;
@@ -171,7 +165,6 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	}
 	
 	return subclasses;
-	
 	#endif
 }
 
@@ -268,13 +261,15 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 - (ETInstanceVariable *) instanceVariableForName: (NSString *)ivarName
 {
 	ETInstanceVariable *ivarObject = [[ETInstanceVariable alloc] init];
-	
+	ASSIGN(ivarObject->_possessor, self);
+
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	GSIVar ivar = GSObjCGetInstanceVariableDefinition([self class], ivarName);
-	ASSIGN(ivarObject->_possessor, self);
 	ivarObject->_ivar = ivar;
-	#else
-	
+
+	#elif defined(NEXT_RUNTIME_2)
+	Ivar ivar = object_getInstanceVariable(self, [ivarName UTF8String], NULL);
+	ivarObject->_ivar = ivar;	
 	#endif
 	
 	return AUTORELEASE(ivarObject);
@@ -283,9 +278,26 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 - (NSArray *) instanceVariableNames
 {
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	return GSObjCVariableNames(self);
-	#else
-	return nil;
+	return GSObjCVariableNames(self);	
+
+	#elif defined(NEXT_RUNTIME_2)
+	NSMutableArray *ivars = [NSMutableArray array];
+	Class class = [self class];
+
+	while (class != nil)
+	{
+		unsigned int nbOfIvars = 0;
+		Ivar *ivarList = class_copyIvarList(class, &nbOfIvars);
+
+		for (int i = 0; i < nbOfIvars; i++)
+		{
+			[ivars addObject: [NSString stringWithUTF8String: ivar_getName(ivarList[i])]];
+		}
+
+		class = ETGetSuperclass(class);
+	}
+	
+	return ivars;
 	#endif
 }
 
@@ -402,8 +414,8 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	ivarName = _ivar->ivar_name;
-	#else
-	
+	#elif defined(NEXT_RUNTIME_2)
+	ivarName = ivar_getName(_ivar);
 	#endif
 		
 	return [NSString stringWithCString: ivarName];
@@ -416,11 +428,18 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
 	ivarType = _ivar->ivar_type;
-	#else
-	
+	#elif defined(NEXT_RUNTIME_2)
+	ivarType = ivar_getTypeEncoding(_ivar);
 	#endif
-		
-	return nil;
+
+	if (ivarType[0] == '@')
+	{
+		return NSStringFromClass([[self value] class]);
+	}
+	else
+	{
+		return [NSString stringWithCString: ivarType];
+	}
 }
 
 - (NSString *) typeName
@@ -431,16 +450,22 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 - (id) value
 {
 	id ivarValue = nil;
-	
+	const char *ivarType = NULL;
+
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	const char *ivarType = _ivar->ivar_type;
+	ivarType = _ivar->ivar_type;
 	int ivarOffset = _ivar->ivar_offset;
 	
-	// FIXME: More type support
+	// TODO: More type support
 	if(ivarType[0] == '@')
-		GSObjCGetVariable([self possessor], ivarOffset, sizeof(id), (void **)&ivarValue);
-	#else
-	
+		GSObjCGetVariable(_possessor, ivarOffset, sizeof(id), (void **)&ivarValue);
+
+	#elif defined(NEXT_RUNTIME_2)
+	ivarType = ivar_getTypeEncoding(_ivar);
+
+	// TODO: More type support
+	if(ivarType[0] == '@')
+		ivarValue = object_getIvar(_possessor, _ivar);
 	#endif
 			
 	return ivarValue;
