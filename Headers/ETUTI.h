@@ -38,12 +38,11 @@
  * ETUTI objects represent Uniform Type Identifiers (UTIs), strings written
  * in reverse-DNS notation (e.g. "org.etoile.group") which are used to
  * describe data type. UTIs support multiple inheritance to indicate that 
- * certian types are refinements of one or more parent types.
+ * certain types are refinements of one or more parent types.
  *
  * The ETUTI implementation also integrates with the Objective-C runtime.
  * UTI's can be automatically generated for a given class,
- * which are given the form: 
- *   org.etoile-project.objc.class.ClassName
+ * which are given the form "org.etoile-project.objc.class.ClassName".
  */
 @interface ETUTI : NSObject
 {
@@ -55,11 +54,13 @@
 /**
  * Returns an ETUTI object for the given UTI string (e.g. "public.audio").
  * The given UTI string must either:
- * 	- be in the UTIDefinitions.plist file
- * 	- or have been registered with the 
- * 	  registertypeWithString:description:supertypes: method
- * 	- or be a UTI of the form "org.etoile-project.objc.class.ClassName" 
- * 	  where ClassName is a valid Objective-C class
+ * <list>
+ *     <item>be in the UTIDefinitions.plist file</item>
+ *     <item>or have been registered with the 
+ *           registertypeWithString:description:supertypes: method</item>
+ *     <item>or be a UTI of the form "org.etoile-project.objc.class.ClassName" 
+ *           where ClassName is a valid Objective-C class</item>
+ * </list>
  * Otherwise, nil is returned.
  */
 + (ETUTI *) typeWithString: (NSString *)aString;
@@ -103,31 +104,31 @@
 - (NSString *) stringValue;
 /**
  * Returns an array of file extensions (if any) which refer to the same
- * data type as the reciever.
+ * data type as the receiver.
  */
 - (NSArray *) fileExtensions;
 /**
  * Returns an array of MIME types which refer to the same data type as the 
- * reciever.
+ * receiver.
  */
 - (NSArray *) MIMETypes;
 /**
- * Returns a natural language description of the reciever.
+ * Returns a natural language description of the receiver.
  */
 - (NSString *) typeDescription;
 /**
- * Returns the immediate supertypes of the reciever.
+ * Returns the immediate supertypes of the receiver.
  */
 - (NSArray *) supertypes;
 /**
- * Returns all known supertypes of the reciever (all UTIs which the 
- * reciever conforms to.)
+ * Returns all known supertypes of the receiver (all UTIs which the 
+ * receiver conforms to.)
  */
 - (NSArray *) allSupertypes;
 
 /**
- * Tests whether or not the reciever conforms to aType (i.e. aType is a 
- * supertype of the reciever, possibly many levels away.)
+ * Tests whether or not the receiver conforms to aType (i.e. aType is a 
+ * supertype of the receiver, possibly many levels away.)
  */
 - (BOOL) conformsToType: (ETUTI *)aType;
 

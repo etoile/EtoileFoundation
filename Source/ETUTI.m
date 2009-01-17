@@ -38,12 +38,12 @@
 #import "EtoileCompatibility.h"
 
 /**
- * Maps type identifer strings to the corresponding ETUTI instance
+ * Maps type identifier strings to the corresponding ETUTI instance
  */
 static NSMutableDictionary *ETUTIInstances; 
 
 /**
- * Returns the last component of a UTI string (e.g @"audo" from @"public.audio")
+ * Returns the last component of a UTI string (e.g @"audio" from @"public.audio")
  */
 static NSString *ETUTILastComponent(NSString *aTypeString);
 
@@ -55,7 +55,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 @interface ETUTI (Private)
 - (ETUTI *) initWithString: (NSString *)aString
                description: (NSString *)aDescription
-                  typeTags: (NSDictionary *)aTypeTags;
+                  typeTags: (NSDictionary *)tags;
 - (void) setSupertypesFromStrings: (NSArray *)supertypeStrings;
 + (id) propertyListWithPath: (NSString *)path;
 + (void) initializeWithUTIDictionaries: (NSArray *)UTIDictionaries;
@@ -227,12 +227,12 @@ static NSString *ETFileUTI = @"public.filename-extension";
 
 - (ETUTI *) initWithString: (NSString *)aString
                description: (NSString *)aDescription
-                  typeTags: (NSDictionary *)aTypeTags
+                  typeTags: (NSDictionary *)tags
 {
 	SUPERINIT
 	ASSIGN(string, aString);
 	ASSIGN(description, aDescription);
-	ASSIGN(typeTags, aTypeTags);
+	ASSIGN(typeTags, tags);
 	return self;
 }
 

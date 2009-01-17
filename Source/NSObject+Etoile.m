@@ -346,12 +346,15 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	#if defined(GNU_RUNTIME)
 	NSMutableArray *protocols = [NSMutableArray array];
 
-	for (Class class = [self class]; ; class = ETGetSuperclass(class))
+	Class class = [self class];
+	while (YES)
 	{
 		[protocols addObjectsFromArray: [ETClass protocolsForClass: class]];
 		if (class == [NSObject class])
 			break;
+		class = ETGetSuperclass(class);
 	}
+
 	// FIXME: Return immutable array
 	return protocols;
 	#else
