@@ -23,6 +23,7 @@
 */
 
 #import "ETHistoryManager.h"
+#import "EtoileCompatibility.h"
 #import "Macros.h"
 
 @implementation ETHistoryManager

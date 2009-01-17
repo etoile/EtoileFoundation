@@ -32,9 +32,10 @@
 */
 
 #import <Foundation/Foundation.h>
-#import <EtoileFoundation/Macros.h>
-#import <EtoileFoundation/NSObject+Etoile.h>
-#import <EtoileFoundation/ETUTI.h>
+#import "Macros.h"
+#import "NSObject+Etoile.h"
+#import "ETUTI.h"
+#import "EtoileCompatibility.h"
 
 /**
  * Maps type identifer strings to the corresponding ETUTI instance
