@@ -1,5 +1,12 @@
 2009-01-19  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Source/NSObject+Etoile.m:
+	(ETInstanceVariable -value, -setValue:): Modified to support reading and 
+	writing common primitive types in addition to objects, thanks to GNUstep KVC 
+	related helper functions. Now does what the documentation states :-)
+
+2009-01-19  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/NSObject+Etoile.h:
 	* Source/NSObject+Etoile.m:
 	ETInstanceVariable

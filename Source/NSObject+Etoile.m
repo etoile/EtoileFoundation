@@ -490,18 +490,12 @@ NSNumber or NSValue object that boxes the primitive value. */
 - (id) value
 {
 	id ivarValue = nil;
-	const char *ivarType = NULL;
 
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	ivarType = _ivar->ivar_type;
-	int ivarOffset = _ivar->ivar_offset;
-	
-	// TODO: More type support
-	if(ivarType[0] == '@')
-		GSObjCGetVariable(_possessor, ivarOffset, sizeof(id), (void **)&ivarValue);
+	ivarValue = GSObjCGetVal(_possessor, _ivar->ivar_name, NULL, NULL, 0, _ivar->ivar_offset);
 
 	#elif defined(NEXT_RUNTIME_2)
-	ivarType = ivar_getTypeEncoding(_ivar);
+	const char *ivarType = ivar_getTypeEncoding(_ivar);
 
 	// TODO: More type support
 	if(ivarType[0] == '@')
@@ -524,12 +518,7 @@ NSInvalidArgumentException is raised. */
 - (void) setValue: (id)value
 {
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	const char *ivarType = _ivar->ivar_type;
-	int ivarOffset = _ivar->ivar_offset;
-	
-	// FIXME: More type support
-	if(strcmp(ivarType, "@"))
-		GSObjCSetVariable([self possessor], ivarOffset, sizeof(id), (void **)&value);
+	return GSObjCSetVal(_possessor, _ivar->ivar_name, value, NULL, NULL, 0, _ivar->ivar_offset);
 	#else
 	
 	#endif
