@@ -406,11 +406,14 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 
 @implementation ETInstanceVariable
 
+/** Returns the object where the instance variable is located and its value 
+stored. */
 - (id) possessor
 {
 	return _possessor;
 }
 
+/** Returns the name that was used to declare the instance variable. */
 - (NSString *) name
 {
 	const char *ivarName = NULL;
@@ -424,13 +427,41 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	return [NSString stringWithCString: ivarName];
 }
 
+/** Returns the object type of the instance variable as an UTI. */
 - (ETUTI *) type
 {
 	// TODO: Implement
 	return nil;
 }
 
+/** Returns either class name or the type encoding name of the instance 
+variable. The class name is returned when the value is an object, otherwise the 
+the type encoding name is returned.
+
+If -value returns nil and the type encoding denotes an object, take note the 
+type encoding name is returned since the object type can only be looked up 
+dynamically (by querying the object referenced by the instance variable). */
 - (NSString *) typeName
+{
+	const char *ivarType = [self typeEncoding];
+
+	if (ivarType[0] == '@')
+	{
+		id value = [self value];
+		
+		if (value != nil)
+			return NSStringFromClass([value class]);
+	}
+
+	return [NSString stringWithCString: ivarType];
+}
+
+/** Returns the underlying runtime basic type (object, int, char, struct etc.) 
+associated with the instance variable. 
+
+These runtime basic types are encoded as character sequences. To interpret the 
+returned value, see the runtime documentation. */
+- (const char *) typeEncoding
 {
 	const char *ivarType = NULL;
 	
@@ -440,16 +471,22 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	ivarType = ivar_getTypeEncoding(_ivar);
 	#endif
 
-	if (ivarType[0] == '@')
-	{
-		return NSStringFromClass([[self value] class]);
-	}
-	else
-	{
-		return [NSString stringWithCString: ivarType];
-	}
+	return ivarType;
 }
 
+/** Returns whether the instance variable value is an object or not. */
+- (BOOL) isObjectType
+{
+	const char *ivarType = [self typeEncoding];
+	return (ivarType[0] == '@');
+}
+
+/** Returns the value stored in the instance variable. 
+
+If the instance variable type is a primitive type, nil is returned, unless the 
+type encoding corresponds to a number or a structure such as NSRect, NSSize, 
+NSPoint and NSRange. In this case, the returned value is respectively an 
+NSNumber or NSValue object that boxes the primitive value. */
 - (id) value
 {
 	id ivarValue = nil;
@@ -474,7 +511,16 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	return ivarValue;
 }
 
-/** Pass NSValue to set primitive types */
+/** Sets the value stored in the instance variable. 
+
+If the instance variable type is a primitive type, the value cannot be set, 
+unless the type encoding corresponds to a number or a structure such as NSRect, 
+NSSize, NSPoint and NSRange. In this case, you can pass the primitive value 
+boxed respectively in an NSNumber or NSValue object.
+
+If value is an object and the instance variable type is a primitive type, in 
+case no primitive value matching the expected type can be unboxed, an 
+NSInvalidArgumentException is raised. */
 - (void) setValue: (id)value
 {
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
@@ -487,6 +533,12 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	#else
 	
 	#endif
+}
+
+- (NSArray *) properties
+{
+	return A(@"possessor", @"name", @"type", @"typeName", @"typeEncoding", 
+		@"isObjectType", @"value");
 }
 
 @end

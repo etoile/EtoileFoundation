@@ -50,8 +50,7 @@
 #import <GNUstepBase/GSObjCRuntime.h>
 #endif
 
-@class ETMethod;
-@class ETUTI;
+@class ETMethod, ETUTI;
 
 /** Protocol which can be adopted by other object hierachy than NSObject rooted hierarchy */
 @protocol ETInspectableObject
@@ -113,7 +112,7 @@
 
 @end
 
-@interface ETInstanceVariable : NSObject 
+@interface ETInstanceVariable : NSObject
 {
 	@public
 	id _possessor;
@@ -125,12 +124,14 @@
 }
 
 - (id) possessor;
-
 - (NSString *) name;
+
 - (ETUTI *) type;
 - (NSString *) typeName;
+- (const char *) typeEncoding;
+- (BOOL) isObjectType;
+
 - (id) value;
-/** Pass NSValue to set primitive types */
 - (void) setValue: (id)value;
 
 @end

@@ -1,3 +1,13 @@
+2009-01-19  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSObject+Etoile.h:
+	* Source/NSObject+Etoile.m:
+	ETInstanceVariable
+	Documented public methods.
+	(-typeEncoding, -isObjectType, -properties): Added.
+	(-typeName): Extracted the type encoding retrieval into the new method 
+	-typeEncoding.
+
 2009-01-17  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Headers/NSObject+Etoile.h: Modified _ivar in ETInstanceVariable to 
