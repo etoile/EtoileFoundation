@@ -492,7 +492,8 @@ NSNumber or NSValue object that boxes the primitive value. */
 	id ivarValue = nil;
 
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	ivarValue = GSObjCGetVal(_possessor, _ivar->ivar_name, NULL, NULL, 0, _ivar->ivar_offset);
+	ivarValue = GSObjCGetVal(_possessor, _ivar->ivar_name, NULL, 
+		_ivar->ivar_type, 0, _ivar->ivar_offset);
 
 	#elif defined(NEXT_RUNTIME_2)
 	const char *ivarType = ivar_getTypeEncoding(_ivar);
@@ -518,7 +519,8 @@ NSInvalidArgumentException is raised. */
 - (void) setValue: (id)value
 {
 	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	return GSObjCSetVal(_possessor, _ivar->ivar_name, value, NULL, NULL, 0, _ivar->ivar_offset);
+	return GSObjCSetVal(_possessor, _ivar->ivar_name, value, NULL, 
+		_ivar->ivar_type, 0, _ivar->ivar_offset);
 	#else
 	
 	#endif
