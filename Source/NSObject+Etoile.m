@@ -551,7 +551,9 @@ boxed respectively in an NSNumber or NSValue object.
 
 If value is an object and the instance variable type is a primitive type, in 
 case no primitive value matching the expected type can be unboxed, an 
-NSInvalidArgumentException is raised. */
+NSInvalidArgumentException is raised. <br />
+For example, if value is a NSString and the instance variable is a NSRect, the 
+exception reason will be: NSString does not recognize the selector -rectValue. */
 - (void) setValue: (id)value
 {
 #ifdef GNUSTEP_RUNTIME_COMPATIBILITY
