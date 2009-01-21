@@ -1,3 +1,12 @@
+2009-01-21  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Source/NSObject+Etoile.m:
+	(ETInstanceVariable -value, -setValue:): Fixed to check the type encoding 
+	before trying to set or get the value. For example, this eliminates the 
+	exception raised by -value with most C structures not supported by NSValue.
+	-setValue: often results in a crash when I edit a text cell that calls it 
+	with an NSString, no idea why for now... 
+
 2009-01-19  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/NSObject+Etoile.m:

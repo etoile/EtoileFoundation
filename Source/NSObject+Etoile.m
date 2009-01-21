@@ -489,21 +489,57 @@ NSPoint and NSRange. In this case, the returned value is respectively an
 NSNumber or NSValue object that boxes the primitive value. */
 - (id) value
 {
-	id ivarValue = nil;
+#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
+	const char *ivarType = _ivar->ivar_type;
 
-	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	ivarValue = GSObjCGetVal(_possessor, _ivar->ivar_name, NULL, 
-		_ivar->ivar_type, 0, _ivar->ivar_offset);
+	/* Check the encoding types supported by GSObjCGetVal() and defined in 
+	   objc-api.h, otherwise this function raises an exception when the type is 
+	   not supported. */
+	switch (ivarType[0])
+	{
+		case _C_STRUCT_B:
+			if (strcmp(@encode(NSPoint), ivarType) != 0
+			 && strcmp(@encode(NSRect), ivarType) != 0
+			 && strcmp(@encode(NSSize), ivarType) != 0
+			 && strcmp(@encode(NSRange), ivarType) != 0)
+			{
+				return nil; /* Unsupported struct type */
+			}
+		case _C_ID:
+		case _C_CLASS:
+		case _C_CHR:
+		case _C_UCHR:
+		case _C_SHT:
+		case _C_USHT:
+		case _C_INT:
+		case _C_UINT:
+		case _C_LNG:
+		case _C_ULNG:
+		case _C_LNG_LNG:
+		case _C_ULNG_LNG:
+		case _C_FLT:
+		case _C_DBL:
+		case _C_VOID:
 
-	#elif defined(NEXT_RUNTIME_2)
+			return GSObjCGetVal(_possessor, _ivar->ivar_name, NULL, ivarType, 0,
+				_ivar->ivar_offset);
+
+		default: /* Unsupported type */
+			return nil;
+	}
+
+#elif defined(NEXT_RUNTIME_2)
 	const char *ivarType = ivar_getTypeEncoding(_ivar);
 
 	// TODO: More type support
-	if(ivarType[0] == '@')
-		ivarValue = object_getIvar(_possessor, _ivar);
-	#endif
-			
-	return ivarValue;
+	switch (ivarType[0])
+	{
+		case '@':
+			return object_getIvar(_possessor, _ivar);
+		default: /* Unsupported type */
+			return nil;
+	}
+#endif
 }
 
 /** Sets the value stored in the instance variable. 
@@ -518,12 +554,45 @@ case no primitive value matching the expected type can be unboxed, an
 NSInvalidArgumentException is raised. */
 - (void) setValue: (id)value
 {
-	#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	return GSObjCSetVal(_possessor, _ivar->ivar_name, value, NULL, 
-		_ivar->ivar_type, 0, _ivar->ivar_offset);
-	#else
+#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
+	const char *ivarType = _ivar->ivar_type;
+
+	/* Check the encoding types supported by GSObjCSetVal() and defined in 
+	   objc-api.h, otherwise this function raises an exception when the type is 
+	   not supported. */
+	switch (ivarType[0])
+	{
+		case _C_STRUCT_B:
+			if (strcmp(@encode(NSPoint), ivarType) != 0
+			 && strcmp(@encode(NSRect), ivarType) != 0
+			 && strcmp(@encode(NSSize), ivarType) != 0
+			 && strcmp(@encode(NSRange), ivarType) != 0)
+			{
+				return; /* Unsupported struct type */
+			}
+		case _C_ID:
+		case _C_CLASS:
+		case _C_CHR:
+		case _C_UCHR:
+		case _C_SHT:
+		case _C_USHT:
+		case _C_INT:
+		case _C_UINT:
+		case _C_LNG:
+		case _C_ULNG:
+		case _C_LNG_LNG:
+		case _C_ULNG_LNG:
+		case _C_FLT:
+		case _C_DBL:
+		case _C_VOID:
+
+			GSObjCSetVal(_possessor, _ivar->ivar_name, value, NULL, 
+				_ivar->ivar_type, 0, _ivar->ivar_offset);
+	}
+
+#elif defined(NEXT_RUNTIME_2)
 	
-	#endif
+#endif
 }
 
 - (NSArray *) properties
