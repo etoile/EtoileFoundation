@@ -34,7 +34,7 @@
 		<string>public.aifc-audio</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>AIFF Compressed Audio</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -46,7 +46,7 @@
 		<string>public.aiff-audio</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>AIFF Audio</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -58,14 +58,14 @@
 		<string>public.archive</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Archive</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.assembly-source</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Assembly Source</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -77,7 +77,7 @@
 		<string>public.audio</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Audio</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -89,7 +89,7 @@
 		<string>public.audiovisual-content</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Audio-Visual Content</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -102,31 +102,47 @@
 		<string>public.avi</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>AVI Video</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.movie</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>avi</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.c-header</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>C Header File</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.source-code</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>h</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.c-plus-plus-header</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>C++ Header File</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -138,7 +154,7 @@
 		<string>public.c-plus-plus-source</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>C++ Source Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -150,25 +166,33 @@
 		<string>public.c-source</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>C Source Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.source-code</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>c</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
-                <key>UTTypeIdentifier</key>
-                <string>public.case-insensitive-text</string>
+		<key>UTTypeIdentifier</key>
+		<string>public.case-insensitive-text</string>
 
-                <key>UTTypeDescription</key>
-                <string></string>
+		<key>UTTypeDescription</key>
+		<string>Case-Insensitive Text</string>
 
 		<key>UTTypeConformsTo</key>
-                <array>
-                        <string>public.text</string>
-                </array>
-        </dict>
+		<array>
+			<string>public.text</string>
+		</array>
+	</dict>
 
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -182,19 +206,31 @@
 		<string>public.camera-raw-image</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Raw Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>crw</string>
+				<string>cr2</string>
+				<string>nef</string>
+				<string>nrw</string>
+				<string>dng</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.composite-content</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Composite Content</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -206,14 +242,14 @@
 		<string>public.contact</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Contact</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.content</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Content</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -256,14 +292,14 @@
 		<string>public.database</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Database</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.directory</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Directory</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -287,7 +323,7 @@
 		<string>public.executable</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Executable</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -306,7 +342,7 @@
 		<string>public.file-url</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>File URL</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -342,7 +378,7 @@
 		<string>public.font</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Font</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -354,19 +390,32 @@
 		<string>public.html</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>HTML Document</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.text</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>html</string>
+				<string>htm</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>text/html</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.image</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -379,38 +428,64 @@
 		<string>public.item</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Item</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.jpeg</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>JPEG Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>jpg</string>
+				<string>jpeg</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>image/jpeg</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.jpeg-2000</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>JPEG 2000 Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>jp2</string>
+				<string>jpx</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>image/jp2</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.message</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Message</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -429,7 +504,7 @@
 		<string>public.mime-type</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>MIME Type</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -441,7 +516,7 @@
 		<string>public.movie</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Movie</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -453,56 +528,106 @@
 		<string>public.mp3</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>MP3 Audio</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.audio</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>mp3</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>audio/mpeg</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.mpeg</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>MPEG Video</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.movie</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>mpg</string>
+				<string>mpeg</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>video/mpeg</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.mpeg-4</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>MEPG-4 Video</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.movie</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>mp4</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>video/mp4</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.mpeg-4-audio</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>MPEG-4 Audio</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.audio</string>
 			<string>public.mpeg-4</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>aac</string>
+				<string>m4a</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>audio/mp4</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.object-code</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Object Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -515,31 +640,47 @@
 		<string>public.objective-c-plus-plus-source</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Objective-C++ Source Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.source-code</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>mm</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.objective-c-source</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Objective-C Source Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.source-code</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>m</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.opentype-font</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>OpenType Font</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -575,31 +716,55 @@
 		<string>public.plain-text</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Plain Text</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.text</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>txt</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>text/plain</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.png</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>PNG Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>                 
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>png</string>
+			</array>
+			<key>public.mime-type</key>                 
+				<array>
+					<string>image/png</string>
+                        </array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.presentation</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Presentation</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -623,12 +788,24 @@
 		<string>public.rtf</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>RTF Document</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.text</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>rtf</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>text/rtf</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -647,7 +824,7 @@
 		<string>public.script</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Script</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -671,7 +848,7 @@
 		<string>public.source-code</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Source Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -683,7 +860,7 @@
 		<string>public.symlink</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Symbolic Link</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -696,7 +873,7 @@
 		<string>public.tar-archive</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Tar Archive</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -708,7 +885,7 @@
 		<string>public.text</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Text</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -721,12 +898,25 @@
 		<string>public.tiff</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>TIFF Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>tiff</string>
+				<string>tif</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>image/tiff</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -745,7 +935,7 @@
 		<string>public.truetype-font</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>TrueType Font</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -757,7 +947,7 @@
 		<string>public.truetype-ttf-font</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>TrueType Font</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -781,7 +971,7 @@
 		<string>public.url</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Uniform Resource Locator</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -793,7 +983,7 @@
 		<string>public.url-name</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>URL Name</string>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -836,20 +1026,29 @@
 		<string>public.vcard</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>VCard</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 			<string>public.content</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>vcard</string>
+				<string>vcf</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>public.video</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Video</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -861,7 +1060,7 @@
 		<string>public.volume</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Volume</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -885,12 +1084,24 @@
 		<string>public.xml</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>XML Document</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.text</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>xml</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>text/xml</string>
+			</array>
+		</dict>
 	</dict>
 
 	<!-- com.adobe -->
@@ -900,61 +1111,113 @@
 		<string>com.adobe.encapsulated-postscript</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Encapsulated PostScript</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>com.adobe.postscript</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>eps</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>application/postscript</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>com.adobe.illustrator.ai-image</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Adobe Illustrator Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>ai</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>com.adobe.pdf</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Portable Document Format</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 			<string>public.composite-content</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>pdf</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>application/pdf</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>com.adobe.photoshop-image</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Adobe Photoshop Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>psd</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>com.adobe.postscript</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>PostScript Document</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>ps</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>application/postscript</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -1062,7 +1325,7 @@
 		<string>com.apple.application</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Application</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -1082,6 +1345,14 @@
 			<string>com.apple.bundle</string>
 			<string>com.apple.application</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>app</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -1114,12 +1385,20 @@
 		<string>com.apple.bundle</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Bundle</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.directory</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>bundle</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -1436,12 +1715,25 @@
 		<string>com.apple.quicktime-movie</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>QuickTime Movie</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.movie</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>mov</string>
+				<string>qt</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>video/quicktime</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -1545,12 +1837,24 @@
 		<string>com.compuserve.gif</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>GIF Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>gif</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>image/gif</string>
+			</array>
+		</dict>
 	</dict>
 
 	<!-- com.digidesign -->
@@ -1660,19 +1964,27 @@
 		<string>com.microsoft.bmp</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>BMP Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>bmp</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>com.microsoft.excel.xls</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Microsoft Excel Spreadsheet</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -1684,7 +1996,7 @@
 		<string>com.microsoft.ico</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Microsoft Icon</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -1696,25 +2008,41 @@
 		<string>com.microsoft.powerpoint.ppt</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Powerpoint Presentation</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 			<string>public.presentation</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>ppt</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>com.microsoft.waveform-audio</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>WAV Audio</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.audio</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>wav</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
@@ -1853,7 +2181,7 @@
 		<string>com.netscape.javascript-source</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>ECMAScript Source Code</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
@@ -1861,19 +2189,19 @@
 			<string>public.executable</string>
 		</array>
 
-		<key>UTTypeTagSpecification</key>                 
+		<key>UTTypeTagSpecification</key>
 		<dict>
 			<key>public.filename-extension</key>
 			<array>
 				<string>js</string>
 			</array>
-			<key>public.mime-type</key>                 
-                        <array>
-                                <string>application/javascript</string>
+			<key>public.mime-type</key>
+			<array>
+				<string>application/javascript</string>
 				<string>application/ecmascript</string>
 				<string>text/javascript</string>
-                                <string>text/ecmascript</string>
-                        </array>
+				<string>text/ecmascript</string>
+			</array>
 		</dict>
 	</dict>
 
@@ -1884,13 +2212,25 @@
 		<string>com.pkware.zip-archive</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Zip Archive</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 			<string>public.archive</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>zip</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>application/zip</string>
+			</array>
+		</dict>
 	</dict>
 
 	<!-- com.real -->
@@ -1939,12 +2279,20 @@
 		<string>com.sgi.sgi-image</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>SGI Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>sgi</string>
+			</array>
+		</dict>
 	</dict>
 
 	<!-- com.sun -->
@@ -2008,12 +2356,20 @@
 		<string>com.truevision.tga-image</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Truevision Targa Image</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.image</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>tga</string>
+			</array>
+		</dict>
 	</dict>
 
 	<!-- org.gnu -->
@@ -2023,38 +2379,111 @@
 		<string>org.gnu.gnu-tar-archive</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>Tar Archive</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 			<string>public.archive</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>tar</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>org.gnu.gnu-zip-archive</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>gzip Archive</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>public.data</string>
 			<string>public.archive</string>
 		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>gz</string>
+			</array>
+		</dict>
 	</dict>
 	<dict>
 		<key>UTTypeIdentifier</key>
 		<string>org.gnu.gnu-zip-tar-archive</string>
 
 		<key>UTTypeDescription</key>
-		<string></string>
+		<string>gzipped Tar Archive</string>
 
 		<key>UTTypeConformsTo</key>
 		<array>
 			<string>org.gnu.gnu-zip-archive</string>
 		</array>
+
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>tgz</string>
+			</array>
+		</dict>
 	</dict>
+	
+	<!-- custom additions -->
+	
+	<dict>
+		<key>UTTypeIdentifier</key>
+		<string>org.flac.flac-audio</string>
+
+		<key>UTTypeDescription</key>
+		<string>FLAC Audio</string>
+
+		<key>UTTypeConformsTo</key>
+		<array>
+			<string>public.audio</string>
+		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>flac</string>
+			</array>
+		</dict>
+	</dict>
+	<dict>
+		<key>UTTypeIdentifier</key>
+		<string>org.xiph.ogg-vorbis-audio</string>
+
+		<key>UTTypeDescription</key>
+		<string>Ogg Vorbis Audio</string>
+
+		<key>UTTypeConformsTo</key>
+		<array>
+			<string>public.audio</string>
+		</array>
+		
+		<key>UTTypeTagSpecification</key>
+		<dict>
+			<key>public.filename-extension</key>
+			<array>
+				<string>ogg</string>
+				<string>oga</string>
+			</array>
+			<key>public.mime-type</key>
+			<array>
+				<string>audio/vorbis</string>
+			</array>
+		</dict>
+	</dict>
+	
 </array>
 </plist>
