@@ -221,7 +221,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	NSMutableArray *result = [NSMutableArray array];
 	FOREACH([ETUTIInstances allValues], type, ETUTI *)
 	{
-		if ([type conformsToType: self])
+		if ([type conformsToType: self] && type != self)
 			[result addObject: type];
 	}
 	//FIXME: handle the case where self is an objc class UTI
