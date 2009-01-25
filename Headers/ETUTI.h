@@ -125,6 +125,14 @@
  * receiver conforms to.)
  */
 - (NSArray *) allSupertypes;
+/**
+ * Returns the UTIs which have the receiver as an immediate supertype.
+ */
+- (NSArray *) subtypes;
+/**
+ * Returns all known UTIs which conform to the receiver.
+ */
+- (NSArray *) allSubtypes;
 
 /**
  * Tests whether or not the receiver conforms to aType (i.e. aType is a 

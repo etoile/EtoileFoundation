@@ -204,6 +204,30 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	return [resultSet allObjects];
 }
 
+- (NSArray *) subtypes
+{
+	NSMutableArray *result = [NSMutableArray array];
+	FOREACH(ETUTIInstances, type, ETUTI *)
+	{
+		if ([type->supertypes containsObject: self])
+			[result addObject: type];
+	}
+	//FIXME: handle the case where self is an objc class UTI
+	return result;
+}
+
+- (NSArray *) allSubtypes
+{
+	NSMutableArray *result = [NSMutableArray array];
+	FOREACH([ETUTIInstances allValues], type, ETUTI *)
+	{
+		if ([type conformsToType: self])
+			[result addObject: type];
+	}
+	//FIXME: handle the case where self is an objc class UTI
+	return result;
+}
+
 - (BOOL) conformsToType: (ETUTI *)aType
 {
 	if (aType == self)
