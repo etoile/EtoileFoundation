@@ -49,7 +49,7 @@ libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
 ifeq ($(test), yes)
-libEtoileFoundation_OBJC_FILES += TestUUID.m
+libEtoileFoundation_OBJC_FILES += TestUUID.m TestUTI.m
 endif
 
 -include GNUmakefile.preamble
