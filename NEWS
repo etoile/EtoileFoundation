@@ -1,6 +1,14 @@
 EtoileFoundation NEWS
 =====================
 
+0.4.1 (Etoile 0.4.1)
+--------------------
+
+- Introduced ETUTI, an implementation of Uniform Type Identifiers
+- New ETPrototype implementation
+- EtoileThread bugfixes
+- Added ETHistoryManager
+
 0.4 (Etoile 0.4)
 ----------------
 

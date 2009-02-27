@@ -30,7 +30,7 @@ else
 FRAMEWORK_NAME = EtoileFoundation
 endif
 
-VERSION = 0.4
+VERSION = 0.4.1
 
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML \
