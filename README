@@ -4,7 +4,7 @@ EtoileFoundation
 :Maintainers: Quentin Mathe <qmathe@club-internet.fr>, David Chisnall
 :Authors: David Chisnall, Quentin Mathe, Uli Kusterer, Yen-Ju Chen
 :License: Modified BSD License
-:Version: 0.4
+:Version: 0.4.1
 
 EtoileFoundation is the core framework for all Etoile projects, providing numerous convenience methods on top of the OpenStep foundation and significantly better support for reflection. Here is a summary of some the interesting features: 
 - mixins and traits
