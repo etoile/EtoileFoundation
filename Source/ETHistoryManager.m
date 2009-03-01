@@ -26,13 +26,23 @@
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
+#define INCREMENT_HISTORY_INDEX\
+	if (max_size < 1 || index < max_size) { ++index; }\
+	else { [history removeObjectAtIndex: 0]; }
+
 @implementation ETHistoryManager
+
++ (id) manager
+{
+	return AUTORELEASE([[self alloc] init]);
+}
 
 - (id) init
 {
 	SUPERINIT;
-	history = [[NSMutableArray alloc] init];
-	max_size = 100;
+	ASSIGN(history, [[NSMutableArray alloc] init]);
+	DESTROY(future);
+	max_size = 0;
 	index = -1;
 	return self;
 }
@@ -40,14 +50,7 @@
 - (void) addObject: (id)object
 {
 	[self setFuture: nil];
-	if (max_size < 1 || index < max_size)
-	{
-		++index;
-	}
-	else
-	{
-		[history removeObjectAtIndex: 0];
-	}
+	INCREMENT_HISTORY_INDEX;
 	[history addObject: object];
 }
 
@@ -60,27 +63,45 @@
 	return [history objectAtIndex: index];
 }
 
-- (void) next
-{
-	if ([self hasNext] == YES)
-	{
-		if (max_size < 1 || index < max_size)
-		{
-			++index;
-		}
-		else
-		{
-			[history removeObjectAtIndex: 0];
-		}
-	}
-}
-
-- (void) previous
+- (void) back
 {
 	if (index > 0)
 	{
 		--index;
 	}
+}
+
+- (id) previousObject
+{
+	if (index > 0)
+	{
+		--index;
+		return [history objectAtIndex: index];
+	}
+	return nil;
+}
+
+- (BOOL) hasPrevious
+{
+	return index > 0;
+}
+
+- (void) forward
+{
+	if ([self hasNext] == YES)
+	{
+		INCREMENT_HISTORY_INDEX;
+	}
+}
+
+- (id) nextObject
+{
+	if ([self hasNext] == YES)
+	{
+		INCREMENT_HISTORY_INDEX;
+		return [history objectAtIndex: index];
+	}
+	return nil;
 }
 
 - (BOOL) hasNext
@@ -102,11 +123,6 @@
 		DESTROY(future);
 		return NO;
 	}
-}
-
-- (BOOL) hasPrevious
-{
-	return index > 0;
 }
 
 - (id) peek: (int)relativeIndex
@@ -153,6 +169,13 @@
 - (void) setMaxHistorySize: (int)maxSize
 {
 	max_size = maxSize;
+
+	if (maxSize > 0 && index > maxSize)
+	{
+		NSRange range = NSMakeRange(0, index - maxSize);
+		[history removeObjectsInRange: range];
+		index = maxSize;
+	}
 }
 
 - (int) maxHistorySize

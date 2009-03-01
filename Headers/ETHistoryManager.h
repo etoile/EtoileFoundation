@@ -43,6 +43,10 @@
 }
 
 /**
+ * Return a new autoreleased history manager.
+ */
++ (id) manager;
+/**
  * Initialize the history manager.
  */
 - (id) init;
@@ -55,21 +59,29 @@
  */
 - (id) currentObject;
 /**
- * Advance the history one step forward if possible.
- */
-- (void) next;
-/**
  * Go one step back if possible.
  */
-- (void) previous;
+- (void) back;
 /**
- * Return YES if it is possible to go forward.
+ * Go back, and return the new current object or nil if already at the start.
  */
-- (BOOL) hasNext;
+- (id) previousObject;
 /**
  * Return YES if it is possible to go back.
  */
 - (BOOL) hasPrevious;
+/**
+ * After going back, call this to go one step forward again.
+ */
+- (void) forward;
+/**
+ * Go forward, and return the new current object or nil if already at the end.
+ */
+- (id) nextObject;
+/**
+ * Return YES if it is possible to go forward.
+ */
+- (BOOL) hasNext;
 /**
  * Return an object at a position relative to the current object. Return nil if
  * the index refers to a point before the beginning or after the end of time.
@@ -88,11 +100,11 @@
  * Set the maximum number of objects to remember. When more objects than this
  * are added, the oldest ones are forgotten.
  *
- * The default is 100. Set it to 0 to remember an unlimited number of objects.
+ * The default is to remember an unlimited number of objects (max size = 0).
  *
  * Note that max size only limits the number of objects before currentObject.
- * Setting a future and peeking deeply into it will force the history manager
- * to temporarily hold more objects.
+ * Setting a future and peeking into it may force the history manager to
+ * temporarily hold more objects.
  */
 - (void) setMaxHistorySize: (int)maxSize;
 /**
