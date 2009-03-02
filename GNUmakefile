@@ -86,7 +86,9 @@ ifeq ($(build_deprecated), yes)
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
 endif
 
-ADDITIONAL_OBJCFLAGS += -march=i586
+ifeq ($(GNUSTEP_TARGET_CPU), ix86)
+ ADDITIONAL_OBJCFLAGS += -march=i586
+endif
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
