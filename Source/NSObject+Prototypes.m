@@ -354,7 +354,7 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 - (id) cloneWithZone: (NSZone *)zone
 {
 	id obj = [(id)self copyWithZone: zone];
-	obj->class_pointer = (Class)hiddenClassFromClass(obj->class_pointer);
+	hiddenClassTransform(obj);
 	return obj;
 }
 - (id) clone
