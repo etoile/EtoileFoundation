@@ -86,18 +86,24 @@ static void hiddenClassSetValueForUndefinedKey(
 		id self, SEL _cmd, id value, NSString *key)
 {
 	value = [[value retain] autorelease];
+	SEL sel = sel_get_any_typed_uid([key UTF8String]);
 	if ([value isKindOfClass:NSClassFromString(@"BlockClosure")])
 	{
-		SEL sel = sel_get_uid([key UTF8String]);
 		[self setMethod:blockTrampoline forSelector:sel];
 		NSMapInsert(
 				((HiddenClass)self->class_pointer)->blockMethods,
 			   	sel_get_name(sel),
 				value);
 	}
-	if (value == nil)
+	else
 	{
-		value = NULL_OBJECT_PLACEHOLDER;
+		NSMapRemove(
+				((HiddenClass)self->class_pointer)->blockMethods,
+			   	sel_get_name(sel));
+		if (value == nil)
+		{
+			value = NULL_OBJECT_PLACEHOLDER;
+		}
 	}
 	[(((HiddenClass)self->class_pointer)->slots) setObject: value forKey: key];
 }
@@ -296,6 +302,10 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 	{
 		default:
 		case 0:
+			if (nil == block)
+			{
+				return [self valueForUndefinedKey: NSStringFromSelector(_cmd)];
+			}
 			[NSException raise:NSInvalidArgumentException
 			            format:@"Incorrect number of arguments"];
 		case 1:
