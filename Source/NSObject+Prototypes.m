@@ -87,23 +87,17 @@ static void hiddenClassSetValueForUndefinedKey(
 {
 	value = [[value retain] autorelease];
 	SEL sel = sel_get_any_typed_uid([key UTF8String]);
+	id block = NULL_OBJECT_PLACEHOLDER;
 	if ([value isKindOfClass:NSClassFromString(@"BlockClosure")])
 	{
 		[self setMethod:blockTrampoline forSelector:sel];
-		NSMapInsert(
-				((HiddenClass)self->class_pointer)->blockMethods,
-			   	sel_get_name(sel),
-				value);
+		block = value;
 	}
-	else
+	NSMapInsert(((HiddenClass)self->class_pointer)->blockMethods,
+	            sel_get_name(sel), block);
+	if (value == nil)
 	{
-		NSMapRemove(
-				((HiddenClass)self->class_pointer)->blockMethods,
-			   	sel_get_name(sel));
-		if (value == nil)
-		{
-			value = NULL_OBJECT_PLACEHOLDER;
-		}
+		value = NULL_OBJECT_PLACEHOLDER;
 	}
 	[(((HiddenClass)self->class_pointer)->slots) setObject: value forKey: key];
 }
@@ -296,44 +290,52 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 		block = NSMapGet(((HiddenClass)cls)->blockMethods,
 		   sel_get_name(_cmd));
 	}
+	if (block == nil || block == NULL_OBJECT_PLACEHOLDER)
+	{
+		return hiddenClassValueForUndefinedKey(self, _cmd,
+			NSStringFromSelector(_cmd));
+	}
 	va_list ap;
-	va_start(ap, _cmd);
 	switch ([block argumentCount])
 	{
 		default:
 		case 0:
-			if (nil == block)
-			{
-				return [self valueForUndefinedKey: NSStringFromSelector(_cmd)];
-			}
 			[NSException raise:NSInvalidArgumentException
 			            format:@"Incorrect number of arguments"];
 		case 1:
 			return [block value:self];
 		case 2:
 		{
+			va_start(ap, _cmd);
 			id arg1 = va_arg(ap, id);
+			va_end(ap);
 			return [block value:self value:arg1];
 		}
 		case 3:
 		{
+			va_start(ap, _cmd);
 			id arg1 = va_arg(ap, id);
 			id arg2 = va_arg(ap, id);
+			va_end(ap);
 			return [block value:self value:arg1 value:arg2];
 		}
 		case 4:
 		{
+			va_start(ap, _cmd);
 			id arg1 = va_arg(ap, id);
 			id arg2 = va_arg(ap, id);
 			id arg3 = va_arg(ap, id);
+			va_end(ap);
 			return [block value:self value:arg1 value:arg2 value:arg3];
 		}
 		case 5:
 		{
+			va_start(ap, _cmd);
 			id arg1 = va_arg(ap, id);
 			id arg2 = va_arg(ap, id);
 			id arg3 = va_arg(ap, id);
 			id arg4 = va_arg(ap, id);
+			va_end(ap);
 			return [block value:self
 			              value:arg1
 			              value:arg2
