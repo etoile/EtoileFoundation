@@ -395,4 +395,21 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 {
 	hiddenClassTransform(self);
 }
+- (id) slotValueForKey:(NSString *)aKey
+{
+	id value = nil;
+	for (Class cls=isa; value == nil && CLS_ISHIDDEN(cls); cls=cls->super_class)
+	{
+		value = [(((HiddenClass)cls)->slots) objectForKey:aKey];
+	}
+	if (value == nil)
+	{
+		return [self valueForKey:aKey];
+	}
+	if (value == NULL_OBJECT_PLACEHOLDER)
+	{
+		return nil;
+	}
+	return value;
+}
 @end

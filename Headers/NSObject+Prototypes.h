@@ -30,4 +30,10 @@
  * Performs a hidden class transform, making this object into a prototype.
  */
 - (void) becomePrototype;
+/**
+ * Does the same as valueForKey:, except when this object is a prototype and
+ * a block closure is associated with the supplied key. The block closure is
+ * then returned without being invoked.
+ */
+- (id) slotValueForKey:(NSString *)aKey;
 @end
