@@ -77,6 +77,15 @@ static void releaseHiddenClass(HiddenClass cls)
 	}
 }
 
+@protocol BlockClosure 
+- (int32_t) argumentCount;
+- value:a1;
+- value:a1 value:a2;
+- value:a1 value:a2 value:a3;
+- value:a1 value:a2 value:a3 value:a4;
+- value:a1 value:a2 value:a3 value:a4 value:a5;
+@end
+
 static id blockTrampoline(id self, SEL _cmd, ...);
 
 /**
@@ -86,12 +95,39 @@ static void hiddenClassSetValueForUndefinedKey(
 		id self, SEL _cmd, id value, NSString *key)
 {
 	value = [[value retain] autorelease];
-	SEL sel = sel_get_any_typed_uid([key UTF8String]);
 	id block = NULL_OBJECT_PLACEHOLDER;
+	SEL sel;
 	if ([value isKindOfClass:NSClassFromString(@"BlockClosure")])
 	{
+		switch ([value argumentCount])
+		{
+			default:
+			case 0:
+				sel = @selector(value);
+				break;
+			case 1:
+				sel = @selector(value:);
+				break;
+			case 2:
+				sel = @selector(value:value:);
+				break;
+			case 3:
+				sel = @selector(value:value:value:);
+				break;
+			case 4:
+				sel = @selector(value:value:value:value:);
+				break;
+			case 5:
+				sel = @selector(value:value:value:value:value:);
+				break;
+		}
+		sel = sel_register_typed_name([key UTF8String], sel_get_type(sel));
 		[self setMethod:blockTrampoline forSelector:sel];
 		block = value;
+	}
+	else
+	{
+		sel = sel_get_uid([key UTF8String]);
 	}
 	NSMapInsert(((HiddenClass)self->class_pointer)->blockMethods,
 	            sel_get_name(sel), block);
@@ -270,15 +306,6 @@ static void __attribute__((constructor))load(void)
 	defaultClassMethods.method_list[0].method_imp = 
 		(IMP)hiddenClassAllocWithZone;
 }
-
-@protocol BlockClosure 
-- (int32_t) argumentCount;
-- value:a1;
-- value:a1 value:a2;
-- value:a1 value:a2 value:a3;
-- value:a1 value:a2 value:a3 value:a4;
-- value:a1 value:a2 value:a3 value:a4 value:a5;
-@end
 
 static id blockTrampoline(id self, SEL _cmd, ...)
 {
