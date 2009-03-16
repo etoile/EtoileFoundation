@@ -22,8 +22,11 @@ static char * makeTempPattern(void)
 - (NSString*) tempDirectory
 {
 	char * pattern = makeTempPattern();
-	mkdtemp(pattern);
-	NSString * dirName = [NSString stringWithUTF8String:pattern];
+	NSString * dirName = nil;
+	if (NULL == mkdtemp(pattern))
+	{
+		dirName = [NSString stringWithUTF8String:pattern];
+	}
 	free(pattern);
 	return dirName;
 }
