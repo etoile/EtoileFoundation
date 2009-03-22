@@ -5,6 +5,8 @@
 // Private runtime function for setting up a class dtable
 void __objc_update_dispatch_table_for_class(Class);
 
+extern objc_mutex_t __objc_runtime_mutex;
+
 // Macros for setting the hidden class flag.
 // TODO: These should be pushed into the runtime.
 #define _CLS_HIDDEN 0x20L
@@ -48,6 +50,42 @@ static struct
 	Method method_list[HIDDEN_CLASS_METHODS];
 } defaultMethods;
 static MethodList defaultClassMethods;
+
+/*
+ * Adds a class to the subclass list found on its super class.
+ * Must be called with the objc runtime mutex locked.
+ */
+static inline void safe_add_to_subclass_list(Class cls)
+{
+	cls->sibling_class = cls->super_class->subclass_list;
+	cls->super_class->subclass_list = cls;
+}
+
+/*
+ * Removes a class from the subclass list found on its super class.
+ * Must be called with the objc runtime mutex locked.
+ */
+static inline void safe_remove_from_subclass_list(Class cls)
+{
+	Class sub = cls->super_class->subclass_list;
+	if (sub == cls)
+	{
+		cls->super_class->subclass_list = cls->sibling_class;
+	}
+	else
+	{
+		while (sub != NULL)
+		{
+			if (sub->sibling_class == cls)
+			{
+				sub->sibling_class = cls->sibling_class;
+				break;
+			}
+			sub = sub->sibling_class;
+		}
+	}
+}
+
 /**
  * This function is equivalent to -release, but for hidden classes.
  */
@@ -57,6 +95,12 @@ static void releaseHiddenClass(HiddenClass cls)
 	// Note: __sync_fetch_and_sub returns the old value of the refcount.
 	if (1 == __sync_fetch_and_sub(&cls->refCount, 1))
 	{
+		// Remove pointer from super class
+		objc_mutex_lock(__objc_runtime_mutex);
+		safe_remove_from_subclass_list(&cls->metaClass);
+		safe_remove_from_subclass_list(&cls->class);
+		objc_mutex_unlock(__objc_runtime_mutex);
+		// Free slot dictionary
 		[cls->slots release];
 		NSFreeMapTable(cls->blockMethods);
 		// Free method lists
@@ -225,36 +269,44 @@ struct objc_hidden_class *hiddenClassFromClass(Class cls)
 {
 	HiddenClass hcls = calloc(1, sizeof(struct objc_hidden_class));
 	hcls->refCount = 1;
-	Class newClass = &hcls->class;
+
 	// Set up the empty metaclass
 	Class metaClass = &hcls->metaClass;
+	metaClass->class_pointer = cls->class_pointer->class_pointer;
 	metaClass->super_class = cls->class_pointer;
-	metaClass->info = 2;
-	metaClass->class_pointer = newClass;
+	metaClass->info = _CLS_META;
 	CLS_SETHIDDEN(metaClass);
 	CLS_SETINITIALIZED(metaClass);
-	// Set the metaclass dtable
 	metaClass->methods = (MethodList_t)&defaultClassMethods;
 	metaClass->dtable = __objc_uninstalled_dtable;
 	__objc_update_dispatch_table_for_class(metaClass);
-	newClass->class_pointer = metaClass;
+
+	// Set up the new class
+	Class newClass = &hcls->class;
 	// Note: This name conflict doesn't matter because we are not registering
 	// the class with the runtime.  Since it is hidden, it can not be accessed
 	// with NSClassFromString or similar.
+	newClass->class_pointer = metaClass;
+	newClass->super_class = cls;
 	newClass->name = "PrototypeHiddenClass";
-	newClass->methods = (MethodList_t)&defaultMethods;
-	// Set the hidden class flag
-	newClass->info = 1;
+	newClass->info = _CLS_CLASS;
 	CLS_SETHIDDEN(newClass);
 	CLS_SETINITIALIZED(newClass);
-	newClass->super_class = cls;
+	newClass->methods = (MethodList_t)&defaultMethods;
 	newClass->dtable = __objc_uninstalled_dtable;
-	// set up the dtable
 	__objc_update_dispatch_table_for_class(newClass);
+
 	// Create the slots 
 	hcls->slots = [NSMutableDictionary new];
 	hcls->blockMethods = NSCreateMapTable(NSNonOwnedPointerMapKeyCallBacks,
 			NSObjectMapValueCallBacks, 5);
+
+	// Add pointer from super class
+	objc_mutex_lock(__objc_runtime_mutex);
+	safe_add_to_subclass_list(metaClass);
+	safe_add_to_subclass_list(newClass);
+	objc_mutex_unlock(__objc_runtime_mutex);
+
 	return hcls;
 }
 /**
