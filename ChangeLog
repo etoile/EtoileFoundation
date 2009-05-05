@@ -1,3 +1,10 @@
+2009-05-05  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETUI.h:
+	* Source/ETUTI.m:
+	Made ETUTI conforms to NSCopying, this way UTI objects can be used as keys 
+	in dictionaries.
+
 2009-01-21  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/NSObject+Etoile.m:

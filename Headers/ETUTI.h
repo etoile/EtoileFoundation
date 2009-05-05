@@ -44,7 +44,7 @@
  * UTI's can be automatically generated for a given class,
  * which are given the form "org.etoile-project.objc.class.ClassName".
  */
-@interface ETUTI : NSObject
+@interface ETUTI : NSObject <NSCopying>
 {
 	NSString *string;
 	NSString *description;

@@ -244,6 +244,11 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	return NO;
 }
 
+- (id) copyWithZone: (NSZone *)aZone
+{
+	return RETAIN(self);	
+}
+
 @end
 
 
