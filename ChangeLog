@@ -1,5 +1,24 @@
 2009-05-09  Quentin Mathe <qmathe@club-internet.fr>
 
+	Made EUTI API a bit more consistent. Initializers or factory methods whose 
+	last method keyword is 'supertypes:' were taking an array of UTI string 
+	representations, when -supertypes returns an array of ETUTI objects. Now 
+	'supertypes' in a method name always means an array of ETUTI objects, and 
+	'supertypeStrings' an array of UTI string representations.
+	* Headers/ETUI.h:
+	* Source/ETUTI.m:
+	(+registerTypeWithString:description:supertypes:): Renamed 
+	+registerTypeWithString:description:supertypeStrings:.
+	(+transientTypeWithSupertypeStrings:, +transientTypeWithSupertypes:): 
+	Renamed +transientTypeWithSupertypes: to +transientTypeWithSupertypeStrings: 
+	and rewritten +transientTypeWithSupertypes: to have a new behavior.
+	(-supertypes, -allSupertypes, -allSubtypes, -subtypes): Modified 
+	documentation to make clear these methods that return UTIs won't return 
+	string representations but ETUTI objects.
+	* Source/TestUTI.m: Udpated.
+
+2009-05-05  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/ETUI.h:
 	* Source/ETUTI.m:
 	Made ETUTI conforms to NSCopying, this way UTI objects can be used as keys 
