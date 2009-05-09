@@ -81,9 +81,9 @@
 	id image = [ETUTI typeWithString: @"public.image"];
 	id audio = [ETUTI typeWithString: @"public.audio"];
 
-	id new = [ETUTI registerTypeWithString:@"etoile.testtype"
-	                           description:@"Testing type."
-	                            supertypes:A(@"public.composite-content", @"public.jpeg")];
+	id new = [ETUTI registerTypeWithString: @"etoile.testtype"
+	                           description: @"Testing type."
+	                      supertypeStrings: A(@"public.composite-content", @"public.jpeg")];
 	
 	UKNotNil(new);
 	UKStringsEqual(@"Testing type.", [new typeDescription]);
@@ -102,7 +102,7 @@
 	id image = [ETUTI typeWithString: @"public.image"];
 	id audio = [ETUTI typeWithString: @"public.audio"];
 
-	id new = [ETUTI transientTypeWithSupertypes:A(@"public.composite-content", @"public.jpeg")];
+	id new = [ETUTI transientTypeWithSupertypeStrings: A(@"public.composite-content", @"public.jpeg")];
 	
 	UKNotNil(new);
 	UKTrue([new conformsToType: item]);

@@ -84,8 +84,8 @@ static NSString *ETFileUTI = @"public.filename-extension";
 		&& NSClassFromString(ETUTILastComponent(aString)) != nil)
 	{
 		return [ETUTI registerTypeWithString: aString
-		                        description: @"Objective-C Class"
-		                         supertypes: nil];
+		                         description: @"Objective-C Class"
+		                    supertypeStrings: nil];
 	}
 	return cached;
 }
@@ -134,8 +134,8 @@ static NSString *ETFileUTI = @"public.filename-extension";
 }
 
 + (ETUTI *) registerTypeWithString: (NSString *)aString
-                      description: (NSString *)description
-                       supertypes: (NSArray *)supertypeNames
+                       description: (NSString *)description
+                  supertypeStrings: (NSArray *)supertypeNames
 {
 	ETUTI *aType = [[ETUTI alloc] initWithString: aString
 	                                description: description
@@ -145,12 +145,20 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	return [aType autorelease];
 }
 
-+ (ETUTI *) transientTypeWithSupertypes: (NSArray *)supertypeNames
++ (ETUTI *) transientTypeWithSupertypeStrings: (NSArray *)supertypeNames
 {
 	ETUTI *result = [[ETUTI alloc] initWithString: nil description: nil typeTags: nil];
 	[result setSupertypesFromStrings: supertypeNames];
 	return [result autorelease];
 }
+
++ (ETUTI *) transientTypeWithSupertypes: (NSArray *)supertypes
+{
+	ETUTI *result = [[ETUTI alloc] initWithString: nil description: nil typeTags: nil];
+	result->supertypes = [[NSArray alloc] initWithArray: supertypes];
+	return [result autorelease];
+}
+
 
 - (NSString *) stringValue
 {

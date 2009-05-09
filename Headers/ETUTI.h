@@ -31,7 +31,6 @@
         THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #import <Foundation/Foundation.h>
 
 /**
@@ -88,15 +87,22 @@
  * are not currently persisted.
  */
 + (ETUTI *) registerTypeWithString: (NSString *)aString
-                      description: (NSString *)description
-                       supertypes: (NSArray *)supertypeNames;
+                       description: (NSString *)description
+                  supertypeStrings: (NSArray *)supertypeNames;
 /**
- * Returns a "transient" or anonymous ETUTI object.
+ * Returns a "transient" or anonymous ETUTI object based on the given UTI 
+ * string representations as supertypes.
  * Useful in combination with conformsToUTI: for checking whether an unknown
  * UTI conforms to any UTI in a set (the superypes specified for the 
  * transient UTI.)
  */
-+ (ETUTI *) transientTypeWithSupertypes: (NSArray *)supertypeNames;
++ (ETUTI *) transientTypeWithSupertypeStrings: (NSArray *)supertypeNames;
+/**
+ * Returns a "transient" or anonymous ETUTI object based on the given UTI 
+ * objects as supertypes.
+ * See also +transientTypeWithSupertypeStrings:
+ */
++ (ETUTI *) transientTypeWithSupertypes: (NSArray *)supertypes;
 
 /**
  * Returns the string representation of the UTI (e.g. "public.audio")
@@ -117,20 +123,20 @@
  */
 - (NSString *) typeDescription;
 /**
- * Returns the immediate supertypes of the receiver.
+ * Returns the UTI objects which are immediate supertypes of the receiver.
  */
 - (NSArray *) supertypes;
 /**
- * Returns all known supertypes of the receiver (all UTIs which the 
- * receiver conforms to.)
+ * Returns all known UTI objects which are supertypes of the receiver (all UTIs 
+ * which the receiver conforms to.)
  */
 - (NSArray *) allSupertypes;
 /**
- * Returns the UTIs which have the receiver as an immediate supertype.
+ * Returns the UTI objects which have the receiver as an immediate supertype.
  */
 - (NSArray *) subtypes;
 /**
- * Returns all known UTIs which conform to the receiver.
+ * Returns all known UTI objects which conform to the receiver.
  */
 - (NSArray *) allSubtypes;
 
