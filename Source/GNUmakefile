@@ -44,6 +44,11 @@ libEtoileFoundation_OBJC_FILES = \
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
 
+ifeq ($(GNUSTEP_TARGET_CPU), ix86)
+  ADDITIONAL_OBJCFLAGS += -march=i586
+endif
+
+
 ifeq ($(build_deprecated), yes)
 libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
@@ -52,6 +57,4 @@ ifeq ($(test), yes)
 libEtoileFoundation_OBJC_FILES += TestUUID.m TestUTI.m
 endif
 
--include GNUmakefile.preamble
 include $(GNUSTEP_MAKEFILES)/subproject.make
--include GNUmakefile.postamble
