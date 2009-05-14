@@ -9,7 +9,7 @@
 #import "ETModelDescription.h"
 #import "NSObject+Etoile.h"
 #import "Macros.h"
-#import "ETCompatibility.h"
+#import "EtoileCompatibility.h"
 
 
 @implementation ETModelDescription
