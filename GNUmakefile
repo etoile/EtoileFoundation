@@ -81,7 +81,8 @@ EtoileFoundation_HEADER_FILES = \
 	ETUTI.h
 
 EtoileFoundation_RESOURCE_FILES = \
-	UTIDefinitions.plist
+	UTIDefinitions.plist \
+	UTIClassBindings.plist
 
 ifeq ($(build_deprecated), yes)
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h

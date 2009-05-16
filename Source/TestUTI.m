@@ -114,4 +114,12 @@
 	UKFalse([[item allSubtypes] containsObject: new]);	// Note the expected result
 }
 
+- (void) testClassBinding
+{
+	UKTrue([[ETUTI typeWithClass: [NSString class]] conformsToType:
+			[ETUTI typeWithString: @"public.text"]]);
+	UKTrue([[ETUTI typeWithClass: [NSMutableString class]] conformsToType:
+			[ETUTI typeWithString: @"public.text"]]);
+}
+
 @end

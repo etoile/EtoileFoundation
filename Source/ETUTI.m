@@ -59,6 +59,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 - (void) setSupertypesFromStrings: (NSArray *)supertypeStrings;
 + (id) propertyListWithPath: (NSString *)path;
 + (void) initializeWithUTIDictionaries: (NSArray *)UTIDictionaries;
++ (void) initializeClassBindings: (NSArray *)classBindings;
 @end
 
 
@@ -73,6 +74,12 @@ static NSString *ETFileUTI = @"public.filename-extension";
 		                               ofType: @"plist"];
 		NSArray *array = (NSArray *)[ETUTI propertyListWithPath: path];
 		[ETUTI initializeWithUTIDictionaries: array];
+	
+		NSString *bindingsPlist = [[NSBundle bundleForClass: [ETUTI class]]
+		                      pathForResource: @"UTIClassBindings"
+		                               ofType: @"plist"];
+		NSArray *bindings = (NSArray *)[ETUTI propertyListWithPath: bindingsPlist];
+		[ETUTI initializeClassBindings: bindings];
 	}
 }
 
@@ -335,6 +342,19 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	{
 		[[ETUTIInstances objectForKey: [aTypeDict2 valueForKey: @"UTTypeIdentifier"]]
 		     setSupertypesFromStrings: (NSArray *)[aTypeDict2 valueForKey: @"UTTypeConformsTo"]];
+	}
+}
+
++ (void) initializeClassBindings: (NSArray *)classBindings
+{
+	FOREACH(classBindings, classBinding, NSDictionary *)
+	{
+		NSString *className = [classBinding valueForKey: @"UTClassName"];
+		NSArray *supertypeNames = [classBinding valueForKey: @"UTTypeConformsTo"];
+		[ETUTI registerTypeWithString: [ETObjCClassUTIPrefix stringByAppendingString: className]
+		                  description: @"Objective-C Class"
+		             supertypeStrings: supertypeNames];
+
 	}
 }
 
