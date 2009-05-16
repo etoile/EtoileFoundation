@@ -65,14 +65,17 @@
 
 #ifdef UKTEST_LONG
 	NSLog(@"Long testing begins. It should be less than minutes.");
+
+	BOOL fail = NO;
 	for (int i = 0; i < 10000; i++)
 	{
 		uuid = [ETUUID UUID];
 		hashNumber = [NSNumber numberWithUnsignedInt: [uuid hash]];
 
-		UKFalse([hashSet containsObject: hashNumber]);
+		fail = fail || [hashSet containsObject: hashNumber];
 		[hashSet addObject: hashNumber];
 	}
+	UKFalse(fail);
 	NSLog(@"Long testing is done");
 #endif
 }
@@ -86,14 +89,16 @@
 	int i, count = 10000;
 
 	/* Check collisions inside a random sequence */
+	BOOL fail = NO;
 	for (i = 0; i < count; i++)
 	{
 		NSString *uuid = [NSString UUIDString];
-		UKNotNil(uuid);
-		UKFalse([set containsObject: uuid]);
+		fail = fail || (uuid == nil);
+		fail = fail || [set containsObject: uuid];
 		[set addObject: uuid];
 		//NSLog(@"uuid %@", uuid);
 	}
+	UKFalse(fail);
 
 	/* Check collision accross random sequences. If such a collision occurs, it 
 	   is normally a seed collision that results in two or more identical 
@@ -104,6 +109,7 @@
 	   thing really exerced here. 
 	   A more exhaustive test would involve more iterations and relatively 
 	   random pid and junk value. These doesn't changed within a process time.*/
+	fail = NO;
 	for (i = 0; i < 2000; i++)
 	{
 		 /* Wait 1 microsecond, otherwise collisions are numerous within a 
@@ -111,11 +117,12 @@
 		usleep(1);
 		[ETUUID initialize]; // call srandomdev or equivalent
 		NSString *uuid = [NSString UUIDString];
-		UKNotNil(uuid);
-		UKFalse([set containsObject: uuid]);
+		fail = fail || (uuid == nil);
+		fail = fail || [set containsObject: uuid];
 		[set addObject: uuid];
 		//NSLog(@"uuid %@", uuid);
 	}
+	UKFalse(fail);
 	DESTROY(set);
 
 	NSLog(@"Long testing is done");
