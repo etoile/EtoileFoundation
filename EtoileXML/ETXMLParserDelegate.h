@@ -68,11 +68,12 @@ static inline NSMutableString * unescapeXMLCData(NSString *_XMLString)
 	[XMLString replaceOccurrencesOfString:@"&quot;" withString:@"\"" options:0 range:NSMakeRange(0,[XMLString length])];
 	return XMLString;
 }
+
 /**
- * The ETXMLParserDelegate protocol is a formal protocol that must be 
- * implemented by classes used as delegates for XML parsing.
+ * The ETXMLWriting protocol is implemented by any object which consumes
+ * SAX-like events, either from a parser or from some other data source.
  */
-@protocol ETXMLParserDelegate <NSObject>
+@protocol ETXMLWriting <NSObject>
 /**
  * Called by the parser whenever character data is parsed.  The parser will 
  * attempt to compromise between getting the data to the handler as soon as 
@@ -93,6 +94,12 @@ static inline NSMutableString * unescapeXMLCData(NSString *_XMLString)
  * methods in the delegate.
  */
 - (void)endElement: (NSString *)_Name;
+@end
+/**
+ * The ETXMLParserDelegate protocol is a formal protocol that must be 
+ * implemented by classes used as delegates for XML parsing.
+ */
+@protocol ETXMLParserDelegate <ETXMLWriting>
 /**
  * Used to set the associated parser.
  *

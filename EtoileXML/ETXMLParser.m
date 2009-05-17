@@ -40,12 +40,12 @@
 
 @implementation ETXMLParser
 
-+ (id) parserWithContentHandler: (id <ETXMLParserDelegate>)_contentHandler
++ (id) parserWithContentHandler: (id <ETXMLWriting>)_contentHandler
 {
 	return [[[ETXMLParser alloc] initWithContentHandler:_contentHandler] autorelease];
 }
 
-- (id) initWithContentHandler: (id <ETXMLParserDelegate>)_contentHandler
+- (id) initWithContentHandler: (id <ETXMLWriting>)_contentHandler
 {
 	[self init];
 	[self setContentHandler:_contentHandler];
@@ -62,11 +62,14 @@
 	return [super init];
 }
 
-- (id) setContentHandler: (id <ETXMLParserDelegate>)_contentHandler
+- (id) setContentHandler: (id <ETXMLWriting>)_contentHandler
 {
 	[delegate release];
 	delegate = [_contentHandler retain];
-	[delegate setParser: self];
+	if ([delegate conformsToProtocol: @protocol(ETXMLParserDelegate)])
+	{
+		[(id)delegate setParser: self];
+	}
 	return self;
 }
 

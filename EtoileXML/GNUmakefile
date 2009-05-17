@@ -20,7 +20,8 @@ $(FRAMEWORK_NAME)_OBJC_FILES = \
 	ETXMLNullHandler.m \
 	ETXMLParser.m \
 	ETXMLXHTML-IMParser.m \
-	ETXMLString.m
+	ETXMLString.m\
+	ETXMLWriter.m
 
 $(FRAMEWORK_NAME)_HEADER_FILES = \
 	ETXMLNode.h \
@@ -30,6 +31,7 @@ $(FRAMEWORK_NAME)_HEADER_FILES = \
 	ETXMLNullHandler.h \
 	ETXMLXHTML-IMParser.h \
 	ETXMLParserDelegate.h \
+	ETXMLWriter.h\
 	NSAttributedString+HTML.h
 
 $(DOCUMENT_NAME)_AGSDOC_FILES = $($(FRAMEWORK_NAME)_HEADER_FILES)

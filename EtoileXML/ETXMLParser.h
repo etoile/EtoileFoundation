@@ -45,7 +45,7 @@
 @interface ETXMLParser : NSObject 
 {
 	NSMutableString *buffer;
-	id <ETXMLParserDelegate> delegate;
+	id <ETXMLWriting> delegate;
 	int depth;
 	NSMutableArray *openTags;
 	enum {notag, intag, inattribute, incdata, instupidcdata, incomment, broken} state;
@@ -54,17 +54,17 @@
 /**
  * Create a new parser with the specified delegate.
  */
-+ (id) parserWithContentHandler: (id <ETXMLParserDelegate>)_contentHandler;
++ (id) parserWithContentHandler: (id <ETXMLWriting>)_contentHandler;
 /**
  * Initialise a new parser with the specified delegate.
  */
-- (id) initWithContentHandler: (id <ETXMLParserDelegate>)_contentHandler;
+- (id) initWithContentHandler: (id <ETXMLWriting>)_contentHandler;
 /**
  * Set the class to receive messages from input data.  Commonly used to delegate
  * handling child elements to other classes, or to pass control back to the 
  * parent afterwards.
  */
-- (id) setContentHandler: (id <ETXMLParserDelegate>)_contentHandler;
+- (id) setContentHandler: (id <ETXMLWriting>)_contentHandler;
 /**
  * Parse the given input string.  This, appended to any data previously supplied
  * using this method, must form a (partial) XML document.  This function returns

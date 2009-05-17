@@ -82,6 +82,7 @@
 #import <EtoileXML/ETXMLParserDelegate.h>
 #import <EtoileXML/ETXMLParser.h>
 #import <EtoileXML/ETXMLString.h>
+#import <EtoileXML/ETXMLWriter.h>
 #import <EtoileXML/ETXMLXHTML-IMParser.h>
 #import <EtoileXML/NSAttributedString+HTML.h>
 
