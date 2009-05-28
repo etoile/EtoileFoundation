@@ -15,7 +15,8 @@
 // time and pid to seed the random number generator.
 #if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__)
 #define INITRANDOM() srandomdev()
-#elif defined(__linux__)
+#else
+#if defined(__linux__)
 #include <sys/time.h>
 #include <time.h>
 #include <sys/types.h>
@@ -82,6 +83,7 @@ static void ETSRandomDev()
 	srandom(seed);
 }
 #define INITRANDOM() ETSRandomDev()
+#endif
 #endif
 #import "Macros.h"
 
