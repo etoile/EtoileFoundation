@@ -297,7 +297,7 @@ static NSFileManager *fm = nil;
 		if (iconFileName != nil) 
             iconPath = [bundle pathForImageResource: iconFileName];
             
-		[self loadIconForPath:iconPath];
+	image = [self loadIconForPath:iconPath];
         
         /* When image loading has failed, we set its value to null object in
            in order to be able to create info dictionary without glitches a
