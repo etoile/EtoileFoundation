@@ -53,18 +53,12 @@ EtoileFoundation_HEADER_FILES = \
 	NSArray+map.h \
 	NSObject+Mixins.h \
 	NSFileManager+TempFile.h \
-	UKMainThreadProxy.h \
 	UKPluginsRegistry.h \
-	UKPushbackMessenger.h \
-	UKThreadMessenger.h \
-	UKFileWatcher.h \
-	OSBundleExtensionLoader.h \
 	ETCollection.h \
 	ETFilter.h \
 	ETHistoryManager.h \
 	ETModelDescription.h \
 	ETObjectChain.h \
-	ETObjectRegistry.h \
 	ETPropertyValueCoding.h \
 	ETRendering.h \
 	ETTranscript.h \

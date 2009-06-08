@@ -17,18 +17,13 @@ libEtoileFoundation_OBJC_FILES = \
 	NSObject+Mixins.m \
 	NSObject+Prototypes.m \
 	NSFileManager+TempFile.m\
-	UKMainThreadProxy.m \
 	UKPluginsRegistry.m \
-	UKPushbackMessenger.m \
-	UKThreadMessenger.m \
-	OSBundleExtensionLoader.m \
 	ETCollection.m \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistoryManager.m \
 	ETModelDescription.m \
 	ETObjectChain.m \
-	ETObjectRegistry.m \
 	ETPropertyValueCoding.m \
 	ETTranscript.m \
 	ETTransform.m \
