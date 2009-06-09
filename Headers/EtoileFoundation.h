@@ -39,12 +39,7 @@
 #import <EtoileFoundation/Macros.h>
 #import <EtoileFoundation/NSFileManager+TempFile.h>
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
-#import <EtoileFoundation/OSBundleExtensionLoader.h>
-#import <EtoileFoundation/UKFileWatcher.h>
-#import <EtoileFoundation/UKMainThreadProxy.h>
 #import <EtoileFoundation/UKPluginsRegistry.h>
-#import <EtoileFoundation/UKPushbackMessenger.h>
-#import <EtoileFoundation/UKThreadMessenger.h>
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSIndexSet+Etoile.h>
@@ -54,7 +49,6 @@
 #import <EtoileFoundation/NSURL+Etoile.h>
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
-#import <EtoileFoundation/ETObjectRegistry.h>
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETFilter.h>
 #import <EtoileFoundation/ETRendering.h>
