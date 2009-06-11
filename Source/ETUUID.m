@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#pragma GCC diagnostic ignored "-Wuninitialized" /* For junk variable */
 #if defined(__linux__)
 /** Returns a strong random number which can be used as a seed for srandom().
     This random number is obtained from Linux entropy pool through /dev/random.
@@ -65,7 +66,6 @@ static void ETSRandomDev()
 }
 #define INITRANDOM() ETSRandomDev()
 #else
-#pragma GCC diagnostic ignored "-Wuninitialized" /* For junk variable */
 static void ETSRandomDev()
 {
 	struct timeval tv;
