@@ -72,10 +72,17 @@
 		uuid = [ETUUID UUID];
 		hashNumber = [NSNumber numberWithUnsignedInt: [uuid hash]];
 
-		fail = fail || [hashSet containsObject: hashNumber];
+		if ([hashSet containsObject: hashNumber])
+		{
+			NSLog(@"Generated invalid hash %@ with UUID %@ at iteration %d", 
+				hashNumber, uuid, i);
+			fail = YES;
+		}
+
 		[hashSet addObject: hashNumber];
 	}
 	UKFalse(fail);
+
 	NSLog(@"Long testing is done");
 #endif
 }
@@ -93,8 +100,13 @@
 	for (i = 0; i < count; i++)
 	{
 		NSString *uuid = [NSString UUIDString];
-		fail = fail || (uuid == nil);
-		fail = fail || [set containsObject: uuid];
+
+		if (uuid == nil || [set containsObject: uuid])
+		{
+			NSLog(@"Generated invalid UUID %@ at iteration %d", uuid, i);
+			fail = YES;
+		}
+
 		[set addObject: uuid];
 		//NSLog(@"uuid %@", uuid);
 	}
@@ -115,14 +127,20 @@
 		 /* Wait 1 microsecond, otherwise collisions are numerous within a 
 		    single process, and beyond 3000 iterations collisions occur also. */
 		usleep(1);
-		[ETUUID initialize]; // call srandomdev or equivalent
+		[ETUUID initialize]; /* Will call srandomdev or equivalent */
 		NSString *uuid = [NSString UUIDString];
-		fail = fail || (uuid == nil);
-		fail = fail || [set containsObject: uuid];
+
+		if (uuid == nil || [set containsObject: uuid])
+		{
+			NSLog(@"Generated invalid UUID %@ at iteration %d", uuid, i);
+			fail = YES;
+		}
+
 		[set addObject: uuid];
 		//NSLog(@"uuid %@", uuid);
 	}
 	UKFalse(fail);
+
 	DESTROY(set);
 
 	NSLog(@"Long testing is done");
