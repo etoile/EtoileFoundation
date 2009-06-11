@@ -39,7 +39,7 @@
 			[mappedArray addObject:mapped];
 		}
 	}
-	[anInvocation setReturnValue:mappedArray];
+	[anInvocation setReturnValue:&mappedArray];
 }
 DEALLOC(
 	[array release];
