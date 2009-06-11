@@ -65,6 +65,7 @@ static void ETSRandomDev()
 }
 #define INITRANDOM() ETSRandomDev()
 #else
+#pragma GCC diagnostic ignored "-Wuninitialized" /* For junk variable */
 static void ETSRandomDev()
 {
 	struct timeval tv;
