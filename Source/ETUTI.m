@@ -88,7 +88,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	ETUTI *cached = [ETUTIInstances objectForKey: aString];
 
 	if (cached == nil && [aString hasPrefix: ETObjCClassUTIPrefix]
-		&& NSClassFromString(ETUTILastComponent(aString)) != nil)
+		&& NSClassFromString(ETUTILastComponent(aString)) != Nil)
 	{
 		return [ETUTI registerTypeWithString: aString
 		                         description: @"Objective-C Class"
@@ -179,7 +179,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 
 - (NSString *) description /* NSObject */
 {
-        return [self stringValue];
+	return [self stringValue];
 }
 
 - (NSArray *) fileExtensions
@@ -198,8 +198,21 @@ static NSString *ETFileUTI = @"public.filename-extension";
 
 	if ([[self stringValue] hasPrefix:ETObjCClassUTIPrefix])
 	{
-		Class class = NSClassFromString(ETUTILastComponent([self stringValue]));
+		NSString *selfClassName = ETUTILastComponent([self stringValue]);
+		Class class = NSClassFromString(selfClassName);
+
+		NSAssert(NSClassFromString(@"NSImage") == NSClassFromString(@"CLImage"), @"testing my assertion");
+
+		// This is a hack to work around the fact that NSClassFromString will
+		// sometimes return a private subclass of the requested class.
+		// (for example, NSClassFromString(@"NSImage") == [CLImage class])
+		while (![NSStringFromClass(class) isEqualToString: selfClassName])
+		{
+			class = [class superclass];
+		}
+
 		Class superclass = [class superclass];
+
 		if (superclass != Nil)
 		{
 			[result addObject: [ETUTI typeWithClass: superclass]];
@@ -212,7 +225,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 {
 	NSMutableSet *resultSet = [NSMutableSet setWithCapacity: 32];
 	FOREACH([self supertypes], supertype, ETUTI *)
-        {
+	{
 		[resultSet addObject: supertype];
 		[resultSet addObjectsFromArray: [supertype allSupertypes]];
 	}
@@ -251,6 +264,11 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	}
 	FOREACH([self supertypes], supertype, ETUTI *)
 	{
+		if (supertype == self)
+		{
+			[NSException raise: NSInternalInconsistencyException
+			            format: @"UTI %@ is a supertype of itself", self];
+		}
 		if ([supertype conformsToType: aType])
 		{
 			return YES;
