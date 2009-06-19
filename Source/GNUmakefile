@@ -19,6 +19,7 @@ libEtoileFoundation_OBJC_FILES = \
 	NSFileManager+TempFile.m\
 	UKPluginsRegistry.m \
 	ETCollection.m \
+	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistoryManager.m \
 	ETModelDescription.m \
