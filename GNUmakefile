@@ -55,7 +55,6 @@ EtoileFoundation_HEADER_FILES = \
 	NSFileManager+TempFile.h \
 	UKPluginsRegistry.h \
 	ETCollection.h \
-	ETFilter.h \
 	ETHistoryManager.h \
 	ETModelDescription.h \
 	ETObjectChain.h \
