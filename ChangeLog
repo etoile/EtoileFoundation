@@ -1,5 +1,15 @@
 2009-06-22  Quentin Mathe <qmathe@club-internet.fr>
 
+	* Source/NSObject+HOM.m (-forwardInvocation:): Fixed invocation return 
+	value on GNUstep. The return value is the target when the invocation 
+	hasn't been invoked and not nil as with Cocoa.
+	* GNUmakefile:
+	* Source/GNUmakefile:
+	* Headers/EtoileFoundation.h:
+	Updated to include the new NSObject(HOM) related files.
+
+2009-06-22  Quentin Mathe <qmathe@club-internet.fr>
+
 	* Headers/NSObject+HOM.h:
 	* Source/NSObject+HOM.m:
 	* Source/TestBasicHOM.m:

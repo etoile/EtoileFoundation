@@ -62,7 +62,11 @@ DEALLOC(DESTROY(object))
 	{
 		[anInvocation invokeWithTarget: object];
 	}
-	/* Otherwise the invocation return value is implicitly nil. */
+	else /* Only required on GNUstep */
+	{
+		id result = nil;
+		[anInvocation setReturnValue: &result];
+	}
 }
 
 @end

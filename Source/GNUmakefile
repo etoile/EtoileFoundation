@@ -33,6 +33,7 @@ libEtoileFoundation_OBJC_FILES = \
 	NSIndexSet+Etoile.m \
 	NSInvocation+Etoile.m \
 	NSObject+Etoile.m \
+	NSObject+HOM.m \
 	NSObject+Model.m \
 	NSString+Etoile.m \
 	NSURL+Etoile.m
@@ -50,7 +51,7 @@ libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
 ifeq ($(test), yes)
-libEtoileFoundation_OBJC_FILES += TestUUID.m TestUTI.m
+libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestUUID.m TestUTI.m 
 endif
 
 include $(GNUSTEP_MAKEFILES)/subproject.make

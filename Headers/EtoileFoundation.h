@@ -42,6 +42,7 @@
 #import <EtoileFoundation/UKPluginsRegistry.h>
 #import <EtoileFoundation/NSArray+map.h>
 #import <EtoileFoundation/NSObject+Etoile.h>
+#import <EtoileFoundation/NSObject+HOM.h>
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSIndexSet+Etoile.h>
 #import <EtoileFoundation/NSIndexPath+Etoile.h>

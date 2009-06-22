@@ -68,6 +68,7 @@ EtoileFoundation_HEADER_FILES = \
 	NSIndexSet+Etoile.h \
 	NSInvocation+Etoile.h \
 	NSObject+Etoile.h \
+	NSObject+HOM.h \
 	NSObject+Model.h \
 	NSObject+Prototypes.h \
 	NSString+Etoile.h \
