@@ -1,3 +1,10 @@
+2009-06-22  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/NSObject+HOM.h:
+	* Source/NSObject+HOM.m:
+	* Source/TestBasicHOM.m:
+	Added.
+
 2009-06-14  Eric Wasylishen <ewasylishen@gmail.com>
 
   Fixed a bug in ETUTI which was causing Melodie to crash on startup.
@@ -15,7 +22,7 @@
 	representations, when -supertypes returns an array of ETUTI objects. Now 
 	'supertypes' in a method name always means an array of ETUTI objects, and 
 	'supertypeStrings' an array of UTI string representations.
-	* Headers/ETUI.h:
+	* Headers/ETUTI.h:
 	* Source/ETUTI.m:
 	(+registerTypeWithString:description:supertypes:): Renamed 
 	+registerTypeWithString:description:supertypeStrings:.
