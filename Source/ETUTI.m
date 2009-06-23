@@ -201,8 +201,6 @@ static NSString *ETFileUTI = @"public.filename-extension";
 		NSString *selfClassName = ETUTILastComponent([self stringValue]);
 		Class class = NSClassFromString(selfClassName);
 
-		NSAssert(NSClassFromString(@"NSImage") == NSClassFromString(@"CLImage"), @"testing my assertion");
-
 		// This is a hack to work around the fact that NSClassFromString will
 		// sometimes return a private subclass of the requested class.
 		// (for example, NSClassFromString(@"NSImage") == [CLImage class])
