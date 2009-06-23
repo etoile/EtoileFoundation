@@ -10,6 +10,7 @@
 	License: Modified BSD (see COPYING)
  */
 
+#import <Foundation/Foundation.h>
 #import "NSObject+HOM.h"
 
 
