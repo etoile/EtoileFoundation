@@ -40,7 +40,6 @@
 #import <EtoileFoundation/NSFileManager+TempFile.h>
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
 #import <EtoileFoundation/UKPluginsRegistry.h>
-#import <EtoileFoundation/NSArray+map.h>
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/NSObject+HOM.h>
 #import <EtoileFoundation/NSObject+Model.h>
@@ -50,6 +49,7 @@
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
 #import <EtoileFoundation/ETCollection.h>
+#import <EtoileFoundation/ETCollection+HOM.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETFilter.h>

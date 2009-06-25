@@ -1,0 +1,153 @@
+/*
+	ETCollection+HOM.h
+
+	Higher-order messaging additions to ETCollection 
+
+	Copyright (C) 2009 Niels Grewe
+
+	Author:  Niels Grewe <niels.grewe@halbordnung.de>
+	Date:  June 2009
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+
+	* Redistributions of source code must retain the above copyright notice,
+	  this list of conditions and the following disclaimer.
+	* Redistributions in binary form must reproduce the above copyright notice,
+	  this list of conditions and the following disclaimer in the documentation
+	  and/or other materials provided with the distribution.
+	* Neither the name of the Etoile project nor the names of its contributors
+	  may be used to endorse or promote products derived from this software
+	  without specific prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+	THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#import <Foundation/Foundation.h>
+@protocol ETCollectionHOM
+
+/**
+ * Returns a mutable subclass of the collection class or Nil if such a class
+ * does not exist.
+ */
++ (Class) mutableSubclass;
+
+/**
+ * Convenience method to return the mutable subclass of the class the receiver
+ * belongs to.
+ */
+- (Class) mutableSubclass;
+
+/**
+ * Returns a proxy object on which methods can be called. These methods will
+ * cause a collection to be returned containing the elements of the original
+ * collection mapped by the method call.
+ */
+- (id) mappedCollection;
+
+/**
+ * Returns a proxy object that can be used to perform a left fold on the
+ * collection. The value of the first argument of any method used as a folding
+ * method is taken to be the initial value of the accumulator. 
+ */
+- (id) leftFold;
+
+/**
+ * Returns a proxy object that can be used to perform a right fold on the
+ * collection. The value of the first argument of any method used as a folding
+ * method is taken to be the initial value of the accumulator.
+ */
+- (id) rightFold;
+#if defined (__clang__)
+
+/**
+ * Returns a collection with each element of the original collection mapped by
+ * applying aBlock.
+ */
+- (id) mappedCollectionWithBlock: (id(^)(id))aBlock;
+
+/**
+ * Returns a collection containing all elements of the original collection that
+ * respond with YES to aBlock.
+ */
+- (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock;
+
+/**
+ * Folds the collection by applying aBlock consecutively with the accumulator as
+ * its first and each element as its second argument. If shallInvert is set to
+ * YES, the folding takes place from right to left.
+ */
+- (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock
+          andInvert: (BOOL)shallInvert;
+
+/**
+ * Folds the collection by applying aBlock consecutively with the accumulator as
+ * its first and each element as its second argument.
+ */
+- (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock;
+#endif
+@end
+
+@protocol ETCollectionMutationHOM
+/**
+ * Returns a proxy object on which methods can be called. These methods will
+ * cause each element in the collection to be replaced with the return value of
+ * the method call.
+ */
+- (id) map;
+
+/**
+ * Returns a proxy object on which methods with return type BOOL can be called.
+ * Only elements that respond with YES to the method call will remain in the
+ * collection.
+ */
+- (id) filter;
+
+#if defined (__clang__)
+/**
+ * Replaces each element in the collection with the result of applying aBlock to
+ * it.
+ */
+- (void) mapWithBlock: (id(^)(id))aBlock;
+
+/**
+ * Removes all elements from the collection for which the aBlock does not return
+ * YES.
+ */
+- (void) filterWithBlock: (BOOL(^)(id))aBlock;
+#endif
+@end
+
+@interface NSArray (ETCollectionHOM) <ETCollectionHOM>
+@end
+
+@interface NSDictionary (ETCollectionHOM) <ETCollectionHOM>
+@end
+
+@interface NSSet (ETCollectionHOM) <ETCollectionHOM>
+@end
+
+@interface NSIndexSet (ETCollectionHOM) <ETCollectionHOM> 
+@end
+
+@interface NSMutableArray (ETCollectionHOM) <ETCollectionMutationHOM>
+@end
+
+@interface NSMutableDictionary (ETCollectionHOM) <ETCollectionMutationHOM>
+@end
+
+@interface NSMutableSet (ETCollectionHOM) <ETCollectionMutationHOM>
+@end
+
+@interface NSMutableIndexSet (ETCollectionHOM) <ETCollectionMutationHOM> 
+@end

@@ -50,11 +50,11 @@ EtoileFoundation_HEADER_FILES = \
 	EtoileCompatibility.h \
 	ETCArray.h \
 	Macros.h \
-	NSArray+map.h \
 	NSObject+Mixins.h \
 	NSFileManager+TempFile.h \
 	UKPluginsRegistry.h \
 	ETCollection.h \
+	ETCollection+HOM.h \
 	ETFilter.h \
 	ETHistoryManager.h \
 	ETModelDescription.h \

@@ -49,6 +49,9 @@ __attribute__((unused)) static void ETStackAutoRelease(void* object)
 
 #define FOREACHE(collection,object,type,enumerator)\
 NSEnumerator * enumerator = [collection objectEnumerator];\
+FOREACHW(collection,object,type,enumerator)
+
+#define FOREACHW(collection,object,type,enumerator)\
 type object;\
 IMP next ## object ## in ## enumerator = \
 [enumerator methodForSelector:@selector(nextObject)];\

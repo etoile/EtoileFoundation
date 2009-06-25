@@ -13,12 +13,13 @@ libEtoileFoundation_CFLAGS += -std=c99
 # Class files
 #
 libEtoileFoundation_OBJC_FILES = \
-	NSArray+map.m \
 	NSObject+Mixins.m \
 	NSObject+Prototypes.m \
 	NSFileManager+TempFile.m\
 	UKPluginsRegistry.m \
 	ETCollection.m \
+	ETCollectionHOMProxies.m \
+	ETCollection+HOM.m \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistoryManager.m \
@@ -51,7 +52,7 @@ libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
 ifeq ($(test), yes)
-libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestUUID.m TestUTI.m 
+libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestETCollectionHOM.m TestUUID.m TestUTI.m 
 endif
 
 include $(GNUSTEP_MAKEFILES)/subproject.make
