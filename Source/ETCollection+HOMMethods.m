@@ -166,7 +166,7 @@
 
 - (id) mappedCollectionWithBlock: (id(^)(id))aBlock
 {
-	return ETHOMMapCollectionWithBoIAsBlock(&self,aBlock,YES);
+	return ETHOMMappedCollectionWithBoIAsBlock(&self,aBlock,YES);
 }
 - (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock 
           andInvert: (BOOL)shallInvert

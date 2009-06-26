@@ -18,7 +18,6 @@ libEtoileFoundation_OBJC_FILES = \
 	NSFileManager+TempFile.m\
 	UKPluginsRegistry.m \
 	ETCollection.m \
-	ETCollectionHOMProxies.m \
 	ETCollection+HOM.m \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
