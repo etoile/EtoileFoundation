@@ -53,7 +53,14 @@ static inline Class ETGetSuperclass(Class aClass)
 	}
 	else
 	{
-		return objc_lookup_class((char*)aClass->super_class);
+		if (aClass->super_class != NULL)
+		{
+			return objc_lookup_class((char*)aClass->super_class);
+		}
+		else
+		{
+			return Nil;
+		}
 	}
 #elif defined(GNUSTEP_RUNTIME_COMPATIBILITY)
 	return GSObjCSuper(aClass);
