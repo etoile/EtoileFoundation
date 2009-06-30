@@ -90,6 +90,7 @@
 /* Adopted by the following Foundation classes  */
 
 @interface NSArray (ETCollection) <ETCollection>
++ (Class) mutableClass;
 - (BOOL) isOrdered;
 - (BOOL) isEmpty;
 - (id) content;
@@ -97,6 +98,7 @@
 @end
 
 @interface NSDictionary (ETCollection) <ETCollection>
++ (Class) mutableClass;
 - (BOOL) isOrdered;
 - (BOOL) isEmpty;
 - (id) content;
@@ -105,13 +107,21 @@
 @end
 
 @interface NSSet (ETCollection) <ETCollection>
++ (Class) mutableClass;
 - (BOOL) isOrdered;
 - (BOOL) isEmpty;
 - (id) content;
 - (NSArray *) contentArray;
 @end
 
+/** NSCountedSet is a NSMutableSet subclass and thereby inherits the collection 
+protocol methods implemented in NSSet(ETCollection). */
+@interface NSCountedSet (ETCollection)
++ (Class) mutableClass;
+@end
+
 @interface NSIndexSet (ETCollection) <ETCollection>
++ (Class) mutableClass;
 - (BOOL) isOrdered;
 - (BOOL) isEmpty;
 - (id) content;

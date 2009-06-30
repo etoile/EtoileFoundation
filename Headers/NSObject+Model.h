@@ -73,6 +73,8 @@
 
 /* Collection & Mutability */
 
++ (Class) mutableClass;
+
 - (BOOL) isMutable;
 - (BOOL) isCollection;
 - (BOOL) isMutableCollection;

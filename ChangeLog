@@ -1,3 +1,30 @@
+2009-06-30  Quentin Mathe <qmathe@club-internet.fr>
+
+	New +[NSObject mutableClass] to simplify mutable class retrieval. This is 
+	necessary to support Mac OS X and have all tests passed with Cocoa.
+	With Cocoa, all collection classes are toll-free bridged with their 
+	equivalent CoreFoundation types.
+	The issue is that the instances returned by these collection classes always 
+	use the mutable class variant as their superclass. e.g. NSCFDictionary which 
+	is returned by NSDictionary (and also NSMutableDictionary) is a subclass of 
+	NSMutableDictionary. The same holds for NSArray and other collection classes.
+	Because of that, you have no way to conclude whether an instance is mutable 
+	or not. There is no API in Foundation or CoreFoundation to check the 
+	mutability.
+	* Headers/NSObject+Model.h:
+	* Source/NSObject+Model.m:
+	* Headers/ETCollection.h:
+	* Source/ETCollection.m:
+	(+mutableClass): New method implemented by NSObject (dummy implementation) 
+	and collection classes.
+	* Headers/ETCollection+HOM.h:
+	* Source/ETCollection+HOMMethods.m:
+	(+mutableSubclass, -mutableSubclass): Removed.
+	* Source/ETCollection+HOM.m:
+	(ETHOMMappedCollectionWithBoIAsBlock, 
+	ETHOMFilteredCollectionWithBoIAsBlock()): Updated to use +mutableClass 
+	instead of -mutableSubclass.
+
 2009-06-22  Quentin Mathe <qmathe@club-internet.fr>
 
 	* Source/NSObject+HOM.m (-forwardInvocation:): Fixed invocation return 

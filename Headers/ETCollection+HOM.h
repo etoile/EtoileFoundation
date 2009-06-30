@@ -37,18 +37,6 @@
 @protocol ETCollectionHOM
 
 /**
- * Returns a mutable subclass of the collection class or Nil if such a class
- * does not exist.
- */
-+ (Class) mutableSubclass;
-
-/**
- * Convenience method to return the mutable subclass of the class the receiver
- * belongs to.
- */
-- (Class) mutableSubclass;
-
-/**
  * Returns a proxy object on which methods can be called. These methods will
  * cause a collection to be returned containing the elements of the original
  * collection mapped by the method call.

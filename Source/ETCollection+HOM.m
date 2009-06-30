@@ -51,8 +51,8 @@ static inline id ETHOMMappedCollectionWithBoIAsBlock(
 	SEL selector;
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	Class mutableCollectionClass;
-	//Cast to NSArray because mutableClass is not yet in any protocol.
-	mutableCollectionClass = [(NSArray*)theCollection mutableSubclass];
+	//Cast to id because mutableClass is not yet in any protocol.
+	mutableCollectionClass = [[theCollection class] mutableClass];
 	id<ETCollectionMutation> mappedCollection;
 	mappedCollection = [[mutableCollectionClass alloc] init];
 
@@ -465,10 +465,9 @@ static inline id ETHOMFilteredCollectionWithBoIAsBlock(
 {
 	id<NSObject,ETCollection> theCollection;
 	theCollection = *aCollection;
-	//Cast to NSArray because mutableClass is not yet in any protocols.
-	Class mutableSubclass = [(NSArray*)theCollection mutableSubclass];
+	Class mutableClass = [[theCollection class] mutableClass];
 	id<NSObject,ETCollectionMutation> mutableCollection;
-	mutableCollection = [[mutableSubclass alloc] init];
+	mutableCollection = [[mutableClass alloc] init];
 	ETHOMFilterCollectionWithBoIAsBlockAndTarget(               aCollection,
 	                                                      blockOrInvocation,
 	                                                                isBlock,

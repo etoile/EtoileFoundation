@@ -132,6 +132,12 @@
 	return [self isKindOfClass: [NSNumber class]];
 }
 
+/** Returns a mutable counterpart class or Nil if such a class does not exist. */
++ (Class) mutableClass
+{
+	return Nil;
+}
+
 /** <override />
 	Returns YES if the receiver is declared as a group, otherwise returns NO. 
 	This method returns NO by default. You can override it to return YES if you

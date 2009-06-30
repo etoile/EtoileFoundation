@@ -74,6 +74,12 @@
 
 @implementation NSArray (ETCollection)
 
+/** Returns NSMutableDictionary class. */
++ (Class) mutableClass
+{
+	return [NSMutableArray class];
+}
+
 - (BOOL) isOrdered
 {
 	return YES;
@@ -107,6 +113,12 @@
 @end
 
 @implementation NSDictionary (ETCollection)
+
+/** Returns NSMutableDictionary class. */
++ (Class) mutableClass
+{
+	return [NSMutableDictionary class];
+}
 
 - (BOOL) isOrdered
 {
@@ -149,6 +161,12 @@
 
 @implementation NSSet (ETCollection)
 
+/** Returns NSMutableSet class. */
++ (Class) mutableClass
+{
+	return [NSMutableSet class];
+}
+
 - (BOOL) isOrdered
 {
 	return NO;
@@ -171,7 +189,25 @@
 
 @end
 
+@implementation NSCountedSet (ETCollection)
+
+/** Returns self, the NSCountedSet class.
+
+NSCountedSet is always mutable and has not immutable equivalent. */
++ (Class) mutableClass
+{
+	return self;
+}
+
+@end
+
 @implementation NSIndexSet (ETCollection)
+
+/** Returns NSMutableIndexSet class. */
++ (Class) mutableClass
+{
+	return [NSMutableIndexSet class];
+}
 
 - (BOOL) isOrdered
 {
