@@ -138,7 +138,7 @@
 	NSIndexSet *mappedIndexSet = (NSIndexSet*)[[inputIndexSet mappedCollection]	twice];
 	
 	NSEnumerator *indexEnumerator = [(NSArray*)inputIndexSet objectEnumerator];
-	FOREACHW(inputIndexSet,number,id,indexEnumerator)
+	FOREACHE(inputIndexSet,number,id,indexEnumerator)
 	{	
 		int input = [(NSNumber*)number intValue];
 		UKTrue([mappedIndexSet containsIndex: input*2]);
@@ -192,7 +192,7 @@
 	MUTABLEINPUTS
 	[[indexSet map] twice];
 	NSEnumerator *indexEnumerator = [(NSArray*)origIndexSet objectEnumerator];
-	FOREACHW(origIndexSet,number,id,indexEnumerator)
+	FOREACHE(origIndexSet,number,id,indexEnumerator)
 	{	
 		int input = [(NSNumber*)number intValue];
 		UKTrue([indexSet containsIndex: input*2]);
@@ -285,7 +285,7 @@
 	MUTABLEINPUTS
 	[[indexSet filter] isEqualToNumber: [NSNumber numberWithInt: 2]];
 	NSEnumerator *indexEnumerator = [(NSArray*)indexSet objectEnumerator];
-	FOREACHW(indexSet,anIndex,id,indexEnumerator)
+	FOREACHE(indexSet,anIndex,id,indexEnumerator)
 	{
 		UKIntsEqual(2,[(NSNumber*)anIndex intValue]);
 	}

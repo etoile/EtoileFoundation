@@ -45,13 +45,13 @@ __attribute__((unused)) static void ETStackAutoRelease(void* object)
  */
 #define FOREACHI(collection,object) FOREACH(collection,object,id)
 
-#define FOREACH(collection,object,type) FOREACHE(collection,object,type,object ## enumerator)
+#define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
+
+#define FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,enumerator)\
+NSEnumerator * enumerator = [collection objectEnumerator];\
+FOREACHE(collection,object,type,enumerator)
 
 #define FOREACHE(collection,object,type,enumerator)\
-NSEnumerator * enumerator = [collection objectEnumerator];\
-FOREACHW(collection,object,type,enumerator)
-
-#define FOREACHW(collection,object,type,enumerator)\
 type object;\
 IMP next ## object ## in ## enumerator = \
 [enumerator methodForSelector:@selector(nextObject)];\

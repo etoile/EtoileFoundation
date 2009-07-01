@@ -120,7 +120,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	 * there is an -objectEnumerator method.
 	 */
 	NSEnumerator *collectionEnumerator = [(NSArray*)theCollection objectEnumerator];
-	FOREACHW(theCollection, object,id,collectionEnumerator)
+	FOREACHE(theCollection, object,id,collectionEnumerator)
 	{
 		id mapped = nil;
 		if(NO == useBlock)
@@ -215,7 +215,7 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 
 	BOOL isCounted = [*aCollection respondsToSelector: @selector(countForObject:)];
 
-	FOREACHW(content, element,id,contentEnumerator)
+	FOREACHE(content, element,id,contentEnumerator)
 	{
 		NSUInteger count = 1;
 		if (isCounted)
@@ -421,7 +421,7 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
 	 */
 	NSEnumerator *collectionEnumerator;
 	collectionEnumerator = [(NSArray*)collection objectEnumerator];
-	FOREACHW(collection, object,id,collectionEnumerator)
+	FOREACHE(collection, object,id,collectionEnumerator)
 	{
 		if([object respondsToSelector:aSelector])
 		{
