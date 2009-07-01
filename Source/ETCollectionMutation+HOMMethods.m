@@ -53,11 +53,14 @@
 
 - (void) mapWithBlock: (id(^)(id))aBlock
 {
-	ETHOMMapMutableCollectionWithBoIAsBlock(&self,aBlock,YES);
+	ETHOMMapMutableCollectionWithBlockOrInvocationToTarget(
+	                                         (id<ETCollectionObject>*) &self,
+	                                                                  aBlock,
+	                                 (id<ETMutableCollectionObject>*) &self);
 }
 
 - (void) filterWithBlock: (BOOL(^)(id))aBlock
 {
-	ETHOMFilterMutableCollectionWithBoIAsBlock(&self,aBlock,YES);
+	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock);
 }
 #endif

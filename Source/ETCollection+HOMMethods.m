@@ -46,14 +46,14 @@
 }
 - (id) leftFold
 {
-	return [[[ETCollectionFoldProxy alloc] initWithCollection:self
+	return [[[ETCollectionFoldProxy alloc] initWithCollection: self
 	                                               forInverse: NO]
 	                                                   autorelease];
 }
 
 - (id) rightFold
 {
-	return [[[ETCollectionFoldProxy alloc] initWithCollection:self
+	return [[[ETCollectionFoldProxy alloc] initWithCollection: self
 	                                               forInverse: YES]
 	                                                    autorelease];
 }
@@ -61,14 +61,19 @@
 
 - (id) mappedCollectionWithBlock: (id(^)(id))aBlock
 {
-	return ETHOMMappedCollectionWithBoIAsBlock(&self,aBlock,YES);
+	id<ETMutableCollectionObject> mappedCollection = [[[[self class] mutableClass] alloc] init];
+	ETHOMMapCollectionWithBlockOrInvocationToTarget(
+	                                            (id<ETCollectionObject>*) &self,
+	                                                                      aBlock,
+	                                                          &mappedCollection);
+	return [mappedCollection autorelease];
 }
 - (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock 
           andInvert: (BOOL)shallInvert
 {
 
-	return ETHOMFoldCollectionWithBoIAsBlockAndInitialValueAndInvert(
-	                       &self, aBlock, YES, initialValue, shallInvert);
+	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
+	                               &self, aBlock, initialValue, shallInvert);
 }
 - (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock
 {
@@ -78,6 +83,6 @@
 
 - (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock
 {
-	return ETHOMFilteredCollectionWithBoIAsBlock(&self, aBlock, YES);
+	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock);
 }
 #endif
