@@ -65,6 +65,7 @@
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	                                            (id<ETCollectionObject>*) &self,
 	                                                                      aBlock,
+	                                                                         YES,
 	                                                          &mappedCollection);
 	return [mappedCollection autorelease];
 }
@@ -73,7 +74,7 @@
 {
 
 	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
-	                               &self, aBlock, initialValue, shallInvert);
+	                            &self, aBlock, YES, initialValue, shallInvert);
 }
 - (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock
 {
@@ -83,6 +84,6 @@
 
 - (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock
 {
-	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock);
+	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock, YES);
 }
 #endif

@@ -56,11 +56,12 @@
 	ETHOMMapMutableCollectionWithBlockOrInvocationToTarget(
 	                                         (id<ETCollectionObject>*) &self,
 	                                                                  aBlock,
+	                                                                     YES,
 	                                 (id<ETMutableCollectionObject>*) &self);
 }
 
 - (void) filterWithBlock: (BOOL(^)(id))aBlock
 {
-	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock);
+	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock,YES);
 }
 #endif

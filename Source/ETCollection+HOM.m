@@ -55,9 +55,9 @@
 static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
                                id<ETCollectionObject> *aCollection,
                                               id blockOrInvocation,
+                                                     BOOL useBlock,
                              id<ETMutableCollectionObject> *aTarget)
 {
-	BOOL useBlock;
 	BOOL modifiesSelf = ((id*)aCollection == (id*)aTarget);
 	id<ETCollectionObject> theCollection = *aCollection;
 	id<ETMutableCollectionObject> theTarget = *aTarget;
@@ -66,19 +66,11 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 
 	//Prefetch some stuff to avoid doing it repeatedly in the loop.
 
-	if([[blockOrInvocation class] isSubclassOfClass: [NSInvocation class]])
+	if(NO == useBlock)
 	{
-		useBlock = NO;
 		anInvocation = (NSInvocation*)blockOrInvocation;
 		selector = [anInvocation selector];
 	}
-	#if defined (__clang__)
-	else
-	{
-		//TODO: what class need I check for if this is a block?
-		useBlock = YES;
-	}
-	#endif
 
 	NSNull *nullObject = [NSNull null];
 
@@ -178,26 +170,19 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
                                        id<NSObject,ETCollection>*aCollection,
                                                         id blockOrInvocation,
+                                                               BOOL useBlock,
                                                              id initialValue,
                                                             BOOL shallInvert)
 {
 	id accumulator = initialValue;
-	BOOL useBlock;
 	NSInvocation *anInvocation = nil;
 	SEL selector;
 
-	if ([[blockOrInvocation class]isSubclassOfClass: [NSInvocation class]])
+	if (NO == useBlock)
 	{
-		useBlock = NO;
 		anInvocation = (NSInvocation*)blockOrInvocation;
 		selector = [anInvocation selector];
 	}
-	#if defined (__clang__)
-	else
-	{
-		useBlock = YES;
-	}
-	#endif
 
 	/*
 	 * For folding we can safely consider only the content as an array.
@@ -265,27 +250,20 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
                                          id<NSObject,ETCollection> *aCollection,
                                                           id  blockOrInvocation,
+                                                                  BOOL useBlock,
                          id<NSObject,ETCollection,ETCollectionMutation> *target)
 {
 	id<ETCollectionObject> theCollection = (id<ETCollectionObject>)*aCollection;
 	id<ETMutableCollectionObject> theTarget = (id<ETMutableCollectionObject>)*target;
-	BOOL useBlock;
 	NSInvocation *anInvocation;
 	SEL selector;
 
 
-	if ([[blockOrInvocation class]isSubclassOfClass: [NSInvocation class]])
+	if (NO == useBlock)
 	{
-		useBlock = NO;
 		anInvocation = (NSInvocation*)blockOrInvocation;
 		selector = [anInvocation selector];
 	}
-	#if defined (__clang__)
-	else
-	{
-		useBlock = YES;
-	}
-	#endif
 
 	NSArray* content = [[theCollection contentArray] retain];
 	
@@ -357,7 +335,8 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
 
 static inline id ETHOMFilteredCollectionWithBlockOrInvocation(
                                          id<NSObject,ETCollection> *aCollection,
-                                                           id blockOrInvocation)
+                                                           id blockOrInvocation,
+                                                                  BOOL useBlock)
 {
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	//Cast to id because mutableClass is not yet in any protocols.
@@ -365,17 +344,20 @@ static inline id ETHOMFilteredCollectionWithBlockOrInvocation(
 	id<ETMutableCollectionObject> mutableCollection = [[mutableClass alloc] init];
 	ETHOMFilterCollectionWithBlockOrInvocationAndTarget(aCollection,
 	                                                    blockOrInvocation,
+	                                                    useBlock,
 	             (id<ETCollection,ETCollectionMutation,NSObject>*)&mutableCollection);
 	return [mutableCollection autorelease];
 }
 
 static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
                     id<NSObject,ETCollection,ETCollectionMutation> *aCollection,
-                                                           id blockOrInvocation)
+                                                           id blockOrInvocation,
+                                                                  BOOL useBlock)
 {
 	ETHOMFilterCollectionWithBlockOrInvocationAndTarget(      
 	                       (id<NSObject,ETCollection>*)aCollection,
 	                                             blockOrInvocation,
+	                                                      useBlock,
 	                                                   aCollection);
 }
 
@@ -444,6 +426,7 @@ DEALLOC(
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	                                    (id<ETCollectionObject>*) &collection,
 	                                                             anInvocation,
+	                                                                       NO,
 	                                                        &mappedCollection);
 	[mappedCollection autorelease];
 	[anInvocation setReturnValue:&mappedCollection];
@@ -457,6 +440,7 @@ DEALLOC(
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	                                    (id<ETCollectionObject>*) &collection,
 	                                                             anInvocation,
+	                                                                       NO,
 	                              (id<ETMutableCollectionObject>*)&collection);
 	//Actually, we don't care for the return value.
 	[anInvocation setReturnValue:&collection];
@@ -485,6 +469,7 @@ DEALLOC(
 	id foldedValue =
 	ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(&collection,
 	                                                                 anInvocation,
+	                                                                 NO,
 	                                                                 initialValue,
                                                                      inverse);
 	[anInvocation setReturnValue:&foldedValue];
@@ -499,7 +484,8 @@ DEALLOC(
 
 	ETHOMFilterMutableCollectionWithBlockOrInvocation(
 	           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
-	                                                           anInvocation);
+	                                                           anInvocation,
+	                                                                     NO);
 	//Actually, we don't care for the return value.
 	[anInvocation setReturnValue:&collection];
 }
