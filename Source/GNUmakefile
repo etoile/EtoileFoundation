@@ -36,7 +36,8 @@ libEtoileFoundation_OBJC_FILES = \
 	NSObject+HOM.m \
 	NSObject+Model.m \
 	NSString+Etoile.m \
-	NSURL+Etoile.m
+	NSURL+Etoile.m \
+	ETReflection.m
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c

@@ -73,7 +73,8 @@ EtoileFoundation_HEADER_FILES = \
 	NSObject+Prototypes.h \
 	NSString+Etoile.h \
 	NSURL+Etoile.h \
-	ETUTI.h
+	ETUTI.h \
+	ETReflection.h
 
 EtoileFoundation_RESOURCE_FILES = \
 	UTIDefinitions.plist \
