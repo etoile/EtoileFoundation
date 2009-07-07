@@ -1,5 +1,5 @@
 /*
-   ETHistoryManager.m
+   ETHistory.m
 
    Copyright (C) 2008 Truls Becken <truls.becken@gmail.com>
  
@@ -22,7 +22,7 @@
    THE SOFTWARE.
 */
 
-#import "ETHistoryManager.h"
+#import "ETHistory.h"
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
@@ -30,7 +30,7 @@
 	if (max_size < 1 || index < max_size) { ++index; }\
 	else { [history removeObjectAtIndex: 0]; }
 
-@implementation ETHistoryManager
+@implementation ETHistory
 
 + (id) manager
 {

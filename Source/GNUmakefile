@@ -21,7 +21,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETCollection+HOM.m \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
-	ETHistoryManager.m \
+	ETHistory.m \
 	ETModelDescription.m \
 	ETObjectChain.m \
 	ETPropertyValueCoding.m \

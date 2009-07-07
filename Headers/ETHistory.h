@@ -1,5 +1,5 @@
 /*
-   ETHistoryManager.h
+   ETHistory.h
 
    Copyright (C) 2008 Truls Becken <truls.becken@gmail.com>
  
@@ -26,7 +26,7 @@
 #import <Foundation/NSEnumerator.h>
 
 /**
- * ETHistoryManager keeps a history of objects of some kind. After going back
+ * ETHistory keeps a history of objects of some kind. After going back
  * in time, it can go forward again towards the most recent object. Adding an
  * object while at a historic point will discard the forward history.
  *
@@ -34,7 +34,7 @@
  * source for the forward history. This way, a collection of objects can be
  * added as a "future", replacing the current forward history.
  */
-@interface ETHistoryManager : NSObject
+@interface ETHistory : NSObject
 {
 	NSMutableArray *history;
 	NSEnumerator *future;

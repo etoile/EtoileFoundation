@@ -56,7 +56,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETCollection.h \
 	ETCollection+HOM.h \
 	ETFilter.h \
-	ETHistoryManager.h \
+	ETHistory.h \
 	ETModelDescription.h \
 	ETObjectChain.h \
 	ETPropertyValueCoding.h \
