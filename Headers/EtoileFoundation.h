@@ -39,6 +39,7 @@
 #import <EtoileFoundation/ETCollection+HOM.h>
 #import <EtoileFoundation/ETFilter.h>
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
+#import <EtoileFoundation/ETHistory.h>
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETRendering.h>
