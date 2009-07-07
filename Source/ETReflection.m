@@ -339,9 +339,11 @@
 	return [obj isMemberOfClass: [ETObjectMirror class]] &&
 		[obj representedObject] == _object;
 }
-- (unsigned int) hash
+- (NSUInteger) hash
 {
-	return (unsigned int) _object;
+	// NOTE: The cast prevents a compiler warning about pointer truncation on
+	// 64bit systems.
+	return (uintptr_t) _object;
 }
 - (id <ETClassMirror>) classMirror
 {
