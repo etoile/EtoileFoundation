@@ -35,28 +35,28 @@
 
 /* EtoileFoundation core */
 
+#import <EtoileFoundation/ETCollection.h>
+#import <EtoileFoundation/ETCollection+HOM.h>
+#import <EtoileFoundation/ETFilter.h>
+#import <EtoileFoundation/ETGetOptionsDictionary.h>
+#import <EtoileFoundation/ETObjectChain.h>
+#import <EtoileFoundation/ETPropertyValueCoding.h>
+#import <EtoileFoundation/ETRendering.h>
+#import <EtoileFoundation/ETUTI.h>
+#import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
 #import <EtoileFoundation/Macros.h>
-#import <EtoileFoundation/NSFileManager+TempFile.h>
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
-#import <EtoileFoundation/UKPluginsRegistry.h>
+#import <EtoileFoundation/NSFileManager+TempFile.h>
+#import <EtoileFoundation/NSIndexPath+Etoile.h>
+#import <EtoileFoundation/NSIndexSet+Etoile.h>
+#import <EtoileFoundation/NSInvocation+Etoile.h>
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/NSObject+HOM.h>
 #import <EtoileFoundation/NSObject+Model.h>
-#import <EtoileFoundation/NSIndexSet+Etoile.h>
-#import <EtoileFoundation/NSIndexPath+Etoile.h>
-#import <EtoileFoundation/NSInvocation+Etoile.h>
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
-#import <EtoileFoundation/ETCollection.h>
-#import <EtoileFoundation/ETCollection+HOM.h>
-#import <EtoileFoundation/ETPropertyValueCoding.h>
-#import <EtoileFoundation/ETObjectChain.h>
-#import <EtoileFoundation/ETFilter.h>
-#import <EtoileFoundation/ETRendering.h>
-#import <EtoileFoundation/ETUUID.h>
-#import <EtoileFoundation/ETGetOptionsDictionary.h>
-#import <EtoileFoundation/ETUTI.h>
+#import <EtoileFoundation/UKPluginsRegistry.h>
 
 #ifdef GNUSTEP
 
