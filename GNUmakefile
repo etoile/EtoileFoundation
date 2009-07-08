@@ -37,7 +37,7 @@ LIBRARIES_DEPEND_UPON += -lm -ObjectiveC2 -lEtoileThread -lEtoileXML \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 ifeq ($(test), yes)
-EtoileFoundation_LDFLAGS += -lUnitKit
+EtoileFoundation_LDFLAGS += -lUnitKit -lObjectiveC2
 endif
 
 EtoileFoundation_SUBPROJECTS += Source

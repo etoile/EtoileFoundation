@@ -52,7 +52,7 @@ libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
 ifeq ($(test), yes)
-libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestETCollectionHOM.m TestUUID.m TestUTI.m 
+libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestETCollectionHOM.m TestUUID.m TestUTI.m TestReflection.m
 endif
 
 include $(GNUSTEP_MAKEFILES)/subproject.make
