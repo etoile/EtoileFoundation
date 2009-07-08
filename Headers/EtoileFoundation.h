@@ -43,6 +43,7 @@
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETRendering.h>
+#import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/EtoileCompatibility.h>

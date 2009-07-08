@@ -8,6 +8,7 @@
 	License: Modified BSD (see COPYING)
  */
 
+#import <EtoileFoundation/EtoileFoundation.h>
 #import "ETReflection.h"
 
 #ifndef GNUSTEP

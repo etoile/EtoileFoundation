@@ -8,7 +8,9 @@
 	License: Modified BSD (see COPYING)
  */
 
-#import <EtoileFoundation/EtoileFoundation.h>
+#import <Foundation/Foundation.h>
+#import <EtoileFoundation/ETUTI.h>
+#import <EtoileFoundation/ETCollection.h>
 
 @protocol ETMirror
 - (NSString *) name;
