@@ -141,7 +141,8 @@
 			{
 				if (class_getSuperclass(cls) == _class)
 				{
-					[mirrors addObject:	[ETClassMirror mirrorWithClass: cls]];
+					[mirrors addObject:	[ETClassMirror mirrorWithClass: allClasses[i]]];
+					break;
 				}
 			}
 		}
