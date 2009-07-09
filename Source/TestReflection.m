@@ -1,6 +1,36 @@
 #import <UnitKit/UnitKit.h>
 #import <EtoileFoundation/EtoileFoundation.h>
 
+/* Classes we use to test reflection */
+
+@interface TestClass1 : NSObject <NSCopying>
+{
+	int ivar1;
+}
+- (id)copyWithZone: (NSZone *)zone;
+@end
+@implementation TestClass1
+- (id)copyWithZone: (NSZone *)zone
+{
+	return nil;
+}
+@end
+
+@interface TestClass2 : TestClass1
+{
+	int ivar2;
+}
+- (void)foo;
+@end
+@implementation TestClass2
+- (void)foo
+{
+	;
+}
+@end
+
+
+
 @interface TestReflection : NSObject <UKTest>
 {
 }
@@ -31,15 +61,56 @@
 			[ETReflection reflectClassWithName: @"NSDictionary"]]);
 }
 
-- (void) testProtocols
+- (void) testProtocolInheritance
 {
-	id classMirror = [ETReflection reflectClassWithName: @"NSSet"];	
-	UKTrue([[classMirror adoptedProtocolMirrors] containsObject: 
-			[ETReflection reflectProtocolWithName: @"NSCoding"]]);
+	id classMirror1 = [ETReflection reflectClassWithName: @"TestClass1"];
+	id classMirror2 = [ETReflection reflectClassWithName: @"TestClass2"];
 
-	UKFalse([[classMirror adoptedProtocolMirrors] containsObject: 
-			[ETReflection reflectProtocolWithName: @"ThisProtocolDoesNotExist"]]);
+	UKTrue([[classMirror1 adoptedProtocolMirrors] containsObject:
+		[ETReflection reflectProtocolWithName: @"NSCopying"]]);
 
+	UKObjectsEqual([NSArray array],
+		[classMirror2 adoptedProtocolMirrors]);
+
+	UKTrue([[classMirror2 allAdoptedProtocolMirrors] containsObject:
+		[ETReflection reflectProtocolWithName: @"NSObject"]]);
+	UKTrue([[classMirror2 allAdoptedProtocolMirrors] containsObject:
+		[ETReflection reflectProtocolWithName: @"NSCopying"]]);
+}
+
+- (void) testMetaClass
+{
+	UKFalse([[ETReflection reflectClass: [NSObject class]] isMetaClass]);
+	UKTrue([[[ETReflection reflectObject: [NSObject class]] classMirror] isMetaClass]);
+}
+
+- (void) testBadValues
+{
+#if 0
+	UKNil([ETReflection reflectClassWithName: @"ThisClassDoesNotExist"]);
+	UKNil([ETReflection reflectProtocolWithName: @"ThisProtocolDoesNotExist"]);
+#endif
+	UKNil([ETReflection reflectObject: nil]);
+	UKNil([ETReflection reflectClass: Nil]);
+}
+
+- (void) testIVars
+{
+	id test2 = [ETReflection reflectClass: [TestClass2 class]];
+	
+	UKStringsEqual(@"ivar2", [[[test2 instanceVariableMirrors] objectAtIndex: 0] name]);
+	UKIntsEqual(1, [[test2 instanceVariableMirrors] count]);
+	UKTrue([[test2 allInstanceVariableMirrors] count] > 2);
+}
+
+- (void) testMethods
+{
+	id test2 = [ETReflection reflectClass: [TestClass2 class]];
+	
+	UKStringsEqual(@"foo", [[[test2 methodMirrors] objectAtIndex: 0] name]);
+	UKIntsEqual(1, [[test2 methodMirrors] count]);
+
+	UKTrue([[test2 allMethodMirrors] count] > 10);
 
 }
 

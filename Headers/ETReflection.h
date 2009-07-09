@@ -22,7 +22,14 @@
 - (id <ETClassMirror>) superclassMirror;
 - (NSArray *) subclassMirrors;
 - (NSArray *) allSubclassMirrors;
+/**
+ * Returns those protocols explicitly adopted by this class.
+ */
 - (NSArray *) adoptedProtocolMirrors;
+/**
+ * Returns all protocols adopted by this class, including those adopted by
+ * means of class inheritance and by protocol inheritance.
+ */
 - (NSArray *) allAdoptedProtocolMirrors;
 - (NSArray *) methodMirrors;
 - (NSArray *) allMethodMirrors;

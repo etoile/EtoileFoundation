@@ -174,6 +174,8 @@
 	{
 		[mirrors addObjectsFromArray: [protocol allAncestorProtocolMirrors]];
 	}
+	[mirrors addObjectsFromArray:
+		[[self superclassMirror] allAdoptedProtocolMirrors]];
 	return [mirrors allObjects];
 }
 /** 
@@ -275,8 +277,8 @@
 - (NSString *) description
 {
 	return [NSString stringWithFormat:
-			@"ETClassMirror on (%@). Superclass: (%@)",
-			_class, [self superclassMirror]];
+			@"Class mirror on %@, super = (%@)",
+			[self name], [self superclassMirror]];
 }
 
 /* Collection Protocol */
@@ -597,6 +599,13 @@
 	return [[super properties] arrayByAddingObjectsFromArray: 
 			A(@"name")];
 }
+
+- (NSString *) description
+{
+	return [NSString stringWithFormat:
+			@"Protocol mirror on %@",
+			[self name]];
+}
 @end
 
 
@@ -697,7 +706,7 @@
 }
 + (id) mirrorWithIvar: (Ivar)ivar
 {
-	return [[[ETInstanceVariable alloc] initWithIvar: ivar] autorelease];
+	return [[[ETInstanceVariableMirror alloc] initWithIvar: ivar] autorelease];
 }
 - (NSString *) name
 {
