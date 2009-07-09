@@ -632,6 +632,12 @@
 	// FIXME: is there any point to having a org.etoile.method UTI? Probably not..?
 	return nil;
 }
+- (NSString *) description
+{
+	return [NSString stringWithFormat:
+			@"ETMethodMirror '%@', class method? %d",
+			[self name], [self isClassMethod]];
+}
 @end
 
 
@@ -671,6 +677,12 @@
 {
 	// FIXME: is there any point to having a org.etoile.method UTI? Probably not..?
 	return nil;
+}
+- (NSString *) description
+{
+	return [NSString stringWithFormat:
+			@"ETMethodDescriptionMirror '%@', class method? %d",
+			[self name], [self isClassMethod]];
 }
 @end
 
