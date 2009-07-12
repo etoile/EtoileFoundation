@@ -110,7 +110,7 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 }
 - (id)init
 {
-	SELFINIT;
+	SUPERINIT;
 	buffer = [NSMutableString new];
 	indentString = [@"\n" mutableCopy];
 	tagStack = [NSMutableArray new];
