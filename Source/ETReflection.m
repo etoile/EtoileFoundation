@@ -630,7 +630,7 @@
 - (NSArray *) properties
 {
 	return [[super properties] arrayByAddingObjectsFromArray: 
-			A(@"name", "isClassMethod")];
+		A(@"name", @"isClassMethod")];
 }
 - (BOOL) isClassMethod
 {
