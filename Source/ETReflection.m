@@ -676,7 +676,7 @@
 - (NSArray *) properties
 {
 	return [[super properties] arrayByAddingObjectsFromArray: 
-			A(@"name", "isClassMethod")];
+			A(@"name", @"isClassMethod")];
 }
 - (BOOL) isClassMethod
 {
@@ -721,6 +721,11 @@
 {
 	// FIXME: map ivar type to a UTI
 	return [ETUTI typeWithClass: [NSObject class]];
+}
+- (NSString *) description
+{
+	return [NSString stringWithFormat:
+			@"ETInstanceVariableMirror %@", [self name]];
 }
 @end
 
