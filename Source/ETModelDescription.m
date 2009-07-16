@@ -11,7 +11,7 @@
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
-#if 0
+
 @implementation ETModelDescription
 
 static NSMutableDictionary *modelDescriptions = nil;
@@ -272,5 +272,5 @@ retrieved, but not set in the model object described by the receiver. */
 @implementation ETStringDescription
 
 @end
-#endif
+
 
