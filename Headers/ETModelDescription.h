@@ -7,7 +7,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#if 0
 // WARNING: Do not use, this is an API sketch to provide a metamodel that can 
 // be used to describe Objective-C model objects/classes a la Magritte.
 
@@ -171,3 +171,4 @@
 }
 
 @end
+#endif
