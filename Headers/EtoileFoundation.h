@@ -50,6 +50,7 @@
 #import <EtoileFoundation/Macros.h>
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
 #import <EtoileFoundation/NSFileManager+TempFile.h>
+#import <EtoileFoundation/NSFileHandle+Socket.h>
 #import <EtoileFoundation/NSIndexPath+Etoile.h>
 #import <EtoileFoundation/NSIndexSet+Etoile.h>
 #import <EtoileFoundation/NSInvocation+Etoile.h>
