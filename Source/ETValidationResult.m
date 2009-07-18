@@ -24,6 +24,12 @@
 											  isValid: YES
 												error: nil] autorelease];
 }
++ (id) invalidResultWithError: (NSString *)error
+{
+	return [[[ETValidationResult alloc] initWithValue: nil
+											  isValid: NO
+												error: error] autorelease];
+}
 + (id) validationResultWithValue: (id)value
                          isValid: (BOOL)isValid
                            error: (NSString *)error

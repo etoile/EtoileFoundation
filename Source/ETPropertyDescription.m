@@ -33,13 +33,14 @@
 {
 	SUPERINIT
 	ASSIGN(_name, name);
-	_owner = owner;
+	_owner = owner; // Weak reference
 	return self;
 }
 - (void) dealloc
 {
 	[_name release];
 	[_type release];
+	[_role release];
 	[super dealloc];
 }
 
@@ -56,6 +57,17 @@
 - (void) setIsParent: (BOOL)isParent
 {
 	_parent = isParent;
+	if (isParent)
+	{
+		FOREACH([[self owner] propertyDescriptions], otherProperty, ETPropertyDescription *)
+		{
+			if (otherProperty != self)
+			{
+				[otherProperty setIsParent: NO];
+			}
+		}
+		[self setIsMultivalued: NO];
+	}
 	[self _updateParentLink];
 }
 - (BOOL) isDerived
@@ -92,12 +104,17 @@
 	{
 		return;
 	}
-	if (_opposite != nil)
+	if (nil != _opposite)
 	{
 		[_opposite setOpposite: nil];
 	}
-	[opposite setOpposite: self];
+	
 	_opposite = opposite;
+	if (nil != _opposite)
+	{
+		[_opposite setOpposite: self];
+		[self setType: [[_opposite owner] UTI]];
+	}
 }
 - (ETEntityDescription *) owner
 {
@@ -105,9 +122,9 @@
 }
 - (void) setOwner: (ETEntityDescription *)owner
 {
-	if (_owner != nil)
+	if ([self owner] != nil)
 	{
-		[[_owner propertyDescriptions] removeObject: self];
+		[[[self owner] propertyDescriptions] removeObject: self]; // TODO: use correct accessor to modify collection
 	}
 	[[owner propertyDescriptions] addObject: self];
 	_owner = owner;
@@ -120,17 +137,36 @@
 {
 	ASSIGN(_type, type);
 }
+- (ETRoleDescription *) role
+{
+	return _role;
+}
+- (void) setRole: (ETRoleDescription *)role
+{
+	ASSIGN(_role, role);
+}
 
+- (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
+{
+	ETRoleDescription *role = [self role];
+	if (nil != role)
+	{
+		return [role validateValue: value forKey: key];
+	}
+	return [ETValidationResult validResult: value];
+}
 
 @end
 
 
 
-/* Property Role Description classes 
+/*
+ Property Role Description classes 
  
- These allow a pluggable, more precise property description
- 
+ These allow pluggable, more precise property descriptions with validation
  */
+
+
 
 @implementation ETRoleDescription 
 
@@ -144,6 +180,8 @@
 }
 
 @end
+
+
 
 @implementation ETRelationshipRole
 
@@ -169,6 +207,8 @@
 
 @end
 
+
+
 @implementation ETMultiOptionsRole
 
 - (void) dealloc
@@ -177,7 +217,7 @@
 	[super dealloc];
 }
 
-- (void) setAllowedOptions: (NSString *)allowedOptions
+- (void) setAllowedOptions: (NSArray *)allowedOptions
 {
 	ASSIGN(_allowedOptions, [allowedOptions copy]);
 }
@@ -201,4 +241,39 @@
 	}
 }
 
+@end
+
+
+@implementation ETNumberRole
+- (int)minimum
+{
+	return _min;
+}
+- (void)setMinimum: (int)min
+{
+	_min = min;
+}
+- (int)maximum
+{
+	return _max;
+}
+- (void)setMaximum: (int)max
+{
+	_max = max;
+}
+
+- (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
+{
+	int intValue = [value intValue];
+	if (intValue <= _max && intValue >= _min)
+	{
+		return [ETValidationResult validResult: value];
+	}
+	else
+	{
+		return [ETValidationResult validationResultWithValue: [NSNumber numberWithInt: MAX(_min, MIN(_max, intValue))]
+													 isValid: NO
+													   error: @"Value outside the allowable range"];
+	}
+}
 @end

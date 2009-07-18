@@ -18,6 +18,7 @@
 #import <EtoileFoundation/ETUTI.h>
 
 @class ETEntityDescription;
+@class ETRoleDescription;
 
 /**
  * Description of an entity's property.
@@ -32,23 +33,22 @@
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
 	ETUTI *_type;
+	ETRoleDescription *_role;
 }
 + (id)  propertyWithName: (NSString *)name
-			    ofEntity: (ETEntityDescription *)owner
-                 derived: (BOOL)derived
-             multivalued: (BOOL)multivalued
-                opposite: (ETPropertyDescription *)opposite
-					type: (ETUTI *)type;
+			    ofEntity: (ETEntityDescription *)owner;
 
 - (id) initWithName: (NSString *)name
-             entity: (ETEntityDescription *)owner
-			derived: (BOOL)derived
-        multivalued: (BOOL)multivalued
-           opposite: (ETPropertyDescription *)opposite
-               type: (ETUTI *)type;
+             entity: (ETEntityDescription *)owner;
 
 /* Properties */
 
+/**
+ * If YES, this property's value/values are the child/children of the entity
+ * this property belongs to. "isChildern" is called "composite" in FAME.
+ *
+ * isChildren is derived from opposite.isParent
+ */
 - (BOOL) isChildren;
 - (BOOL) isParent;
 - (void) setIsParent: (BOOL)isParent;
@@ -62,17 +62,20 @@
 - (void) setOpposite: (ETPropertyDescription *)opposite;
 - (ETEntityDescription *) owner;
 - (void) setOwner: (ETEntityDescription *)owner;
-- (ETUTI *) type;
-- (void) setType: (ETUTI *)type;
+- (ETUTI *)UTI;
+- (void)setUTI: (ETUTI *)UTI;
 
 /* Validation */
+
+- (ETRoleDescription *) role;
+- (void) setRole: (ETRoleDescription *)role;
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
 /**
  * Pass a block which takes one argument (the value being validated)
  * and returns an ETValidationResult
  */
-- (void) setValidationBlock: (id)aBlock;
+//- (void) setValidationBlock: (id)aBlock;
 
 @end
 
@@ -117,3 +120,13 @@
 
 @end
 
+@interface ETNumberRole : ETRoleDescription
+{
+	int _min;
+	int _max;
+}
+- (int)minimum;
+- (void)setMinimum: (int)min;
+- (int)maximum;
+- (void)setMaximum: (int)max;
+@end

@@ -26,20 +26,20 @@
 	NSString *_name;
 	NSMutableDictionary *_propertyDescriptions;
 	ETEntityDescription *_parent;
-	ETUTI *_type;
+	ETUTI *_UTI;
 }
 
 + (id) descriptionWithName: (NSString *)name
 abstract: (BOOL)abstract
 parent: (ETEntityDescription *)parent
 propertyDescriptions: (NSArray *)propertyDescriptions
-type: (ETUTI *)type;
+UTI: (ETUTI *)type;
 
 - (id)  initWithName: (NSString *)name
 abstract: (BOOL)abstract
 parent: (ETEntityDescription *)parent
 propertyDescriptions: (NSArray *)propertyDescriptions
-type: (ETUTI *)type;
+UTI: (ETUTI *)type;
 
 /**
  * Whether or not this entity is abstract (i.e. can't be instantiated)
@@ -71,7 +71,8 @@ type: (ETUTI *)type;
  */
 - (ETEntityDescription *) parent;
 - (void) setParent: (ETEntityDescription *)parentDescription;
-
+- (ETUTI *)UTI;
+- (void)setUTI: (ETUTI *)UTI;
 
 /* Validation */
 
@@ -99,7 +100,11 @@ type: (ETUTI *)type;
 @end
 
 
-@interface NSObject (ETModelObject)
+@interface ETAdaptiveModelObject : NSObject
+{
+	NSMutableDictionary *_properties;
+	ETEntityDescription *_description;
+}
 
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;

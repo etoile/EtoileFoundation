@@ -21,6 +21,7 @@
 	BOOL _isValid;
 }
 + (id) validResult: (id)value;
++ (id) invalidResultWithError: (NSString *)error;
 + (id) validationResultWithValue: (id)value
                          isValid: (BOOL)isValid
                            error: (NSString *)error;

@@ -28,34 +28,34 @@
                   abstract: (BOOL)abstract
                     parent: (ETEntityDescription *)parent
       propertyDescriptions: (NSArray *)propertyDescriptions
-                      type: (ETUTI *)type
+                       UTI: (ETUTI *)UTI
 {
 	return [[[ETEntityDescription alloc] initWithName: name
 											 abstract: abstract
 											   parent: parent
 								 propertyDescriptions: propertyDescriptions
-												 type: type] autorelease];
+												  UTI: UTI] autorelease];
 }
 
 - (id)  initWithName: (NSString *)name
             abstract: (BOOL)abstract
               parent: (ETEntityDescription *)parent
 propertyDescriptions: (NSArray *)propertyDescriptions
-                type: (ETUTI *)type
+                 UTI: (ETUTI *)UTI
 {
 	SUPERINIT;
 	ASSIGN(_name, name);
 	_abstract = abstract;
 	_parent = parent;
 	ASSIGN(_propertyDescriptions, propertyDescriptions);
-	ASSIGN(_type, type);
+	ASSIGN(_UTI, UTI);
 	return self;
 }
 - (void) dealloc
 {
 	DESTROY(_name);
 	DESTROY(_propertyDescriptions);
-	DESTROY(_type);
+	DESTROY(_UTI);
 	[super dealloc];
 }
 - (BOOL) isAbstract
@@ -94,6 +94,14 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
 	ASSIGN(_parent, parentDescription);
+}
+- (ETUTI *)UTI
+{
+	return _UTI;
+}
+- (void)setUTI: (ETUTI *)UTI
+{
+	ASSIGN(_UTI, UTI);
 }
 
 // TODO: validation
