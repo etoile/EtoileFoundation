@@ -62,6 +62,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETObjectChain.h \
 	ETPropertyValueCoding.h \
 	ETRendering.h \
+	ETSocket.h\
 	ETTranscript.h \
 	ETTransform.h \
 	ETUUID.h \

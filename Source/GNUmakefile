@@ -26,6 +26,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETModelDescription.m \
 	ETObjectChain.m \
 	ETPropertyValueCoding.m \
+	ETSocket.m\
 	ETTranscript.m \
 	ETTransform.m \
 	ETUUID.m \
