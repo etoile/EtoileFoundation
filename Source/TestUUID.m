@@ -10,6 +10,7 @@
 #import <UnitKit/UnitKit.h>
 #import "Macros.h"
 #import "ETUUID.h"
+#import "EtoileCompatibility.h"
 
 
 @interface TestUUID: NSObject <UKTest>

@@ -44,6 +44,7 @@
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETRendering.h>
 #import <EtoileFoundation/ETReflection.h>
+#import <EtoileFoundation/ETTransform.h>
 #import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
@@ -75,6 +76,8 @@
 #import <EtoileThread/NSObject+Futures.h>
 #import <EtoileThread/NSObject+Threaded.h>
 
+#endif
+
 #import <EtoileXML/ETXMLDeclaration.h>
 #import <EtoileXML/ETXMLNode.h>
 #import <EtoileXML/ETXMLNullHandler.h>
@@ -84,5 +87,3 @@
 #import <EtoileXML/ETXMLWriter.h>
 #import <EtoileXML/ETXMLXHTML-IMParser.h>
 #import <EtoileXML/NSAttributedString+HTML.h>
-
-#endif
