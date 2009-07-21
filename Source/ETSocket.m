@@ -1,5 +1,6 @@
 #include <openssl/ssl.h>
-//#include <fcntl.h>
+#include <openssl/err.h>
+#include <fcntl.h>
 #include <unistd.h>
 
 #import "EtoileFoundation.h"
@@ -10,6 +11,10 @@ NSString *ETSocketException = @"ETSocketException";
  * Private subclass handling sockets with SSL enabled.
  */
 @interface ETSSLSocket : ETSocket
+@end
+
+@interface ETSocket (Private)
+- (void)receiveData: (NSNotification*)aNotification;
 @end
 
 @implementation ETSocket
@@ -39,15 +44,16 @@ NSString *ETSocketException = @"ETSocketException";
 }
 - (BOOL)negotiateSSL
 {
+	// Put the file descriptor in blocking mode so that the SSL_connect call
+	// will complete synchronously.
+	fcntl([handle fileDescriptor], F_SETFL, 0);
 	sslContext = SSL_CTX_new(SSLv23_client_method());
 	ssl = SSL_new(sslContext);
 	SSL_set_fd(ssl, [handle fileDescriptor]);
-	if (SSL_connect(ssl) == 1)
-	{
-		isa = [ETSSLSocket class];
-		return YES;
-	}
-	return NO;
+	int ret = SSL_connect(ssl);
+	fcntl([handle fileDescriptor], F_SETFL, O_NONBLOCK);
+	isa = [ETSSLSocket class];
+	return ret == 1;
 }
 
 - (void)setDelegate: (id)aDelegate

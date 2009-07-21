@@ -1,12 +1,17 @@
 #import "ETXMLParserDelegate.h"
 
-@interface ETXMLWriter : NSObject <ETXMLWriting> {
+@interface ETXMLWriter : NSObject <ETXMLWriting> 
+{
 	BOOL autoindent;
 	NSMutableString *buffer;
 	NSMutableArray *tagStack;
 	NSMutableString *indentString;
 	BOOL inOpenTag;
 }
+/**
+ * Convenience method for starting a tag with no attributes.
+ */
+- (void)startElement: (NSString*)aName;
 /**
  * Sets whether the output will be automatically indented.  Default is NO.
  */
@@ -33,6 +38,19 @@
  * Closes the most-recently-opened tag.
  */
 - (void)endElement;
+@end
+
+@class ETSocket;
+
+/**
+ * An XML writer that outputs to a socket.  This sends the data directly after
+ * each method call, so may be mixed with other forms of access to the socket.
+ */
+@interface ETXMLSocketWriter : ETXMLWriter 
+{
+	ETSocket *socket;	
+}
+- (void)setSocket: (ETSocket*)aSocket;
 @end
 
 extern NSString *ETXMLMismatchedTagException;

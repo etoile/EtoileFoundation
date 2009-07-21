@@ -1,5 +1,5 @@
 #import "ETXMLWriter.h"
-#import <EtoileFoundation/Macros.h>
+#import <EtoileFoundation/EtoileFoundation.h>
 
 NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 
@@ -30,6 +30,11 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 		inOpenTag = NO;
 	}
 	[buffer appendString: escapeXMLCData(chars)];
+}
+- (void)startElement: (NSString*)aName
+{
+	[self startElement: aName
+	        attributes: nil];
 }
 - (void)startElement: (NSString*)aName
           attributes: (NSDictionary*)attributes
@@ -124,3 +129,35 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[super dealloc];
 }
 @end	
+@implementation ETXMLSocketWriter : ETXMLWriter 
+- (void)sendBuffer
+{
+	[socket sendData: [buffer dataUsingEncoding: NSUTF8StringEncoding]];
+	[buffer setString: @""];
+}
+- (void)characters: (NSString*)chars
+{
+	[super characters: chars];
+	[self sendBuffer];
+}
+- (void)startElement: (NSString*)aName
+          attributes: (NSDictionary*)attributes
+{
+	[super startElement: aName attributes: attributes];
+	[self sendBuffer];
+}
+- (void)endElement: (NSString*)aName
+{
+	[super endElement: aName];
+	[self sendBuffer];
+}
+- (void)setSocket: (ETSocket*)aSocket
+{
+	ASSIGN(socket, aSocket);
+}
+- (void)dealloc
+{
+	[socket release];
+	[super dealloc];
+}
+@end

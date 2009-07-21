@@ -61,3 +61,16 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 
 #define D(...) [NSDictionary dictionaryWithObjectsAndKeys:__VA_ARGS__ , nil]
 #define A(...) [NSArray arrayWithObjects:__VA_ARGS__ , nil]
+
+/**
+ * Replacement for the GNUstep ASSIGN() macro providing a more efficient
+ * version with fewer redundant tests and optimisations for infrequent cases.
+ */
+#ifdef ASSIGN
+#undef ASSIGN
+#define ASSIGN(var, obj) do {\
+	id _tmp = [obj retain];\
+	[var release];\
+	var = _tmp;\
+} while (0)
+#endif
