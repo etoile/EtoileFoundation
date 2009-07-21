@@ -36,6 +36,34 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[self startElement: aName
 	        attributes: nil];
 }
+- (void)startAndEndElement: (NSString*)aName
+{
+	[self startAndEndElement: aName
+	              attributes: nil];
+}
+- (void)startAndEndElement: (NSString*)aName
+                attributes: (NSDictionary*)attributes
+{
+	[self startElement: aName
+	        attributes: attributes];
+	[self endElement];
+}
+- (void)startAndEndElement: (NSString*)aName
+                attributes: (NSDictionary*)attributes
+                     cdata: (NSString*)chars
+{
+	[self startElement: aName
+	        attributes: attributes];
+	[self characters: chars];
+	[self endElement];
+}
+- (void)startAndEndElement: (NSString*)aName
+                     cdata: (NSString*)chars
+{
+	[self startAndEndElement: aName
+	              attributes: nil
+	                   cdata: chars];
+}
 - (void)startElement: (NSString*)aName
           attributes: (NSDictionary*)attributes
 {
@@ -69,15 +97,9 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[tagStack addObject: aName];
 	inOpenTag = YES;
 }
-- (void)endElement: (NSString*)aName
+- (void)endElement
 {
-	if (![aName isEqualToString: [tagStack lastObject]])
-	{
-		[NSException raise: ETXMLMismatchedTagException
-		            format: @"Attempting to close %@ inside %@",
-			aName, [tagStack lastObject]];
-	}
-	[tagStack removeLastObject];
+	NSString *aName = [tagStack lastObject];
 	if (autoindent)
 	{
 		int length = [indentString length];
@@ -98,11 +120,18 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 		}
 		[buffer appendFormat: @"</%@>", aName];
 	}
+	[tagStack removeLastObject];
 	inOpenTag = NO;
 }
-- (void)endElement
+- (void)endElement: (NSString*)aName
 {
-	[self endElement: [tagStack lastObject]];
+	if (![aName isEqualToString: [tagStack lastObject]])
+	{
+		[NSException raise: ETXMLMismatchedTagException
+		            format: @"Attempting to close %@ inside %@",
+			aName, [tagStack lastObject]];
+	}
+	[self endElement];
 }
 - (void)reset
 {
@@ -146,9 +175,9 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[super startElement: aName attributes: attributes];
 	[self sendBuffer];
 }
-- (void)endElement: (NSString*)aName
+- (void)endElement
 {
-	[super endElement: aName];
+	[super endElement];
 	[self sendBuffer];
 }
 - (void)setSocket: (ETSocket*)aSocket

@@ -13,6 +13,28 @@
  */
 - (void)startElement: (NSString*)aName;
 /**
+ * Generates a start and end tag in a single operation.
+ */
+- (void)startAndEndElement: (NSString*)aName;
+/**
+ * Generates a start and end tag in a single operation.
+ */
+- (void)startAndEndElement: (NSString*)aName
+                attributes: (NSDictionary*)attributes;
+/**
+ * Generates a start and end tag for aName with the specified attributes and
+ * cdata as character data between.
+ */
+- (void)startAndEndElement: (NSString*)aName
+                attributes: (NSDictionary*)attributes
+                     cdata: (NSString*)chars;
+/**
+ * Generates a start and end tag for aName with cdata as character data
+ * between.
+ */
+- (void)startAndEndElement: (NSString*)aName
+                     cdata: (NSString*)chars;
+/**
  * Sets whether the output will be automatically indented.  Default is NO.
  */
 - (void)setAutoindent: (BOOL)aFlag;
