@@ -33,7 +33,7 @@ endif
 VERSION = 0.4.1
 
 # -lm for FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm -lObjectiveC2 -lEtoileThread -lEtoileXML \
+LIBRARIES_DEPEND_UPON += -lm -lObjectiveC2 -lEtoileThread -lEtoileXML -lssl -lcrypto \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 ifeq ($(test), yes)
