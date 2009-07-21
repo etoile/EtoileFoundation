@@ -66,6 +66,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETTranscript.h \
 	ETTransform.h \
 	ETUUID.h \
+	NSData+Hash.h\
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
 	NSInvocation+Etoile.h \

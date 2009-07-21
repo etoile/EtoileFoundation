@@ -50,6 +50,7 @@
 #import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
 #import <EtoileFoundation/Macros.h>
+#import <EtoileFoundation/NSData+Hash.h>
 #import <EtoileFoundation/NSFileManager+NameForTempFile.h>
 #import <EtoileFoundation/NSFileManager+TempFile.h>
 #import <EtoileFoundation/NSFileHandle+Socket.h>
