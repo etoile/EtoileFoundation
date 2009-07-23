@@ -34,6 +34,9 @@
 	SUPERINIT
 	ASSIGN(_name, name);
 	_owner = owner; // Weak reference
+	_ordered = NO;
+	_multivalued = NO;
+	_parent = NO;
 	return self;
 }
 - (void) dealloc
@@ -82,9 +85,17 @@
 {
 	return _multivalued;
 }
-- (BOOL) setIsMultivalued: (BOOL)isMultivalued
+- (void) setIsMultivalued: (BOOL)isMultivalued
 {
 	_multivalued = isMultivalued;
+}
+- (BOOL) isOrdered
+{
+	return _ordered;
+}
+- (void) setIsOrdered: (BOOL)isOrdered
+{
+	_ordered = isOrdered;
 }
 - (NSString *) name
 {
@@ -113,7 +124,7 @@
 	if (nil != _opposite)
 	{
 		[_opposite setOpposite: self];
-		[self setType: [[_opposite owner] UTI]];
+		[self setUTI: [[_opposite owner] UTI]];
 	}
 }
 - (ETEntityDescription *) owner
@@ -124,16 +135,16 @@
 {
 	if ([self owner] != nil)
 	{
-		[[[self owner] propertyDescriptions] removeObject: self]; // TODO: use correct accessor to modify collection
+		[[self owner] removePropertyDescriptionsObject: self]; // TODO: use correct accessor to modify collection
 	}
-	[[owner propertyDescriptions] addObject: self];
+	[owner addPropertyDescriptionsObject: self];
 	_owner = owner;
 }
-- (ETUTI *) type
+- (ETUTI *) UTI
 {
 	return _type;
 }
-- (void) setType: (ETUTI *)type
+- (void) setUTI: (ETUTI *)type
 {
 	ASSIGN(_type, type);
 }

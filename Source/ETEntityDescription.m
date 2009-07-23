@@ -98,6 +98,16 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 								  forKey: [propertyDescription name]];
 	}
 }
+- (void) addPropertyDescriotionsObject: (ETPropertyDescription *)propertyDescription
+{
+	[_propertyDescriptions setObject: propertyDescription
+							  forKey: [propertyDescription name]];
+}
+- (void) removePropertyDescriotionsObject: (ETPropertyDescription *)propertyDescription
+{
+	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
+}
+
 - (NSArray *) allPropertyDescriptions
 {
 	return [[_propertyDescriptions allValues] arrayByAddingObjectsFromArray:

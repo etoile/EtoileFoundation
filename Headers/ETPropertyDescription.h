@@ -29,6 +29,7 @@
 	BOOL _derived;
 	BOOL _parent;
 	BOOL _multivalued;
+	BOOL _ordered;
 	NSString *_name;
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
@@ -55,7 +56,9 @@
 - (BOOL) isDerived;
 - (void) setIsDerived: (BOOL)isDerived;
 - (BOOL) isMultivalued;
-- (BOOL) setIsMultivalued: (BOOL)isMultivalued;
+- (void) setIsMultivalued: (BOOL)isMultivalued;
+- (BOOL) isOrdered;
+- (void) setIsOrdered: (BOOL)isOrdered;
 - (NSString *) name;
 - (void) setName: (NSString *)name;
 - (ETPropertyDescription *) opposite;
