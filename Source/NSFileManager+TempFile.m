@@ -7,6 +7,9 @@ static char * makeTempPattern(void)
 	NSString * patternString = NSTemporaryDirectory();
 	patternString = 
 		[patternString stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
+	// Make sure that this application's temporary directory exists.
+	[[NSFileManager defaultManager] createDirectoryAtPath: patternString 
+	                                           attributes: nil];
 	patternString = [patternString stringByAppendingPathComponent:@"tmpXXXXXXXX"];
 	return strdup([patternString UTF8String]);
 }
@@ -23,11 +26,11 @@ static char * makeTempPattern(void)
 {
 	char * pattern = makeTempPattern();
 	NSString * dirName = nil;
-	if (NULL == mkdtemp(pattern))
+	if (NULL != mkdtemp(pattern))
 	{
 		dirName = [NSString stringWithUTF8String:pattern];
+		free(pattern);
 	}
-	free(pattern);
 	return dirName;
 }
 @end
