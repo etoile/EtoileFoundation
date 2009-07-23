@@ -118,7 +118,7 @@
 	NSArray *_allowedOptions;
 }
 
-- (void) setAllowedOptions: (NSString *)allowedOptions;
+- (void) setAllowedOptions: (NSArray *)allowedOptions;
 - (NSArray *) allowedOptions;
 
 @end

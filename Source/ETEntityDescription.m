@@ -98,12 +98,12 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 								  forKey: [propertyDescription name]];
 	}
 }
-- (void) addPropertyDescriotionsObject: (ETPropertyDescription *)propertyDescription
+- (void) addPropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription
 {
 	[_propertyDescriptions setObject: propertyDescription
 							  forKey: [propertyDescription name]];
 }
-- (void) removePropertyDescriotionsObject: (ETPropertyDescription *)propertyDescription
+- (void) removePropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription
 {
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
 }

@@ -65,8 +65,8 @@ UTI: (ETUTI *)type;
  */
 - (NSArray *) propertyDescriptions;
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions;
-- (void) addPropertyDescriotionsObject: (ETPropertyDescription *)propertyDescription;
-- (void) removePropertyDescriotionsObject: (ETPropertyDescription *)propertyDescription;
+- (void) addPropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription;
+- (void) removePropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription;
 
 /**
  * Descriptions of the entity's properties, including those declared in parent

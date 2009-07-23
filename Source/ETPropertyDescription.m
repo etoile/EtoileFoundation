@@ -71,7 +71,7 @@
 		}
 		[self setIsMultivalued: NO];
 	}
-	[self _updateParentLink];
+	//FIXME: do other checks that the parent link is valid
 }
 - (BOOL) isDerived
 {
