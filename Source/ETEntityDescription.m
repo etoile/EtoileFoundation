@@ -47,7 +47,7 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 	ASSIGN(_name, name);
 	_abstract = abstract;
 	_parent = parent;
-	ASSIGN(_propertyDescriptions, propertyDescriptions);
+	[self setPropertyDescriptions: propertyDescriptions];
 	ASSIGN(_UTI, UTI);
 	return self;
 }
@@ -82,6 +82,22 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 {
 	return [_propertyDescriptions allValues];
 }
+- (void) setPropertyDescriptions: (NSArray *)propertyDescriptions
+{
+	FOREACH([self propertyDescriptions], oldProperty, ETPropertyDescription *)
+	{
+		[oldProperty setOwner: nil];
+	}
+	[_propertyDescriptions release];
+	
+	_propertyDescriptions = [[NSMutableDictionary alloc] initWithCapacity:
+		[propertyDescriptions count]];
+	FOREACH(propertyDescriptions, propertyDescription, ETPropertyDescription *)
+	{
+		[_propertyDescriptions setObject: propertyDescription
+								  forKey: [propertyDescription name]];
+	}
+}
 - (NSArray *) allPropertyDescriptions
 {
 	return [[_propertyDescriptions allValues] arrayByAddingObjectsFromArray:
@@ -93,7 +109,7 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 }
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
-	ASSIGN(_parent, parentDescription);
+	_parent = parentDescription;
 }
 - (ETUTI *)UTI
 {
@@ -104,46 +120,14 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 	ASSIGN(_UTI, UTI);
 }
 
-// TODO: validation
-
-@end
-
-
-
-
-
-@implementation ETModelDescriptionRepository
-
-+ (ETEntityDescription *) inferredDescriptionForObject: (id)object
+- (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name
 {
-	// FIXME: Should only autogenerate once per class
-	
-	id<ETObjectMirror> mirror = [ETReflection reflectObject: object];
-	
-	NSMutableArray *propertyDescriptions = [NSMutableArray array];	
-	FOREACH([object properties], propertyName, NSString *)
-	{
-		[propertyDescriptions addObject: [ETPropertyDescription
-										  descriptionWithName: propertyName
-										  type: [ETUTI typeWithClass: [NSObject class]]
-										  derived: NO
-										  multivalued: NO
-										  readOnly: NO
-										  visible: YES]];		
-	}
-	
-	return [ETEntityDescription 
-			entityDescriptionWithName: [mirror name]
-			type: [mirror type]
-			propertyDescriptions: propertyDescriptions 
-			abstract: NO
-			container: [object conformsToProtocol: @protocol(ETCollection)] 
-			root: ([mirror superclassMirror] != nil)];
+	return [_propertyDescriptions valueForKey: name];
 }
 
-- (NSArray *) contentArray
+- (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	
+	return [[self propertyDescriptionForName: key] validateValue: value forKey: key];
 }
 
 @end
@@ -189,69 +173,30 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 #endif
 		
 		
-		@interface ETModelObject : NSObject
-		{
-			ETEntityDescription *_description;
-		}
 		
-		@end
 		
-		@implementation ETModelObject
-		
-		- (id) valueForProperty: (NSString *)key
-		{
-			id value = nil;
+@implementation ETAdaptiveModelObject 
+
+- (id) valueForProperty: (NSString *)key
+{
+	return [_properties valueForKey: key];
+}
 			
-			if ([_description hasProperty: key])
-			{
-				value = [self primitiveValueForKey: key];
-			}
-			else
-			{
-				// TODO: Turn into an ETDebugLog which takes an object (or a class) to
-				// to limit the logging to a particular object or set of instances.
-#ifdef DEBUG_PVC
-				ETLog(@"WARNING: Found no value for property %@ in %@", key, self);
-#endif
-			}
-			
-			return value;
-		}
-		
-		- (BOOL) setValue: (id)value forProperty: (NSString *)key
+- (BOOL) setValue: (id)value forProperty: (NSString *)key
+{
+	FOREACH([_description propertyDescriptions], description, ETPropertyDescription *)
+	{
+		// FIXME: Do more validation.
+		if ([[description name] isEqualToString: key] && ![description isDerived])
 		{
-			BOOL result = NO;
-			
-			if ([_description hasProperty: key] &&
-				![_description valueForKeyPath: @"properties.name(=key).derived"])
-			{
-				[self setPrimitiveValue: value forKey: key];
-				result = YES;
-			}
-			else
-			{
-				// TODO: Turn into an ETDebugLog which takes an object (or a class) to
-				// to limit the logging to a particular object or set of instances.
-#ifdef DEBUG_PVC
-				ETLog(@"WARNING: Trying to set value %@ for property %@ missing in "
-					  @"immutable property collection of %@", value, key, self);
-#endif
-			}
-			
-			return result;
+			[_properties setValue:value forKey: key];
+			return YES;
 		}
+	}
+	return NO;
+}
 		
-		@end
+// FIXME: support multivalue read/write access
+
+@end
 		
-		
-		@interface NSObject (ETModelDescription)
-		- (ETEntityDescription *)entityDescription;
-		@end
-		
-		@implementation NSObject (ETModelDescription)
-		- (ETEntityDescription *)entityDescription
-		{
-			return [[ETModelDescriptionRepository defaultRepository]
-					descriptionForObject: self];
-		}
-		@end

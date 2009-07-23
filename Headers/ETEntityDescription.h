@@ -17,6 +17,8 @@
 #import <EtoileFoundation/ETPropertyDescription.h>
 #import <EtoileFoundation/ETUTI.h>
 
+@class ETPropertyDescription;
+
 /**
  * A description of an "entity", which can either be a class or a prototype.
  */
@@ -40,6 +42,8 @@ abstract: (BOOL)abstract
 parent: (ETEntityDescription *)parent
 propertyDescriptions: (NSArray *)propertyDescriptions
 UTI: (ETUTI *)type;
+
+/* Property getters/setters */
 
 /**
  * Whether or not this entity is abstract (i.e. can't be instantiated)
@@ -74,28 +78,14 @@ UTI: (ETUTI *)type;
 - (ETUTI *)UTI;
 - (void)setUTI: (ETUTI *)UTI;
 
+/* Utility methods */
+
+- (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name;
+
+
 /* Validation */
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
-/**
- * Pass a block which takes one argument (the value being validated)
- * and returns an ETValidationResult
- */
-- (void) setValidationBlock: (id)aBlock;
-
-@end
-
-
-
-
-@interface ETModelDescriptionRepository : NSObject <ETCollection>
-{
-	NSMapTable *_descriptions;
-}
-
-- (void) registerDescription: (ETEntityDescription *)description
-                   forObject: (id)object;
-- (ETEntityDescription *) descriptionForObject: (id)object;
 
 @end
 
