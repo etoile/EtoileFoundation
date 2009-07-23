@@ -63,6 +63,9 @@
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
 #import <EtoileFoundation/UKPluginsRegistry.h>
+#import <EtoileFoundation/ETEntityDescription.h>
+#import <EtoileFoundation/ETPropertyDescription.h>
+#import <EtoileFoundation/ETValidationResult.h>
 
 #ifdef GNUSTEP
 

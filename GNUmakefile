@@ -58,7 +58,6 @@ EtoileFoundation_HEADER_FILES = \
 	ETCollection+HOM.h \
 	ETFilter.h \
 	ETHistory.h \
-	ETModelDescription.h \
 	ETObjectChain.h \
 	ETPropertyValueCoding.h \
 	ETRendering.h \
@@ -77,7 +76,10 @@ EtoileFoundation_HEADER_FILES = \
 	NSString+Etoile.h \
 	NSURL+Etoile.h \
 	ETUTI.h \
-	ETReflection.h
+	ETReflection.h \
+	ETEntityDescription.h \
+	ETPropertyDescription.h \
+	ETValidationResult.h
 
 EtoileFoundation_RESOURCE_FILES = \
 	UTIDefinitions.plist \

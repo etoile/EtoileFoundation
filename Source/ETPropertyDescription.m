@@ -21,28 +21,32 @@
 
 @implementation ETPropertyDescription
 
-+ (id)  propertyWithName: (NSString *)name
-			    ofEntity: (ETEntityDescription *)owner
++ (id) descriptionWithName: (NSString *)name
+                     owner: (ETEntityDescription *)owner
 {
 	return [[[ETPropertyDescription alloc] initWithName: name
-												 entity: owner] autorelease];
+	                                             owner: owner] autorelease];
 }
 
 - (id) initWithName: (NSString *)name
-             entity: (ETEntityDescription *)owner
+              owner: (ETEntityDescription *)owner
 {
 	SUPERINIT
 	ASSIGN(_name, name);
-	_owner = owner; // Weak reference
 	_ordered = NO;
+	_owner = owner;
 	_multivalued = NO;
 	_parent = NO;
+	_role = nil;
+	_UTI = [[ETUTI typeWithClass: [NSObject class]] retain];
+
+	[_owner addPropertyDescriptionsObject: self];
 	return self;
 }
 - (void) dealloc
 {
 	[_name release];
-	[_type release];
+	[_UTI release];
 	[_role release];
 	[super dealloc];
 }
@@ -57,7 +61,7 @@
 {
 	return _parent;
 }
-- (void) setIsParent: (BOOL)isParent
+- (void) setParent: (BOOL)isParent
 {
 	_parent = isParent;
 	if (isParent)
@@ -66,10 +70,10 @@
 		{
 			if (otherProperty != self)
 			{
-				[otherProperty setIsParent: NO];
+				[otherProperty setParent: NO];
 			}
 		}
-		[self setIsMultivalued: NO];
+		[self setMultivalued: NO];
 	}
 	//FIXME: do other checks that the parent link is valid
 }
@@ -77,7 +81,7 @@
 {
 	return _derived;
 }
-- (void) setIsDerived: (BOOL)isDerived
+- (void) setDerived: (BOOL)isDerived
 {
 	_derived = isDerived;
 }
@@ -85,7 +89,7 @@
 {
 	return _multivalued;
 }
-- (void) setIsMultivalued: (BOOL)isMultivalued
+- (void) setMultivalued: (BOOL)isMultivalued
 {
 	_multivalued = isMultivalued;
 }
@@ -93,7 +97,7 @@
 {
 	return _ordered;
 }
-- (void) setIsOrdered: (BOOL)isOrdered
+- (void) setOrdered: (BOOL)isOrdered
 {
 	_ordered = isOrdered;
 }
@@ -111,7 +115,7 @@
 }
 - (void) setOpposite: (ETPropertyDescription *)opposite
 {
-	if (opposite == self)
+	if (opposite == _opposite || opposite == self)
 	{
 		return;
 	}
@@ -123,7 +127,10 @@
 	_opposite = opposite;
 	if (nil != _opposite)
 	{
-		[_opposite setOpposite: self];
+		if ([_opposite opposite] != self)
+		{
+			[_opposite setOpposite: self];
+		}
 		[self setUTI: [[_opposite owner] UTI]];
 	}
 }
@@ -142,11 +149,11 @@
 }
 - (ETUTI *) UTI
 {
-	return _type;
+	return _UTI;
 }
 - (void) setUTI: (ETUTI *)type
 {
-	ASSIGN(_type, type);
+	ASSIGN(_UTI, type);
 }
 - (ETRoleDescription *) role
 {
@@ -201,7 +208,7 @@
 	return _isMandatory;
 }
 
-- (void) setIsMandatory: (BOOL)isMandatory
+- (void) setMandatory: (BOOL)isMandatory
 {
 	_isMandatory = isMandatory;
 }

@@ -31,17 +31,8 @@
 	ETUTI *_UTI;
 }
 
-+ (id) descriptionWithName: (NSString *)name
-abstract: (BOOL)abstract
-parent: (ETEntityDescription *)parent
-propertyDescriptions: (NSArray *)propertyDescriptions
-UTI: (ETUTI *)type;
-
-- (id)  initWithName: (NSString *)name
-abstract: (BOOL)abstract
-parent: (ETEntityDescription *)parent
-propertyDescriptions: (NSArray *)propertyDescriptions
-UTI: (ETUTI *)type;
++ (id) descriptionWithName: (NSString *)name;
+- (id) initWithName: (NSString *)name;
 
 /* Property getters/setters */
 
@@ -49,7 +40,7 @@ UTI: (ETUTI *)type;
  * Whether or not this entity is abstract (i.e. can't be instantiated)
  */
 - (BOOL) isAbstract;
-- (void) setIsAbstract: (BOOL)isAbstract;
+- (void) setAbstract: (BOOL)isAbstract;
 /**
  * Whether this is a root entity (has no parent entity)
  */

@@ -23,7 +23,6 @@ libEtoileFoundation_OBJC_FILES = \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistory.m \
-	ETModelDescription.m \
 	ETObjectChain.m \
 	ETPropertyValueCoding.m \
 	ETSocket.m\
@@ -40,7 +39,10 @@ libEtoileFoundation_OBJC_FILES = \
 	NSObject+Model.m \
 	NSString+Etoile.m \
 	NSURL+Etoile.m \
-	ETReflection.m
+	ETReflection.m \
+	ETEntityDescription.m \
+	ETPropertyDescription.m \
+	ETValidationResult.m
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
@@ -55,7 +57,7 @@ libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
 endif
 
 ifeq ($(test), yes)
-libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestETCollectionHOM.m TestUUID.m TestUTI.m TestReflection.m
+libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestETCollectionHOM.m TestUUID.m TestUTI.m TestReflection.m TestEntityDescription.m
 endif
 
 include $(GNUSTEP_MAKEFILES)/subproject.make

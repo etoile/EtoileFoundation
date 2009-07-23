@@ -33,14 +33,14 @@
 	NSString *_name;
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
-	ETUTI *_type;
+	ETUTI *_UTI;
 	ETRoleDescription *_role;
 }
-+ (id)  propertyWithName: (NSString *)name
-			    ofEntity: (ETEntityDescription *)owner;
++ (id)  descriptionWithName: (NSString *)name
+                      owner: (ETEntityDescription *)owner;
 
 - (id) initWithName: (NSString *)name
-             entity: (ETEntityDescription *)owner;
+              owner: (ETEntityDescription *)owner;
 
 /* Properties */
 
@@ -52,13 +52,13 @@
  */
 - (BOOL) isChildren;
 - (BOOL) isParent;
-- (void) setIsParent: (BOOL)isParent;
+- (void) setParent: (BOOL)isParent;
 - (BOOL) isDerived;
-- (void) setIsDerived: (BOOL)isDerived;
+- (void) setDerived: (BOOL)isDerived;
 - (BOOL) isMultivalued;
-- (void) setIsMultivalued: (BOOL)isMultivalued;
+- (void) setMultivalued: (BOOL)isMultivalued;
 - (BOOL) isOrdered;
-- (void) setIsOrdered: (BOOL)isOrdered;
+- (void) setOrdered: (BOOL)isOrdered;
 - (NSString *) name;
 - (void) setName: (NSString *)name;
 - (ETPropertyDescription *) opposite;
@@ -107,7 +107,7 @@
 }
 
 - (BOOL) isMandatory;
-- (void) setIsMandatory: (BOOL)isMandatory;
+- (void) setMandatory: (BOOL)isMandatory;
 - (NSString *) deletionRule;
 - (void) setDeletionRule: (NSString *)deletionRule;
 

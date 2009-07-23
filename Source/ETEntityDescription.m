@@ -25,30 +25,18 @@
 @implementation ETEntityDescription 
 
 + (id) descriptionWithName: (NSString *)name
-                  abstract: (BOOL)abstract
-                    parent: (ETEntityDescription *)parent
-      propertyDescriptions: (NSArray *)propertyDescriptions
-                       UTI: (ETUTI *)UTI
 {
-	return [[[ETEntityDescription alloc] initWithName: name
-											 abstract: abstract
-											   parent: parent
-								 propertyDescriptions: propertyDescriptions
-												  UTI: UTI] autorelease];
+	return [[[ETEntityDescription alloc] initWithName: name] autorelease];
 }
 
 - (id)  initWithName: (NSString *)name
-            abstract: (BOOL)abstract
-              parent: (ETEntityDescription *)parent
-propertyDescriptions: (NSArray *)propertyDescriptions
-                 UTI: (ETUTI *)UTI
 {
 	SUPERINIT;
 	ASSIGN(_name, name);
-	_abstract = abstract;
-	_parent = parent;
-	[self setPropertyDescriptions: propertyDescriptions];
-	ASSIGN(_UTI, UTI);
+	_abstract = NO;
+	_propertyDescriptions = [[NSMutableDictionary alloc] init];
+	_parent = NO;
+	_UTI = [[ETUTI typeWithClass: [NSObject class]] retain];
 	return self;
 }
 - (void) dealloc
@@ -62,7 +50,7 @@ propertyDescriptions: (NSArray *)propertyDescriptions
 {
 	return _abstract;
 }
-- (void) setIsAbstract: (BOOL)isAbstract
+- (void) setAbstract: (BOOL)isAbstract
 {
 	_abstract = isAbstract;
 }
