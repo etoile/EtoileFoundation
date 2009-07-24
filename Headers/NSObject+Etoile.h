@@ -72,7 +72,7 @@
 	identically named properties which describes ETProtocol instance itself. */
 - (id) metaObject;
 
-- (ETUTI *) type;
+- (ETUTI *) UTI;
 - (NSString *) typeName;
 + (NSString *) typePrefix;
 

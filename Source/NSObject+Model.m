@@ -34,6 +34,7 @@
  */
 
 #import "NSObject+Model.h"
+#import "NSObject+Etoile.h"
 #import "ETCollection.h"
 #import "EtoileCompatibility.h"
 #ifndef GNUSTEP
@@ -411,11 +412,11 @@ static void (*setValueForKeyIMP)(id, SEL, id, NSString *) = NULL;
 	[[self objectValue] stringValue];
 }*/
 
-- (NSString *) type
+- (ETUTI *) type
 {
 	// NOTE: May be necessary to cache this value...
 	// or [[self representedObject] typeForKey: [self name]]
-	return [(ETProperty*)[self objectValue] type];
+	return [[self objectValue] UTI];
 }
 
 - (id) objectValue

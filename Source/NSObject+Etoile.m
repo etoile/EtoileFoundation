@@ -191,14 +191,14 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 	By default, the UTI object is shared by all instances by being built from 
 	the class name. If you need to introduce type at instance level, you can
 	do it by overriding this method. */
-- (ETUTI *) type
+- (ETUTI *) UTI
 {
 	return [ETUTI typeWithClass: [self class]];
 }
 
 /** Returns the type name which is the last component of type string returned 
 	by the UTI object. This type name doesn't include the class prefix.
-	This method is a shortcut for [[self type] typeName]. */
+	This method is a shortcut for [[self UTI] typeName]. */
 - (NSString *) typeName
 {
 	return nil;

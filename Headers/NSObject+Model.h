@@ -36,6 +36,8 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 
+@class ETUTI;
+
 
 @interface NSObject (EtoileModel)
 
@@ -112,7 +114,7 @@
 - (void) setRepresentedObject: (id)object;
 
 //- (NSString *) stringValue;
-- (NSString *) type;
+- (ETUTI *) type;
 
 - (id) objectValue;
 - (void) setObjectValue: (id)objectValue;
