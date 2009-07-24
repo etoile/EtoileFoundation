@@ -36,7 +36,7 @@
 	_ordered = NO;
 	_owner = owner;
 	_multivalued = NO;
-	_parent = NO;
+	_container = NO;
 	_role = nil;
 	_UTI = [[ETUTI typeWithClass: [NSObject class]] retain];
 
@@ -53,24 +53,24 @@
 
 /* Properties */
 
-- (BOOL) isChildren
+- (BOOL) isComposite
 {
-	return [[self opposite] isParent];
+	return [[self opposite] isContainer];
 }
-- (BOOL) isParent
+- (BOOL) isContainer
 {
-	return _parent;
+	return _container;
 }
-- (void) setParent: (BOOL)isParent
+- (void) setContainer: (BOOL)isContainer
 {
-	_parent = isParent;
-	if (isParent)
+	_container = isContainer;
+	if (isContainer)
 	{
 		FOREACH([[self owner] propertyDescriptions], otherProperty, ETPropertyDescription *)
 		{
 			if (otherProperty != self)
 			{
-				[otherProperty setParent: NO];
+				[otherProperty setContainer: NO];
 			}
 		}
 		[self setMultivalued: NO];

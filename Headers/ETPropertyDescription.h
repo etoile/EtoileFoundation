@@ -27,7 +27,7 @@
 @interface ETPropertyDescription : NSObject
 {
 	BOOL _derived;
-	BOOL _parent;
+	BOOL _container;
 	BOOL _multivalued;
 	BOOL _ordered;
 	NSString *_name;
@@ -46,13 +46,13 @@
 
 /**
  * If YES, this property's value/values are the child/children of the entity
- * this property belongs to. "isChildern" is called "composite" in FAME.
+ * this property belongs to.
  *
- * isChildren is derived from opposite.isParent
+ * isComposite is derived from opposite.isContainer
  */
-- (BOOL) isChildren;
-- (BOOL) isParent;
-- (void) setParent: (BOOL)isParent;
+- (BOOL) isComposite;
+- (BOOL) isContainer;
+- (void) setContainer: (BOOL)isContainer;
 - (BOOL) isDerived;
 - (void) setDerived: (BOOL)isDerived;
 - (BOOL) isMultivalued;
