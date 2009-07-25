@@ -52,7 +52,7 @@
  */
 - (BOOL) isComposite;
 - (BOOL) isContainer;
-- (void) setContainer: (BOOL)isContainer;
+- (void) setIsContainer: (BOOL)isContainer;
 - (BOOL) isDerived;
 - (void) setDerived: (BOOL)isDerived;
 - (BOOL) isMultivalued;

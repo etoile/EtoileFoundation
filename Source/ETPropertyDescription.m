@@ -61,7 +61,7 @@
 {
 	return _container;
 }
-- (void) setContainer: (BOOL)isContainer
+- (void) setIsContainer: (BOOL)isContainer
 {
 	_container = isContainer;
 	if (isContainer)
@@ -70,7 +70,7 @@
 		{
 			if (otherProperty != self)
 			{
-				[otherProperty setContainer: NO];
+				[otherProperty setIsContainer: NO];
 			}
 		}
 		[self setMultivalued: NO];
