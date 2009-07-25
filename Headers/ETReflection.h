@@ -40,6 +40,7 @@
 
 
 @protocol ETObjectMirror <ETMirror, ETCollection>
+- (id) representedObject;
 - (id <ETClassMirror>) classMirror;
 - (id <ETClassMirror>) superclassMirror;
 - (id <ETObjectMirror>) prototypeMirror;
