@@ -18,14 +18,18 @@ libEtoileFoundation_OBJC_FILES = \
 	NSFileManager+TempFile.m\
 	NSFileHandle+Socket.m\
 	UKPluginsRegistry.m \
+	ETClassMirror.m \
 	ETCollection.m \
 	ETCollection+HOM.m \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistory.m \
 	ETInstanceVariableMirror.m \
+	ETMethodMirror.m \
 	ETObjectChain.m \
+	ETObjectMirror.m \
 	ETPropertyValueCoding.m \
+	ETProtocolMirror.m \
 	ETSocket.m\
 	ETTranscript.m \
 	ETTransform.m \

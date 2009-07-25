@@ -54,13 +54,17 @@ EtoileFoundation_HEADER_FILES = \
 	NSFileManager+TempFile.h \
 	NSFileHandle+Socket.h\
 	UKPluginsRegistry.h \
+	ETClassMirror.h \
 	ETCollection.h \
 	ETCollection+HOM.h \
 	ETFilter.h \
 	ETHistory.h \
 	ETInstanceVariableMirror.h \
+	ETMethodMirror.h \
 	ETObjectChain.h \
+	ETObjectMirror.h \
 	ETPropertyValueCoding.h \
+	ETProtocolMirror.h \
 	ETRendering.h \
 	ETSocket.h\
 	ETTranscript.h \
