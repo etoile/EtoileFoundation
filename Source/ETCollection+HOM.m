@@ -72,29 +72,6 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 		selector = [anInvocation selector];
 	}
 
-	NSNull *nullObject = [NSNull null];
-
-	/*
-	 * For some collections (such as NSDictionary) the index of the object
-	 * needs to be tracked. 
- 	 */
-	unsigned int objectIndex = 0;
-
-
-	/*
-	 * For collection ensuring uniqueness of elements, like
-	 * NS(Mutable|Index)Set, the objects that were already mapped need to be
-	 * tracked.
-	 */
-
-	 NSMutableArray *alreadyMapped = nil;
-
-	// It is only useful if a mutable collection is changed.
-	if (modifiesSelf)
-	{
-		alreadyMapped = [[NSMutableArray alloc] init];
-	}
-
 	SEL handlerSelector =
 	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:);
 	IMP elementHandler = NULL;
@@ -103,6 +80,34 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	{
 		elementHandler = [(NSObject*)theCollection methodForSelector: handlerSelector];
 	}
+
+	/*
+	 * For some collections (such as NSDictionary) the index of the object
+	 * needs to be tracked. 
+ 	 */
+	unsigned int objectIndex = 0;
+	NSNull *nullObject = [NSNull null];
+	id <ETCollection> initialCollection = theCollection;
+	NSMutableArray *alreadyMapped = nil;
+
+	if (modifiesSelf)
+	{
+		/* 
+		 * When we make snapshot when we want to mutate the collection because 
+		 * doing so when enumerating it isn't supported. 
+		 * All Foundation collection classes implements NSMutableCopying, so it 
+		 * is safe to cast the collection to an NSArray and uses -mutableCopy.
+		 */
+		initialCollection = [[(NSArray *)theCollection mutableCopy] autorelease];
+		/*
+		 * For collection ensuring uniqueness of elements, like
+		 * NS(Mutable|Index)Set, the objects that were already mapped need to be
+		 * tracked.
+		 * It is only useful if a mutable collection is changed.
+		 */
+		alreadyMapped = [[NSMutableArray alloc] init];
+	}
+
 	/*
 	 * All classes adopting ETCollection provide -objectEnumerator methods.
 	 * This just isn't declared because the compiler does not check whether
@@ -111,8 +116,8 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	 * safe to cast the collection to NSArray of which it is known that
 	 * there is an -objectEnumerator method.
 	 */
-	NSEnumerator *collectionEnumerator = [(NSArray*)theCollection objectEnumerator];
-	FOREACHE(theCollection, object,id,collectionEnumerator)
+	NSEnumerator *collectionEnumerator = [(NSArray*)initialCollection objectEnumerator];
+	FOREACHE(initialCollection, object,id,collectionEnumerator)
 	{
 		id mapped = nil;
 		if(NO == useBlock)
@@ -287,7 +292,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
 
 		if([theCollection respondsToSelector: @selector(copyWithZone:)])
 		{
-			snapshot = [[(id<NSCopying>)theCollection copyWithZone: NULL] autorelease];
+			snapshot = [(id<NSCopying>)theCollection copyWithZone: NULL];
 		}
 	}
 	unsigned int objectIndex = 0;
@@ -315,7 +320,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
 		{
 			elementHandler(theCollection,handlerSelector,
 			                  object,objectIndex,target,
-								   filterResult,snapshot);
+								   (BOOL)filterResult,snapshot);
 		}
 		else
 		{
