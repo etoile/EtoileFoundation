@@ -136,7 +136,7 @@ DEALLOC(DESTROY(_ownerMirror))
 	switch (ivarType[0])
 	{
 		case '@':
-			return object_getIvar([_ownerMirror , _ivar);
+			return object_getIvar([_ownerMirror representedObject] , _ivar);
 		default: /* Unsupported type */
 			return nil;
 	}
