@@ -23,6 +23,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistory.m \
+	ETInstanceVariableMirror.m \
 	ETObjectChain.m \
 	ETPropertyValueCoding.m \
 	ETSocket.m\
