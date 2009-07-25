@@ -10,7 +10,7 @@
 
 #import <EtoileFoundation/EtoileFoundation.h>
 #import "ETReflection.h"
-
+#import "ETInstanceVariableMirror.h"
 #ifndef GNUSTEP
 #import <objc/runtime.h>
 #else
@@ -54,14 +54,6 @@
 }
 + (id) mirrorWithMethodName: (const char *)name isClassMethod: (BOOL)isClassMethod;
 - (id) initWithMethodName: (const char *)name isClassMethod: (BOOL)isClassMethod;
-@end
-
-@interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror>
-{
-	Ivar _ivar;
-}
-- (id) initWithIvar: (Ivar)ivar;
-+ (id) mirrorWithIvar: (Ivar)ivar;
 @end
 
 @interface ETProtocolMirror : NSObject <ETProtocolMirror>
@@ -692,40 +684,6 @@
 	return [NSString stringWithFormat:
 			@"ETMethodDescriptionMirror '%@', class method? %d",
 			[self name], [self isClassMethod]];
-}
-@end
-
-
-
-@implementation ETInstanceVariableMirror
-- (id) initWithIvar: (Ivar)ivar
-{
-	SUPERINIT;
-	_ivar = ivar;
-	return self;
-}
-+ (id) mirrorWithIvar: (Ivar)ivar
-{
-	return [[[ETInstanceVariableMirror alloc] initWithIvar: ivar] autorelease];
-}
-- (NSString *) name
-{
-	return [NSString stringWithUTF8String: ivar_getName(_ivar)];
-}
-- (NSArray *) properties
-{
-	return [[super properties] arrayByAddingObjectsFromArray: 
-			A(@"name")];
-}
-- (ETUTI *) type
-{
-	// FIXME: map ivar type to a UTI
-	return [ETUTI typeWithClass: [NSObject class]];
-}
-- (NSString *) description
-{
-	return [NSString stringWithFormat:
-			@"ETInstanceVariableMirror %@", [self name]];
 }
 @end
 
