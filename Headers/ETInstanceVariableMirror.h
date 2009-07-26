@@ -22,23 +22,33 @@
 @interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror>
 {
 	Ivar _ivar;
-	id <ETObjectMirror> _ownerMirror;
+	id <ETMirror> _ownerMirror;
+	id <ETObjectMirror> _cachedValueMirror;
 }
 
 /** <init />
 Initializes and returns an instance variable mirror for the given runtime 
-underlying representation. */
-- (id) initWithIvar: (Ivar)ivar;
+underlying representation and a owner mirror.
+
+The owner mirror must conform to either ETClassMirror or ETObjectMirror protocols. */
+- (id) initWithIvar: (Ivar)ivar ownerMirror: (id <ETMirror>)aMirror;
 /** Returns a new autoreleased instance variable mirror for the given runtime 
-underlying representation. */
-+ (id) mirrorWithIvar: (Ivar)ivar;
+underlying representation and an optional owner mirror.
+
+See also -initWithIvar:ownerMirror:. */
++ (id) mirrorWithIvar: (Ivar)ivar ownerMirror: (id <ETMirror>)aMirror;
 
 /** Returns the name that was used to declare the instance variable. */
 - (NSString *) name;
 
+/** Returns the mirror representing the runtime construct where the instance 
+variable is declared or located. */
+- (id <ETMirror>) ownerMirror;
 /** Returns the mirror representing the object where the instance variable is 
-located and its value stored. */
-- (id <ETObjectMirror>) ownerMirror;
+located and its value stored.
+
+Will return nil when the owner mirror doesn't conform to ETObjectMirror protocol. */
+- (id <ETObjectMirror>) ownerObjectMirror;
 
 /** Returns the object type of the instance variable as an UTI. */
 - (ETUTI *) type;
@@ -79,5 +89,10 @@ NSInvalidArgumentException is raised. <br />
 For example, if value is a NSString and the instance variable is a NSRect, the 
 exception reason will be: NSString does not recognize the selector -rectValue. */
 - (void) setValue: (id)value;
+/** Returns a mirror representing the value stored in the instance variable when 
+the value is an object.
+
+Returns nil when the value is a primitive type. */
+- (id <ETObjectMirror>) valueMirror;
 
 @end

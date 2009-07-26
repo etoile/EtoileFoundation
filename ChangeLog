@@ -1,3 +1,26 @@
+2009-07-27  Quentin Mathe <qmathe@club-internet.fr>
+
+	* Headers/ETClassMirror.h:
+	* Source/ETClassMirror.m:
+	(-instanceVariableMirrorsWithOwnerMirror:, 
+	-allInstanceVariableMirrorsWithOwnerMirror:): Added.
+	(-instanceVariableMirrors, -allInstanceVariableMirrors): Moved the 
+	implementation into the two new methods mentioned above and updated to 
+	now simply call those new methods.
+	* Headers/ETObjectMirror.h:
+	* Source/ETSourceMirror.m:
+	(-instanceVariableMirrors, -allInstanceVariableMirrors): Modified to 
+	now call the new methods added to ETClassMirror.
+	* Headers/ETInstanceVariableMirror.h:
+	* Source/ETInstanceVariableMirror.m:
+	New ivar _cachedValueMirror.
+	(-valueMirror, -cachedValueMirrorForValue:, -ownerObjectMirror): Added.
+	(-initWithIvar:ownerMirror:, +mirrorWithIvar:ownerMirror:): Modified
+	to include an extra 'ownerMirror' parameter.
+	(-ownerMirror): Modified the return type to <ETMirror>.
+	(-value, -setValue:): Updated to retrieve the owner with
+	-ownerObjectMirror.
+
 2009-06-30  Quentin Mathe <qmathe@club-internet.fr>
 
 	New +[NSObject mutableClass] to simplify mutable class retrieval. This is 

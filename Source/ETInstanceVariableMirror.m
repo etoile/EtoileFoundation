@@ -19,16 +19,20 @@
 
 @implementation ETInstanceVariableMirror
 
-- (id) initWithIvar: (Ivar)ivar
+- (id) initWithIvar: (Ivar)ivar ownerMirror: (id <ETMirror>)aMirror
 {
 	SUPERINIT;
 	_ivar = ivar;
+	// NOTE: For now our owner doesn't retain us, thereby _ownerMirror is not 
+	// a weak reference.
+	ASSIGN(_ownerMirror, aMirror);
 	return self;
 }
 
-+ (id) mirrorWithIvar: (Ivar)ivar
++ (id) mirrorWithIvar: (Ivar)ivar ownerMirror: (id <ETMirror>)aMirror
 {
-	return [[[ETInstanceVariableMirror alloc] initWithIvar: ivar] autorelease];
+	return [[[ETInstanceVariableMirror alloc] initWithIvar: ivar
+	                                           ownerMirror: aMirror] autorelease];
 }
 
 DEALLOC(DESTROY(_ownerMirror))
@@ -56,10 +60,23 @@ DEALLOC(DESTROY(_ownerMirror))
 			@"ETInstanceVariableMirror %@", [self name]];
 }
 
-- (id <ETObjectMirror>) ownerMirror;
+- (id <ETMirror>) ownerMirror;
 {
 	return _ownerMirror;
 }
+
+- (id <ETObjectMirror>) ownerObjectMirror;
+{
+	id ownerMirror = [self ownerMirror];
+
+	if ([ownerMirror conformsToProtocol: @protocol(ETObjectMirror)] == NO)
+	{
+		return nil;
+	}
+
+	return ownerMirror;
+}
+
 
 - (NSString *) typeName
 {
@@ -91,6 +108,12 @@ DEALLOC(DESTROY(_ownerMirror))
 // something like GSObjCGetVal() in ObjC2 framework.
 - (id) value
 {
+	id ownerObjectMirror = [self ownerObjectMirror];
+	if (nil == ownerObjectMirror)
+	{
+		return nil;
+	}
+
 #ifdef GNUSTEP
 	const char *ivarType = _ivar->ivar_type;
 
@@ -123,7 +146,7 @@ DEALLOC(DESTROY(_ownerMirror))
 		case _C_DBL:
 		case _C_VOID:
 
-			return GSObjCGetVal([_ownerMirror representedObject], 
+			return GSObjCGetVal([ownerObjectMirror representedObject], 
 				_ivar->ivar_name, NULL, ivarType, 0, _ivar->ivar_offset);
 
 		default: /* Unsupported type */
@@ -136,7 +159,7 @@ DEALLOC(DESTROY(_ownerMirror))
 	switch (ivarType[0])
 	{
 		case '@':
-			return object_getIvar([_ownerMirror representedObject] , _ivar);
+			return object_getIvar([ownerObjectMirror representedObject] , _ivar);
 		default: /* Unsupported type */
 			return nil;
 	}
@@ -147,6 +170,12 @@ DEALLOC(DESTROY(_ownerMirror))
 // something like GSObjCSetVal() in ObjC2 framework.
 - (void) setValue: (id)value
 {
+	id ownerObjectMirror = [self ownerObjectMirror];
+	if (nil == ownerObjectMirror)
+	{
+		return;
+	}
+
 #ifdef GNUSTEP
 	const char *ivarType = _ivar->ivar_type;
 
@@ -179,10 +208,40 @@ DEALLOC(DESTROY(_ownerMirror))
 		case _C_DBL:
 		case _C_VOID:
 
-			GSObjCSetVal([_ownerMirror representedObject], _ivar->ivar_name, 
+			GSObjCSetVal([ownerObjectMirror representedObject], _ivar->ivar_name, 
 				value, NULL, _ivar->ivar_type, 0, _ivar->ivar_offset);
 	}
 #endif
+}
+
+- (id) cachedValueMirrorForValue: (id)aValue
+{
+	if (nil == aValue)
+	{
+		ASSIGN(_cachedValueMirror, nil);
+		return nil;
+	}
+
+	BOOL isCachedValueMirrorInvalid = (nil == _cachedValueMirror 
+		|| [_cachedValueMirror representedObject] != aValue);
+
+	if (isCachedValueMirrorInvalid)
+	{
+		ASSIGN(_cachedValueMirror, [ETReflection reflectObject: aValue]);
+	}
+
+	return _cachedValueMirror;
+}
+
+- (id <ETObjectMirror>) valueMirror
+{
+	if ([self isObjectType] == NO)
+	{
+		return nil;
+	}
+
+	/* Will return nil when there is no object owner mirror, see -value. */
+	return [self cachedValueMirrorForValue: [self value]];
 }
 
 @end

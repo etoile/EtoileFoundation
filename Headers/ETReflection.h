@@ -36,6 +36,8 @@
 - (NSArray *) instanceVariableMirrors;
 - (NSArray *) allInstanceVariableMirrors;
 - (BOOL) isMetaClass;
+- (NSArray *) instanceVariableMirrorsWithOwnerMirror: (id <ETMirror>)aMirror;
+- (NSArray *) allInstanceVariableMirrorsWithOwnerMirror: (id <ETMirror>)aMirror;
 @end
 
 

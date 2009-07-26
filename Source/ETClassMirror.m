@@ -161,14 +161,15 @@
 		return [self methodMirrors];
 	}
 }
-- (NSArray *) instanceVariableMirrors
+- (NSArray *) instanceVariableMirrorsWithOwnerMirror: (id <ETMirror>)aMirror
 {
 	unsigned int ivarsCount;
 	Ivar *ivars = class_copyIvarList(_class, &ivarsCount);
 	NSMutableArray *mirrors = [NSMutableArray arrayWithCapacity: ivarsCount];
 	for (int i=0; i<ivarsCount; i++)
 	{
-		[mirrors addObject: [ETInstanceVariableMirror mirrorWithIvar: ivars[i]]];
+		[mirrors addObject: [ETInstanceVariableMirror mirrorWithIvar: ivars[i]
+		                                                 ownerMirror: aMirror]];
 	}
 	if (ivars != NULL)
 	{
@@ -176,7 +177,11 @@
 	}
 	return mirrors;
 }
-- (NSArray *) allInstanceVariableMirrors
+- (NSArray *) instanceVariableMirrors
+{
+	return [self instanceVariableMirrorsWithOwnerMirror: self];
+}
+- (NSArray *) allInstanceVariableMirrorsWithOwnerMirror: (id <ETMirror>)aMirror
 {
 	NSMutableArray *mirrors = [NSMutableArray array];
 	Class cls = _class;
@@ -186,7 +191,8 @@
 		Ivar *ivars = class_copyIvarList(_class, &ivarsCount);
 		for (int i=0; i<ivarsCount; i++)
 		{
-			[mirrors addObject: [ETInstanceVariableMirror mirrorWithIvar: ivars[i]]];
+			[mirrors addObject: [ETInstanceVariableMirror mirrorWithIvar: ivars[i]
+			                                                 ownerMirror: aMirror]];
 		}
 		if (ivars != NULL)
 		{
@@ -195,6 +201,10 @@
 		cls = class_getSuperclass(cls);
 	}
 	return mirrors;
+}
+- (NSArray *) allInstanceVariableMirrors
+{
+	return [self allInstanceVariableMirrorsWithOwnerMirror: self];
 }
 - (BOOL) isMetaClass
 {

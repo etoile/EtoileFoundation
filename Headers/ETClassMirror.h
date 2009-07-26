@@ -24,5 +24,6 @@
 + (id) mirrorWithClass: (Class)class;
 - (id) initWithClass: (Class)class;
 - (Class) representedClass;
+
 @end
 

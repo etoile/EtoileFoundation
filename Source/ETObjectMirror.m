@@ -65,12 +65,12 @@
 - (NSArray *) instanceVariableMirrors
 {
 	// FIXME: Should these ivar mirrors reflect the contents of this object's ivars/be editable?
-	return [[self classMirror] instanceVariableMirrors];
+	return [[self classMirror] instanceVariableMirrorsWithOwnerMirror: self];
 }
 - (NSArray *) allInstanceVariableMirrors
 {
 	// FIXME: Should these ivar mirrors reflect the contents of this object's ivars/be editable?
-	return [[self classMirror] allInstanceVariableMirrors];
+	return [[self classMirror] allInstanceVariableMirrorsWithOwnerMirror: self];
 }
 - (NSArray *) methodMirrors
 {
