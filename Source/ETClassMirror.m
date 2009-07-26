@@ -188,7 +188,7 @@
 	while (cls != Nil)
 	{
 		unsigned int ivarsCount;
-		Ivar *ivars = class_copyIvarList(_class, &ivarsCount);
+		Ivar *ivars = class_copyIvarList(cls, &ivarsCount);
 		for (int i=0; i<ivarsCount; i++)
 		{
 			[mirrors addObject: [ETInstanceVariableMirror mirrorWithIvar: ivars[i]
