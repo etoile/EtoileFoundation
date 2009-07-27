@@ -12,7 +12,7 @@
 #import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/ETCollection.h>
 
-@protocol ETMirror
+@protocol ETMirror <NSObject>
 - (NSString *) name;
 - (ETUTI *) type;
 @end
