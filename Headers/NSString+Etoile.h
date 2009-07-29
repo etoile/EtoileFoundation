@@ -39,6 +39,7 @@
 @interface NSString (Etoile)
 - (NSString *) firstPathComponent;
 - (NSString *) stringByDeletingFirstPathComponent;
+- (NSString *) stringBySpacingCapitalizedWords;
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator;
 
 /* Deprecated */
