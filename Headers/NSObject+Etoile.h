@@ -76,20 +76,8 @@
 - (NSString *) typeName;
 + (NSString *) typePrefix;
 
-/** Returns both methods and instance variables for the receiver by default */
-/*- (NSArray *) slotNames;
-- (id) valueForSlot: (NSString *)slot;
-- (void) setValue: (id)value forSlot: (NSString *)slot;*/
-- (id) valueForInstanceVariable: (NSString *)ivar;
-- (void) setValue: (id)value forInstanceVariable: (NSString *)ivar;
 - (ETMethod *) methodForName: (NSString *)name;
 - (void) setMethod: (id)value forName: (NSString *)namme;
-
-- (NSArray *) instanceVariables;
-- (NSArray *) instanceVariableNames;
-- (NSDictionary *) instancesVariableValues;
-- (NSDictionary *) instancesVariableTypes;
-- (id) typeForInstanceVariable: (NSString *)ivar;
 
 - (NSArray *) protocolNames;
 - (NSArray *) protocols;
@@ -112,29 +100,6 @@
 
 @end
 
-@interface ETInstanceVariable : NSObject
-{
-	@public
-	id _possessor;
-#ifdef GNUSTEP_RUNTIME_COMPATIBILITY
-	GSIVar _ivar;
-#elif defined(NEXT_RUNTIME_2)
-	Ivar _ivar;
-#endif
-}
-
-- (id) possessor;
-- (NSString *) name;
-
-- (ETUTI *) type;
-- (NSString *) typeName;
-- (const char *) typeEncoding;
-- (BOOL) isObjectType;
-
-- (id) value;
-- (void) setValue: (id)value;
-
-@end
 
 @interface ETMethod : NSObject 
 {
