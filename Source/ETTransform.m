@@ -42,7 +42,8 @@
 - (id) render: (id)object
 {
 	NSString *typeName = [object className];
-	NSString *renderMethodName = [[@"render" append: typeName] append: @":"];
+	NSString *renderMethodName = [[@"render" stringByAppendingString: typeName] 
+		stringByAppendingString: @":"];
 	SEL renderSelector = NSSelectorFromString(renderMethodName);
 	BOOL *performed = malloc(sizeof(BOOL));
 	id item = nil;
@@ -53,7 +54,8 @@
 	if (*performed == NO && ([typeName hasPrefix: @"ET"] || [typeName hasPrefix: @"NS"]))
 	{
 		typeName = [typeName substringFromIndex: 2];
-		renderMethodName = [[@"render" append: typeName] append: @":"];
+		renderMethodName = [[@"render" stringByAppendingString: typeName] 
+			stringByAppendingString: @":"];
 		renderSelector = NSSelectorFromString(renderMethodName);
 
 		item = [self tryToPerformSelector: renderSelector withObject: object result: performed];
