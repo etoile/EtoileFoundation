@@ -2,12 +2,13 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 SUBPROJECT_NAME = libEtoileFoundation
 
-# At a future point, we could use libosspuuid (see ../GNUmakefile):
-#libEtoileFoundation_INCLUDE_DIRS += $(shell uuid-config --cflags)
-libEtoileFoundation_CPPFLAGS += -D_GNU_SOURCE -DUKTEST_LONG
+ifeq ($(USE_SSL_PKG), yes)
+SSL_CFLAGS = $(shell pkg-config --cflags openssl)
+endif
 
+libEtoileFoundation_CPPFLAGS += -D_GNU_SOURCE -DUKTEST_LONG $(SSL_CFLAGS) 
 libEtoileFoundation_OBJCFLAGS += -std=c99 
-libEtoileFoundation_CFLAGS += -std=c99
+libEtoileFoundation_CFLAGS += -std=c99 $(SSL_CFLAGS)
 
 #
 # Class files
@@ -56,10 +57,8 @@ ifeq ($(GNUSTEP_TARGET_CPU), ix86)
   ADDITIONAL_OBJCFLAGS += -march=i586
 endif
 
-
-ifeq ($(build_deprecated), yes)
+# Deprecated
 libEtoileFoundation_OBJC_FILES += NSFileManager+NameForTempFile.m
-endif
 
 ifeq ($(test), yes)
 libEtoileFoundation_OBJC_FILES += TestBasicHOM.m TestETCollectionHOM.m TestUUID.m TestUTI.m TestReflection.m TestEntityDescription.m

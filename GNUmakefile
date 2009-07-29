@@ -7,22 +7,22 @@ SUBPROJECTS = EtoileThread EtoileXML
 endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
-    kqueue_supported ?= yes
+	USE_SSL_PKG ?= no
 endif
 
 ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
-    kqueue_supported ?= yes
+	USE_SSL_PKG ?= no
 endif
 
 ifneq ($(findstring linux, $(GNUSTEP_HOST_OS)),)
+	USE_SSL_PKG ?= yes
 endif
 
 ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
-    kqueue_supported ?= yes
+	USE_SSL_PKG ?= no
 endif
 
-export kqueue_supported ?= no
-export build_deprecated ?= yes
+export USE_SSL_PKG
 
 ifeq ($(test), yes)
 BUNDLE_NAME = EtoileFoundation
@@ -32,12 +32,19 @@ endif
 
 VERSION = 0.4.1
 
+# libssl and libcrypto are packaged together
+ifeq ($(USE_SSL_PKG), yes)
+SSL_LIBS = $(shell pkg-config --libs openssl)
+else
+SSL_LIBS = -lssl -lcrypto 
+endif
+
 # -lm for FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm -lObjectiveC2 -lEtoileThread -lEtoileXML -lssl -lcrypto \
+LIBRARIES_DEPEND_UPON += -lm -lObjectiveC2 -lEtoileThread -lEtoileXML $(SSL_LIBS) \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 ifeq ($(test), yes)
-EtoileFoundation_LDFLAGS += -lUnitKit -lObjectiveC2
+EtoileFoundation_LDFLAGS += -lUnitKit -lObjectiveC2 $(SSL_LIBS)
 endif
 
 EtoileFoundation_SUBPROJECTS += Source
@@ -90,9 +97,8 @@ EtoileFoundation_RESOURCE_FILES = \
 	UTIDefinitions.plist \
 	UTIClassBindings.plist
 
-ifeq ($(build_deprecated), yes)
+# Deprecated
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
-endif
 
 ifeq ($(GNUSTEP_TARGET_CPU), ix86)
  ADDITIONAL_OBJCFLAGS += -march=i586
