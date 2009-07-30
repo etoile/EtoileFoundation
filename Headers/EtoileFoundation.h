@@ -42,6 +42,7 @@
 #import <EtoileFoundation/ETHistory.h>
 #import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
+#import <EtoileFoundation/ETPropertyViewpoint.h>
 #import <EtoileFoundation/ETRendering.h>
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/ETSocket.h>

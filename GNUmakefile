@@ -71,6 +71,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETObjectChain.h \
 	ETObjectMirror.h \
 	ETPropertyValueCoding.h \
+	ETPropertyViewpoint.h \
 	ETProtocolMirror.h \
 	ETRendering.h \
 	ETSocket.h\

@@ -36,8 +36,6 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 
-@class ETUTI;
-
 
 @interface NSObject (EtoileModel)
 
@@ -102,33 +100,3 @@
 - (BOOL) isCommonObjectValue;
 @end
 
-
-/** Property Representation */
-@interface ETProperty : NSObject <ETPropertyValueCoding>
-{
-	id _propertyOwner;
-	id _propertyName;
-}
-
-+ (id) propertyWithName: (NSString *)key representedObject: (id)object;
-
-- (id) initWithName: (NSString *)key representedObject: (id)objet;
-
-- (NSString *) name;
-
-- (id) representedObject;
-- (void) setRepresentedObject: (id)object;
-
-//- (NSString *) stringValue;
-- (ETUTI *) type;
-
-- (id) objectValue;
-- (void) setObjectValue: (id)objectValue;
-
-/* Property Value Coding */
-
-- (NSArray *) properties;
-- (id) valueForProperty: (NSString *)key;
-- (BOOL) setValue: (id)value forProperty: (NSString *)key;
-
-@end
