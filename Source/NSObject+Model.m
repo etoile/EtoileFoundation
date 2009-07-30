@@ -34,6 +34,7 @@
  */
 
 #import "NSObject+Model.h"
+#import "Macros.h"
 #import "NSObject+Etoile.h"
 #import "ETCollection.h"
 #import "EtoileCompatibility.h"
@@ -335,6 +336,46 @@ static void (*setValueForKeyIMP)(id, SEL, id, NSString *) = NULL;
 	descIMP = (NSString * (*)(id, SEL, id))[[NSObject class] 
 		instanceMethodForSelector: @selector(description)];
 	return descIMP(self, @selector(description), nil);
+}
+
+/* KVO Syntactic Sugar */
+
+/** <override-dummy />
+Returns an empty set.<br />
+Overrides to return the receiver key paths to be observed when an observer is 
+set up with -addObserver:.<br />
+
+The returned set content must not change during the whole object lifetime, 
+otherwise -removeObserver: will crash randomly. */
+- (NSSet *) observableKeyPaths
+{
+	return [NSSet set];
+}
+
+/** Sets up the given object to observe each receiver key paths returned by 
+-observableKeyPaths. 
+
+The observer will receive NSKeyValueObservingOptionOld and 
+NSKeyValueObservingOptionNew in the change dictionary. */
+- (void) addObserver: (id)anObserver
+{
+	FOREACH([self observableKeyPaths], keyPath, NSString *)
+	{
+		[self addObserver: anObserver
+		       forKeyPath: keyPath
+		          options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+		          context: NULL];
+	}
+}
+
+/** Removes the observer that was observing the receiver key paths returned 
+by -observableKeyPaths. */
+- (void) removeObserver: (id)anObserver
+{
+	FOREACH([self observableKeyPaths], keyPath, NSString *)
+	{
+		[self removeObserver: anObserver];
+	}
 }
 
 /* Collection */

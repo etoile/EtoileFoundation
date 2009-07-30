@@ -73,6 +73,12 @@
 
 - (NSString *) primitiveDescription;
 
+/* KVO Syntactic Sugar (Unstable API) */
+
+- (NSSet *) observableKeyPaths;
+- (void) addObserver: (id)anObserver;
+- (void) removeObserver: (id)anObserver;
+
 /* Collection & Mutability */
 
 + (Class) mutableClass;
