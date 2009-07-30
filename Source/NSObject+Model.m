@@ -33,6 +33,7 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/NSKeyValueObserving.h>
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "NSObject+Etoile.h"
