@@ -13,7 +13,7 @@
 // number generator with entropy collected from a variety of sources. On other
 // platforms we don't, so we use some less random data based on the current 
 // time and pid to seed the random number generator.
-#if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__)
+#if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__) || defined(__APPLE__)
 #define INITRANDOM() srandomdev()
 #else
 #include <sys/time.h>
