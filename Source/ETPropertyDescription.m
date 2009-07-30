@@ -50,6 +50,29 @@
 	[_role release];
 	[super dealloc];
 }
++ (ETEntityDescription *) entityDescription
+{
+	ETEntityDescription *desc = 
+		[ETEntityDescription descriptionWithName:@"ETPropertyDescription"];
+	
+	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite" owner: desc];
+	[composite setDerived: YES];
+	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container" owner: desc];
+	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived" owner: desc];
+	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued" owner: desc];
+	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered" owner: desc];
+	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: desc];
+	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite" owner: desc];
+	[opposite setOpposite: opposite];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner" owner: desc];
+	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"UTI" owner: desc];
+	
+	[desc setPropertyDescriptions: A(composite, container, derived, multivalued,
+									 ordered, name, opposite, owner, UTI)];
+	[desc setUTI: [ETUTI typeWithClass: [ETPropertyDescription class]]];
+	// TODO: set a sensible parent for desc? currently it's nil
+	return desc;
+}
 
 /* Properties */
 
@@ -115,6 +138,8 @@
 }
 - (void) setOpposite: (ETPropertyDescription *)opposite
 {
+	// FIXME: what does it mean if opposite == self? 
+	//        FM3 seems to do this for the opposite property of FM3.Property
 	if (opposite == _opposite || opposite == self)
 	{
 		return;

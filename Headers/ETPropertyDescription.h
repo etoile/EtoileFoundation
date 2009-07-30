@@ -42,6 +42,11 @@
 - (id) initWithName: (NSString *)name
               owner: (ETEntityDescription *)owner;
 
+/**
+ * Self-description
+ */
++ (ETEntityDescription *) entityDescription;
+
 /* Properties */
 
 /**

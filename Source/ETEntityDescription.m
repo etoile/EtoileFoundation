@@ -16,6 +16,7 @@
 #import "ETPropertyDescription.h"
 #import "ETCollection.h"
 #import "ETReflection.h"
+#import "ETCollection+HOM.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -35,7 +36,7 @@
 	ASSIGN(_name, name);
 	_abstract = NO;
 	_propertyDescriptions = [[NSMutableDictionary alloc] init];
-	_parent = NO;
+	_parent = nil;
 	_UTI = [[ETUTI typeWithClass: [NSObject class]] retain];
 	return self;
 }
@@ -45,6 +46,30 @@
 	DESTROY(_propertyDescriptions);
 	DESTROY(_UTI);
 	[super dealloc];
+}
++ (ETEntityDescription *) entityDescription
+{
+	ETEntityDescription *desc = 
+		[ETEntityDescription descriptionWithName:@"ETEntityDescription"];
+	
+	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract" owner: desc];
+	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root" owner: desc];
+	[root setDerived: YES];
+	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: desc];
+	ETPropertyDescription *propertyDescriptions = [ETPropertyDescription descriptionWithName: @"propertyDescriptions" owner: desc];
+	[propertyDescriptions setMultivalued: YES];
+	//FIXME: In order for the next line to make sense, we need to have a
+	//       globally shared repository of entity descriptions, since
+	//       the entity description of ETEntityDescription has a refernece
+	//       to the entity description of ETPropertyDescription
+	//[propertyDescriptions setOpposite: [[ETPropertyDescription entityDescription] propertyDescriptionForName: @"owner"];
+	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent" owner: desc];
+	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"UTI" owner: desc];
+	
+	[desc setPropertyDescriptions: A(abstract, root, name, propertyDescriptions, parent, UTI)];
+	[desc setUTI: [ETUTI typeWithClass: [ETEntityDescription class]]];
+	// FIXME: set a sensible parent for desc? currently it's nil
+	return desc;
 }
 - (BOOL) isAbstract
 {
@@ -171,30 +196,69 @@
 #endif
 		
 		
-		
-		
+/**
+ Very simple implementation of an adaptive model object that is causally 
+ connected to its description. This means that changes to the entity description
+ immediately take effect in the instance of ETAdaptiveModelObject.
+ 
+ Causal connection is ensured through the implementation of
+ -valueForProperty: and -setValue:forProperty:.
+ */		
 @implementation ETAdaptiveModelObject 
 
+- (id) init
+{
+	SUPERINIT;
+	_properties = [[NSMutableDictionary alloc] init];
+	_description = [[ETEntityDescription alloc] initWithName: @"Untitled"];
+	return self;
+}
+
+DEALLOC(DESTROY(_properties); DESTROY(_description);)
+
+/* Property-value coding */
+		
 - (id) valueForProperty: (NSString *)key
 {
-	return [_properties valueForKey: key];
+	ETPropertyDescription *desc = [_description propertyDescriptionForName: key];
+	if (desc != nil)
+	{
+		return [_properties valueForKey: key];
+	}
+	else
+	{
+		return nil;
+	}
 }
 			
 - (BOOL) setValue: (id)value forProperty: (NSString *)key
 {
-	FOREACH([_description propertyDescriptions], description, ETPropertyDescription *)
+	ETPropertyDescription *desc = [_description propertyDescriptionForName: key];
+	if (desc != nil && ![desc isDerived])
 	{
-		// FIXME: Do more validation.
-		if ([[description name] isEqualToString: key] && ![description isDerived])
-		{
-			[_properties setValue:value forKey: key];
-			return YES;
-		}
+		[_properties setValue:value forKey: key];
+		return YES;
 	}
 	return NO;
 }
-		
-// FIXME: support multivalue read/write access
 
+- (NSArray *) propertyNames
+{
+	//FIXME: Optimize if needed.
+	return (NSArray *)[[[_description propertyDescriptions] mappedCollection] name];
+}
+		
+- (NSArray *) allPropertyNames
+{
+	return (NSArray *)[[[_description allPropertyDescriptions] mappedCollection] name];
+}
+		
+/* Key-value coding */
+
+- (id) valueForKey: (NSString *)key
+{
+	return [self valueForProperty: key];
+}
+		
 @end
 		

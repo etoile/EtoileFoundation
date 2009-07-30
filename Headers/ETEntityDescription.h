@@ -34,6 +34,11 @@
 + (id) descriptionWithName: (NSString *)name;
 - (id) initWithName: (NSString *)name;
 
+/**
+ * Self-description
+ */
++ (ETEntityDescription *) entityDescription;
+
 /* Property getters/setters */
 
 /**
