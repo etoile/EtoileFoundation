@@ -64,9 +64,6 @@
 	NSMutableSet *hashSet = [NSMutableSet set];
 	NSNumber *hashNumber  = nil;
 
-#ifdef UKTEST_LONG
-	NSLog(@"Long testing begins. It should be less than minutes.");
-
 	BOOL fail = NO;
 	for (int i = 0; i < 10000; i++)
 	{
@@ -83,16 +80,10 @@
 		[hashSet addObject: hashNumber];
 	}
 	UKFalse(fail);
-
-	NSLog(@"Long testing is done");
-#endif
 }
 
-#ifdef UKTEST_LONG
 - (void) testString
 {
-	NSLog(@"Long testing begins. It should be less than minutes.");
-
 	NSMutableSet *set = [[NSMutableSet alloc] init];
 	int i, count = 10000;
 
@@ -143,9 +134,6 @@
 	UKFalse(fail);
 
 	DESTROY(set);
-
-	NSLog(@"Long testing is done");
 }
-#endif
 
 @end
