@@ -375,7 +375,7 @@ by -observableKeyPaths. */
 {
 	FOREACH([self observableKeyPaths], keyPath, NSString *)
 	{
-		[self removeObserver: anObserver];
+		[self removeObserver: anObserver forKeyPath: keyPath];
 	}
 }
 
