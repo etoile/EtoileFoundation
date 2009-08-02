@@ -61,6 +61,7 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 
 #define D(...) [NSDictionary dictionaryWithObjectsAndKeys:__VA_ARGS__ , nil]
 #define A(...) [NSArray arrayWithObjects:__VA_ARGS__ , nil]
+#define S(...) [NSSet setWithObjects:__VA_ARGS__ , nil]
 
 /**
  * Replacement for the GNUstep ASSIGN() macro providing a more efficient
