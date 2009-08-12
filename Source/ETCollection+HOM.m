@@ -48,6 +48,28 @@
 @protocol ETMutableCollectionObject <NSObject,ETCollection,ETCollectionMutation>
 @end
 
+
+/*
+ * The following category works around a problem on GNUstep (with libffi) where
+ * invocations share the _retval field and one invocation sets it to a
+ * non-object while the other still expects it to be an object and tries to
+ * release _retval.
+ */
+
+@interface NSInvocation (ETHOMRetValFix)
+@end
+
+@implementation NSInvocation (ETHOMRetValFix)
+- (void) clearReturnValue
+{
+	#ifdef GNUSTEP
+		memset(_retval, '\0', _info[0].size);
+	#endif
+}
+
+@end
+
+
 /*
  * The following functions will be used by both the ETCollectionHOM categories 
  * and the corresponding proxies.
@@ -250,13 +272,12 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	return accumulator;
 }
 
-
-//This function will be potentially be inlined twice as often as the others.
-static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
+static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents(
                                          id<NSObject,ETCollection> *aCollection,
-                                                          id  blockOrInvocation,
+                                                           id blockOrInvocation,
                                                                   BOOL useBlock,
-                         id<NSObject,ETCollection,ETCollectionMutation> *target)
+                         id<NSObject,ETCollection,ETCollectionMutation> *target,
+                                              NSMutableArray *antecedentMessages)
 {
 	id<ETCollectionObject> theCollection = (id<ETCollectionObject>)*aCollection;
 	id<ETMutableCollectionObject> theTarget = (id<ETMutableCollectionObject>)*target;
@@ -296,17 +317,45 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
 		}
 	}
 	unsigned int objectIndex = 0;
-
 	FOREACHI(content, object)
 	{
 		long long filterResult = (long long)NO;
 
 		if(NO == useBlock)
 		{
-			if([object respondsToSelector: selector])
+			id testObject = object;
+			if ([antecedentMessages count] > 0)
 			{
-				[anInvocation invokeWithTarget: object];
+				FOREACHI(antecedentMessages,antecedentInvocation)
+				{
+					id oldObject = testObject;
+					if ([oldObject respondsToSelector: [antecedentInvocation selector]])
+					{
+						[antecedentInvocation invokeWithTarget: oldObject];
+						[antecedentInvocation getReturnValue: &testObject];
+					}
+				}
+			}
+
+			if ([testObject respondsToSelector: selector])
+			{
+				[anInvocation invokeWithTarget: testObject];
 				[anInvocation getReturnValue: &filterResult];
+				/*
+				 * FIXME: There are problems when invoking the BOOL returning
+				 * invocation this way. The _retval ivar is still referenced 
+				 * by the last antecedent invocation (no idea why) and may have
+				 * its first byte (=isa pointer) set to 1, which will cause a
+				 * crash when the invocation calls CLEAR_RETURN_VALUE_IF_OBJECT
+				 * on the next iteration of the loop, since the message lookup
+				 * for the release that accompanies CLEAR_RETURN_VALUE_IF_OBJECT
+				 * will go to 0x1. My present solution is to manually clear the
+				 * return value. (See the ETHOMRetValFix category at the top of
+				 * the file)
+				 */
+				#ifdef GNUSTEP
+					[anInvocation clearReturnValue];
+				#endif
 			}
 		}
 		#if defined (__clang__)
@@ -338,6 +387,20 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
 	[content release];
 }
 
+static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
+                                         id<NSObject,ETCollection> *aCollection,
+                                                          id  blockOrInvocation,
+                                                                  BOOL useBlock,
+                         id<NSObject,ETCollection,ETCollectionMutation> *target)
+{
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents(
+	                                                      aCollection,
+	                                                      blockOrInvocation,
+	                                                      useBlock,
+	                                                      target,
+	                                                      nil);
+}
+
 static inline id ETHOMFilteredCollectionWithBlockOrInvocation(
                                          id<NSObject,ETCollection> *aCollection,
                                                            id blockOrInvocation,
@@ -359,11 +422,12 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
                                                            id blockOrInvocation,
                                                                   BOOL useBlock)
 {
-	ETHOMFilterCollectionWithBlockOrInvocationAndTarget(      
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents( 
 	                       (id<NSObject,ETCollection>*)aCollection,
 	                                             blockOrInvocation,
 	                                                      useBlock,
-	                                                   aCollection);
+	                                                   aCollection,
+	                                                           nil);
 }
 
 
@@ -389,6 +453,10 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
 @end
 
 @interface ETCollectionMutationFilterProxy: ETCollectionHOMProxy
+{
+	// Stores messages that don't return BOOL in order to apply them later.
+	NSMutableArray *antecedentMessages;
+}
 @end
 
 @implementation ETCollectionHOMProxy
@@ -483,17 +551,44 @@ DEALLOC(
 
 
 @implementation ETCollectionMutationFilterProxy
-
+- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+{
+	if (nil == (self = [super initWithCollection: aCollection]))
+	{
+		return nil;
+	}
+	antecedentMessages = [[NSMutableArray alloc] init];
+	return self;
+}
 - (void) forwardInvocation:(NSInvocation*)anInvocation
 {
-
-	ETHOMFilterMutableCollectionWithBlockOrInvocation(
-	           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
-	                                                           anInvocation,
-	                                                                     NO);
-	//Actually, we don't care for the return value.
-	[anInvocation setReturnValue:&collection];
+	const char *returnType = [[anInvocation methodSignature] methodReturnType];
+	if (0 == strcmp(@encode(BOOL), returnType))
+	{
+		ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents(
+		           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
+		                                                           anInvocation,
+		                                                                     NO,
+		           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
+		                                                    antecedentMessages);
+		[anInvocation setReturnValue: &collection];
+	}
+	else if (0 == strcmp(@encode(id), returnType))
+	{
+		[anInvocation retainArguments];
+		[antecedentMessages addObject: anInvocation];
+		[anInvocation setReturnValue: &self];
+	}
+	else
+	{
+		//TODO: Is there any sensible way to deal with non-object returns?
+		[anInvocation setReturnValue: &self];
+	}
 }
+
+DEALLOC(
+	[antecedentMessages release];
+)
 @end
 
 

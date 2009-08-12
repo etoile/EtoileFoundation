@@ -63,6 +63,22 @@
 	NSMutableIndexSet *indexSet = [NSMutableIndexSet \
 	                                       indexSetWithIndexesInRange: r]; \
 	NSIndexSet *origIndexSet = [NSIndexSet indexSetWithIndexesInRange: r]; \
+	TestAttributedObject *attrObject = [[[TestAttributedObject alloc] init] autorelease]; \
+	TestAttributedObject *anotherAttrObject = [[[TestAttributedObject alloc] init] autorelease]; \
+	[attrObject setString: @"foo"]; \
+	[attrObject setNumber: [NSNumber numberWithInt: 1]]; \
+	[anotherAttrObject setString: @"bar"]; \
+	[anotherAttrObject setNumber: [NSNumber numberWithInt: 2]]; \
+	NSMutableArray *attrArray = [NSMutableArray arrayWithObjects: \
+	                                     attrObject, anotherAttrObject, nil]; \
+	NSMutableSet *attrSet = [NSMutableSet setWithArray: attrArray]; \
+	NSCountedSet *attrCountedSet = [NSCountedSet set]; \
+	[attrCountedSet addObject: attrObject]; \
+	[attrCountedSet addObject: attrObject]; \
+	[attrCountedSet addObject: anotherAttrObject]; \
+	NSMutableDictionary *attrDict = [NSMutableDictionary \
+	 dictionaryWithObjectsAndKeys: attrObject, @"one", \
+	                        anotherAttrObject, @"two", nil];
 
 @interface NSNumber (ETTestHOM)
 @end
@@ -88,6 +104,55 @@
 {
 	return nil;
 }
+@end
+
+@interface TestAttributedObject: NSObject
+{
+	NSString *stringAttribute;
+	NSNumber *numericAttribute;
+}
+@end
+
+@implementation TestAttributedObject
+- (NSNumber *) numberAttribute
+{
+	return numericAttribute;
+}
+
+- (NSString *) stringAttribute
+{
+	return stringAttribute;
+}
+
+- (void) setNumber: (NSNumber *)aNumber
+{
+	[numericAttribute autorelease];
+	numericAttribute = [aNumber retain];
+}
+
+- (void) setString: (NSString *)aString
+{
+	[stringAttribute autorelease];
+	stringAttribute = [aString retain];
+}
+
+- (id) init
+{
+	SUPERINIT
+	stringAttribute = nil;
+	numericAttribute = nil;
+	return self;
+}
+
+- (id) copyWithZone: (NSZone *)zone
+{
+	TestAttributedObject *newObject = [[TestAttributedObject allocWithZone: zone] init];
+	[newObject setString: [stringAttribute copyWithZone: zone]];
+	[newObject setNumber: [numericAttribute copyWithZone: zone]];
+	return newObject;
+}
+DEALLOC( [stringAttribute release]; [numericAttribute release];)
+
 @end
 
 @interface TestETCollectionHOM: NSObject <UKTest>
@@ -288,6 +353,58 @@
 	FOREACHE(indexSet,anIndex,id,indexEnumerator)
 	{
 		UKIntsEqual(2,[(NSNumber*)anIndex intValue]);
+	}
+}
+
+- (void) testAttributeAwareFilterArray
+{
+	MUTABLEINPUTS
+	[[[attrArray filter] stringAttribute] isEqualToString: @"foo"];
+	UKTrue([attrArray containsObject: attrObject]);
+	UKFalse([attrArray containsObject: anotherAttrObject]);
+}
+- (void) testAttributeAwareFilterSet
+{
+	MUTABLEINPUTS
+	[[[attrSet filter] stringAttribute] isEqualToString: @"foo"];
+	UKTrue([attrSet containsObject: attrObject]);
+	UKFalse([attrSet containsObject: anotherAttrObject]);
+}
+
+- (void) testAttributeAwareFilterCountedSet
+{
+	MUTABLEINPUTS
+	[[[attrCountedSet filter] stringAttribute] isEqualToString: @"foo"];
+	UKTrue([attrCountedSet containsObject: attrObject]);
+	UKIntsEqual(2, [attrCountedSet countForObject: attrObject]);
+	UKFalse([attrCountedSet containsObject: anotherAttrObject]);
+}
+- (void) testAttributeAwareFilterDictionary
+{
+	MUTABLEINPUTS
+	[[[attrDict filter] stringAttribute] isEqualToString: @"foo"];
+	UKObjectsEqual(attrObject, [attrDict objectForKey: @"one"]);
+	UKNil([attrDict objectForKey: @"two"]);
+}
+
+- (void) testDeepAttributeAwareFilter
+{
+	MUTABLEINPUTS
+	NSArray *someInputs = A(attrArray,attrSet,attrCountedSet,attrDict);
+	FOREACHI(someInputs, collection)
+	{
+		[[[[(NSMutableArray*)collection filter] numberAttribute] twice] isEqualToNumber:
+		                                          [NSNumber numberWithInt: 4]];
+		if ((void*)collection == (void*)attrDict)
+		{
+			UKObjectsEqual(anotherAttrObject, [attrDict objectForKey: @"two"]);
+			UKNil([attrDict objectForKey: @"one"]);
+		}
+		else
+		{
+			UKTrue([(NSMutableArray*)collection containsObject: anotherAttrObject]);
+			UKFalse([(NSMutableArray*)collection containsObject: attrObject]);
+		}
 	}
 }
 @end

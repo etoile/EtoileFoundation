@@ -97,7 +97,11 @@
 /**
  * Returns a proxy object on which methods with return type BOOL can be called.
  * Only elements that respond with YES to the method call will remain in the
- * collection.
+ * collection. If there are any object returning messages sent to the proxy
+ * before the predicate, these messages will be applied to the elements in the
+ * collection before the test is performed. It is thus possible to filter a
+ * collection based on attributes of an object:
+ * <code>[[[persons filter] firstName] isEqual: @"Alice"]</code>
  */
 - (id) filter;
 
