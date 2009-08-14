@@ -363,6 +363,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKTrue([attrArray containsObject: attrObject]);
 	UKFalse([attrArray containsObject: anotherAttrObject]);
 }
+
 - (void) testAttributeAwareFilterSet
 {
 	MUTABLEINPUTS

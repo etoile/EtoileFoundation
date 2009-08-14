@@ -49,40 +49,153 @@
 @end
 
 
-/*
- * The following category works around a problem on GNUstep (with libffi) where
- * invocations share the _retval field and one invocation sets it to a
- * non-object while the other still expects it to be an object and tries to
- * release _retval.
+/**
+ * The ETCollectionElementProxy class keeps track of how an object was derived
+ * druing a map operation. This is needed to find the original object in the
+ * filter proxy.
  */
 
-@interface NSInvocation (ETHOMRetValFix)
-@end
-
-@implementation NSInvocation (ETHOMRetValFix)
-- (void) clearReturnValue
+@interface ETCollectionElementProxy: NSProxy
 {
-	#ifdef GNUSTEP
-		memset(_retval, '\0', _info[0].size);
-	#endif
+	/**
+	 * The object for which the proxy stands in.
+	 */
+	id object;
+	/**
+	 * The original for this object.
+	 */
+	id ancestor;
 }
 
+- (id) initWithObject: (id)anObject;
+
+/**
+ * Returns the object for which the proxy stands in.
+ */
+- (id) _thisProxiedObject;
+
+/**
+ * Returns the object from which this object was derived.
+ */
+- (id) _originalObject;
 @end
 
+@implementation ETCollectionElementProxy
+
++(id) proxyForElement: (id)anElement
+{
+	return [[[[self class] alloc] initWithObject: anElement] autorelease];
+}
+
+-(id) init
+{
+	//Calling init just makes no sense
+	DESTROY(self);
+	return nil;
+}
+
+- (id) initWithObject: (id)anObject
+{
+	// NOTE: No -[super init] because NSProxy hasn't got any.
+	object = [anObject retain];
+	ancestor = nil;
+	return self;
+}
+
+- (void) setAncestor: (ETCollectionElementProxy*)anAncestor
+{
+	[ancestor autorelease];
+	ancestor = [anAncestor retain];
+}
+
+- (BOOL) respondsToSelector: (SEL) aSelector
+{
+	if (aSelector == @selector(_thisProxiedObject)
+	   || aSelector == @selector(_originalObject))
+	{
+		return YES;
+	}
+
+	return [object respondsToSelector: aSelector];
+}
+
+- (BOOL) conformsToProtocol: (Protocol *) aProtocol
+{
+	return [object conformsToProtocol: aProtocol];
+}
+
+- (id) methodSignatureForSelector: (SEL) aSelector
+{
+	return [object methodSignatureForSelector: aSelector];
+}
+
+-(Class) class
+{
+	return [object class];
+}
+
+-(Class) superclass
+{
+	return [object superclass];
+}
+
+- (void) forwardInvocation: (NSInvocation*) anInvocation
+{
+	SEL selector = [anInvocation selector];
+	if ([object respondsToSelector: selector])
+	{
+		[anInvocation invokeWithTarget: object];
+	}
+}
+
+- (id) nextProxiedObject: (id)nextObject
+{
+	ETCollectionElementProxy *newProxy = [ETCollectionElementProxy proxyForElement: nextObject];
+	if (nil == ancestor)
+	{
+		[newProxy setAncestor: object];
+	}
+	else
+	{
+		[newProxy setAncestor: ancestor];
+	}
+	return newProxy;
+}
+
+- (id) _thisProxiedObject
+{
+	return object;
+}
+
+- (id) _originalObject
+{
+	if (nil == ancestor)
+	{
+		return object;
+	}
+	else
+	{
+		return ancestor;
+	}
+}
+
+DEALLOC([object release]; [ancestor release];)
+@end
 
 /*
  * The following functions will be used by both the ETCollectionHOM categories 
  * and the corresponding proxies.
  */
-static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
-                               id<ETCollectionObject> *aCollection,
+static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(
+                            id<NSObject,ETCollection> *aCollection,
                                               id blockOrInvocation,
                                                      BOOL useBlock,
-                             id<ETMutableCollectionObject> *aTarget)
+            id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
+                                                       BOOL doProxy)
 {
 	BOOL modifiesSelf = ((id*)aCollection == (id*)aTarget);
-	id<ETCollectionObject> theCollection = *aCollection;
-	id<ETMutableCollectionObject> theTarget = *aTarget;
+	id<NSObject,ETCollection> theCollection = *aCollection;
+	id<NSObject,ETCollection,ETCollectionMutation> theTarget = *aTarget;
 	NSInvocation *anInvocation = nil;
 	SEL selector;
 
@@ -142,11 +255,18 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	FOREACHE(initialCollection, object,id,collectionEnumerator)
 	{
 		id mapped = nil;
+		id actualObject = object;
+		BOOL alreadyProxied = NO;
+		if ([object respondsToSelector: @selector(_thisProxiedObject)])
+		{
+			actualObject = [object _thisProxiedObject];
+			alreadyProxied = YES;
+		}
 		if(NO == useBlock)
 		{
-			if([object respondsToSelector:selector])
+			if([actualObject respondsToSelector:selector])
 			{
-				[anInvocation invokeWithTarget:object];
+				[anInvocation invokeWithTarget:actualObject];
 				[anInvocation getReturnValue:&mapped];
 			}
 		}
@@ -161,7 +281,17 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 		{
 			mapped = nullObject;
 		}
-		
+		if (doProxy)
+		{
+			if (alreadyProxied)
+			{
+				mapped = [object nextProxiedObject: mapped];
+			}
+			else
+			{
+				mapped = [[ETCollectionElementProxy proxyForElement: object] nextProxiedObject: mapped];
+			}
+		}
 		if (modifiesSelf)
 		{
 			[alreadyMapped addObject: mapped];
@@ -192,6 +322,19 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	{
 		[alreadyMapped release];
 	}
+}
+
+static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
+                            id<NSObject,ETCollection> *aCollection,
+                                              id blockOrInvocation,
+                                                     BOOL useBlock,
+            id<NSObject,ETCollection,ETCollectionMutation> *aTarget)
+{
+	ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(aCollection,
+	                                                        blockOrInvocation,
+	                                                        useBlock,
+	                                                        aTarget,
+	                                                        NO);
 }
 
 static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
@@ -272,12 +415,12 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	return accumulator;
 }
 
-static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents(
+static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
                                          id<NSObject,ETCollection> *aCollection,
                                                            id blockOrInvocation,
                                                                   BOOL useBlock,
                          id<NSObject,ETCollection,ETCollectionMutation> *target,
-                                              NSMutableArray *antecedentMessages)
+                                             id<NSObject,ETCollection> *original)
 {
 	id<ETCollectionObject> theCollection = (id<ETCollectionObject>)*aCollection;
 	id<ETMutableCollectionObject> theTarget = (id<ETMutableCollectionObject>)*target;
@@ -302,60 +445,41 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAnteced
 	 * implement the -placeObject... method.
 	 */
 
-	id<NSCopying> snapshot = nil;
+	id snapshot = nil;
 
 	SEL handlerSelector =
 	   @selector(placeObject:atIndex:inCollection:basedOnFilter:withSnapshot:);
 	IMP elementHandler = NULL;
 	if ([theCollection respondsToSelector: handlerSelector])
 	{
-		elementHandler = [(NSObject*)theCollection methodForSelector: handlerSelector];
-
-		if([theCollection respondsToSelector: @selector(copyWithZone:)])
+		elementHandler = [(NSObject*)*original methodForSelector: handlerSelector];
+		if ((id)theCollection != (id)theTarget)
 		{
-			snapshot = [(id<NSCopying>)theCollection copyWithZone: NULL];
+			snapshot = theCollection;
+		}
+		else
+		{
+			if ([theCollection respondsToSelector: @selector(copyWithZone:)])
+			{
+				snapshot = [(id<NSCopying>)theCollection copyWithZone: NULL];
+			}
 		}
 	}
 	unsigned int objectIndex = 0;
 	FOREACHI(content, object)
 	{
 		long long filterResult = (long long)NO;
-
+		id testObject = object;
+		if ([object respondsToSelector: @selector(_thisProxiedObject)])
+		{
+			testObject = [object _thisProxiedObject];
+		}
 		if(NO == useBlock)
 		{
-			id testObject = object;
-			if ([antecedentMessages count] > 0)
-			{
-				FOREACHI(antecedentMessages,antecedentInvocation)
-				{
-					id oldObject = testObject;
-					if ([oldObject respondsToSelector: [antecedentInvocation selector]])
-					{
-						[antecedentInvocation invokeWithTarget: oldObject];
-						[antecedentInvocation getReturnValue: &testObject];
-					}
-				}
-			}
-
 			if ([testObject respondsToSelector: selector])
 			{
 				[anInvocation invokeWithTarget: testObject];
 				[anInvocation getReturnValue: &filterResult];
-				/*
-				 * FIXME: There are problems when invoking the BOOL returning
-				 * invocation this way. The _retval ivar is still referenced 
-				 * by the last antecedent invocation (no idea why) and may have
-				 * its first byte (=isa pointer) set to 1, which will cause a
-				 * crash when the invocation calls CLEAR_RETURN_VALUE_IF_OBJECT
-				 * on the next iteration of the loop, since the message lookup
-				 * for the release that accompanies CLEAR_RETURN_VALUE_IF_OBJECT
-				 * will go to 0x1. My present solution is to manually clear the
-				 * return value. (See the ETHOMRetValFix category at the top of
-				 * the file)
-				 */
-				#ifdef GNUSTEP
-					[anInvocation clearReturnValue];
-				#endif
 			}
 		}
 		#if defined (__clang__)
@@ -365,21 +489,28 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAnteced
 			filterResult = (long long)theBlock(object);
 		}
 		#endif
+
+		id originalObject = object;
+		if ([object respondsToSelector: @selector(_originalObject)])
+		{
+			originalObject = [object _originalObject];
+		}
+
 		if (elementHandler != NULL)
 		{
-			elementHandler(theCollection,handlerSelector,
-			                  object,objectIndex,target,
-								   (BOOL)filterResult,snapshot);
+			elementHandler(*original,handlerSelector,
+			          originalObject,objectIndex,target,
+			      (BOOL)filterResult,snapshot);
 		}
 		else
 		{
-			if(((id)theTarget == (id)theCollection) && (NO == (BOOL)filterResult))
+			if(((id)theTarget == (id)*original) && (NO == (BOOL)filterResult))
 			{
-				[theTarget removeObject: object];
+				[theTarget removeObject: originalObject];
 			}
-			else if (((id)theTarget!=(id)theCollection) && (BOOL)filterResult)
+			else if (((id)theTarget!=(id)*original) && (BOOL)filterResult)
 			{
-				[theTarget addObject: object];
+				[theTarget addObject: originalObject];
 			}
 		}
 		objectIndex++;
@@ -393,12 +524,12 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
                                                                   BOOL useBlock,
                          id<NSObject,ETCollection,ETCollectionMutation> *target)
 {
-	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents(
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
 	                                                      aCollection,
 	                                                      blockOrInvocation,
 	                                                      useBlock,
 	                                                      target,
-	                                                      nil);
+	                                                      aCollection);
 }
 
 static inline id ETHOMFilteredCollectionWithBlockOrInvocation(
@@ -422,12 +553,12 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
                                                            id blockOrInvocation,
                                                                   BOOL useBlock)
 {
-	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents( 
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
 	                       (id<NSObject,ETCollection>*)aCollection,
 	                                             blockOrInvocation,
 	                                                      useBlock,
 	                                                   aCollection,
-	                                                           nil);
+	                                                   aCollection);
 }
 
 
@@ -454,8 +585,9 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
 
 @interface ETCollectionMutationFilterProxy: ETCollectionHOMProxy
 {
-	// Stores messages that don't return BOOL in order to apply them later.
-	NSMutableArray *antecedentMessages;
+	// Stores a reference to the original collection, even if the actual filter
+	// operates on a modified one.
+	id<NSObject,ETCollection,ETCollectionMutation> originalCollection;
 }
 @end
 
@@ -467,7 +599,20 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
 	return self;
 }
 
-- (id) methodSignatureForSelector:(SEL)aSelector
+- (BOOL) respondsToSelector: (SEL)aSelector
+{
+	NSEnumerator *collectionEnumerator;
+	collectionEnumerator = [(NSArray*)collection objectEnumerator];
+	FOREACHE(collection,object,id,collectionEnumerator)
+	{
+		if ([object respondsToSelector: aSelector])
+		{
+			return YES;
+		}
+	}
+	return [super respondsToSelector: aSelector];
+}
+- (id) methodSignatureForSelector: (SEL)aSelector
 {
 	/*
 	 * The collection is cast to NSArray because even though all classes
@@ -557,37 +702,58 @@ DEALLOC(
 	{
 		return nil;
 	}
-	antecedentMessages = [[NSMutableArray alloc] init];
+	originalCollection = [aCollection retain];
 	return self;
 }
+
+- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+              andOriginal: (id<ETCollection,NSObject>) theOriginal
+{
+	if (nil == (self = [super initWithCollection: aCollection]))
+	{
+		return nil;
+	}
+	originalCollection = [theOriginal retain];
+	return self;
+}
+
 - (void) forwardInvocation:(NSInvocation*)anInvocation
 {
 	const char *returnType = [[anInvocation methodSignature] methodReturnType];
 	if (0 == strcmp(@encode(BOOL), returnType))
 	{
-		ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndAntecedents(
+		ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
 		           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
 		                                                           anInvocation,
 		                                                                     NO,
-		           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
-		                                                    antecedentMessages);
-		[anInvocation setReturnValue: &collection];
+		   (id<NSObject,ETCollection,ETCollectionMutation>*)&originalCollection,
+		                        (id<NSObject,ETCollection>*)&originalCollection);
+		BOOL result = YES;
+		[anInvocation setReturnValue: &result];
 	}
 	else if (0 == strcmp(@encode(id), returnType))
 	{
-		[anInvocation retainArguments];
-		[antecedentMessages addObject: anInvocation];
-		[anInvocation setReturnValue: &self];
+		Class mutableClass = [[collection class] mutableClass];
+		id<ETMutableCollectionObject> nextCollection = [[[mutableClass alloc] init] autorelease];
+		ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(&collection,
+		                                                        anInvocation,
+		                                                        NO,
+		                        (id<ETMutableCollectionObject>*)&nextCollection,
+		                                                        YES);
+		id nextProxy = [[[ETCollectionMutationFilterProxy alloc]
+		                              initWithCollection: nextCollection
+		                                     andOriginal: originalCollection]
+													              autorelease];
+		[anInvocation setReturnValue: &nextProxy];
 	}
 	else
 	{
-		//TODO: Is there any sensible way to deal with non-object returns?
-		[anInvocation setReturnValue: &self];
+		[super forwardInvocation: anInvocation];
 	}
 }
 
 DEALLOC(
-	[antecedentMessages release];
+	[originalCollection release];
 )
 @end
 
