@@ -48,150 +48,24 @@
 @protocol ETMutableCollectionObject <NSObject,ETCollection,ETCollectionMutation>
 @end
 
-
-/**
- * The ETCollectionElementProxy class keeps track of how an object was derived
- * druing a map operation. This is needed to find the original object in the
- * filter proxy.
+/*
+ * Informal protocol for turning collections into arrays.
  */
-
-@interface ETCollectionElementProxy: NSProxy
-{
-	/**
-	 * The object for which the proxy stands in.
-	 */
-	id object;
-	/**
-	 * The original for this object.
-	 */
-	id ancestor;
-}
-
-- (id) initWithObject: (id)anObject;
-
-/**
- * Returns the object for which the proxy stands in.
- */
-- (id) _thisProxiedObject;
-
-/**
- * Returns the object from which this object was derived.
- */
-- (id) _originalObject;
-@end
-
-@implementation ETCollectionElementProxy
-
-+(id) proxyForElement: (id)anElement
-{
-	return [[[[self class] alloc] initWithObject: anElement] autorelease];
-}
-
--(id) init
-{
-	//Calling init just makes no sense
-	DESTROY(self);
-	return nil;
-}
-
-- (id) initWithObject: (id)anObject
-{
-	// NOTE: No -[super init] because NSProxy hasn't got any.
-	object = [anObject retain];
-	ancestor = nil;
-	return self;
-}
-
-- (void) setAncestor: (ETCollectionElementProxy*)anAncestor
-{
-	[ancestor autorelease];
-	ancestor = [anAncestor retain];
-}
-
-- (BOOL) respondsToSelector: (SEL) aSelector
-{
-	if (aSelector == @selector(_thisProxiedObject)
-	   || aSelector == @selector(_originalObject))
-	{
-		return YES;
-	}
-
-	return [object respondsToSelector: aSelector];
-}
-
-- (BOOL) conformsToProtocol: (Protocol *) aProtocol
-{
-	return [object conformsToProtocol: aProtocol];
-}
-
-- (id) methodSignatureForSelector: (SEL) aSelector
-{
-	return [object methodSignatureForSelector: aSelector];
-}
-
--(Class) class
-{
-	return [object class];
-}
-
--(Class) superclass
-{
-	return [object superclass];
-}
-
-- (void) forwardInvocation: (NSInvocation*) anInvocation
-{
-	SEL selector = [anInvocation selector];
-	if ([object respondsToSelector: selector])
-	{
-		[anInvocation invokeWithTarget: object];
-	}
-}
-
-- (id) nextProxiedObject: (id)nextObject
-{
-	ETCollectionElementProxy *newProxy = [ETCollectionElementProxy proxyForElement: nextObject];
-	if (nil == ancestor)
-	{
-		[newProxy setAncestor: object];
-	}
-	else
-	{
-		[newProxy setAncestor: ancestor];
-	}
-	return newProxy;
-}
-
-- (id) _thisProxiedObject
-{
-	return object;
-}
-
-- (id) _originalObject
-{
-	if (nil == ancestor)
-	{
-		return object;
-	}
-	else
-	{
-		return ancestor;
-	}
-}
-
-DEALLOC([object release]; [ancestor release];)
+@interface NSObject (ETHOMArraysFromCollections)
+- (NSArray*) collectionArray;
+- (NSArray*) contentsForArrayEquivalent;
 @end
 
 /*
  * The following functions will be used by both the ETCollectionHOM categories 
  * and the corresponding proxies.
  */
-static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(
+static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
                             id<NSObject,ETCollection> *aCollection,
                                               id blockOrInvocation,
                                                      BOOL useBlock,
             id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
-                                                       BOOL doProxy)
+                                                       BOOL isArrayTarget)
 {
 	BOOL modifiesSelf = ((id*)aCollection == (id*)aTarget);
 	id<NSObject,ETCollection> theCollection = *aCollection;
@@ -210,8 +84,8 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(
 	SEL handlerSelector =
 	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:);
 	IMP elementHandler = NULL;
-	if ([theCollection
-	 respondsToSelector:handlerSelector])
+	if ([theCollection respondsToSelector:handlerSelector]
+	  && !isArrayTarget)
 	{
 		elementHandler = [(NSObject*)theCollection methodForSelector: handlerSelector];
 	}
@@ -222,18 +96,11 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(
  	 */
 	unsigned int objectIndex = 0;
 	NSNull *nullObject = [NSNull null];
-	id <ETCollection> initialCollection = theCollection;
+	NSArray *collectionArray = [(NSObject*)theCollection collectionArray];
 	NSMutableArray *alreadyMapped = nil;
 
 	if (modifiesSelf)
 	{
-		/* 
-		 * When we make snapshot when we want to mutate the collection because 
-		 * doing so when enumerating it isn't supported. 
-		 * All Foundation collection classes implements NSMutableCopying, so it 
-		 * is safe to cast the collection to an NSArray and uses -mutableCopy.
-		 */
-		initialCollection = [[(NSArray *)theCollection mutableCopy] autorelease];
 		/*
 		 * For collection ensuring uniqueness of elements, like
 		 * NS(Mutable|Index)Set, the objects that were already mapped need to be
@@ -243,30 +110,14 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(
 		alreadyMapped = [[NSMutableArray alloc] init];
 	}
 
-	/*
-	 * All classes adopting ETCollection provide -objectEnumerator methods.
-	 * This just isn't declared because the compiler does not check whether
-	 * the original classes provide the method when the protocol is adopted
-	 * by a category on those classes (see ETCollection.h). Therefore it is
-	 * safe to cast the collection to NSArray of which it is known that
-	 * there is an -objectEnumerator method.
-	 */
-	NSEnumerator *collectionEnumerator = [(NSArray*)initialCollection objectEnumerator];
-	FOREACHE(initialCollection, object,id,collectionEnumerator)
+	FOREACHI(collectionArray, object)
 	{
 		id mapped = nil;
-		id actualObject = object;
-		BOOL alreadyProxied = NO;
-		if ([object respondsToSelector: @selector(_thisProxiedObject)])
-		{
-			actualObject = [object _thisProxiedObject];
-			alreadyProxied = YES;
-		}
 		if(NO == useBlock)
 		{
-			if([actualObject respondsToSelector:selector])
+			if([object respondsToSelector:selector])
 			{
-				[anInvocation invokeWithTarget:actualObject];
+				[anInvocation invokeWithTarget:object];
 				[anInvocation getReturnValue:&mapped];
 			}
 		}
@@ -280,17 +131,6 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(
 		if (nil == mapped)
 		{
 			mapped = nullObject;
-		}
-		if (doProxy)
-		{
-			if (alreadyProxied)
-			{
-				mapped = [object nextProxiedObject: mapped];
-			}
-			else
-			{
-				mapped = [[ETCollectionElementProxy proxyForElement: object] nextProxiedObject: mapped];
-			}
 		}
 		if (modifiesSelf)
 		{
@@ -330,7 +170,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
                                                      BOOL useBlock,
             id<NSObject,ETCollection,ETCollectionMutation> *aTarget)
 {
-	ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(aCollection,
+	ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(aCollection,
 	                                                        blockOrInvocation,
 	                                                        useBlock,
 	                                                        aTarget,
@@ -357,7 +197,7 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	/*
 	 * For folding we can safely consider only the content as an array.
 	 */
-	NSArray *content = [[*aCollection contentArray]retain];
+	NSArray *content = [[(NSObject*)*aCollection collectionArray] retain];
 	NSEnumerator *contentEnumerator;
 	if(NO == shallInvert)
 	{
@@ -372,45 +212,37 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 
 	FOREACHE(content, element,id,contentEnumerator)
 	{
-		NSUInteger count = 1;
-		if (isCounted)
+		id target;
+		id argument;
+		if(shallInvert==NO)
 		{
-			count = [(NSCountedSet*)*aCollection countForObject: element];
+			target=accumulator;
+			argument=element;
 		}
-		//Repeat to get stuff like counted sets right.
-		for(int i = 0;i < count;i++)
+		else
 		{
-			id target;
-			id argument;
-			if(shallInvert==NO)
-			{
-				target=accumulator;
-				argument=element;
-			}
-			else
-			{
-				target=element;
-				argument=accumulator;
-			}
+			target=element;
+			argument=accumulator;
+		}
 
-			if(NO == useBlock)
+		if(NO == useBlock)
+		{
+			if([target respondsToSelector:selector])
 			{
-				if([target respondsToSelector:selector])
-				{
-					[anInvocation setArgument: &argument  atIndex: 2];
-					[anInvocation invokeWithTarget:target];
-					[anInvocation getReturnValue: &accumulator];
-				}
+				[anInvocation setArgument: &argument  atIndex: 2];
+				[anInvocation invokeWithTarget:target];
+				[anInvocation getReturnValue: &accumulator];
 			}
-			#if defined (__clang__)
-			else
-			{
-				id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
-				accumulator = theBlock(target,argument);
-			}
-			#endif
 		}
+		#if defined (__clang__)
+		else
+		{
+			id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
+			accumulator = theBlock(target,argument);
+		}
+		#endif
 	}
+
 	[content release];
 	return accumulator;
 }
@@ -434,7 +266,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		selector = [anInvocation selector];
 	}
 
-	NSArray* content = [[theCollection contentArray] retain];
+	NSArray* content = [[(NSObject*)theCollection collectionArray] retain];
 	
 	/*
 	 * A snapshot of the object is needed at least for NSDictionary. It needs
@@ -455,30 +287,27 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		elementHandler = [(NSObject*)*original methodForSelector: handlerSelector];
 		if ((id)theCollection != (id)theTarget)
 		{
-			snapshot = theCollection;
+			snapshot = *original;
 		}
 		else
 		{
 			if ([theCollection respondsToSelector: @selector(copyWithZone:)])
 			{
-				snapshot = [(id<NSCopying>)theCollection copyWithZone: NULL];
+				snapshot = [(id<NSCopying>)*original copyWithZone: NULL];
 			}
 		}
 	}
 	unsigned int objectIndex = 0;
+	NSEnumerator *originalEnum = [[(NSObject*)*original collectionArray] objectEnumerator];
 	FOREACHI(content, object)
 	{
+		id originalObject = [originalEnum nextObject];
 		long long filterResult = (long long)NO;
-		id testObject = object;
-		if ([object respondsToSelector: @selector(_thisProxiedObject)])
-		{
-			testObject = [object _thisProxiedObject];
-		}
 		if(NO == useBlock)
 		{
-			if ([testObject respondsToSelector: selector])
+			if ([object respondsToSelector: selector])
 			{
-				[anInvocation invokeWithTarget: testObject];
+				[anInvocation invokeWithTarget: object];
 				[anInvocation getReturnValue: &filterResult];
 			}
 		}
@@ -489,12 +318,6 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 			filterResult = (long long)theBlock(object);
 		}
 		#endif
-
-		id originalObject = object;
-		if ([object respondsToSelector: @selector(_originalObject)])
-		{
-			originalObject = [object _originalObject];
-		}
 
 		if (elementHandler != NULL)
 		{
@@ -733,9 +556,8 @@ DEALLOC(
 	}
 	else if (0 == strcmp(@encode(id), returnType))
 	{
-		Class mutableClass = [[collection class] mutableClass];
-		id<ETMutableCollectionObject> nextCollection = [[[mutableClass alloc] init] autorelease];
-		ETHOMMapCollectionWithBlockOrInvocationToTargetAndProxy(&collection,
+		id<ETMutableCollectionObject> nextCollection = [NSMutableArray array];
+		ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(&collection,
 		                                                        anInvocation,
 		                                                        NO,
 		                        (id<ETMutableCollectionObject>*)&nextCollection,
@@ -847,39 +669,48 @@ DEALLOC(
 @end
 
 @implementation NSCountedSet (ETCOllectionMapHandler)
+- (NSArray*) contentsForArrayEquivalent
+{
+	NSArray *distinctObjects = [self allObjects];
+	NSMutableArray *result = [NSMutableArray array];
+	FOREACHI(distinctObjects,object)
+	{
+		for(int i=0; i<[self countForObject:object]; i++)
+		{
+			[result addObject: object];
+		}
+	}
+	return result;
+}
+
+// NOTE: This methods do nothing more than the default implementation. But they
+// are needed to override the implementation in NSMutableSet.
 - (void) placeObject: (id)mappedObject
         inCollection: (NSCountedSet**)aTarget
      insteadOfObject: (id)originalObject
 	         atIndex: (NSUInteger)index
  havingAlreadyMapped: (NSArray*)alreadyMapped
 {
-	NSUInteger count = [self countForObject: originalObject];
-	for(int i=0;i<count;i++)
+	if ((id)self == (id)*aTarget)
 	{
-		if ((id)self == (id)*aTarget) 
-		{
-			[*aTarget removeObject: originalObject];
-		}
-		[*aTarget addObject: mappedObject];
+		[*aTarget removeObject: originalObject];
 	}
+	[*aTarget addObject: mappedObject];
 }
+
 - (void) placeObject: (id)anObject
              atIndex: (NSUInteger)index
         inCollection: (NSCountedSet**)aTarget
        basedOnFilter: (BOOL)shallInclude
         withSnapshot: (id)snapshot
 {
-	NSUInteger count = [self countForObject: anObject];
-	for(int i=0;i<count;i++)
+	if (((id) self == (id)*aTarget) && NO == shallInclude)
 	{
-		if (((id) self == (id)*aTarget) && NO == shallInclude)
-		{
-			[*aTarget removeObject: anObject];
-		}
-		else if (((id) self != (id)*aTarget) && shallInclude)
-		{
-			[*aTarget addObject: anObject];
-		}
+		[*aTarget removeObject: anObject];
+	}
+	else if (((id) self != (id)*aTarget) && shallInclude)
+	{
+		[*aTarget addObject: anObject];
 	}
 }
 @end

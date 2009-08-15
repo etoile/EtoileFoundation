@@ -57,6 +57,18 @@
 	                                               forInverse: YES]
 	                                                    autorelease];
 }
+
+/**
+ * Helper method to create arrays from collections.
+ */
+- (NSArray*) collectionArray
+{
+	if ([self respondsToSelector: @selector(contentsForArrayEquivalent)])
+	{
+		return [self contentsForArrayEquivalent];
+	}
+	return [self contentArray];
+}
 #if defined (__clang__)
 
 - (id) mappedCollectionWithBlock: (id(^)(id))aBlock

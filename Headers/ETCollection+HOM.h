@@ -56,6 +56,7 @@
  * method is taken to be the initial value of the accumulator.
  */
 - (id) rightFold;
+
 #if defined (__clang__)
 
 /**
