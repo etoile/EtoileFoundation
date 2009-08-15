@@ -57,6 +57,16 @@
  */
 - (id) rightFold;
 
+/**
+ * Returns a proxy object the will use the next message received to coalesce the
+ * receiver and aCollection into one collection by sending the message to every
+ * element of the receiver with the corresponding element of the second
+ * collection as an argument. The first argument (after the implicit receiver
+ * and selector arguments) of the message is thus ignored.
+ * The operation will stop at the end of the shorter collection.
+ */
+- (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection;
+
 #if defined (__clang__)
 
 /**
@@ -84,6 +94,14 @@
  * its first and each element as its second argument.
  */
 - (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock;
+
+/**
+ * Coalesces the receiver and the collection named by aCollection into one
+ * collection by applying aBlock to all element-pairs from the collection. The
+ * operation will stop at the end of the shorter collection.
+ */
+- (id) zippedCollectionWithCollection: id<NSObject,ETCollection> aCollection
+                             andBlock:(id(^)(id,id))aBlock;
 #endif
 @end
 
@@ -106,6 +124,16 @@
  */
 - (id) filter;
 
+/**
+ * Returns a proxy object which will coalesce the collection named by
+ * aCollection into the first collection by sending all messages sent to the
+ * proxy to the elements of the receiver with the corresponding element of
+ * aCollection as an argument. The first argument of the message (after the
+ * implicit receiver and selector arguments) is thus ignored. The operation will
+ * stop at the end of the shorter collection.
+ */
+- (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection;
+
 #if defined (__clang__)
 /**
  * Replaces each element in the collection with the result of applying aBlock to
@@ -118,6 +146,13 @@
  * YES.
  */
 - (void) filterWithBlock: (BOOL(^)(id))aBlock;
+
+/**
+ * Coalesces the second collection into the first by applying aBlock to all
+ * element pairs. Processing will stop at the end of the shorter collection.
+ */
+- (void) collectBlock: (id(^)(id,id))aBlock
+       withCollection: (id<NSObject,ETCollection>)aCollection;
 #endif
 @end
 

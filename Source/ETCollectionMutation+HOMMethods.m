@@ -44,13 +44,20 @@
 	return [[[ETCollectionMutationMapProxy alloc] initWithCollection: self]
 	                                                           autorelease];
 }
+
 - (id) filter
 {
 	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: 
 	                                                    self] autorelease];
 }
-#if defined (__clang__)
 
+- (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection
+{
+	return [[[ETCollectionMutationZipProxy alloc] initWithCollection: self
+	                                              andCollection: aCollection] autorelease];
+}
+
+#if defined (__clang__)
 - (void) mapWithBlock: (id(^)(id))aBlock
 {
 	ETHOMMapMutableCollectionWithBlockOrInvocationToTarget(
@@ -63,5 +70,13 @@
 - (void) filterWithBlock: (BOOL(^)(id))aBlock
 {
 	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock,YES);
+}
+
+- (void) collectBlock: (id(^)(id,id))aBlock
+       withCollection: (id<NSObject,ETCollection) aCollection
+{
+	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,&aCollection,
+	                                                  aBlock,YES,
+	                                                  &self);
 }
 #endif

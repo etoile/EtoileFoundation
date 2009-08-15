@@ -385,6 +385,106 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
 }
 
 
+static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
+                          id<NSObject,ETCollection> *firstCollection,
+                         id<NSObject,ETCollection> *secondCollection,
+                                                id blockOrInvocation,
+                                                       BOOL useBlock,
+              id<NSObject,ETCollection,ETCollectionMutation> *target)
+{
+	BOOL modifiesSelf = ((id*)firstCollection == (id*)target);
+	NSInvocation *invocation = nil;
+	SEL selector;
+	NSArray *contentsFirst = [(NSObject*)*firstCollection collectionArray];
+	NSArray *contentsSecond = [(NSObject*)*secondCollection collectionArray];
+	if (NO == useBlock)
+	{
+		invocation = (NSInvocation *)blockOrInvocation;
+		selector = [invocation selector];
+	}
+
+	SEL handlerSelector =
+	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:);
+	IMP elementHandler = NULL;
+	if ([*firstCollection respondsToSelector: handlerSelector])
+	{
+		elementHandler = [(NSObject*)*firstCollection methodForSelector: handlerSelector];
+	}
+
+	NSMutableArray *alreadyMapped = nil;
+	if (modifiesSelf)
+	{
+		alreadyMapped = [[NSMutableArray alloc] init];
+	}
+
+	NSUInteger objectIndex = 0;
+	NSUInteger objectMax = MIN([contentsFirst count],[contentsSecond count]);
+	NSNull *nullObject = [NSNull null];
+
+	FOREACHI(contentsFirst,firstObject)
+	{
+		if (objectIndex >= objectMax)
+		{
+			break;
+		}
+		id secondObject = [contentsSecond objectAtIndex: objectIndex];
+		id mapped = nil;
+		if (NO == useBlock)
+		{
+			if([firstObject respondsToSelector: selector])
+			{
+				[invocation setArgument: &secondObject
+				                atIndex: 2];
+				[invocation invokeWithTarget:firstObject];
+				[invocation getReturnValue:&mapped];
+			}
+		}
+		#if defined (__clang__)
+		else
+		{
+			id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
+			mapped = theBlock(firstObject,secondObject);
+		}
+		#endif
+
+		if (nil == mapped)
+		{
+			mapped = nullObject;
+		}
+
+		if (modifiesSelf)
+		{
+			[alreadyMapped addObject: mapped];
+		}
+
+		if (elementHandler != NULL)
+		{
+			elementHandler(*firstCollection,handlerSelector,
+			                         mapped,target,
+			                    firstObject,objectIndex,
+			                    alreadyMapped);
+		}
+		else
+		{
+			if (modifiesSelf)
+			{
+				[(NSMutableArray*)*target replaceObjectAtIndex: objectIndex
+				                                    withObject: mapped];
+			}
+			else
+			{
+				[*target addObject: mapped];
+			}
+		}
+	objectIndex++;
+	}
+
+	if (modifiesSelf)
+	{
+		[alreadyMapped release];
+	}
+}
+
 /*
  * Proxies for higher-order messaging via forwardInvocation.
  */
@@ -412,6 +512,16 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
 	// operates on a modified one.
 	id<NSObject,ETCollection,ETCollectionMutation> originalCollection;
 }
+@end
+
+@interface ETCollectionZipProxy: ETCollectionHOMProxy
+{
+	id<NSObject,ETCollection> secondCollection;
+}
+@end
+
+
+@interface ETCollectionMutationZipProxy: ETCollectionZipProxy
 @end
 
 @implementation ETCollectionHOMProxy
@@ -579,6 +689,46 @@ DEALLOC(
 )
 @end
 
+@implementation ETCollectionZipProxy
+- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+            andCollection: (id<ETCollection,NSObject>) anotherCollection
+{
+	if (nil == (self = [super initWithCollection: aCollection]))
+	{
+		return nil;
+	}
+	secondCollection = [anotherCollection retain];
+	return self;
+}
+
+- (void) forwardInvocation: (NSInvocation *)anInvocation
+{
+	Class mutableClass = [[collection class] mutableClass];
+	id<NSObject,ETCollection,ETCollectionMutation> result = [[[mutableClass alloc] init] autorelease];
+	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&collection,
+	                                                  &secondCollection,
+	                                                  anInvocation,
+	                                                  NO,
+	                                                  &result);
+	[anInvocation setReturnValue: &result];
+}
+
+DEALLOC(
+	[secondCollection release];
+)
+@end
+
+@implementation ETCollectionMutationZipProxy
+- (void) forwardInvocation: (NSInvocation *)anInvocation
+{
+	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&collection,
+	                                            &secondCollection,
+	                                                 anInvocation,
+	                                                           NO,
+	 (id<NSObject,ETCollection,ETCollectionMutation>*)&collection);
+	[anInvocation setReturnValue: &collection];
+}
+@end
 
 @implementation NSArray (ETCollectionHOM)
 #include "ETCollection+HOMMethods.m"

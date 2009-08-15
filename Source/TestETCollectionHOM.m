@@ -36,6 +36,7 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 #import "Macros.h"
+#import "ETCollection.h"
 #import "ETCollection+HOM.h"
 
 #define	INPUTS NSArray *inputArray = A(@"foo",@"bar"); \
@@ -406,6 +407,112 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 			UKTrue([(NSMutableArray*)collection containsObject: anotherAttrObject]);
 			UKFalse([(NSMutableArray*)collection containsObject: attrObject]);
 		}
+	}
+}
+
+- (void) testZippedArray
+{
+	NSArray *first = A(@"foo", @"FOO");
+	NSArray *second = A(@"bar", @"BAR");
+	NSArray *result = (NSArray*)[[first zippedCollectionWithCollection: second] stringByAppendingString: nil];
+	if (2 == [result count])
+	{
+		UKTrue([[result objectAtIndex: 0] isEqual: @"foobar"]);
+		UKTrue([[result objectAtIndex: 1] isEqual: @"FOOBAR"]);
+	}
+	else
+	{
+		UKFail();
+	}
+
+}
+
+- (void) testZippedDictionary
+{
+	INPUTS
+	NSDictionary *result = (NSDictionary*)[[inputDictionary zippedCollectionWithCollection: inputDictionary] stringByAppendingString: nil];
+	UKObjectsEqual([result objectForKey: @"one"],@"foofoo");
+	UKObjectsEqual([result objectForKey: @"two"],@"barbar");
+}
+
+- (void) testZippedSet
+{
+	INPUTS
+	NSSet *result = (NSSet*)[[inputSet zippedCollectionWithCollection: inputSet] stringByAppendingString: nil];
+
+	// FIXME: This test wrongly assumes that sets are ordered. Since the
+	// implementation behaves that way, that's not a problem (yet).
+	UKTrue([result containsObject: @"foofoo"]);
+	UKTrue([result containsObject: @"barbar"]);
+}
+
+- (void) testZippedCountedSet
+{
+	INPUTS
+	NSCountedSet *result = (NSCountedSet*)[[inputCountedSet zippedCollectionWithCollection: inputCountedSet] stringByAppendingString: nil];
+	UKTrue([result containsObject: @"foofoo"]);
+	UKTrue([result containsObject: @"barbar"]);
+	UKIntsEqual(2,[result countForObject: @"foofoo"]);
+	UKIntsEqual(1,[result countForObject: @"barbar"]);
+}
+
+- (void) testZippedIndexSet
+{
+	INPUTS
+	NSIndexSet *result = (NSIndexSet*)[[inputIndexSet zippedCollectionWithCollection: inputIndexSet] addNumber: nil];
+	NSEnumerator *indexEnumerator = [(NSArray*)inputIndexSet objectEnumerator];
+	FOREACHE(inputIndexSet,number,id,indexEnumerator)
+	{
+		UKTrue([result containsIndex: [[(NSNumber*)number twice] unsignedIntValue]]);
+	}
+}
+
+- (void) testZipArray
+{
+	MUTABLEINPUTS
+	[[array zipWithCollection: array] stringByAppendingString: nil];
+	UKTrue([array containsObject: @"foofoo"]);
+	UKTrue([array containsObject: @"barbar"]);
+	UKFalse([array containsObject: @"foo"]);
+	UKFalse([array containsObject: @"bar"]);
+}
+
+- (void) testZipDict
+{
+	MUTABLEINPUTS
+	[[dictionary zipWithCollection: dictionary] stringByAppendingString: nil];
+	UKObjectsEqual(@"foofoo",[dictionary objectForKey: @"one"]);
+	UKObjectsEqual(@"barbar",[dictionary objectForKey: @"two"]);
+}
+
+- (void) testZipSet
+{
+	MUTABLEINPUTS
+	[[set zipWithCollection: set] stringByAppendingString: nil];
+	UKTrue([set containsObject: @"foofoo"]);
+	UKTrue([set containsObject: @"barbar"]);
+	UKFalse([set containsObject: @"foo"]);
+	UKFalse([set containsObject: @"foo"]);
+}
+
+- (void) testZipCountedSet
+{
+	MUTABLEINPUTS
+	[[countedSet zipWithCollection: countedSet] stringByAppendingString: nil];
+	UKIntsEqual(2,[countedSet countForObject: @"foofoo"]);
+	UKIntsEqual(1,[countedSet countForObject: @"barbar"]);
+	UKIntsEqual(0,[countedSet countForObject: @"foo"]);
+	UKIntsEqual(0,[countedSet countForObject: @"bar"]);
+}
+
+- (void) testZipIndexSet
+{
+	MUTABLEINPUTS
+	[[indexSet zipWithCollection: indexSet] addNumber: nil];
+	NSEnumerator *indexEnumerator = [(NSArray*)origIndexSet objectEnumerator];
+	FOREACHE(origIndexSet,number,NSNumber*,indexEnumerator)
+	{
+		UKTrue([indexSet containsIndex: [[number twice] unsignedIntValue]]);
 	}
 }
 @end

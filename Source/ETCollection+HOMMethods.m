@@ -58,6 +58,13 @@
 	                                                    autorelease];
 }
 
+- (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
+{
+	return [[[ETCollectionZipProxy alloc] initWithCollection: self
+	                                           andCollection: aCollection]
+	                                                           autorelease];
+}
+
 /**
  * Helper method to create arrays from collections.
  */
@@ -69,6 +76,7 @@
 	}
 	return [self contentArray];
 }
+
 #if defined (__clang__)
 
 - (id) mappedCollectionWithBlock: (id(^)(id))aBlock
@@ -97,5 +105,17 @@
 - (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock
 {
 	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock, YES);
+}
+
+- (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
+                             andBlock: (id(^)(id,id))aBlock
+{
+	id<NSObject,ETCollection,ETCollectionMutation> target = [[[[self mutableClass] alloc] init] autorelease];
+	ETHOMZipCollectionsAndBlockOrInvocationAndTarget(&self,
+	                                                 &aCollection,
+	                                                 aBlock,
+	                                                 YES,
+	                                                 &target)
+	return target;
 }
 #endif
