@@ -57,7 +57,7 @@
 	                                              andCollection: aCollection] autorelease];
 }
 
-#if defined (__clang__)
+#if __has_feature(blocks)
 - (void) mapWithBlock: (id(^)(id))aBlock
 {
 	ETHOMMapMutableCollectionWithBlockOrInvocationToTarget(

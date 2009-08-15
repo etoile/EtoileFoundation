@@ -77,8 +77,7 @@
 	return [self contentArray];
 }
 
-#if defined (__clang__)
-
+#if __has_feature(blocks)
 - (id) mappedCollectionWithBlock: (id(^)(id))aBlock
 {
 	id<ETMutableCollectionObject> mappedCollection = [[[[self class] mutableClass] alloc] init];

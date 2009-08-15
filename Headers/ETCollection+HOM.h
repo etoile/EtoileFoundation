@@ -33,6 +33,11 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// Compatibility with non-clang compilers:
+#ifndef __has_feature
+#	define __has_feature(x) 0
+#endif
+
 #import <Foundation/Foundation.h>
 @protocol ETCollectionHOM
 
@@ -67,7 +72,7 @@
  */
 - (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection;
 
-#if defined (__clang__)
+#if __has_feature(blocks)
 
 /**
  * Returns a collection with each element of the original collection mapped by
@@ -134,7 +139,7 @@
  */
 - (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection;
 
-#if defined (__clang__)
+#if __has_feature(blocks)
 /**
  * Replaces each element in the collection with the result of applying aBlock to
  * it.

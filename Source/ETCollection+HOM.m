@@ -121,7 +121,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 				[anInvocation getReturnValue:&mapped];
 			}
 		}
-		#if defined (__clang__)
+		#if __has_feature(blocks)
 		else
 		{
 			id(^theBlock)(id) = (id(^)(id))blockOrInvocation;
@@ -234,7 +234,7 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 				[anInvocation getReturnValue: &accumulator];
 			}
 		}
-		#if defined (__clang__)
+		#if __has_feature(blocks)
 		else
 		{
 			id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
@@ -311,7 +311,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 				[anInvocation getReturnValue: &filterResult];
 			}
 		}
-		#if defined (__clang__)
+		#if __has_feature(blocks)
 		else
 		{
 			BOOL(^theBlock)(id) = (BOOL(^)(id))blockOrInvocation;
@@ -439,7 +439,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 				[invocation getReturnValue:&mapped];
 			}
 		}
-		#if defined (__clang__)
+		#if __has_feature(blocks)
 		else
 		{
 			id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
