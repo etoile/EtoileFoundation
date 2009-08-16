@@ -71,7 +71,8 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	id<NSObject,ETCollection,ETCollectionMutation> theTarget = *aTarget;
 	NSInvocation *anInvocation = nil;
-	SEL selector;
+	// Initialised to get rid of spurious warning from GCC
+	SEL selector = @selector(description);
 
 	//Prefetch some stuff to avoid doing it repeatedly in the loop.
 
