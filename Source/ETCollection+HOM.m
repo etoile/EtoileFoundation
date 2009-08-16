@@ -186,7 +186,8 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 {
 	id accumulator = initialValue;
 	NSInvocation *anInvocation = nil;
-	SEL selector;
+	// Initialised to get rid of spurious warning from GCC
+	SEL selector = @selector(description);
 
 	if (NO == useBlock)
 	{
@@ -394,7 +395,8 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 {
 	BOOL modifiesSelf = ((id*)firstCollection == (id*)target);
 	NSInvocation *invocation = nil;
-	SEL selector;
+	// Initialised to get rid of spurious warning from GCC
+	SEL selector = @selector(description);
 	NSArray *contentsFirst = [(NSObject*)*firstCollection collectionArray];
 	NSArray *contentsSecond = [(NSObject*)*secondCollection collectionArray];
 	if (NO == useBlock)
