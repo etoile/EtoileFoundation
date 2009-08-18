@@ -739,28 +739,29 @@ DEALLOC(
 
 @implementation NSDictionary (ETCollectionHOM)
 - (void) placeObject: (id)mappedObject
-        inCollection: (NSMutableDictionary**)aTarget
+        inCollection: (id<ETCollectionMutation>*)aTarget
      insteadOfObject: (id)originalObject
 	         atIndex: (NSUInteger)index
  havingAlreadyMapped: (NSArray*)alreadyMapped
 {
 	//FIXME: May break if -identifierAtIndex: does not return keys in order.
-	[*aTarget setObject: mappedObject forKey: [self identifierAtIndex: index]];
+	[(NSMutableDictionary*)*aTarget setObject: mappedObject
+	                                   forKey: [self identifierAtIndex: index]];
 }
 - (void) placeObject: (id)anObject
              atIndex: (NSUInteger)index
-        inCollection: (NSMutableDictionary**)aTarget
+        inCollection: (id<ETCollectionMutation>*)aTarget
        basedOnFilter: (BOOL)shallInclude
         withSnapshot: (id)snapshot
 {
 	NSString *key = [(NSDictionary*)snapshot identifierAtIndex: index];
 	if (((id)self == (id)*aTarget) && (NO == shallInclude))
 	{
-		[*aTarget removeObjectForKey: key];
+		[(NSMutableDictionary*)*aTarget removeObjectForKey: key];
 	}
 	else if (((id)self != (id)*aTarget) && shallInclude)
 	{
-		[*aTarget setObject: anObject forKey: key];
+		[(NSMutableDictionary*)*aTarget setObject: anObject forKey: key];
 	}
 }
 #include "ETCollection+HOMMethods.m"
@@ -776,14 +777,15 @@ DEALLOC(
 
 @implementation NSMutableArray (ETCollectionHOM)
 - (void) placeObject: (id)mappedObject
-        inCollection: (NSMutableArray**)aTarget
+        inCollection: (id<ETCollectionMutation>*)aTarget
      insteadOfObject: (id)originalObject
 	         atIndex: (NSUInteger)index
  havingAlreadyMapped: (NSArray*)alreadyMapped
 {
 	if ((id)self == (id)*aTarget)
 	{
-		[*aTarget replaceObjectAtIndex: index withObject: mappedObject];
+		[(NSMutableArray*)*aTarget replaceObjectAtIndex: index
+		                                     withObject: mappedObject];
 	}
 	else
 	{
@@ -799,7 +801,7 @@ DEALLOC(
 
 @implementation NSMutableSet (ETCollectionHOM)
 - (void) placeObject: (id)mappedObject
-        inCollection: (NSMutableSet**)aTarget
+        inCollection: (id<ETCollectionMutation>*)aTarget
      insteadOfObject: (id)originalObject
 	         atIndex: (NSUInteger)index
  havingAlreadyMapped: (NSArray*)alreadyMapped
@@ -839,7 +841,7 @@ DEALLOC(
 // NOTE: This methods do nothing more than the default implementation. But they
 // are needed to override the implementation in NSMutableSet.
 - (void) placeObject: (id)mappedObject
-        inCollection: (NSCountedSet**)aTarget
+        inCollection: (id<ETCollectionMutation>*)aTarget
      insteadOfObject: (id)originalObject
 	         atIndex: (NSUInteger)index
  havingAlreadyMapped: (NSArray*)alreadyMapped
@@ -851,26 +853,11 @@ DEALLOC(
 	[*aTarget addObject: mappedObject];
 }
 
-- (void) placeObject: (id)anObject
-             atIndex: (NSUInteger)index
-        inCollection: (NSCountedSet**)aTarget
-       basedOnFilter: (BOOL)shallInclude
-        withSnapshot: (id)snapshot
-{
-	if (((id) self == (id)*aTarget) && NO == shallInclude)
-	{
-		[*aTarget removeObject: anObject];
-	}
-	else if (((id) self != (id)*aTarget) && shallInclude)
-	{
-		[*aTarget addObject: anObject];
-	}
-}
 @end
 
 @implementation NSMutableIndexSet (ETCollectionHOM)
 - (void) placeObject: (id)mappedObject
-        inCollection: (NSCountedSet**)aTarget
+        inCollection: (id<ETCollectionMutation>*)aTarget
      insteadOfObject: (id)originalObject
 	         atIndex: (NSUInteger)index
  havingAlreadyMapped: (NSArray*)alreadyMapped

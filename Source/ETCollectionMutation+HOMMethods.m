@@ -60,7 +60,7 @@
 #if __has_feature(blocks)
 - (void) mapWithBlock: (id(^)(id))aBlock
 {
-	ETHOMMapMutableCollectionWithBlockOrInvocationToTarget(
+	ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	                                         (id<ETCollectionObject>*) &self,
 	                                                                  aBlock,
 	                                                                     YES,
@@ -73,7 +73,7 @@
 }
 
 - (void) collectBlock: (id(^)(id,id))aBlock
-       withCollection: (id<NSObject,ETCollection) aCollection
+       withCollection: (id<NSObject,ETCollection>) aCollection
 {
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,&aCollection,
 	                                                  aBlock,YES,

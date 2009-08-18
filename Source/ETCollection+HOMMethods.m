@@ -109,12 +109,12 @@
 - (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
                              andBlock: (id(^)(id,id))aBlock
 {
-	id<NSObject,ETCollection,ETCollectionMutation> target = [[[[self mutableClass] alloc] init] autorelease];
-	ETHOMZipCollectionsAndBlockOrInvocationAndTarget(&self,
-	                                                 &aCollection,
-	                                                 aBlock,
-	                                                 YES,
-	                                                 &target)
+	id<NSObject,ETCollection,ETCollectionMutation> target = [[[[(id)self mutableClass] alloc] init] autorelease];
+	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,
+	                                                  &aCollection,
+	                                                  aBlock,
+	                                                  YES,
+	                                                  &target);
 	return target;
 }
 #endif

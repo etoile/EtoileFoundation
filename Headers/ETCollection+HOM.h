@@ -105,7 +105,7 @@
  * collection by applying aBlock to all element-pairs from the collection. The
  * operation will stop at the end of the shorter collection.
  */
-- (id) zippedCollectionWithCollection: id<NSObject,ETCollection> aCollection
+- (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
                              andBlock:(id(^)(id,id))aBlock;
 #endif
 @end
@@ -161,10 +161,47 @@
 #endif
 @end
 
+/**
+ * The ETCollectionHOMMapIntegration protocol defines a hook that collections can
+ * use to tie into higher-order messaging if they need special treatment of
+ * their elements.
+ */
+@protocol ETCollectionHOMMapIntegration
+
+/**
+ * This method will be called by the map- and zip-functions.
+ */
+- (void) placeObject: (id)mappedObject
+        inCollection: (id<ETCollectionMutation>*)aTarget
+     insteadOfObject: (id)originalObject
+             atIndex: (NSUInteger)index
+ havingAlreadyMapped: (NSArray*)alreadyMapped;
+@end
+
+/**
+ * The ETCollectionHOMMapIntegration protocol defines a hook that collections can
+ * use to tie into higher-order messaging if they need special treatment of
+ * their elements.
+ */
+@protocol ETCollectionHOMFilterIntegration
+/**
+ * This method will be called by the filter proxy.
+ */
+- (void) placeObject: (id)anObject
+             atIndex: (NSUInteger)index
+        inCollection: (id<ETCollectionMutation>*)aTarget
+       basedOnFilter: (BOOL)shallInclude
+        withSnapshot: (id)snapshot;
+@end
+
+@protocol ETCollectionHOMIntegration <ETCollectionHOMMapIntegration,ETCollectionHOMFilterIntegration>
+@end
+
+
 @interface NSArray (ETCollectionHOM) <ETCollectionHOM>
 @end
 
-@interface NSDictionary (ETCollectionHOM) <ETCollectionHOM>
+@interface NSDictionary (ETCollectionHOM) <ETCollectionHOM,ETCollectionHOMIntegration>
 @end
 
 @interface NSSet (ETCollectionHOM) <ETCollectionHOM>
@@ -173,14 +210,14 @@
 @interface NSIndexSet (ETCollectionHOM) <ETCollectionHOM> 
 @end
 
-@interface NSMutableArray (ETCollectionHOM) <ETCollectionMutationHOM>
+@interface NSMutableArray (ETCollectionHOM) <ETCollectionMutationHOM,ETCollectionHOMMapIntegration>
 @end
 
 @interface NSMutableDictionary (ETCollectionHOM) <ETCollectionMutationHOM>
 @end
 
-@interface NSMutableSet (ETCollectionHOM) <ETCollectionMutationHOM>
+@interface NSMutableSet (ETCollectionHOM) <ETCollectionMutationHOM, ETCollectionHOMMapIntegration>
 @end
 
-@interface NSMutableIndexSet (ETCollectionHOM) <ETCollectionMutationHOM> 
+@interface NSMutableIndexSet (ETCollectionHOM) <ETCollectionMutationHOM, ETCollectionHOMMapIntegration>
 @end
