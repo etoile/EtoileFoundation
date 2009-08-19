@@ -56,6 +56,16 @@
 - (NSArray*) contentsForArrayEquivalent;
 @end
 
+
+/*
+ * Informal protocol for the block invocation methods to invoke Smalltalk and C
+ * blocks transparently.
+ */
+@interface NSObject(ETHOMInvokeBlocks)
+- (id) value: (id)anArgument;
+- (id) value: (id)anArgument value: (id)anotherArgument;
+@end
+
 /*
  * The following functions will be used by both the ETCollectionHOM categories 
  * and the corresponding proxies.
@@ -91,6 +101,15 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 		elementHandler = [(NSObject*)theCollection methodForSelector: handlerSelector];
 	}
 
+	SEL valueSelector = @selector(value:);
+	IMP invokeBlock = NULL;
+	if (YES == useBlock)
+	{
+		if ([blockOrInvocation respondsToSelector: valueSelector])
+		{
+			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
+		}
+	}
 	/*
 	 * For some collections (such as NSDictionary) the index of the object
 	 * needs to be tracked. 
@@ -122,13 +141,10 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 				[anInvocation getReturnValue:&mapped];
 			}
 		}
-		#if __has_feature(blocks)
 		else
 		{
-			id(^theBlock)(id) = (id(^)(id))blockOrInvocation;
-			mapped = theBlock(object);
+			mapped = invokeBlock(blockOrInvocation,valueSelector,object);
 		}
-		#endif
 		if (nil == mapped)
 		{
 			mapped = nullObject;
@@ -196,6 +212,16 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 		selector = [anInvocation selector];
 	}
 
+	SEL valueSelector = @selector(value:value:);
+	IMP invokeBlock = NULL;
+	if (YES == useBlock)
+	{
+		if ([blockOrInvocation respondsToSelector: valueSelector])
+		{
+			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
+		}
+	}
+
 	/*
 	 * For folding we can safely consider only the content as an array.
 	 */
@@ -236,13 +262,10 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 				[anInvocation getReturnValue: &accumulator];
 			}
 		}
-		#if __has_feature(blocks)
 		else
 		{
-			id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
-			accumulator = theBlock(target,argument);
+			accumulator = invokeBlock(blockOrInvocation,valueSelector,target,argument);
 		}
-		#endif
 	}
 
 	[content release];
@@ -414,6 +437,16 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 		elementHandler = [(NSObject*)*firstCollection methodForSelector: handlerSelector];
 	}
 
+	SEL valueSelector = @selector(value:value:);
+	IMP invokeBlock = NULL;
+	if (YES == useBlock)
+	{
+		if ([blockOrInvocation respondsToSelector: valueSelector])
+		{
+			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
+		}
+	}
+
 	NSMutableArray *alreadyMapped = nil;
 	if (modifiesSelf)
 	{
@@ -442,13 +475,10 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 				[invocation getReturnValue:&mapped];
 			}
 		}
-		#if __has_feature(blocks)
 		else
 		{
-			id(^theBlock)(id,id) = (id(^)(id,id))blockOrInvocation;
-			mapped = theBlock(firstObject,secondObject);
+			mapped = invokeBlock(blockOrInvocation,valueSelector,firstObject,secondObject);
 		}
-		#endif
 
 		if (nil == mapped)
 		{

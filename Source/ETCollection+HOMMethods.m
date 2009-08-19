@@ -77,8 +77,7 @@
 	return [self contentArray];
 }
 
-#if __has_feature(blocks)
-- (id) mappedCollectionWithBlock: (id(^)(id))aBlock
+- (id) mappedCollectionWithBlock: (id)aBlock
 {
 	id<ETMutableCollectionObject> mappedCollection = [[[[self class] mutableClass] alloc] init];
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
@@ -88,26 +87,21 @@
 	                                                          &mappedCollection);
 	return [mappedCollection autorelease];
 }
-- (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock 
+- (id) injectObject: (id)initialValue intoBlock: (id)aBlock
           andInvert: (BOOL)shallInvert
 {
 
 	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
 	                            &self, aBlock, YES, initialValue, shallInvert);
 }
-- (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock
+- (id) injectObject: (id)initialValue intoBlock: (id)aBlock
 {
 	return [self injectObject: initialValue intoBlock: aBlock 
                         andInvert: NO];
 }
 
-- (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock
-{
-	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock, YES);
-}
-
 - (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
-                             andBlock: (id(^)(id,id))aBlock
+                             andBlock: (id)aBlock
 {
 	id<NSObject,ETCollection,ETCollectionMutation> target = [[[[(id)self mutableClass] alloc] init] autorelease];
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,
@@ -116,5 +110,11 @@
 	                                                  YES,
 	                                                  &target);
 	return target;
+}
+
+#if __has_feature(blocks)
+- (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock
+{
+	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock, YES);
 }
 #endif

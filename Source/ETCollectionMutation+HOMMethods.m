@@ -57,8 +57,7 @@
 	                                              andCollection: aCollection] autorelease];
 }
 
-#if __has_feature(blocks)
-- (void) mapWithBlock: (id(^)(id))aBlock
+- (void) mapWithBlock: (id)aBlock
 {
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	                                         (id<ETCollectionObject>*) &self,
@@ -67,16 +66,17 @@
 	                                 (id<ETMutableCollectionObject>*) &self);
 }
 
-- (void) filterWithBlock: (BOOL(^)(id))aBlock
-{
-	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock,YES);
-}
-
-- (void) collectBlock: (id(^)(id,id))aBlock
+- (void) collectBlock: (id)aBlock
        withCollection: (id<NSObject,ETCollection>) aCollection
 {
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,&aCollection,
 	                                                  aBlock,YES,
 	                                                  &self);
+}
+
+#if __has_feature(blocks)
+- (void) filterWithBlock: (BOOL(^)(id))aBlock
+{
+	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock,YES);
 }
 #endif

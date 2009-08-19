@@ -72,41 +72,41 @@
  */
 - (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection;
 
-#if __has_feature(blocks)
-
 /**
  * Returns a collection with each element of the original collection mapped by
- * applying aBlock.
+ * applying aBlock where aBlock takes one argument of type id and returns id.
  */
-- (id) mappedCollectionWithBlock: (id(^)(id))aBlock;
-
-/**
- * Returns a collection containing all elements of the original collection that
- * respond with YES to aBlock.
- */
-- (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock;
+- (id) mappedCollectionWithBlock: (id)aBlock;
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
  * its first and each element as its second argument. If shallInvert is set to
  * YES, the folding takes place from right to left.
  */
-- (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock
+- (id) injectObject: (id)initialValue intoBlock: (id)aBlock
           andInvert: (BOOL)shallInvert;
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
  * its first and each element as its second argument.
  */
-- (id) injectObject: (id)initialValue intoBlock: (id(^)(id,id))aBlock;
+- (id) injectObject: (id)initialValue intoBlock: (id)aBlock;
 
 /**
  * Coalesces the receiver and the collection named by aCollection into one
- * collection by applying aBlock to all element-pairs from the collection. The
- * operation will stop at the end of the shorter collection.
+ * collection by applying aBlock (where aBlock takes two arguments of type id)
+ * to all element-pairs from the collection. The operation will stop at the end
+ * of the shorter collection.
  */
 - (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
-                             andBlock:(id(^)(id,id))aBlock;
+                             andBlock:(id)aBlock;
+
+#if __has_feature(blocks)
+/**
+ * Returns a collection containing all elements of the original collection that
+ * respond with YES to aBlock.
+ */
+- (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
@@ -139,25 +139,26 @@
  */
 - (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection;
 
-#if __has_feature(blocks)
 /**
  * Replaces each element in the collection with the result of applying aBlock to
- * it.
+ * it. The blocks takes one argument of type id.
  */
-- (void) mapWithBlock: (id(^)(id))aBlock;
+- (void) mapWithBlock: (id)aBlock;
 
+/**
+ * Coalesces the second collection into the first by applying aBlock (where
+ * aBlock takes two arguments of type id) to all element pairs. Processing will
+ * stop at the end of the shorter collection.
+ */
+- (void) collectBlock: (id)aBlock
+       withCollection: (id<NSObject,ETCollection>)aCollection;
+
+#if __has_feature(blocks)
 /**
  * Removes all elements from the collection for which the aBlock does not return
  * YES.
  */
 - (void) filterWithBlock: (BOOL(^)(id))aBlock;
-
-/**
- * Coalesces the second collection into the first by applying aBlock to all
- * element pairs. Processing will stop at the end of the shorter collection.
- */
-- (void) collectBlock: (id(^)(id,id))aBlock
-       withCollection: (id<NSObject,ETCollection>)aCollection;
 #endif
 @end
 
