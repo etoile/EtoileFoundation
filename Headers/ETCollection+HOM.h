@@ -39,6 +39,9 @@
 #endif
 
 #import <Foundation/Foundation.h>
+
+@protocol ETCollection, ETCollectionMutation;
+
 @protocol ETCollectionHOM
 
 /**
