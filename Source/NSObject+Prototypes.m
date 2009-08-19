@@ -331,7 +331,9 @@ static void hiddenClassTransform(id obj)
  * Module load function, run when the module is loaded.  Initialises the global
  * data.
  */
-static void __attribute__((constructor))load(void)
+@interface ETPrototypeLoaderStub : NSObject @end
+@implementation ETPrototypeLoaderStub
++ (void)load
 {
 	NULL_OBJECT_PLACEHOLDER = [[NSObject alloc] init];
 	// Set up the method list.
@@ -358,6 +360,7 @@ static void __attribute__((constructor))load(void)
 	defaultClassMethods.method_list[0].method_imp = 
 		(IMP)hiddenClassAllocWithZone;
 }
+@end
 
 static id blockTrampoline(id self, SEL _cmd, ...)
 {
