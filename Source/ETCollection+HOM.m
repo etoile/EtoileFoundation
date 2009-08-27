@@ -77,6 +77,11 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
             id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
                                                        BOOL isArrayTarget)
 {
+	if ([*aCollection isEmpty])
+	{
+		return;
+	}
+
 	BOOL modifiesSelf = ((id*)aCollection == (id*)aTarget);
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	id<NSObject,ETCollection,ETCollectionMutation> theTarget = *aTarget;
@@ -201,6 +206,11 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
                                                              id initialValue,
                                                             BOOL shallInvert)
 {
+	if ([*aCollection isEmpty])
+	{
+		return initialValue;
+	}
+
 	id accumulator = initialValue;
 	NSInvocation *anInvocation = nil;
 	// Initialised to get rid of spurious warning from GCC
@@ -279,6 +289,11 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
                          id<NSObject,ETCollection,ETCollectionMutation> *target,
                                              id<NSObject,ETCollection> *original)
 {
+	if ([*aCollection isEmpty])
+	{
+		return;
+	}
+
 	id<ETCollectionObject> theCollection = (id<ETCollectionObject>)*aCollection;
 	id<ETMutableCollectionObject> theTarget = (id<ETMutableCollectionObject>)*target;
 	NSInvocation *anInvocation;
@@ -417,6 +432,11 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
                                                        BOOL useBlock,
               id<NSObject,ETCollection,ETCollectionMutation> *target)
 {
+	if ([*firstCollection isEmpty])
+	{
+		return;
+	}
+
 	BOOL modifiesSelf = ((id*)firstCollection == (id*)target);
 	NSInvocation *invocation = nil;
 	// Initialised to get rid of spurious warning from GCC
@@ -567,6 +587,11 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 
 - (BOOL) respondsToSelector: (SEL)aSelector
 {
+	if ([collection isEmpty])
+	{
+		return YES;
+	}
+
 	NSEnumerator *collectionEnumerator;
 	collectionEnumerator = [(NSArray*)collection objectEnumerator];
 	FOREACHE(collection,object,id,collectionEnumerator)
@@ -578,8 +603,31 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	}
 	return [super respondsToSelector: aSelector];
 }
+
+- (NSMethodSignature *) primitiveMethodSignatureForSelector: (SEL)aSelector
+{
+	return [super methodSignatureForSelector: aSelector];
+}
+
+/* You can override this method to return a custom method signature as 
+ETCollectionMutationFilterProxy does.
+You can call -primitiveMethodSignatureForSelector: in the overriden version, but 
+not -[super methodSignatureForSelector:]. */
+- (NSMethodSignature *) methodSignatureForEmptyCollection
+{
+	/* 
+	 * Returns any arbitrary NSObject selector whose return type is id.
+	 */
+	return [super methodSignatureForSelector: @selector(self)];
+}
+
 - (id) methodSignatureForSelector: (SEL)aSelector
 {
+	if ([collection isEmpty])
+	{
+		return [self methodSignatureForEmptyCollection];
+	}
+
 	/*
 	 * The collection is cast to NSArray because even though all classes
 	 * adopting ETCollection provide -objectEnumerator this is not declared.
@@ -648,8 +696,11 @@ DEALLOC(
 - (void) forwardInvocation:(NSInvocation*)anInvocation
 {
 
-	id initialValue;
-	[anInvocation getArgument: &initialValue atIndex: 2];
+	id initialValue = nil;
+	if ([collection isEmpty] == NO)
+	{
+		[anInvocation getArgument: &initialValue atIndex: 2];
+	}
 	id foldedValue =
 	ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(&collection,
 	                                                                 anInvocation,
@@ -681,6 +732,19 @@ DEALLOC(
 	}
 	originalCollection = [theOriginal retain];
 	return self;
+}
+
+- (NSMethodSignature *) methodSignatureForEmptyCollection
+{
+	/* 
+	 * Returns any arbitrary NSObject selector whose return type is BOOL.
+	 * Even if we have two chained messages like 
+	 * [[[collection filter] name] isEqual: @"blabla"], the return type should 
+	 * be BOOL since we don't need to create an intermediate proxy (see the 'id' 
+	 * return type case in -forwardInvocation:) when the receiver collection is 
+	 * empty.
+	 */
+	return [super primitiveMethodSignatureForSelector: @selector(isProxy)];
 }
 
 - (void) forwardInvocation:(NSInvocation*)anInvocation

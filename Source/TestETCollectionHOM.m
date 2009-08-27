@@ -161,6 +161,15 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 @implementation TestETCollectionHOM
 
+- (void) testMappedEmptyCollection
+{
+	UKTrue([(id)[[[NSArray array] mappedCollection] uppercaseString] isEmpty]);
+	UKTrue([(id)[[[NSSet set] mappedCollection] uppercaseString] isEmpty]);
+	UKTrue([(id)[[[NSCountedSet set] mappedCollection] uppercaseString] isEmpty]);
+	UKTrue([(id)[[[NSIndexSet indexSet] mappedCollection] twice] isEmpty]);
+	UKTrue([(id)[[[NSDictionary dictionary] mappedCollection] uppercaseString] isEmpty]);
+}
+
 - (void) testMappedArray
 {
 	INPUTS
@@ -218,6 +227,15 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 	UKObjectsEqual([mappedDictionary objectForKey: @"one"],@"FOO");
 	UKObjectsEqual([mappedDictionary objectForKey: @"two"],@"BAR");
+}
+
+- (void) testMapEmptyCollection
+{
+	UKTrue([(id)[[[NSMutableArray array] map] uppercaseString] isEmpty]);
+	UKTrue([(id)[[[NSMutableSet set] map] uppercaseString] isEmpty]);
+	UKTrue([(id)[[[NSCountedSet set] map] uppercaseString] isEmpty]);
+	UKTrue([(id)[[[NSMutableIndexSet indexSet] map] twice] isEmpty]);
+	UKTrue([(id)[[[NSMutableDictionary dictionary] map] uppercaseString] isEmpty]);
 }
 
 - (void) testMapArray
@@ -284,6 +302,15 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKIntsNotEqual(0,[array count]);
 }
 
+- (void) testFoldEmptyCollection
+{
+	UKNil([[[NSMutableArray array] leftFold] stringByAppendingString: @"foo"]);
+	UKNil([[[NSMutableSet set] leftFold] stringByAppendingString: @"foo"]);
+	UKNil([[[NSCountedSet set] leftFold] stringByAppendingString: @"foo"]);
+	UKNil([[[NSMutableIndexSet indexSet] leftFold] addNumber: [NSNumber numberWithInt: 0]]);
+	UKNil([[[NSMutableDictionary dictionary] leftFold] stringByAppendingString: @"foo"]);
+}
+
 - (void) testFoldArray;
 {
 	INPUTS
@@ -324,6 +351,16 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	INPUTS
 	UKIntsEqual(10,[(NSNumber*)[[inputIndexSet leftFold] addNumber: 
 	                   [NSNumber numberWithInt: 0]] intValue]);
+}
+
+- (void) testFilterEmptyCollection
+{
+	UKTrue([[[NSMutableArray array] filter] isEqualToString: @"foo"]);
+	UKTrue([[[NSMutableSet set] filter] isEqualToString: @"foo"]);
+	UKTrue([[[NSCountedSet set] filter] isEqualToString: @"foo"]);
+	NSNumber *nb = [NSNumber numberWithInt: 2];
+	UKTrue([[[NSMutableIndexSet indexSet] filter] isEqualToNumber: nb]);
+	UKTrue([[[NSMutableDictionary dictionary] filter] isEqualToString: @"foo"]);
 }
 
 - (void) testFilterArraysAndSets
@@ -410,6 +447,22 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	}
 }
 
+- (void) testZippedEmptyCollection
+{
+	NSArray *second = A(@"bar", @"BAR");
+
+	UKTrue([(id)[[[NSMutableArray array] zippedCollectionWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+	UKTrue([(id)[[[NSMutableSet set] zippedCollectionWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+	UKTrue([(id)[[[NSCountedSet set] zippedCollectionWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+	UKTrue([(id)[[[NSMutableIndexSet indexSet] zippedCollectionWithCollection: second] 
+		addNumber: [NSNumber numberWithInt: 0]] isEmpty]);
+	UKTrue([(id)[[[NSMutableDictionary dictionary] zippedCollectionWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+}
+
 - (void) testZippedArray
 {
 	NSArray *first = A(@"foo", @"FOO");
@@ -465,6 +518,22 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	{
 		UKTrue([result containsIndex: [[(NSNumber*)number twice] unsignedIntValue]]);
 	}
+}
+
+- (void) testZipEmptyCollection
+{
+	NSArray *second = A(@"bar", @"BAR");
+
+	UKTrue([(id)[[[NSMutableArray array] zipWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+	UKTrue([(id)[[[NSMutableSet set] zipWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+	UKTrue([(id)[[[NSCountedSet set] zipWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
+	UKTrue([(id)[[[NSMutableIndexSet indexSet] zipWithCollection: second] 
+		addNumber: [NSNumber numberWithInt: 0]] isEmpty]);
+	UKTrue([(id)[[[NSMutableDictionary dictionary] zipWithCollection: second] 
+		stringByAppendingString: @"foo"] isEmpty]);
 }
 
 - (void) testZipArray
