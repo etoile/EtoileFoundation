@@ -150,21 +150,17 @@ protocol methods implemented in NSSet(ETCollection). */
 - (void) removeObject: (id)object;
 @end
 
-/* Collection Matching */
+/* NSArray Extensions */
 
-@interface NSArray (CollectionMatching)
+@interface NSArray (Etoile)
 
-- (id) firstObject; // FIXME: Move somewhere else
+- (id) firstObject;
+- (NSArray *) arrayByRemovingObjectsInArray: (NSArray *)anArray;
 
-/* Key Value Matching */
+/* Deprecated (DO NOT USE, WILL BE REMOVED LATER) */
 
 - (NSArray *) objectsMatchingValue: (id)value forKey: (NSString *)key;
 - (id) firstObjectMatchingValue: (id)value forKey: (NSString *)key;
-
-/* Predicate Matching */
-
-- (NSArray *) objectsMatchingPredicate: (NSPredicate *)predicate;
-- (id) firstObjectMatchingPredicate: (NSPredicate *)predicate;
 
 @end
 

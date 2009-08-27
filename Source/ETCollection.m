@@ -347,16 +347,12 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 @end
 
 
-/* Collection Matching 
+/* NSArray Extensions */
 
-   NOTE: Quite useful until we have a better HOM-like API...
-   In future, we should have object filtering like select, detect, map etc. 
-   declared by an ETFilteringCollection protocol which adopts ETCollection. */
-
-@implementation NSArray (CollectionMatching)
+@implementation NSArray (Etoile)
 
 /** Returns the first object in the array, otherwise returns nil if the array is
-	empty. */
+empty. */
 - (id) firstObject
 {
 	if ([self isEmpty])
@@ -365,7 +361,17 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 	return [self objectAtIndex: 0];
 }
 
-// FIXME: Optimize a bit probably
+/** Returns a new array by copying the receiver and removing the objects equal 
+to those contained in the given array. */
+- (NSArray *) arrayByRemovingObjectsInArray: (NSArray *)anArray
+{
+	NSMutableArray *mutableArray = [NSMutableArray arrayWithArray: self];
+	[mutableArray removeObjectsInArray: anArray];
+	/* For safety we return an immutable array */
+	return [NSArray arrayWithArray: mutableArray];
+}
+
+/** Deprecated. */
 - (NSArray *) objectsMatchingValue: (id)value forKey: (NSString *)key
 {
     NSMutableArray *result = [NSMutableArray array];
@@ -388,22 +394,10 @@ NSCountedSet is always mutable and has not immutable equivalent. */
     return result;
 }
 
+/** Deprecated. */
 - (id) firstObjectMatchingValue: (id)value forKey: (NSString *)key
 {
     return [[self objectsMatchingValue: value forKey: key] objectAtIndex: 0];
-}
-
-// NOTE: Not sure the next two methods are really interesting but it makes API
-// a bit more consistent.
-
-- (NSArray *) objectsMatchingPredicate: (NSPredicate *)predicate;
-{
-	return [self filteredArrayUsingPredicate: predicate];
-}
-
-- (id) firstObjectMatchingPredicate: (NSPredicate *)predicate
-{
-	return [[self filteredArrayUsingPredicate: predicate] objectAtIndex: 0];	
 }
 
 @end
