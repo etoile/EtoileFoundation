@@ -10,6 +10,8 @@
  */
 #define SUPERINIT if((self = [super init]) == nil) {return nil;}
 /**
+ * Deprecated. You should use the designated initializer rule.
+ * 
  * Simple macro for safely initialising the current class.
  */
 #define SELFINIT if((self = [self init]) == nil) {return nil;}
