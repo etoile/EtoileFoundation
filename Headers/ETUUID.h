@@ -47,7 +47,7 @@
 /**
  * Returns a 128-bit binary value representation of the receiver.
  */
-- (unsigned char *) UUIDValue;
+- (const unsigned char *) UUIDValue;
 
 @end
 
