@@ -40,7 +40,8 @@
                   parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey
 {
-	SELFINIT
+	SUPERINIT
+	value = [self retain];
 	[aParser setContentHandler:self];
 	[self setParser:aParser];
 	[self setParent:aParent];
@@ -50,9 +51,9 @@
 
 - (id) init
 {
-	SUPERINIT;
-	value = [self retain];
-	return self;
+	return [self initWithXMLParser: nil
+	                        parent: nil
+	                           key: nil];
 }
 
 - (void) setParser: (id)XMLParser
