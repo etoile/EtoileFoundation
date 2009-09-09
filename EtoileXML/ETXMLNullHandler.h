@@ -32,7 +32,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <EtoileXML/ETXMLParser.h>
+#import <EtoileXML/ETXMLParserDelegate.h>
 
 /**
  * The ETXMLNullHandler class serves two purposes.  First, it is used when

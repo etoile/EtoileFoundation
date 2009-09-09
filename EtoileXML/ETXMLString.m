@@ -32,6 +32,7 @@
  */
 
 #import "ETXMLString.h"
+#import "ETXMLParser.h"
 #import "Macros.h"
 
 @implementation ETXMLString

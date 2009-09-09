@@ -32,6 +32,7 @@
  */
 
 #import "ETXMLNode.h"
+#import "ETXMLParser.h"
 #import "Macros.h"
 #include <stdio.h>
 

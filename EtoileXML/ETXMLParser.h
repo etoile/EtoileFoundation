@@ -32,7 +32,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <EtoileXML/ETXMLParserDelegate.h>
+
+@protocol ETXMLWriting;
 
 /**
  * An XML stream parse class.  This parser is statefull, and will cache any 

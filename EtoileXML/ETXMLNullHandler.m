@@ -32,6 +32,7 @@
  */
 
 #import "ETXMLNullHandler.h"
+#import "ETXMLParser.h"
 #import "Macros.h"
 
 @implementation ETXMLNullHandler

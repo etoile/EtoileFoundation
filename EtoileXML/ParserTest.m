@@ -33,6 +33,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ETXMLParser.h"
+#import "ETXMLParserDelegate.h"
 
 @interface ParserTest :NSObject <ETXMLParserDelegate>
 @end

@@ -32,6 +32,7 @@
  */
 
 #import "ETXMLXHTML-IMParser.h"
+#import "ETXMLParser.h"
 #import "Macros.h"
 
 #define TRIM(x) [x stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
