@@ -6,9 +6,14 @@ ifeq ($(USE_SSL_PKG), yes)
 SSL_CFLAGS = $(shell pkg-config --cflags openssl)
 endif
 
-libEtoileFoundation_CPPFLAGS += -D_GNU_SOURCE $(SSL_CFLAGS) 
+libEtoileFoundation_CPPFLAGS += -D_GNU_SOURCE $(SSL_CFLAGS)
 libEtoileFoundation_OBJCFLAGS += -std=c99 
 libEtoileFoundation_CFLAGS += -std=c99 $(SSL_CFLAGS)
+
+# Temporary hack to discard -Werror until the tests are cleaned
+ifeq ($(test), yes)
+	ADDITIONAL_OBJCFLAGS = -Wno-import
+endif
 
 #
 # Class files
