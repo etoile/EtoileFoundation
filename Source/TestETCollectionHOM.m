@@ -161,6 +161,27 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 @implementation TestETCollectionHOM
 
+/* -displayName is is defined in an NSObject category */
+- (void) testDisplayNameAsArgumentMessage
+{
+	NSSet *inputSet = S(@"bla", @"bli", [NSNumber numberWithInt: 5]);
+	NSSet *mappedSet = (NSSet *)[[inputSet mappedCollection] displayName];
+	
+	UKTrue([mappedSet containsObject: @"bla"]);
+	UKTrue([mappedSet containsObject: @"bli"]);
+	UKTrue([mappedSet containsObject: @"5"]);
+}
+
+/* -class is defined on both NSObject and NSProxy */
+- (void) testClassAsArgumentMessage
+{
+	NSSet *inputSet = S([NSAffineTransform transform], [NSAffineTransform transform], [NSNull null]);
+	NSSet *mappedSet = (NSSet *)[[inputSet mappedCollection] class];
+	
+	UKTrue([mappedSet containsObject: [NSAffineTransform class]]);
+	UKTrue([mappedSet containsObject: [NSNull class]]);
+}
+
 - (void) testMappedEmptyCollection
 {
 	UKTrue([(id)[[[NSArray array] mappedCollection] uppercaseString] isEmpty]);

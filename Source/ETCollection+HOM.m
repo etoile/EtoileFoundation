@@ -35,6 +35,7 @@
 #import <Foundation/Foundation.h>
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
+#import "NSInvocation+Etoile.h"
 #import "NSObject+Etoile.h"
 #import "Macros.h"
 
@@ -541,7 +542,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 /*
  * Proxies for higher-order messaging via forwardInvocation.
  */
-@interface ETCollectionHOMProxy: NSObject
+@interface ETCollectionHOMProxy: NSProxy
 {
 	id<NSObject,ETCollection> collection;
 }
@@ -580,7 +581,6 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 @implementation ETCollectionHOMProxy
 - (id) initWithCollection:(id<ETCollection,NSObject>) aCollection
 {
-	SUPERINIT;
 	collection = [aCollection retain];
 	return self;
 }
@@ -601,12 +601,12 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 			return YES;
 		}
 	}
-	return [super respondsToSelector: aSelector];
+	return [NSObject instancesRespondToSelector: aSelector];
 }
 
 - (NSMethodSignature *) primitiveMethodSignatureForSelector: (SEL)aSelector
 {
-	return [super methodSignatureForSelector: aSelector];
+	return [NSObject instanceMethodSignatureForSelector: aSelector];
 }
 
 /* You can override this method to return a custom method signature as 
@@ -618,7 +618,7 @@ not -[super methodSignatureForSelector:]. */
 	/* 
 	 * Returns any arbitrary NSObject selector whose return type is id.
 	 */
-	return [super methodSignatureForSelector: @selector(self)];
+	return [NSObject instanceMethodSignatureForSelector: @selector(self)];
 }
 
 - (id) methodSignatureForSelector: (SEL)aSelector
@@ -642,7 +642,17 @@ not -[super methodSignatureForSelector:]. */
 			return [object methodSignatureForSelector:aSelector];
 		}
 	}
-	return [super methodSignatureForSelector:aSelector];
+	return [NSObject instanceMethodSignatureForSelector:aSelector];
+}
+
+- (Class) class
+{
+	NSInvocation *inv = [NSInvocation invocationWithTarget: self selector: _cmd arguments: nil];
+	Class retValue = Nil;
+
+	[self forwardInvocation: inv];
+	[inv getReturnValue: &retValue];
+	return retValue;
 }
 
 DEALLOC(
