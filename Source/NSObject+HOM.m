@@ -21,7 +21,14 @@
 @end
 
 @implementation ETIfRespondsProxy
-
+- (id) forwardingTargetForSelector: (SEL)aSelector
+{
+	if ([object respondsToSelector: aSelector])
+	{
+		return object;
+	}
+	return nil;
+}
 - (id) initWithObject: (id)anObject
 {
 	ASSIGN(object, anObject);
