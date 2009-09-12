@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef GNUSTEP
+#import "../Source/GNUstep.h"
+#endif
 #import "../Headers/Macros.h"
 
 #define AUTORELEASED(x) [[[x alloc] init] autorelease]
