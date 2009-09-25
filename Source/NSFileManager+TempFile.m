@@ -1,6 +1,21 @@
 #import "NSFileManager+TempFile.h"
 #include <unistd.h>
 #include <string.h>
+#if defined(__sun)
+/* For mkdtemp on Solaris versions older than Solaris Express 4/06 */
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+char *mkdtemp(char *pattern)
+{
+	if (!mktemp(pattern) || mkdir(pattern, 0700))
+	{
+		return NULL;
+	}
+	return pattern;
+}
+#endif
 
 static char * makeTempPattern(void)
 {

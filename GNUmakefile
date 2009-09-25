@@ -7,19 +7,26 @@ SUBPROJECTS = EtoileThread EtoileXML
 endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
-	USE_SSL_PKG ?= no
+  USE_SSL_PKG ?= no
 endif
 
 ifneq ($(findstring darwin, $(GNUSTEP_HOST_OS)),)
-	USE_SSL_PKG ?= no
+  USE_SSL_PKG ?= no
 endif
 
 ifneq ($(findstring linux, $(GNUSTEP_HOST_OS)),)
-	USE_SSL_PKG ?= yes
+  USE_SSL_PKG ?= yes
 endif
 
 ifneq ($(findstring netbsd, $(GNUSTEP_HOST_OS)),)
-	USE_SSL_PKG ?= no
+  USE_SSL_PKG ?= no
+endif
+
+# pkg-config --libs openssl returns no result on Solaris
+ifneq ($(findstring solaris, $(GNUSTEP_HOST_OS)),)
+  USE_SSL_PKG ?= no
+  ADDITIONAL_INCLUDE_DIRS += -I/usr/local/ssl/include
+  ADDITIONAL_LIB_DIRS += -L/usr/local/ssl/lib
 endif
 
 export USE_SSL_PKG
