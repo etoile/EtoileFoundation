@@ -32,13 +32,15 @@
 #import <Foundation/NSException.h>
 
 #ifndef GNUSTEP
-	#ifdef AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER
-		#define NEW_EXCEPTION_MODEL
-	#endif
 	#import <objc/objc-runtime.h>
 #else
 	#import <GNUstepBase/GSObjCRuntime.h>
 #endif 
+
+@interface NSObject (Application)
++ (id) sharedApplication;
+- (void) setUp;
+@end
 
 
 @implementation UKRunner
@@ -473,7 +475,12 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 	if ([principalClass isKindOfClass: appClass])
 		appClass = principalClass;
 
-	[appClass performSelector: @selector(sharedApplication)];
+	id app = [appClass sharedApplication];
+
+	if ([app respondsToSelector: @selector(setUp)])
+	{
+		[app setUp];
+	}
 }
 
 @end
