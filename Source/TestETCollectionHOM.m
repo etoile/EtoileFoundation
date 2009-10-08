@@ -105,6 +105,17 @@
 {
 	return nil;
 }
+- (NSString*) stringByAppendingString: (NSString*) firstString
+                            andString: (NSString*)secondString
+{
+	return [[self stringByAppendingString: firstString] stringByAppendingString: secondString];
+}
+
+- (BOOL) isEqualToString: (NSString *) firstString
+               andString: (NSString *) secondString
+{
+	return [self isEqualToString: [firstString stringByAppendingString: secondString]];
+}
 @end
 
 @interface TestAttributedObject: NSObject
@@ -604,5 +615,187 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	{
 		UKTrue([indexSet containsIndex: [[number twice] unsignedIntValue]]);
 	}
+}
+
+- (void) testMappedArrayWithEach
+{
+	NSArray *first = A(@"foo", @"FOO");
+	NSArray *second = A(@"bar", @"BAR");
+	NSArray *result = (NSArray*)[[first mappedCollection] stringByAppendingString: [second each]];
+	if (4 == [result count])
+	{
+		UKTrue([[result objectAtIndex: 0] isEqual: @"foobar"]);
+		UKTrue([[result objectAtIndex: 1] isEqual: @"fooBAR"]);
+		UKTrue([[result objectAtIndex: 2] isEqual: @"FOObar"]);
+		UKTrue([[result objectAtIndex: 3] isEqual: @"FOOBAR"]);
+	}
+	else
+	{
+		UKFail();
+	}
+}
+
+- (void) testMapArrayWithEach
+{
+	NSMutableArray *first = [[NSMutableArray alloc] initWithArray: A(@"foo",@"FOO")];
+	NSArray *second = A(@"bar",@"BAR");
+	[[first map] stringByAppendingString: [second each]];
+	if (4 == [first count])
+	{
+		UKTrue([[first objectAtIndex: 0] isEqual: @"foobar"]);
+		UKTrue([[first objectAtIndex: 1] isEqual: @"FOObar"]);
+		UKTrue([[first objectAtIndex: 2] isEqual: @"fooBAR"]);
+		UKTrue([[first objectAtIndex: 3] isEqual: @"FOOBAR"]);
+	}
+	else
+	{
+		UKFail();
+	}
+}
+
+- (void) testMappedDictionaryWithEach
+{
+	NSDictionary *first = D(@"foo",@"one",@"FOO",@"two");
+	NSArray *second = A(@"bar",@"BAR");
+	NSDictionary *result = (NSDictionary*)[[first mappedCollection] stringByAppendingString: [second each]];
+	NSArray *expected = A(@"fooBAR",@"FOObar",@"FOOBAR",@"foobar");
+	UKIntsEqual(4,[result count]);
+	FOREACHI(result,object)
+	{
+		UKTrue([expected containsObject: object]);
+	}
+}
+
+// Test lots of elements here because doing this correctly is tricky.
+- (void) testMapDictionaryWithEach
+{
+	NSMutableDictionary *first = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"foo",@"one",@"FOO",@"two",@"Foo",@"three",nil];
+	NSArray *second = A(@"bar",@"BAR",@"Bar",@"BAr");
+	[[first map] stringByAppendingString: [second each]];
+	NSArray *expected = A(@"FOOBar", @"FOOBAR", @"fooBAR", @"FOOBAr",
+	@"fooBAr", @"FooBAr", @"FooBAR", @"Foobar", @"foobar", @"FOObar",
+	@"fooBar",  @"FooBar");
+	UKIntsEqual(12,[first count]);
+	FOREACHI(first,object)
+	{
+		UKTrue([expected containsObject: object]);
+	}
+}
+
+- (void) testMappedSetWithEach
+{
+	NSSet *first = S(@"foo",@"FOO");
+	NSArray *second = A(@"bar",@"BAR");
+	NSSet *result = (NSSet*)[[first mappedCollection] stringByAppendingString: [second each]];
+	UKIntsEqual(4,[result count]);
+	NSArray *expected = A(@"fooBAR",@"FOObar",@"FOOBAR",@"foobar");
+	FOREACHI(result,object)
+	{
+		UKTrue([expected containsObject: object]);
+	}
+}
+
+- (void) testMapSetWithEach
+{
+	NSMutableSet *first = [NSMutableSet setWithObjects: @"foo", @"FOO", nil];
+	NSArray *second = A(@"bar",@"BAR");
+	[[first map] stringByAppendingString: [second each]];
+	UKIntsEqual(4,[first count]);
+	NSArray *expected = A(@"fooBAR",@"FOObar",@"FOOBAR",@"foobar");
+	FOREACHI(first,object)
+	{
+		UKTrue([expected containsObject: object]);
+	}
+
+}
+
+- (void) testMappedCountedSetWithEach
+{
+	NSCountedSet *first = [NSCountedSet setWithObjects: @"foo", @"FOO", nil];
+	[first addObject: @"foo"];
+	NSArray *second = A(@"bar",@"BAR");
+	NSCountedSet *result = (NSCountedSet*)[[first mappedCollection] stringByAppendingString: [second each]];
+	UKIntsEqual(2,[result countForObject: @"foobar"]);
+	UKIntsEqual(2,[result countForObject: @"fooBAR"]);
+	UKIntsEqual(1,[result countForObject: @"FOObar"]);
+	UKIntsEqual(1,[result countForObject: @"FOOBAR"]);
+	UKIntsEqual(0,[result countForObject: @"foo"]);
+	UKIntsEqual(0,[result countForObject: @"FOO"]);
+}
+- (void) testMapCountedSetWithEach
+{
+	NSCountedSet *first = [NSCountedSet setWithObjects: @"foo", @"FOO", nil];
+	[first addObject: @"foo"];
+	NSArray *second = A(@"bar",@"BAR");
+	[[first map] stringByAppendingString: [second each]];
+	UKIntsEqual(2,[first countForObject: @"foobar"]);
+	UKIntsEqual(2,[first countForObject: @"fooBAR"]);
+	UKIntsEqual(1,[first countForObject: @"FOObar"]);
+	UKIntsEqual(1,[first countForObject: @"FOOBAR"]);
+	UKIntsEqual(0,[first countForObject: @"foo"]);
+	UKIntsEqual(0,[first countForObject: @"FOO"]);
+}
+
+- (void) testMappedIndexSetWithEach
+{
+	NSIndexSet *first = [NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0,2)];
+	NSArray *second = A([NSNumber numberWithInt: 10], [NSNumber numberWithInt: 20]);
+	NSIndexSet *result = (NSIndexSet*)[[first mappedCollection] addNumber: [second each]];
+	UKTrue([result containsIndex: 10]);
+	UKTrue([result containsIndex: 20]);
+	UKTrue([result containsIndex: 11]);
+	UKTrue([result containsIndex: 21]);
+	UKFalse([result containsIndex: 0]);
+	UKFalse([result containsIndex: 1]);
+}
+
+- (void) testMapIndexSetWithEach
+{
+	NSMutableIndexSet *first = [NSMutableIndexSet indexSetWithIndexesInRange: NSMakeRange(0,2)];
+	NSArray *second = A([NSNumber numberWithInt: 10], [NSNumber numberWithInt: 20]);
+	[[first map] addNumber: [second each]];
+	UKTrue([first containsIndex: 10]);
+	UKTrue([first containsIndex: 20]);
+	UKTrue([first containsIndex: 11]);
+	UKTrue([first containsIndex: 21]);
+	UKFalse([first containsIndex: 0]);
+	UKFalse([first containsIndex: 1]);
+}
+
+- (void) testMappedArrayWithDeepEach
+{
+	NSArray *first = A(@"foo",@"bar");
+	NSArray *second = A(@"Foo",@"Bar");
+	NSArray *third = A(@"FOO",@"BAR");
+	NSArray *result = (NSArray*)[[first mappedCollection] stringByAppendingString: [second each]
+	                                                                    andString: [third each]];
+	UKIntsEqual(8,[result count]);
+	NSArray *expected = A(@"fooFooFOO", @"fooFooBAR", @"fooBarFOO", @"fooBarBAR", @"barFooFOO", @"barFooBAR", @"barBarFOO", @"barBarBAR");
+	FOREACHI(result,object)
+	{
+		UKTrue([expected containsObject: object]);
+	}
+}
+
+- (void) testFilterArrayWithEach
+{
+	NSMutableArray *first = [NSMutableArray arrayWithObjects: @"foo",@"bar",@"BAR",@"Foo", nil];
+	NSArray *second = A(@"foo",@"Foo",@"FOO");
+	[[first filter] isEqualToString: [second each]];
+	UKIntsEqual(2,[first count]);
+	NSArray *expected = A(@"foo",@"Foo");
+	UKObjectsEqual(first,expected);
+}
+
+- (void) testFilterArrayWithDeepEach
+{
+	NSMutableArray *first = [NSMutableArray arrayWithObjects: @"foo",@"bar",@"BAR",@"Foo", nil];
+	NSArray *second = A(@"f",@"F");
+	NSArray *third = A(@"OO",@"oo");
+	[[first filter] isEqualToString: [second each]
+	                      andString: [third each]];
+	UKIntsEqual(2,[first count]);
+	NSArray *expected = A(@"foo",@"Foo");
+	UKObjectsEqual(first,expected);
 }
 @end

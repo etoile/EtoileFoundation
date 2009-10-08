@@ -40,6 +40,18 @@
 
 #import <Foundation/Foundation.h>
 
+
+@interface NSObject (ETEachHOM)
+/**
+ * If the receiver conforms to the ETCollection protocol, this method returns a
+ * proxy that will let map and filter methods iterate over the contents of the
+ * collection when it is used as an argument to a message. Note: If an each
+ * proxy is passed to a message used as a filter predicate, "or"-semantics will
+ * be applied.
+ */
+- (id) each;
+@end
+
 @protocol ETCollection, ETCollectionMutation;
 
 @protocol ETCollectionHOM
@@ -173,13 +185,17 @@
 @protocol ETCollectionHOMMapIntegration
 
 /**
- * This method will be called by the map- and zip-functions.
+ * This method will be called by the map- and zip-functions. If a class
+ * implements a -mapInfo method the return value of that method will be passed
+ * here. It can be used to pass information about the original state of the
+ * collection.
  */
 - (void) placeObject: (id)mappedObject
         inCollection: (id<ETCollectionMutation>*)aTarget
      insteadOfObject: (id)originalObject
              atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped;
+ havingAlreadyMapped: (NSArray*)alreadyMapped
+             mapInfo: (id)mapInfo;
 @end
 
 /**
@@ -206,6 +222,7 @@
 @end
 
 @interface NSDictionary (ETCollectionHOM) <ETCollectionHOM,ETCollectionHOMIntegration>
+- (NSArray*) mapInfo;
 @end
 
 @interface NSSet (ETCollectionHOM) <ETCollectionHOM>
