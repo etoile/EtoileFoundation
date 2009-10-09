@@ -438,11 +438,17 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 
 - (void) runTestsInBundle:(NSBundle *)bundle
 {
+	// NOTE: First we must create the app object, because on Mac OS X (10.6) in 
+	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes 
+	// class_respondsToSelector() which results in +initialize being called and 
+	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication. 
+	// When no app object is available yet, an NSApplication instance will be 
+	// created rather than the subclass instance we might want.
+    [self setUpAppObjectIfNeededForBundle: bundle];
+
     NSArray *testClasses = UKTestClasseNamesFromBundle(bundle);
     NSEnumerator *e = [testClasses objectEnumerator];
     NSString *testClassName;
-
-    [self setUpAppObjectIfNeededForBundle: bundle];
 
     while ((testClassName = [e nextObject])) {
         [self runTestsInClass:NSClassFromString(testClassName)];
