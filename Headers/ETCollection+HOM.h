@@ -122,6 +122,12 @@
  * respond with YES to aBlock.
  */
 - (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock;
+
+/**
+ * Returns a collection containing all elements of the original collection that
+ * respond with NO to aBlock.
+ */
+- (id) inverseFilteredCollectionWithBlock: (BOOL(^)(id)aBlock;
 #endif
 @end
 
@@ -143,6 +149,12 @@
  * <code>[[[persons filter] firstName] isEqual: @"Alice"]</code>
  */
 - (id) filter;
+
+/**
+ * Filters a collection the same way -filter does, but only includes objects
+ * that respond with NO to the predicate.
+ */
+- (id) inverseFilter;
 
 /**
  * Returns a proxy object which will coalesce the collection named by
@@ -174,6 +186,12 @@
  * YES.
  */
 - (void) filterWithBlock: (BOOL(^)(id))aBlock;
+
+/**
+ * Removes all elements from the collection for which the aBlock does not return
+ * NO.
+ */
+- (void) inverseFilterWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 

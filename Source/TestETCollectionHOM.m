@@ -479,6 +479,14 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	}
 }
 
+- (void) testInverseFilter
+{
+	NSMutableArray *input = [NSMutableArray arrayWithObjects: @"foo", @"bar", nil];
+	[[input inverseFilter] isEqualToString: @"bar"];
+	UKTrue([input containsObject: @"foo"]);
+	UKFalse([input containsObject: @"bar"]);
+}
+
 - (void) testZippedEmptyCollection
 {
 	NSArray *second = A(@"bar", @"BAR");

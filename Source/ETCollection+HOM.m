@@ -583,12 +583,13 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	return accumulator;
 }
 
-static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
+static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
                                          id<NSObject,ETCollection> *aCollection,
                                                            id blockOrInvocation,
                                                                   BOOL useBlock,
                          id<NSObject,ETCollection,ETCollectionMutation> *target,
-                                             id<NSObject,ETCollection> *original)
+                                            id<NSObject,ETCollection> *original,
+                                                                    BOOL invert)
 {
 	if ([*aCollection isEmpty])
 	{
@@ -672,7 +673,10 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 			filterResult = (long long)theBlock(object);
 		}
 		#endif
-
+		if (invert)
+		{
+			filterResult = !(BOOL)filterResult;
+		}
 		if (elementHandler != NULL)
 		{
 			elementHandler(*original,handlerSelector,
@@ -699,47 +703,53 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 	[content release];
 }
 
-static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTarget(
+static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndInvert(
                                          id<NSObject,ETCollection> *aCollection,
                                                           id  blockOrInvocation,
                                                                   BOOL useBlock,
-                         id<NSObject,ETCollection,ETCollectionMutation> *target)
+                         id<NSObject,ETCollection,ETCollectionMutation> *target,
+                                                                    BOOL invert)
 {
-	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
 	                                                      aCollection,
 	                                                      blockOrInvocation,
 	                                                      useBlock,
 	                                                      target,
-	                                                      aCollection);
+	                                                      aCollection,
+	                                                      invert);
 }
 
-static inline id ETHOMFilteredCollectionWithBlockOrInvocation(
+static inline id ETHOMFilteredCollectionWithBlockOrInvocationAndInvert(
                                          id<NSObject,ETCollection> *aCollection,
                                                            id blockOrInvocation,
-                                                                  BOOL useBlock)
+                                                                  BOOL useBlock,
+                                                                    BOOL invert)
 {
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	//Cast to id because mutableClass is not yet in any protocols.
 	Class mutableClass = [(id)theCollection mutableClass];
 	id<ETMutableCollectionObject> mutableCollection = [[mutableClass alloc] init];
-	ETHOMFilterCollectionWithBlockOrInvocationAndTarget(aCollection,
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndInvert(aCollection,
 	                                                    blockOrInvocation,
 	                                                    useBlock,
-	             (id<ETCollection,ETCollectionMutation,NSObject>*)&mutableCollection);
+	             (id<ETCollection,ETCollectionMutation,NSObject>*)&mutableCollection,
+	                                                    invert);
 	return [mutableCollection autorelease];
 }
 
-static inline void ETHOMFilterMutableCollectionWithBlockOrInvocation(
+static inline void ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(
                     id<NSObject,ETCollection,ETCollectionMutation> *aCollection,
                                                            id blockOrInvocation,
-                                                                  BOOL useBlock)
+                                                                  BOOL useBlock,
+                                                                    BOOL invert)
 {
-	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
+	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
 	                       (id<NSObject,ETCollection>*)aCollection,
 	                                             blockOrInvocation,
 	                                                      useBlock,
 	                                                   aCollection,
-	                                                   aCollection);
+	                                                   aCollection,
+                                                            invert);
 }
 
 
@@ -887,6 +897,8 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	// Stores a reference to the original collection, even if the actual filter
 	// operates on a modified one.
 	id<NSObject,ETCollection,ETCollectionMutation> originalCollection;
+	BOOL invert;
+
 }
 @end
 
@@ -1043,26 +1055,42 @@ DEALLOC(
 }
 @end
 
-
 @implementation ETCollectionMutationFilterProxy
 - (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
-{
-	if (nil == (self = [super initWithCollection: aCollection]))
-	{
-		return nil;
-	}
-	originalCollection = [aCollection retain];
-	return self;
-}
-
-- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
               andOriginal: (id<ETCollection,NSObject>) theOriginal
+                andInvert: (BOOL)aFlag
 {
 	if (nil == (self = [super initWithCollection: aCollection]))
 	{
 		return nil;
 	}
 	originalCollection = [theOriginal retain];
+	invert = aFlag;
+	return self;
+}
+
+- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+                andInvert: (BOOL)aFlag
+{
+	self = [self initWithCollection: aCollection
+	                    andOriginal: aCollection
+	                      andInvert: aFlag];
+	return self;
+}
+- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+{
+	self = [self initWithCollection: aCollection
+	                    andOriginal: aCollection
+	                      andInvert: NO];
+	return self;
+}
+
+- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+              andOriginal: (id<ETCollection,NSObject>) theOriginal
+{
+	self = [self initWithCollection: aCollection
+	                    andOriginal: theOriginal
+	                      andInvert: NO];
 	return self;
 }
 
@@ -1084,12 +1112,13 @@ DEALLOC(
 	const char *returnType = [[anInvocation methodSignature] methodReturnType];
 	if (0 == strcmp(@encode(BOOL), returnType))
 	{
-		ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginal(
+		ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
 		           (id<NSObject,ETCollection,ETCollectionMutation>*)&collection,
 		                                                           anInvocation,
 		                                                                     NO,
 		   (id<NSObject,ETCollection,ETCollectionMutation>*)&originalCollection,
-		                        (id<NSObject,ETCollection>*)&originalCollection);
+		                        (id<NSObject,ETCollection>*)&originalCollection,
+		                                                                 invert);
 		BOOL result = YES;
 		[anInvocation setReturnValue: &result];
 	}
@@ -1103,8 +1132,8 @@ DEALLOC(
 		                                                        YES);
 		id nextProxy = [[[ETCollectionMutationFilterProxy alloc]
 		                              initWithCollection: nextCollection
-		                                     andOriginal: originalCollection]
-													              autorelease];
+		                                     andOriginal: originalCollection
+		                                       andInvert: invert] autorelease];
 		[anInvocation setReturnValue: &nextProxy];
 	}
 	else

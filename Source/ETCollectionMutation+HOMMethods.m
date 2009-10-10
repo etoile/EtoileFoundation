@@ -47,10 +47,14 @@
 
 - (id) filter
 {
-	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: 
-	                                                    self] autorelease];
+	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self] autorelease];
 }
 
+- (id) inverseFilter
+{
+	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self
+	                                                          andInvert: YES] autorelease];
+}
 - (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection
 {
 	return [[[ETCollectionMutationZipProxy alloc] initWithCollection: self
@@ -76,7 +80,18 @@
 
 #if __has_feature(blocks)
 - (void) filterWithBlock: (BOOL(^)(id))aBlock
+               andInvert: (BOOL) invert
 {
-	ETHOMFilterMutableCollectionWithBlockOrInvocation(&self,aBlock,YES);
+	ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(&self,aBlock,YES,invert);
+}
+
+- (void) filterWithBlock: (BOOL(^)(id))aBlock
+{
+	[self filterWithBlock: aBlock andInvert: NO];
+}
+
+- (void) inverseFilterWithBlock: (BOOL(^)(id))aBlock
+{
+	[self filterWithBlock: aBlock andInvert: YES];
 }
 #endif

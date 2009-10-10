@@ -96,8 +96,9 @@
 }
 - (id) injectObject: (id)initialValue intoBlock: (id)aBlock
 {
-	return [self injectObject: initialValue intoBlock: aBlock 
-                        andInvert: NO];
+	return [self injectObject: initialValue
+	                intoBlock: aBlock
+                    andInvert: NO];
 }
 
 - (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
@@ -113,8 +114,20 @@
 }
 
 #if __has_feature(blocks)
+- (id) filteredCollectionWithBlock: (BOOL(^)(id)) aBlock
+                         andInvert: (BOOL) invert
+{
+	return ETHOMFilteredCollectionWithBlockOrInvocationAndInvert(&self, aBlock, YES, invert);
+}
 - (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock
 {
-	return ETHOMFilteredCollectionWithBlockOrInvocation(&self, aBlock, YES);
+	[self filteredCollectionWithBlock: aBlock
+	                        andInvert: NO];
+}
+
+- (id) inverseFilteredCollectionWithBlock: (BOOL(^)(id)) aBlock
+{
+	[self filteredCollectionWithBlock: aBlock
+	                        andInvert: YES];
 }
 #endif
