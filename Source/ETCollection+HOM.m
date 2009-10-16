@@ -38,6 +38,7 @@
 #import "NSInvocation+Etoile.h"
 #import "NSObject+Etoile.h"
 #import "Macros.h"
+#import "EtoileCompatibility.h"
 
 
 /*
