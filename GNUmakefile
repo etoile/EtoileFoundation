@@ -99,7 +99,8 @@ EtoileFoundation_HEADER_FILES = \
 	ETReflection.h \
 	ETEntityDescription.h \
 	ETPropertyDescription.h \
-	ETValidationResult.h
+	ETValidationResult.h \
+	runtime.h
 
 EtoileFoundation_RESOURCE_FILES = \
 	UTIDefinitions.plist \

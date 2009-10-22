@@ -1,3 +1,10 @@
+2009-10-22  Eric Wasylishen <ewasylishen@gmail.com>
+
+	* Headers/runtime.h: Added a wrapper header which include the 
+	Objective-C 2 runtime library functions, either from 
+	objc/runtime.h on OS X or ObjectiveC2/runtime.h with the GNU runtime.
+	
+
 2009-09-25  Quentin Mathe <qmathe@club-internet.fr>
 
 	EtoileFoundation now compiles on Solaris.

@@ -151,6 +151,7 @@
 		662EA838101BC8610044F013 /* ETMethodMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA833101BC8610044F013 /* ETMethodMirror.m */; };
 		662EA839101BC8610044F013 /* ETObjectMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA834101BC8610044F013 /* ETObjectMirror.m */; };
 		662EA83A101BC8610044F013 /* ETProtocolMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA835101BC8610044F013 /* ETProtocolMirror.m */; };
+		663A0FD710903DFC00B921B0 /* runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = 663A0FD610903DFC00B921B0 /* runtime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6680CED7101257B200CAF439 /* ETReflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6680CED6101257B200CAF439 /* ETReflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6680CED9101257C800CAF439 /* ETReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680CED8101257C800CAF439 /* ETReflection.m */; };
 		66C3AF8C10181CFA0046D74A /* ETSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C3AF8A10181CFA0046D74A /* ETSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -279,6 +280,7 @@
 		662EA833101BC8610044F013 /* ETMethodMirror.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETMethodMirror.m; path = ../EtoileFoundation/Source/ETMethodMirror.m; sourceTree = SOURCE_ROOT; };
 		662EA834101BC8610044F013 /* ETObjectMirror.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETObjectMirror.m; path = ../EtoileFoundation/Source/ETObjectMirror.m; sourceTree = SOURCE_ROOT; };
 		662EA835101BC8610044F013 /* ETProtocolMirror.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETProtocolMirror.m; path = ../EtoileFoundation/Source/ETProtocolMirror.m; sourceTree = SOURCE_ROOT; };
+		663A0FD610903DFC00B921B0 /* runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = runtime.h; path = Headers/runtime.h; sourceTree = "<group>"; };
 		6680CED6101257B200CAF439 /* ETReflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETReflection.h; path = ../EtoileFoundation/Headers/ETReflection.h; sourceTree = SOURCE_ROOT; };
 		6680CED8101257C800CAF439 /* ETReflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETReflection.m; path = ../EtoileFoundation/Source/ETReflection.m; sourceTree = SOURCE_ROOT; };
 		66AC42A6108AD6E600047C26 /* TestThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestThread.m; path = EtoileThread/TestThread.m; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 		603648350E409329003377E0 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				663A0FD610903DFC00B921B0 /* runtime.h */,
 				603813A21022246300C221A2 /* ETPropertyViewpoint.h */,
 				603648060E40931E003377E0 /* GNUstep.h */,
 				603647C90E4092EA003377E0 /* Macros.h */,
@@ -623,6 +626,7 @@
 				662EA82E101BC8320044F013 /* ETObjectMirror.h in Headers */,
 				662EA82F101BC8320044F013 /* ETProtocolMirror.h in Headers */,
 				603813A31022246300C221A2 /* ETPropertyViewpoint.h in Headers */,
+				663A0FD710903DFC00B921B0 /* runtime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
