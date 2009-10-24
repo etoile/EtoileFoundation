@@ -8,7 +8,7 @@ endif
 
 libEtoileFoundation_CPPFLAGS += $(SSL_CFLAGS)
 libEtoileFoundation_CPPFLAGS += -D_GNU_SOURCE # For Linux
-libEtoileFoundation_CPPFLAGS += -D_XOPEN_SOURCE=600 # For Solaris
+#libEtoileFoundation_CPPFLAGS += -D_XOPEN_SOURCE=600 # For Solaris
 libEtoileFoundation_OBJCFLAGS += -std=c99 
 libEtoileFoundation_CFLAGS += -std=c99 $(SSL_CFLAGS)
 
