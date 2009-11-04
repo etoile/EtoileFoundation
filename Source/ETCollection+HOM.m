@@ -1,7 +1,8 @@
 /*
 	ETCollection+HOM.m
 
-	This module provides map/filter/fold for collections.
+	This module provides collection-related higher-order messaging and
+	equivalent functionality for blocks.
 
 	Copyright (C) 2009 Niels Grewe
 
@@ -54,8 +55,8 @@
  * Informal protocol for turning collections into arrays.
  */
 @interface NSObject (ETHOMArraysFromCollections)
-- (NSArray*) collectionArray;
-- (NSArray*) contentsForArrayEquivalent;
+- (NSArray*)collectionArray;
+- (NSArray*)contentsForArrayEquivalent;
 @end
 
 
@@ -64,10 +65,9 @@
  * blocks transparently.
  */
 @interface NSObject(ETHOMInvokeBlocks)
-- (id) value: (id)anArgument;
-- (id) value: (id)anArgument value: (id)anotherArgument;
+- (id)value: (id)anArgument;
+- (id)value: (id)anArgument value: (id)anotherArgument;
 @end
-
 
 /*
  * The ETEachProxy wraps collection objects for the HOM code to iterate over
@@ -79,11 +79,35 @@
 	NSArray *contents;
 	NSEnumerator *contentEnum;
 }
-- (id) nextObjectFromContents;
+- (id)nextObjectFromContents;
 @end
 
+/* Structures */
+
+// Structure to wrap the char array that is used as a bitfield to mark
+// argument-slots that have ETEachProxies set.
+typedef struct
+{
+	char fields[16];
+} slotField_t;
+
+// A structure to encapsulate the information the recursive mapping function
+// needs.
+typedef struct
+{
+	id<ETCollection> source;
+	id<ETCollectionMutation> target;
+	NSMutableArray *alreadyMapped;
+	id mapInfo;
+	IMP elementHandler;
+	SEL handlerSelector;
+	NSNull *theNull;
+	NSUInteger objIndex;
+	BOOL modifiesSelf;
+} ETMapContext;
+
 @implementation ETEachProxy: NSProxy
-- (id) initWithOriginal: (id<ETCollection,NSObject>) aCollection
+- (id)initWithOriginal: (id<ETCollection,NSObject>)aCollection
 {
 	ASSIGN(collection,aCollection);
 	return self;
@@ -91,12 +115,12 @@
 
 DEALLOC([collection release]; [contents release]; [contentEnum release];);
 
-- (id) forwardingTargetForSelector: (SEL)aSelector
+- (id)forwardingTargetForSelector: (SEL)aSelector
 {
 	return collection;
 }
 
-- (BOOL) respondsToSelector: (SEL)aSelector
+- (BOOL)respondsToSelector: (SEL)aSelector
 {
 	if (aSelector == @selector(nextObjectFromContents))
 	{
@@ -105,7 +129,7 @@ DEALLOC([collection release]; [contents release]; [contentEnum release];);
 	return [collection respondsToSelector: aSelector];
 }
 
-- (id) methodSignatureForSelector: (SEL)aSelector
+- (id)methodSignatureForSelector: (SEL)aSelector
 {
 	if ([collection respondsToSelector: aSelector])
 	{
@@ -114,7 +138,7 @@ DEALLOC([collection release]; [contents release]; [contentEnum release];);
 	return nil;
 }
 
-- (void) forwardInvocation: (NSInvocation*) anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 	if ([collection respondsToSelector: [anInvocation selector]])
 	{
@@ -122,14 +146,14 @@ DEALLOC([collection release]; [contents release]; [contentEnum release];);
 	}
 }
 
-- (id) nextObjectFromContents
+- (id)nextObjectFromContents
 {
-	if(nil == contents)
+	if (nil == contents)
 	{
 		contents = [[(NSObject*)collection collectionArray] retain];
 	}
 
-	if(nil == contentEnum)
+	if (nil == contentEnum)
 	{
 		contentEnum = [[contents objectEnumerator] retain];
 	}
@@ -144,7 +168,7 @@ DEALLOC([collection release]; [contents release]; [contentEnum release];);
 @end
 
 @implementation NSObject (ETEachHOM)
-- (id) each
+- (id)each
 {
 	if ([self conformsToProtocol: @protocol(ETCollection)])
 	{
@@ -158,16 +182,18 @@ DEALLOC([collection release]; [contents release]; [contentEnum release];);
  * Helper method to obtain a list of the argument slots in the invocation that
  * contain an ETEachProxy.
  */
-static inline NSHashTable* eachedSlotsFromInvocation(NSInvocation *inv)
+static inline slotField_t eachedSlotsFromInvocation(NSInvocation *inv)
 {
-	NSHashTable *table = NSCreateHashTable(NSIntHashCallBacks,10);
 	NSMethodSignature *sig = [inv methodSignature];
 	NSUInteger argCount = [sig numberOfArguments];
+	slotField_t slotField;
+	// We need a char[16] to hold 128bits, since C99 allows 127 arguments.
+	// Initialize to zero:
+	memset(&(slotField.fields[0]),'\0',16);
+	BOOL hasProxy = NO;
 	if (argCount < 3)
 	{
-		// We are not interested in invocations with only two arguments
-		// (receiver and selector).
-		return table;
+		return slotField;
 	}
 	for (int i = 2; i < argCount;i++)
 	{
@@ -178,61 +204,60 @@ static inline NSHashTable* eachedSlotsFromInvocation(NSInvocation *inv)
 			[inv getArgument: &arg atIndex: i];
 			if ([arg respondsToSelector:@selector(nextObjectFromContents)])
 			{
-				NSHashInsert(table,(void*)(intptr_t)i);
+				// We need to skip to the next field of the char array every 8
+				// bits. The integer division/modulo operations calculate just
+				// the right offset for that.
+				int index = i/8;
+				slotField.fields[index] = slotField.fields[index] | 1 << i%8;
+				hasProxy = YES;
 			}
 		}
 	}
-	return table;
+	if (hasProxy)
+	{
+		// Use the first bit as a marker to signify that the invocation has
+		// proxied-arguments.
+		slotField.fields[0] = slotField.fields[0] | 1;
+	}
+	return slotField;
 }
-
-
-
-// A structure to encapsulate the information the recursive mapping function
-// needs.
-struct ETMapContext
-{
-	id<ETCollection> source;
-	id<ETCollectionMutation> target;
-	NSMutableArray *alreadyMapped;
-	id mapInfo;
-	IMP elementHandler;
-	SEL handlerSelector;
-	NSNull *theNull;
-	NSUInteger objIndex;
-	BOOL modifiesSelf;
-} _ETMapContext;
 
 /*
  * Recursive map function to fill the slots in an invocation
  * that are marked with an ETEachProxy and invoke it afterwards.
  */
-static void recursiveMapWithInvocationAndContext(NSInvocation *inv, //theInvocation, target and arguments < slotID set
-                                                NSHashTable *slots, //the slots remaining to fill
-                                                NSUInteger slotID, //the slotId for the present level of recursion
-                                          struct ETMapContext *ctx) //the context
+static void recursiveMapWithInvocationAndContext(NSInvocation *inv, // theInvocation, target and arguments < slotID set
+                                                slotField_t *slots, // the slots remaining to fill (128 bitfield)
+                                                NSUInteger slotID, // the slotId for the present level of recursion
+                                                ETMapContext *ctx) // the context
 {
-	//Remove the present slot.
-	NSHashRemove(slots,(void*)(uintptr_t)slotID);
-	NSUInteger remainingSlots = NSCountHashTable(slots);
-	id levelProxy;
-	[inv getArgument: &levelProxy atIndex: slotID];
+	// Scan the slots array for the next slot that has a proxy.
+	while (!(slots->fields[slotID/8] & (1 << (slotID%8))) && (slotID < 127))
+	{
+		slotID++;
+	}
+
+	// Repeat to find the next slot (we need this to determine whether we should
+	// fire the invocation.)
+	NSUInteger nextSlot = slotID;
+	do
+	{
+		nextSlot++;
+	} while (!(slots->fields[nextSlot/8] & (1 << (nextSlot%8))) && (nextSlot < 127));
+
+
+	id levelProxy = nil;
+	if (slotID < 127)
+	{
+		[inv getArgument: &levelProxy atIndex: slotID];
+	}
 	id theObject;
 	int count = 0;
 	while(nil != (theObject = [levelProxy nextObjectFromContents]))
 	{
 		//Set the present slot;
 		[inv setArgument: &theObject atIndex: slotID];
-		if(remainingSlots > 0)
-		{
-			//Get the next slot and call ourselves.
-			NSHashEnumerator slotEnum = NSEnumerateHashTable(slots);
-			NSUInteger nextSlot = (NSUInteger)(uintptr_t)NSNextHashEnumeratorItem(&slotEnum);
-			NSEndHashTableEnumeration(&slotEnum);
-			recursiveMapWithInvocationAndContext(inv, slots, nextSlot, ctx);
-			//Reinsert the slot for the next iteration of this loop:
-			NSHashInsert(slots,(void*)(intptr_t)nextSlot);
-		}
-		else
+		if (127 == nextSlot)
 		{
 			//If there are no more slots to fill, the invocation is properly set up.
 			id mapped = nil;
@@ -274,6 +299,11 @@ static void recursiveMapWithInvocationAndContext(NSInvocation *inv, //theInvocat
 			}
 			count++;
 		}
+		else
+		{
+			recursiveMapWithInvocationAndContext(inv, slots, nextSlot, ctx);
+		}
+
 	}
 	// Before we return, we must put the proxy back into the invocation so that
 	// it can be used again when we run for the next target.
@@ -287,33 +317,38 @@ static void recursiveMapWithInvocationAndContext(NSInvocation *inv, //theInvocat
  * NOTE: The results are ORed.
  */
 static BOOL recursiveFilterWithInvocation(NSInvocation *inv, //theInvocation, target and arguments < slotID set
-                                          NSHashTable *slots, //the slots remaining to fill
+                                          slotField_t *slots, //the slots remaining to fill
                                           NSUInteger slotID) //the slotId for the present level of recursion
 {
-	//Remove the present slot.
-	NSHashRemove(slots,(void*)(uintptr_t)slotID);
-	NSUInteger remainingSlots = NSCountHashTable(slots);
-	id levelProxy;
-	[inv getArgument: &levelProxy atIndex: slotID];
+	// Scan the slots array for the next slot that has a proxy. 127 marks the
+	// end of the array.
+	while (!(slots->fields[slotID/8] & (1 << (slotID%8))) && (slotID < 127))
+	{
+		slotID++;
+	}
+
+	// Repeat to find the next slot (we need this to determine whether we should
+	// fire the invocation.)
+	NSUInteger nextSlot = slotID;
+	do
+	{
+		nextSlot++;
+	} while (!(slots->fields[nextSlot/8] & (1 << (nextSlot%8))) && (nextSlot < 127));
+
+	id levelProxy = nil;
+	if (slotID < 127)
+	{
+		[inv getArgument: &levelProxy atIndex: slotID];
+	}
 	BOOL result = NO;
 	id theObject;
 	while(nil != (theObject = [levelProxy nextObjectFromContents]))
 	{
 		//Set the present slot;
 		[inv setArgument: &theObject atIndex: slotID];
-		if(remainingSlots > 0)
+		if (127 == nextSlot)
 		{
-			//Get the next slot and call ourselves.
-			NSHashEnumerator slotEnum = NSEnumerateHashTable(slots);
-			NSUInteger nextSlot = (NSUInteger)(uintptr_t)NSNextHashEnumeratorItem(&slotEnum);
-			NSEndHashTableEnumeration(&slotEnum);
-			result = result || recursiveFilterWithInvocation(inv, slots, nextSlot);
-			//Reinsert the slot for the next iteration of this loop:
-			NSHashInsert(slots,(void*)(intptr_t)nextSlot);
-		}
-		else
-		{
-			//Now the invocation is set up properly.
+			//Now the invocation is set up properly. (127 is no "real" slot)
 			long long filterResult = (long long)NO;
 			[inv invoke];
 			[inv getReturnValue: &filterResult];
@@ -322,6 +357,11 @@ static BOOL recursiveFilterWithInvocation(NSInvocation *inv, //theInvocation, ta
 			// result, but the application might rely on the side-effects of the
 			// invocation.
 		}
+		else
+		{
+			result = result || recursiveFilterWithInvocation(inv, slots, nextSlot);
+		}
+
 	}
 	[inv setArgument: &levelProxy atIndex: slotID];
 	return result;
@@ -331,10 +371,10 @@ static BOOL recursiveFilterWithInvocation(NSInvocation *inv, //theInvocation, ta
  * and the corresponding proxies.
  */
 static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
-                            id<NSObject,ETCollection> *aCollection,
-                                              id blockOrInvocation,
-                                                     BOOL useBlock,
-            id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
+                                   id<NSObject,ETCollection> *aCollection,
+                                                     id blockOrInvocation,
+                                                            BOOL useBlock,
+                  id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
                                                        BOOL isArrayTarget)
 {
 	if ([*aCollection isEmpty])
@@ -351,7 +391,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 
 	//Prefetch some stuff to avoid doing it repeatedly in the loop.
 
-	if(NO == useBlock)
+	if (NO == useBlock)
 	{
 		anInvocation = (NSInvocation*)blockOrInvocation;
 		selector = [anInvocation selector];
@@ -402,8 +442,9 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	// If we are using an invocation, fetch a table of the argument slots that
 	// contain proxy created with -each and create a context to be passed to
 	// the function that will setup and fire the invocation.
-	NSHashTable *eachedSlots = NULL;
-	struct ETMapContext ctx;
+	slotField_t eachedSlots;
+	eachedSlots.fields[0] = '\0';
+	ETMapContext ctx;
 	if (NO == useBlock)
 	{
 		eachedSlots = eachedSlotsFromInvocation(blockOrInvocation);
@@ -422,31 +463,26 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 		id mapped = nil;
 		if (NO == useBlock)
 		{
-			if([object respondsToSelector:selector])
+			if ([object respondsToSelector: selector])
 			{
-				if (NSCountHashTable(eachedSlots) > 0)
+				if ((eachedSlots.fields[0] & 1))
 				{
-					NSHashEnumerator slotEnum = NSEnumerateHashTable(eachedSlots);
-					NSUInteger nextSlot = (NSUInteger)(uintptr_t)NSNextHashEnumeratorItem(&slotEnum);
-					NSEndHashTableEnumeration(&slotEnum);
 					ctx.objIndex = objectIndex;
 					[anInvocation setTarget: object];
-					recursiveMapWithInvocationAndContext(anInvocation,eachedSlots,nextSlot,&ctx);
-					// Reinsert the first slot
-					NSHashInsert(eachedSlots,(void*)(intptr_t)nextSlot);
+					recursiveMapWithInvocationAndContext(anInvocation,&eachedSlots,2,&ctx);
 					objectIndex++;
 					continue;
 				}
 				else
 				{
-					[anInvocation invokeWithTarget:object];
-					[anInvocation getReturnValue:&mapped];
+					[anInvocation invokeWithTarget: object];
+					[anInvocation getReturnValue: &mapped];
 				}
 			}
 		}
 		else
 		{
-			mapped = invokeBlock(blockOrInvocation,valueSelector,object);
+			mapped = invokeBlock(blockOrInvocation, valueSelector, object);
 		}
 		if (nil == mapped)
 		{
@@ -459,11 +495,10 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 
 		if (elementHandler != NULL)
 		{
-			elementHandler(theCollection,handlerSelector,
-			                              mapped,aTarget,
-			                              object,objectIndex,
-			                              alreadyMapped,
-			                                    mapInfo);
+			elementHandler(theCollection, handlerSelector,
+			                      mapped, aTarget,
+			                      object, objectIndex,
+			               alreadyMapped, mapInfo);
 		}
 		else
 		{
@@ -480,10 +515,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 		objectIndex++;
 	}
 
-	if (NO == useBlock)
-	{
-		NSFreeHashTable(eachedSlots);
-	}
+	// Cleanup:
 	if (modifiesSelf)
 	{
 		[alreadyMapped release];
@@ -497,18 +529,18 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
             id<NSObject,ETCollection,ETCollectionMutation> *aTarget)
 {
 	ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(aCollection,
-	                                                        blockOrInvocation,
-	                                                        useBlock,
-	                                                        aTarget,
-	                                                        NO);
+	                                                       blockOrInvocation,
+	                                                       useBlock,
+	                                                       aTarget,
+	                                                       NO);
 }
 
 static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
-                                       id<NSObject,ETCollection>*aCollection,
-                                                        id blockOrInvocation,
-                                                               BOOL useBlock,
-                                                             id initialValue,
-                                                            BOOL shallInvert)
+                                          id<NSObject,ETCollection>*aCollection,
+                                                           id blockOrInvocation,
+                                                                  BOOL useBlock,
+                                                                id initialValue,
+                                                               BOOL shallInvert)
 {
 	if ([*aCollection isEmpty])
 	{
@@ -541,7 +573,7 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	 */
 	NSArray *content = [[(NSObject*)*aCollection collectionArray] retain];
 	NSEnumerator *contentEnumerator;
-	if(NO == shallInvert)
+	if (NO == shallInvert)
 	{
 		contentEnumerator = [content objectEnumerator];
 	}
@@ -554,7 +586,7 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	{
 		id target;
 		id argument;
-		if(shallInvert==NO)
+		if (shallInvert==NO)
 		{
 			target=accumulator;
 			argument=element;
@@ -565,9 +597,9 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 			argument=accumulator;
 		}
 
-		if(NO == useBlock)
+		if (NO == useBlock)
 		{
-			if([target respondsToSelector:selector])
+			if ([target respondsToSelector:selector])
 			{
 				[anInvocation setArgument: &argument  atIndex: 2];
 				[anInvocation invokeWithTarget:target];
@@ -579,7 +611,6 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 			accumulator = invokeBlock(blockOrInvocation,valueSelector,target,argument);
 		}
 	}
-
 	[content release];
 	return accumulator;
 }
@@ -601,7 +632,8 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 	id<ETMutableCollectionObject> theTarget = (id<ETMutableCollectionObject>)*target;
 	NSInvocation *anInvocation;
 	SEL selector;
-	NSHashTable *eachedSlots = NULL;
+	slotField_t eachedSlots;
+	eachedSlots.fields[0] = '\0';
 
 	if (NO == useBlock)
 	{
@@ -647,18 +679,14 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 	{
 		id originalObject = [originalEnum nextObject];
 		long long filterResult = (long long)NO;
-		if(NO == useBlock)
+		if (NO == useBlock)
 		{
 			if ([object respondsToSelector: selector])
 			{
-				if (NSCountHashTable(eachedSlots) > 0)
+				if ((eachedSlots.fields[0] & 1))
 				{
-					NSHashEnumerator slotEnum = NSEnumerateHashTable(eachedSlots);
-					NSUInteger nextSlot = (NSUInteger)(uintptr_t)NSNextHashEnumeratorItem(&slotEnum);
-					NSEndHashTableEnumeration(&slotEnum);
 					[anInvocation setTarget: object];
-					filterResult = recursiveFilterWithInvocation(anInvocation,eachedSlots,nextSlot);
-					NSHashInsert(eachedSlots,(void*)(intptr_t)nextSlot);
+					filterResult = recursiveFilterWithInvocation(anInvocation,&eachedSlots,2);
 				}
 				else
 				{
@@ -686,7 +714,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		}
 		else
 		{
-			if(((id)theTarget == (id)*original) && (NO == (BOOL)filterResult))
+			if (((id)theTarget == (id)*original) && (NO == (BOOL)filterResult))
 			{
 				[theTarget removeObject: originalObject];
 			}
@@ -696,10 +724,6 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 			}
 		}
 		objectIndex++;
-	}
-	if (NO == useBlock)
-	{
-		NSFreeHashTable(eachedSlots);
 	}
 	[content release];
 }
@@ -726,15 +750,12 @@ static inline id ETHOMFilteredCollectionWithBlockOrInvocationAndInvert(
                                                                   BOOL useBlock,
                                                                     BOOL invert)
 {
-	id<NSObject,ETCollection> theCollection = *aCollection;
-	//Cast to id because mutableClass is not yet in any protocols.
-	Class mutableClass = [(id)theCollection mutableClass];
-	id<ETMutableCollectionObject> mutableCollection = [[mutableClass alloc] init];
+	id<ETMutableCollectionObject> mutableCollection = [[[[*aCollection class] mutableClass] alloc] init];
 	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndInvert(aCollection,
-	                                                    blockOrInvocation,
-	                                                    useBlock,
-	             (id<ETCollection,ETCollectionMutation,NSObject>*)&mutableCollection,
-	                                                    invert);
+	                                                       blockOrInvocation,
+	                                                                useBlock,
+	     (id<ETCollection,ETCollectionMutation,NSObject>*)&mutableCollection,
+	                                                                  invert);
 	return [mutableCollection autorelease];
 }
 
@@ -745,12 +766,12 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(
                                                                     BOOL invert)
 {
 	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
-	                       (id<NSObject,ETCollection>*)aCollection,
-	                                             blockOrInvocation,
-	                                                      useBlock,
-	                                                   aCollection,
-	                                                   aCollection,
-                                                            invert);
+	                                 (id<NSObject,ETCollection>*)aCollection,
+	                                                       blockOrInvocation,
+	                                                                useBlock,
+	                                                             aCollection,
+	                                                             aCollection,
+                                                                      invert);
 }
 
 
@@ -774,7 +795,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	NSArray *contentsSecond = [(NSObject*)*secondCollection collectionArray];
 	if (NO == useBlock)
 	{
-		invocation = (NSInvocation *)blockOrInvocation;
+		invocation = (NSInvocation*)blockOrInvocation;
 		selector = [invocation selector];
 	}
 
@@ -821,12 +842,12 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 		id mapped = nil;
 		if (NO == useBlock)
 		{
-			if([firstObject respondsToSelector: selector])
+			if ([firstObject respondsToSelector: selector])
 			{
 				[invocation setArgument: &secondObject
 				                atIndex: 2];
-				[invocation invokeWithTarget:firstObject];
-				[invocation getReturnValue:&mapped];
+				[invocation invokeWithTarget: firstObject];
+				[invocation getReturnValue: &mapped];
 			}
 		}
 		else
@@ -914,13 +935,13 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 @end
 
 @implementation ETCollectionHOMProxy
-- (id) initWithCollection:(id<ETCollection,NSObject>) aCollection
+- (id)initWithCollection: (id<ETCollection,NSObject>)aCollection
 {
 	collection = [aCollection retain];
 	return self;
 }
 
-- (BOOL) respondsToSelector: (SEL)aSelector
+- (BOOL)respondsToSelector: (SEL)aSelector
 {
 	if ([collection isEmpty])
 	{
@@ -939,7 +960,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	return [NSObject instancesRespondToSelector: aSelector];
 }
 
-- (NSMethodSignature *) primitiveMethodSignatureForSelector: (SEL)aSelector
+- (NSMethodSignature*)primitiveMethodSignatureForSelector: (SEL)aSelector
 {
 	return [NSObject instanceMethodSignatureForSelector: aSelector];
 }
@@ -948,7 +969,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 ETCollectionMutationFilterProxy does.
 You can call -primitiveMethodSignatureForSelector: in the overriden version, but 
 not -[super methodSignatureForSelector:]. */
-- (NSMethodSignature *) methodSignatureForEmptyCollection
+- (NSMethodSignature*)methodSignatureForEmptyCollection
 {
 	/* 
 	 * Returns any arbitrary NSObject selector whose return type is id.
@@ -956,7 +977,7 @@ not -[super methodSignatureForSelector:]. */
 	return [NSObject instanceMethodSignatureForSelector: @selector(self)];
 }
 
-- (id) methodSignatureForSelector: (SEL)aSelector
+- (id)methodSignatureForSelector: (SEL)aSelector
 {
 	if ([collection isEmpty])
 	{
@@ -966,13 +987,13 @@ not -[super methodSignatureForSelector:]. */
 	/*
 	 * The collection is cast to NSArray because even though all classes
 	 * adopting ETCollection provide -objectEnumerator this is not declared.
-	 * (See ETColection.h)
+	 * (See ETCollection.h)
 	 */
 	NSEnumerator *collectionEnumerator;
 	collectionEnumerator = [(NSArray*)collection objectEnumerator];
 	FOREACHE(collection, object,id,collectionEnumerator)
 	{
-		if([object respondsToSelector:aSelector])
+		if ([object respondsToSelector:aSelector])
 		{
 			return [object methodSignatureForSelector:aSelector];
 		}
@@ -980,7 +1001,7 @@ not -[super methodSignatureForSelector:]. */
 	return [NSObject instanceMethodSignatureForSelector:aSelector];
 }
 
-- (Class) class
+- (Class)class
 {
 	NSInvocation *inv = [NSInvocation invocationWithTarget: self selector: _cmd arguments: nil];
 	Class retValue = Nil;
@@ -996,7 +1017,7 @@ DEALLOC(
 @end
 
 @implementation ETCollectionMapProxy
-- (void) forwardInvocation:(NSInvocation*)anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 	Class mutableClass = [[collection class] mutableClass];
 	id<ETMutableCollectionObject> mappedCollection = [[mutableClass alloc] init];
@@ -1006,19 +1027,19 @@ DEALLOC(
 	                                                                       NO,
 	                                                        &mappedCollection);
 	[mappedCollection autorelease];
-	[anInvocation setReturnValue:&mappedCollection];
+	[anInvocation setReturnValue: &mappedCollection];
 }
 @end
 
 @implementation ETCollectionMutationMapProxy
-- (void) forwardInvocation:(NSInvocation*)anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
-	                                    (id<ETCollectionObject>*) &collection,
-	                                                             anInvocation,
-	                                                                       NO,
-	                              (id<ETMutableCollectionObject>*)&collection);
+	                                    (id<ETCollectionObject>*)&collection,
+	                                                            anInvocation,
+	                                                                      NO,
+	                             (id<ETMutableCollectionObject>*)&collection);
 	//Actually, we don't care for the return value.
 	[anInvocation setReturnValue:&collection];
 }
@@ -1026,8 +1047,8 @@ DEALLOC(
 
 
 @implementation ETCollectionFoldProxy
-- (id) initWithCollection: (id<ETCollection,NSObject>)aCollection 
-               forInverse: (BOOL)shallInvert
+- (id)initWithCollection: (id<ETCollection,NSObject>)aCollection 
+              forInverse: (BOOL)shallInvert
 {
 	
 	if (nil == (self = [super initWithCollection: aCollection]))
@@ -1038,7 +1059,7 @@ DEALLOC(
 	return self;
 }
 
-- (void) forwardInvocation:(NSInvocation*)anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 
 	id initialValue = nil;
@@ -1057,9 +1078,9 @@ DEALLOC(
 @end
 
 @implementation ETCollectionMutationFilterProxy
-- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
-              andOriginal: (id<ETCollection,NSObject>) theOriginal
-                andInvert: (BOOL)aFlag
+- (id)initWithCollection: (id<ETCollection,NSObject>) aCollection
+             andOriginal: (id<ETCollection,NSObject>) theOriginal
+               andInvert: (BOOL)aFlag
 {
 	if (nil == (self = [super initWithCollection: aCollection]))
 	{
@@ -1070,15 +1091,15 @@ DEALLOC(
 	return self;
 }
 
-- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
-                andInvert: (BOOL)aFlag
+- (id)initWithCollection: (id<ETCollection,NSObject>) aCollection
+               andInvert: (BOOL)aFlag
 {
 	self = [self initWithCollection: aCollection
 	                    andOriginal: aCollection
 	                      andInvert: aFlag];
 	return self;
 }
-- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
+- (id)initWithCollection: (id<ETCollection,NSObject>) aCollection
 {
 	self = [self initWithCollection: aCollection
 	                    andOriginal: aCollection
@@ -1086,8 +1107,8 @@ DEALLOC(
 	return self;
 }
 
-- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
-              andOriginal: (id<ETCollection,NSObject>) theOriginal
+- (id)initWithCollection: (id<ETCollection,NSObject>) aCollection
+             andOriginal: (id<ETCollection,NSObject>) theOriginal
 {
 	self = [self initWithCollection: aCollection
 	                    andOriginal: theOriginal
@@ -1095,7 +1116,7 @@ DEALLOC(
 	return self;
 }
 
-- (NSMethodSignature *) methodSignatureForEmptyCollection
+- (NSMethodSignature*)methodSignatureForEmptyCollection
 {
 	/* 
 	 * Returns any arbitrary NSObject selector whose return type is BOOL.
@@ -1108,7 +1129,7 @@ DEALLOC(
 	return [super primitiveMethodSignatureForSelector: @selector(isProxy)];
 }
 
-- (void) forwardInvocation:(NSInvocation*)anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 	const char *returnType = [[anInvocation methodSignature] methodReturnType];
 	if (0 == strcmp(@encode(BOOL), returnType))
@@ -1149,8 +1170,8 @@ DEALLOC(
 @end
 
 @implementation ETCollectionZipProxy
-- (id) initWithCollection: (id<ETCollection,NSObject>) aCollection
-            andCollection: (id<ETCollection,NSObject>) anotherCollection
+- (id)initWithCollection: (id<ETCollection,NSObject>)aCollection
+           andCollection: (id<ETCollection,NSObject>)anotherCollection
 {
 	if (nil == (self = [super initWithCollection: aCollection]))
 	{
@@ -1160,7 +1181,7 @@ DEALLOC(
 	return self;
 }
 
-- (void) forwardInvocation: (NSInvocation *)anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 	Class mutableClass = [[collection class] mutableClass];
 	id<NSObject,ETCollection,ETCollectionMutation> result = [[[mutableClass alloc] init] autorelease];
@@ -1178,7 +1199,7 @@ DEALLOC(
 @end
 
 @implementation ETCollectionMutationZipProxy
-- (void) forwardInvocation: (NSInvocation *)anInvocation
+- (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&collection,
 	                                            &secondCollection,
@@ -1194,27 +1215,27 @@ DEALLOC(
 @end
 
 @implementation NSDictionary (ETCollectionHOM)
-- (NSArray*) mapInfo
+- (NSArray*)mapInfo
 {
 	return [self allKeys];
 }
 
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-             atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
-             mapInfo: (id)mapInfo
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo
 {
 	//FIXME: May break if -identifierAtIndex: does not return keys in order.
 	[(NSMutableDictionary*)*aTarget setObject: mappedObject
 	                                   forKey: [self identifierAtIndex: index]];
 }
-- (void) placeObject: (id)anObject
-             atIndex: (NSUInteger)index
-        inCollection: (id<ETCollectionMutation>*)aTarget
-       basedOnFilter: (BOOL)shallInclude
-        withSnapshot: (id)snapshot
+- (void)placeObject: (id)anObject
+            atIndex: (NSUInteger)index
+       inCollection: (id<ETCollectionMutation>*)aTarget
+      basedOnFilter: (BOOL)shallInclude
+       withSnapshot: (id)snapshot
 {
 	NSString *key = [(NSDictionary*)snapshot identifierAtIndex: index];
 	if (((id)self == (id)*aTarget) && (NO == shallInclude))
@@ -1238,12 +1259,12 @@ DEALLOC(
 @end
 
 @implementation NSMutableArray (ETCollectionHOM)
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-             atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
-             mapInfo: (id)mapInfo
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo
 {
 	if ((id)self == (id)*aTarget)
 	{
@@ -1259,12 +1280,12 @@ DEALLOC(
 @end
 
 @implementation NSMutableDictionary (ETCollectionHOM)
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-             atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
-             mapInfo: (id)mapInfo
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo
 {
 	[(NSMutableDictionary*)*aTarget setObject: mappedObject
 	                                   forKey: [(NSArray*)mapInfo objectAtIndex: index]];
@@ -1273,12 +1294,12 @@ DEALLOC(
 @end
 
 @implementation NSMutableSet (ETCollectionHOM)
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-             atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
-             mapInfo: (id)mapInfo
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo
 {
 	if (((id)self == (id)*aTarget) 
 	 && (NO == [alreadyMapped containsObject: originalObject]))
@@ -1298,7 +1319,7 @@ DEALLOC(
 @end
 
 @implementation NSCountedSet (ETCOllectionMapHandler)
-- (NSArray*) contentsForArrayEquivalent
+- (NSArray*)contentsForArrayEquivalent
 {
 	NSArray *distinctObjects = [self allObjects];
 	NSMutableArray *result = [NSMutableArray array];
@@ -1314,11 +1335,12 @@ DEALLOC(
 
 // NOTE: This methods do nothing more than the default implementation. But they
 // are needed to override the implementation in NSMutableSet.
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-	         atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo
 {
 	if ((id)self == (id)*aTarget)
 	{
@@ -1330,12 +1352,12 @@ DEALLOC(
 @end
 
 @implementation NSMutableIndexSet (ETCollectionHOM)
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-             atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
-             mapInfo: (id)mapInfo
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo
 {
 	if (((id)self == (id)*aTarget) 
 	 && (NO == [alreadyMapped containsObject: originalObject]))

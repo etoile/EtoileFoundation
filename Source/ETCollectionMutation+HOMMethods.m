@@ -39,29 +39,29 @@
  * higher-order messaging on mutable collections.
  */
 
-- (id) map
+- (id)map
 {
 	return [[[ETCollectionMutationMapProxy alloc] initWithCollection: self]
 	                                                           autorelease];
 }
 
-- (id) filter
+- (id)filter
 {
 	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self] autorelease];
 }
 
-- (id) inverseFilter
+- (id)inverseFilter
 {
 	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self
 	                                                          andInvert: YES] autorelease];
 }
-- (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection
+- (id)zipWithCollection: (id<NSObject,ETCollection>)aCollection
 {
 	return [[[ETCollectionMutationZipProxy alloc] initWithCollection: self
 	                                              andCollection: aCollection] autorelease];
 }
 
-- (void) mapWithBlock: (id)aBlock
+- (void)mapWithBlock: (id)aBlock
 {
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
 	                                         (id<ETCollectionObject>*) &self,
@@ -70,8 +70,8 @@
 	                                 (id<ETMutableCollectionObject>*) &self);
 }
 
-- (void) collectBlock: (id)aBlock
-       withCollection: (id<NSObject,ETCollection>) aCollection
+- (void)collectBlock: (id)aBlock
+      withCollection: (id<NSObject,ETCollection>)aCollection
 {
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,&aCollection,
 	                                                  aBlock,YES,
@@ -79,18 +79,18 @@
 }
 
 #if __has_feature(blocks)
-- (void) filterWithBlock: (BOOL(^)(id))aBlock
-               andInvert: (BOOL) invert
+- (void)filterWithBlock: (BOOL(^)(id))aBlock
+              andInvert: (BOOL)invert
 {
 	ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(&self,aBlock,YES,invert);
 }
 
-- (void) filterWithBlock: (BOOL(^)(id))aBlock
+- (void)filterWithBlock: (BOOL(^)(id))aBlock
 {
 	[self filterWithBlock: aBlock andInvert: NO];
 }
 
-- (void) inverseFilterWithBlock: (BOOL(^)(id))aBlock
+- (void)inverseFilterWithBlock: (BOOL(^)(id))aBlock
 {
 	[self filterWithBlock: aBlock andInvert: YES];
 }

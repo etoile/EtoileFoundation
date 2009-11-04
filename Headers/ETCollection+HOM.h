@@ -40,16 +40,18 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSObject (ETEachHOM)
 /**
  * If the receiver conforms to the ETCollection protocol, this method returns a
  * proxy that will let map and filter methods iterate over the contents of the
- * collection when it is used as an argument to a message. Note: If an each
- * proxy is passed to a message used as a filter predicate, "or"-semantics will
- * be applied.
+ * collection when it is used as an argument to a message. This way,
+ * <code>[[people map] sendMail: [messages each]];</code> will cause the
+ * -sendMail: message to be executed once with every combination of elements
+ * from the <code>people</code> and the <code>messages</code> collection.
+ * Note: If an each proxy is passed to a message used as a filter predicate,
+ * "or"-semantics will be applied.
  */
-- (id) each;
+- (id)each;
 @end
 
 @protocol ETCollection, ETCollectionMutation;
@@ -61,21 +63,21 @@
  * cause a collection to be returned containing the elements of the original
  * collection mapped by the method call.
  */
-- (id) mappedCollection;
+- (id)mappedCollection;
 
 /**
  * Returns a proxy object that can be used to perform a left fold on the
  * collection. The value of the first argument of any method used as a folding
  * method is taken to be the initial value of the accumulator. 
  */
-- (id) leftFold;
+- (id)leftFold;
 
 /**
  * Returns a proxy object that can be used to perform a right fold on the
  * collection. The value of the first argument of any method used as a folding
  * method is taken to be the initial value of the accumulator.
  */
-- (id) rightFold;
+- (id)rightFold;
 
 /**
  * Returns a proxy object the will use the next message received to coalesce the
@@ -85,27 +87,29 @@
  * and selector arguments) of the message is thus ignored.
  * The operation will stop at the end of the shorter collection.
  */
-- (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection;
+- (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection;
 
 /**
  * Returns a collection with each element of the original collection mapped by
  * applying aBlock where aBlock takes one argument of type id and returns id.
  */
-- (id) mappedCollectionWithBlock: (id)aBlock;
+- (id)mappedCollectionWithBlock: (id)aBlock;
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
  * its first and each element as its second argument. If shallInvert is set to
  * YES, the folding takes place from right to left.
  */
-- (id) injectObject: (id)initialValue intoBlock: (id)aBlock
-          andInvert: (BOOL)shallInvert;
+- (id)injectObject: (id)initialValue
+         intoBlock: (id)aBlock
+         andInvert: (BOOL)shallInvert;
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
  * its first and each element as its second argument.
  */
-- (id) injectObject: (id)initialValue intoBlock: (id)aBlock;
+- (id)injectObject: (id)initialValue
+         intoBlock: (id)aBlock;
 
 /**
  * Coalesces the receiver and the collection named by aCollection into one
@@ -113,21 +117,21 @@
  * to all element-pairs from the collection. The operation will stop at the end
  * of the shorter collection.
  */
-- (id) zippedCollectionWithCollection: (id<NSObject,ETCollection>) aCollection
-                             andBlock:(id)aBlock;
+- (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection
+                            andBlock: (id)aBlock;
 
 #if __has_feature(blocks)
 /**
  * Returns a collection containing all elements of the original collection that
  * respond with YES to aBlock.
  */
-- (id) filteredCollectionWithBlock: (BOOL(^)(id))aBlock;
+- (id)filteredCollectionWithBlock: (BOOL(^)(id))aBlock;
 
 /**
  * Returns a collection containing all elements of the original collection that
  * respond with NO to aBlock.
  */
-- (id) inverseFilteredCollectionWithBlock: (BOOL(^)(id)aBlock;
+- (id)inverseFilteredCollectionWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
@@ -137,7 +141,7 @@
  * cause each element in the collection to be replaced with the return value of
  * the method call.
  */
-- (id) map;
+- (id)map;
 
 /**
  * Returns a proxy object on which methods with return type BOOL can be called.
@@ -148,13 +152,13 @@
  * collection based on attributes of an object:
  * <code>[[[persons filter] firstName] isEqual: @"Alice"]</code>
  */
-- (id) filter;
+- (id)filter;
 
 /**
  * Filters a collection the same way -filter does, but only includes objects
  * that respond with NO to the predicate.
  */
-- (id) inverseFilter;
+- (id)inverseFilter;
 
 /**
  * Returns a proxy object which will coalesce the collection named by
@@ -164,34 +168,34 @@
  * implicit receiver and selector arguments) is thus ignored. The operation will
  * stop at the end of the shorter collection.
  */
-- (id) zipWithCollection: (id<NSObject,ETCollection>) aCollection;
+- (id)zipWithCollection: (id<NSObject,ETCollection>)aCollection;
 
 /**
  * Replaces each element in the collection with the result of applying aBlock to
  * it. The blocks takes one argument of type id.
  */
-- (void) mapWithBlock: (id)aBlock;
+- (void)mapWithBlock: (id)aBlock;
 
 /**
  * Coalesces the second collection into the first by applying aBlock (where
  * aBlock takes two arguments of type id) to all element pairs. Processing will
  * stop at the end of the shorter collection.
  */
-- (void) collectBlock: (id)aBlock
-       withCollection: (id<NSObject,ETCollection>)aCollection;
+- (void)collectBlock: (id)aBlock
+      withCollection: (id<NSObject,ETCollection>)aCollection;
 
 #if __has_feature(blocks)
 /**
  * Removes all elements from the collection for which the aBlock does not return
  * YES.
  */
-- (void) filterWithBlock: (BOOL(^)(id))aBlock;
+- (void)filterWithBlock: (BOOL(^)(id))aBlock;
 
 /**
  * Removes all elements from the collection for which the aBlock does not return
  * NO.
  */
-- (void) inverseFilterWithBlock: (BOOL(^)(id))aBlock;
+- (void)inverseFilterWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
@@ -208,12 +212,12 @@
  * here. It can be used to pass information about the original state of the
  * collection.
  */
-- (void) placeObject: (id)mappedObject
-        inCollection: (id<ETCollectionMutation>*)aTarget
-     insteadOfObject: (id)originalObject
-             atIndex: (NSUInteger)index
- havingAlreadyMapped: (NSArray*)alreadyMapped
-             mapInfo: (id)mapInfo;
+- (void)placeObject: (id)mappedObject
+       inCollection: (id<ETCollectionMutation>*)aTarget
+    insteadOfObject: (id)originalObject
+            atIndex: (NSUInteger)index
+havingAlreadyMapped: (NSArray*)alreadyMapped
+            mapInfo: (id)mapInfo;
 @end
 
 /**
@@ -225,11 +229,11 @@
 /**
  * This method will be called by the filter proxy.
  */
-- (void) placeObject: (id)anObject
-             atIndex: (NSUInteger)index
-        inCollection: (id<ETCollectionMutation>*)aTarget
-       basedOnFilter: (BOOL)shallInclude
-        withSnapshot: (id)snapshot;
+- (void)placeObject: (id)anObject
+            atIndex: (NSUInteger)index
+       inCollection: (id<ETCollectionMutation>*)aTarget
+      basedOnFilter: (BOOL)shallInclude
+       withSnapshot: (id)snapshot;
 @end
 
 @protocol ETCollectionHOMIntegration <ETCollectionHOMMapIntegration,ETCollectionHOMFilterIntegration>
