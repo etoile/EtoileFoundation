@@ -27,8 +27,9 @@
 
 	[authors setOpposite: personBooks];
 
-	UKTrue([[book propertyDescriptions] containsObject: title]);
- 	UKTrue([[book propertyDescriptions] containsObject: authors]);
+	UKObjectsEqual([book propertyDescriptions], A(title, authors));
+	UKObjectsEqual([person propertyDescriptions], A(name, personBooks));	
+	UKObjectsEqual([library propertyDescriptions], A(librarian, libraryBooks));
 	
 	// Test that the opposite relationship is bidirectional
 	UKObjectsEqual([personBooks opposite], authors);
