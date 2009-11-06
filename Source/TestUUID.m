@@ -11,7 +11,7 @@
 #import "Macros.h"
 #import "ETUUID.h"
 #import "EtoileCompatibility.h"
-
+#include <unistd.h>
 
 @interface TestUUID: NSObject <UKTest>
 @end
@@ -27,7 +27,6 @@
 	UKTrue([uuid UUIDValue] != NULL);
 
 	id uuid2 = [[ETUUID alloc] initWithUUID: [uuid UUIDValue]];
-	int result;
 
 	UKObjectsEqual(uuid, uuid2);
 

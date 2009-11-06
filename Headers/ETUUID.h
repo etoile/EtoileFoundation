@@ -29,7 +29,7 @@
 /**
  * Initializes the UUID object with a 128-bit binary value.
  */
-- (id) initWithUUID: (unsigned char *)aUUID;
+- (id) initWithUUID: (const unsigned char *)aUUID;
 /**
  * Initializes the UUID object from a string representation.
  */

@@ -134,7 +134,7 @@ static void ETSRandomDev()
 	return self;
 }
 
-- (id) initWithUUID: (unsigned char *)aUUID
+- (id) initWithUUID: (const unsigned char *)aUUID
 {
 	SUPERINIT
 
