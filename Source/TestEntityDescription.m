@@ -1,6 +1,8 @@
 #import <UnitKit/UnitKit.h>
 #import <EtoileFoundation/EtoileFoundation.h>
 
+#define SA(x) [NSSet setWithArray: x]
+
 @interface TestEntityDescription : NSObject <UKTest>
 {
 }
@@ -27,9 +29,9 @@
 
 	[authors setOpposite: personBooks];
 
-	UKObjectsEqual([book propertyDescriptions], A(title, authors));
-	UKObjectsEqual([person propertyDescriptions], A(name, personBooks));	
-	UKObjectsEqual([library propertyDescriptions], A(librarian, libraryBooks));
+	UKObjectsEqual(SA([book propertyDescriptions]), S(title, authors));
+	UKObjectsEqual(SA([person propertyDescriptions]), S(name, personBooks));	
+	UKObjectsEqual(SA([library propertyDescriptions]), S(librarian, libraryBooks));
 	
 	// Test that the opposite relationship is bidirectional
 	UKObjectsEqual([personBooks opposite], authors);
