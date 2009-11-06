@@ -22,6 +22,8 @@ property and handles reading and writing the property value through -value and
 {
 	id _propertyOwner;
 	id _propertyName;
+	BOOL _treatsDictionaryKeysAsProperties;
+	BOOL _usesKVC;
 }
 
 + (id) propertyWithName: (NSString *)key representedObject: (id)object;
@@ -32,6 +34,8 @@ property and handles reading and writing the property value through -value and
 
 - (id) representedObject;
 - (void) setRepresentedObject: (id)object;
+- (BOOL) treatsDictionaryKeysAsProperties;
+- (void) setTreatsDictionaryKeysAsProperties: (BOOL)accessDictKeys;
 
 - (ETUTI *) type;
 

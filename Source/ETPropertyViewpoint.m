@@ -5,6 +5,7 @@
 	Date:  December 2007
  */
 
+#import "Macros.h"
 #import "ETPropertyViewpoint.h"
 #import "NSObject+Etoile.h"
 #import "NSObject+Model.h"
@@ -25,13 +26,10 @@ Returns and initializes a new property viewpoint that represents the property
 identified by the given name in object. */
 - (id) initWithName: (NSString *)key representedObject: (id)object
 {
-	self = [super init];
-	
-	if (self != nil)
-	{
-		ASSIGN(_propertyName, key);
-		[self setRepresentedObject: object];
-	}
+	SUPERINIT
+		
+	ASSIGN(_propertyName, key);
+	[self setRepresentedObject: object];
 	
 	return self;
 }
@@ -54,6 +52,31 @@ identified by the given name in object. */
 - (void) setRepresentedObject: (id)object
 {
 	ASSIGN(_propertyOwner, object);
+
+	Class layoutItemClass = NSClassFromString(@"ETLayoutItem"); /* See EtoileUI */
+	BOOL isLayoutItem = (Nil != layoutItemClass && [object isKindOfClass: layoutItemClass]);
+ 	BOOL isDictionary = [object isKindOfClass: [NSDictionary class]];
+
+	_usesKVC = (isLayoutItem || (isDictionary && _treatsDictionaryKeysAsProperties));
+}
+
+/** Returns whether the dictionary keys should be considered as properties.
+
+By default, returns NO.
+
+When YES is returned, the property name can be a dictionary key, otherwise 
+only a property exposed by -propertyNames is valid. */
+- (BOOL) treatsDictionaryKeysAsProperties
+{
+	return _treatsDictionaryKeysAsProperties;
+}
+
+/** Returns whether the dictionary keys should be considered as properties.
+
+See -treatsDictionaryKeysAsProperties. */
+- (void) setTreatsDictionaryKeysAsProperties: (BOOL)accessDictKeys
+{
+	_treatsDictionaryKeysAsProperties = accessDictKeys;
 }
 
 /** Returns the name used to declared property in the owner object. */
@@ -73,13 +96,27 @@ identified by the given name in object. */
 /** Returns the value of the property. */
 - (id) objectValue
 {
-	return [[self representedObject] valueForProperty: [self name]];
+	if (_usesKVC)
+	{
+		return [[self representedObject] valueForKey: [self name]];
+	}
+	else /* Use PVC by default */
+	{
+		return [[self representedObject] valueForProperty: [self name]];
+	}	
 }
 
 /** Sets the value of the property to be the given object value. */
 - (void) setObjectValue: (id)objectValue
 {
-	[[self representedObject] setValue: objectValue forProperty: [self name]];
+	if (_usesKVC)
+	{
+		[[self representedObject] setValue: objectValue forKey: [self name]];
+	}
+	else /* Use PVC by default */
+	{
+		[[self representedObject] setValue: objectValue forProperty: [self name]];
+	}	
 }
 
 /* Property Value Coding */
