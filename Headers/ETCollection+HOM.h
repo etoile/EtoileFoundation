@@ -221,7 +221,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @end
 
 /**
- * The ETCollectionHOMMapIntegration protocol defines a hook that collections can
+ * The ETCollectionHOMFilterIntegration protocol defines a hook that collections can
  * use to tie into higher-order messaging if they need special treatment of
  * their elements.
  */
@@ -244,7 +244,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @end
 
 @interface NSDictionary (ETCollectionHOM) <ETCollectionHOM,ETCollectionHOMIntegration>
-- (NSArray*) mapInfo;
+- (NSArray*)mapInfo;
 @end
 
 @interface NSSet (ETCollectionHOM) <ETCollectionHOM>

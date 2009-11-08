@@ -1287,8 +1287,17 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 havingAlreadyMapped: (NSArray*)alreadyMapped
             mapInfo: (id)mapInfo
 {
+	id key = nil;
+	if (*aTarget == self)
+	{
+		key = [(NSArray*)mapInfo objectAtIndex: index];
+	}
+	else
+	{
+		key = [self identifierAtIndex: index];
+	}
 	[(NSMutableDictionary*)*aTarget setObject: mappedObject
-	                                   forKey: [(NSArray*)mapInfo objectAtIndex: index]];
+	                                   forKey: key];
 }
 #include "ETCollectionMutation+HOMMethods.m"
 @end
