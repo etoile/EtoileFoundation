@@ -39,8 +39,8 @@ property and handles reading and writing the property value through -value and
 
 - (ETUTI *) type;
 
-- (id) objectValue;
-- (void) setObjectValue: (id)objectValue;
+- (id) value;
+- (void) setValue: (id)objectValue;
 
 /* Property Value Coding */
 
@@ -49,4 +49,3 @@ property and handles reading and writing the property value through -value and
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
 @end
-

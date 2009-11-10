@@ -3,16 +3,52 @@
  
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
 	Date:  December 2007
+	License:  Modified BSD (see COPYING)
  */
 
-#import "Macros.h"
 #import "ETPropertyViewpoint.h"
+#import "Macros.h"
 #import "NSObject+Etoile.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 
 
 @implementation ETProperty
+
+/** We don't post KVO notification when -setValue: is called, we only modify 
+the property value in the property owner. */
++ (BOOL) automaticallyNotifiesObserversForKey:(NSString *)key
+{
+	if ([key isEqualToString: @"value"])
+	{
+		return NO;
+	}
+	else
+	{
+		return [super automaticallyNotifiesObserversForKey: key];
+	}
+}
+
+- (NSSet *) observableKeyPaths
+{
+	return S(@"value", @"representedObject");
+}
+
+
+// NOTE: By keeping track of the observer, we could do...
+// [observer observeValueForKeyPath: @"value" ofObject: self change: change
+//	context: NULL]
+- (void) observeValueForKeyPath: (NSString *)keyPath ofObject: (id)object 
+	change: (NSDictionary *)change context: (void *)context
+{
+	NSParameterAssert([keyPath isEqualToString: [self name]]);
+
+	ETLog(@"Will forward KVO property %@ change", keyPath);
+
+	// NOTE: Invoking just -didChangeValueForKey: won't work
+	[self willChangeValueForKey: @"value"];
+	[self didChangeValueForKey: @"value"];
+}
 
 /** Returns a new autoreleased property viewpoint that represents the property 
 identified by the given name in object. */
@@ -26,19 +62,20 @@ Returns and initializes a new property viewpoint that represents the property
 identified by the given name in object. */
 - (id) initWithName: (NSString *)key representedObject: (id)object
 {
+	NSParameterAssert(nil != key);
 	SUPERINIT
-		
+
 	ASSIGN(_propertyName, key);
 	[self setRepresentedObject: object];
-	
+
 	return self;
 }
 
 - (void) dealloc
 {
+	[self setRepresentedObject: nil]; /* Will end KVO observation */
 	DESTROY(_propertyName);
-	DESTROY(_propertyOwner);
-	
+
 	[super dealloc];
 }
 
@@ -51,7 +88,20 @@ identified by the given name in object. */
 /** Sets the object to which the property belongs to. */
 - (void) setRepresentedObject: (id)object
 {
+	NSString *name = [self name];
+
+	NSParameterAssert(nil != name);
+
+	if (nil != _propertyOwner)
+	{
+
+		[_propertyOwner removeObserver: self forKeyPath: name];
+	}
 	ASSIGN(_propertyOwner, object);
+	if (nil != object)
+	{
+		[object addObserver: self forKeyPath: name options: 0 context: NULL];
+	}
 
 	Class layoutItemClass = NSClassFromString(@"ETLayoutItem"); /* See EtoileUI */
 	BOOL isLayoutItem = (Nil != layoutItemClass && [object isKindOfClass: layoutItemClass]);
@@ -90,11 +140,11 @@ See -treatsDictionaryKeysAsProperties. */
 {
 	// NOTE: May be necessary to cache this value...
 	// or [[self representedObject] typeForKey: [self name]]
-	return [[self objectValue] UTI];
+	return [[self value] UTI];
 }
 
 /** Returns the value of the property. */
-- (id) objectValue
+- (id) value
 {
 	if (_usesKVC)
 	{
@@ -107,7 +157,7 @@ See -treatsDictionaryKeysAsProperties. */
 }
 
 /** Sets the value of the property to be the given object value. */
-- (void) setObjectValue: (id)objectValue
+- (void) setValue: (id)objectValue
 {
 	if (_usesKVC)
 	{
@@ -123,7 +173,7 @@ See -treatsDictionaryKeysAsProperties. */
 
 - (NSArray *) properties
 {
-	return [NSArray arrayWithObjects: @"property", @"name", @"value", nil];
+	return A(@"property", @"name", @"value", @"representedObject");
 }
 
 - (id) valueForProperty: (NSString *)key
@@ -132,11 +182,7 @@ See -treatsDictionaryKeysAsProperties. */
 	
 	if ([[self properties] containsObject: key])
 	{
-		if ([key isEqual: @"value"])
-		{
-			value = [self objectValue];
-		}
-		else if ([key isEqual: @"property"])
+		if ([key isEqual: @"property"])
 		{
 			value = [self name];
 		}
@@ -158,7 +204,7 @@ See -treatsDictionaryKeysAsProperties. */
 		// NOTE: name, type are read-only properties
 		if ([key isEqual: @"value"])
 		{
-			[self setObjectValue: value];
+			[self setValue: value];
 			result = YES;
 		}
 	}
@@ -167,4 +213,3 @@ See -treatsDictionaryKeysAsProperties. */
 }
 
 @end
-
