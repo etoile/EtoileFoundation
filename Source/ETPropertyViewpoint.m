@@ -34,7 +34,6 @@ the property value in the property owner. */
 	return S(@"value", @"representedObject");
 }
 
-
 // NOTE: By keeping track of the observer, we could do...
 // [observer observeValueForKeyPath: @"value" ofObject: self change: change
 //	context: NULL]
@@ -85,6 +84,14 @@ identified by the given name in object. */
 	return _propertyOwner;
 }
 
+- (void) computeUseKVCWithObject: (id)object treatsAllKeysAsProperties: (BOOL)exposeAllKeys
+{
+	Class layoutItemClass = NSClassFromString(@"ETLayoutItem"); /* See EtoileUI */
+	BOOL isLayoutItem = (Nil != layoutItemClass && [object isKindOfClass: layoutItemClass]);
+ 
+	_usesKVC = (isLayoutItem || exposeAllKeys);
+}
+
 /** Sets the object to which the property belongs to. */
 - (void) setRepresentedObject: (id)object
 {
@@ -98,35 +105,46 @@ identified by the given name in object. */
 		[_propertyOwner removeObserver: self forKeyPath: name];
 	}
 	ASSIGN(_propertyOwner, object);
+
+	[self computeUseKVCWithObject: object 
+	    treatsAllKeysAsProperties: [self treatsAllKeysAsProperties]];
+
 	if (nil != object)
 	{
 		[object addObserver: self forKeyPath: name options: 0 context: NULL];
 	}
-
-	Class layoutItemClass = NSClassFromString(@"ETLayoutItem"); /* See EtoileUI */
-	BOOL isLayoutItem = (Nil != layoutItemClass && [object isKindOfClass: layoutItemClass]);
- 	BOOL isDictionary = [object isKindOfClass: [NSDictionary class]];
-
-	_usesKVC = (isLayoutItem || (isDictionary && _treatsDictionaryKeysAsProperties));
 }
 
-/** Returns whether the dictionary keys should be considered as properties.
+/** Returns whether all the keys for which the represented object is 
+KVC-compliant should be considered as properties.
 
 By default, returns NO.
 
-When YES is returned, the property name can be a dictionary key, otherwise 
-only a property exposed by -propertyNames is valid. */
-- (BOOL) treatsDictionaryKeysAsProperties
+When YES is returned, the property name can be any key (e.g. a dictionary key), 
+otherwise only a property exposed by -propertyNames is valid. */
+- (BOOL) treatsAllKeysAsProperties
 {
-	return _treatsDictionaryKeysAsProperties;
+	return _treatsAllKeysAsProperties;
 }
 
-/** Returns whether the dictionary keys should be considered as properties.
+/** Sets whether all the keys for which the represented object is 
+KVC-compliant should be considered as properties.
 
 See -treatsDictionaryKeysAsProperties. */
-- (void) setTreatsDictionaryKeysAsProperties: (BOOL)accessDictKeys
+- (void) setTreatsAllKeysAsProperties: (BOOL)exposeAllKeys
 {
-	_treatsDictionaryKeysAsProperties = accessDictKeys;
+	/* When treatsAllKeysAsProperties was NO and becomes YES, -value might start 
+	   to return a non-nil value because the property value which was not 
+	   exposed with PVC can be now retrieved with KVC. 
+	   i.e. -valueForProperty: returns nil when the property isn't included in 
+	   [representedObject properties]. */
+	[self willChangeValueForKey: @"value"];
+
+	_treatsAllKeysAsProperties = exposeAllKeys;
+	[self computeUseKVCWithObject: [self representedObject]
+	    treatsAllKeysAsProperties: exposeAllKeys];
+
+	[self didChangeValueForKey: @"value"];
 }
 
 /** Returns the name used to declared property in the owner object. */
@@ -135,7 +153,9 @@ See -treatsDictionaryKeysAsProperties. */
 	return _propertyName;
 }
 
-/** Returns the UTI type of the property value. */
+/** Returns the UTI type of the property value.
+
+Allows to show the value type in an EtoileUI inspector. */
 - (ETUTI *) type
 {
 	// NOTE: May be necessary to cache this value...
@@ -171,11 +191,19 @@ See -treatsDictionaryKeysAsProperties. */
 
 /* Property Value Coding */
 
+/** Returns 'property', 'name', 'type', 'value' and 'representedObject'.
+
+See  -valueForProperty:. */
 - (NSArray *) properties
 {
-	return A(@"property", @"name", @"value", @"representedObject");
+	return A(@"property", @"name", @"type", @"value", @"representedObject");
 }
 
+/** Supports to view the property with several table columns such as 
+'property', 'value' and 'type' (e.g. an EtoileUI inspector where property 
+viewpoints are used as represented objects).
+
+'property' is mapped to the property name. */
 - (id) valueForProperty: (NSString *)key
 {
 	id value = nil;
@@ -195,6 +223,7 @@ See -treatsDictionaryKeysAsProperties. */
 	return value;
 }
 
+/** Supports to edit the property in a 'value' table column (e.g. in an EtoileUI inspector). */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key
 {
 	BOOL result = NO;
