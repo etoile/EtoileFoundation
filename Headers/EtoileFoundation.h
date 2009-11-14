@@ -63,7 +63,6 @@
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
-#import <EtoileFoundation/UKPluginsRegistry.h>
 #import <EtoileFoundation/ETEntityDescription.h>
 #import <EtoileFoundation/ETPropertyDescription.h>
 #import <EtoileFoundation/ETValidationResult.h>
@@ -85,7 +84,6 @@
 #endif
 
 #import <EtoileXML/ETXMLDeclaration.h>
-#import <EtoileXML/ETXMLNode.h>
 #import <EtoileXML/ETXMLNullHandler.h>
 #import <EtoileXML/ETXMLParserDelegate.h>
 #import <EtoileXML/ETXMLParser.h>
