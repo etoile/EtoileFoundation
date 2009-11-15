@@ -22,19 +22,24 @@ NSString *ETSocketException = @"ETSocketException";
 {
 	SSL_library_init();
 }
+
+- (id)initWithFileHandle: (NSFileHandle*)anHandle
+{
+	SUPERINIT;
+	handle = [anHandle retain];
+	return self;
+}
+
 - (id)initConnectedToRemoteHost: (NSString*)aHost
 					 forService: (NSString*)aService
 {
-	SUPERINIT;
-	handle = [[NSFileHandle fileHandleConnectedToRemoteHost: aHost
-												 forService: aService] retain];
-	if (nil == handle)
+	NSFileHandle *theHandle = [NSFileHandle fileHandleConnectedToRemoteHost: aHost
+	                                                             forService: aService];
+	if (nil == theHandle)
 	{
-		[self release];
 		return nil;
 	}
-
-	return self;
+	return [self initWithFileHandle: theHandle];
 }
 + (id)socketConnectedToRemoteHost: (NSString*)aHost
 					   forService: (NSString*)aService
