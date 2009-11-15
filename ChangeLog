@@ -1,3 +1,10 @@
+2009-11-15 Niels Grewe <niels.grewe@halbordnung.de>
+
+	* Headers/ETSocket.h:
+	* Source/ETSocket.m: Added a -initWithFileHandle: initializier to
+	ETSocket. Wrote a new ETListenSocket subclass to create server sockets
+	and added corresponding delegate protocol. No SSL support yet.
+
 2009-10-22  Eric Wasylishen <ewasylishen@gmail.com>
 
 	* Headers/runtime.h: Added a wrapper header which include the 
