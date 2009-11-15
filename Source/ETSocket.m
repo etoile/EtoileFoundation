@@ -2,6 +2,9 @@
 #include <openssl/err.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
 #import "EtoileFoundation.h"
 
@@ -202,5 +205,201 @@ NSString *ETSocketException = @"ETSocketException";
 	SSL_free(ssl);
 	SSL_CTX_free(sslContext);
 	[super dealloc];
+}
+@end
+
+
+@implementation ETListenSocket
++ (id)listenSocketOnPort: (unsigned short)aPort
+{
+	return [[[self alloc] initOnPort: aPort] autorelease];
+}
+
++ (id)listenSocketForAddress: (NSString*)anAddress
+                      onPort: (unsigned short)aPort
+{
+	return [[[self alloc] initForAddress: anAddress
+	                              onPort: aPort] autorelease];
+}
+
+- (id)initWithSockAddr: (struct sockaddr_storage*)address
+{
+	// We create stream sockets only:
+	int s = socket(address->ss_family, SOCK_STREAM, IPPROTO_TCP);
+	if (0 == s)
+	{
+		NSLog(@"Failed to create socket.");
+		return nil;
+	}
+	size_t addrSize = 0;
+	if (AF_INET == address->ss_family)
+	{
+		addrSize = sizeof(struct sockaddr_in);
+	}
+	else if (AF_INET6 == address->ss_family)
+	{
+		addrSize = sizeof(struct sockaddr_in6);
+	}
+	if (bind(s, (struct sockaddr*)address, addrSize))
+	{
+		NSLog(@"Failed to bind socket.");
+		close(s);
+		return nil;
+	}
+
+	if (listen(s, 1))
+	{
+		NSLog(@"Failed to make socket listen.");
+		close(s);
+		return nil;
+	}
+
+	NSFileHandle *descriptor = [[[NSFileHandle alloc] initWithFileDescriptor: s
+	                                                          closeOnDealloc: YES] autorelease];
+
+	if (nil == descriptor)
+	{
+		return nil;
+	}
+
+	if (nil == (self = [super initWithFileHandle: descriptor]))
+	{
+		return nil;
+	}
+	return self;
+}
+
+- (id)initForAddress: (NSString*) anAddress
+              onPort: (unsigned short)aPort
+{
+	struct sockaddr_storage sa;
+	const char* address = [anAddress UTF8String];
+
+	// sockaddr_storage can be safely cast to the protocol-specific variants. We
+	// define the following aliases to load sa with the protocol specific values.
+	struct sockaddr_in *sa4 = (struct sockaddr_in*)&sa;
+	struct sockaddr_in6 *sa6 = (struct sockaddr_in6*)&sa;
+
+	// First we test whether anAddress contained an IPv4 address
+	int res = inet_pton(AF_INET,address,&(sa4->sin_addr));
+
+	// A return value of -1 signifies an error during the conversion.
+	if (-1 == res)
+	{
+		NSDebugLog(@"Error %d in IP address conversion",errno);
+	}
+
+	// A return value of 1 signifies success, in all other cases (only 0 == res
+	// should happen, though) we attempt conversion to an IPv6 address.
+	if (1 == res)
+	{
+		sa4->sin_family = AF_INET;
+		sa4->sin_port = htons(aPort);
+	}
+	else
+	{
+		res = inet_pton(AF_INET6,address,&(sa6->sin6_addr));
+		if (-1 == res)
+		{
+			NSDebugLog(@"Error %d in IP address conversion",errno);
+		}
+		if (1 == res)
+		{
+			sa6->sin6_family = AF_INET6;
+			sa6->sin6_port = htons(aPort);
+		}
+		else
+		{
+			NSDebugLog(@"Could not convert \"%@\" to an IP address.", anAddress);
+			return nil;
+		}
+	}
+	return [self initWithSockAddr: &sa];
+}
+
+- (id)initOnPort: (unsigned short)aPort
+{
+	struct addrinfo hints, *address_list, *address;
+	const char* port = [[[NSNumber numberWithInt: aPort] stringValue] UTF8String];
+	memset(&hints, 0, sizeof hints);
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
+
+	// Resolve ourselves:
+	int res = getaddrinfo(NULL,port,&hints, &address_list);
+	if (res != 0)
+	{
+		NSLog(@"Error in getaddrinfo: %s", gai_strerror(res));
+		return nil;
+	}
+
+	// Try to set up the socket for one of our addresses;
+	for (address = address_list; address != NULL; address = address->ai_next)
+	{
+		// NOTE: Don't assign the result to self. Once it's nil, we'll not be
+		// calling any methods.
+		id listener = [self initWithSockAddr: (struct sockaddr_storage*)(address->ai_addr)];
+
+		if (listener != nil)
+		{
+			freeaddrinfo(address_list);
+			address_list = NULL;
+			return listener;
+		}
+	}
+	if (address_list != NULL)
+	{
+		freeaddrinfo(address_list);
+	}
+	return nil;
+}
+
+// Wrap -initWithSockAddr in order not expose internals.
+- (id)initWithSocketAddress: (NSData*)socketAddress
+{
+	return [self initWithSockAddr: (struct sockaddr_storage*)[socketAddress bytes]];
+}
+
+- (void)sendData: (NSData*)data
+{
+	NSDebugLog(@"Attempt to send data via socket (%@) in listening mode", self);
+}
+
+- (void)newConnection: (NSNotification*)notification
+{
+	//TODO: Maybe add some ACL checking mechanism?
+	NSFileHandle *clientHandle = [[notification userInfo] objectForKey: NSFileHandleNotificationFileHandleItem];
+
+	/*
+	 * TODO: For SSL connections, add a ETIncomingSSLSocket subclass with proper
+	 * SSL parameters.
+	 */
+	ETSocket *clientSocket = [[[ETSocket alloc] initWithFileHandle: clientHandle] autorelease];
+
+	// Notify the delegate about the new connection:
+	[delegate newConnection: clientSocket
+	             fromSocket: self];
+
+	// Accept further connections:
+	[handle acceptConnectionInBackgroundAndNotify];
+}
+
+- (void)setDelegate: (id)aDelegate
+{
+	delegate = aDelegate;
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+	if (nil != delegate)
+	{
+		[center addObserver: self
+		           selector: @selector(newConnection:)
+	                   name: NSFileHandleConnectionAcceptedNotification
+		             object: handle];
+		[handle acceptConnectionInBackgroundAndNotify];
+	}
+	else
+	{
+		[center removeObserver: self];
+	}
 }
 @end

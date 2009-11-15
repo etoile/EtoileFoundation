@@ -42,6 +42,38 @@
 - (void)sendData: (NSData*)data;
 @end
 
+
+@interface ETListenSocket: ETSocket
+/**
+ * Returns a socket listening aPort for an address of the local machine.
+ */
++ (id)listenSocketOnPort: (unsigned short)aPort;
+
+/**
+ * Returns a socket listening on aPort for the address specified by anAddress.
+ */
++ (id)listenSocketForAddress: (NSString*)anAddress
+                      onPort: (unsigned short)aPort;
+
+/**
+ * Initializes the socket to listen on aPort for an address of the local
+ * machine.
+ */
+- (id)initOnPort: (unsigned short)aPort;
+
+/**
+ * Initializes the socket to listen on aPort for the address specified by
+ * anAddress.
+ */
+- (id)initForAddress: (NSString*)anAddress
+              onPort: (unsigned short)aPort;
+/**
+ * Initializes a listening socket with the contents of a sockaddr_* structure
+ * encapsulated in the NSData object socketAddress.
+ */
+- (id)initWithSocketAddress: (NSData*)socketAddress;
+@end
+
 /**
  * Informal protocol for socket delegates.
  */
@@ -51,6 +83,18 @@
  */
 - (void)receivedData: (NSData*)aData fromSocket: (ETSocket*)aSocket;
 @end
+
+/**
+ * Informal protocol for delegates to listening sockets.
+ */
+@interface NSObject (ETListenSocketDelegate)
+/**
+ * Handle a new connection request received by listenerSocket.
+ */
+- (void)newConnection: (ETSocket*)aSocket
+           fromSocket: (ETSocket*)listenerSocket;
+@end
+
 /**
  * Protocol for socket data filters.  Data sent or received by an ETSocket
  * instance will be pushed through a chain of filters conforming to this
