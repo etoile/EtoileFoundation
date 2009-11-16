@@ -52,6 +52,22 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 }
 - (void)startAndEndElement: (NSString*)aName
                 attributes: (NSDictionary*)attributes
+                containing: (id)aBlock
+{
+	[self startElement: aName
+	        attributes: attributes];
+	[aBlock value];
+	[self endElement];
+}
+- (void)startAndEndElement: (NSString*)aName
+                containing: (id)aBlock
+{
+	[self startAndEndElement: aName
+	              attributes: nil
+	              containing: aBlock];
+}
+- (void)startAndEndElement: (NSString*)aName
+                attributes: (NSDictionary*)attributes
                      cdata: (NSString*)chars
 {
 	[self startElement: aName

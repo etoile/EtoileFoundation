@@ -35,6 +35,19 @@
 - (void)startAndEndElement: (NSString*)aName
                      cdata: (NSString*)chars;
 /**
+ * Generates start and end tags with the specified name and attributes.
+ * Executes aBlock in between the tags.
+ */
+- (void)startAndEndElement: (NSString*)aName
+                attributes: (NSDictionary*)attributes
+                containing: (id)aBlock;
+/**
+ * Generates start and end tags with the specified name.  Executes aBlock in
+ * between the tags.
+ */
+- (void)startAndEndElement: (NSString*)aName
+                containing: (id)aBlock;
+/**
  * Sets whether the output will be automatically indented.  Default is NO.
  */
 - (void)setAutoindent: (BOOL)aFlag;

@@ -314,9 +314,13 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	}
 }
 
-- (id) init
+- (id) initWithXMLParser: (id)aParser 
+                  parent: (id <ETXMLParserDelegate>)aParent 
+                     key: (id)aKey
 {
-	SUPERINIT;
+	self = [super initWithXMLParser: aParser parent: aParent key: aKey];
+	if (nil == self) { return nil; }
+
 	string = [[NSMutableAttributedString alloc] init];
 	currentAttributes = [[NSMutableDictionary alloc] init];	
 	attributeStack = [[NSMutableArray alloc] init];
@@ -400,6 +404,12 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		[attributeStack addObject:currentAttributes];
 		//Get the new attributes
 		currentAttributes = [NSMutableDictionary dictionaryWithDictionary:currentAttributes];
+		NSString *defaultTagStyle = [stylesForTags objectForKey: _Name];
+		if (nil != defaultTagStyle)
+		{
+			currentAttributes = [self attributes: currentAttributes
+			                           fromStyle: defaultTagStyle];
+		}
 		NSString *style = attributeForCaseInsensitiveKey(_attributes, @"style");
 		//Special case for hyperlinks
 		if([_Name isEqualToString:@"a"])
@@ -446,10 +456,10 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	if([_Name isEqualToString:@"html"])
 	{
 		depth--;
-	}	
+	}
 	if(depth == 0)
 	{
-		[parser setContentHandler:parent];
+		[parser setContentHandler: parent];
 		[self notifyParent];
 		[self release];
 	}
