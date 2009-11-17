@@ -1,4 +1,4 @@
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 
 /**
  * The ETSocket class provides a simple wrapper around a socket.  The socket is
