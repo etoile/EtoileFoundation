@@ -99,6 +99,8 @@
 		603813A31022246300C221A2 /* ETPropertyViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 603813A21022246300C221A2 /* ETPropertyViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603813A51022247400C221A2 /* ETPropertyViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 603813A41022247400C221A2 /* ETPropertyViewpoint.m */; };
 		603813A61022247400C221A2 /* ETPropertyViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 603813A41022247400C221A2 /* ETPropertyViewpoint.m */; };
+		605816D810B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
+		605816D910B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
 		609B66D00FEE80CE0007F842 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600243C40CD133950023182D /* UnitKit.framework */; };
 		609B67CA0FEE81740007F842 /* TestBasicHOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 609B66120FEE7CD10007F842 /* TestBasicHOM.m */; };
 		609B67CB0FEE81740007F842 /* TestUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648130E40931E003377E0 /* TestUUID.m */; };
@@ -252,6 +254,7 @@
 		603812721021C51B00C221A2 /* TestString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestString.m; path = ../EtoileFoundation/Source/TestString.m; sourceTree = SOURCE_ROOT; };
 		603813A21022246300C221A2 /* ETPropertyViewpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPropertyViewpoint.h; path = ../EtoileFoundation/Headers/ETPropertyViewpoint.h; sourceTree = SOURCE_ROOT; };
 		603813A41022247400C221A2 /* ETPropertyViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPropertyViewpoint.m; path = ../EtoileFoundation/Source/ETPropertyViewpoint.m; sourceTree = SOURCE_ROOT; };
+		605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UTIClassBindings.plist; sourceTree = "<group>"; };
 		609B660C0FEE75C00007F842 /* NSObject+HOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+HOM.h"; path = "../EtoileFoundation/Headers/NSObject+HOM.h"; sourceTree = SOURCE_ROOT; };
 		609B66120FEE7CD10007F842 /* TestBasicHOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestBasicHOM.m; path = ../EtoileFoundation/Source/TestBasicHOM.m; sourceTree = SOURCE_ROOT; };
 		609B66D70FEE80CE0007F842 /* TestEtoileFoundation.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestEtoileFoundation.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -480,6 +483,7 @@
 				60B27D890FF7B5E80012BB42 /* Tests */,
 				603649810E4095F0003377E0 /* EtoileFoundation-Info.plist */,
 				602DC5410F21FD1500DF23D9 /* UTIDefinitions.plist */,
+				605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */,
 				603648350E409329003377E0 /* Headers */,
 				603647FB0E40931E003377E0 /* ETCArray.c */,
 				662EA831101BC8610044F013 /* ETClassMirror.m */,
@@ -731,6 +735,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				602DC5420F21FD1500DF23D9 /* UTIDefinitions.plist in Resources */,
+				605816D910B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,6 +744,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60B27DB90FF7B7C60012BB42 /* UTIDefinitions.plist in Resources */,
+				605816D810B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,7 @@
+#import "ETSocket.h"
+#import "Macros.h"
+#import "NSFileHandle+Socket.h"
+#import "EtoileCompatibility.h"
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <fcntl.h>
@@ -5,8 +9,6 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
-
-#import "EtoileFoundation.h"
 
 NSString *ETSocketException = @"ETSocketException";
 

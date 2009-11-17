@@ -17,6 +17,11 @@
 
 // FIXME: Temporary hack until ETLog class is available
 #define ETLog NSLog
+#ifndef GNUSTEP
+/* NSDebugLog and similar macros are not available with Cocoa, please avoid to 
+   use them. */
+#define NSDebugLog NSLog
+#endif // GNUSTEP
 
 
 /* GCC version test code by Kazunobu Kuriyama */
@@ -40,8 +45,5 @@
 #ifdef GNUSTEP
 #import <GNUstepBase/GNUstep.h>
 #else
-/* For now, GNUstepBase (Foundation Additions) hasn't been ported to Leopard */
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 #import <EtoileFoundation/GNUstep.h>
-#endif
 #endif // GNUstep
