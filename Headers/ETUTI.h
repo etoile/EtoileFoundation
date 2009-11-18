@@ -93,7 +93,7 @@
  * Returns a "transient" or anonymous ETUTI object based on the given UTI 
  * string representations as supertypes.
  * Useful in combination with conformsToUTI: for checking whether an unknown
- * UTI conforms to any UTI in a set (the superypes specified for the 
+ * UTI conforms to any UTI in a set (the supertypes specified for the 
  * transient UTI.)
  */
 + (ETUTI *) transientTypeWithSupertypeStrings: (NSArray *)supertypeNames;
