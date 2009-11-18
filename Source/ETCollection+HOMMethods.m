@@ -87,28 +87,19 @@
 	                                                          &mappedCollection);
 	return [mappedCollection autorelease];
 }
-- (id)_injectObject: (id)initialValue
-          intoBlock: (id)aBlock
-          andInvert: (BOOL)shallInvert
-{
 
-	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
-	                            &self, aBlock, YES, initialValue, shallInvert);
-}
 - (id)leftFoldWithInitialValue: (id)initialValue
                      intoBlock: (id)aBlock
 {
-	return [self _injectObject: initialValue
-	                 intoBlock: aBlock
-                     andInvert: NO];
+	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
+	                            &self, aBlock, YES, initialValue, NO);
 }
 
 - (id)rightFoldWithInitialValue: (id)initialValue
                       intoBlock: (id)aBlock
 {
-	return [self _injectObject: initialValue
-	                 intoBlock: aBlock
-	                 andInvert: YES];
+	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
+	                            &self, aBlock, YES, initialValue, YES);
 }
 
 - (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection
