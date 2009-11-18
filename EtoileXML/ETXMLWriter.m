@@ -5,7 +5,57 @@
 
 NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 
+/**
+ * A buffered XML-writer that flushes its buffer to the parent writer upon
+ * deallocation.
+ */
+@interface ETXMLSubtreeWriter : ETXMLWriter
+{
+	ETXMLWriter *parent;
+	NSCondition *parentCondition;
+	NSInteger initialDepth;
+}
+- (id)initWithParent: (ETXMLWriter*) aParent
+        andCondition: (NSCondition*) theParentLock
+             atDepth: (NSInteger) theDepth;
+@end
+
 @implementation ETXMLWriter
+
+- (NSUInteger)depth
+{
+	return [tagStack count];
+}
+
+- (ETXMLWriter*)beginTransaction
+{
+	[condition lock];
+	NSUInteger depth = [tagStack count];
+	if (0 == depth)
+	{
+		[condition unlock];
+		return self;
+	}
+	else
+	{
+		@synchronized(self)
+		{
+			if (subwriterCount == 0)
+			{
+				subwriterCount++;
+				condition = [[NSCondition alloc] init];
+				[condition lock];
+			}
+		}
+		ETXMLSubtreeWriter *subWriter = [[[ETXMLSubtreeWriter alloc] initWithParent: self
+		                                                               andCondition: condition
+		                                                                    atDepth: depth] autorelease];
+		[subWriter setAutoindent: autoindent];
+		[condition unlock];
+		return subWriter;
+	}
+}
+
 - (void)setAutoindent: (BOOL)aFlag
 {
 	autoindent = aFlag;
@@ -85,6 +135,7 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 - (void)startElement: (NSString*)aName
           attributes: (NSDictionary*)attributes
 {
+	[condition lock];
 	if (inOpenTag)
 	{
 		[buffer appendString: @">"];
@@ -102,7 +153,7 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[buffer appendFormat: @"<%@",aName];
 	
 	//Add attributes
-	if(attributes != nil)
+	if (attributes != nil)
 	{
 		NSEnumerator *enumerator = [attributes keyEnumerator];		
 		NSString* key;
@@ -114,9 +165,12 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	}
 	[tagStack addObject: aName];
 	inOpenTag = YES;
+	[condition unlock];
 }
+
 - (void)endElement
 {
+	[condition lock];
 	NSString *aName = [tagStack lastObject];
 	if (autoindent)
 	{
@@ -140,6 +194,8 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	}
 	[tagStack removeLastObject];
 	inOpenTag = NO;
+	[condition broadcast];
+	[condition unlock];
 }
 - (void)endElement: (NSString*)aName
 {
@@ -160,6 +216,25 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	indentString = [@"\n" mutableCopy];
 	tagStack = [NSMutableArray new];
 }
+
+- (void)appendSubtree: (NSString*)anXMLString
+{
+	// NOTE: Additional synchronization is not needed here because the calling
+	// ETXMLSubtreeWriter obtains the condition prior to this.
+	if (inOpenTag)
+	{
+		[buffer appendString:@">"];
+		inOpenTag = NO;
+	}
+	subwriterCount--;
+	[buffer appendString: anXMLString];
+	if (0 == subwriterCount)
+	{
+		[condition release];
+		condition = nil;
+	}
+}
+
 - (id)init
 {
 	SUPERINIT;
@@ -173,6 +248,7 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[buffer release];
 	[tagStack release];
 	[indentString release];
+	[condition release];
 	[super dealloc];
 }
 @end	
@@ -202,9 +278,69 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 {
 	ASSIGN(socket, aSocket);
 }
+- (void)appendSubtree: (NSString*)anXMLString
+{
+	[super appendSubtree: anXMLString];
+	[self sendBuffer];
+}
 - (void)dealloc
 {
 	[socket release];
 	[super dealloc];
+}
+@end
+
+@implementation ETXMLSubtreeWriter
+- (id)initWithParent: (ETXMLWriter*) aWriter
+        andCondition: (NSCondition*) aCondition
+             atDepth: (NSInteger) theDepth
+{
+	SUPERINIT;
+	parent = [aWriter retain];
+	parentCondition = [aCondition retain];
+	initialDepth = theDepth;
+	return self;
+}
+
+- (BOOL)finishTransaction
+{
+	BOOL success = NO;
+	// We don't want to inject subtrees that are not well-formed.
+	if (0 != [tagStack count])
+	{
+		NSDebugLog(@"Attempt to transact unfinished XML tree.");
+		return success;
+	}
+
+	[parentCondition lock];
+	while ([parent depth] > initialDepth)
+	{
+		[parentCondition wait];
+	}
+
+	if ([parent depth] == initialDepth)
+	{
+		[parent appendSubtree: [self endDocument]];
+		success = YES;
+	}
+	// We also don't want to append any data if the parent writer has left the
+	// scope in which we were created.
+	[parentCondition broadcast];
+	[parentCondition unlock];
+	return success;
+}
+
+- (void)dealloc
+{
+	[self finishTransaction];
+	[parent release];
+	[parentCondition release];
+	[super dealloc];
+}
+
+- (void)finalize
+{
+	[self finishTransaction];
+	[super finalize];
 }
 @end

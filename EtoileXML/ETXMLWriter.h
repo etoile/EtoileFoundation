@@ -6,6 +6,8 @@
 	NSMutableString *buffer;
 	NSMutableArray *tagStack;
 	NSMutableString *indentString;
+	NSCondition	*condition;
+	NSInteger subwriterCount;
 	BOOL inOpenTag;
 }
 /**
@@ -65,6 +67,12 @@
  * if you know you will not use this writer object again.  
  */
 - (NSString*)endDocument;
+
+/**
+ * Returns the depth of the XML tree.
+ */
+- (NSUInteger)depth;
+
 /**
  * Resets the receiver to begin a new document.  Can be called after -endDocument.
  */
@@ -73,6 +81,18 @@
  * Closes the most-recently-opened tag.
  */
 - (void)endElement;
+
+/**
+ * Appends an XML subtree to the current buffer.
+ */
+- (void)appendSubtree: (NSString*)anXMLString;
+
+/**
+ * Returns an XML writer that can be used to write XML-subtrees in a
+ * transactional manner. The tree constructed by this writer will be
+ * incorporated into the buffer of the parent writer once it is deallocated.
+ */
+- (ETXMLWriter*)beginTransaction;
 @end
 
 @class ETSocket;
