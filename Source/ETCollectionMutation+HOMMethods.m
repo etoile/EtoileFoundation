@@ -50,7 +50,7 @@
 	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self] autorelease];
 }
 
-- (id)inverseFilter
+- (id)filterOut
 {
 	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self
 	                                                          andInvert: YES] autorelease];
@@ -58,7 +58,7 @@
 - (id)zipWithCollection: (id<NSObject,ETCollection>)aCollection
 {
 	return [[[ETCollectionMutationZipProxy alloc] initWithCollection: self
-	                                              andCollection: aCollection] autorelease];
+	                                                   andCollection: (id)aCollection] autorelease];
 }
 
 - (void)mapWithBlock: (id)aBlock
@@ -70,8 +70,8 @@
 	                                 (id<ETMutableCollectionObject>*) &self);
 }
 
-- (void)collectBlock: (id)aBlock
-      withCollection: (id<NSObject,ETCollection>)aCollection
+- (void)zipWithCollection: (id<NSObject,ETCollection>)aCollection
+                 andBlock: (id)aBlock
 {
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,&aCollection,
 	                                                  aBlock,YES,
@@ -90,7 +90,7 @@
 	[self filterWithBlock: aBlock andInvert: NO];
 }
 
-- (void)inverseFilterWithBlock: (BOOL(^)(id))aBlock
+- (void)filterOutWithBlock: (BOOL(^)(id))aBlock
 {
 	[self filterWithBlock: aBlock andInvert: YES];
 }

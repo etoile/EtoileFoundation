@@ -61,8 +61,8 @@
 - (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection
 {
 	return [[[ETCollectionZipProxy alloc] initWithCollection: self
-	                                           andCollection: aCollection]
-	                                                           autorelease];
+	                                           andCollection: (id)aCollection]
+	                                                              autorelease];
 }
 
 /**
@@ -87,18 +87,28 @@
 	                                                          &mappedCollection);
 	return [mappedCollection autorelease];
 }
-- (id)injectObject: (id)initialValue intoBlock: (id)aBlock
-         andInvert: (BOOL)shallInvert
+- (id)_injectObject: (id)initialValue
+          intoBlock: (id)aBlock
+          andInvert: (BOOL)shallInvert
 {
 
 	return ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
 	                            &self, aBlock, YES, initialValue, shallInvert);
 }
-- (id)injectObject: (id)initialValue intoBlock: (id)aBlock
+- (id)leftFoldWithInitialValue: (id)initialValue
+                     intoBlock: (id)aBlock
 {
-	return [self injectObject: initialValue
-	                intoBlock: aBlock
-                    andInvert: NO];
+	return [self _injectObject: initialValue
+	                 intoBlock: aBlock
+                     andInvert: NO];
+}
+
+- (id)rightFoldWithInitialValue: (id)initialValue
+                      intoBlock: (id)aBlock
+{
+	return [self _injectObject: initialValue
+	                 intoBlock: aBlock
+	                 andInvert: YES];
 }
 
 - (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection
@@ -125,7 +135,7 @@
 	                               andInvert: NO];
 }
 
-- (id)inverseFilteredCollectionWithBlock: (BOOL(^)(id))aBlock
+- (id)filteredOutCollectionWithBlock: (BOOL(^)(id))aBlock
 {
 	return [self filteredCollectionWithBlock: aBlock
 	                               andInvert: YES];

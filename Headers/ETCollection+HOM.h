@@ -49,7 +49,12 @@
  * -sendMail: message to be executed once with every combination of elements
  * from the <code>people</code> and the <code>messages</code> collection.
  * Note: If an each proxy is passed to a message used as a filter predicate,
- * "or"-semantics will be applied.
+ * it suffices that the predicate evaluates to YES for one element of the
+ * argument-collection. If a collection <code>A</code> contains "foo" and "bar"
+ * and collection <code>B</code> contains "BAR" and "bar", after <code>[[A
+ * filter] isEqualToString: [B each]];</code>, <code>A</code> will still contain
+ * "bar" (but not "BAR"), since one of the elements of <code>B</code> matched
+ * "bar".
  */
 - (id)each;
 @end
@@ -62,20 +67,31 @@
  * Returns a proxy object on which methods can be called. These methods will
  * cause a collection to be returned containing the elements of the original
  * collection mapped by the method call.
+ * Example: <code>addresses = [[people mappedCollection] address];</code> will
+ * cause <code>addresses</code> to be a collection created by sending
+ * <code>-address</code> to every element in <code>people</code>.
  */
 - (id)mappedCollection;
 
 /**
  * Returns a proxy object that can be used to perform a left fold on the
  * collection. The value of the first argument of any method used as a folding
- * method is taken to be the initial value of the accumulator. 
+ * method is taken to be the initial value of the accumulator, with the
+ * accumulator being used as the receiver of the folding method.
+ * Example: <code>total = [[salaries leftFold] addAmount: nullSalary];</code>
+ * will compute <code>total</code> of all elements in <code>salaries</code> by
+ * using the <code>-addAmount:</code> message.
  */
 - (id)leftFold;
 
 /**
  * Returns a proxy object that can be used to perform a right fold on the
  * collection. The value of the first argument of any method used as a folding
- * method is taken to be the initial value of the accumulator.
+ * method is taken to be the initial value of the accumulator, with the
+ * accumulator being used as the argument of the folding method.
+ * Example: If <code>characters</code> is an ordered collection containing "x",
+ * "y" and "z" (in that order), <code>[[characters rightFold]
+ * stringByAppendingString: @": end"];</code> will produce "xyz: end".
  */
 - (id)rightFold;
 
@@ -86,6 +102,10 @@
  * collection as an argument. The first argument (after the implicit receiver
  * and selector arguments) of the message is thus ignored.
  * The operation will stop at the end of the shorter collection.
+ * Example: If collection <code>A</code> contains "foo" and "FOO", and
+ * collection <code>B</code> "bar" and "BAR", <code>[[A
+ * zippedCollectionWithCollection: B] stringByAppendingString: nil];</code> will
+ * produce a collection containing "foobar" and "FOOBAR".
  */
 - (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection;
 
@@ -97,19 +117,17 @@
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
- * its first and each element as its second argument. If shallInvert is set to
- * YES, the folding takes place from right to left.
+ * its first and each element as its second argument.
  */
-- (id)injectObject: (id)initialValue
-         intoBlock: (id)aBlock
-         andInvert: (BOOL)shallInvert;
+- (id)leftFoldWithInitialValue: (id)initialValue
+                     intoBlock: (id)aBlock;
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
- * its first and each element as its second argument.
+ * its second and each element (beginning with the last) as its first argument.
  */
-- (id)injectObject: (id)initialValue
-         intoBlock: (id)aBlock;
+- (id)rightFoldWithInitialValue: (id)initialValue
+                      intoBlock: (id)aBlock;
 
 /**
  * Coalesces the receiver and the collection named by aCollection into one
@@ -131,7 +149,7 @@
  * Returns a collection containing all elements of the original collection that
  * respond with NO to aBlock.
  */
-- (id)inverseFilteredCollectionWithBlock: (BOOL(^)(id))aBlock;
+- (id)FilteredOutCollectionWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
@@ -158,7 +176,7 @@
  * Filters a collection the same way -filter does, but only includes objects
  * that respond with NO to the predicate.
  */
-- (id)inverseFilter;
+- (id)filterOut;
 
 /**
  * Returns a proxy object which will coalesce the collection named by
@@ -181,8 +199,8 @@
  * aBlock takes two arguments of type id) to all element pairs. Processing will
  * stop at the end of the shorter collection.
  */
-- (void)collectBlock: (id)aBlock
-      withCollection: (id<NSObject,ETCollection>)aCollection;
+- (void)zipWithCollection: (id<NSObject,ETCollection>)aCollection
+                 andBlock: (id)aBlock;
 
 #if __has_feature(blocks)
 /**
@@ -195,7 +213,7 @@
  * Removes all elements from the collection for which the aBlock does not return
  * NO.
  */
-- (void)inverseFilterWithBlock: (BOOL(^)(id))aBlock;
+- (void)filterOutWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
@@ -208,9 +226,9 @@
 
 /**
  * This method will be called by the map- and zip-functions. If a class
- * implements a -mapInfo method the return value of that method will be passed
- * here. It can be used to pass information about the original state of the
- * collection.
+ * implements a <code>-mapInfo</code> method the return value of that method
+ * will be passed here. It can be used to pass information about the original
+ * state of the collection.
  */
 - (void)placeObject: (id)mappedObject
        inCollection: (id<ETCollectionMutation>*)aTarget
@@ -244,6 +262,9 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @end
 
 @interface NSDictionary (ETCollectionHOM) <ETCollectionHOM,ETCollectionHOMIntegration>
+/**
+ * Helper method for map-HOM integration. Returns the keys in the dictionary.
+ */
 - (NSArray*)mapInfo;
 @end
 
