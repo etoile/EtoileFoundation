@@ -723,7 +723,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		{
 			if ([theCollection respondsToSelector: @selector(copyWithZone:)])
 			{
-				snapshot = [(id<NSCopying>)*original copyWithZone: NULL];
+				snapshot = [[(id<NSCopying>)*original copyWithZone: NULL] autorelease];
 			}
 		}
 	}

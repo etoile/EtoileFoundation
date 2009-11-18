@@ -167,8 +167,8 @@
 - (id)copyWithZone: (NSZone *)zone
 {
 	TestAttributedObject *newObject = [[TestAttributedObject allocWithZone: zone] init];
-	[newObject setString: [stringAttribute copyWithZone: zone]];
-	[newObject setNumber: [numericAttribute copyWithZone: zone]];
+	newObject->stringAttribute = [stringAttribute copyWithZone: zone];
+	newObject->numericAttribute = [numericAttribute copyWithZone: zone];
 	return newObject;
 }
 
