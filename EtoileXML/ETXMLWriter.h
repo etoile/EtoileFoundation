@@ -69,11 +69,6 @@
 - (NSString*)endDocument;
 
 /**
- * Returns the depth of the XML tree.
- */
-- (NSUInteger)depth;
-
-/**
  * Resets the receiver to begin a new document.  Can be called after -endDocument.
  */
 - (void)reset;
@@ -81,11 +76,6 @@
  * Closes the most-recently-opened tag.
  */
 - (void)endElement;
-
-/**
- * Appends an XML subtree to the current buffer.
- */
-- (void)appendSubtree: (NSString*)anXMLString;
 
 /**
  * Returns an XML writer that can be used to write XML-subtrees in a

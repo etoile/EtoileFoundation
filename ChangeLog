@@ -1,7 +1,16 @@
+2009-11-19 Niels Grewe <niels.grewe@halbordnung.de>
+
+	Support writing XML in a transactional manner.
+	* EtoileXML/ETXMLWriter.h:
+	* EtoileXML/ETXMLWriter.m: Added some synchronization mechanisms to
+	ETXMLWriter and a private subclass that uses them. The -beginTransaction
+	method can now be used to obtain a XML writer that writes well-formed
+	XML transactionally.
+
 2009-11-15 Niels Grewe <niels.grewe@halbordnung.de>
 
 	* Headers/ETSocket.h:
-	* Source/ETSocket.m: Added a -initWithFileHandle: initializier to
+	* Source/ETSocket.m: Added a -initWithFileHandle: initializer to
 	ETSocket. Wrote a new ETListenSocket subclass to create server sockets
 	and added corresponding delegate protocol. No SSL support yet.
 
