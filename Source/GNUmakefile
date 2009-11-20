@@ -21,7 +21,6 @@ endif
 # Class files
 #
 libEtoileFoundation_OBJC_FILES = \
-	NSBlocks.m\
 	NSObject+Mixins.m \
 	NSObject+Prototypes.m \
 	NSFileManager+TempFile.m\
@@ -58,6 +57,10 @@ libEtoileFoundation_OBJC_FILES = \
 	ETEntityDescription.m \
 	ETPropertyDescription.m \
 	ETValidationResult.m
+
+ifeq ($(GNU_RUNTIME_VERSION), 2)
+libEtoileFoundation_OBJC_FILES += NSBlocks.m
+endif
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
