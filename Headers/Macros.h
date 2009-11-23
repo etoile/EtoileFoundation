@@ -77,3 +77,10 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 	var = _tmp;\
 } while (0)
 #endif
+
+#ifdef DEFINE_STRINGS
+#define EMIT_STRING(x) NSString *x = @"" # x;
+#endif
+#ifndef EMIT_STRING
+#define EMIT_STRING(x) extern NSString *x;
+#endif
