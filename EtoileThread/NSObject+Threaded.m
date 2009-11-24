@@ -75,7 +75,7 @@ void * threadedInvocationTrampoline(void *initialiser)
 {
 	id proxy = [[[ETThreadedObject alloc] initWithObject: self] autorelease];
 	[ETThread detachNewThreadSelector: @selector(runloop:)
-	                         toTarget: proxy
+	                         toTarget: [[proxy retain] autorelease]
 	                       withObject: nil];
     return proxy;
 }

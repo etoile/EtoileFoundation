@@ -156,20 +156,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 } while(0);
 
 
-@interface NSMethodSignature (TypeEncodings)
-/**
- * Returns the ObjC encoded type string for this method.
- */
-- (const char*) _methodTypes;
-@end
-
-@implementation NSMethodSignature (TypeEncodings)
-- (const char*) _methodTypes
-{
-	return _methodTypes;
-}
-@end
-
 @interface NSInvocation (_Private)
 /**
  * Exposes the private method which tells the NSInvocation not to store its
@@ -215,7 +201,8 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	{
 		return nil;
 	}
-	object = [anObject retain];
+	// Retained in the creating thread.
+	object = anObject;
 	return self;
 }
 
@@ -251,7 +238,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 - (void) runloop: (id)sender
 {
 	thread = [[ETThread currentThread] retain];
-	BOOL idle = [object conformsToProtocol:@protocol(Idle)];
+	BOOL idle = [object conformsToProtocol: @protocol(Idle)];
 	while (object)
 	{
 		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
@@ -260,12 +247,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 
 		ETThreadProxyReturn *retVal;
 		REMOVE(anInvocation, retVal);
-		/*
-		if ([[anInvocation methodSignature] methodReturnType][0] == '@')
-		{
-			//TODO: Implement auto-boxing for non-object returns
-		}
-		*/
 
 		// If we are returning an object, we don't want to be overwriting the
 		// proxy on the stack.
@@ -288,10 +269,12 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 			//[retVal release];
 		}
 
-		[anInvocation setTarget:nil];
+		[anInvocation setTarget: nil];
 		[anInvocation release];
 		[pool release];
 	}
+	NSLog(@"Thread exiting");
+	[NSThread exit];
 }
 
 - (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
