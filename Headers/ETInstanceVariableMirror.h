@@ -12,11 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETReflection.h>
-#ifndef GNUSTEP
-#import <objc/runtime.h>
-#else
-#import <ObjectiveC2/runtime.h>
-#endif
+#import <EtoileFoundation/runtime.h>
 
 
 @interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror>

@@ -11,11 +11,7 @@
 #import <EtoileFoundation/EtoileFoundation.h>
 #import "ETReflection.h"
 #import "ETInstanceVariableMirror.h"
-#ifndef GNUSTEP
-#import <objc/runtime.h>
-#else
-#import <ObjectiveC2/runtime.h>
-#endif
+#import <EtoileFoundation/runtime.h>
 
 @interface ETObjectMirror : NSObject <ETObjectMirror>
 {
