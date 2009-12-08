@@ -9,8 +9,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/ETCollection.h>
+
+@class ETUTI;
 
 @protocol ETMirror <NSObject>
 - (NSString *) name;

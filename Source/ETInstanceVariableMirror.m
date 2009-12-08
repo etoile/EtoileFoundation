@@ -12,6 +12,7 @@
 #import <GNUstepBase/GSObjCRuntime.h>
 #endif
 #import "ETInstanceVariableMirror.h"
+#import "ETUTI.h"
 #import "Macros.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"

@@ -8,10 +8,10 @@
 	License: Modified BSD (see COPYING)
  */
 
-#import <EtoileFoundation/EtoileFoundation.h>
-#import "ETReflection.h"
-#import "ETInstanceVariableMirror.h"
 #import "ETMethodMirror.h"
+#import "Macros.h"
+#import "NSObject+Model.h"
+#import "EtoileCompatibility.h"
 
 
 @implementation ETMethodMirror
