@@ -31,24 +31,6 @@ endif
 
 export USE_SSL_PKG
 
-# Ugly hack until gnustep-make is improved to export a variable that lets us know 
-# which libobjc version we compile against.
-# If a libobjc.so.4 (v2) is installed in a path listed below, but you use another 
-# runtime you can force EtoileFoundation to use an older libobjc by exporting 
-# the used runtime version in your shell first. e.g. 
-# export GNU_RUNTIME_VERSION=1 && make clean && make
-ifndef GNU_RUNTIME_VERSION
-LIBOBJC = libobjc.so.4
-GNU_RUNTIME_VERSION = 1
-GNU_RUNTIME_VERSION := $(if $(wildcard $(GNUSTEP_SYSTEM_ROOT)/Library/Libraries/$(LIBOBJC)),2,$(GNU_RUNTIME_VERSION))
-GNU_RUNTIME_VERSION := $(if $(wildcard $(GNUSTEP_LOCAL_ROOT)/Library/Libraries/$(LIBOBJC)),2,$(GNU_RUNTIME_VERSION))
-GNU_RUNTIME_VERSION := $(if $(wildcard $(GNUSTEP_USER_ROOT)/Library/Libraries/$(LIBOBJC)),2,$(GNU_RUNTIME_VERSION))
-GNU_RUNTIME_VERSION := $(if $(wildcard /usr/lib/$(LIBOBJC)),2,$(GNU_RUNTIME_VERSION))
-GNU_RUNTIME_VERSION := $(if $(wildcard /usr/local/lib/$(LIBOBJC)),2,$(GNU_RUNTIME_VERSION))
-endif
-
-export GNU_RUNTIME_VERSION
-
 ifeq ($(test), yes)
 BUNDLE_NAME = EtoileFoundation
 else
