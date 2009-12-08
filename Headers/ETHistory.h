@@ -1,26 +1,13 @@
-/*
-   ETHistory.h
+/**	<title>ETHistory</title>
 
-   Copyright (C) 2008 Truls Becken <truls.becken@gmail.com>
- 
-   Permission is hereby granted, free of charge, to any person obtaining a copy
-   of this software and associated documentation files (the "Software"), to deal
-   in the Software without restriction, including without limitation the rights
-   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-   copies of the Software, and to permit persons to whom the Software is
-   furnished to do so, subject to the following conditions:
+	<abstract>A generic history class which can contain arbitary entries located 
+	in the past or the future.</abstract>
 
-   The above copyright notice and this permission notice shall be included in
-   all copies or substantial portions of the Software.
+	Copyright (C) 2008 Truls Becken <truls.becken@gmail.com>
 
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-   THE SOFTWARE.
-*/
+	Date:  December 2008
+	License: Modified BSD (see COPYING)
+ */
 
 #import <Foundation/NSArray.h>
 #import <Foundation/NSEnumerator.h>
@@ -45,9 +32,9 @@
 /**
  * Return a new autoreleased history manager.
  */
-+ (id) manager;
++ (id) history;
 /**
- * Initialize the history manager.
+ * <init />Initialize the history manager.
  */
 - (id) init;
 /**
@@ -111,9 +98,5 @@
  * Return the maximum number of objects to remember.
  */
 - (int) maxHistorySize;
-/**
- * Free resources held by the history manager.
- */
-- (void) dealloc;
 
 @end

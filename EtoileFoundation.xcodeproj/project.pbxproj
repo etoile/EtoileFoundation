@@ -164,6 +164,16 @@
 		66C3AFB610181ECD0046D74A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AFB510181ECD0046D74A /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		60D7812310C04D71005F3F75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 60073EAC10074D26007272E6;
+			remoteInfo = EtoileXML;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -674,6 +684,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				60D7812410C04D71005F3F75 /* PBXTargetDependency */,
 			);
 			name = EtoileFoundation;
 			productName = EtoileFoundation;
@@ -878,6 +889,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		60D7812410C04D71005F3F75 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 60073EAC10074D26007272E6 /* EtoileXML */;
+			targetProxy = 60D7812310C04D71005F3F75 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		60073EAF10074D27007272E6 /* Debug */ = {
