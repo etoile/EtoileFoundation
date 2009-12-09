@@ -173,4 +173,9 @@
 	return max_size;
 }
 
+- (NSString *) displayName
+{
+	return _(@"History");
+}
+
 @end

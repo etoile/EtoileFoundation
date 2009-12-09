@@ -9,8 +9,7 @@
 	License: Modified BSD (see COPYING)
  */
 
-#import <Foundation/NSArray.h>
-#import <Foundation/NSEnumerator.h>
+#import <Foundation/Foundation.h>
 
 /**
  * ETHistory keeps a history of objects of some kind. After going back
@@ -98,5 +97,11 @@
  * Return the maximum number of objects to remember.
  */
 - (int) maxHistorySize;
+/**
+ * Return 'History'.
+ *
+ * See also -[NSObject(Model) displayName].
+ */
+- (NSString *) displayName;
 
 @end
