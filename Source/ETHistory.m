@@ -178,4 +178,24 @@
 	return _(@"History");
 }
 
+- (BOOL) isOrdered
+{
+	return YES;
+}
+
+- (BOOL) isEmpty
+{
+	return ([history count] == 0);
+}
+
+- (id) content
+{
+	return history;
+}
+
+- (NSArray *) contentArray
+{
+	return [NSArray arrayWithArray: history];
+}
+
 @end

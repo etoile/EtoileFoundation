@@ -10,6 +10,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <EtoileFoundation/ETCollection.h>
 
 /**
  * ETHistory keeps a history of objects of some kind. After going back
@@ -19,8 +20,12 @@
  * It is also possible to give the manager an NSEnumerator to use as a lazy
  * source for the forward history. This way, a collection of objects can be
  * added as a "future", replacing the current forward history.
- */
-@interface ETHistory : NSObject
+ *
+ * ETHistory supports ETCollection protocol, but not ETCollectionMutation 
+ * which means -isMutableCollection returns NO and an history won't considered 
+ * as a mutable represented object by EtoileUI.
+ **/
+@interface ETHistory : NSObject <ETCollection>
 {
 	NSMutableArray *history;
 	NSEnumerator *future;
@@ -103,5 +108,21 @@
  * See also -[NSObject(Model) displayName].
  */
 - (NSString *) displayName;
+/**
+ * Returns YES.
+ */
+- (BOOL) isOrdered;
+/**
+ * See -isEmpty in ETCollection protocol.
+ */
+- (BOOL) isEmpty;
+/**
+ * See -content in ETCollection protocol.
+ */
+- (id) content;
+/**
+ * See -contentArray in ETCollection protocol.
+ */
+- (NSArray *) contentArray;
 
 @end
