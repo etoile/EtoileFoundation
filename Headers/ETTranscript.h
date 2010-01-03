@@ -35,6 +35,23 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
+#import "Macros.h"
+
+/**
+ * Key used to identify the transcript delegate for this thread.
+ */
+EMIT_STRING(kTranscriptDelegate);
+/**
+ * Protocol for transcript delegates.  Store an object implementing the methods
+ * in this protocol in the thread's dictionary with the kTranscriptDelegate key
+ * and transcript messages will be sent to it instead of the standard output.
+ */
+@protocol ETTranscriptDelegate
+/**
+ * Append the string to the transcript.
+ */
+- (void)appendTranscriptString: (NSString*)aString;
+@end
 
 /**
  * A simple logging class designed for compatibility with

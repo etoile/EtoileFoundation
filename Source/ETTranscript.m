@@ -33,9 +33,9 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+#import <Foundation/Foundation.h>
+#define DEFINE_STRINGS
 #import "ETTranscript.h"
-
 #include <stdio.h>
 
 /*
@@ -47,24 +47,31 @@
  * the usual Transcript interface as seen in many Smalltalk
  * implementations.
  *
- * XXX: Possible refactoring: Allow to use different kinds of
- * transcript implementations through this class method
- * interface. (Factor out printfs, use delegation.)
  */
 @implementation ETTranscript
 + (void) show: (NSObject*) anObject
 {
-  [self appendString: [anObject description]];
+	[self appendString: [anObject description]];
 }
 
 + (void) appendString: (NSString*) aString
 {
-  printf("%s", [aString UTF8String]);
+	id<ETTranscriptDelegate> delegate = 
+		[[[NSThread currentThread] threadDictionary] 
+			objectForKey: kTranscriptDelegate];
+	if (nil == delegate)
+	{
+		printf("%s", [aString UTF8String]);
+	}
+	else
+	{
+		[delegate appendTranscriptString: aString];
+	}
 }
 
 + (void) cr
 {
-  putchar('\n');
+	[self appendString: @"\n"];
 }
 @end
 
