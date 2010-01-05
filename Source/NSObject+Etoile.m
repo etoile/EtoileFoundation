@@ -20,7 +20,7 @@ static inline BOOL ETIsSubclassOfClass(Class subclass, Class aClass)
 {
 	Class parentClass = subclass;
 
-	while (parentClass != nil)
+	while (parentClass != Nil)
 	{
 		parentClass = class_getSuperclass(parentClass);
 		if (parentClass == aClass)
@@ -44,12 +44,11 @@ be deprecated in the future. */
 	// faster (see GSObjCAllSubclassesOfClass as an example), however it 
 	// doesn't work for classes that have not yet received their first message.
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 300];
-	Class *allClasses = NULL;
 	int numberOfClasses = objc_getClassList(NULL, 0);
 
 	if (numberOfClasses > 0)
 	{
-		allClasses = malloc(sizeof(Class) * numberOfClasses);
+		Class *allClasses = malloc(sizeof(Class) * numberOfClasses);
 		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
 		for (int i = 0; i < numberOfClasses; i++)
 		{
@@ -74,12 +73,11 @@ The returned array doesn't include the receiver class. */
 {
 	/* See also the note in +allSubclasses */
 	NSMutableArray *subclasses = [NSMutableArray arrayWithCapacity: 30];
-	Class *allClasses = NULL;
 	int numberOfClasses = objc_getClassList(NULL, 0);
 	 
 	if (numberOfClasses > 0)
 	{
-		allClasses = malloc(sizeof(Class) * numberOfClasses);
+		Class *allClasses = malloc(sizeof(Class) * numberOfClasses);
 		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
 		for (int i = 0; i < numberOfClasses; i++)
 		{
