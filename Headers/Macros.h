@@ -84,3 +84,23 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 #ifndef EMIT_STRING
 #define EMIT_STRING(x) extern NSString *x;
 #endif
+
+/** Basic assertion macro that just reports the tested condition when it fails.
+It is similar to NSParameterAssert but not limited to checking the arguments. */
+#define ETAssert(condition)	\
+	NSAssert1(condition, @"Failed to satisfy %s", #condition)
+/** Same as ETAssert except it gets executed only if you define  
+ETDebugAssertionEnabled.
+
+This macro can be used to do more expansive checks that cannot be kept turned 
+on in a release version. */
+#ifdef ETDebugAssertionEnabled
+#define ETDebugAssert(condition) \
+	ETAssert(condition)
+#else
+#define ETDebugAssert(condition)
+#endif
+/** Assertion macro to mark code portion that should never be reached. e.g. the 
+default case in a switch statement. */
+#define ETAssertUnreachable() \
+	NSAssert(NO, @"Entered code portion which should never be reached")
