@@ -6,8 +6,8 @@
 	License: Modified BSD (see COPYING)
  */
 
-#import <EtoileFoundation/NSURL+Etoile.h>
-#import <EtoileFoundation/NSString+Etoile.h>
+#import "NSURL+Etoile.h"
+#import "NSString+Etoile.h"
 
 
 @implementation NSURL (Etoile)

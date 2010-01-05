@@ -6,7 +6,7 @@
 	License: Modified BSD (see COPYING)
  */
 
-#import <EtoileFoundation/NSString+Etoile.h>
+#import "NSString+Etoile.h"
 
 
 @implementation NSString (Etoile)
