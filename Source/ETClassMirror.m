@@ -91,6 +91,12 @@
 	}
 	return mirrors;
 }
+
+/** Returns an array of the Protocol mirrors which the class explicitly 
+conforms to.
+
+Does not include protocols conformed to by aClass's superclasses or protocols 
+which the returned protocols conform to themselves. */
 - (NSArray *) adoptedProtocolMirrors
 {
 	unsigned int protocolsCount;
