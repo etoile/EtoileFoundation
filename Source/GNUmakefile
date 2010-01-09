@@ -26,6 +26,7 @@ libEtoileFoundation_OBJC_FILES = \
 	NSFileManager+TempFile.m\
 	NSFileHandle+Socket.m\
 	UKPluginsRegistry.m \
+	ETByteSizeFormatter.m \
 	ETClassMirror.m \
 	ETCollection.m \
 	ETCollection+HOM.m \

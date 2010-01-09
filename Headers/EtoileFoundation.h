@@ -35,6 +35,7 @@
 
 /* EtoileFoundation core */
 
+#import <EtoileFoundation/ETByteSizeFormatter.h>
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETCollection+HOM.h>
 #import <EtoileFoundation/ETFilter.h>
