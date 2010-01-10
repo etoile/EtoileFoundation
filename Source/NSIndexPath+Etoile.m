@@ -1,58 +1,36 @@
 /*
-	NSIndexPath+Etoile.h
-	
-	Description forthcoming.
- 
 	Copyright (C) 2007 Quentin Mathe
  
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
 	Date:  September 2007
- 
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions are met:
-
-	* Redistributions of source code must retain the above copyright notice,
-	  this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-	  this list of conditions and the following disclaimer in the documentation
-	  and/or other materials provided with the distribution.
-	* Neither the name of the Etoile project nor the names of its contributors
-	  may be used to endorse or promote products derived from this software
-	  without specific prior written permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-	THE POSSIBILITY OF SUCH DAMAGE.
+	License:  Modified BSD (see COPYING)
  */
  
-#import <EtoileFoundation/NSIndexPath+Etoile.h>
-#import <EtoileFoundation/EtoileCompatibility.h>
+#import "NSIndexPath+Etoile.h"
+#import "Macros.h"
+#import "EtoileCompatibility.h"
 
 @implementation NSIndexPath (Etoile)
 
+/** Returns a new autoreleased empty index path. */
 + (NSIndexPath *) indexPath
 {
 	return AUTORELEASE([[NSIndexPath alloc] init]);
 }
 
+/** Returns the first path component in the index path. */
 - (unsigned int) firstIndex
 {
 	return [self indexAtPosition: 0];
 }
 
+/** Returns the last path component in the index path. */
 - (unsigned int) lastIndex
 {
 	return [self indexAtPosition: [self length] - 1];
 }
 
+/** Returns a new autoreleased index path by removing the first path component. */
 - (NSIndexPath *) indexPathByRemovingFirstIndex
 {
 	/*unsigned int *indexes = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * [self length]);
@@ -68,28 +46,38 @@
 	return [NSIndexPath indexPathWithIndexes: buffer length: [self length] - 1];
 }
 
-/** NOTE: This method currently ignores separator paremeter because there is no
-	built-in path separator support in NSString path API. To fix the issue,
-	implements path separator support in NSString or a new clean path API to be
-	named ETPath. The only supported separator is '/'. */
+/** Returns an autoreleased string representation by joining each index path 
+component with the given separator.
+
+e.g. '5/6/7' with '/' as separator or '5.6.7' with '.' as separator.
+
+Will raise an NSInvalidArgumentException if the separator is nil. */
 - (NSString *) stringByJoiningIndexPathWithSeparator: (NSString *)separator
 {
-	NSString *path = @"/";
+	NILARG_EXCEPTION_TEST(separator);
+
+	if ([self length] == 0)
+		return @"";
+
+	NSString *path = [NSString stringWithFormat: @"%lu", [self firstIndex]];
 	int indexCount = [self length];
 	
-	for (int i = 0; i < indexCount; i++)
+	for (int i = 1; i < indexCount; i++)
 	{
-		path = [path stringByAppendingPathComponent: 
-			[NSString stringWithFormat: @"%d", [self indexAtPosition: i]]];
+		path = [path stringByAppendingString: 
+			[NSString stringWithFormat: @"%@%lu", separator, [self indexAtPosition: i]]];
 	}
 	
 	return path;
 }
 
 /** Returns a string representation of the receiver which can be used as a key
-	path (with KVC). 
-	NOTE: This method doesn't yet return a key path using dot separator because
-	-stringByJoiningIndexPathWithSeparator isn't fully implemented yet. */
+path. 
+
+Take note that KVC as implemented by Foundation collection classes such as 
+NSArray doesn't support to look up elements with a key like '5' or a key path 
+like '6.name'. -valueForKey: and -valueForKeyPath: would try to lookup 5 and 6 
+as ivar or method names. */
 - (NSString *) keyPath
 {
 	return [self stringByJoiningIndexPathWithSeparator: @"."];

@@ -91,7 +91,7 @@ DEALLOC(DESTROY(_ownerMirror))
 			return NSStringFromClass([value class]);
 	}
 
-	return [NSString stringWithCString: ivarType];
+	return [NSString stringWithUTF8String: ivarType];
 }
 
 - (const char *) typeEncoding
