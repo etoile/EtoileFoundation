@@ -37,7 +37,7 @@
 // the prototype for it.  This allows us to not implement all of the methods
 // that the protocol requires, which gets rid of a spurious GCC warning.
 #import <Foundation/NSSet.h>
-@implementation NSMutableSet (ETCollectionMutation)
+@implementation NSMutableSet (ETCollectionMutationPremature)
 
 - (void) insertObject: (id)object atIndex: (unsigned int)index
 {
