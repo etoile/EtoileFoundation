@@ -17,6 +17,10 @@ ifeq ($(test), yes)
 	ADDITIONAL_OBJCFLAGS = -Wno-import
 endif
 
+
+ifeq ($(CC), clang)
+ADDITIONAL_OBJCFLAGS += -fobjc-nonfragile-abi -fblocks
+endif
 #
 # Class files
 #
@@ -25,7 +29,6 @@ libEtoileFoundation_OBJC_FILES = \
 	NSObject+Prototypes.m \
 	NSFileManager+TempFile.m\
 	NSFileHandle+Socket.m\
-	UKPluginsRegistry.m \
 	ETByteSizeFormatter.m \
 	ETClassMirror.m \
 	ETCollection.m \
