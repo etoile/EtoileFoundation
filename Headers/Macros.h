@@ -104,3 +104,22 @@ on in a release version. */
 default case in a switch statement. */
 #define ETAssertUnreachable() \
 	NSAssert(NO, @"Entered code portion which should never be reached")
+
+/** Exception macro to check whether the given argument respects a condition.<br />
+When the condition evaluates to NO, an NSInvalidArgumentException is raised. */
+#define INVALIDARG_EXCEPTION_TEST(arg, condition) do { \
+	if (NO == (condition)) \
+	{ \
+		[NSException raise: NSInvalidArgumentException format: @"For %@, %s " \
+			"must respect %s", NSStringFromSelector(_cmd), #arg , #condition]; \
+	} \
+} while (0);
+/** Exception macro to check the given argument is not nil, otherwise an 
+NSInvalidArgumentException is raised. */
+#define NILARG_EXCEPTION_TEST(arg) do { \
+	if (nil == arg) \
+	{ \
+		[NSException raise: NSInvalidArgumentException format: @"For %@, " \
+			"%s must not be nil", NSStringFromSelector(_cmd), #arg]; \
+	} \
+} while(0);
