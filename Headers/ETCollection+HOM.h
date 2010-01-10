@@ -149,7 +149,7 @@
  * Returns a collection containing all elements of the original collection that
  * respond with NO to aBlock.
  */
-- (id)FilteredOutCollectionWithBlock: (BOOL(^)(id))aBlock;
+- (id)filteredOutCollectionWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
