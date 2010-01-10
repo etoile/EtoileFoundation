@@ -7,7 +7,7 @@ static inline BOOL validateMethodTypes(Method_t method1, Method_t method2)
 	return strcmp(method1->method_types, method2->method_types) == 0;
 }
 
-static inline Method_t findMethod(char* methodName, Class aClass, BOOL searchSuper)
+static inline Method_t findMethod(const char* methodName, Class aClass, BOOL searchSuper)
 {
 	while(aClass != Nil)
 	{
@@ -44,7 +44,7 @@ static inline BOOL methodTypesMatch(Class aClass, Class aMixin)
 		for(unsigned int i=0 ; i<methods->method_count ; i++)
 		{
 			Method_t method = &methods->method_list[i];
-			Method_t oldMethod = findMethod((char*)sel_get_name(method->method_name), aClass, YES);
+			Method_t oldMethod = findMethod(sel_get_name(method->method_name), aClass, YES);
 			/* If there is an existing method with this name, check the types match */
 			if(oldMethod != NULL
 				&&
@@ -102,7 +102,7 @@ static inline void addMethods(Class aClass, struct objc_method_list * methods)
 	for(unsigned int i=0 ; i<methods->method_count ; i++)
 	{
 		Method_t mixinMethod = &methods->method_list[i];
-		Method_t oldMethod = findMethod((char*)sel_get_name(mixinMethod->method_name), aClass, NO);
+		Method_t oldMethod = findMethod(sel_get_name(mixinMethod->method_name), aClass, NO);
 		if(oldMethod != NULL)
 		{
 			/* Update the old IMP to point to the new method */
@@ -190,7 +190,7 @@ static void checkSafeComposition(Class class, Class aClass)
 		for(unsigned int i=0 ; i<methods->method_count ; i++)
 		{
 			Method_t method = &methods->method_list[i];
-			if(findMethod((char*)sel_get_name(method->method_name), class, NO) != NULL)
+			if(findMethod(sel_get_name(method->method_name), class, NO) != NULL)
 			{
 				[NSException raise:@"TraitMethodExistsException"
 							format:@"Methods class %@ redefined in %@.", self, aClass];
