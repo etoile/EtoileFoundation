@@ -24,17 +24,20 @@ LIBRARIES_DEPEND_UPON += -lm $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 EtoileThread_OBJCFLAGS += -std=c99
 
 EtoileThread_OBJC_FILES = \
+	ETObjectPipe.m \
 	ETThread.m \
 	ETThreadProxyReturn.m \
 	ETThreadedObject.m \
 	NSObject+Threaded.m \
 	NSObject+Futures.m
+
 ifeq ($(test), yes)
 EtoileThread_OBJC_FILES += \
 	TestThread.m
 endif
 
 EtoileThread_HEADER_FILES = \
+	ETObjectPipe.h \
 	ETThread.h \
 	ETThreadProxyReturn.h \
 	ETThreadedObject.h \
