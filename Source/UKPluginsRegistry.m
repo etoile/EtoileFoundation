@@ -26,12 +26,10 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 #import "UKPluginsRegistry.h"
 
-#ifdef HAVE_UKTEST
-#import <UnitKit/UnitKit.h>
-#endif
+#undef HAVE_UKTEST
 
 #ifdef GNUSTEP
 #define APPLICATION_SUPPORT @"ApplicationSupport"
@@ -294,8 +292,9 @@ static NSFileManager *fm = nil;
         if(iconFileName == nil)
 			iconFileName = [[bundle infoDictionary] objectForKey: @"CFBundleIcon"];
 
-		if (iconFileName != nil) 
-            iconPath = [bundle pathForImageResource: iconFileName];
+	// FIXME: Move in EtoileUI because we depend on the AppKit here
+	//	if (iconFileName != nil) 
+        //    iconPath = [bundle pathForImageResource: iconFileName];
             
 	image = [self loadIconForPath:iconPath];
         

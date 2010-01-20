@@ -27,10 +27,8 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol UKTest;
 
-
-@interface UKPluginsRegistry : NSObject <UKTest>
+@interface UKPluginsRegistry : NSObject
 {
 	NSMutableArray          *plugins;		/* List of available plugins, with dictionaries for each. */
 	NSMutableDictionary     *pluginPaths;	/* Key is file path, value is entry in plugins. */

@@ -40,6 +40,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETMethodMirror.m \
 	ETObjectChain.m \
 	ETObjectMirror.m \
+	UKPluginsRegistry.m \
 	ETPropertyViewpoint.m \
 	ETPropertyValueCoding.m \
 	ETProtocolMirror.m \
