@@ -12,6 +12,7 @@
 #import "ETClassMirror.h"
 #import "Macros.h"
 #import "NSObject+Model.h"
+#import "NSObject+Prototypes.h"
 #import "EtoileCompatibility.h"
 
 @implementation ETObjectMirror
