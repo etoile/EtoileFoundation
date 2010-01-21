@@ -1,40 +1,16 @@
-/*
-	ETCollection.h
-	
-	NSObject and collection class additions like a collection protocol.
- 
+/** <title>Collection Protocols and Categories</title>
+
+	<abstract>NSObject and collection class additions like a collection 
+	protocol.</abstract>
+
 	Copyright (C) 2007 Quentin Mathe
  
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
 	Date:  September 2007
- 
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions are met:
-
-	* Redistributions of source code must retain the above copyright notice,
-	  this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-	  this list of conditions and the following disclaimer in the documentation
-	  and/or other materials provided with the distribution.
-	* Neither the name of the Etoile project nor the names of its contributors
-	  may be used to endorse or promote products derived from this software
-	  without specific prior written permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-	THE POSSIBILITY OF SUCH DAMAGE.
+	License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 
 /* Collection Access and Mutation Protocols */
 
@@ -63,6 +39,10 @@
 //- (NSEnumerator *) objectEnumerator;
 /** Returns the number of elements hold by the receiver. */
 //- (unsigned int) count;
+/** Returns whether the element is included in the collection. */
+//- (BOOL) containsObject: (id)anObject;
+/** Returns whether every element in the given collection are included in the receiver. */
+//- (BOOL) containsCollection: (id <ETCollection>)objects;
 
 // FIXME: Both objectEnumerator and count are problematic because they are 
 // declared on NSArray, NSDictionary etc. therefore the compiler complains about
@@ -72,9 +52,18 @@
 @end
 
 @protocol ETCollectionMutation
+/** Adds the element to the collection. 
+
+When the collection is ordered, the element is inserted as the last element. */
 - (void) addObject: (id)object;
+/** Inserts the element at the given index in the collection.
+
+When the collection is not ordered, the index is ignored and the behavior is 
+the same than -addObject:. */
 - (void) insertObject: (id)object atIndex: (unsigned int)index;
+/** Removes the element from the collection. */
 - (void) removeObject: (id)object;
+
 // NOTE: Next method could allow to simplify type checking of added and removed
 // objects and provides -addObject: -removeObject: implementation in a mixin.
 // For example you could declare elementType as ETLayoutItem to ensure proper 
@@ -86,6 +75,51 @@
 //- (NSString *) elementType;
 @end
 
+/** Any mutable collection can also implement the optional methods listed below.
+
+EtoileUI will use these methods when possible.<br />
+Initially you can skip implementing them. Later, they can be implemented to 
+speed up the communication between your model collections and the layout items 
+that represent them at the UI level. In addition, these methods allows to react 
+to batch insertion and removal at the model level (e.g. in reply to a pick and 
+drop). 
+
+You are not required to implement every method when a class adopts this informal 
+protocol.
+
+When  a collection is received in argument, the collection type can be checked 
+to know whether the code needs to convert the collection or not, to remove or 
+insert its content in the receiver. In most cases, the code below is a useless 
+optimization (the else branch is good enough).
+<code>
+if ([[aCollection content] isArray] == NO)
+{
+	[personIvarArray addObjectsFromArray: (NSArray *)aCollection];
+}
+else
+{
+	[personIvarArray addObjectsFromArray: [aCollection contentArray]];
+}
+</code><br />
+See NSObject+Model for other methods such as -isArray. */
+@interface NSObject (ETBatchCollectionMutation)
+/** Inserts the given collection elements at separate indexes.
+
+When the collection is not ordered, the indexes are ignored.
+
+The element are inserted one-by-one by increasing index value while iterating 
+over the indexes. When the greatest index is reached and several elements remain  
+to be inserted, they are inserted at that same index.<br />
+For a more precise description of the behavior ordered collection should comply 
+to, see -[NSArray insertObjects:atIndexes:] in Cocoa documentation. */
+- (void) insertCollection: (id <ETCollection>)objects atIndexes: (NSIndexSet *)indexes;
+/** Removes the elements from the collection. */
+- (void) removesCollection: (id <ETCollection>)objects;
+/** Removes the elements at the given indexes from the collection.
+
+You should only implement this method when the collection is ordered. */
+- (void) removeObjectAtIndexes: (NSIndexSet *)indexes;
+@end
 
 /* Adopted by the following Foundation classes  */
 
@@ -156,6 +190,8 @@ protocol methods implemented in NSSet(ETCollection). */
 
 - (id) firstObject;
 - (NSArray *) arrayByRemovingObjectsInArray: (NSArray *)anArray;
+- (NSArray *) filteredArrayUsingPredicate: (NSPredicate *)aPredicate
+                          ignoringObjects: (NSSet *)ignoredObjects;
 
 /* Deprecated (DO NOT USE, WILL BE REMOVED LATER) */
 
