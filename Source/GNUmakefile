@@ -63,9 +63,10 @@ libEtoileFoundation_OBJC_FILES = \
 	ETPropertyDescription.m \
 	ETValidationResult.m
 
-ifeq ($(GNU_RUNTIME_VERSION), 2)
-libEtoileFoundation_OBJC_FILES += NSBlocks.m
-endif
+# NSBlocks is broken as of Feb 2 2010
+#ifeq ($(GNU_RUNTIME_VERSION), 2)
+#libEtoileFoundation_OBJC_FILES += NSBlocks.m
+#endif
 
 libEtoileFoundation_C_FILES = \
 	ETCArray.c
