@@ -44,6 +44,12 @@
 
 
 @interface ETListenSocket: ETSocket
+{
+	/**
+	 * Tracks whether the socket is already accepting connections.
+	 */
+	BOOL hasAccept;
+}
 /**
  * Returns a socket listening aPort for an address of the local machine.
  */

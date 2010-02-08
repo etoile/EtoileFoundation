@@ -368,8 +368,17 @@ NSString *ETSocketException = @"ETSocketException";
 	NSDebugLog(@"Attempt to send data via socket (%@) in listening mode", self);
 }
 
+- (void)makeHandleSafelyAcceptConnectionInBackgroundAndNotify
+{
+	if (NO == hasAccept)
+	{
+		[handle acceptConnectionInBackgroundAndNotify];
+		hasAccept = YES;
+	}
+}
 - (void)newConnection: (NSNotification*)notification
 {
+	hasAccept = NO;
 	//TODO: Maybe add some ACL checking mechanism?
 	NSFileHandle *clientHandle = [[notification userInfo] objectForKey: NSFileHandleNotificationFileHandleItem];
 
@@ -384,12 +393,25 @@ NSString *ETSocketException = @"ETSocketException";
 	             fromSocket: self];
 
 	// Accept further connections:
-	[handle acceptConnectionInBackgroundAndNotify];
+	[self makeHandleSafelyAcceptConnectionInBackgroundAndNotify];
 }
 
 - (void)setDelegate: (id)aDelegate
 {
-	delegate = aDelegate;
+	if (aDelegate == delegate)
+	{
+		return;
+	}
+	else if (delegate != nil)
+	{
+		delegate = aDelegate;
+		return;
+	}
+	else
+	{
+		delegate = aDelegate;
+	}
+
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 	if (nil != delegate)
 	{
@@ -397,7 +419,8 @@ NSString *ETSocketException = @"ETSocketException";
 		           selector: @selector(newConnection:)
 	                   name: NSFileHandleConnectionAcceptedNotification
 		             object: handle];
-		[handle acceptConnectionInBackgroundAndNotify];
+	
+		[self makeHandleSafelyAcceptConnectionInBackgroundAndNotify];
 	}
 	else
 	{
