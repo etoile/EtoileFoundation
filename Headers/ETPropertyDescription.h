@@ -13,29 +13,25 @@
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETCollection.h>
-#import <EtoileFoundation/ETValidationResult.h>
-#import <EtoileFoundation/ETEntityDescription.h>
-#import <EtoileFoundation/ETUTI.h>
+#import <EtoileFoundation/ETModelElementDescription.h>
 
-@class ETEntityDescription;
+@class ETUTI, ETEntityDescription, ETValidationResult;
 @class ETRoleDescription;
 
 /**
  * Description of an entity's property.
- *
  */
-@interface ETPropertyDescription : NSObject
+@interface ETPropertyDescription : ETModelElementDescription
 {
 	BOOL _derived;
 	BOOL _container;
 	BOOL _multivalued;
 	BOOL _ordered;
-	NSString *_name;
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
-	ETUTI *_UTI;
 	ETRoleDescription *_role;
 }
+
 + (id)  descriptionWithName: (NSString *)name
                       owner: (ETEntityDescription *)owner;
 
@@ -64,18 +60,14 @@
 - (void) setMultivalued: (BOOL)isMultivalued;
 - (BOOL) isOrdered;
 - (void) setOrdered: (BOOL)isOrdered;
-- (NSString *) name;
-- (void) setName: (NSString *)name;
 - (ETPropertyDescription *) opposite;
 - (void) setOpposite: (ETPropertyDescription *)opposite;
 - (ETEntityDescription *) owner;
 - (void) setOwner: (ETEntityDescription *)owner;
-- (ETUTI *)UTI;
-- (void)setUTI: (ETUTI *)UTI;
 
 /* Validation */
 
-- (ETRoleDescription *) role;
+- (id) role;
 - (void) setRole: (ETRoleDescription *)role;
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
@@ -88,14 +80,11 @@
 @end
 
 
-
-
 /* Property Role Description classes 
  
  These allow a pluggable, more precise property description
  
  */
-
 @interface ETRoleDescription : NSObject
 {
 }

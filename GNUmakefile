@@ -104,6 +104,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETUTI.h \
 	ETReflection.h \
 	ETEntityDescription.h \
+	ETModelElementDescription.h \
 	ETPropertyDescription.h \
 	ETValidationResult.h \
 	runtime.h

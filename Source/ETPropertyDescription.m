@@ -14,7 +14,10 @@
 #import <Foundation/Foundation.h>
 #import "ETPropertyDescription.h"
 #import "ETCollection.h"
+#import "ETEntityDescription.h"
 #import "ETReflection.h"
+#import "ETUTI.h"
+#import "ETValidationResult.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -31,47 +34,51 @@
 - (id) initWithName: (NSString *)name
               owner: (ETEntityDescription *)owner
 {
-	SUPERINIT
-	ASSIGN(_name, name);
+	self = [super initWithName: name];
+	if (nil == self) return nil;
+
 	_ordered = NO;
 	_owner = owner;
 	_multivalued = NO;
 	_container = NO;
 	_role = nil;
-	_UTI = [[ETUTI typeWithClass: [NSObject class]] retain];
 
 	[_owner addPropertyDescriptionsObject: self];
 	return self;
 }
+
 - (void) dealloc
 {
-	[_name release];
-	[_UTI release];
 	[_role release];
 	[super dealloc];
 }
+
+static ETEntityDescription *selfDesc = nil;
+
 + (ETEntityDescription *) entityDescription
 {
-	ETEntityDescription *desc = 
-		[ETEntityDescription descriptionWithName:@"ETPropertyDescription"];
+	if (nil != selfDesc) return selfDesc;
+
+	selfDesc = [ETEntityDescription descriptionWithName:@"ETPropertyDescription"];
 	
-	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite" owner: desc];
+	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite" owner: selfDesc];
 	[composite setDerived: YES];
-	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container" owner: desc];
-	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived" owner: desc];
-	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued" owner: desc];
-	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered" owner: desc];
-	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: desc];
-	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite" owner: desc];
+	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container" owner: selfDesc];
+	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived" owner: selfDesc];
+	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued" owner: selfDesc];
+	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered" owner: selfDesc];
+	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: selfDesc];
+	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite" owner: selfDesc];
 	[opposite setOpposite: opposite];
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner" owner: desc];
-	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"UTI" owner: desc];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner" owner: selfDesc];
+	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"UTI" owner: selfDesc];
 	
-	[desc setPropertyDescriptions: A(composite, container, derived, multivalued,
+	[selfDesc setPropertyDescriptions: A(composite, container, derived, multivalued,
 									 ordered, name, opposite, owner, UTI)];
-	[desc setUTI: [ETUTI typeWithClass: [ETPropertyDescription class]]];
-	// TODO: set a sensible parent for desc? currently it's nil
-	return desc;
+	[selfDesc setType: [ETUTI typeWithClass: [ETPropertyDescription class]]];
+	[selfDesc setParent: [[self superclass] entityDescription]];
+
+	return selfDesc;
 }
 
 /* Properties */
@@ -80,10 +87,12 @@
 {
 	return [[self opposite] isContainer];
 }
+
 - (BOOL) isContainer
 {
 	return _container;
 }
+
 - (void) setIsContainer: (BOOL)isContainer
 {
 	_container = isContainer;
@@ -100,42 +109,42 @@
 	}
 	//FIXME: do other checks that the parent link is valid
 }
+
 - (BOOL) isDerived
 {
 	return _derived;
 }
+
 - (void) setDerived: (BOOL)isDerived
 {
 	_derived = isDerived;
 }
+
 - (BOOL) isMultivalued
 {
 	return _multivalued;
 }
+
 - (void) setMultivalued: (BOOL)isMultivalued
 {
 	_multivalued = isMultivalued;
 }
+
 - (BOOL) isOrdered
 {
 	return _ordered;
 }
+
 - (void) setOrdered: (BOOL)isOrdered
 {
 	_ordered = isOrdered;
 }
-- (NSString *) name
-{
-	return _name;
-}
-- (void) setName: (NSString *)name
-{
-	ASSIGN(_name, name);
-}
+
 - (ETPropertyDescription *) opposite
 {
 	return _opposite;
 }
+
 - (void) setOpposite: (ETPropertyDescription *)opposite
 {
 	// FIXME: what does it mean if opposite == self? 
@@ -156,13 +165,15 @@
 		{
 			[_opposite setOpposite: self];
 		}
-		[self setUTI: [[_opposite owner] UTI]];
+		[self setType: [[_opposite owner] type]];
 	}
 }
+
 - (ETEntityDescription *) owner
 {
 	return _owner;
 }
+
 - (void) setOwner: (ETEntityDescription *)owner
 {
 	if ([self owner] != nil)
@@ -172,18 +183,12 @@
 	[owner addPropertyDescriptionsObject: self];
 	_owner = owner;
 }
-- (ETUTI *) UTI
-{
-	return _UTI;
-}
-- (void) setUTI: (ETUTI *)type
-{
-	ASSIGN(_UTI, type);
-}
-- (ETRoleDescription *) role
+
+- (id) role
 {
 	return _role;
 }
+
 - (void) setRole: (ETRoleDescription *)role
 {
 	ASSIGN(_role, role);
@@ -202,28 +207,24 @@
 @end
 
 
-
 /*
  Property Role Description classes 
  
  These allow pluggable, more precise property descriptions with validation
  */
-
-
-
 @implementation ETRoleDescription 
 
 - (ETPropertyDescription *) parent
 {
 	return nil;
 }
+
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
 	return [ETValidationResult validResult: value];
 }
 
 @end
-
 
 
 @implementation ETRelationshipRole
@@ -249,7 +250,6 @@
 }
 
 @end
-
 
 
 @implementation ETMultiOptionsRole
@@ -288,18 +288,22 @@
 
 
 @implementation ETNumberRole
+
 - (int)minimum
 {
 	return _min;
 }
+
 - (void)setMinimum: (int)min
 {
 	_min = min;
 }
+
 - (int)maximum
 {
 	return _max;
 }
+
 - (void)setMaximum: (int)max
 {
 	_max = max;
@@ -319,4 +323,5 @@
 													   error: @"Value outside the allowable range"];
 	}
 }
+
 @end

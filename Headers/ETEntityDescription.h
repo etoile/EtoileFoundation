@@ -13,26 +13,19 @@
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETCollection.h>
-#import <EtoileFoundation/ETValidationResult.h>
-#import <EtoileFoundation/ETPropertyDescription.h>
-#import <EtoileFoundation/ETUTI.h>
+#import <EtoileFoundation/ETModelElementDescription.h>
 
-@class ETPropertyDescription;
+@class ETPropertyDescription, ETValidationResult, ETUTI;
 
 /**
  * A description of an "entity", which can either be a class or a prototype.
  */
-@interface ETEntityDescription : NSObject
+@interface ETEntityDescription : ETModelElementDescription
 {
 	BOOL _abstract;
-	NSString *_name;
 	NSMutableDictionary *_propertyDescriptions;
 	ETEntityDescription *_parent;
-	ETUTI *_UTI;
 }
-
-+ (id) descriptionWithName: (NSString *)name;
-- (id) initWithName: (NSString *)name;
 
 /**
  * Self-description
@@ -50,11 +43,6 @@
  * Whether this is a root entity (has no parent entity)
  */
 - (BOOL) isRoot;
-/**
- * Name of the entity
- */
-- (NSString *) name;
-- (void) setName: (NSString *)name;
 /**
  * Descriptions of the properties declared on this entity (not including those
  * declared in parent entities)
@@ -74,13 +62,10 @@
  */
 - (ETEntityDescription *) parent;
 - (void) setParent: (ETEntityDescription *)parentDescription;
-- (ETUTI *)UTI;
-- (void)setUTI: (ETUTI *)UTI;
 
 /* Utility methods */
 
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name;
-
 
 /* Validation */
 

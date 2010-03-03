@@ -13,10 +13,11 @@
 
 #import <Foundation/Foundation.h>
 #import "ETEntityDescription.h"
-#import "ETPropertyDescription.h"
 #import "ETCollection.h"
-#import "ETReflection.h"
 #import "ETCollection+HOM.h"
+#import "ETPropertyDescription.h"
+#import "ETReflection.h"
+#import "ETValidationResult.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -25,76 +26,79 @@
  */
 @implementation ETEntityDescription 
 
-+ (id) descriptionWithName: (NSString *)name
-{
-	return [[[ETEntityDescription alloc] initWithName: name] autorelease];
-}
-
 - (id)  initWithName: (NSString *)name
 {
-	SUPERINIT;
-	ASSIGN(_name, name);
+	self = [super initWithName: name];
+	if (nil == self) return nil;
+
 	_abstract = NO;
 	_propertyDescriptions = [[NSMutableDictionary alloc] init];
 	_parent = nil;
-	_UTI = [[ETUTI typeWithClass: [NSObject class]] retain];
 	return self;
 }
+
 - (void) dealloc
 {
-	DESTROY(_name);
 	DESTROY(_propertyDescriptions);
-	DESTROY(_UTI);
 	[super dealloc];
 }
+
+static ETEntityDescription *selfDesc = nil;
+
 + (ETEntityDescription *) entityDescription
 {
-	ETEntityDescription *desc = 
-		[ETEntityDescription descriptionWithName:@"ETEntityDescription"];
+	if (nil != selfDesc) return selfDesc;
+
+	selfDesc = [ETEntityDescription descriptionWithName: @"ETEntityDescription"];
 	
-	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract" owner: desc];
-	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root" owner: desc];
+	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract" owner: selfDesc];
+	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root" owner: selfDesc];
 	[root setDerived: YES];
-	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: desc];
-	ETPropertyDescription *propertyDescriptions = [ETPropertyDescription descriptionWithName: @"propertyDescriptions" owner: desc];
+	ETPropertyDescription *propertyDescriptions = [ETPropertyDescription descriptionWithName: @"propertyDescriptions" owner: selfDesc];
 	[propertyDescriptions setMultivalued: YES];
 	//FIXME: In order for the next line to make sense, we need to have a
 	//       globally shared repository of entity descriptions, since
 	//       the entity description of ETEntityDescription has a refernece
 	//       to the entity description of ETPropertyDescription
 	//[propertyDescriptions setOpposite: [[ETPropertyDescription entityDescription] propertyDescriptionForName: @"owner"];
-	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent" owner: desc];
-	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"UTI" owner: desc];
+	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent" owner: selfDesc];
 	
-	[desc setPropertyDescriptions: A(abstract, root, name, propertyDescriptions, parent, UTI)];
-	[desc setUTI: [ETUTI typeWithClass: [ETEntityDescription class]]];
-	// FIXME: set a sensible parent for desc? currently it's nil
-	return desc;
+	[selfDesc setPropertyDescriptions: A(abstract, root, propertyDescriptions, parent)];
+	[selfDesc setParent: [[self superclass] entityDescription]];
+	
+	return selfDesc;
 }
+
 - (BOOL) isAbstract
 {
 	return _abstract;
 }
+
 - (void) setAbstract: (BOOL)isAbstract
 {
 	_abstract = isAbstract;
 }
+
 - (BOOL) isRoot
 {
 	return [self parent] == nil;
 }
+
 - (NSString *) name
 {
 	return _name;
 }
+
 - (void) setName: (NSString *)name
 {
 	ASSIGN(_name, name);
 }
+
 - (NSArray *) propertyDescriptions
 {
 	return [_propertyDescriptions allValues];
 }
+
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions
 {
 	FOREACH([self propertyDescriptions], oldProperty, ETPropertyDescription *)
@@ -111,11 +115,13 @@
 								  forKey: [propertyDescription name]];
 	}
 }
+
 - (void) addPropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription
 {
 	[_propertyDescriptions setObject: propertyDescription
 							  forKey: [propertyDescription name]];
 }
+
 - (void) removePropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription
 {
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
@@ -126,21 +132,15 @@
 	return [[_propertyDescriptions allValues] arrayByAddingObjectsFromArray:
 			[[self parent] allPropertyDescriptions]];
 }
+
 - (ETEntityDescription *) parent
 {
 	return _parent;
 }
+
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
 	_parent = parentDescription;
-}
-- (ETUTI *)UTI
-{
-	return _UTI;
-}
-- (void)setUTI: (ETUTI *)UTI
-{
-	ASSIGN(_UTI, UTI);
 }
 
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name
@@ -154,15 +154,6 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
 
 #if 0
 // Serialization
