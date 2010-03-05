@@ -38,7 +38,7 @@
 	return [obj isMemberOfClass: [ETClassMirror class]] &&
 		[obj representedClass] == _class;
 }
-- (unsigned int) hash
+- (NSUInteger) hash
 {
 	// FIXME: doing this will cause ETClassMirrors to have hash collisions
 	// with strings of the class names.. don't think this is a problem though.

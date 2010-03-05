@@ -203,7 +203,7 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 	NSMutableArray *indexes = [NSMutableArray arrayWithCapacity: [self count]];
 	int nbOfIndexes = [self count];
 	int nbOfCopiedIndexes = -1;
-	unsigned int *copiedIndexes = calloc(sizeof(unsigned int), nbOfIndexes);
+	NSUInteger *copiedIndexes = calloc(sizeof(NSUInteger), nbOfIndexes);
 	
 	nbOfCopiedIndexes = [self getIndexes: copiedIndexes maxCount: nbOfIndexes
 		inIndexRange: NULL];
