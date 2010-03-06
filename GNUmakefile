@@ -46,16 +46,12 @@ else
 SSL_LIBS = -lssl -lcrypto 
 endif
 
-ifeq ($(GNU_RUNTIME_VERSION), 1)
-LIBRARIES_DEPEND_UPON += -lObjectiveC2
-endif
-
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML $(SSL_LIBS) \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 ifeq ($(test), yes)
-EtoileFoundation_LDFLAGS += -lUnitKit -lObjectiveC2 $(SSL_LIBS)
+EtoileFoundation_LDFLAGS += -lUnitKit $(SSL_LIBS)
 endif
 
 EtoileFoundation_SUBPROJECTS += Source
