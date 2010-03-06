@@ -31,7 +31,7 @@
 	return [obj isMemberOfClass: [ETProtocolMirror class]] && 
 		[[obj name] isEqualToString: [self name]];
 }
-- (unsigned int) hash
+- (NSUInteger) hash
 {
 	return [[self name] hash];
 }

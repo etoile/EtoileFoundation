@@ -35,15 +35,17 @@
 {
 	/*unsigned int *indexes = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * [self length]);
 	unsigned int *buffer = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * ([self length] - 1));*/
-	unsigned int *indexes = calloc(sizeof(unsigned int), [self length]);
-	unsigned int *buffer = calloc(sizeof(unsigned int), [self length] - 1);
+	NSUInteger *indexes = calloc(sizeof(unsigned int), [self length]);
+	NSUInteger *buffer = calloc(sizeof(unsigned int), [self length] - 1);
 	
 	[self getIndexes: indexes];
 	buffer = memcpy(buffer, &indexes[1], sizeof(unsigned int) * ([self length] -1));
 	//NSZoneFree(NSDefaultMallocZone(), indexes);
 	free(indexes);
-	
-	return [NSIndexPath indexPathWithIndexes: buffer length: [self length] - 1];
+	NSIndexPath *thePath = [NSIndexPath indexPathWithIndexes: buffer
+	                                                  length: [self length] - 1];
+	free(buffer);
+	return thePath;
 }
 
 /** Returns an autoreleased string representation by joining each index path 

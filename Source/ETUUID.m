@@ -178,7 +178,7 @@ static void ETSRandomDev()
    300000: ~11 (4 to 16)
    400000: ~19 (13 to 31)
    500000: ~28 (20 to 35). */
-- (unsigned int) hash
+- (NSUInteger) hash
 {
 	/* uuid is 128 bits long. Hence to compute the hash, we simply divide it in 
 	   four parts of 32 bits, we xor the two left parts, then the two right 
