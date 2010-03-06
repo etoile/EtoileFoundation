@@ -47,7 +47,7 @@ static struct
 {
 	struct objc_method_list*  method_next;
 	int method_count;
-	Method method_list[HIDDEN_CLASS_METHODS];
+	struct objc_method method_list[HIDDEN_CLASS_METHODS];
 } defaultMethods;
 static MethodList defaultClassMethods;
 
