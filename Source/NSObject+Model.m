@@ -38,6 +38,7 @@
 #import "Macros.h"
 #import "NSObject+Etoile.h"
 #import "ETCollection.h"
+#import "ETEntityDescription.h"
 #import "EtoileCompatibility.h"
 #ifndef GNUSTEP
 #import <objc/runtime.h>
@@ -46,6 +47,12 @@
 
 
 @implementation NSObject (EtoileModel)
+
+/** Self-description. */
++ (ETEntityDescription *) entityDescription
+{
+	return [ETEntityDescription descriptionWithName: @"NSObject"];
+}
 
 #ifndef GNUSTEP
 - (BOOL) isClass

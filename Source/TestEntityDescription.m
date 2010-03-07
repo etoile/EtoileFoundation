@@ -13,19 +13,22 @@
 - (void) testBasic
 {
 	id book = [ETEntityDescription descriptionWithName: @"Book"];
-	id title = [ETPropertyDescription descriptionWithName: @"title" owner: book];
-	id authors = [ETPropertyDescription descriptionWithName: @"authors" owner: book];
+	id title = [ETPropertyDescription descriptionWithName: @"title"];
+	id authors = [ETPropertyDescription descriptionWithName: @"authors"];
 	[authors setMultivalued: YES];
+	[book setPropertyDescriptions: A(title, authors)];
 	
 	id person = [ETEntityDescription descriptionWithName: @"Person"];
-	id name = [ETPropertyDescription descriptionWithName: @"name" owner: person];
-	id personBooks = [ETPropertyDescription descriptionWithName: @"books" owner: person];
+	id name = [ETPropertyDescription descriptionWithName: @"name"];
+	id personBooks = [ETPropertyDescription descriptionWithName: @"books"];
 	[personBooks setMultivalued: YES];
+	[person setPropertyDescriptions: A(name, personBooks)];
 
 	id library = [ETEntityDescription descriptionWithName: @"Library"];
-	id librarian = [ETPropertyDescription descriptionWithName: @"librarian" owner: library];
-	id libraryBooks = [ETPropertyDescription descriptionWithName: @"books" owner: library];
+	id librarian = [ETPropertyDescription descriptionWithName: @"librarian"];
+	id libraryBooks = [ETPropertyDescription descriptionWithName: @"books"];
 	[libraryBooks setMultivalued: YES];
+	[library setPropertyDescriptions: A(librarian, libraryBooks)];
 
 	[authors setOpposite: personBooks];
 
@@ -35,6 +38,15 @@
 	
 	// Test that the opposite relationship is bidirectional
 	UKObjectsEqual([personBooks opposite], authors);
+
+	NSMutableArray *warnings = [NSMutableArray array];
+
+	[book checkConstraints: warnings];
+	[person checkConstraints: warnings];
+	[library checkConstraints: warnings];
+	ETLog(@"Check contraint warnings: %@", warnings);
+	
+	// FIXME: UKTrue([warnings isEmpty]);
 }
 
 @end

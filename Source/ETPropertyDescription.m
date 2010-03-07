@@ -24,26 +24,17 @@
 
 @implementation ETPropertyDescription
 
-+ (id) descriptionWithName: (NSString *)name
-                     owner: (ETEntityDescription *)owner
-{
-	return [[[ETPropertyDescription alloc] initWithName: name
-	                                             owner: owner] autorelease];
-}
-
 - (id) initWithName: (NSString *)name
-              owner: (ETEntityDescription *)owner
 {
 	self = [super initWithName: name];
 	if (nil == self) return nil;
 
 	_ordered = NO;
-	_owner = owner;
+	_owner = nil;
 	_multivalued = NO;
 	_container = NO;
 	_role = nil;
 
-	[_owner addPropertyDescriptionsObject: self];
 	return self;
 }
 
@@ -61,20 +52,20 @@ static ETEntityDescription *selfDesc = nil;
 
 	selfDesc = [ETEntityDescription descriptionWithName:@"ETPropertyDescription"];
 	
-	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite" owner: selfDesc];
+	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite"];
 	[composite setDerived: YES];
-	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container" owner: selfDesc];
-	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived" owner: selfDesc];
-	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued" owner: selfDesc];
-	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered" owner: selfDesc];
-	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: selfDesc];
-	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite" owner: selfDesc];
+	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container"];
+	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived"];
+	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued"];
+	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered"];
+	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name"];
+	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite"];
 	[opposite setOpposite: opposite];
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner" owner: selfDesc];
-	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"UTI" owner: selfDesc];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
 	
 	[selfDesc setPropertyDescriptions: A(composite, container, derived, multivalued,
-									 ordered, name, opposite, owner, UTI)];
+									 ordered, name, opposite, owner, type)];
 	[selfDesc setType: [ETUTI typeWithClass: [ETPropertyDescription class]]];
 	[selfDesc setParent: [[self superclass] entityDescription]];
 
@@ -176,11 +167,7 @@ static ETEntityDescription *selfDesc = nil;
 
 - (void) setOwner: (ETEntityDescription *)owner
 {
-	if ([self owner] != nil)
-	{
-		[[self owner] removePropertyDescriptionsObject: self]; // TODO: use correct accessor to modify collection
-	}
-	[owner addPropertyDescriptionsObject: self];
+	NSParameterAssert((_owner != nil && owner == nil) || (_owner == nil && owner != nil));
 	_owner = owner;
 }
 
@@ -202,6 +189,38 @@ static ETEntityDescription *selfDesc = nil;
 		return [role validateValue: value forKey: key];
 	}
 	return [ETValidationResult validResult: value];
+}
+
+/* Inspired by the Java implementation of FAME */
+- (void) checkConstraints: (NSMutableArray *)warnings
+{
+	if ([self isContainer] && [self isMultivalued])
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Container must refer to a single object"]];
+	}
+	if ([self opposite] != nil && [[[self opposite] opposite] isEqual: self] == NO) 
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Opposites must refer to each other"]];
+	}
+	if (islower([[self name] characterAtIndex: 0]))
+	{
+		[warnings addObject: [self warningWithMessage: @"Name should be in lower case"]];
+	}
+	if ([self type] == nil)
+	{
+		[warnings addObject: [self warningWithMessage: @"Miss a type"]];
+	}
+	if ([self owner] == nil)
+	{
+		[warnings addObject: [self warningWithMessage: @"Miss an owner"]];
+	}
+	if ([[self owner] isKindOfClass: [ETEntityDescription class]] == NO)
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Owner must be an entity description"]];
+	}
 }
 
 @end

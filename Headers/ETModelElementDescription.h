@@ -14,7 +14,39 @@
 
 @class ETEntityDescription, ETUTI;
 
-/** Asbtract base class for ETEntityDescription and ETPropertyDescription. */
+/** Asbtract base class for ETEntityDescription and ETPropertyDescription.
+
+<chapter>
+<heading>FAME and EtoileFoundation's Model Description</heading>
+
+<section>
+<heading>FAME Teminology Change Summary</heading>
+Those changes were made to further simplify the FAME terminology which can get 
+obscure since it overlaps with the host language object model, prevent any 
+conflict with existing GNUstep/Cocoa API and reuse GNUstep/Cocoa naming habits.
+
+We list the FAME term first, then its equivalent name in EtoileFoundation:
+<deflist>
+<item>FM3.Element</item><desc>ETModelElementDescription</desc>
+<item>FM3.Class</item><desc>ETEntityDescription</desc>
+<item>FM3.Property</item><desc>ETPropertyDescription</desc>
+<item>FM3.RuntimeElement</item><desc>ETAdaptiveModelObject</desc>
+<item>attributes (in Class)</item><desc>propertyDescriptions (in ETEntityDescription)</desc>
+<item>allAttributes (in Class)</item><desc>allPropertyDescriptions (in ETEntityDescription)</desc>
+<item>superclass (in Class)</item><desc>parent (in ETEntityDescription)</desc>
+<item>class (in Property)</item><desc>owner (in ETPropertyDescription)</desc>
+</deflist>
+For the last point class vs owner, we can consider they have been merged into 
+a single property in EtoileFoundation since they were redundant.
+</section>
+
+<section>
+<heading>Additions to FAME</heading>
+itemIdentifier has been added as a mean to get precise control over the UI 
+generation with EtoileUI.
+</section>
+
+</chapter> */
 @interface ETModelElementDescription : NSObject
 {
 	NSString *_name;
@@ -49,6 +81,20 @@ Raises an NSInvalidArgumentException when the name is nil or already in use. */
 - (NSString *) name;
 /** Sets the name of the entity or property. */
 - (void) setName: (NSString *)name;
+/** <override-never />
+Returns the name that uniquely identify the receiver.
+
+The name is a key path built by joining every names in the owner chain up to 
+the root owner. The key path pattern is:
+<code>ownerName*.receiverName</code>. 
+The '+' sign indicates 'ownerName' can be repeated zero or multiple times.
+
+Given a class 'Movie' and its property 'director'. The full names are:
+<list>
+<item>Movie for the class</item>
+<item>Movie.director for the property</item>
+</list>. */
+- (NSString *) fullName;
 /** Returns the UTI type of the entity or the property.
 
 For a property description, this is the type of the attribute or destination 
@@ -56,6 +102,14 @@ entity. */
 - (ETUTI *) type;
 /** Sets the UTI type of the entity or property. */
 - (void) setType: (ETUTI *)UTI;
+/** <override-dummy />
+Returns the element that owns the receiver.
+
+For a property, the owner is the entity it belongs to.<br />
+For an entity, there is no owner, unless the entity belongs to a package.
+
+By default, returns nil. */
+- (id) owner;
 
 /* UI */
 
@@ -74,5 +128,19 @@ representation has to be generated based on the description.
 ETModelDescriptionRenderer in EtoileUI uses it to look up a template item that  
 will represent the property at the UI level. */
 - (void) setItemIdentifier: (NSString *)anIdentifier;
+
+/* Runtime Consistency Check */
+
+/** <override-dummy />
+Checks the receiver conforms to the FM3 constraint spec and adds a short warning
+to the given array for each failure. 
+
+A warning must be a NSString instance that describes the issue. Every warning 
+should be created with -warningWithMessage:. */
+- (void) checkConstraints: (NSMutableArray *)warnings;
+/** Returns an autoreleased warning built with the given explanation. 
+
+See -checkConstraints:. */
+- (NSString *) warningWithMessage: (NSString *)msg;
 
 @end

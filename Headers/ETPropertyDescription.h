@@ -32,12 +32,6 @@
 	ETRoleDescription *_role;
 }
 
-+ (id)  descriptionWithName: (NSString *)name
-                      owner: (ETEntityDescription *)owner;
-
-- (id) initWithName: (NSString *)name
-              owner: (ETEntityDescription *)owner;
-
 /**
  * Self-description
  */
@@ -50,8 +44,22 @@
  * this property belongs to.
  *
  * isComposite is derived from opposite.isContainer
+ *
+ * See also -isContainer.
  */
 - (BOOL) isComposite;
+/**
+ * If YES, this property's value is the parent of the entity this property
+ * belongs to. 
+ *
+ * isContainer/isComposite describes an aggregate relationship where:
+ * <deflist>
+ * <term>isContainer</term><desc>is a child property and the to-one relationship 
+ * to the parent</desc>
+ * <term>isComposite</term><desc>is a parent property and the to-many 
+ * relationship to the children</desc>
+ * </deflist>
+ */
 - (BOOL) isContainer;
 - (void) setIsContainer: (BOOL)isContainer;
 - (BOOL) isDerived;

@@ -28,6 +28,14 @@
 }
 
 /**
+ * The entity description that should end the parent chain of every entity 
+ * description.
+ *
+ * Will be used by -checkConstraints:.
+ */
++ (ETEntityDescription *) rootEntityDescription;
+
+/**
  * Self-description
  */
 + (ETEntityDescription *) entityDescription;
@@ -49,8 +57,8 @@
  */
 - (NSArray *) propertyDescriptions;
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions;
-- (void) addPropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription;
-- (void) removePropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription;
+- (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription;
+- (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription;
 
 /**
  * Descriptions of the entity's properties, including those declared in parent

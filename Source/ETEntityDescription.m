@@ -18,6 +18,7 @@
 #import "ETPropertyDescription.h"
 #import "ETReflection.h"
 #import "ETValidationResult.h"
+#import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -25,6 +26,11 @@
  * A description of an "entity", which can either be a class or a prototype.
  */
 @implementation ETEntityDescription 
+
++ (ETEntityDescription *) rootEntityDescription
+{
+	return [NSObject entityDescription];
+}
 
 - (id)  initWithName: (NSString *)name
 {
@@ -51,17 +57,17 @@ static ETEntityDescription *selfDesc = nil;
 
 	selfDesc = [ETEntityDescription descriptionWithName: @"ETEntityDescription"];
 	
-	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract" owner: selfDesc];
-	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root" owner: selfDesc];
+	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract"];
+	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root"];
 	[root setDerived: YES];
-	ETPropertyDescription *propertyDescriptions = [ETPropertyDescription descriptionWithName: @"propertyDescriptions" owner: selfDesc];
+	ETPropertyDescription *propertyDescriptions = [ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
 	[propertyDescriptions setMultivalued: YES];
 	//FIXME: In order for the next line to make sense, we need to have a
 	//       globally shared repository of entity descriptions, since
 	//       the entity description of ETEntityDescription has a refernece
 	//       to the entity description of ETPropertyDescription
 	//[propertyDescriptions setOpposite: [[ETPropertyDescription entityDescription] propertyDescriptionForName: @"owner"];
-	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent" owner: selfDesc];
+	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent"];
 	
 	[selfDesc setPropertyDescriptions: A(abstract, root, propertyDescriptions, parent)];
 	[selfDesc setParent: [[self superclass] entityDescription]];
@@ -111,19 +117,26 @@ static ETEntityDescription *selfDesc = nil;
 		[propertyDescriptions count]];
 	FOREACH(propertyDescriptions, propertyDescription, ETPropertyDescription *)
 	{
-		[_propertyDescriptions setObject: propertyDescription
-								  forKey: [propertyDescription name]];
+		[self addPropertyDescription: propertyDescription];
 	}
 }
 
-- (void) addPropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription
+- (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	ETEntityDescription *owner = [propertyDescription owner];
+
+	if (nil != owner)
+	{
+		[owner removePropertyDescription: propertyDescription];
+	}
+	[propertyDescription setOwner: self];
 	[_propertyDescriptions setObject: propertyDescription
 							  forKey: [propertyDescription name]];
 }
 
-- (void) removePropertyDescriptionsObject: (ETPropertyDescription *)propertyDescription
+- (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	[propertyDescription setOwner: nil];
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
 }
 
@@ -151,6 +164,64 @@ static ETEntityDescription *selfDesc = nil;
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
 	return [[self propertyDescriptionForName: key] validateValue: value forKey: key];
+}
+
+/* For now, private and not used except in -checkConstraints:. */
+- (BOOL) isPrimitive
+{
+	return NO;
+}
+
+/* Inspired by the Java implementation of FAME */
+- (void) checkConstraints: (NSMutableArray *)warnings
+{
+	int container = 0;
+
+	FOREACH([self allPropertyDescriptions], propertyDesc, ETPropertyDescription *)
+	{
+		[propertyDesc checkConstraints: warnings];
+
+		if ([propertyDesc isContainer])
+			container++;
+	}
+	if (container > 1) 
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Found more than one container/composite relationship"]];
+	}
+
+	if ([self isEqual: [[self class] rootEntityDescription]] == NO 
+	 && [self isPrimitive] == NO) 
+	{
+		if ([self parent] == nil)
+		{
+			[warnings addObject: [self warningWithMessage: @"Miss a parent"]];
+		}
+		if ([[self parent] isPrimitive]) 
+		{
+			[warnings addObject: [self warningWithMessage: 
+				@"Primitives are not allowed to be parent"]];
+		}
+	}
+	else
+	{
+		ETAssert(nil == [self parent]);
+	}
+
+	NSMutableSet *entityDescSet = [NSMutableSet setWithObject: self];
+	ETEntityDescription *entityDesc = self;
+
+	while (entityDesc != nil)
+	{
+		if ([entityDescSet containsObject: entityDesc])
+		{
+			[warnings addObject: [self warningWithMessage: 
+				@"Found a loop in the parent chain"]];
+			break;
+		}
+		[entityDescSet addObject: entityDesc];
+		entityDesc = [entityDesc parent];
+	}
 }
 
 @end

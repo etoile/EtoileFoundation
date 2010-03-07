@@ -36,8 +36,12 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 
+@class ETEntityDescription;
+
 
 @interface NSObject (EtoileModel)
+
++ (ETEntityDescription *) entityDescription;
 
 + (id) objectWithObjectValue: (id)object;
 + (id) objectWithStringValue: (NSString *)string;

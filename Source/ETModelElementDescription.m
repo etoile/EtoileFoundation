@@ -24,12 +24,16 @@ static ETEntityDescription *desc = nil;
 
 	desc = [[ETEntityDescription alloc] initWithName: @"ETModelElementDescription"];
 	
-	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name" owner: desc];
-	ETPropertyDescription *UTI = [ETPropertyDescription descriptionWithName: @"type" owner: desc];
-	ETPropertyDescription *itemIdentifier = [ETPropertyDescription descriptionWithName: @"itemIdentifier" owner: desc];
+	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name"];
+	ETPropertyDescription *fullName = [ETPropertyDescription descriptionWithName: @"fullName"];
+	[fullName setDerived: YES];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"fullName"];
+	[owner setDerived: YES];
+	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
+	ETPropertyDescription *itemIdentifier = [ETPropertyDescription descriptionWithName: @"itemIdentifier"];
 
 	[desc setAbstract: YES];	
-	[desc setPropertyDescriptions: A(name, UTI, itemIdentifier)];
+	[desc setPropertyDescriptions: A(name, type, itemIdentifier)];
 	[desc setType: [ETUTI typeWithClass: [ETModelElementDescription class]]];
 	// FIXME: set a sensible parent for desc? currently it's nil
 
@@ -65,6 +69,11 @@ static ETEntityDescription *desc = nil;
 	[super dealloc];
 }
 
+- (NSString *) description
+{
+	return [NSString stringWithFormat: @"%@ %@", [super description], [self fullName]];
+}
+
 - (NSString *) name
 {
 	return _name;
@@ -73,6 +82,18 @@ static ETEntityDescription *desc = nil;
 - (void) setName: (NSString *)name
 {
 	ASSIGN(_name, name);
+}
+
+- (NSString *) fullName
+{
+	if (nil != [self owner])
+	{
+		return [NSString stringWithFormat: @"%@.%@", [[self owner] fullName], [self name]];
+	}
+	else
+	{
+		return [self name];
+	}
 }
 
 - (ETUTI *) type
@@ -85,6 +106,11 @@ static ETEntityDescription *desc = nil;
 	ASSIGN(_UTI, UTI);
 }
 
+- (id) owner
+{
+	return nil;
+}
+
 - (NSString *) itemIdentifier;
 {
 	return _itemIdentifier;
@@ -93,6 +119,16 @@ static ETEntityDescription *desc = nil;
 - (void) setItemIdentifier: (NSString *)anIdentifier
 {
 	ASSIGN(_itemIdentifier, anIdentifier);
+}
+
+- (void) checkConstraints: (NSMutableArray *)warnings
+{
+
+}
+
+- (NSString *) warningWithMessage: (NSString *)msg
+{
+	return [[self description] stringByAppendingFormat: @" - %@", msg];
 }
 
 @end
