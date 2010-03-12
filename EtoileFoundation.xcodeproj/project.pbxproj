@@ -30,6 +30,9 @@
 		60073EDF10074D6A007272E6 /* TRXHTMLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 60073ECA10074D6A007272E6 /* TRXHTMLTest.m */; };
 		60073EE010074D97007272E6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		60073EE110074D97007272E6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
+		6010E6C31143DF12003203B2 /* ETPackageDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6010E6C11143DF12003203B2 /* ETPackageDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6010E6C91144623C003203B2 /* ETPackageDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6010E6C81144623C003203B2 /* ETPackageDescription.m */; };
+		6010E6CA1144623C003203B2 /* ETPackageDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6010E6C81144623C003203B2 /* ETPackageDescription.m */; };
 		60222D8F101CCA9C00B2B1C1 /* TestReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 60222D8E101CCA9C00B2B1C1 /* TestReflection.m */; };
 		60222D91101CCAAC00B2B1C1 /* TestEntityDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 60222D90101CCAAC00B2B1C1 /* TestEntityDescription.m */; };
 		60222DB3101CCB4800B2B1C1 /* ETClassMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA831101BC8610044F013 /* ETClassMirror.m */; };
@@ -209,6 +212,8 @@
 		60073EC810074D6A007272E6 /* ParserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParserTest.m; path = ../EtoileFoundation/EtoileXML/ParserTest.m; sourceTree = SOURCE_ROOT; };
 		60073EC910074D6A007272E6 /* TRXHTMLTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXHTMLTest.h; path = ../EtoileFoundation/EtoileXML/TRXHTMLTest.h; sourceTree = SOURCE_ROOT; };
 		60073ECA10074D6A007272E6 /* TRXHTMLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRXHTMLTest.m; path = ../EtoileFoundation/EtoileXML/TRXHTMLTest.m; sourceTree = SOURCE_ROOT; };
+		6010E6C11143DF12003203B2 /* ETPackageDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPackageDescription.h; path = Headers/ETPackageDescription.h; sourceTree = "<group>"; };
+		6010E6C81144623C003203B2 /* ETPackageDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPackageDescription.m; path = Source/ETPackageDescription.m; sourceTree = "<group>"; };
 		60222D8E101CCA9C00B2B1C1 /* TestReflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestReflection.m; path = ../EtoileFoundation/Source/TestReflection.m; sourceTree = SOURCE_ROOT; };
 		60222D90101CCAAC00B2B1C1 /* TestEntityDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestEntityDescription.m; path = ../EtoileFoundation/Source/TestEntityDescription.m; sourceTree = SOURCE_ROOT; };
 		602DC5030F21FA2E00DF23D9 /* ETHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHistory.h; path = ../EtoileFoundation/Headers/ETHistory.h; sourceTree = SOURCE_ROOT; };
@@ -450,6 +455,7 @@
 		603648350E409329003377E0 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				6010E6C11143DF12003203B2 /* ETPackageDescription.h */,
 				606A9907113F176300CC89B9 /* ETModelElementDescription.h */,
 				60C021ED10FA4AB800A46E65 /* ETByteSizeFormatter.h */,
 				663A0FD610903DFC00B921B0 /* runtime.h */,
@@ -523,6 +529,7 @@
 				662EA832101BC8610044F013 /* ETInstanceVariableMirror.m */,
 				662EA833101BC8610044F013 /* ETMethodMirror.m */,
 				606A990A113F178800CC89B9 /* ETModelElementDescription.m */,
+				6010E6C81144623C003203B2 /* ETPackageDescription.m */,
 				603648000E40931E003377E0 /* ETObjectChain.m */,
 				662EA834101BC8610044F013 /* ETObjectMirror.m */,
 				662EA3F9101916310044F013 /* ETPropertyDescription.m */,
@@ -660,6 +667,7 @@
 				663A0FD710903DFC00B921B0 /* runtime.h in Headers */,
 				60C021EE10FA4AB800A46E65 /* ETByteSizeFormatter.h in Headers */,
 				606A9908113F176300CC89B9 /* ETModelElementDescription.h in Headers */,
+				6010E6C31143DF12003203B2 /* ETPackageDescription.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,6 +864,7 @@
 				603813A51022247400C221A2 /* ETPropertyViewpoint.m in Sources */,
 				60C021F010FA4ACB00A46E65 /* ETByteSizeFormatter.m in Sources */,
 				606A990B113F178800CC89B9 /* ETModelElementDescription.m in Sources */,
+				6010E6C91144623C003203B2 /* ETPackageDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,6 +918,7 @@
 				60C0217210FA40E800A46E65 /* TestIndexPath.m in Sources */,
 				60C021F110FA4ACB00A46E65 /* ETByteSizeFormatter.m in Sources */,
 				606A990C113F178800CC89B9 /* ETModelElementDescription.m in Sources */,
+				6010E6CA1144623C003203B2 /* ETPackageDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

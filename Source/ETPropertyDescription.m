@@ -44,30 +44,25 @@
 	[super dealloc];
 }
 
-static ETEntityDescription *selfDesc = nil;
-
-+ (ETEntityDescription *) entityDescription
++ (ETEntityDescription *) newEntityDescription
 {
-	if (nil != selfDesc) return selfDesc;
+	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
 
-	selfDesc = [ETEntityDescription descriptionWithName:@"ETPropertyDescription"];
-	
+	NSArray *inheritedPropertyDescs = [[super newEntityDescription] allPropertyDescriptions];
 	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite"];
 	[composite setDerived: YES];
 	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container"];
 	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived"];
 	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued"];
 	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered"];
-	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name"];
 	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite"];
 	[opposite setOpposite: opposite];
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
 	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
 	
-	[selfDesc setPropertyDescriptions: A(composite, container, derived, multivalued,
-									 ordered, name, opposite, owner, type)];
+	[selfDesc setPropertyDescriptions: [inheritedPropertyDescs arrayByAddingObjectsFromArray:
+		A(composite, container, derived, multivalued, ordered, opposite, type)]];
 	[selfDesc setType: [ETUTI typeWithClass: [ETPropertyDescription class]]];
-	[selfDesc setParent: [[self superclass] entityDescription]];
+	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
 }

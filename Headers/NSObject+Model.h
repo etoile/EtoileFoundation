@@ -41,7 +41,7 @@
 
 @interface NSObject (EtoileModel)
 
-+ (ETEntityDescription *) entityDescription;
++ (ETEntityDescription *) newEntityDescription;
 
 + (id) objectWithObjectValue: (id)object;
 + (id) objectWithStringValue: (NSString *)string;

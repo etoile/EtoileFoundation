@@ -66,6 +66,7 @@
 #import <EtoileFoundation/NSURL+Etoile.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
 #import <EtoileFoundation/ETEntityDescription.h>
+#import <EtoileFoundation/ETPackageDescription.h>
 #import <EtoileFoundation/ETPropertyDescription.h>
 #import <EtoileFoundation/ETValidationResult.h>
 

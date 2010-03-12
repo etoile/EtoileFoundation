@@ -48,10 +48,35 @@
 
 @implementation NSObject (EtoileModel)
 
-/** Self-description. */
-+ (ETEntityDescription *) entityDescription
+/** <override-dummy />
+Returns a new self-description (aka metamodel).
+
+You must never use this method to retrieve an entity description, but only a 
+ETModelDescriptionRepository instance to do so.
+
+This method is invoked at runtime by the main repository to automatically 
+collect the entity descriptions and make them available in this repository.
+
+You can override this method to describe your subclasses more precisely. e.g. 
+add new property descriptions etc.
+
+<code>
+ETEntityDescription *desc = [[ETEntityDescription alloc] initWithName: [self className]];
+
+NSArray *inheritedDescs = [[super newEntityDescription] allPropertyDescriptions];
+ETPropertyDescription *city = [ETPropertyDescription descriptionWithName: @"city"];
+ETPropertyDescription *country = [ETPropertyDescription descriptionWithName: @"country"];
+
+[desc setPropertyDescriptions: [inheritedDescs arrayByAddingObjectsFromArray: A(city, country)];
+// Will be resolved when the entity description is put in the repository
+[desc setParent: NSStringFromClass([self superclass])];
+[desc setAbstract: YES];
+
+return desc;
+</code> */
++ (ETEntityDescription *) newEntityDescription
 {
-	return [ETEntityDescription descriptionWithName: @"NSObject"];
+	return [ETEntityDescription descriptionWithName: [self className]];
 }
 
 #ifndef GNUSTEP

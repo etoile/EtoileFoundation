@@ -35,11 +35,6 @@
  */
 + (ETEntityDescription *) rootEntityDescription;
 
-/**
- * Self-description
- */
-+ (ETEntityDescription *) entityDescription;
-
 /* Property getters/setters */
 
 /**

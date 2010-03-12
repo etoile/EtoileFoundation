@@ -29,7 +29,7 @@
 
 + (ETEntityDescription *) rootEntityDescription
 {
-	return [NSObject entityDescription];
+	return [NSObject newEntityDescription];
 }
 
 - (id)  initWithName: (NSString *)name
@@ -49,18 +49,16 @@
 	[super dealloc];
 }
 
-static ETEntityDescription *selfDesc = nil;
-
-+ (ETEntityDescription *) entityDescription
++ (ETEntityDescription *) newEntityDescription
 {
-	if (nil != selfDesc) return selfDesc;
+	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
 
-	selfDesc = [ETEntityDescription descriptionWithName: @"ETEntityDescription"];
-	
+	NSArray *inheritedPropertyDescs = [[super newEntityDescription] allPropertyDescriptions];
 	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract"];
 	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root"];
 	[root setDerived: YES];
-	ETPropertyDescription *propertyDescriptions = [ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
+	ETPropertyDescription *propertyDescriptions = 
+		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
 	[propertyDescriptions setMultivalued: YES];
 	//FIXME: In order for the next line to make sense, we need to have a
 	//       globally shared repository of entity descriptions, since
@@ -69,8 +67,9 @@ static ETEntityDescription *selfDesc = nil;
 	//[propertyDescriptions setOpposite: [[ETPropertyDescription entityDescription] propertyDescriptionForName: @"owner"];
 	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent"];
 	
-	[selfDesc setPropertyDescriptions: A(abstract, root, propertyDescriptions, parent)];
-	[selfDesc setParent: [[self superclass] entityDescription]];
+	[selfDesc setPropertyDescriptions: [inheritedPropertyDescs arrayByAddingObjectsFromArray: 
+		A(abstract, root, propertyDescriptions, parent)]];
+	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 	
 	return selfDesc;
 }
@@ -88,16 +87,6 @@ static ETEntityDescription *selfDesc = nil;
 - (BOOL) isRoot
 {
 	return [self parent] == nil;
-}
-
-- (NSString *) name
-{
-	return _name;
-}
-
-- (void) setName: (NSString *)name
-{
-	ASSIGN(_name, name);
 }
 
 - (NSArray *) propertyDescriptions

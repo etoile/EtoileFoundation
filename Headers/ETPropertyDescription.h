@@ -32,11 +32,6 @@
 	ETRoleDescription *_role;
 }
 
-/**
- * Self-description
- */
-+ (ETEntityDescription *) entityDescription;
-
 /* Properties */
 
 /**

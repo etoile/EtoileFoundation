@@ -16,28 +16,23 @@
 
 @implementation ETModelElementDescription
 
-static ETEntityDescription *desc = nil;
-
-+ (ETEntityDescription *) entityDescription
++ (ETEntityDescription *) newEntityDescription
 {
-	if (nil != desc) return desc;
-
-	desc = [[ETEntityDescription alloc] initWithName: @"ETModelElementDescription"];
+	ETEntityDescription *selfDesc = [[ETEntityDescription alloc] initWithName: [self className]];
 	
 	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name"];
 	ETPropertyDescription *fullName = [ETPropertyDescription descriptionWithName: @"fullName"];
 	[fullName setDerived: YES];
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"fullName"];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
 	[owner setDerived: YES];
 	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
 	ETPropertyDescription *itemIdentifier = [ETPropertyDescription descriptionWithName: @"itemIdentifier"];
 
-	[desc setAbstract: YES];	
-	[desc setPropertyDescriptions: A(name, type, itemIdentifier)];
-	[desc setType: [ETUTI typeWithClass: [ETModelElementDescription class]]];
-	// FIXME: set a sensible parent for desc? currently it's nil
+	[selfDesc setAbstract: YES];	
+	[selfDesc setPropertyDescriptions: A(name, fullName, owner, type, itemIdentifier)];
+	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
-	return desc;
+	return selfDesc;
 }
 
 + (id) descriptionWithName: (NSString *)name
@@ -96,6 +91,11 @@ static ETEntityDescription *desc = nil;
 	}
 }
 
+- (id) owner
+{
+	return nil;
+}
+
 - (ETUTI *) type
 {
 	return _UTI;
@@ -104,11 +104,6 @@ static ETEntityDescription *desc = nil;
 - (void) setType: (ETUTI *)UTI
 {
 	ASSIGN(_UTI, UTI);
-}
-
-- (id) owner
-{
-	return nil;
 }
 
 - (NSString *) itemIdentifier;

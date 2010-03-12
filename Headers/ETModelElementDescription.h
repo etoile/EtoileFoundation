@@ -14,7 +14,9 @@
 
 @class ETEntityDescription, ETUTI;
 
-/** Asbtract base class for ETEntityDescription and ETPropertyDescription.
+/** Abstract base class used by Model Description core classes. 
+
+Also implements NestedElement and NamedElement protocols that exist in FAME/EMOF.
 
 <chapter>
 <heading>FAME and EtoileFoundation's Model Description</heading>
@@ -46,6 +48,10 @@ itemIdentifier has been added as a mean to get precise control over the UI
 generation with EtoileUI.
 </section>
 
+<heading>Removals to FAME/EMOF</heading>
+NamedElement and NestedElement protocols don't exist explicitly.
+</section>
+
 </chapter> */
 @interface ETModelElementDescription : NSObject
 {
@@ -55,16 +61,15 @@ generation with EtoileUI.
 }
 
 /** <override-subclass />
-Self-description (aka meta-metamodel).
-
-Must return the same instance all the time. */
-+ (ETEntityDescription *) entityDescription;
+Returns a new self-description (aka meta-metamodel). */
++ (ETEntityDescription *) newEntityDescription;
 
 /** Returns an autoreleased entity or property description.
 
 See also -initWithName:. */
 + (id) descriptionWithName: (NSString *)name;
-/** Initializes and returns an entity or property description.
+
+/** Initializes and returns an entity, property or package description.
 
 You must only invoke this method on subclasses, otherwise nil is returned.
 
@@ -77,12 +82,11 @@ Raises an NSInvalidArgumentException when the name is nil or already in use. */
 
 /* Property getters/setters */
 
-/** Returns the name of the entity or property. */
+/** Returns the name of the entity, property or package. */
 - (NSString *) name;
-/** Sets the name of the entity or property. */
+/** Sets the name of the entity, property or package. */
 - (void) setName: (NSString *)name;
-/** <override-never />
-Returns the name that uniquely identify the receiver.
+/** Returns the name that uniquely identify the receiver.
 
 The name is a key path built by joining every names in the owner chain up to 
 the root owner. The key path pattern is:
@@ -95,21 +99,27 @@ Given a class 'Movie' and its property 'director'. The full names are:
 <item>Movie.director for the property</item>
 </list>. */
 - (NSString *) fullName;
-/** Returns the UTI type of the entity or the property.
-
-For a property description, this is the type of the attribute or destination 
-entity. */
-- (ETUTI *) type;
-/** Sets the UTI type of the entity or property. */
-- (void) setType: (ETUTI *)UTI;
-/** <override-dummy />
-Returns the element that owns the receiver.
+/** Returns the element that owns the receiver.
 
 For a property, the owner is the entity it belongs to.<br />
-For an entity, there is no owner, unless the entity belongs to a package.
+For an entity, there is no owner, unless the entity belongs to a package.<br />
+For a package, there is no owner.
 
 By default, returns nil. */
 - (id) owner;
+/** Returns the UTI type of the entity or the property.
+
+For a property description, this is the type of the attribute or destination 
+entity.
+
+For a package, returns nil by default.<br />
+For languages which provide package, namespace or module support, return the 
+type of the related language construct (not yet implemented). */
+- (ETUTI *) type;
+/** Sets the UTI type of the entity or property.
+
+See -type. */
+- (void) setType: (ETUTI *)UTI;
 
 /* UI */
 

@@ -61,6 +61,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETReflection.m \
 	ETEntityDescription.m \
 	ETModelElementDescription.m \
+	ETPackageDescription.m \
 	ETPropertyDescription.m \
 	ETValidationResult.m
 
