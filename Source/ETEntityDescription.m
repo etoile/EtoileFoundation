@@ -145,6 +145,16 @@
 	_parent = parentDescription;
 }
 
+- (ETPackageDescription *) owner
+{
+	return _owner;
+}
+
+- (void) setOwner: (ETPackageDescription *)owner
+{
+	_owner = owner;
+}
+
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name
 {
 	return [_propertyDescriptions valueForKey: name];

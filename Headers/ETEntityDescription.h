@@ -15,7 +15,7 @@
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
 
-@class ETPropertyDescription, ETValidationResult, ETUTI;
+@class ETPackageDescription, ETPropertyDescription, ETValidationResult, ETUTI;
 
 /**
  * A description of an "entity", which can either be a class or a prototype.
@@ -25,6 +25,7 @@
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;
 	ETEntityDescription *_parent;
+	ETPackageDescription *_owner;
 }
 
 /**
@@ -65,6 +66,11 @@
  */
 - (ETEntityDescription *) parent;
 - (void) setParent: (ETEntityDescription *)parentDescription;
+/** 
+ * The package to which this entity belongs to.
+ */
+- (ETPackageDescription *) owner;
+- (void) setOwner: (ETPackageDescription *)owner;
 
 /* Utility methods */
 

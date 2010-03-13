@@ -24,20 +24,6 @@
 
 @implementation ETPropertyDescription
 
-- (id) initWithName: (NSString *)name
-{
-	self = [super initWithName: name];
-	if (nil == self) return nil;
-
-	_ordered = NO;
-	_owner = nil;
-	_multivalued = NO;
-	_container = NO;
-	_role = nil;
-
-	return self;
-}
-
 - (void) dealloc
 {
 	[_role release];
@@ -164,6 +150,16 @@
 {
 	NSParameterAssert((_owner != nil && owner == nil) || (_owner == nil && owner != nil));
 	_owner = owner;
+}
+
+- (ETPackageDescription *) package
+{
+	return _package;
+}
+
+- (void) setPackage: (ETPackageDescription *)aPackage
+{
+	_package = aPackage;
 }
 
 - (id) role

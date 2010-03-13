@@ -15,7 +15,7 @@
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
 
-@class ETUTI, ETEntityDescription, ETValidationResult;
+@class ETUTI, ETEntityDescription, ETPackageDescription, ETValidationResult;
 @class ETRoleDescription;
 
 /**
@@ -29,6 +29,7 @@
 	BOOL _ordered;
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
+	ETPackageDescription *_package;
 	ETRoleDescription *_role;
 }
 
@@ -67,6 +68,8 @@
 - (void) setOpposite: (ETPropertyDescription *)opposite;
 - (ETEntityDescription *) owner;
 - (void) setOwner: (ETEntityDescription *)owner;
+- (ETPackageDescription *) package;
+- (void) setPackage: (ETPackageDescription *)aPackage;
 
 /* Validation */
 
