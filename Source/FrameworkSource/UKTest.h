@@ -96,3 +96,23 @@
 #define UKRaisesExceptionNamed(a, b) do{ id p_exp = nil; @try{ a; } @catch(id exp) { p_exp = exp;}[[UKTestHandler handler] raisesException:p_exp named:b inFile:__FILE__ line:__LINE__]; } while(NO)
 
 #define UKRaisesExceptionClass(a, b) do{ id p_exp = nil; @try{ a; } @catch(id exp) { p_exp = exp;}[[UKTestHandler handler] raisesException:p_exp class:[b class] inFile:__FILE__ line:__LINE__]; } while(NO)
+
+/** Informal protocol for initializing and releasing objects that conform to 
+UKTest protocol.
+
+Useful when a tested class already implements -init and -dealloc and the 
+testing requires extra initialization. */
+@interface NSObject (UKTest)
+/** Just before a test method is run, UKRunner allocates a test object and 
+initializes it with -initForTest instead of -init if implemented.
+
+-initForTest can be implemented to do the test related setup. */
+- (id) initForTest;
+/** When a test method has been run, UKRunner calls -releaseForTest to trigger 
+the object deallocation instead of -release if implemented.
+
+-releaseForTest can be implemented to do the test related cleanup.
+
+-releaseForTest must invoke -release on the receiver. */
+- (void) releaseForTest;
+@end

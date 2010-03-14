@@ -26,6 +26,7 @@
 
 #import "UKTestHandler.h"
 #import <stdarg.h>
+#import <math.h>
 
 @implementation UKTestHandler
 

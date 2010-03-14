@@ -1,8 +1,8 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
-ADDITIONAL_OBJCFLAGS = -Wno-import
-
 FRAMEWORK_NAME = UnitKit
+# We declare PROJECT_NAME to export the dependencies (see etoile.make)
+PROJECT_NAME = $(FRAMEWORK_NAME)
 UnitKit_VERSION = 1.3
 
 UnitKit_LIBRARIES_DEPEND_UPON = -lgnustep-base 
@@ -17,5 +17,4 @@ UnitKit_LOCALIZED_RESOURCE_FILES = UKRunner.strings UKTestHandler.strings
 UnitKit_LANGUAGES = English
 
 include $(GNUSTEP_MAKEFILES)/framework.make
-
-
+-include ../../../../etoile.make

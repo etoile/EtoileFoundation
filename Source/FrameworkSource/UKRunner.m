@@ -31,10 +31,11 @@
 /* For GNUstep, but we should check if it is really needed */
 #import <Foundation/NSException.h>
 
-#ifndef GNUSTEP
-	#import <objc/objc-runtime.h>
+#ifndef GNUSTEP	
+#import <objc/objc-runtime.h>
 #else
-	#import <GNUstepBase/GSObjCRuntime.h>
+#import <GNUstepBase/GSObjCRuntime.h>
+#import <objc/Protocol.h>
 #endif 
 
 @interface NSObject (Application)
