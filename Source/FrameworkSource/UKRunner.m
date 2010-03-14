@@ -513,7 +513,7 @@ BOOL conformsToProtocol(Class aClass, Protocol * aProtocol)
 		}
 		protocol_list = protocol_list->next;
 	}
-	if(Nil != ((struct objc_class*)aClass)->super_class)
+	if(Nil != (Class)((struct objc_class*)aClass)->super_class)
 	{
 		return conformsToProtocol(((struct objc_class*)aClass)->super_class, aProtocol);
 	}
