@@ -76,7 +76,7 @@ static inline void safe_remove_from_subclass_list(Class cls)
 	{
 		while (sub != NULL)
 		{
-			if (sub->sibling_class == cls)
+			if ((Class)sub->sibling_class == cls)
 			{
 				sub->sibling_class = cls->sibling_class;
 				break;
@@ -140,8 +140,9 @@ static void hiddenClassSetValueForUndefinedKey(
 {
 	value = [[value retain] autorelease];
 	id block = NULL_OBJECT_PLACEHOLDER;
+	Class blockClass = NSClassFromString(@"BlockClosure");
 	SEL sel;
-	if ([value isKindOfClass:NSClassFromString(@"BlockClosure")])
+	if ([value isKindOfClass: blockClass])
 	{
 		switch ([value argumentCount])
 		{
@@ -165,7 +166,8 @@ static void hiddenClassSetValueForUndefinedKey(
 				sel = @selector(value:value:value:value:value:);
 				break;
 		}
-		sel = sel_register_typed_name([key UTF8String], sel_get_type(sel));
+		sel = sel_register_typed_name([key UTF8String],
+			method_getTypeEncoding(class_getInstanceMethod(blockClass, sel)));
 		[self setMethod:blockTrampoline forSelector:sel];
 		block = value;
 	}
