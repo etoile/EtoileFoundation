@@ -36,6 +36,9 @@
  */
 + (ETEntityDescription *) rootEntityDescription;
 
+/** Returns YES. */
+- (BOOL) isEntityDescription;
+
 /* Property getters/setters */
 
 /**

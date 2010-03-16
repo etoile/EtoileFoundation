@@ -35,6 +35,9 @@ specify a data model.  */
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 
+/** Returns YES. */
+- (BOOL) isPackageDescription;
+
 /** Adds the given entity to the package, the package becomes its owner.
 
 Will remove every property from the package that extends this entity and 

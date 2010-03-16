@@ -53,6 +53,11 @@
 	return selfDesc;
 }
 
+- (BOOL) isPropertyDescription
+{
+	return YES;
+}
+
 /* Properties */
 
 - (BOOL) isComposite

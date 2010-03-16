@@ -33,6 +33,9 @@
 	ETRoleDescription *_role;
 }
 
+/** Returns YES. */
+- (BOOL) isPropertyDescription;
+
 /* Properties */
 
 /**

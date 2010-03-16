@@ -80,6 +80,13 @@ description applies to a prototype rather than a class.
 Raises an NSInvalidArgumentException when the name is nil or already in use. */
 - (id) initWithName: (NSString *)name;
 
+/** Returns whether the receiver describes a property. */
+- (BOOL) isPropertyDescription;
+/** Returns whether the receiver describes an entity. */
+- (BOOL) isEntityDescription;
+/** Returns whether the receiver describes a package. */
+- (BOOL) isPackageDescription;
+
 /* Property getters/setters */
 
 /** Returns the name of the entity, property or package. */

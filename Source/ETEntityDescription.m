@@ -74,6 +74,11 @@
 	return selfDesc;
 }
 
+- (BOOL) isEntityDescription
+{
+	return YES;
+}
+
 - (BOOL) isAbstract
 {
 	return _abstract;

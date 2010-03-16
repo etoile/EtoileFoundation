@@ -64,6 +64,21 @@
 	[super dealloc];
 }
 
+- (BOOL) isPropertyDescription
+{
+	return NO;
+}
+
+- (BOOL) isEntityDescription
+{
+	return NO;
+}
+
+- (BOOL) isPackageDescription
+{
+	return NO;
+}
+
 - (NSString *) description
 {
 	return [NSString stringWithFormat: @"%@ %@", [super description], [self fullName]];

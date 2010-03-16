@@ -22,7 +22,6 @@
 	ETEntityDescription *selfDesc = [[ETEntityDescription alloc] initWithName: [self className]];
 
 	// TODO: Add property descriptions...
-	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
 }
@@ -43,6 +42,11 @@
 	DESTROY(_entityDescriptions);
 	DESTROY(_propertyDescriptions);
 	[super dealloc];
+}
+
+- (BOOL) isPackageDescription
+{
+	return YES;
 }
 
 - (void) addEntityDescription: (ETEntityDescription *)anEntityDescription
