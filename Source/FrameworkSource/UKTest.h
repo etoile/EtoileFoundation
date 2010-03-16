@@ -24,6 +24,8 @@
  affiliated with the Apache Software Foundation.
  */
 
+#import <Foundation/NSObject.h>
+
 /*!
  @protocol UKTest
  @abstract The marker protocol that indicates that a class should be picked up by a system.
