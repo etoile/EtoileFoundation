@@ -60,6 +60,7 @@ libEtoileFoundation_OBJC_FILES = \
 	NSURL+Etoile.m \
 	ETReflection.m \
 	ETEntityDescription.m \
+	ETModelDescriptionRepository.m \
 	ETModelElementDescription.m \
 	ETPackageDescription.m \
 	ETPropertyDescription.m \

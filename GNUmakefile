@@ -100,6 +100,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETUTI.h \
 	ETReflection.h \
 	ETEntityDescription.h \
+	ETModelDescriptionRepository.h \
 	ETModelElementDescription.h \
 	ETPackageDescription.h \
 	ETPropertyDescription.h \
