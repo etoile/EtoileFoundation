@@ -25,11 +25,10 @@
 	[fullName setDerived: YES];
 	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
 	[owner setDerived: YES];
-	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
 	ETPropertyDescription *itemIdentifier = [ETPropertyDescription descriptionWithName: @"itemIdentifier"];
 
 	[selfDesc setAbstract: YES];	
-	[selfDesc setPropertyDescriptions: A(name, fullName, owner, type, itemIdentifier)];
+	[selfDesc setPropertyDescriptions: A(name, fullName, owner, itemIdentifier)];
 	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
@@ -52,14 +51,12 @@
 
 	SUPERINIT;
 	ASSIGN(_name, name);
-	ASSIGN(_UTI, [ETUTI typeWithClass: [NSObject class]]);
 	return self;
 }
 
 - (void) dealloc
 {
 	DESTROY(_name);
-	DESTROY(_UTI);
 	DESTROY(_itemIdentifier);
 	[super dealloc];
 }
@@ -109,16 +106,6 @@
 - (id) owner
 {
 	return nil;
-}
-
-- (ETUTI *) type
-{
-	return _UTI;
-}
-
-- (void) setType: (ETUTI *)UTI
-{
-	ASSIGN(_UTI, UTI);
 }
 
 - (NSString *) itemIdentifier;

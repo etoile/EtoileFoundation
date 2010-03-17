@@ -42,6 +42,16 @@
 /* Property getters/setters */
 
 /**
+ * Whether or not this entity is a primitive (i.e. describes attributes and not 
+ * relationships)
+ *
+ * Primitives include both object and C primitives. e.g. NSString, NSDate, 
+ * NSInteger, float, etc.
+ *
+ * See also -[ETPropertyDescription isRelationship].
+ */
+- (BOOL) isPrimitive;
+/**
  * Whether or not this entity is abstract (i.e. can't be instantiated)
  */
 - (BOOL) isAbstract;

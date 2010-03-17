@@ -24,12 +24,6 @@
 
 @implementation ETPropertyDescription
 
-- (void) dealloc
-{
-	[_role release];
-	[super dealloc];
-}
-
 + (ETEntityDescription *) newEntityDescription
 {
 	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
@@ -44,13 +38,20 @@
 	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite"];
 	[opposite setOpposite: opposite];
 	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
+	[type setType: (id)@"ETPropertyDescription"];
 	
 	[selfDesc setPropertyDescriptions: [inheritedPropertyDescs arrayByAddingObjectsFromArray:
 		A(composite, container, derived, multivalued, ordered, opposite, type)]];
-	[selfDesc setType: [ETUTI typeWithClass: [ETPropertyDescription class]]];
 	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
+}
+
+- (void) dealloc
+{
+	DESTROY(_type);
+	DESTROY(_role);
+	[super dealloc];
 }
 
 - (BOOL) isPropertyDescription
@@ -59,6 +60,18 @@
 }
 
 /* Properties */
+
+- (NSString *) fullName
+{
+	if (nil == [self owner] && nil != [self package])
+	{
+		return [NSString stringWithFormat: @"%@.%@", [[self package] fullName], [self name]];
+	}
+	else
+	{
+		return [super fullName];
+	}
+}
 
 - (BOOL) isComposite
 {
@@ -142,7 +155,7 @@
 		{
 			[_opposite setOpposite: self];
 		}
-		[self setType: [[_opposite owner] type]];
+		[self setType: [_opposite owner]];
 	}
 }
 
@@ -165,6 +178,27 @@
 - (void) setPackage: (ETPackageDescription *)aPackage
 {
 	_package = aPackage;
+}
+
+- (ETEntityDescription *) type
+{
+	return _type;
+}
+
+- (void) setType: (ETEntityDescription *)anEntityDescription
+{
+	ASSIGN(_type, anEntityDescription);
+}
+
+- (BOOL) isRelationship
+{
+	return ([[self type] isPrimitive] == NO 
+		|| [[self role] isKindOfClass: [ETRelationshipRole class]]);
+}
+
+- (BOOL) isAttribute
+{
+	return ([self isRelationship] == NO);
 }
 
 - (id) role

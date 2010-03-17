@@ -3,6 +3,46 @@
 
 #define SA(x) [NSSet setWithArray: x]
 
+@interface TestModelElementDescription : NSObject <UKTest>
+@end
+
+@implementation TestModelElementDescription
+
+- (void) testFullName
+{
+	id litterature = [ETPackageDescription descriptionWithName: @"litterature"];
+	id book = [ETEntityDescription descriptionWithName: @"book"];
+	id title = [ETPropertyDescription descriptionWithName: @"title"];
+	id authors = [ETPropertyDescription descriptionWithName: @"authors"];
+	id isbn = [ETPropertyDescription descriptionWithName: @"isbn"];
+
+	UKStringsEqual(@"litterature", [litterature fullName]);
+	UKStringsEqual(@"book", [book fullName]);
+	UKStringsEqual(@"title", [title fullName]);
+
+	[book setPropertyDescriptions: A(title, authors)];
+
+	UKStringsEqual(@"book.title", [title fullName]);
+
+	[litterature addEntityDescription: book];
+	[litterature addPropertyDescription: isbn];
+
+	UKStringsEqual(@"litterature.book.title", [title fullName]);
+	UKStringsEqual(@"litterature.book.authors", [authors fullName]);
+	UKStringsEqual(@"litterature.isbn", [isbn fullName]);
+
+	[book removePropertyDescription: title];
+	[litterature removeEntityDescription: book];
+	[litterature removePropertyDescription: isbn];
+
+	UKStringsEqual(@"title", [title fullName]);
+	UKStringsEqual(@"book.authors", [authors fullName]);
+	UKStringsEqual(@"isbn", [isbn fullName]);
+
+}
+
+@end
+
 @interface TestEntityDescription : NSObject <UKTest>
 {
 }

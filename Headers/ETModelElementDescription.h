@@ -56,7 +56,6 @@ NamedElement and NestedElement protocols don't exist explicitly.
 @interface ETModelElementDescription : NSObject
 {
 	NSString *_name;
-	ETUTI *_UTI;
 	NSString *_itemIdentifier;
 }
 
@@ -114,19 +113,6 @@ For a package, there is no owner.
 
 By default, returns nil. */
 - (id) owner;
-/** Returns the UTI type of the entity or the property.
-
-For a property description, this is the type of the attribute or destination 
-entity.
-
-For a package, returns nil by default.<br />
-For languages which provide package, namespace or module support, return the 
-type of the related language construct (not yet implemented). */
-- (ETUTI *) type;
-/** Sets the UTI type of the entity or property.
-
-See -type. */
-- (void) setType: (ETUTI *)UTI;
 
 /* UI */
 

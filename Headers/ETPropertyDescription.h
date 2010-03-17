@@ -30,6 +30,7 @@
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
 	ETPackageDescription *_package;
+	ETEntityDescription *_type;
 	ETRoleDescription *_role;
 }
 
@@ -73,6 +74,33 @@
 - (void) setOwner: (ETEntityDescription *)owner;
 - (ETPackageDescription *) package;
 - (void) setPackage: (ETPackageDescription *)aPackage;
+/** Returns the entity that describes the property's value.
+
+This is the type of the attribute or destination entity.<br />
+Whether the property is a relationship or an attribute depends on the returned 
+entity. See -isRelationship. */
+- (ETEntityDescription *) type;
+/** Sets the entity that describes the property's value.
+
+See -type. */
+- (void) setType: (ETEntityDescription *)UTI;
+
+
+/** Returns YES when this property is a relationship to the destination entity 
+returned by -type, otherwise returns NO when the property is an attribute.
+
+When the destination entity is a primitive, then the property is an attribute 
+unless the role is explicitly set to ETRelationshipRole.
+
+isRelationship is derived from type.isPrimitive and role. */
+- (BOOL) isRelationship;
+/** Returns YES when the property is an attribute and NO when it is a 
+relationship.
+
+isAttribute is derived from isRelationship.
+
+See -isRelationship. */
+- (BOOL) isAttribute;
 
 /* Validation */
 
