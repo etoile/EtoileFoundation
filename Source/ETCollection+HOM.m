@@ -1176,11 +1176,21 @@ DEALLOC(
 {
 	/* 
 	 * Returns any arbitrary NSObject selector whose return type is BOOL.
-	 * Even if we have two chained messages like 
-	 * [[[collection filter] name] isEqual: @"blabla"], the return type should 
-	 * be BOOL since we don't need to create an intermediate proxy (see the 'id' 
-	 * return type case in -forwardInvocation:) when the receiver collection is 
-	 * empty.
+	 *
+	 * When the collection is empty, if we have two chained messages like 
+	 * [[[collection filter] name] isEqualToString: @"blabla"], the proxy cannot 
+	 * infer the return types of -name and -isEqualToString: (not exactly true 
+	 * in the GNU runtime case which supports typed selectors). Hence we cannot 
+	 * know whether we have one or two messages in arguments. 
+	 * The solution is to pretend we have only one message whose signature is 
+	 * -(BOOL)xxx and use NO as the return value. 
+	 * Because NO is the same than nil, any second message is discarded.
+	 *
+	 * An alternative which doesn't require -primitiveMethodSignatureForSelector 
+	 * would be to pretend we have two messages. With [[x filter] isXYZ], -isXYZ 
+	 * would be treated as -(id)isXYZ. A secondary proxy would be created and 
+	 * its adress put into the BOOL return value. This secondary proxy would 
+	 * never receive a message and the returned boolean would be random.
 	 */
 	return [super primitiveMethodSignatureForSelector: @selector(isProxy)];
 }
@@ -1197,7 +1207,7 @@ DEALLOC(
 		                                               (id*)&originalCollection,
 		                                               (id*)&originalCollection,
 		                                                                 invert);
-		BOOL result = YES;
+		BOOL result = NO;
 		[anInvocation setReturnValue: &result];
 	}
 	else if (0 == strcmp(@encode(id), returnType))

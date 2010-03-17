@@ -397,12 +397,46 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 - (void)testFilterEmptyCollection
 {
-	UKTrue([[[NSMutableArray array] filter] isEqualToString: @"foo"]);
-	UKTrue([[[NSMutableSet set] filter] isEqualToString: @"foo"]);
-	UKTrue([[[NSCountedSet set] filter] isEqualToString: @"foo"]);
+	NSMutableArray *array = [NSMutableArray array];
+	NSMutableSet *set = [NSMutableSet set];
+	NSCountedSet *countedSet = [NSCountedSet set];
+	NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+
+	[[array filter] isEqualToString: @"foo"];
+	[[set filter] isEqualToString: @"foo"];
+	[[countedSet filter] isEqualToString: @"foo"];
 	NSNumber *nb = [NSNumber numberWithInt: 2];
-	UKTrue([[[NSMutableIndexSet indexSet] filter] isEqualToNumber: nb]);
-	UKTrue([[[NSMutableDictionary dictionary] filter] isEqualToString: @"foo"]);
+	[[indexSet filter] isEqualToNumber: nb];
+	[[dict filter] isEqualToString: @"foo"];
+
+	UKTrue([array isEmpty]);
+	UKTrue([set isEmpty]);
+	UKTrue([countedSet isEmpty]);
+	UKTrue([indexSet isEmpty]);
+	UKTrue([dict isEmpty]);
+}
+
+- (void)testFilterEmptyCollectionWithTwoMessages
+{
+	NSMutableArray *array = [NSMutableArray array];
+	NSMutableSet *set = [NSMutableSet set];
+	NSCountedSet *countedSet = [NSCountedSet set];
+	NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+
+	[[[array filter] lastObject] isEqualToString: @"foo"];
+	[[[set filter] lastObject] isEqualToString: @"foo"];
+	[[[countedSet filter] lastObject] isEqualToString: @"foo"];
+	NSNumber *nb = [NSNumber numberWithInt: 2];
+	[[[indexSet filter] lastObject] isEqualToNumber: nb];
+	[[[dict filter] lastObject] isEqualToString: @"foo"];
+
+	UKTrue([array isEmpty]);
+	UKTrue([set isEmpty]);
+	UKTrue([countedSet isEmpty]);
+	UKTrue([indexSet isEmpty]);
+	UKTrue([dict isEmpty]);
 }
 
 - (void)testFilterArraysAndSets

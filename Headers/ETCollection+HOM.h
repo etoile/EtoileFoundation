@@ -169,6 +169,10 @@
  * collection before the test is performed. It is thus possible to filter a
  * collection based on attributes of an object:
  * <code>[[[persons filter] firstName] isEqual: @"Alice"]</code>
+ *
+ * The returned boolean that corresponds to the last message is undetermined. 
+ * For example, the code below is meaningless:
+ * <code>if ([[[persons filter] firstName] isEqual: @"Alice"]) doSomething;</code>
  */
 - (id)filter;
 
