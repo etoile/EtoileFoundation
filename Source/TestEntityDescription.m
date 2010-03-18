@@ -6,6 +6,21 @@
 @interface TestModelElementDescription : NSObject <UKTest>
 @end
 
+@interface TestPropertyDescription : NSObject <UKTest>
+@end
+
+@interface TestPackageDescription : NSObject <UKTest>
+{
+	ETPackageDescription *package;
+	ETPackageDescription *otherPackage;
+	ETEntityDescription *book;
+}
+@end
+
+@interface TestEntityDescription : NSObject <UKTest>
+@end
+
+
 @implementation TestModelElementDescription
 
 - (void) testFullName
@@ -43,9 +58,104 @@
 
 @end
 
-@interface TestEntityDescription : NSObject <UKTest>
+@implementation TestPropertyDescription
+
+- (void) testOpposite
 {
+
 }
+
+@end
+
+@implementation TestPackageDescription
+
+- (id) init
+{
+	SUPERINIT;
+	package = [[ETPackageDescription alloc] initWithName: @"test"];
+	otherPackage = [[ETPackageDescription alloc] initWithName: @"other"];
+	book = [[ETEntityDescription alloc] initWithName: @"book"];
+	return self;
+}
+
+- (void) dealloc
+{
+	DESTROY(package);
+	DESTROY(otherPackage);
+	DESTROY(book);
+	[super dealloc];
+}
+
+- (void) testEntityDescriptions
+{
+	ETEntityDescription	*authors = [ETEntityDescription descriptionWithName: @"author"];
+
+	UKNotNil([package entityDescriptions]);
+	UKTrue([[package entityDescriptions] isEmpty]);
+
+	[package setEntityDescriptions: S(book, authors)];
+
+	UKObjectsEqual(S(book, authors), [package entityDescriptions]);
+}
+
+- (void) testAddPropertyDescription
+{
+	ETPropertyDescription *title = [ETPropertyDescription descriptionWithName: @"title"];
+	ETPropertyDescription *isbn = [ETPropertyDescription descriptionWithName: @"isbn"];
+
+	[book addPropertyDescription: title];
+	[otherPackage addPropertyDescription: isbn];
+
+	UKObjectsEqual(S(isbn), [otherPackage propertyDescriptions]);
+	UKObjectsNotEqual(otherPackage, [isbn owner]);
+	UKObjectsEqual(otherPackage, [isbn package]);
+
+	[package addPropertyDescription: title];
+	[package addPropertyDescription: isbn];
+
+	UKObjectsEqual(S(title, isbn), [package propertyDescriptions]);
+	UKObjectsEqual(book, [title owner]);
+	UKObjectsEqual(package, [title package]);	
+	UKObjectsNotEqual(package, [isbn owner]);
+	UKObjectsEqual(package, [isbn package]);	
+}
+
+- (void) testBasicAddEntityDescription
+{
+	ETEntityDescription	*authors = [ETEntityDescription descriptionWithName: @"author"];
+
+	[otherPackage addEntityDescription: authors];
+
+	UKObjectsEqual(S(authors), [otherPackage entityDescriptions]);
+	UKObjectsEqual(otherPackage, [authors owner]);
+
+	[package addEntityDescription: book];
+	[package addEntityDescription: authors];
+
+	UKObjectsEqual(S(book, authors), [package entityDescriptions]);
+	UKObjectsEqual(package, [book owner]);
+	UKObjectsEqual(package, [authors owner]);
+	UKTrue([[otherPackage entityDescriptions] isEmpty]);
+}
+
+- (void) testExtensionConflictForAddEntityDescription
+{
+	ETPropertyDescription *title = [ETPropertyDescription descriptionWithName: @"title"];
+	[book addPropertyDescription: title];
+
+	[package addPropertyDescription: title];
+
+	UKObjectsEqual(S(title), [package propertyDescriptions]);
+
+	[package addEntityDescription: book];
+
+	UKObjectsEqual(S(book), [package entityDescriptions]);
+	UKObjectsEqual(package, [book owner]);
+	UKObjectsEqual(book, [title owner]);
+	UKObjectsEqual(package, [title package]);
+	UKTrue([[package propertyDescriptions] isEmpty]);
+}
+
 @end
 
 @implementation TestEntityDescription

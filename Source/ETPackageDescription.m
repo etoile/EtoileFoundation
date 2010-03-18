@@ -73,8 +73,14 @@
 
 - (void) setEntityDescriptions: (NSSet *)entityDescriptions
 {
-	[self removeEntityDescription: [[NSSet setWithSet: _entityDescriptions] each]];
-	[self addEntityDescription: [entityDescriptions each]];
+	FOREACH([NSSet setWithSet: _entityDescriptions], oldEntityDesc, ETEntityDescription *)
+	{
+		[self removeEntityDescription: oldEntityDesc];
+	}
+	FOREACH(entityDescriptions, newEntityDesc, ETEntityDescription *)
+	{
+		[self addEntityDescription: newEntityDesc];
+	}
 }
 
 - (NSSet *) entityDescriptions
@@ -106,8 +112,14 @@
 
 - (void) setPropertyDescriptions: (NSSet *)propertyDescriptions
 {
-	[self removePropertyDescription: [[NSSet setWithSet: _propertyDescriptions] each]];
-	[self addPropertyDescription: [propertyDescriptions each]];
+	FOREACH([NSSet setWithSet: _propertyDescriptions], oldPropertyDesc, ETPropertyDescription *)
+	{
+		[self removePropertyDescription: oldPropertyDesc];
+	}
+	FOREACH(propertyDescriptions, newPropertyDesc, ETPropertyDescription *)
+	{
+		[self addPropertyDescription: newPropertyDesc];
+	}
 }
 
 - (NSSet *) propertyDescriptions
