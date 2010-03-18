@@ -23,6 +23,7 @@
  */
 @interface ETPropertyDescription : ETModelElementDescription
 {
+	@private
 	BOOL _derived;
 	BOOL _container;
 	BOOL _multivalued;
@@ -32,6 +33,7 @@
 	ETPackageDescription *_package;
 	ETEntityDescription *_type;
 	ETRoleDescription *_role;
+	BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
 }
 
 /** Returns YES. */

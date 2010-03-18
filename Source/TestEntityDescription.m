@@ -7,6 +7,13 @@
 @end
 
 @interface TestPropertyDescription : NSObject <UKTest>
+{
+	ETPropertyDescription *bookAuthor;
+	ETPropertyDescription *authorBooks;
+	ETEntityDescription *book;
+	ETEntityDescription *author;
+}
+
 @end
 
 @interface TestPackageDescription : NSObject <UKTest>
@@ -60,9 +67,72 @@
 
 @implementation TestPropertyDescription
 
-- (void) testOpposite
+- (id) init
 {
+	SUPERINIT;
+	bookAuthor = [[ETPropertyDescription alloc] initWithName: @"author"];
+	authorBooks = [[ETPropertyDescription alloc] initWithName: @"books"];
+	book = [[ETEntityDescription alloc] initWithName: @"book"];
+	author = [[ETEntityDescription alloc] initWithName: @"author"];
+	return self;
+}
 
+- (void) dealloc
+{
+	DESTROY(bookAuthor);
+	DESTROY(authorBooks);
+	DESTROY(book);
+	DESTROY(author);
+	[super dealloc];
+}
+
+- (void) testBasicOpposite
+{
+	ETPropertyDescription *other = [ETPropertyDescription descriptionWithName: @"other"];
+
+	[book addPropertyDescription: bookAuthor];
+	[author addPropertyDescription: authorBooks];
+
+	UKNil([bookAuthor opposite]);
+	UKNil([authorBooks opposite]);
+
+	[bookAuthor setType: book];
+	[bookAuthor setOpposite: authorBooks];
+
+	UKObjectsEqual(bookAuthor, [authorBooks opposite]);
+	UKObjectsEqual(book, [authorBooks type]);
+	UKObjectsEqual(author, [bookAuthor type]);
+
+	[other setOpposite: authorBooks];
+
+	UKObjectsEqual(other, [authorBooks opposite]);	
+	UKNil([authorBooks type]);
+	UKNil([bookAuthor opposite]);
+	UKNil([bookAuthor type]);
+}
+
+- (void) testTypeUpdateForOpposite
+{
+	ETEntityDescription *publisher = [ETEntityDescription descriptionWithName: @"publisher"];
+	ETPropertyDescription *publisherBook = [ETPropertyDescription descriptionWithName: @"book"];
+
+	[publisher addPropertyDescription: publisherBook]; 
+	[book addPropertyDescription: bookAuthor];
+	[author addPropertyDescription: authorBooks];
+	[bookAuthor setOpposite: authorBooks];
+
+	UKObjectsEqual(book, [authorBooks type]);
+	UKObjectsEqual(author, [bookAuthor type]);
+
+	[publisherBook setOpposite: bookAuthor];
+
+	UKObjectsEqual(book, [publisherBook type]);	
+	UKObjectsEqual(publisher, [bookAuthor type]);
+
+	[publisher removePropertyDescription: publisherBook];
+
+	UKObjectsEqual(book, [publisherBook type]);
+	UKNil([bookAuthor type]);
 }
 
 @end

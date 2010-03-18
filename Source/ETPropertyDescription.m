@@ -139,24 +139,21 @@
 {
 	// FIXME: what does it mean if opposite == self? 
 	//        FM3 seems to do this for the opposite property of FM3.Property
-	if (opposite == _opposite || opposite == self)
+	if (_isSettingOpposite || opposite == _opposite || opposite == self)
 	{
 		return;
 	}
-	if (nil != _opposite)
-	{
-		[_opposite setOpposite: nil];
-	}
-	
+	_isSettingOpposite = YES;
+
+	ETPropertyDescription *oldOpposite = _opposite;
+
 	_opposite = opposite;
-	if (nil != _opposite)
-	{
-		if ([_opposite opposite] != self)
-		{
-			[_opposite setOpposite: self];
-		}
-		[self setType: [_opposite owner]];
-	}
+	[self setType: [_opposite owner]];
+
+	[oldOpposite setOpposite: nil];
+	[_opposite setOpposite: self];
+
+	_isSettingOpposite = NO;
 }
 
 - (ETEntityDescription *) owner
@@ -168,6 +165,10 @@
 {
 	NSParameterAssert((_owner != nil && owner == nil) || (_owner == nil && owner != nil));
 	_owner = owner;
+	if ([self opposite] != nil)
+	{
+		[[self opposite] setType: owner];
+	}
 }
 
 - (ETPackageDescription *) package
