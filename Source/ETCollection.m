@@ -12,7 +12,7 @@
 #import <Foundation/NSSet.h>
 @implementation NSMutableSet (ETCollectionMutationPremature)
 
-- (void) insertObject: (id)object atIndex: (unsigned int)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self addObject: object];
 }
@@ -114,7 +114,7 @@
 	return [self allValues];
 }
 
-- (NSString *) identifierAtIndex: (unsigned int)index
+- (NSString *) identifierAtIndex: (NSUInteger)index
 {
 	// FIXME: In theory a bad implementation seeing that the documentation
 	// states -allKeys and -allValues return objects in an undefined order.
@@ -259,7 +259,7 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 	[self setObject: object forKey: key];
 }
 
-- (void) insertObject: (id)object atIndex: (unsigned int)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self addObject: object];
 }
@@ -296,7 +296,7 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 	}
 }
 
-- (void) insertObject: (id)object atIndex: (unsigned int)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self addObject: object];
 }

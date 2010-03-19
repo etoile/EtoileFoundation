@@ -60,7 +60,7 @@ When the collection is ordered, the element is inserted as the last element. */
 
 When the collection is not ordered, the index is ignored and the behavior is 
 the same than -addObject:. */
-- (void) insertObject: (id)object atIndex: (unsigned int)index;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index;
 /** Removes the element from the collection. */
 - (void) removeObject: (id)object;
 
@@ -137,7 +137,7 @@ You should only implement this method when the collection is ordered. */
 - (BOOL) isEmpty;
 - (id) content;
 - (NSArray *) contentArray;
-- (NSString *) identifierAtIndex: (unsigned int)index;
+- (NSString *) identifierAtIndex: (NSUInteger)index;
 @end
 
 @interface NSSet (ETCollection) <ETCollection>
@@ -169,18 +169,18 @@ protocol methods implemented in NSSet(ETCollection). */
 
 @interface NSMutableDictionary (ETCollectionMutation) <ETCollectionMutation>
 - (void) addObject: (id)object;
-- (void) insertObject: (id)object atIndex: (unsigned int)index;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index;
 - (void) removeObject: (id)object;
 @end
 
 @interface NSMutableSet (ETCollectionMutation) <ETCollectionMutation>
 - (void) addObject: (id)object;
-- (void) insertObject: (id)object atIndex: (unsigned int)index;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index;
 @end
 
 @interface NSMutableIndexSet (ETCollectionMutation) <ETCollectionMutation>
 - (void) addObject: (id)object;
-- (void) insertObject: (id)object atIndex: (unsigned int)index;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index;
 - (void) removeObject: (id)object;
 @end
 
