@@ -260,8 +260,8 @@
 
 	[book setPropertyDescriptions: A(title, authors)];
 
-	UKObjectsEqual(A(title, authors), [book propertyDescriptions]);
-	UKObjectsEqual(A(title, authors), [book allPropertyDescriptions]);
+	UKObjectsEqual(S(title, authors), SA([book propertyDescriptions]));
+	UKObjectsEqual(S(title, authors), SA([book allPropertyDescriptions]));
 }
 
 - (void) testAddPropertyDescription
@@ -275,8 +275,8 @@
 	[book addPropertyDescription: title];
 	[book addPropertyDescription: authors];
 
-	UKObjectsEqual(A(title, authors), [book propertyDescriptions]);
-	UKObjectsEqual(A(title, authors), [book allPropertyDescriptions]);
+	UKObjectsEqual(S(title, authors), SA([book propertyDescriptions]));
+	UKObjectsEqual(S(title, authors), SA([book allPropertyDescriptions]));
 	UKObjectsEqual(title, [book propertyDescriptionForName: @"title"]);
 	UKObjectsEqual(book, [title owner]);
 	UKObjectsEqual(book, [authors owner]);
@@ -295,7 +295,7 @@
 
 	[book addPropertyDescription: authors];
 
-	UKObjectsEqual(A(title, authors), [book allPropertyDescriptions]);
+	UKObjectsEqual(S(title, authors), SA([book allPropertyDescriptions]));
 
 	ETEntityDescription *root = [ETEntityDescription descriptionWithName: @"root"];
 	ETPropertyDescription *identity = [ETPropertyDescription descriptionWithName: @"identity"];
@@ -303,7 +303,7 @@
 
 	[other setParent: root];
 
-	UKObjectsEqual(A(identity, title, authors), [book allPropertyDescriptions]);
+	UKObjectsEqual(S(identity, title, authors), SA([book allPropertyDescriptions]));
 }
 
 - (void) testBasic
