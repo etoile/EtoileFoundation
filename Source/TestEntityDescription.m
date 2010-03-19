@@ -277,6 +277,7 @@
 
 	UKObjectsEqual(S(title, authors), SA([book propertyDescriptions]));
 	UKObjectsEqual(S(title, authors), SA([book allPropertyDescriptions]));
+	UKObjectsEqual(S(@"title", @"authors"), SA([book propertyDescriptionNames]));
 	UKObjectsEqual(title, [book propertyDescriptionForName: @"title"]);
 	UKObjectsEqual(book, [title owner]);
 	UKObjectsEqual(book, [authors owner]);

@@ -94,6 +94,11 @@
 	return [self parent] == nil;
 }
 
+- (NSArray *) propertyDescriptionNames
+{
+	return (id)[[[self propertyDescriptions] mappedCollection] name];
+}
+
 - (NSArray *) propertyDescriptions
 {
 	return [_propertyDescriptions allValues];

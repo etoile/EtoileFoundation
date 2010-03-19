@@ -61,6 +61,11 @@
  */
 - (BOOL) isRoot;
 /**
+ * Names of the property descriptions (not including those declared in parent 
+ * entities).
+ */
+- (NSArray *) propertyDescriptionNames;
+/**
  * Descriptions of the properties declared on this entity (not including those
  * declared in parent entities)
  */
