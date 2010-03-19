@@ -136,8 +136,15 @@
 
 - (NSArray *) allPropertyDescriptions
 {
-	return [[_propertyDescriptions allValues] arrayByAddingObjectsFromArray:
-			[[self parent] allPropertyDescriptions]];
+	if ([self isRoot])
+	{
+		return [_propertyDescriptions allValues];
+	}
+	else
+	{
+		return [[[self parent] allPropertyDescriptions]
+			arrayByAddingObjectsFromArray: [_propertyDescriptions allValues]];
+	}
 }
 
 - (ETEntityDescription *) parent

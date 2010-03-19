@@ -25,6 +25,12 @@
 @end
 
 @interface TestEntityDescription : NSObject <UKTest>
+{
+	ETEntityDescription *book;
+	ETPropertyDescription *title;
+	ETPropertyDescription *authors;
+}
+
 @end
 
 
@@ -230,11 +236,81 @@
 
 @implementation TestEntityDescription
 
+- (id) init
+{
+	SUPERINIT;
+	book = [[ETEntityDescription alloc] initWithName: @"book"];
+	title = [[ETPropertyDescription alloc] initWithName: @"title"];
+	authors = [[ETPropertyDescription alloc] initWithName: @"authors"];
+	return self;
+}
+
+- (void) dealloc
+{
+	DESTROY(book);
+	DESTROY(title);
+	DESTROY(authors);
+	[super dealloc];
+}
+
+- (void) testSetPropertyDescriptions
+{
+	UKNotNil([book propertyDescriptions]);
+	UKTrue([[book propertyDescriptions] isEmpty]);
+
+	[book setPropertyDescriptions: A(title, authors)];
+
+	UKObjectsEqual(A(title, authors), [book propertyDescriptions]);
+	UKObjectsEqual(A(title, authors), [book allPropertyDescriptions]);
+}
+
+- (void) testAddPropertyDescription
+{
+	ETEntityDescription *other = [ETEntityDescription descriptionWithName: @"other"];
+	[other addPropertyDescription: title];
+
+	UKObjectsEqual(A(title), [other propertyDescriptions]);
+	UKObjectsEqual(other, [title owner]);
+
+	[book addPropertyDescription: title];
+	[book addPropertyDescription: authors];
+
+	UKObjectsEqual(A(title, authors), [book propertyDescriptions]);
+	UKObjectsEqual(A(title, authors), [book allPropertyDescriptions]);
+	UKObjectsEqual(title, [book propertyDescriptionForName: @"title"]);
+	UKObjectsEqual(book, [title owner]);
+	UKObjectsEqual(book, [authors owner]);
+	UKTrue([[other propertyDescriptions] isEmpty]);
+}
+
+- (void) testAllPropertyDescriptions
+{
+	ETEntityDescription *other = [ETEntityDescription descriptionWithName: @"other"];
+	[other addPropertyDescription: title];
+
+	[book setParent: other];
+
+	UKObjectsEqual(A(title), [book allPropertyDescriptions]);
+	UKObjectsEqual(A(title), [other allPropertyDescriptions]);
+
+	[book addPropertyDescription: authors];
+
+	UKObjectsEqual(A(title, authors), [book allPropertyDescriptions]);
+
+	ETEntityDescription *root = [ETEntityDescription descriptionWithName: @"root"];
+	ETPropertyDescription *identity = [ETPropertyDescription descriptionWithName: @"identity"];
+	[root addPropertyDescription: identity];
+
+	[other setParent: root];
+
+	UKObjectsEqual(A(identity, title, authors), [book allPropertyDescriptions]);
+}
+
 - (void) testBasic
 {
-	id book = [ETEntityDescription descriptionWithName: @"Book"];
+	/*id book = [ETEntityDescription descriptionWithName: @"Book"];
 	id title = [ETPropertyDescription descriptionWithName: @"title"];
-	id authors = [ETPropertyDescription descriptionWithName: @"authors"];
+	id authors = [ETPropertyDescription descriptionWithName: @"authors"];*/
 	[authors setMultivalued: YES];
 	[book setPropertyDescriptions: A(title, authors)];
 	
