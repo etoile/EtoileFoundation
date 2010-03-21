@@ -21,7 +21,18 @@
 {
 	ETEntityDescription *selfDesc = [[ETEntityDescription alloc] initWithName: [self className]];
 
-	// TODO: Add property descriptions...
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	ETPropertyDescription *entityDescriptions = 
+		[ETPropertyDescription descriptionWithName: @"entityDescriptions"];
+	[entityDescriptions setMultivalued: YES];
+	[entityDescriptions setOpposite: (id)@"ETEntityDescription.owner"];
+	ETPropertyDescription *propertyDescriptions = 
+		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
+	[propertyDescriptions setMultivalued: YES];
+	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.package"];
+
+	[selfDesc setPropertyDescriptions: A(owner, entityDescriptions, propertyDescriptions)];
+	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
 }

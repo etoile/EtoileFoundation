@@ -53,22 +53,18 @@
 {
 	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
 
-	NSArray *inheritedPropertyDescs = [[super newEntityDescription] allPropertyDescriptions];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	[owner setOpposite: (id)@"ETPackageDescription.entityDescriptions"];
 	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract"];
 	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root"];
 	[root setDerived: YES];
 	ETPropertyDescription *propertyDescriptions = 
 		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
 	[propertyDescriptions setMultivalued: YES];
-	//FIXME: In order for the next line to make sense, we need to have a
-	//       globally shared repository of entity descriptions, since
-	//       the entity description of ETEntityDescription has a refernece
-	//       to the entity description of ETPropertyDescription
-	//[propertyDescriptions setOpposite: [[ETPropertyDescription entityDescription] propertyDescriptionForName: @"owner"];
+	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.owner"];
 	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent"];
 	
-	[selfDesc setPropertyDescriptions: [inheritedPropertyDescs arrayByAddingObjectsFromArray: 
-		A(abstract, root, propertyDescriptions, parent)]];
+	[selfDesc setPropertyDescriptions: A(owner, abstract, root, propertyDescriptions, parent)];
 	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 	
 	return selfDesc;

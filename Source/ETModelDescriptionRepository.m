@@ -7,11 +7,13 @@
  */
 
 #import "ETModelDescriptionRepository.h"
+#import "ETClassMirror.h"
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
 #import "ETEntityDescription.h"
 #import "ETPackageDescription.h"
 #import "ETPropertyDescription.h"
+#import "ETReflection.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
@@ -28,12 +30,47 @@
 	return selfDesc;
 }
 
+- (void) addUnresolvedEntityDescriptionForClass: (Class)aClass
+{
+	ETEntityDescription *entityDesc = [aClass newEntityDescription];
+	[self addUnresolvedDescription: entityDesc];
+	[self setEntityDescription: entityDesc forClass: aClass];
+}
+
+- (void) collectEntityDescriptionsFromClass: (Class)aClass resolveNow: (BOOL)resolve
+{
+	[self addUnresolvedEntityDescriptionForClass: aClass];
+	FOREACH([[ETReflection reflectClass: aClass] allSubclassMirrors], mirror, ETClassMirror *)
+	{
+		[self addUnresolvedEntityDescriptionForClass: [mirror representedClass]];
+	}
+	if (resolve)
+	{
+		[self resolveNamedObjectReferences];
+	}
+}
+
+static ETModelDescriptionRepository *mainRepo = nil;
+
++ (id) mainRepository
+{
+	if (nil == mainRepo)
+	{
+		mainRepo = [[self alloc] init];
+		[mainRepo collectEntityDescriptionsFromClass: [NSObject class] resolveNow: YES];
+	}
+	return mainRepo;
+}
+
+static NSString *anonymousPackageName = @"Anonymous";
+
 - (id) init
 {
 	SUPERINIT
 	_unresolvedDescriptions = [[NSMutableSet alloc] init];
 	_descriptionsByName = [[NSMutableDictionary alloc] init];
 	_entityDescriptionsByClass = [[NSMapTable alloc] init];
+	[self addDescription: [ETPackageDescription descriptionWithName: anonymousPackageName]];
 	return self;
 }
 
@@ -43,6 +80,11 @@
 	DESTROY(_descriptionsByName);
 	DESTROY(_entityDescriptionsByClass);
 	[super dealloc];
+}
+
+- (ETPackageDescription *) anonymousPackageDescription
+{
+	return [self descriptionForName: anonymousPackageName];
 }
 
 - (void) addDescriptions: (NSArray *)descriptions
@@ -55,6 +97,10 @@
 
 - (void) addDescription: (ETModelElementDescription *)aDescription
 {
+	if ([aDescription isEntityDescription] && [aDescription owner] == nil)
+	{
+		[[self anonymousPackageDescription] addEntityDescription: (ETEntityDescription *)aDescription];
+	}
 	[_descriptionsByName setObject: aDescription forKey: [aDescription fullName]];
 }
 
@@ -105,7 +151,8 @@
 - (void) setEntityDescription: (ETEntityDescription *)anEntityDescription
                      forClass: (Class)aClass
 {
-	if ([_descriptionsByName objectForKey: [anEntityDescription fullName]] == nil)
+	if ([_descriptionsByName objectForKey: [anEntityDescription fullName]] == nil
+	 && [_unresolvedDescriptions containsObject: anEntityDescription] == NO)
 	{
 		[NSException raise: NSInvalidArgumentException 
 		            format: @"The entity description must have been previously "
@@ -119,16 +166,26 @@
 	[_unresolvedDescriptions addObject: aDescription];
 }
 
-- (void) resolveProperty: (NSString *)aProperty 
+/* 'isPackageRef' prevents to wrongly look up a package as an entity (with the 
+same name). */
+- (void) resolveProperty: (NSString *)aProperty
           forDescription: (ETModelElementDescription *)desc
+            isPackageRef: (BOOL)isPackageRef
 {
 	id value = [desc valueForKey: aProperty];
 
-	if ([value isString])
+	if ([value isString] == NO) return;
+
+	id realValue = [self descriptionForName: (NSString *)value];
+	BOOL lookUpInAnonymousPackage = (nil == realValue && NO == isPackageRef);
+
+	if (lookUpInAnonymousPackage)
 	{
-		[desc setValue: [self descriptionForName: (NSString *)value] 
-		        forKey: aProperty];
+		value = [anonymousPackageName stringByAppendingFormat: @".%@", value];
+		realValue = [self descriptionForName: (NSString *)value];
 	}
+
+	[desc setValue: realValue forKey: aProperty];
 }
 
 - (NSSet *) resolveAndAddEntityDescriptions: (NSSet *)unresolvedEntityDescs
@@ -137,14 +194,14 @@
 
 	FOREACH(unresolvedEntityDescs, desc, ETEntityDescription *)
 	{
-		[self resolveProperty: @"owner" forDescription: desc];
+		[self resolveProperty: @"owner" forDescription: desc isPackageRef: YES];
 		[propertyDescs addObjectsFromArray: [desc propertyDescriptions]];
 		[self addDescription: desc];
 	}
 
 	FOREACH(unresolvedEntityDescs, desc2, ETEntityDescription *)
 	{
-		[self resolveProperty: @"parent" forDescription: desc2];
+		[self resolveProperty: @"parent" forDescription: desc2 isPackageRef: NO];
 	}
 
 	return propertyDescs;
@@ -154,16 +211,16 @@
 {
 	FOREACH(unresolvedPropertyDescs, desc, ETPropertyDescription *)
 	{
-		[self resolveProperty: @"owner" forDescription: desc];
+		[self resolveProperty: @"owner" forDescription: desc isPackageRef: NO];
 		/* A package is set when the property is an entity extension */
-		[self resolveProperty: @"package" forDescription: desc];
+		[self resolveProperty: @"package" forDescription: desc isPackageRef: YES];
 		 /* For property extension */
 		[self addDescription: desc];
 	}
 
 	FOREACH(unresolvedPropertyDescs, desc2, ETPropertyDescription *)
 	{
-		[self resolveProperty: @"opposite" forDescription: desc2];
+		[self resolveProperty: @"opposite" forDescription: desc2 isPackageRef: NO];
 	}
 }
 

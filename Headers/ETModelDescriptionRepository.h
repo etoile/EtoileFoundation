@@ -13,7 +13,8 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
 
-@class ETModelElementDescription, ETEntityDescription, ETPropertyDescription;
+@class ETModelElementDescription, ETEntityDescription, ETPackageDescription, 
+	ETPropertyDescription;
 
 /** Repository used to store the entity descriptions at runtime.
 
@@ -36,10 +37,36 @@ main repository data model.  */
 	NSMapTable *_entityDescriptionsByObject;
 }
 
+/** Returns the initial repository that exists in each process.
+
+When this repository is created, existing entity descriptions are collected 
+by invoking +newEntityDescription on every NSObject subclass and bound to the 
+class that provided the description. See -setEntityDescription:forClass:. */
++ (id) mainRepository;
+
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
+/** Traverses the class hierarchy downwards to collect the entity descriptions 
+by invoking +newEntityDescription on each class (including the given class) and 
+bind each entity description to the class that provided it. 
+See -setEntityDescription:forClass:. 
+
+If resolve is YES, the named references that exists between the descriptions 
+are resolved immediately with -resolveNamedObjectReferences. Otherwise they 
+are not and the repository remain in an invalid state until 
+-resolveNamedObjectReferences is called. */
+- (void) collectEntityDescriptionsFromClass: (Class)aClass resolveNow: (BOOL)resolve;
 
 /* Registering and Enumerating Descriptions */
+
+/** Returns the default package to which entity descriptions are added when 
+they have none and they get put in the repository.
+
+e.g. NSObject will have the returned package as its owner when its entity 
+description is automatically registered in the main repository.
+
+See also -addDescription:. */
+- (ETPackageDescription *) anonymousPackageDescription;
 
 /** Adds the given package, entity or property description to the repository.
 
@@ -59,7 +86,11 @@ repository state, if any unresolved description was added, you must call
 -resolveNamedObjectReferences on the repository before using it or any 
 registered description. */
 - (void) addUnresolvedDescription: (ETModelElementDescription *)aDescription;
-/** Adds the given package, entity or property description to the repository. */
+/** Adds the given package, entity or property description to the repository.
+
+If the given description is an entity description whose owner is nil, 
+-anonymousPackageDescription becomes its owner, and it gets registered under 
+the full name 'Anonymous.MyEntityName'. */
 - (void) addDescription: (ETModelElementDescription *)aDescription;
 /** Removes the given package, entity or property description from the repository. */
 - (void) removeDescription: (ETModelElementDescription *)aDescription;
@@ -80,6 +111,10 @@ repository.
 
 The returned collection is an autoreleased copy. */
 - (NSArray *) allDescriptions;
+/** Returns a package, entity or property description registered for the given 
+full name.<br />
+e.g. 'Anonymous.NSObject' for NSObject entity */
+- (id) descriptionForName: (NSString *)aFullName;
 
 
 /* Binding Descriptions to Class Instances and Prototypes */

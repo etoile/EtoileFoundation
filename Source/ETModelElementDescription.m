@@ -23,12 +23,14 @@
 	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name"];
 	ETPropertyDescription *fullName = [ETPropertyDescription descriptionWithName: @"fullName"];
 	[fullName setDerived: YES];
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
-	[owner setDerived: YES];
+	// TODO: To support overriden property descriptions would allow to declare 
+	// 'owner' at the abstract class level too (as FM3 spec does).
+	//ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	//[owner setDerived: YES];
 	ETPropertyDescription *itemIdentifier = [ETPropertyDescription descriptionWithName: @"itemIdentifier"];
 
 	[selfDesc setAbstract: YES];	
-	[selfDesc setPropertyDescriptions: A(name, fullName, owner, itemIdentifier)];
+	[selfDesc setPropertyDescriptions: A(name, fullName, itemIdentifier)];
 	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;

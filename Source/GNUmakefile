@@ -87,6 +87,7 @@ libEtoileFoundation_OBJC_FILES += \
 	TestETCollectionHOM.m \
 	TestEntityDescription.m \
 	TestIndexPath.m \
+	TestModelDescriptionRepository.m \
 	TestReflection.m \
 	TestString.m \
 	TestUTI.m \

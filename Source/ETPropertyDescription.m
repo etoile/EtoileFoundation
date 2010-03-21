@@ -18,6 +18,7 @@
 #import "ETReflection.h"
 #import "ETUTI.h"
 #import "ETValidationResult.h"
+#import "NSObject+model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -28,7 +29,8 @@
 {
 	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
 
-	NSArray *inheritedPropertyDescs = [[super newEntityDescription] allPropertyDescriptions];
+	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	[owner setOpposite: (id)@"ETEntityDescription.propertyDescriptions"];
 	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite"];
 	[composite setDerived: YES];
 	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container"];
@@ -39,9 +41,11 @@
 	[opposite setOpposite: opposite];
 	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
 	[type setType: (id)@"ETPropertyDescription"];
+	ETPropertyDescription *package = [ETPropertyDescription descriptionWithName: @"package"];
+	[package setOpposite: (id)@"ETPackageDescription.propertyDescriptions"];
 	
-	[selfDesc setPropertyDescriptions: [inheritedPropertyDescs arrayByAddingObjectsFromArray:
-		A(composite, container, derived, multivalued, ordered, opposite, type)]];
+	[selfDesc setPropertyDescriptions: A(owner, composite, container, derived, 
+		multivalued, ordered, opposite, type, package)];
 	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
@@ -137,6 +141,15 @@
 
 - (void) setOpposite: (ETPropertyDescription *)opposite
 {
+	if ([_opposite isString])
+	{
+		DESTROY(_opposite);
+	}
+	if ([opposite isString])
+	{
+		_opposite = RETAIN(opposite);
+		return;
+	}
 	// FIXME: what does it mean if opposite == self? 
 	//        FM3 seems to do this for the opposite property of FM3.Property
 	if (_isSettingOpposite || opposite == _opposite || opposite == self)
@@ -165,7 +178,7 @@
 {
 	NSParameterAssert((_owner != nil && owner == nil) || (_owner == nil && owner != nil));
 	_owner = owner;
-	if ([self opposite] != nil)
+	if ([self opposite] != nil && [[self opposite] isString] == NO)
 	{
 		[[self opposite] setType: owner];
 	}
