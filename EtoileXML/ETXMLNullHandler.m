@@ -36,7 +36,6 @@
 #import "Macros.h"
 
 @implementation ETXMLNullHandler
-
 - (id) initWithXMLParser: (id)aParser 
                   parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey
@@ -59,7 +58,6 @@
 
 - (void) setParser: (id)XMLParser
 {
-	[self retain];
 	parser = XMLParser;
 }
 
@@ -110,7 +108,7 @@
 		[(id)parent addChild:value forKey:key];
 		//NSLog(@"Setting value: %@ for key: %@ in %@", value, key, parent);
 	}
-	[value release];
+	[self release];
 }
 
 - (void) dealloc
