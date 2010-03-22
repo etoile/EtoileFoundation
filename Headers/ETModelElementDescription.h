@@ -63,7 +63,7 @@ NamedElement and NestedElement protocols don't exist explicitly.
 Returns a new self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 
-/** Returns an autoreleased entity or property description.
+/** Returns an autoreleased entity, property or package description.
 
 See also -initWithName:. */
 + (id) descriptionWithName: (NSString *)name;

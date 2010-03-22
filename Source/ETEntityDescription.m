@@ -25,11 +25,11 @@
 /**
  * A description of an "entity", which can either be a class or a prototype.
  */
-@implementation ETEntityDescription 
+@implementation ETEntityDescription
 
-+ (ETEntityDescription *) rootEntityDescription
++ (NSString *) rootEntityDescriptionName
 {
-	return [NSObject newEntityDescription];
+	return @"NSObject";
 }
 
 - (id)  initWithName: (NSString *)name
@@ -51,21 +51,27 @@
 
 + (ETEntityDescription *) newEntityDescription
 {
-	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
+	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	if ([[selfDesc name] isEqual: [ETEntityDescription className]] == NO) 
+		return selfDesc;
+
+	ETPropertyDescription *owner = 
+		[ETPropertyDescription descriptionWithName: @"owner" type: (id)@"ETPackageDescription"];
 	[owner setOpposite: (id)@"ETPackageDescription.entityDescriptions"];
-	ETPropertyDescription *abstract = [ETPropertyDescription descriptionWithName: @"abstract"];
-	ETPropertyDescription *root = [ETPropertyDescription descriptionWithName: @"root"];
+	ETPropertyDescription *abstract = 
+		[ETPropertyDescription descriptionWithName: @"abstract" type: (id)@"BOOL"];
+	ETPropertyDescription *root = 
+		[ETPropertyDescription descriptionWithName: @"root" type: (id)@"BOOL"];
 	[root setDerived: YES];
 	ETPropertyDescription *propertyDescriptions = 
-		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
+		[ETPropertyDescription descriptionWithName: @"propertyDescriptions" type: (id)@"ETPropertyDescription"];
 	[propertyDescriptions setMultivalued: YES];
 	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.owner"];
-	ETPropertyDescription *parent = [ETPropertyDescription descriptionWithName: @"parent"];
+	ETPropertyDescription *parent = 
+		[ETPropertyDescription descriptionWithName: @"parent" type: (id)@"ETEntityDescription"];
 	
 	[selfDesc setPropertyDescriptions: A(owner, abstract, root, propertyDescriptions, parent)];
-	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 	
 	return selfDesc;
 }
@@ -191,8 +197,6 @@
 
 	FOREACH([self allPropertyDescriptions], propertyDesc, ETPropertyDescription *)
 	{
-		[propertyDesc checkConstraints: warnings];
-
 		if ([propertyDesc isContainer])
 			container++;
 	}
@@ -202,9 +206,24 @@
 			@"Found more than one container/composite relationship"]];
 	}
 
-	if ([self isEqual: [[self class] rootEntityDescription]] == NO 
-	 && [self isPrimitive] == NO) 
+	/* Primitives belongs to a package unlike FAME */
+	if ([[self owner] isString])
 	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Failed to resolve owner (a package)"]];	
+	}
+	if ([self owner] == nil)
+	{
+		[warnings addObject: [self warningWithMessage: @"Miss an owner (a package)"]];	
+	}
+
+	if ([[self name] isEqual: [[self class] rootEntityDescriptionName]] == NO) 
+	{
+		if ([[self parent] isString])
+		{
+			[warnings addObject: [self warningWithMessage: 
+				@"Failed to resolve parent"]];
+		}
 		if ([self parent] == nil)
 		{
 			[warnings addObject: [self warningWithMessage: @"Miss a parent"]];
@@ -214,10 +233,6 @@
 			[warnings addObject: [self warningWithMessage: 
 				@"Primitives are not allowed to be parent"]];
 		}
-	}
-	else
-	{
-		ETAssert(nil == [self parent]);
 	}
 
 	NSMutableSet *entityDescSet = [NSMutableSet setWithObject: self];
@@ -234,9 +249,31 @@
 		[entityDescSet addObject: entityDesc];
 		entityDesc = [entityDesc parent];
 	}
+
+	/* We put it at the end to get the entity warnings first */
+	FOREACH([self propertyDescriptions], propertyDesc2, ETPropertyDescription *)
+	{
+		[propertyDesc2 checkConstraints: warnings];
+	}
 }
 
 @end
+
+
+@implementation ETPrimitiveEntityDescription
+
++ (ETEntityDescription *) newEntityDescription
+{
+	return nil;
+}
+
+- (BOOL) isPrimitive
+{
+	return YES;
+}
+
+@end
+
 
 #if 0
 // Serialization

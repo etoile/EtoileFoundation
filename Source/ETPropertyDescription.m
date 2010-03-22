@@ -27,28 +27,47 @@
 
 + (ETEntityDescription *) newEntityDescription
 {
-	ETEntityDescription *selfDesc = [ETEntityDescription descriptionWithName: [self className]];
+	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	if ([[selfDesc name] isEqual: [ETPropertyDescription className]] == NO) 
+		return selfDesc;
+
+	ETPropertyDescription *owner = 
+		[ETPropertyDescription descriptionWithName: @"owner" type: (id)@"ETEntityDescription"];
 	[owner setOpposite: (id)@"ETEntityDescription.propertyDescriptions"];
-	ETPropertyDescription *composite = [ETPropertyDescription descriptionWithName: @"composite"];
+	ETPropertyDescription *composite = 
+		[ETPropertyDescription descriptionWithName: @"composite" type: (id)@"BOOL"];
 	[composite setDerived: YES];
-	ETPropertyDescription *container = [ETPropertyDescription descriptionWithName: @"container"];
-	ETPropertyDescription *derived = [ETPropertyDescription descriptionWithName: @"derived"];
-	ETPropertyDescription *multivalued = [ETPropertyDescription descriptionWithName: @"multivalued"];
-	ETPropertyDescription *ordered = [ETPropertyDescription descriptionWithName: @"ordered"];
-	ETPropertyDescription *opposite = [ETPropertyDescription descriptionWithName: @"opposite"];
+	ETPropertyDescription *container = 
+		[ETPropertyDescription descriptionWithName: @"container" type: (id)@"BOOL"];
+	ETPropertyDescription *derived = 
+		[ETPropertyDescription descriptionWithName: @"derived" type: (id)@"BOOL"];
+	ETPropertyDescription *multivalued = 
+		[ETPropertyDescription descriptionWithName: @"multivalued" type: (id)@"BOOL"];
+	ETPropertyDescription *ordered = 
+		[ETPropertyDescription descriptionWithName: @"ordered" type: (id)@"BOOL"];
+	ETPropertyDescription *opposite = 
+		[ETPropertyDescription descriptionWithName: @"opposite" type: (id)@"ETPropertyDescription"];
 	[opposite setOpposite: opposite];
-	ETPropertyDescription *type = [ETPropertyDescription descriptionWithName: @"type"];
-	[type setType: (id)@"ETPropertyDescription"];
-	ETPropertyDescription *package = [ETPropertyDescription descriptionWithName: @"package"];
+	ETPropertyDescription *type = 
+		[ETPropertyDescription descriptionWithName: @"type" type: (id)@"ETEntityDescription"];
+	ETPropertyDescription *package = 
+		[ETPropertyDescription descriptionWithName: @"package" type: (id)@"ETPackageDescription"];
 	[package setOpposite: (id)@"ETPackageDescription.propertyDescriptions"];
 	
 	[selfDesc setPropertyDescriptions: A(owner, composite, container, derived, 
 		multivalued, ordered, opposite, type, package)];
-	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
+}
+
++ (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
+                                           type: (ETEntityDescription *)aType
+{
+	ETPropertyDescription *desc = AUTORELEASE([[self alloc] initWithName: aName]);
+	NILARG_EXCEPTION_TEST(aType);
+	[desc setType: aType];
+	return desc;
 }
 
 - (void) dealloc
@@ -243,18 +262,30 @@
 		[warnings addObject: [self warningWithMessage: 
 			@"Container must refer to a single object"]];
 	}
+	if ([[self opposite] isString]) 
+	{
+		[warnings addObject: [self warningWithMessage: @"Failed to resolve opposite"]];
+	}
 	if ([self opposite] != nil && [[[self opposite] opposite] isEqual: self] == NO) 
 	{
 		[warnings addObject: [self warningWithMessage: 
 			@"Opposites must refer to each other"]];
 	}
-	if (islower([[self name] characterAtIndex: 0]))
+	if (islower([[self name] characterAtIndex: 0]) == NO)
 	{
 		[warnings addObject: [self warningWithMessage: @"Name should be in lower case"]];
+	}
+	if ([[self type] isString])
+	{
+		[warnings addObject: [self warningWithMessage: @"Failed to resolve type"]];
 	}
 	if ([self type] == nil)
 	{
 		[warnings addObject: [self warningWithMessage: @"Miss a type"]];
+	}
+	if ([[self owner] isString])
+	{
+		[warnings addObject: [self warningWithMessage: @"Failed to resolve owner"]];
 	}
 	if ([self owner] == nil)
 	{
@@ -264,6 +295,10 @@
 	{
 		[warnings addObject: [self warningWithMessage: 
 			@"Owner must be an entity description"]];
+	}
+	if ([[self package] isString])
+	{
+		[warnings addObject: [self warningWithMessage: @"Failed to resolve package"]];
 	}
 }
 

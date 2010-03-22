@@ -36,6 +36,13 @@
 	BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
 }
 
+/** Returns an autoreleased property description.
+
+The given name and type must not be nil, otherwise an NSInvalidArgumentException 
+is raised. */
++ (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
+                                           type: (ETEntityDescription *)aType;
+
 /** Returns YES. */
 - (BOOL) isPropertyDescription;
 
@@ -85,7 +92,7 @@ entity. See -isRelationship. */
 /** Sets the entity that describes the property's value.
 
 See -type. */
-- (void) setType: (ETEntityDescription *)UTI;
+- (void) setType: (ETEntityDescription *)aType;
 
 
 /** Returns YES when this property is a relationship to the destination entity 

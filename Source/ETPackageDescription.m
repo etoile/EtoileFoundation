@@ -11,6 +11,7 @@
 #import "ETCollection+HOM.h"
 #import "ETEntityDescription.h"
 #import "ETPropertyDescription.h"
+#import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -19,20 +20,26 @@
 
 + (ETEntityDescription *) newEntityDescription
 {
-	ETEntityDescription *selfDesc = [[ETEntityDescription alloc] initWithName: [self className]];
+	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
+	if ([[selfDesc name] isEqual: [ETPackageDescription className]] == NO) 
+		return selfDesc;
+
+	ETPropertyDescription *owner = 
+		[ETPropertyDescription descriptionWithName: @"owner" 
+		                                      type: (id)@"ETEntityDescription"];
 	ETPropertyDescription *entityDescriptions = 
-		[ETPropertyDescription descriptionWithName: @"entityDescriptions"];
+		[ETPropertyDescription descriptionWithName: @"entityDescriptions" 
+		                                      type: (id)@"ETEntityDescription"];
 	[entityDescriptions setMultivalued: YES];
 	[entityDescriptions setOpposite: (id)@"ETEntityDescription.owner"];
 	ETPropertyDescription *propertyDescriptions = 
-		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"];
+		[ETPropertyDescription descriptionWithName: @"propertyDescriptions" 
+		                                     type: (id)@"ETPropertyDescription"];
 	[propertyDescriptions setMultivalued: YES];
 	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.package"];
 
 	[selfDesc setPropertyDescriptions: A(owner, entityDescriptions, propertyDescriptions)];
-	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
 }
@@ -140,7 +147,10 @@
 
 - (void) checkConstraints: (NSMutableArray *)warnings
 {
-
+	FOREACH([self entityDescriptions], entityDesc, ETEntityDescription *)
+	{
+		[entityDesc checkConstraints: warnings];
+	}
 }
 
 @end

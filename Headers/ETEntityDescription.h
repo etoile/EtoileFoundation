@@ -29,12 +29,14 @@
 }
 
 /**
- * The entity description that should end the parent chain of every entity 
- * description.
+ * The name of the entity description that should end the parent chain of every 
+ * entity description.
+ *
+ * This entity description is the Object primitive in the repository.
  *
  * Will be used by -checkConstraints:.
  */
-+ (ETEntityDescription *) rootEntityDescription;
++ (NSString *) rootEntityDescriptionName;
 
 /** Returns YES. */
 - (BOOL) isEntityDescription;
@@ -98,6 +100,16 @@
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
 
+@end
+
+/** Used to describe Model description primitives: object, string, boolean 
+etc. See -[ETEntityDescription isPrimitive].
+
+This class is used internally. You can possibly use it to support new 
+primitives. */
+@interface ETPrimitiveEntityDescription : ETEntityDescription
+/** Returns YES. */
+- (BOOL) isPrimitive;
 @end
 
 

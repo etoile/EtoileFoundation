@@ -55,7 +55,9 @@ If resolve is YES, the named references that exists between the descriptions
 are resolved immediately with -resolveNamedObjectReferences. Otherwise they 
 are not and the repository remain in an invalid state until 
 -resolveNamedObjectReferences is called. */
-- (void) collectEntityDescriptionsFromClass: (Class)aClass resolveNow: (BOOL)resolve;
+- (void) collectEntityDescriptionsFromClass: (Class)aClass 
+                            excludedClasses: (NSSet *)excludedClasses 
+                                 resolveNow: (BOOL)resolve;
 
 /* Registering and Enumerating Descriptions */
 
@@ -129,7 +131,7 @@ e.g. 'Anonymous.NSObject' for NSObject entity */
 
 /* Runtime Consistency Check */
 
-/** Checks the receiver conforms to the FM3 constraint spec and adds a short 
+/** Checks the receiver content conforms to the FM3 constraint spec and adds a short 
 warning to the given array for each failure. */
 - (void) checkConstraints: (NSMutableArray *)warnings;
 

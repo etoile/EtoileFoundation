@@ -51,32 +51,68 @@
 /** <override-dummy />
 Returns a new self-description (aka metamodel).
 
-You must never use this method to retrieve an entity description, but only a 
-ETModelDescriptionRepository instance to do so.
+You must never use this method to retrieve an entity description, but only 
+retrieves it through a ETModelDescriptionRepository instance.
 
-This method is invoked at runtime by the main repository to automatically 
-collect the entity descriptions and make them available in this repository.
+This method can be invoked at runtime by a repository to automatically collect 
+the entity descriptions and make them available in this repository.
 
-You can override this method to describe your subclasses more precisely. e.g. 
-add new property descriptions etc.
+You can implement this method to describe your subclasses more precisely than 
+-basicNewEntityDescription.<br />
+You must never call [super newEntityDescription] in the implementation.
 
+For example:
 <code>
-ETEntityDescription *desc = [[ETEntityDescription alloc] initWithName: [self className]];
+ETEntityDescription *desc = [self newBasicEntityDescription];
 
-NSArray *inheritedDescs = [[super newEntityDescription] allPropertyDescriptions];
-ETPropertyDescription *city = [ETPropertyDescription descriptionWithName: @"city"];
-ETPropertyDescription *country = [ETPropertyDescription descriptionWithName: @"country"];
+// For subclasses that don't override -newEntityDescription, we must not add the 
+// property descriptions that we will inherit through the parent (the 
+// 'MyClassName' entity description).
+if ([[desc name] isEqual: [MyClass className]] == NO) return desc;
 
-[desc setPropertyDescriptions: [inheritedDescs arrayByAddingObjectsFromArray: A(city, country)];
-// Will be resolved when the entity description is put in the repository
-[desc setParent: NSStringFromClass([self superclass])];
+ETPropertyDescription *city = [ETPropertyDescription descriptionWithName: @"city" type: (id)@"NSString"];
+ETPropertyDescription *country = [ETPropertyDescription descriptionWithName: @"country" type: (id)@"NSString"];
+
+[desc setPropertyDescriptions: A(city, country)];
+
 [desc setAbstract: YES];
 
 return desc;
-</code> */
+</code>
+
+If you want set the parent explicitly, replace -newBasicEntityDescription with:
+<code>
+ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self className]];
+
+// Will be resolved when the entity description is put in the repository
+[desc setParent: NSStringFromClass([self superclass])];
+</code>
+ */
 + (ETEntityDescription *) newEntityDescription
 {
-	return [ETEntityDescription descriptionWithName: [self className]];
+	return [self newBasicEntityDescription];
+}
+
+/** <override-never />
+Returns a new minimal self-description without any property descriptions.
+
+This entity description uses the class name as its name and the parent is set 
+to the superclass name.<br />
+The parent will be resolved once when the description is added to the repository.
+
+You must never use this method to retrieve an entity description, but only a 
+ETModelDescriptionRepository instance to do so.
+
+See also -newEntityDescription. */
++ (ETEntityDescription *) newBasicEntityDescription
+{
+	ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self className]];
+
+	if ([self superclass] != nil)
+	{
+		[desc setParent: (id)[[self superclass] className]];
+	}
+	return desc;
 }
 
 #ifndef GNUSTEP

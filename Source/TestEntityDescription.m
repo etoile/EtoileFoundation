@@ -338,10 +338,10 @@
 
 	NSMutableArray *warnings = [NSMutableArray array];
 
-	[book checkConstraints: warnings];
+	/*[book checkConstraints: warnings];
 	[person checkConstraints: warnings];
-	[library checkConstraints: warnings];
-	ETLog(@"Check contraint warnings: %@", warnings);
+	[library checkConstraints: warnings];*/
+	ETLog(@"Check constraint warnings: %@", warnings);
 	
 	// FIXME: UKTrue([warnings isEmpty]);
 }

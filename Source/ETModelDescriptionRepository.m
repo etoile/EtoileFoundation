@@ -14,6 +14,7 @@
 #import "ETPackageDescription.h"
 #import "ETPropertyDescription.h"
 #import "ETReflection.h"
+#import "NSObject+Etoile.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
@@ -23,7 +24,10 @@
 
 + (ETEntityDescription *) newEntityDescription
 {
-	ETEntityDescription *selfDesc = [[ETEntityDescription alloc] initWithName: [self className]];
+	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
+
+	if ([[selfDesc name] isEqual: [ETModelDescriptionRepository className]] == NO) 
+		return selfDesc;
 
 	// TODO: Add property descriptions...
 
@@ -37,11 +41,16 @@
 	[self setEntityDescription: entityDesc forClass: aClass];
 }
 
-- (void) collectEntityDescriptionsFromClass: (Class)aClass resolveNow: (BOOL)resolve
+- (void) collectEntityDescriptionsFromClass: (Class)aClass 
+                            excludedClasses: (NSSet *)excludedClasses 
+                                 resolveNow: (BOOL)resolve
 {
 	[self addUnresolvedEntityDescriptionForClass: aClass];
 	FOREACH([[ETReflection reflectClass: aClass] allSubclassMirrors], mirror, ETClassMirror *)
 	{
+		if ([excludedClasses containsObject: [mirror representedClass]])
+			continue;
+
 		[self addUnresolvedEntityDescriptionForClass: [mirror representedClass]];
 	}
 	if (resolve)
@@ -57,20 +66,87 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	if (nil == mainRepo)
 	{
 		mainRepo = [[self alloc] init];
-		[mainRepo collectEntityDescriptionsFromClass: [NSObject class] resolveNow: YES];
+		[mainRepo collectEntityDescriptionsFromClass: [ETModelElementDescription class] 
+		                             excludedClasses: [NSSet set]
+		                                  resolveNow: YES];
 	}
 	return mainRepo;
+}
+
+- (NSArray *) newObjectPrimitives
+{
+	ETEntityDescription *objectDesc = [NSObject newEntityDescription];
+	ETEntityDescription *stringDesc = [NSString newEntityDescription];
+	ETEntityDescription *dateDesc = [NSDate newEntityDescription];
+	/* We include NSValue because it is NSNumber superclass */
+	ETEntityDescription *valueDesc = [NSValue newEntityDescription];
+	ETEntityDescription *numberDesc = [NSNumber newEntityDescription];
+	ETEntityDescription *booleanDesc = [NSNumber newEntityDescription];
+	[booleanDesc setName: @"Boolean"];
+	NSArray *objCPrimitives = A(objectDesc, stringDesc, dateDesc, valueDesc, 
+		numberDesc, booleanDesc);
+
+	FOREACHI(objCPrimitives, desc)
+	{
+		object_setClass(desc, [ETPrimitiveEntityDescription class]);	
+	}
+
+	return objCPrimitives;
+}
+
+- (NSArray *) newCPrimitives
+{
+	return A([ETPrimitiveEntityDescription descriptionWithName: @"BOOL"],
+		[ETPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
+		[ETPrimitiveEntityDescription descriptionWithName: @"NSUInteger"],
+		[ETPrimitiveEntityDescription descriptionWithName: @"float"]);
+}
+
+- (void) setUpWithCPrimitives: (NSArray *)cPrimitives 
+             objectPrimitives: (NSArray *)objcPrimitives
+{
+	NSArray *primitives = [objcPrimitives arrayByAddingObjectsFromArray: cPrimitives];
+
+	FOREACH(primitives, cDesc, ETEntityDescription *)
+	{
+		[self addUnresolvedDescription: cDesc];
+	}
+	FOREACH(objcPrimitives, objcDesc, ETEntityDescription *)
+	{
+		NSString *className = [objcDesc name];
+		Class class = NSClassFromString(className);
+		NSString *typePrefix = (Nil != class ? [class typePrefix] : @"");
+
+		if (Nil != class)
+		{
+			[self setEntityDescription: objcDesc forClass: class];
+		}
+
+		/* FM3 names are Object, String, Date, Number and Boolean */
+		int prefixEnd = [className rangeOfString: typePrefix
+		                                 options: NSAnchoredSearch].length;
+		NSString *fm3Name = [className substringFromIndex: prefixEnd];
+
+		[_descriptionsByName setObject: objcDesc forKey: fm3Name];
+	}
+	[self resolveNamedObjectReferences];
 }
 
 static NSString *anonymousPackageName = @"Anonymous";
 
 - (id) init
 {
-	SUPERINIT
+	SUPERINIT;
 	_unresolvedDescriptions = [[NSMutableSet alloc] init];
 	_descriptionsByName = [[NSMutableDictionary alloc] init];
 	_entityDescriptionsByClass = [[NSMapTable alloc] init];
 	[self addDescription: [ETPackageDescription descriptionWithName: anonymousPackageName]];
+	[self setUpWithCPrimitives: [self newCPrimitives] 
+	          objectPrimitives: [self newObjectPrimitives]];
+
+	ETAssert([[ETEntityDescription rootEntityDescriptionName] isEqual:
+		[[self descriptionForName: @"Object"] name]]);
+
 	return self;
 }
 
@@ -184,8 +260,10 @@ same name). */
 		value = [anonymousPackageName stringByAppendingFormat: @".%@", value];
 		realValue = [self descriptionForName: (NSString *)value];
 	}
-
-	[desc setValue: realValue forKey: aProperty];
+	if (nil != realValue) 
+	{
+		[desc setValue: realValue forKey: aProperty];
+	}
 }
 
 - (NSSet *) resolveAndAddEntityDescriptions: (NSSet *)unresolvedEntityDescs
@@ -211,6 +289,7 @@ same name). */
 {
 	FOREACH(unresolvedPropertyDescs, desc, ETPropertyDescription *)
 	{
+		[self resolveProperty: @"type" forDescription: desc isPackageRef: NO];
 		[self resolveProperty: @"owner" forDescription: desc isPackageRef: NO];
 		/* A package is set when the property is an entity extension */
 		[self resolveProperty: @"package" forDescription: desc isPackageRef: YES];
@@ -243,7 +322,10 @@ same name). */
 
 - (void) checkConstraints: (NSMutableArray *)warnings
 {
-
+	FOREACH([self packageDescriptions], packageDesc, ETPackageDescription *)
+	{
+		[packageDesc checkConstraints: warnings];
+	}
 }
 
 @end

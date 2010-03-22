@@ -37,12 +37,10 @@
 
 - (void) testResolveObjectRefsWithMetaMetaModel
 {
-	ETEntityDescription *root = [NSObject newEntityDescription];
+	ETEntityDescription *root = [repo descriptionForName: @"Object"];
 
-	[repo addUnresolvedDescription: root];
-	[repo setEntityDescription: root forClass: [NSObject class]];
-
-	[repo collectEntityDescriptionsFromClass: [ETModelElementDescription class] 
+	[repo collectEntityDescriptionsFromClass: [ETModelElementDescription class]
+	                         excludedClasses: S([ETPrimitiveEntityDescription class]) 
 	                              resolveNow: YES];
 
 	ETEntityDescription *element = [repo entityDescriptionForClass: [ETModelElementDescription class]];
@@ -55,7 +53,13 @@
 	UKNotNil(property);
 	UKNotNil(package);
 
-	UKObjectsEqual(SA([repo entityDescriptions]), S(root, element, entity, property, package));
+	UKTrue([S(root, element, entity, property, package) isSubsetOfSet: SA([repo entityDescriptions])]);
+
+	UKObjectsEqual(root, [repo entityDescriptionForClass: [NSObject class]]);
+	UKObjectsEqual(element, [repo entityDescriptionForClass: [ETModelElementDescription class]]);
+	UKObjectsEqual(entity, [repo entityDescriptionForClass: [ETEntityDescription class]]);
+	UKObjectsEqual(property, [repo entityDescriptionForClass: [ETPropertyDescription class]]);
+	UKObjectsEqual(package, [repo entityDescriptionForClass: [ETPackageDescription class]]);
 
 	UKObjectsEqual(anonymousPackage, [element owner]);
 	UKObjectsEqual(anonymousPackage, [entity owner]);
@@ -67,15 +71,28 @@
 	UKObjectsEqual(element, [property parent]);
 	UKObjectsEqual(element, [package parent]);
 
-	UKObjectsEqual(root, [element parent]);
-	UKObjectsEqual(element, [entity parent]);
-	UKObjectsEqual(element, [property parent]);
-	UKObjectsEqual(element, [package parent]);
+	UKObjectsEqual(entity, [[property propertyDescriptionForName: @"type"] type]);
 
 	UKObjectsEqual([entity propertyDescriptionForName: @"owner"], 
 		[[package propertyDescriptionForName: @"entityDescriptions"] opposite]);
+	UKObjectsEqual([package propertyDescriptionForName: @"entityDescriptions"], 
+		[[entity propertyDescriptionForName: @"owner"] opposite]);
+
+	UKObjectsEqual([property propertyDescriptionForName: @"owner"], 
+		[[entity propertyDescriptionForName: @"propertyDescriptions"] opposite]);
+	UKObjectsEqual([entity propertyDescriptionForName: @"propertyDescriptions"], 
+		[[property propertyDescriptionForName: @"owner"] opposite]);
+
 	UKObjectsEqual([property propertyDescriptionForName: @"package"], 
 		[[package propertyDescriptionForName: @"propertyDescriptions"] opposite]);
+	UKObjectsEqual([package propertyDescriptionForName: @"propertyDescriptions"], 
+		[[property propertyDescriptionForName: @"package"] opposite]);
+
+	NSMutableArray *warnings = [NSMutableArray array];
+	[repo checkConstraints: warnings];
+	// FIXME: UKTrue([warnings isEmpty]);
+
+	ETLog(@"Constraint Warnings: %@", warnings);
 }
 
 @end

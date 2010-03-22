@@ -10,6 +10,7 @@
 #import "ETEntityDescription.h"
 #import "ETPropertyDescription.h"
 #import "ETUTI.h"
+#import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
@@ -18,20 +19,25 @@
 
 + (ETEntityDescription *) newEntityDescription
 {
-	ETEntityDescription *selfDesc = [[ETEntityDescription alloc] initWithName: [self className]];
+	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
+
+	if ([[selfDesc name] isEqual: [ETModelElementDescription className]] == NO) 
+		return selfDesc;
 	
-	ETPropertyDescription *name = [ETPropertyDescription descriptionWithName: @"name"];
-	ETPropertyDescription *fullName = [ETPropertyDescription descriptionWithName: @"fullName"];
+	ETPropertyDescription *name = 
+		[ETPropertyDescription descriptionWithName: @"name" type: (id)@"NSString"];
+	ETPropertyDescription *fullName = 
+		[ETPropertyDescription descriptionWithName: @"fullName" type: (id)@"NSString"];
 	[fullName setDerived: YES];
 	// TODO: To support overriden property descriptions would allow to declare 
 	// 'owner' at the abstract class level too (as FM3 spec does).
 	//ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
 	//[owner setDerived: YES];
-	ETPropertyDescription *itemIdentifier = [ETPropertyDescription descriptionWithName: @"itemIdentifier"];
+	ETPropertyDescription *itemIdentifier = 
+		[ETPropertyDescription descriptionWithName: @"itemIdentifier" type: (id)@"NSString"];
 
 	[selfDesc setAbstract: YES];	
 	[selfDesc setPropertyDescriptions: A(name, fullName, itemIdentifier)];
-	[selfDesc setParent: (id)NSStringFromClass([self superclass])];
 
 	return selfDesc;
 }
