@@ -115,7 +115,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	{
 		NSString *className = [objcDesc name];
 		Class class = NSClassFromString(className);
-		NSString *typePrefix = (Nil != class ? [class typePrefix] : @"");
+		NSString *typePrefix = (Nil != class ? [class typePrefix] : (NSString *)@"");
 
 		if (Nil != class)
 		{
