@@ -18,7 +18,7 @@
 #import "ETReflection.h"
 #import "ETUTI.h"
 #import "ETValidationResult.h"
-#import "NSObject+model.h"
+#import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
