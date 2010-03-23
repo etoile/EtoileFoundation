@@ -121,7 +121,7 @@
 #define RETURN(x) (*_index) = current ; return x
 #define SKIPWHITESPACE 	start = [self ignoreWhiteSpaceFrom:start]; if(start == -1) {RETURN(TEMPORARYFAILURE);} 	current = start;
 #define SEARCHTO(x) current = [self parseFrom:start to:x];if(current == -1){RETURN(TEMPORARYFAILURE);}
-#define CURRENTSTRING [buffer substringWithRange:NSMakeRange(start,(current - start))]
+#define CURRENTSTRING [buffer substringWithRange:NSMakeRange(start,MIN((current - start), ([buffer length] - 1)))]
 
 	int start = *_index;
 	int current = -1;
