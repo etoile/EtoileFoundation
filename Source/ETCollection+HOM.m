@@ -454,12 +454,19 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 
 	SEL valueSelector = @selector(value:);
 	IMP invokeBlock = NULL;
+	BOOL invocationHasObjectReturnType = YES;
 	if (useBlock)
 	{
 		if ([blockOrInvocation respondsToSelector: valueSelector])
 		{
 			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
 		}
+		//FIXME: Determine the return type of the block
+	}
+	else
+	{
+		// Check whether the invocation is supposed to return objects:
+		invocationHasObjectReturnType = (0 == strcmp(@encode(id), [[anInvocation methodSignature] methodReturnType]));
 	}
 	/*
 	 * For some collections (such as NSDictionary) the index of the object
@@ -530,7 +537,10 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 			else
 			{
 				[anInvocation invokeWithTarget: object];
-				[anInvocation getReturnValue: &mapped];
+				if (invocationHasObjectReturnType)
+				{
+					[anInvocation getReturnValue: &mapped];
+				}
 			}
 		}
 		else
