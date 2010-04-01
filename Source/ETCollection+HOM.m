@@ -237,7 +237,9 @@ static inline argField_t eachedArgumentsFromInvocation(NSInvocation *inv)
 	for (int i = 2; i < argCount; i++)
 	{
 		// Consider only object arguments:
-		if (0 == strcmp(@encode(id),[sig getArgumentTypeAtIndex: i]))
+		const char *argType = [sig getArgumentTypeAtIndex: i];
+		if ((0 == strcmp(@encode(id), argType))
+		  || (0 == strcmp(@encode(Class), argType)))
 		{
 			id arg;
 			[inv getArgument: &arg atIndex: i];
@@ -466,7 +468,9 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	else
 	{
 		// Check whether the invocation is supposed to return objects:
-		invocationHasObjectReturnType = (0 == strcmp(@encode(id), [[anInvocation methodSignature] methodReturnType]));
+		const char* returnType = [[anInvocation methodSignature] methodReturnType];
+		invocationHasObjectReturnType = ((0 == strcmp(@encode(id), returnType))
+	                                     || (0 == strcmp(@encode(Class), returnType)));
 	}
 	/*
 	 * For some collections (such as NSDictionary) the index of the object
@@ -1220,7 +1224,8 @@ DEALLOC(
 		BOOL result = NO;
 		[anInvocation setReturnValue: &result];
 	}
-	else if (0 == strcmp(@encode(id), returnType))
+	else if ((0 == strcmp(@encode(id), returnType))
+	  || (0 == strcmp(@encode(Class), returnType)))
 	{
 		id<ETMutableCollectionObject> nextCollection = [NSMutableArray array];
 		ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray((id*)&collection,
