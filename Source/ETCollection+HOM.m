@@ -246,7 +246,7 @@ static inline argField_t eachedArgumentsFromInvocation(NSInvocation *inv)
 				// We need to skip to the next field of the char array every 8
 				// bits. The integer division/modulo operations calculate just
 				// the right offset for that.
-				int index = (i / 8);
+				int index = i / 8;
 				argField.fields[index] = (argField.fields[index] | (1 << (i % 8)));
 				hasProxy = YES;
 			}
@@ -279,7 +279,7 @@ static inline NSUInteger nextSlotIDWithEachProxy(argField_t *slots, NSUInteger s
  * that are marked with an ETEachProxy and invoke it afterwards.
  */
 static void recursiveMapWithInvocationAndContext(NSInvocation *inv, // the invocation, target and arguments < slotID set
-                                                 argField_t *slots, // a bitfield of the arguments that need to be replace
+                                                 argField_t *slots, // a bitfield of the arguments that need to be replaced
                                                  NSUInteger slotID, // the slotId for the present level of recursion
                                                  ETMapContext *ctx) // the context
 {

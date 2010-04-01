@@ -43,12 +43,19 @@
 @interface NSObject (ETEachHOM)
 /**
  * If the receiver conforms to the ETCollection protocol, this method returns a
- * proxy that will let map and filter methods iterate over the contents of the
+ * proxy that will let -map and -filter methods iterate over the contents of the
  * collection when it is used as an argument to a message. This way,
  * <code>[[people map] sendMail: [messages each]];</code> will cause the
  * -sendMail: message to be executed once with every combination of elements
  * from the <code>people</code> and the <code>messages</code> collection.
- * Note: If an each proxy is passed to a message used as a filter predicate,
+ *
+ * Note 1: It is only possible to use an proxy object created with -each if it
+ * is passed as an argument to a message that is send to a higher-order
+ * messaging proxy created by -filter, -map, -filteredCollection or
+ * -mappedCollection. Doing <code>[aCollection addObject: [things each]]</code>
+ * won't do anything.
+ *
+ * Note 2: If an each proxy is passed to a message used as a filter predicate,
  * it suffices that the predicate evaluates to YES for one element of the
  * argument-collection. If a collection <code>A</code> contains "foo" and "bar"
  * and collection <code>B</code> contains "BAR" and "bar", after <code>[[A
@@ -67,6 +74,7 @@
  * Returns a proxy object on which methods can be called. These methods will
  * cause a collection to be returned containing the elements of the original
  * collection mapped by the method call.
+ *
  * Example: <code>addresses = [[people mappedCollection] address];</code> will
  * cause <code>addresses</code> to be a collection created by sending
  * <code>-address</code> to every element in <code>people</code>.
@@ -78,6 +86,7 @@
  * collection. The value of the first argument of any method used as a folding
  * method is taken to be the initial value of the accumulator, with the
  * accumulator being used as the receiver of the folding method.
+ *
  * Example: <code>total = [[salaries leftFold] addAmount: nullSalary];</code>
  * will compute <code>total</code> of all elements in <code>salaries</code> by
  * using the <code>-addAmount:</code> message.
@@ -89,6 +98,7 @@
  * collection. The value of the first argument of any method used as a folding
  * method is taken to be the initial value of the accumulator, with the
  * accumulator being used as the argument of the folding method.
+ *
  * Example: If <code>characters</code> is an ordered collection containing "x",
  * "y" and "z" (in that order), <code>[[characters rightFold]
  * stringByAppendingString: @": end"];</code> will produce "xyz: end".
@@ -102,6 +112,7 @@
  * collection as an argument. The first argument (after the implicit receiver
  * and selector arguments) of the message is thus ignored.
  * The operation will stop at the end of the shorter collection.
+ *
  * Example: If collection <code>A</code> contains "foo" and "FOO", and
  * collection <code>B</code> "bar" and "BAR", <code>[[A
  * zippedCollectionWithCollection: B] stringByAppendingString: nil];</code> will
@@ -117,14 +128,15 @@
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
- * its first and each element as its second argument.
+ * the first and each element as the second argument of the block.
  */
 - (id)leftFoldWithInitialValue: (id)initialValue
                      intoBlock: (id)aBlock;
 
 /**
  * Folds the collection by applying aBlock consecutively with the accumulator as
- * its second and each element (beginning with the last) as its first argument.
+ * the second and each element (beginning with the last) as the first argument
+ * of the block.
  */
 - (id)rightFoldWithInitialValue: (id)initialValue
                       intoBlock: (id)aBlock;
@@ -132,8 +144,13 @@
 /**
  * Coalesces the receiver and the collection named by aCollection into one
  * collection by applying aBlock (where aBlock takes two arguments of type id)
- * to all element-pairs from the collection. The operation will stop at the end
- * of the shorter collection.
+ * to all element-pairs built from the receiver and aCollection. The operation
+ * will stop at the end of the shorter collection.
+ *
+ * Example: For A={a,b} and B={c,d,e} <code>C = [A
+ * zippedCollectionWithCollection: B andBlock: ^ NSString* (NSString *foo,
+ * NSString *bar) {return [foo stringByAppendingString: bar];}];</code> will
+ * result in C={ac,bd}.
  */
 - (id)zippedCollectionWithCollection: (id<NSObject,ETCollection>)aCollection
                             andBlock: (id)aBlock;
@@ -149,7 +166,7 @@
  * Returns a collection containing all elements of the original collection that
  * respond with NO to aBlock.
  */
-- (id)filteredOutCollectionWithBlock: (BOOL(^)(id))aBlock;
+- (id)FilteredOutCollectionWithBlock: (BOOL(^)(id))aBlock;
 #endif
 @end
 
@@ -170,7 +187,7 @@
  * collection based on attributes of an object:
  * <code>[[[persons filter] firstName] isEqual: @"Alice"]</code>
  *
- * The returned boolean that corresponds to the last message is undetermined. 
+ * The returned boolean that corresponds to the last message is undetermined.
  * For example, the code below is meaningless:
  * <code>if ([[[persons filter] firstName] isEqual: @"Alice"]) doSomething;</code>
  */
@@ -261,6 +278,13 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @protocol ETCollectionHOMIntegration <ETCollectionHOMMapIntegration,ETCollectionHOMFilterIntegration>
 @end
 
+@interface NSObject (ETCollectionHOMIntegrationInformalProtocol)
+/**
+ * Implement this method if your collection class needs special treatment of its
+ * elements for higher-order messaging.
+ */
+- (id)mapInfo;
+@end
 
 @interface NSArray (ETCollectionHOM) <ETCollectionHOM>
 @end
