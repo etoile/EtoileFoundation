@@ -39,7 +39,8 @@ __attribute__((unused)) static void ETStackAutoRelease(void* object)
  *
  * STACK_SCOPED Foo * foo = [[Foo alloc] init];
  */
-#define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) 
+#define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
+		__attribute__((unused))
 
 /**
  * Set of macros providing a for each statement on collections, with IMP
