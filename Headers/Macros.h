@@ -48,7 +48,11 @@ __attribute__((unused)) static void ETStackAutoRelease(void* object)
  */
 #define FOREACHI(collection,object) FOREACH(collection,object,id)
 
-#define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
+#ifdef __clang__
+#	define FOREACH(collection,object,type) for (type object in collection)
+#else
+#	define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
+#endif
 
 #define FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,enumerator)\
 NSEnumerator * enumerator = [collection objectEnumerator];\
