@@ -58,13 +58,18 @@ __attribute__((unused)) static void ETStackAutoRelease(void* object)
 NSEnumerator * enumerator = [collection objectEnumerator];\
 FOREACHE(collection,object,type,enumerator)
 
-#define FOREACHE(collection,object,type,enumerator)\
+#ifdef __clang__
+#	define FOREACHE(collection,object,type,enumerator)\
+	for (type object in enumerator)
+#else
+#	define FOREACHE(collection,object,type,enumerator)\
 type object;\
 IMP next ## object ## in ## enumerator = \
 [enumerator methodForSelector:@selector(nextObject)];\
 while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 												   enumerator,\
 												   @selector(nextObject))))
+#endif
 
 #define D(...) [NSDictionary dictionaryWithObjectsAndKeys:__VA_ARGS__ , nil]
 #define A(...) [NSArray arrayWithObjects:__VA_ARGS__ , nil]
