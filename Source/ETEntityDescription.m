@@ -236,7 +236,7 @@
 	}
 
 	NSMutableSet *entityDescSet = [NSMutableSet setWithObject: self];
-	ETEntityDescription *entityDesc = self;
+	ETEntityDescription *entityDesc = [self parent];
 
 	while (entityDesc != nil)
 	{
