@@ -184,8 +184,12 @@
 	return [[self propertyDescriptionForName: key] validateValue: value forKey: key];
 }
 
-/* For now, private and not used except in -checkConstraints:. */
 - (BOOL) isPrimitive
+{
+	return NO;
+}
+
+- (BOOL) isCPrimitive
 {
 	return NO;
 }
@@ -224,14 +228,15 @@
 			[warnings addObject: [self warningWithMessage: 
 				@"Failed to resolve parent"]];
 		}
-		if ([self parent] == nil)
+		// NOTE: C primitives have no parent unlike ObjC primitives
+		if ([self parent] == nil && [self isCPrimitive] == NO)
 		{
 			[warnings addObject: [self warningWithMessage: @"Miss a parent"]];
 		}
-		if ([[self parent] isPrimitive]) 
+		if ([[self parent] isCPrimitive]) 
 		{
 			[warnings addObject: [self warningWithMessage: 
-				@"Primitives are not allowed to be parent"]];
+				@"C Primitives are not allowed to be parent"]];
 		}
 	}
 
@@ -268,6 +273,20 @@
 }
 
 - (BOOL) isPrimitive
+{
+	return YES;
+}
+
+@end
+
+@implementation ETCPrimitiveEntityDescription
+
++ (ETEntityDescription *) newEntityDescription
+{
+	return nil;
+}
+
+- (BOOL) isCPrimitive
 {
 	return YES;
 }

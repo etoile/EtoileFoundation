@@ -96,10 +96,10 @@ static ETModelDescriptionRepository *mainRepo = nil;
 
 - (NSArray *) newCPrimitives
 {
-	return A([ETPrimitiveEntityDescription descriptionWithName: @"BOOL"],
-		[ETPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
-		[ETPrimitiveEntityDescription descriptionWithName: @"NSUInteger"],
-		[ETPrimitiveEntityDescription descriptionWithName: @"float"]);
+	return A([ETCPrimitiveEntityDescription descriptionWithName: @"BOOL"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"NSUInteger"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"float"]);
 }
 
 - (void) setUpWithCPrimitives: (NSArray *)cPrimitives 

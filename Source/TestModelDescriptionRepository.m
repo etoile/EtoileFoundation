@@ -38,9 +38,11 @@
 - (void) testResolveObjectRefsWithMetaMetaModel
 {
 	ETEntityDescription *root = [repo descriptionForName: @"Object"];
-
+	NSSet *primitiveDescClasses = 
+		S([ETPrimitiveEntityDescription class], [ETCPrimitiveEntityDescription class]);
+		
 	[repo collectEntityDescriptionsFromClass: [ETModelElementDescription class]
-	                         excludedClasses: S([ETPrimitiveEntityDescription class]) 
+	                         excludedClasses: primitiveDescClasses
 	                              resolveNow: YES];
 
 	ETEntityDescription *element = [repo entityDescriptionForClass: [ETModelElementDescription class]];

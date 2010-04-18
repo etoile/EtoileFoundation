@@ -54,6 +54,15 @@
  */
 - (BOOL) isPrimitive;
 /**
+ * Whether or not this entity is a C primitive (i.e. describes attributes whose 
+ * values are not objects). e.g. NSInteger, float, etc.
+ *
+ * If YES is returned, -isPrimitive returns the same.
+ *
+ * See also -[ETPropertyDescription isPrimitive].
+ */
+- (BOOL) isCPrimitive;
+/**
  * Whether or not this entity is abstract (i.e. can't be instantiated)
  */
 - (BOOL) isAbstract;
@@ -112,6 +121,15 @@ primitives. */
 - (BOOL) isPrimitive;
 @end
 
+/** Used to describe Model description C primitives: float, BOOL, etc.
+See -[ETEntityDescription isCPrimitive].
+
+This class is used internally. You can possibly use it to support new 
+primitives. */
+@interface ETCPrimitiveEntityDescription : ETPrimitiveEntityDescription
+/** Returns YES. */
+- (BOOL) isCPrimitive;
+@end
 
 @interface ETAdaptiveModelObject : NSObject
 {
