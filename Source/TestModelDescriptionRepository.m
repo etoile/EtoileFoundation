@@ -92,9 +92,12 @@
 
 	NSMutableArray *warnings = [NSMutableArray array];
 	[repo checkConstraints: warnings];
-	// FIXME: UKTrue([warnings isEmpty]);
-
-	ETLog(@"Constraint Warnings: %@", warnings);
+	UKTrue([warnings isEmpty]);
+	if ([warnings isEmpty] == NO)
+	{
+		ETLog(@"Constraint Warnings: %@", warnings);
+	}
+	
 }
 
 @end
