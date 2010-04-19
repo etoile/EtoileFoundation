@@ -11,6 +11,11 @@
 	BOOL inOpenTag;
 }
 /**
+ * Writes the XML header and character set marker.  Calling this method after
+ * any methods that modify the output stream has undefined results.
+ */
+- (void)writeXMLHeader;
+/**
  * Convenience method for starting a tag with no attributes.
  */
 - (void)startElement: (NSString*)aName;
