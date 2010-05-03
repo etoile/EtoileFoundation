@@ -233,7 +233,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 - (NSArray *) subtypes
 {
 	NSMutableArray *result = [NSMutableArray array];
-	FOREACH(ETUTIInstances, type, ETUTI *)
+	FOREACHE(ETUTIInstances, type, ETUTI *, [ETUTIInstances objectEnumerator])
 	{
 		if ([type->supertypes containsObject: self])
 			[result addObject: type];
