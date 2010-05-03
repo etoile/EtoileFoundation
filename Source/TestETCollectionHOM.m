@@ -241,7 +241,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 	UKTrue([mappedCountedSet containsObject: @"FOO"]);
 	UKTrue([mappedCountedSet containsObject: @"BAR"]);
-	UKFalse([mappedCountedSet containsObject: @"foo"]);	
+	UKFalse([mappedCountedSet containsObject: @"foo"]);
 	UKFalse([mappedCountedSet containsObject: @"bar"]);
 	UKIntsEqual([inputCountedSet countForObject: @"foo"],
 	            [mappedCountedSet countForObject: @"FOO"]);
@@ -256,7 +256,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 	NSEnumerator *indexEnumerator = [(NSArray*)inputIndexSet objectEnumerator];
 	FOREACHE(inputIndexSet,number,id,indexEnumerator)
-	{	
+	{
 		int input = [(NSNumber*)number intValue];
 
 		UKTrue([mappedIndexSet containsIndex: input*2]);
@@ -312,7 +312,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 	UKTrue([countedSet containsObject: @"FOO"]);
 	UKTrue([countedSet containsObject: @"BAR"]);
-	UKFalse([countedSet containsObject: @"foo"]);	
+	UKFalse([countedSet containsObject: @"foo"]);
 	UKFalse([countedSet containsObject: @"bar"]);
 	UKIntsEqual(countOfFoo, [countedSet countForObject: @"FOO"]);
 	UKIntsEqual(countOfBar, [countedSet countForObject: @"BAR"]);
@@ -325,7 +325,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	[[indexSet map] twice];
 	NSEnumerator *indexEnumerator = [(NSArray*)origIndexSet objectEnumerator];
 	FOREACHE(origIndexSet, number, id, indexEnumerator)
-	{	
+	{
 		int input = [(NSNumber*)number intValue];
 
 		UKTrue([indexSet containsIndex: input*2]);
@@ -367,7 +367,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 	UKObjectsEqual(@"letters: foobar",[[inputArray leftFold]
 	stringByAppendingString: @"letters: "]);
-	UKObjectsEqual(@"foobar: letters",[[inputArray rightFold] 
+	UKObjectsEqual(@"foobar: letters",[[inputArray rightFold]
 	stringByAppendingString: @": letters"]);
 }
 
@@ -391,7 +391,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
 	INPUT_INDEX_SET
 
-	UKIntsEqual(10,[(NSNumber*)[[inputIndexSet leftFold] addNumber: 
+	UKIntsEqual(10,[(NSNumber*)[[inputIndexSet leftFold] addNumber:
 	                   [NSNumber numberWithInt: 0]] intValue]);
 }
 
@@ -545,15 +545,15 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
 	NSArray *second = A(@"bar", @"BAR");
 
-	UKTrue([(id)[[[NSMutableArray array] zippedCollectionWithCollection: second] 
+	UKTrue([(id)[[[NSMutableArray array] zippedCollectionWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
-	UKTrue([(id)[[[NSMutableSet set] zippedCollectionWithCollection: second] 
+	UKTrue([(id)[[[NSMutableSet set] zippedCollectionWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
-	UKTrue([(id)[[[NSCountedSet set] zippedCollectionWithCollection: second] 
+	UKTrue([(id)[[[NSCountedSet set] zippedCollectionWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
-	UKTrue([(id)[[[NSMutableIndexSet indexSet] zippedCollectionWithCollection: second] 
+	UKTrue([(id)[[[NSMutableIndexSet indexSet] zippedCollectionWithCollection: second]
 		addNumber: [NSNumber numberWithInt: 0]] isEmpty]);
-	UKTrue([(id)[[[NSMutableDictionary dictionary] zippedCollectionWithCollection: second] 
+	UKTrue([(id)[[[NSMutableDictionary dictionary] zippedCollectionWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
 }
 
@@ -623,15 +623,15 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
 	NSArray *second = A(@"bar", @"BAR");
 
-	UKTrue([(id)[[[NSMutableArray array] zipWithCollection: second] 
+	UKTrue([(id)[[[NSMutableArray array] zipWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
-	UKTrue([(id)[[[NSMutableSet set] zipWithCollection: second] 
+	UKTrue([(id)[[[NSMutableSet set] zipWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
-	UKTrue([(id)[[[NSCountedSet set] zipWithCollection: second] 
+	UKTrue([(id)[[[NSCountedSet set] zipWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
-	UKTrue([(id)[[[NSMutableIndexSet indexSet] zipWithCollection: second] 
+	UKTrue([(id)[[[NSMutableIndexSet indexSet] zipWithCollection: second]
 		addNumber: [NSNumber numberWithInt: 0]] isEmpty]);
-	UKTrue([(id)[[[NSMutableDictionary dictionary] zipWithCollection: second] 
+	UKTrue([(id)[[[NSMutableDictionary dictionary] zipWithCollection: second]
 		stringByAppendingString: @"foo"] isEmpty]);
 }
 
@@ -931,13 +931,11 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 
 - (void)testBlockFoldArray
 {
-	/*
 	INPUT_ARRAY
-	NSString *result = (NSString*)[inputArray injectObject: @"letters: "
-	                                             intoBlock:  ^(id acu, id el){return [acu stringByAppendingString: el];}];
+	NSString *result = (NSString*)[inputArray leftFoldWithInitialValue: @"letters: "
+	                                                         intoBlock:  ^(id acu, id el){return [acu stringByAppendingString: el];}];
 
-	UKObjectsEqual(@"letters: foobar",result);	
-	*/
+	UKObjectsEqual(@"letters: foobar",result);
 }
 
 - (void)testBlockFilteredArray
