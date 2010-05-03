@@ -1,9 +1,24 @@
 #import <Foundation/NSObject.h>
 #import "objc/blocks_runtime.h"
 
-@interface NSBlock : NSObject @end
+@interface NSBlock
+{
+	id isa;
+}
+@end
 
-@implementation NSBlock (SmalltalkCompatibility)
+@implementation NSBlock
++ (void)load
+{
+	unsigned int methodCount;
+	Method *methods = class_copyMethodList(self, &methodCount);
+	id blockClass = objc_lookUpClass("_NSBlock");
+	for (Method *m = methods ; NULL!=*m ; m++)
+	{
+		class_addMethod(blockClass, method_getName(*m),
+			method_getImplementation(*m), method_copyReturnType(*m));
+	}
+}
 - (id)copyWithZone: (NSZone*)aZone
 {
 	return Block_copy(self);
