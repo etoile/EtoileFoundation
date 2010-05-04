@@ -976,8 +976,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	INPUT_MUTABLE_ARRAY
 	NSArray *second = A(@"foo",@"bar");
 	id(^zipBlock)(id,id) = ^(id first, id second){return [first stringByAppendingString: second];};
-	[array collectBlock: zipBlock
-	     withCollection: second];
+	[array zipWithCollection: second andBlock: zipBlock];
 
 	UKTrue([array containsObject: @"foofoo"]);
 	UKTrue([array containsObject: @"barbar"]);
