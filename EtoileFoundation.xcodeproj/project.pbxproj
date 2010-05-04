@@ -151,6 +151,7 @@
 		60F6EEEE101471FC003F4508 /* NSFileHandle+Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60F6EEF01014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
 		60F6EEF11014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
+		60FEF6161190AC6D00A4E225 /* glibc_hack_unistd.h in Headers */ = {isa = PBXBuildFile; fileRef = 60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */; };
 		662EA3F51019161B0044F013 /* ETEntityDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F21019161B0044F013 /* ETEntityDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		662EA3F61019161B0044F013 /* ETPropertyDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F31019161B0044F013 /* ETPropertyDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		662EA3F71019161B0044F013 /* ETValidationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F41019161B0044F013 /* ETValidationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -301,6 +302,7 @@
 		60DEB05A1156445E00744298 /* TestModelDescriptionRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModelDescriptionRepository.m; path = Source/TestModelDescriptionRepository.m; sourceTree = "<group>"; };
 		60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileHandle+Socket.h"; path = "../EtoileFoundation/Headers/NSFileHandle+Socket.h"; sourceTree = SOURCE_ROOT; };
 		60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileHandle+Socket.m"; path = "../EtoileFoundation/Source/NSFileHandle+Socket.m"; sourceTree = SOURCE_ROOT; };
+		60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glibc_hack_unistd.h; path = Headers/glibc_hack_unistd.h; sourceTree = "<group>"; };
 		662EA3F21019161B0044F013 /* ETEntityDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETEntityDescription.h; path = ../EtoileFoundation/Headers/ETEntityDescription.h; sourceTree = SOURCE_ROOT; };
 		662EA3F31019161B0044F013 /* ETPropertyDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPropertyDescription.h; path = ../EtoileFoundation/Headers/ETPropertyDescription.h; sourceTree = SOURCE_ROOT; };
 		662EA3F41019161B0044F013 /* ETValidationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETValidationResult.h; path = ../EtoileFoundation/Headers/ETValidationResult.h; sourceTree = SOURCE_ROOT; };
@@ -462,6 +464,7 @@
 		603648350E409329003377E0 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */,
 				60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */,
 				6010E6C11143DF12003203B2 /* ETPackageDescription.h */,
 				606A9907113F176300CC89B9 /* ETModelElementDescription.h */,
@@ -679,6 +682,7 @@
 				60C021EE10FA4AB800A46E65 /* ETByteSizeFormatter.h in Headers */,
 				606A9908113F176300CC89B9 /* ETModelElementDescription.h in Headers */,
 				6010E6C31143DF12003203B2 /* ETPackageDescription.h in Headers */,
+				60FEF6161190AC6D00A4E225 /* glibc_hack_unistd.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1139,6 +1143,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/GNUstep/System/Library/Headers/;
@@ -1169,6 +1174,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/GNUstep/System/Library/Headers/;
