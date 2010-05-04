@@ -736,7 +736,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	NSMutableArray *expected = [NSMutableArray arrayWithObjects: @"fooBAR",@"FOObar",@"FOOBAR",@"foobar", nil];
 
 	UKIntsEqual(4,[result count]);
-	FOREACHI(result,object)
+	FOREACHE(result, object, id, [result objectEnumerator])
 	{
 		UKTrue([expected containsObject: object]);
 		[expected removeObject: object];
@@ -755,7 +755,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	@"foobar", @"FOObar", @"fooBar",  @"FooBar", nil];
 
 	UKIntsEqual(12,[first count]);
-	FOREACHI(first,object)
+	FOREACHE(first, object, id, [first objectEnumerator])
 	{
 		UKTrue([expected containsObject: object]);
 		[expected removeObject: object];
