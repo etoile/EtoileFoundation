@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-#include <unistd.h>
+#include "glibc_hack_unistd.h"
 #import <Foundation/Foundation.h>
 
 @implementation NSFileHandle (SocketAdditions)

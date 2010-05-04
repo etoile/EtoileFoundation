@@ -105,7 +105,8 @@ EtoileFoundation_HEADER_FILES = \
 	ETPackageDescription.h \
 	ETPropertyDescription.h \
 	ETValidationResult.h \
-	runtime.h
+	runtime.h \
+	glibc_hack_unistd.h
 
 EtoileFoundation_RESOURCE_FILES = \
 	UTIDefinitions.plist \

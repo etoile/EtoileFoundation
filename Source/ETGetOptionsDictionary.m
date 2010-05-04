@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #include <string.h>
-#include <unistd.h>
+#include "glibc_hack_unistd.h"
 
 NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 {

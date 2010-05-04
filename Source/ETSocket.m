@@ -5,7 +5,7 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include "glibc_hack_unistd.h"
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>

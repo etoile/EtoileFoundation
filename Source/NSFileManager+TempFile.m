@@ -1,5 +1,5 @@
 #import "NSFileManager+TempFile.h"
-#include <unistd.h>
+#include "glibc_hack_unistd.h"
 #include <string.h>
 #if defined(__sun)
 /* For mkdtemp on Solaris versions older than Solaris Express 4/06 */

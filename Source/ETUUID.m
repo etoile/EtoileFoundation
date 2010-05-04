@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include "glibc_hack_unistd.h"
 #include <errno.h>
 #pragma GCC diagnostic ignored "-Wuninitialized" /* For junk variable */
 #if defined(__linux__)

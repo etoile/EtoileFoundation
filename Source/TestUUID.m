@@ -11,7 +11,7 @@
 #import "Macros.h"
 #import "ETUUID.h"
 #import "EtoileCompatibility.h"
-#include <unistd.h>
+#include "glibc_hack_unistd.h"
 
 @interface TestUUID: NSObject <UKTest>
 @end
