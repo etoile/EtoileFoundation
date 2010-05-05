@@ -99,7 +99,7 @@
 - (NSArray *) allMethodMirrors
 {
 	NSArray *ancestorProtocolMirrors = [self ancestorProtocolMirrors];
-	NSMutableArray *mirrors = [[self methodMirrors] mutableCopy];
+	NSMutableArray *mirrors = AUTORELEASE([[self methodMirrors] mutableCopy]);
 	FOREACH(ancestorProtocolMirrors, ancestor, ETProtocolMirror *)
 	{
 		[mirrors addObjectsFromArray: [ancestor allMethodMirrors]];
