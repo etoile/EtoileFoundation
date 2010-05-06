@@ -733,10 +733,11 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	NSDictionary *first = D(@"foo",@"one",@"FOO",@"two");
 	NSArray *second = A(@"bar",@"BAR");
 	NSDictionary *result = (NSDictionary*)[[first mappedCollection] stringByAppendingString: [second each]];
+	NSEnumerator *resultEnumerator = [result objectEnumerator];
 	NSMutableArray *expected = [NSMutableArray arrayWithObjects: @"fooBAR",@"FOObar",@"FOOBAR",@"foobar", nil];
 
 	UKIntsEqual(4,[result count]);
-	FOREACHE(result, object, id, [result objectEnumerator])
+	FOREACHE(result, object, id, resultEnumerator)
 	{
 		UKTrue([expected containsObject: object]);
 		[expected removeObject: object];
@@ -748,6 +749,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
 	NSMutableDictionary *first = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 	    @"foo",@"one",@"FOO",@"two",@"Foo",@"three",nil];
+	NSEnumerator *firstEnumerator = [first objectEnumerator];
 	NSArray *second = A(@"bar",@"BAR",@"Bar",@"BAr");
 	[[first map] stringByAppendingString: [second each]];
 	NSMutableArray *expected = [NSMutableArray arrayWithObjects: @"FOOBar",
@@ -755,7 +757,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	@"foobar", @"FOObar", @"fooBar",  @"FooBar", nil];
 
 	UKIntsEqual(12,[first count]);
-	FOREACHE(first, object, id, [first objectEnumerator])
+	FOREACHE(first, object, id, firstEnumerator)
 	{
 		UKTrue([expected containsObject: object]);
 		[expected removeObject: object];
