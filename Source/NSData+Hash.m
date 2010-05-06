@@ -24,8 +24,9 @@
 	BIO_flush(mem);
 	char * base64CString;
 	long base64Length = BIO_get_mem_data(mem, &base64CString);
-	NSString * encodedString = [NSString stringWithCString: base64CString
-	                                                length: base64Length];
+	NSString * encodedString = [[[NSString alloc] initWithBytes: (const void *)base64CString
+	                                                    length: base64Length
+	                                                  encoding: NSASCIIStringEncoding] autorelease];
 	BIO_free_all(mem);
 	return encodedString;
 }
