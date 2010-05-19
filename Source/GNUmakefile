@@ -25,7 +25,6 @@ endif
 # Class files
 #
 libEtoileFoundation_OBJC_FILES = \
-	NSObject+Prototypes.m \
 	NSFileManager+TempFile.m\
 	NSFileHandle+Socket.m\
 	ETByteSizeFormatter.m \
