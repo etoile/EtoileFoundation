@@ -749,9 +749,9 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
 	NSMutableDictionary *first = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 	    @"foo",@"one",@"FOO",@"two",@"Foo",@"three",nil];
-	NSEnumerator *firstEnumerator = [first objectEnumerator];
 	NSArray *second = A(@"bar",@"BAR",@"Bar",@"BAr");
 	[[first map] stringByAppendingString: [second each]];
+	NSEnumerator *firstEnumerator = [first objectEnumerator];
 	NSMutableArray *expected = [NSMutableArray arrayWithObjects: @"FOOBar",
 	@"FOOBAR", @"fooBAR", @"FOOBAr", @"fooBAr", @"FooBAr", @"FooBAR", @"Foobar",
 	@"foobar", @"FOObar", @"fooBar",  @"FooBar", nil];
