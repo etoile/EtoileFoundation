@@ -755,7 +755,6 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	NSMutableArray *expected = [NSMutableArray arrayWithObjects: @"FOOBar",
 	@"FOOBAR", @"fooBAR", @"FOOBAr", @"fooBAr", @"FooBAr", @"FooBAR", @"Foobar",
 	@"foobar", @"FOObar", @"fooBar",  @"FooBar", nil];
-	NSEnumerator *firstEnumerator = [first objectEnumerator];
 
 	UKIntsEqual(12,[first count]);
 	FOREACHE(first, object, id, firstEnumerator)
