@@ -261,7 +261,7 @@ which the returned protocols conform to themselves. */
 {
 	return [[self contentArray] objectEnumerator];
 }
-- (unsigned int) count
+- (NSUInteger) count
 {
 	return [[self contentArray] count];
 }

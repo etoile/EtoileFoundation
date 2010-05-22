@@ -38,7 +38,7 @@
 	the elements of the content one-by-one. */
 //- (NSEnumerator *) objectEnumerator;
 /** Returns the number of elements hold by the receiver. */
-//- (unsigned int) count;
+//- (NSUInteger) count;
 /** Returns whether the element is included in the collection. */
 //- (BOOL) containsObject: (id)anObject;
 /** Returns whether every element in the given collection are included in the receiver. */

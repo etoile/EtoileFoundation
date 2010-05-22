@@ -28,7 +28,7 @@
 #if 0
 @implementation ETCollectionMixin
 
-- (unsigned int) count
+- (NSUInteger) count
 {
 	return [[self contentArray] count];
 }
