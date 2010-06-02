@@ -82,6 +82,7 @@
 + (id <ETClassMirror>) reflectClass: (Class)aClass;
 + (id <ETClassMirror>) reflectClassWithName: (NSString *)className;
 + (id <ETProtocolMirror>) reflectProtocolWithName: (NSString *)protocolName;
++ (id <ETProtocolMirror>) reflectProtocol: (Protocol *)aProtocol;
 @end
 
 

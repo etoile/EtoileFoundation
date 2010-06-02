@@ -21,10 +21,12 @@
 {
 	return [ETObjectMirror mirrorWithObject: anObject];
 }
+
 + (id <ETClassMirror>) reflectClass: (Class)aClass
 {
 	return [ETClassMirror mirrorWithClass: aClass];
 }
+
 + (id <ETClassMirror>) reflectClassWithName: (NSString *)className
 {
 	id class = objc_getClass([className UTF8String]);
@@ -34,12 +36,22 @@
 	}
 	return nil;
 }
+
 + (id <ETProtocolMirror>) reflectProtocolWithName: (NSString *)protocolName
 {
 	Protocol *protocol = objc_getProtocol([protocolName UTF8String]);
 	if (protocol != nil)
 	{
 		return [ETProtocolMirror mirrorWithProtocol: protocol];
+	}
+	return nil;
+}
+
++ (id <ETProtocolMirror>) reflectProtocol: (Protocol *)aProtocol
+{
+	if (aProtocol != nil)
+	{
+		return [ETProtocolMirror mirrorWithProtocol: aProtocol];
 	}
 	return nil;
 }
