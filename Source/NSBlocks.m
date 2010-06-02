@@ -11,7 +11,8 @@
 + (void)load
 {
 	unsigned int methodCount;
-	Method *methods = class_copyMethodList(self, &methodCount);
+	Method *methods = 
+		class_copyMethodList(objc_getClass("NSBlock"), &methodCount);
 	id blockClass = objc_lookUpClass("_NSBlock");
 	for (Method *m = methods ; NULL!=*m ; m++)
 	{
