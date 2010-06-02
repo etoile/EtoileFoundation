@@ -627,10 +627,9 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	IMP invokeBlock = NULL;
 	if (useBlock)
 	{
-		if ([blockOrInvocation respondsToSelector: valueSelector])
-		{
-			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
-		}
+		NSCAssert([blockOrInvocation respondsToSelector: valueSelector],
+				@"Block does nto respond to the correct selector!");
+		invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
 	}
 
 	/*
@@ -883,10 +882,9 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	IMP invokeBlock = NULL;
 	if (useBlock)
 	{
-		if ([blockOrInvocation respondsToSelector: valueSelector])
-		{
-			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
-		}
+		NSCAssert([blockOrInvocation respondsToSelector: valueSelector],
+				@"Block does nto respond to the correct selector!");
+		invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
 	}
 
 	NSMutableArray *alreadyMapped = nil;
