@@ -399,7 +399,7 @@
 			{
 				NSString * cdata;
 				SKIPTO('<');
-				if(currentIndex != lastSuccessfullyParsed)
+				if (currentIndex != lastSuccessfullyParsed)
 				{
 					cdata = CURRENTSTRING;
 					//If cdata contains a > (close tag) then we are parsing nonsense, not XML.
@@ -471,6 +471,11 @@
 - (void) setMode: (enum MarkupLanguage)aMode
 {
 	mode = aMode;
+}
+- (void)dealloc
+{
+	[buffer release];
+	[super dealloc];
 }
 
 @end
