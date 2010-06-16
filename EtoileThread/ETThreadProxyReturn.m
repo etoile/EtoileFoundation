@@ -76,9 +76,15 @@
 	}
 	return object;
 }
+
+- (id) forwardingTargetForSelector: (SEL)aSelector
+{
+	return [self value];
+}
+
 - (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
 {
-	/* If we haven't yet got the object, then block until we have, otherwise do 
+	/* If we haven't yet got the object, then block until we have, otherwise do
 	   this quickly */
 	if (INVALID_OBJECT == object)
 	{
