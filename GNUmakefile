@@ -123,7 +123,7 @@ endif
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
 -include etoile.make
--include ../../documentation.make
+#-include ../../documentation.make
 ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 else
