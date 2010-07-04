@@ -83,7 +83,8 @@ EtoileFoundation_HEADER_FILES = \
 	ETPropertyViewpoint.h \
 	ETProtocolMirror.h \
 	ETRendering.h \
-	ETSocket.h\
+	ETSocket.h \
+	ETStackTraceRecorder.h \
 	ETTranscript.h \
 	ETTransform.h \
 	ETUUID.h \
@@ -122,6 +123,7 @@ endif
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 -include ../../etoile.make
 -include etoile.make
+-include ../../documentation.make
 ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 else

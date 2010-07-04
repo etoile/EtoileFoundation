@@ -42,7 +42,8 @@ libEtoileFoundation_OBJC_FILES = \
 	ETPropertyViewpoint.m \
 	ETPropertyValueCoding.m \
 	ETProtocolMirror.m \
-	ETSocket.m\
+	ETSocket.m \
+	ETStackTraceRecorder.m \
 	ETTranscript.m \
 	ETTransform.m \
 	ETUUID.m \
@@ -83,6 +84,7 @@ libEtoileFoundation_OBJC_FILES += \
 	TestIndexPath.m \
 	TestModelDescriptionRepository.m \
 	TestReflection.m \
+	TestStackTraceRecorder.m \
 	TestString.m \
 	TestUTI.m \
 	TestUUID.m

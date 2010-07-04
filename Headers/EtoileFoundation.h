@@ -47,6 +47,7 @@
 #import <EtoileFoundation/ETRendering.h>
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/ETSocket.h>
+#import <EtoileFoundation/ETStackTraceRecorder.h>
 #import <EtoileFoundation/ETTransform.h>
 #import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/ETUUID.h>
