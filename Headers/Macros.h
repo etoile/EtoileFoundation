@@ -27,7 +27,7 @@
 /**
  * Cleanup function used for stack-scoped objects.
  */
-__attribute__((unused)) static void ETStackAutoRelease(void* object)
+__attribute__((unused)) static inline void ETStackAutoRelease(void* object)
 {
 	[*(id*)object release];
 }
@@ -41,6 +41,32 @@ __attribute__((unused)) static void ETStackAutoRelease(void* object)
  */
 #define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
 		__attribute__((unused))
+
+@interface NSLocking
+- (void)lock;
+- (void)unlock;
+@end
+
+/**
+ * Cleanup function that releases a lock.
+ */
+__attribute__((unused)) static inline void ETUnlockObject(void* object)
+{
+	[*(id*)object unlock];
+}
+/**
+ * Macro that sends a -lock message to the argument immediately, and then an
+ * -unlock message when the variable goes out of scope (including if an
+ *  exception causes this stack frame to be unwound).
+ */
+#define LOCK_FOR_SCOPE(x) __attribute__((cleanup(ETUnlockObject))) \
+		__attribute__((unused)) id __COUNTER__ ## _lock = x; [x lock]
+
+/**
+ * Create a temporary autorelease pool that is destroyed when the scope exits.
+ */
+#define LOCAL_AUTORELEASE_POOL() STACK_SCOPED \
+	NSAutoreleasePool *__COUNTER__ ## _pool = [NSAutoreleasePool new];
 
 /**
  * Set of macros providing a for each statement on collections, with IMP
@@ -81,12 +107,12 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
  */
 #ifdef ASSIGN
 #undef ASSIGN
+#endif
 #define ASSIGN(var, obj) do {\
 	id _tmp = [obj retain];\
 	[var release];\
 	var = _tmp;\
 } while (0)
-#endif
 
 #ifdef DEFINE_STRINGS
 #define EMIT_STRING(x) NSString *x = @"" # x;
