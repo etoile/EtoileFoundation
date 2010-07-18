@@ -394,3 +394,26 @@ includes in the new array the given objects to be ignored by the filtering. */
 }
 
 @end
+
+@implementation NSMutableDictionary (DictionaryOfLists)
+- (void)addObject: anObject forKey: aKey
+{
+	id old = [self objectForKey: aKey];
+	if (nil == old)
+	{
+		[self setObject: anObject forKey: aKey];
+	}
+	else
+	{
+		if ([old isKindOfClass: [NSMutableArray class]])
+		{
+			[(NSMutableArray*)old addObject: anObject];
+		}
+		else
+		{
+			[self setObject: [NSMutableArray arrayWithObjects: old, anObject, nil]
+			         forKey: aKey];
+		}
+	}
+}
+@end
