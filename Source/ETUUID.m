@@ -6,6 +6,7 @@
 
 */
 
+#import <Foundation/Foundation.h>
 #import "ETUUID.h"
 #import "EtoileCompatibility.h"
 #include <stdlib.h>
@@ -145,6 +146,7 @@ static void ETSRandomDev()
 
 - (id) initWithString: (NSString *)aString
 {
+	NILARG_EXCEPTION_TEST(aString);
 	SUPERINIT
 
 	const char *data = [aString UTF8String];
