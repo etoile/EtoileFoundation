@@ -8,8 +8,19 @@
 
 #import "NSString+Etoile.h"
 
+@interface GSString : NSString
++ (void)reinitialize;
+@end
 
 @implementation NSString (Etoile)
+
++ (void)load
+{
+	if ([GSString respondsToSelector: @selector(reinitialize)])
+	{
+		[GSString reinitialize];
+	}
+}
 
 /** Returns the first path component of the receiver. If the receiver isn't a 
 path, returns the a new instance of the entire string. 
@@ -96,6 +107,32 @@ Useful to convert a name in camel case into a more user friendly name. */
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator
 {
 	return nil;
+}
+
+- (BOOL)isEqualToString: (NSString*)aString
+{
+	NSUInteger length = [self length];
+	if ([aString length] != length) { return NO; }
+
+	NSRange range = { 0, 30 };
+	while (range.location < length)
+	{
+		unichar buffer[30];
+		unichar buffer2[30];
+		if (range.location + range.length > length)
+		{
+			range.length = length - range.location;
+		}
+		[aString getCharacters: buffer range: range];
+		[self getCharacters: buffer2 range: range];
+		range.location += 30;
+		for (unsigned i=0 ; i<range.length ; i++)
+		{
+			if (buffer[i] != buffer[i]) { return NO; }
+		}
+	}
+
+	return YES;
 }
 
 @end
