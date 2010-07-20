@@ -9,9 +9,7 @@ BUNDLE_NAME = EtoileThread
 $(BUNDLE_NAME)_LDFLAGS += -lUnitKit
 else
 FRAMEWORK_NAME = EtoileThread
-DOCUMENT_NAME = $(FRAMEWORK_NAME)
 $(FRAMEWORK_NAME)_VERSION = 0.2
-$(DOCUMENT_NAME)_AGSDOC_FILES = $($(FRAMEWORK_NAME)_HEADER_FILES)
 endif
 
 ifeq ($(GNUSTEP_TARGET_CPU), ix86)
@@ -49,7 +47,7 @@ ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 -include ../../../etoile.make
 else
-include $(GNUSTEP_MAKEFILES)/documentation.make
 -include ../../../etoile.make
+-include ../../../documentation.make
 include $(GNUSTEP_MAKEFILES)/framework.make
 endif
