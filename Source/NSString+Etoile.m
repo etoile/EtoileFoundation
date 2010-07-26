@@ -128,7 +128,7 @@ Useful to convert a name in camel case into a more user friendly name. */
 		range.location += 30;
 		for (unsigned i=0 ; i<range.length ; i++)
 		{
-			if (buffer[i] != buffer[i]) { return NO; }
+			if (buffer[i] != buffer2[i]) { return NO; }
 		}
 	}
 
