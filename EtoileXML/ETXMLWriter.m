@@ -89,6 +89,10 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 {
 	[buffer appendString: @"<?xml version=\"1.0\" encoding=\"utf-8\" ?>"];
 }
+- (void)appendUnescapedString: (NSString*)aString
+{
+	[buffer appendString: aString];
+}
 - (void)startElement: (NSString*)aName
 {
 	[self startElement: aName

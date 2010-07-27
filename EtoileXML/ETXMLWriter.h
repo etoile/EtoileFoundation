@@ -16,6 +16,10 @@
  */
 - (void)writeXMLHeader;
 /**
+ * Writes the string directly into the output.  Used for DOCTYPE and so on.
+ */
+- (void)appendUnescapedString: (NSString*)aString;
+/**
  * Convenience method for starting a tag with no attributes.
  */
 - (void)startElement: (NSString*)aName;
