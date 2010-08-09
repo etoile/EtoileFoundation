@@ -75,7 +75,7 @@ __attribute__((unused)) static inline void ETUnlockObject(void* object)
 #define FOREACHI(collection,object) FOREACH(collection,object,id)
 
 #ifdef __clang__
-#	define FOREACH(collection,object,type) for (type object in collection)
+#	define FOREACH(collection,object,type) for (type object in [collection objectEnumerator])
 #else
 #	define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
 #endif
