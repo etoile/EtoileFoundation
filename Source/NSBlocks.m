@@ -17,7 +17,7 @@
 	for (Method *m = methods ; NULL!=*m ; m++)
 	{
 		class_addMethod(blockClass, method_getName(*m),
-			method_getImplementation(*m), method_copyReturnType(*m));
+			method_getImplementation(*m), method_getTypeEncoding(*m));
 	}
 }
 - (id)copyWithZone: (NSZone*)aZone
