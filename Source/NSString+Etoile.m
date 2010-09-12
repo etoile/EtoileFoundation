@@ -8,12 +8,15 @@
 
 #import "NSString+Etoile.h"
 
+#ifdef GNUSTEP
 @interface GSString : NSString
 + (void)reinitialize;
 @end
+#endif
 
 @implementation NSString (Etoile)
 
+#ifdef GNUSTEP
 + (void)load
 {
 	if ([GSString respondsToSelector: @selector(reinitialize)])
@@ -21,6 +24,7 @@
 		[GSString reinitialize];
 	}
 }
+#endif
 
 /** Returns the first path component of the receiver. If the receiver isn't a 
 path, returns the a new instance of the entire string. 

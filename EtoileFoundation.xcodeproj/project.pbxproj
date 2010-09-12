@@ -151,7 +151,7 @@
 		60F6EEEE101471FC003F4508 /* NSFileHandle+Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60F6EEF01014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
 		60F6EEF11014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
-		60FEF6161190AC6D00A4E225 /* glibc_hack_unistd.h in Headers */ = {isa = PBXBuildFile; fileRef = 60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */; };
+		60FEF6161190AC6D00A4E225 /* glibc_hack_unistd.h in Headers */ = {isa = PBXBuildFile; fileRef = 60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		662EA3F51019161B0044F013 /* ETEntityDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F21019161B0044F013 /* ETEntityDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		662EA3F61019161B0044F013 /* ETPropertyDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F31019161B0044F013 /* ETPropertyDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		662EA3F71019161B0044F013 /* ETValidationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F41019161B0044F013 /* ETValidationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -177,6 +177,8 @@
 		66C3AF9110181D110046D74A /* NSData+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8F10181D110046D74A /* NSData+Hash.m */; };
 		66C3AF9A10181DDE0046D74A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AF9910181DDE0046D74A /* libssl.dylib */; };
 		66C3AFB610181ECD0046D74A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AFB510181ECD0046D74A /* libcrypto.dylib */; };
+		794B2B07123D727C008A4663 /* ETStackTraceRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */; };
+		794B2B09123D728F008A4663 /* ETStackTraceRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 794B2B08123D728F008A4663 /* ETStackTraceRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -293,7 +295,6 @@
 		60B27D730FF7B51D0012BB42 /* TestETCollectionHOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestETCollectionHOM.m; path = ../EtoileFoundation/Source/TestETCollectionHOM.m; sourceTree = SOURCE_ROOT; };
 		60B27D750FF7B54F0012BB42 /* TestUTI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUTI.m; path = ../EtoileFoundation/Source/TestUTI.m; sourceTree = SOURCE_ROOT; };
 		60B27D7C0FF7B56C0012BB42 /* ETCollection+HOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ETCollection+HOM.m"; path = "../EtoileFoundation/Source/ETCollection+HOM.m"; sourceTree = SOURCE_ROOT; };
-		60B27D7D0FF7B56C0012BB42 /* ETCollection+HOMMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ETCollection+HOMMethods.m"; path = "../EtoileFoundation/Source/ETCollection+HOMMethods.m"; sourceTree = SOURCE_ROOT; };
 		60B27D8A0FF7B6180012BB42 /* ETCollection+HOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ETCollection+HOM.h"; path = "../EtoileFoundation/Headers/ETCollection+HOM.h"; sourceTree = SOURCE_ROOT; };
 		60BB9F140EED2FD000D5E1A6 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		60C0217110FA40E800A46E65 /* TestIndexPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestIndexPath.m; path = Source/TestIndexPath.m; sourceTree = "<group>"; };
@@ -343,6 +344,8 @@
 		66C3AF8F10181D110046D74A /* NSData+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Hash.m"; path = "../EtoileFoundation/Source/NSData+Hash.m"; sourceTree = SOURCE_ROOT; };
 		66C3AF9910181DDE0046D74A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
 		66C3AFB510181ECD0046D74A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETStackTraceRecorder.m; path = Source/ETStackTraceRecorder.m; sourceTree = "<group>"; };
+		794B2B08123D728F008A4663 /* ETStackTraceRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETStackTraceRecorder.h; path = Headers/ETStackTraceRecorder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -464,6 +467,7 @@
 		603648350E409329003377E0 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				794B2B08123D728F008A4663 /* ETStackTraceRecorder.h */,
 				60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */,
 				60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */,
 				6010E6C11143DF12003203B2 /* ETPackageDescription.h */,
@@ -527,11 +531,11 @@
 				605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */,
 				603648350E409329003377E0 /* Headers */,
 				60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */,
+				794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */,
 				603647FB0E40931E003377E0 /* ETCArray.c */,
 				662EA831101BC8610044F013 /* ETClassMirror.m */,
 				603647FC0E40931E003377E0 /* ETCollection.m */,
 				60B27D7C0FF7B56C0012BB42 /* ETCollection+HOM.m */,
-				60B27D7D0FF7B56C0012BB42 /* ETCollection+HOMMethods.m */,
 				662EA3F8101916310044F013 /* ETEntityDescription.m */,
 				603647FD0E40931E003377E0 /* ETException.m */,
 				603647FE0E40931E003377E0 /* ETFilter.m */,
@@ -683,6 +687,7 @@
 				606A9908113F176300CC89B9 /* ETModelElementDescription.h in Headers */,
 				6010E6C31143DF12003203B2 /* ETPackageDescription.h in Headers */,
 				60FEF6161190AC6D00A4E225 /* glibc_hack_unistd.h in Headers */,
+				794B2B09123D728F008A4663 /* ETStackTraceRecorder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -881,6 +886,7 @@
 				606A990B113F178800CC89B9 /* ETModelElementDescription.m in Sources */,
 				6010E6C91144623C003203B2 /* ETPackageDescription.m in Sources */,
 				6062DE11114BDD320008B771 /* ETModelDescriptionRepository.m in Sources */,
+				794B2B07123D727C008A4663 /* ETStackTraceRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

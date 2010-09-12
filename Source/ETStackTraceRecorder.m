@@ -20,12 +20,12 @@
 
 ETStackTraceRecorder *sharedInstance = nil;
 
-static void Allocate(Class aClass, id self)
+static void ETAllocateCallback(Class aClass, id self)
 {
 	[sharedInstance didAllocObject: self ofClass: aClass];
 }
 
-static void Deallocate(Class aClass, id self)
+static void ETDeallocateCallback(Class aClass, id self)
 {
 	[sharedInstance didDeallocObject: self ofClass: aClass];
 }
@@ -113,7 +113,7 @@ the same time record the allocation with ETStackTraceRecorder.  */
 	ETAssert([self isEqual: sharedInstance]);
 
 	[_allocMonitoredClasses addObject: aClass];
-	GSSetDebugAllocationFunctions(&Allocate, &Deallocate);
+	GSSetDebugAllocationFunctions(&ETAllocateCallback, &ETDeallocateCallback);
 }
 
 /** Disables the recording of the stack trace every time +allocWithZone: 
