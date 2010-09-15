@@ -30,9 +30,11 @@
 
 /* For GNUstep, but we should check if it is really needed */
 #import <Foundation/NSException.h>
+/* For -pathForImageResource: */
+#import <AppKit/AppKit.h>
 
 #ifndef GNUSTEP	
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 #else
 #import <GNUstepBase/GSObjCRuntime.h>
 #import <objc/Protocol.h>
@@ -266,7 +268,8 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
     NSEnumerator *e = [testMethods objectEnumerator];
     NSString *testMethodName;
 #ifndef GNU_RUNTIME
-    BOOL isClass = testObject != nil && testObject->isa != nil && (testObject->isa->info & CLS_META);
+    BOOL isClass = testObject != nil && object_getClass(testObject) != nil 
+		&& class_isMetaClass(object_getClass(testObject));
 #else
 	BOOL isClass = object_is_class(testObject);
 #endif
@@ -426,7 +429,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
     /* Test class methods */
 #ifndef GNU_RUNTIME
 	if (testClass != nil)
-		testMethods = UKTestMethodNamesFromClass(objc_getMetaClass(testClass->name));
+		testMethods = UKTestMethodNamesFromClass(objc_getMetaClass(class_getName(testClass)));
     //testMethods = UKTestMethodNamesFromClass(objc_getClass(testClass));
 #else
     testMethods = UKTestMethodNamesFromClass(object_get_meta_class(testClass));
@@ -604,30 +607,22 @@ NSArray *UKTestMethodNamesFromClass(Class c)
     
 #ifndef GNU_RUNTIME
 
-    /*
-     I think I picked this code up originaly from some Apple sample code. But
-     I could be wrong. It's landed here from all of my previous UnitKit
-     iterations. Of course, it's been modified to look for methods that start
-     with a test prefix.
-     */
-    
-    void *iterator = 0;
-    struct objc_method_list *mlist = class_nextMethodList(c, &iterator);
-    while (mlist != NULL) {
-        int i;
-        for (i = 0; i < mlist->method_count; i++) {
-            Method method = &(mlist->method_list[i]);
-            if (method == NULL) {
-                continue;
-            }
-            SEL sel = method->method_name;
-            NSString *methodName = NSStringFromSelector(sel);
-            if ([methodName hasPrefix:@"test"]) {
-                [testMethods addObject:methodName];
-            }
-        }
-        mlist = class_nextMethodList(c, &iterator);
-    }  
+	unsigned int methodCount = 0;	
+	Method *methodList = class_copyMethodList(c, &methodCount);
+	Method method = NULL;
+
+	for (int i = 0; i < methodCount; i++)
+	{
+		method = methodList[i];
+		SEL sel = method_getName(method);
+		NSString *methodName = NSStringFromSelector(sel);
+	
+		if ([methodName hasPrefix: @"test"])
+		{
+			[testMethods addObject: methodName];
+		}
+	}
+	free(methodList);
 
 #else
 
