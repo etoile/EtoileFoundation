@@ -1364,6 +1364,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
@@ -1374,6 +1375,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deployment;
@@ -1384,6 +1386,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Default;
