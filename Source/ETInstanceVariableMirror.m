@@ -116,7 +116,7 @@ DEALLOC(DESTROY(_ownerMirror))
 	}
 
 #ifdef GNUSTEP
-	const char *ivarType = _ivar->ivar_type;
+	const char *ivarType = ivar_getTypeEncoding(_ivar);
 
 	/* Check the encoding types supported by GSObjCGetVal() and defined in 
 	   objc-api.h, otherwise this function raises an exception when the type is 
@@ -148,7 +148,7 @@ DEALLOC(DESTROY(_ownerMirror))
 		case _C_VOID:
 
 			return GSObjCGetVal([ownerObjectMirror representedObject], 
-				_ivar->ivar_name, NULL, ivarType, 0, _ivar->ivar_offset);
+				ivar_getName(_ivar), NULL, ivarType, 0, ivar_getOffset(_ivar));
 
 		default: /* Unsupported type */
 			return nil;
@@ -178,7 +178,7 @@ DEALLOC(DESTROY(_ownerMirror))
 	}
 
 #ifdef GNUSTEP
-	const char *ivarType = _ivar->ivar_type;
+	const char *ivarType = ivar_getTypeEncoding(_ivar);
 
 	/* Check the encoding types supported by GSObjCSetVal() and defined in 
 	   objc-api.h, otherwise this function raises an exception when the type is 
@@ -209,8 +209,8 @@ DEALLOC(DESTROY(_ownerMirror))
 		case _C_DBL:
 		case _C_VOID:
 
-			GSObjCSetVal([ownerObjectMirror representedObject], _ivar->ivar_name, 
-				value, NULL, _ivar->ivar_type, 0, _ivar->ivar_offset);
+			GSObjCSetVal([ownerObjectMirror representedObject], ivar_getName(_ivar), 
+				value, NULL, ivarType, 0, ivar_getOffset(_ivar));
 	}
 #endif
 }
