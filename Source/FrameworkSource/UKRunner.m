@@ -33,11 +33,10 @@
 /* For -pathForImageResource: */
 #import <AppKit/AppKit.h>
 
-#ifndef GNUSTEP	
-#import <objc/runtime.h>
-#else
-#import <GNUstepBase/GSObjCRuntime.h>
-#import <objc/Protocol.h>
+#if defined(__APPLE__) || defined(__GNUSTEP_RUNTIME__)
+#include <objc/runtime.h>
+#elif defined(GNU_RUNTIME)
+#include <ObjectiveC2/runtime.h>
 #endif 
 
 @interface NSObject (Application)
@@ -267,12 +266,10 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
     Class testClass = nil;
     NSEnumerator *e = [testMethods objectEnumerator];
     NSString *testMethodName;
-#ifndef GNU_RUNTIME
+
     BOOL isClass = testObject != nil && object_getClass(testObject) != nil 
 		&& class_isMetaClass(object_getClass(testObject));
-#else
-	BOOL isClass = object_is_class(testObject);
-#endif
+
     id object = nil;
 
     /* We use local variable so that the testObject will not be messed up.
@@ -427,13 +424,10 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
     NSArray *testMethods = nil;
 
     /* Test class methods */
-#ifndef GNU_RUNTIME
+
 	if (testClass != nil)
 		testMethods = UKTestMethodNamesFromClass(objc_getMetaClass(class_getName(testClass)));
-    //testMethods = UKTestMethodNamesFromClass(objc_getClass(testClass));
-#else
-    testMethods = UKTestMethodNamesFromClass(object_get_meta_class(testClass));
-#endif
+    
     [self runTests:testMethods onObject:testClass];
     /* Test instance methods */
     testMethods = UKTestMethodNamesFromClass(testClass);
@@ -495,40 +489,10 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 
 @end
 
-#ifdef GNU_RUNTIME
-/**
- * Implementation of +conformsToProtocol that does not require sending a
- * message to the class.  This prevents +initialize being sent to classes that
- * are not explicitly used.
- */
-BOOL conformsToProtocol(Class aClass, Protocol * aProtocol)
-{
-	struct objc_protocol_list* protocol_list =((struct objc_class*)aClass)->protocols;
-
-	while(NULL != protocol_list)
-	{
-		for(unsigned int i=0 ; i<protocol_list->count ; i++)
-		{
-			if([protocol_list->list[i] conformsTo:aProtocol])
-			{
-				return YES;
-			}
-		}
-		protocol_list = protocol_list->next;
-	}
-	if(Nil != (Class)((struct objc_class*)aClass)->super_class)
-	{
-		return conformsToProtocol(((struct objc_class*)aClass)->super_class, aProtocol);
-	}
-	return NO;
-}
-#endif
-
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 {        
     NSMutableArray *testClasseNames = [[NSMutableArray alloc] init];
     
-#ifndef GNU_RUNTIME
 
     /*
      I found the code to walk the classes in the system from an example in
@@ -552,48 +516,12 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
             Class c = classes[i];
             NSBundle *classBundle = [NSBundle bundleForClass:c];
             if (bundle == classBundle && 
-                [c conformsToProtocol:@protocol(UKTest)]) {
+                class_conformsToProtocol(c, @protocol(UKTest))) {
                 [testClasseNames addObject:NSStringFromClass(c)];
             }
         }
         free(classes);
     }    
-
-#else
-    
-    /*
-     Nicolas Roard contributed the following code to pick up test classes
-     from a bundle.
-     */
-    
-    Class c;
-    void *es = NULL;
-    int i = 0;
-    /* We clean up memory every 20 iteration,
-       otherwise, GNUstep will complain that there are too many open files.
-       The number of iteration may need to be adjusted. */
-    NSAutoreleasePool *x = [[NSAutoreleasePool alloc] init];
-    while ((c = objc_next_class (&es)) != Nil)
-    {
-		i++;
-        NSBundle *classBundle = [NSBundle bundleForClass: c];
-        if (bundle == classBundle && 
-			conformsToProtocol(c, @protocol(UKTest))) 
-		{
-            [testClasseNames addObject:NSStringFromClass(c)];
-        }
-        if (i > 20)
-        {
-	    DESTROY(x);
-            x = [[NSAutoreleasePool alloc] init];
-	    i = 0;
-        }
-    }
-    DESTROY(x);
-	
-	//NSLog(@"testClasses %@", testClasseNames);
-
-#endif
     
     [testClasseNames autorelease];
     return [testClasseNames
@@ -602,11 +530,8 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 
 NSArray *UKTestMethodNamesFromClass(Class c)
 {
-    
     NSMutableArray *testMethods = [NSMutableArray array];
     
-#ifndef GNU_RUNTIME
-
 	unsigned int methodCount = 0;	
 	Method *methodList = class_copyMethodList(c, &methodCount);
 	Method method = NULL;
@@ -623,34 +548,6 @@ NSArray *UKTestMethodNamesFromClass(Class c)
 		}
 	}
 	free(methodList);
-
-#else
-
-    /*
-     Nicolas Roard contributed the following code to pick up test classes
-     from a bundle.
-     */
-	 
-	MethodList_t methods = c->methods;	
-	while (methods != NULL) {
-		int i;		
-		for (i = 0; i < methods->method_count; i++) {
-			Method_t method = &(methods->method_list[i]);			
-			if (method == METHOD_NULL) {
-				continue;
-			}
-			SEL sel = method->method_name;
-			NSString *methodName = NSStringFromSelector(sel);
-			if ([methodName hasPrefix:@"test"]) {
-				[testMethods addObject:methodName];
-			}
-		}
-		methods = methods->method_next;
-	}
-	
-	//NSLog(@"testMethods %@", testMethods);
-        
-#endif
 
     return [testMethods 
         sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
