@@ -1,5 +1,7 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
+PRINT_PROJECT_NAME = NO
+
 FRAMEWORK_NAME = TestFramework
 # We declare PROJECT_NAME to export the dependencies (see etoile.make)
 PROJECT_NAME = $(FRAMEWORK_NAME)
