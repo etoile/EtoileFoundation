@@ -22,6 +22,7 @@
  affiliated with the Apache Software Foundation.
  */
 
+#import <UnitKit/UKTask.h>
 #import "UKTaskTests.h"
 
 @implementation UKTaskTests

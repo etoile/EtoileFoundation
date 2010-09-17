@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
+@class UKTask;
 
 @interface UKTaskTests : NSObject <UKTest> {
     UKTask *task;
