@@ -515,6 +515,10 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
         for (i = 0; i < numClasses; i++) {
             Class c = classes[i];
             NSBundle *classBundle = [NSBundle bundleForClass:c];
+
+			/* Using class_conformsToProtocol() intead of +conformsToProtocol: 
+			   does not require sending a message to the class. This prevents 
+			   +initialize being sent to classes that are not explicitly used. */	 
             if (bundle == classBundle && 
                 class_conformsToProtocol(c, @protocol(UKTest))) {
                 [testClasseNames addObject:NSStringFromClass(c)];
