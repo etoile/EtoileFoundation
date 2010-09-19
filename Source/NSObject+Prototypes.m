@@ -132,25 +132,24 @@ static id blockTrampoline(id self, SEL _cmd, ...);
 	SEL sel;
 	if ([value isKindOfClass: blockClass])
 	{
+		// The method takes one fewer arg than the block.
 		switch ([value argumentCount])
 		{
 			default:
-			case 0:
-				sel = @selector(value);
-				break;
-			case 1:
+				return;
+			case 2:
 				sel = @selector(value:);
 				break;
-			case 2:
+			case 3:
 				sel = @selector(value:value:);
 				break;
-			case 3:
+			case 4:
 				sel = @selector(value:value:value:);
 				break;
-			case 4:
+			case 5:
 				sel = @selector(value:value:value:value:);
 				break;
-			case 5:
+			case 6:
 				sel = @selector(value:value:value:value:value:);
 				break;
 		}
