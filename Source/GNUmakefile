@@ -56,6 +56,7 @@ libEtoileFoundation_OBJC_FILES = \
 	NSObject+Etoile.m \
 	NSObject+HOM.m \
 	NSObject+Model.m \
+	NSObject+Prototypes.m \
 	NSString+Etoile.m \
 	NSURL+Etoile.m \
 	ETReflection.m \
