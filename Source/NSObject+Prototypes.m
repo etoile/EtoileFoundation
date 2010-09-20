@@ -134,10 +134,18 @@ static id blockTrampoline(id self, SEL _cmd, ...);
 	if ([value isKindOfClass: blockClass])
 	{
 		// The method takes one fewer arg than the block.
+		// Note: We allow blocks with fewer args than we really want for
+		// EScript - it's not sensible to use them in Smalltalk.
 		switch ([value argumentCount])
 		{
 			default:
 				return;
+			case 0:
+				sel = @selector(value);
+				break;
+			case 1:
+				sel = @selector(value:);
+				break;
 			case 2:
 				sel = @selector(value:);
 				break;
@@ -156,6 +164,7 @@ static id blockTrampoline(id self, SEL _cmd, ...);
 		}
 		struct objc_slot *s = objc_get_slot([value class], sel);
 		sel = sel_registerTypedName_np([key UTF8String], s->types);
+		NSLog(@"Setting block %@ for selector %s in %@", value, sel_getName(sel), self);
 		[(NSObject*)self setMethod: blockTrampoline forSelector: sel];
 		block = value;
 	}
@@ -294,9 +303,10 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 	switch ([block argumentCount])
 	{
 		default:
-		case 0:
 			[NSException raise:NSInvalidArgumentException
 			            format:@"Incorrect number of arguments"];
+		case 0:
+			return [block value];
 		case 1:
 			return [block value: self];
 		case 2:
