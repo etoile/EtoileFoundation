@@ -4,7 +4,7 @@ PRINT_PROJECT_NAME = NO
 
 BUNDLE_NAME = UnitKitTests
 
-$(BUNDLE_NAME)_BUNDLE_LIBS = -lUnitKit $(FND_LIBS)
+$(BUNDLE_NAME)_BUNDLE_LIBS = -lUnitKit -lTestFramework $(FND_LIBS)
 
 $(BUNDLE_NAME)_OBJC_FILES = $(wildcard *.m)
 
