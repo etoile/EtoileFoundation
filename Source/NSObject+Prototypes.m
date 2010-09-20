@@ -164,7 +164,6 @@ static id blockTrampoline(id self, SEL _cmd, ...);
 		}
 		struct objc_slot *s = objc_get_slot([value class], sel);
 		sel = sel_registerTypedName_np([key UTF8String], s->types);
-		NSLog(@"Setting block %@ for selector %s in %@", value, sel_getName(sel), self);
 		[(NSObject*)self setMethod: blockTrampoline forSelector: sel];
 		block = value;
 	}
