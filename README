@@ -7,13 +7,19 @@ EtoileFoundation
 :Version: 0.4.1
 
 EtoileFoundation is the core framework for all Etoile projects, providing numerous convenience methods on top of the OpenStep foundation and significantly better support for reflection. Here is a summary of some the interesting features: 
+- mirror-based reflection
 - mixins and traits
 - restartable exceptions
 - collection class protocol and additions
 - UUID
 - convenient macros such as FOREACH
 - dynamic C array
-- prototypes (if you install the custom libobjc available in trunk/Etoile/Languages/libobjc)
+- prototypes (if you use the GNUstep libobjc2 which is required to do a full Etoile build)
+- metamodel
+- UTI
+- generic history model
+- socket
+- stack trace recording
 
 Two sub-frameworks are bundled with it: 
 - *EtoileThread* which allows objects to transparently be run in a separate thread. 
@@ -32,7 +38,7 @@ Mac OS X support
 ----------------
 
 EtoileFoundation is supported on Mac OS X, minus the parts that only works with the GNU runtime (mixins/traits, prototypes and some introspection stuff).
-An Xcode project is available in Frameworks/EtoileUI to build both EtoileFoundation and EtoileUI on Mac OS X. EtoileThread and EtoileXML are not built by this Xcode project.
+An Xcode project is available to build both EtoileFoundation and EtoileXML on Mac OS X. EtoileThread is unsupported on Mac OS X presently.
 
 
 Developer Notes
