@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
+#import <EtoileFoundation/ETCollection.h>
 
 @class ETEntityDescription, ETPropertyDescription;
 
@@ -26,7 +27,7 @@ when the package is imported/deserialized).
 
 From a Model Builder perspective, a package is the document you work on to 
 specify a data model.  */
-@interface ETPackageDescription : ETModelElementDescription
+@interface ETPackageDescription : ETModelElementDescription <ETCollection>
 {
 	NSMutableSet *_entityDescriptions;
 	NSMutableSet *_propertyDescriptions;

@@ -153,4 +153,34 @@
 	}
 }
 
+- (BOOL) isOrdered
+{
+	return NO;
+}
+
+- (BOOL) isEmpty
+{
+	return ([_entityDescriptions count] == 0);
+}
+
+- (id) content
+{
+	return _entityDescriptions;
+}
+
+- (NSArray *) contentArray
+{
+	return [_entityDescriptions allObjects];
+}
+
+- (NSUInteger) count
+{
+	return [_entityDescriptions count];
+}
+
+- (id) objectEnumerator
+{
+	return [_entityDescriptions objectEnumerator];
+}
+
 @end

@@ -101,6 +101,12 @@
 	return (id)[[[self propertyDescriptions] mappedCollection] name];
 }
 
+- (NSArray *) allPropertyDescriptionNames
+{
+	NSLog(@"Called -allPropertyDescriptionNames %@ on %@", (id)[[[self allPropertyDescriptions] mappedCollection] name], self);
+	return (id)[[[self allPropertyDescriptions] mappedCollection] name];
+}
+
 - (NSArray *) propertyDescriptions
 {
 	return [_propertyDescriptions allValues];
@@ -262,15 +268,40 @@
 	}
 }
 
+- (BOOL) isOrdered
+{
+	return NO;
+}
+
+- (BOOL) isEmpty
+{
+	return ([_propertyDescriptions count] == 0);
+}
+
+- (id) content
+{
+	return _propertyDescriptions;
+}
+
+- (NSArray *) contentArray
+{
+	return [_propertyDescriptions allValues];
+}
+
+- (NSUInteger) count
+{
+	return [_propertyDescriptions count];
+}
+
+- (id) objectEnumerator
+{
+	return [_propertyDescriptions objectEnumerator];
+}
+
 @end
 
 
 @implementation ETPrimitiveEntityDescription
-
-+ (ETEntityDescription *) newEntityDescription
-{
-	return nil;
-}
 
 - (BOOL) isPrimitive
 {
@@ -280,11 +311,6 @@
 @end
 
 @implementation ETCPrimitiveEntityDescription
-
-+ (ETEntityDescription *) newEntityDescription
-{
-	return nil;
-}
 
 - (BOOL) isCPrimitive
 {
@@ -389,6 +415,6 @@ DEALLOC(DESTROY(_properties); DESTROY(_description);)
 {
 	return [self valueForProperty: key];
 }
-		
+
 @end
 		

@@ -8,6 +8,7 @@
 
 #import "ETModelElementDescription.h"
 #import "ETEntityDescription.h"
+#import "ETModelDescriptionRepository.h"
 #import "ETPropertyDescription.h"
 #import "ETUTI.h"
 #import "NSObject+Model.h"
@@ -134,6 +135,12 @@
 - (NSString *) warningWithMessage: (NSString *)msg
 {
 	return [[self description] stringByAppendingFormat: @" - %@", msg];
+}
+
+- (NSArray *) properties
+{
+	ETModelDescriptionRepository *repo = [ETModelDescriptionRepository mainRepository];
+	return [[repo entityDescriptionForClass: [self class]] allPropertyDescriptionNames]; 
 }
 
 @end

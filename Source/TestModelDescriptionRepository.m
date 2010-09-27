@@ -40,7 +40,9 @@
 	ETEntityDescription *root = [repo descriptionForName: @"Object"];
 	NSSet *primitiveDescClasses = 
 		S([ETPrimitiveEntityDescription class], [ETCPrimitiveEntityDescription class]);
-		
+	
+	/* For testing purpose, we just exclude the primitive entity classes but 
+	   it is not the expected way to set up a repository (see +mainRepository). */		
 	[repo collectEntityDescriptionsFromClass: [ETModelElementDescription class]
 	                         excludedClasses: primitiveDescClasses
 	                              resolveNow: YES];

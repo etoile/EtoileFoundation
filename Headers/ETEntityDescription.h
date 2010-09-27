@@ -20,7 +20,7 @@
 /**
  * A description of an "entity", which can either be a class or a prototype.
  */
-@interface ETEntityDescription : ETModelElementDescription
+@interface ETEntityDescription : ETModelElementDescription <ETCollection>
 {
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;
@@ -76,6 +76,11 @@
  * entities).
  */
 - (NSArray *) propertyDescriptionNames;
+/**
+ * Names of all property descriptions including those declared in parent 
+ * entities.
+ */
+- (NSArray *) allPropertyDescriptionNames;
 /**
  * Descriptions of the properties declared on this entity (not including those
  * declared in parent entities)
