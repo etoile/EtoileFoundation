@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
+#import <EtoileFoundation/ETCollection.h>
 
 @class ETModelElementDescription, ETEntityDescription, ETPackageDescription, 
 	ETPropertyDescription;
@@ -29,7 +30,7 @@ are added to it.
 A main repository is created in every tool or application at launch time. 
 Additional repositories can be created. For example, to store variations on the 
 main repository data model.  */
-@interface ETModelDescriptionRepository : NSObject
+@interface ETModelDescriptionRepository : NSObject <ETCollection>
 {
 	NSMutableSet *_unresolvedDescriptions; /* Used to build the repository */
 	NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */

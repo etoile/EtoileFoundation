@@ -328,4 +328,49 @@ same name). */
 	}
 }
 
+/* Collection Protocol */
+
+/** Returns NO */
+- (BOOL) isOrdered
+{
+	return NO;
+}
+
+/** Returns YES when no package descriptions is registered, otherwise returns NO.
+
+By default, returns NO since an anonymous package descriptions is registered in 
+any new repository. */
+- (BOOL) isEmpty
+{
+	return ([[self packageDescriptions] count] == 0);
+}
+
+/** Returns a dictionary containing all the registered descriptions keyed by 
+full name.
+
+The returned dictionary contains descriptions other than package descriptions. 
+You must assume that <code>[[self content] count] != [[self contentArray] count]</code>. */
+- (id) content
+{
+	return _descriptionsByName;
+}
+
+/** Returns the registered package descriptions. See -packageDescriptions. */
+- (NSArray *) contentArray
+{
+	return [self packageDescriptions];
+}
+
+/** Returns the number of registered package descriptions. */
+- (NSUInteger) count
+{
+	return [[self packageDescriptions] count];
+}
+
+/** Returns an object to enumerate the registered package descriptions. */
+- (id) objectEnumerator
+{
+	return [[self packageDescriptions] objectEnumerator];
+}
+
 @end
