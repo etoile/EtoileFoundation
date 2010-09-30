@@ -75,6 +75,7 @@
   - (NSImage *) icon; */
 
 - (NSString *) primitiveDescription;
+- (NSString *) descriptionWithOptions: (NSMutableDictionary *)options;
 
 /* KVO Syntactic Sugar (Unstable API) */
 
@@ -94,6 +95,23 @@
 - (id) keyForCollection: (id)collection;
 
 @end
+
+/** An array of key paths to indicate the values -descriptionWithOptions: 
+should report.
+
+Default value is nil. */
+extern NSString * const kETDescriptionOptionValuesForKeyPaths;
+/** Key-Value-Coding key to indicate a value to be treated as a recursive  
+collection. Each element will be sent -descriptionWithOptions: to report every 
+descendant description.
+
+Default value is nil.  */
+extern NSString * const kETDescriptionOptionTraversalKey;
+/** Integer number object to indicate the depth at which -descriptionWithOptions: 
+should stop to traverse collections with kETDescriptionOptionTraversalKey.
+
+Default value is 20. */
+extern NSString * const kETDescriptionOptionMaxDepth;
 
 /* Basic Common Value Classes */
 

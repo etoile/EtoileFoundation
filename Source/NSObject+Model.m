@@ -407,6 +407,110 @@ static void (*setValueForKeyIMP)(id, SEL, id, NSString *) = NULL;
 	return descIMP(self, @selector(description), nil);
 }
 
+/** Returns a description generated based on the given options.
+
+Might describe a tree or graph structure if a traversal key is provided to 
+recursively invoke -descriptionsWithOptions: on each object node. To do so, 
+put ETDescriptionOptionTraversalKey with a valid KVC key in the options. 
+You can also set a max depth with ETDescriptionOptionMaxDepth to limit the 
+description size or end a graph traversal.
+
+You can collect key path values on each object node by specifying an array of 
+key paths with ETDescriptionOptionValuesForKeyPaths.
+
+The description format is roughly:
+depth based indentation + object class and address + keyPath1: value1, keyPath2: value2 etc.
+
+Here is an example based on EtoileUI that dumps an item tree structure:
+<example>
+
+// ObjC code
+ETLog(@"\n%@\n", [browserItem descriptionWithOptions: [NSMutableDictionary dictionaryWithObjectsAndKeys: 
+	A(@"frame", @"autoresizingMask"), kETDescriptionOptionValuesForKeyPaths,
+	@"items", kETDescriptionOptionTraversalKey, nil]]);
+
+// Console Output
+<ETLayoutItemGroup: 0x9e7b268> frame: {x = 0; y = 0; width = 600; height = 300}, autoresizingMask: 18
+	<ETLayoutItemGroup: 0x9fbea48> frame: {x = 0; y = 0; width = 1150; height = 53}, autoresizingMask: 2
+		<ETLayoutItem: 0x9f29240> frame: {x = 12; y = 12; width = 100; height = 22}, autoresizingMask: 0
+		<ETLayoutItem: 0x9e6fcf0> frame: {x = 124; y = 12; width = 100; height = 24}, autoresizingMask: 0
+	<ETLayoutItemGroup: 0x9fac170> frame: {x = 0; y = 0; width = 1150; height = 482}, autoresizingMask: 18
+		<ETLayoutItemGroup: 0x9fb2870> frame: {x = 0; y = 0; width = 50; height = 50}, autoresizingMask: 0
+</example>
+
+options must not be nil, otherwise raises an NSInvalidArgumentException.
+
+You can override this method in subclasses, although it is not advised to. 
+The options dictionary can be changed arbitrarily in a new implementation. */
+- (NSString *) descriptionWithOptions: (NSMutableDictionary *)options
+{
+	NILARG_EXCEPTION_TEST(options);
+
+	NSMutableString *desc = [NSMutableString string];
+	NSArray *keyPaths = [options objectForKey: kETDescriptionOptionValuesForKeyPaths];
+	NSString *indent = [options objectForKey: @"kETDescriptionOptionCurrentIndent"];
+	if (nil == indent) indent = @"";
+	NSString *newIndent = [indent stringByAppendingString: @"\t"];
+	NSNumber *depthObject = [options objectForKey: @"kETDescriptionOptionCurrentDepth"];
+	NSNumber *maxDepthObject = [options objectForKey: kETDescriptionOptionMaxDepth];
+
+	if (nil == depthObject)
+	{
+		depthObject =  [NSNumber numberWithInteger: 0]; 
+		[options setObject: depthObject forKey: @"ETDescriptionOptionCurrentDepth"];
+	}
+	if (nil == maxDepthObject)
+	{
+		maxDepthObject = [NSNumber numberWithInteger: 20];
+		[options setObject: maxDepthObject forKey: kETDescriptionOptionMaxDepth];
+	}
+
+	[desc appendString: @"\n"];
+	[desc appendString: indent];
+	[desc appendString: [self primitiveDescription]];
+	[desc appendString: @" "];
+
+	/* Print Properties */
+
+	FOREACH(keyPaths, keyPath, NSString *)
+	{
+		[desc appendString: keyPath];
+		[desc appendString: @": "];
+		[desc appendString: [[self valueForKeyPath: keyPath] stringValue]];
+		[desc appendString: @", "];
+	}
+	[desc deleteCharactersInRange: NSMakeRange([desc length] - 2, 2)];	
+
+	/* Print Children */
+
+	NSInteger depth = [depthObject integerValue];
+	NSInteger maxDepth = [maxDepthObject integerValue];
+	NSString *traversalKey = [options objectForKey: kETDescriptionOptionTraversalKey];
+
+	if (depth < maxDepth && nil != traversalKey)
+	{
+		[options setObject: newIndent forKey: @"kETDescriptionOptionCurrentIndent"];
+		[options setObject: [NSNumber numberWithInteger: depth + 1] 
+		            forKey: @"kETDescriptionOptionCurrentDepth"];
+
+		FOREACHI([self valueForKey: traversalKey], obj)
+		{
+			[desc appendString: [obj descriptionWithOptions: options]];
+		}
+
+		[options setObject: indent forKey: @"kETDescriptionOptionCurrentIndent"];
+		[options setObject: [NSNumber numberWithInteger: depth] 
+		            forKey: @"kETDescriptionOptionCurrentDepth"];
+	}
+
+	if (0 == depth)
+	{
+		[desc appendString: @"\n"];
+	}
+
+	return desc;
+}
+
 /* KVO Syntactic Sugar */
 
 /** <override-dummy />
@@ -462,6 +566,11 @@ by -observableKeyPaths. */
 }
 
 @end
+
+NSString * const kETDescriptionOptionValuesForKeyPaths = @"kETDescriptionOptionValuesForKeyPaths";;
+NSString * const kETDescriptionOptionTraversalKey = @"kETDescriptionOptionTraversalKey";
+NSString * const kETDescriptionOptionMaxDepth = @"kETDescriptionOptionMaxDepth";
+
 
 /* Basic Common Value Classes */
 
