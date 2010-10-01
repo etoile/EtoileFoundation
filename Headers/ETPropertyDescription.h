@@ -45,6 +45,11 @@ is raised. */
 
 /** Returns YES. */
 - (BOOL) isPropertyDescription;
+/** Returns 'Property (type of the value)'.
+
+If -type returns a valid entity description, the parenthesis contains the 
+entity name in the returned string. */
+- (NSString *) typeDescription;
 
 /* Properties */
 

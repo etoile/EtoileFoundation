@@ -67,6 +67,11 @@
 	return YES;
 }
 
+- (NSString *) typeDescription;
+{
+	return @"Package";
+}
+
 - (void) addEntityDescription: (ETEntityDescription *)anEntityDescription
 {
 	ETPackageDescription *owner = [anEntityDescription owner];

@@ -38,6 +38,8 @@ specify a data model.  */
 
 /** Returns YES. */
 - (BOOL) isPackageDescription;
+/** Returns 'Package'. */
+- (NSString *) typeDescription;
 
 /** Adds the given entity to the package, the package becomes its owner.
 

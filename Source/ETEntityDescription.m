@@ -81,6 +81,11 @@
 	return YES;
 }
 
+- (NSString *) typeDescription;
+{
+	return @"Entity";
+}
+
 - (BOOL) isAbstract
 {
 	return _abstract;
@@ -103,7 +108,7 @@
 
 - (NSArray *) allPropertyDescriptionNames
 {
-	NSLog(@"Called -allPropertyDescriptionNames %@ on %@", (id)[[[self allPropertyDescriptions] mappedCollection] name], self);
+	//NSLog(@"Called -allPropertyDescriptionNames %@ on %@", (id)[[[self allPropertyDescriptions] mappedCollection] name], self);
 	return (id)[[[self allPropertyDescriptions] mappedCollection] name];
 }
 
@@ -308,6 +313,11 @@
 	return YES;
 }
 
+- (NSString *) typeDescription
+{
+	return @"Primitive Entity";
+}
+
 @end
 
 @implementation ETCPrimitiveEntityDescription
@@ -315,6 +325,11 @@
 - (BOOL) isCPrimitive
 {
 	return YES;
+}
+
+- (NSString *) typeDescription
+{
+	return @"C Primitive Entity";
 }
 
 @end

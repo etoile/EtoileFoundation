@@ -40,6 +40,8 @@
 
 /** Returns YES. */
 - (BOOL) isEntityDescription;
+/** Returns 'Entity'. */
+- (NSString *) typeDescription;
 
 /* Property getters/setters */
 

@@ -146,4 +146,16 @@ should be created with -warningWithMessage:. */
 See -checkConstraints:. */
 - (NSString *) warningWithMessage: (NSString *)msg;
 
+/* Model Presentation */
+
+/** Returns -name. */
+- (NSString *) displayName;
+/** <override-subclass />
+Returns a short and human-readable description of the receiver type.
+
+It must be derived from the class name. e.g. 'Package' for ETPackageDescription.
+
+By default, returns 'Element'. */
+- (NSString *) typeDescription;
+
 @end

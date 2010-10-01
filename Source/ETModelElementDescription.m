@@ -36,9 +36,11 @@
 	//[owner setDerived: YES];
 	ETPropertyDescription *itemIdentifier = 
 		[ETPropertyDescription descriptionWithName: @"itemIdentifier" type: (id)@"NSString"];
+	ETPropertyDescription *typeDescription = 
+		[ETPropertyDescription descriptionWithName: @"typeDescription" type: (id)@"NSString"];
 
 	[selfDesc setAbstract: YES];	
-	[selfDesc setPropertyDescriptions: A(name, fullName, itemIdentifier)];
+	[selfDesc setPropertyDescriptions: A(name, fullName, itemIdentifier, typeDescription)];
 
 	return selfDesc;
 }
@@ -137,10 +139,22 @@
 	return [[self description] stringByAppendingFormat: @" - %@", msg];
 }
 
+- (NSString *) displayName
+{
+	return [self name];
+}
+
+- (NSString *) typeDescription
+{
+	return @"Element";
+}
+
 - (NSArray *) properties
 {
 	ETModelDescriptionRepository *repo = [ETModelDescriptionRepository mainRepository];
-	return [[repo entityDescriptionForClass: [self class]] allPropertyDescriptionNames]; 
+
+	return [[super properties] arrayByAddingObjectsFromArray: 
+		[[repo entityDescriptionForClass: [self class]] allPropertyDescriptionNames]]; 
 }
 
 @end

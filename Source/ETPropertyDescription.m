@@ -82,6 +82,11 @@
 	return YES;
 }
 
+- (NSString *) typeDescription
+{
+	return [NSString stringWithFormat: @"%@ (%@)", @"Property", [[self type] name]];
+}
+
 /* Properties */
 
 - (NSString *) fullName
