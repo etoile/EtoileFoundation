@@ -172,6 +172,18 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	return string;
 }
 
+- (Class) classValue
+{
+	if (NO == [string hasPrefix: @"org.etoile-project.objc.class."])
+	{
+		return Nil;
+	}
+	NSUInteger prefixLength = 29;
+	ETAssert([string length] > prefixLength);
+
+	return NSClassFromString([string pathExtension]);
+}
+
 - (NSString *) typeDescription
 {
 	return description;

@@ -92,6 +92,7 @@
 /**
  * Returns a "transient" or anonymous ETUTI object based on the given UTI 
  * string representations as supertypes.
+ *
  * Useful in combination with conformsToUTI: for checking whether an unknown
  * UTI conforms to any UTI in a set (the supertypes specified for the 
  * transient UTI.)
@@ -100,6 +101,7 @@
 /**
  * Returns a "transient" or anonymous ETUTI object based on the given UTI 
  * objects as supertypes.
+ *
  * See also +transientTypeWithSupertypeStrings:
  */
 + (ETUTI *) transientTypeWithSupertypes: (NSArray *)supertypes;
@@ -108,6 +110,13 @@
  * Returns the string representation of the UTI (e.g. "public.audio")
  */
 - (NSString *) stringValue;
+/** 
+ * Returns the ObjC class the UTI represents, or Nil if the UTI does not 
+ * represent a class registered in the runtime.
+ *
+ * See also +typeWithClass:.
+ */
+- (Class) classValue;
 /**
  * Returns an array of file extensions (if any) which refer to the same
  * data type as the receiver.

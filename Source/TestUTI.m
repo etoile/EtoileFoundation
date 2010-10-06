@@ -122,4 +122,10 @@
 			[ETUTI typeWithString: @"public.text"]]);
 }
 
+- (void) testClassValue
+{
+	UKNil([[ETUTI typeWithString: @"public.text"] classValue]);
+	UKObjectsEqual([self class], [[ETUTI typeWithClass: [self class]] classValue]);
+}
+
 @end
