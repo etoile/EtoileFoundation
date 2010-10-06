@@ -178,7 +178,7 @@ static NSString *ETFileUTI = @"public.filename-extension";
 	{
 		return Nil;
 	}
-	NSUInteger prefixLength = 29;
+	NSUInteger prefixLength = 30;
 	ETAssert([string length] > prefixLength);
 
 	return NSClassFromString([string pathExtension]);
