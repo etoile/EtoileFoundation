@@ -20,7 +20,7 @@
 /**
  * A description of an "entity", which can either be a class or a prototype.
  */
-@interface ETEntityDescription : ETModelElementDescription <ETCollection>
+@interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;

@@ -27,7 +27,7 @@ when the package is imported/deserialized).
 
 From a Model Builder perspective, a package is the document you work on to 
 specify a data model.  */
-@interface ETPackageDescription : ETModelElementDescription <ETCollection>
+@interface ETPackageDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
 	NSMutableSet *_entityDescriptions;
 	NSMutableSet *_propertyDescriptions;

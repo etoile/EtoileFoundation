@@ -30,7 +30,7 @@ are added to it.
 A main repository is created in every tool or application at launch time. 
 Additional repositories can be created. For example, to store variations on the 
 main repository data model.  */
-@interface ETModelDescriptionRepository : NSObject <ETCollection>
+@interface ETModelDescriptionRepository : NSObject <ETCollection, ETCollectionMutation>
 {
 	NSMutableSet *_unresolvedDescriptions; /* Used to build the repository */
 	NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */

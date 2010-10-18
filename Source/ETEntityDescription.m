@@ -303,6 +303,21 @@
 	return [_propertyDescriptions objectEnumerator];
 }
 
+- (void) addObject: (id)object
+{
+	[self addPropertyDescription: object];
+}
+
+- (void) insertObject: (id)object atIndex: (unsigned int)index
+{
+	[self addPropertyDescription: object];
+}
+
+- (void) removeObject: (id)object
+{
+	[self removePropertyDescription: object];
+}
+
 @end
 
 

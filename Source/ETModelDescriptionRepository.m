@@ -373,4 +373,19 @@ You must assume that <code>[[self content] count] != [[self contentArray] count]
 	return [[self packageDescriptions] objectEnumerator];
 }
 
+- (void) addObject: (id)object
+{
+	[self addDescription: object];
+}
+
+- (void) insertObject: (id)object atIndex: (unsigned int)index
+{
+	[self addDescription: object];
+}
+
+- (void) removeObject: (id)object
+{
+	[self removeDescription: object];
+}
+
 @end

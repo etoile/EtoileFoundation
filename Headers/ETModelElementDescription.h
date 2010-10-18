@@ -57,6 +57,7 @@ NamedElement and NestedElement protocols don't exist explicitly.
 {
 	NSString *_name;
 	NSString *_itemIdentifier;
+	BOOL _isMetaMetamodel;
 }
 
 /** <override-subclass />
@@ -68,7 +69,8 @@ Returns a new self-description (aka meta-metamodel). */
 See also -initWithName:. */
 + (id) descriptionWithName: (NSString *)name;
 
-/** Initializes and returns an entity, property or package description.
+/** <init />
+Initializes and returns an entity, property or package description.
 
 You must only invoke this method on subclasses, otherwise nil is returned.
 
@@ -78,6 +80,9 @@ description applies to a prototype rather than a class.
 
 Raises an NSInvalidArgumentException when the name is nil or already in use. */
 - (id) initWithName: (NSString *)name;
+/** Initializes and returns entity, property or package description whose name 
+is <em>Untitled<em>. */
+- (id) init;
 
 /** Returns whether the receiver describes a property. */
 - (BOOL) isPropertyDescription;
@@ -113,6 +118,8 @@ For a package, there is no owner.
 
 By default, returns nil. */
 - (id) owner;
+- (BOOL) isMetaMetamodel;
+- (void) setIsMetaMetamodel: (BOOL)isMeta;
 
 /* UI */
 

@@ -18,6 +18,15 @@
 
 @implementation ETModelElementDescription
 
+/* As a unique exception, we override +basicEntityDescription to ensure all 
+the subclass returned descriptions belongs to the meta-metamodel. */
++ (ETEntityDescription *) newBasicEntityDescription
+{
+	ETEntityDescription *selfDesc = [super newBasicEntityDescription];
+	[selfDesc setIsMetaMetamodel: YES];
+	return selfDesc;
+}
+
 + (ETEntityDescription *) newEntityDescription
 {
 	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
@@ -30,6 +39,8 @@
 	ETPropertyDescription *fullName = 
 		[ETPropertyDescription descriptionWithName: @"fullName" type: (id)@"NSString"];
 	[fullName setDerived: YES];
+	ETPropertyDescription *isMetaMetamodel = 
+		[ETPropertyDescription descriptionWithName: @"isMetaMetamodel" type: (id)@"BOOL"];
 	// TODO: To support overriden property descriptions would allow to declare 
 	// 'owner' at the abstract class level too (as FM3 spec does).
 	//ETPropertyDescription *owner = [ETPropertyDescription descriptionWithName: @"owner"];
@@ -39,8 +50,8 @@
 	ETPropertyDescription *typeDescription = 
 		[ETPropertyDescription descriptionWithName: @"typeDescription" type: (id)@"NSString"];
 
-	[selfDesc setAbstract: YES];	
-	[selfDesc setPropertyDescriptions: A(name, fullName, itemIdentifier, typeDescription)];
+	[selfDesc setAbstract: YES];
+	[selfDesc setPropertyDescriptions: A(name, fullName, isMetaMetamodel, itemIdentifier, typeDescription)];
 
 	return selfDesc;
 }
@@ -63,6 +74,11 @@
 	SUPERINIT;
 	ASSIGN(_name, name);
 	return self;
+}
+
+- (id) init
+{
+	return [self initWithName: _(@"Untitled")];
 }
 
 - (void) dealloc
@@ -117,6 +133,16 @@
 - (id) owner
 {
 	return nil;
+}
+
+- (BOOL) isMetaMetamodel
+{
+	return _isMetaMetamodel;
+}
+
+- (void) setIsMetaMetamodel: (BOOL)isMeta
+{
+	_isMetaMetamodel = isMeta;
 }
 
 - (NSString *) itemIdentifier;

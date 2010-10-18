@@ -188,4 +188,21 @@
 	return [_entityDescriptions objectEnumerator];
 }
 
+- (void) addObject: (id)object
+{
+	[self addEntityDescription: object];
+}
+
+- (void) insertObject: (id)object atIndex: (unsigned int)index
+{
+	[self addEntityDescription: object];
+	[_entityDescriptions removeObject: object];
+	[_entityDescriptions insertObject: object atIndex: index];
+}
+
+- (void) removeObject: (id)object
+{
+	[self removeEntityDescription: object];
+}
+
 @end
