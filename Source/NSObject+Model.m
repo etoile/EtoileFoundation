@@ -1,36 +1,9 @@
 /*
-	NSObject+Model.m
-	
-	NSObject additions providing basic management of model objects.
- 
 	Copyright (C) 2007 Quentin Mathe
- 
-	Author:  Quentin Mathe <qmathe@club-internet.fr>
+
+	Author:  Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  December 2007
- 
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions are met:
-
-	* Redistributions of source code must retain the above copyright notice,
-	  this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-	  this list of conditions and the following disclaimer in the documentation
-	  and/or other materials provided with the distribution.
-	* Neither the name of the Etoile project nor the names of its contributors
-	  may be used to endorse or promote products derived from this software
-	  without specific prior written permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-	THE POSSIBILITY OF SUCH DAMAGE.
+	License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/NSKeyValueObserving.h>
@@ -165,27 +138,32 @@ See also -newEntityDescription. */
 	}
 }
 
-/** Returns the description of the receiver by default.
-	Subclasses can override this method to return a string representation that 
-	encodes some basic infos about the receiver. This string representation can
-	then be edited, validated by -validateValue:forKey:error: and used to 
-	instantiate another object by passing it to +objectWithStringValue:. */
+/** <override-dummy />
+Returns the description of the receiver by default.
+
+Subclasses can override this method to return a string representation that 
+encodes some basic infos about the receiver. This string representation can 
+then be edited, validated by -validateValue:forKey:error: and used to 
+instantiate another object by passing it to +objectWithStringValue:. */
 - (NSString *) stringValue
 {
 	return [self description];
 }
 
 /** Returns -stringValue by default.
-	Subclasses can override this method to return a custom string representation  
-	based on the rendering options provided in parameter. Like
-	-stringValue, it should encode some basic infos about the receiver but the 
-	method is typically used to introduce variations in the output format. For 
-	example to handle pretty printing and special formatting rules. Not all 
-	output options have to be handled, you can safely ignore options which you 
-	aren't interested in.
-	The resulting string representation must remain editable, validatable by 
-	-validateValue:forKey:error: and usable to instantiate another object by 
-	passing it to +objectWithStringValue:. */
+
+Subclasses can override this method to return a custom string representation  
+based on the given rendering options. Like -stringValue, it should encode some 
+basic infos about the receiver but the method is typically used to introduce 
+variations in the output format. For example to handle pretty printing and 
+special formatting rules. 
+
+Not all output options have to be handled, you can safely ignore options which 
+you aren't interested in.
+
+The resulting string representation must remain editable, validatable by 
+-validateValue:forKey:error: and usable to instantiate another object by 
+passing it to +objectWithStringValue:. */
 - (NSString *) stringValueWithOptions: (NSDictionary *)outputOptions
 {
 	return [self stringValue];
@@ -209,27 +187,32 @@ See also -newEntityDescription. */
 	return Nil;
 }
 
-/** <override />
-	Returns YES if the receiver is declared as a group, otherwise returns NO. 
-	This method returns NO by default. You can override it to return YES if you
-	want to declare your subclass instances as groups. 
-	A group is specialized model object which is a composite and can behave 
-	like a mutable collection. A basic collection object (like NSMutableArray, 
-	NSMutableDictionary, NSMutableSet) must never be declared as a group.
-	COGroup in CoreObject or ETLayoutItemGroup in EtoileUI are typical examples.
-	A group should conform to ETCollectionMutation protocol. */
+/** <override-dummy />
+Returns YES if the receiver is declared as a group, otherwise returns NO. 
+
+This method returns NO by default. You can override it to return YES if you 
+want to declare your subclass instances as groups. 
+
+A group is specialized model object which is a composite and can behave like a 
+mutable collection. A basic collection object (like NSMutableArray, 
+NSMutableDictionary, NSMutableSet) must never be declared as a group.<br />
+COGroup in CoreObject or ETLayoutItemGroup in EtoileUI are typical examples.
+
+A group should conform to ETCollectionMutation protocol. */
 - (BOOL) isGroup
 {
 	return NO;
 }
 
-/** <override />
-	Returns YES if the receiver is declared as mutable, otherwise returns NO. 
-	This method returns NO by default. You can override it to return YES if you
-	want to declare your subclass instances as mutable objects (which are 
-	collections most of time). 
-	If you adopts ETCollectionMutation in a subclass, you don't need to 
-	override this method to declare your collection objects as mutable. */
+/** <override-dummy />
+Returns YES if the receiver is declared as mutable, otherwise returns NO. 
+
+This method returns NO by default. You can override it to return YES if you 
+want to declare your subclass instances as mutable objects (which are 
+collections most of time).
+
+If you adopts ETCollectionMutation in a subclass, you don't need to override 
+this method to declare your collection objects as mutable. */
 - (BOOL) isMutable
 {
 	if ([self conformsToProtocol: @protocol(ETCollectionMutation)])
@@ -239,20 +222,22 @@ See also -newEntityDescription. */
 }
 
 /** <override-never />
-	Returns YES if the receiver is declared as a collection by conforming to 
-	ETCollection protocol, otherwise returns NO. 
-	You must never override this method in your collection classes, you only 
-	need to adopt ETCollection protocol. */
+Returns YES if the receiver is declared as a collection by conforming to 
+ETCollection protocol, otherwise returns NO.
+
+You must never override this method in your collection classes, you only need 
+to adopt ETCollection protocol. */
 - (BOOL) isCollection
 {
 	return [self conformsToProtocol: @protocol(ETCollection)];
 }
 
 /** <override-never />
-	Returns YES if the receiver is declared as a collection by conforming to 
-	ETCollection protocol, otherwise returns NO. 
-	You must never override this method in your collection classes, you only 
-	need to adopt ETCollection protocol. */
+Returns YES if the receiver is declared as a collection by conforming to 
+ETCollectionMutation protocol, otherwise returns NO. 
+
+You must never override this method in your collection classes, you only need 
+to adopt ETCollectionMutation protocol. */
 - (BOOL) isMutableCollection
 {
 	return [self conformsToProtocol: @protocol(ETCollectionMutation)];
@@ -554,12 +539,12 @@ by -observableKeyPaths. */
 /* Collection */
 
 /** <override-dummy /> 
-	Returns a key which can be used on inserting the receiver into a keyed 
-	collection like a dictionary.
-	This key is retrieved by a collection in reply to -addObject: of 
-	ETCollectionMutation protocol. You can return different keys depending on 
-	the type of collection. This parameter is usually the mutated collection 
-	itself. */
+Returns a key which can be used on inserting the receiver into a keyed 
+collection like a dictionary.
+
+This key is retrieved by a collection in reply to -addObject: of 
+ETCollectionMutation protocol. You can return different keys depending on the 
+type of collection. This parameter is usually the mutated collection itself. */
 - (id) keyForCollection: (id)collection
 {
 	return nil;
@@ -575,10 +560,12 @@ NSString * const kETDescriptionOptionMaxDepth = @"kETDescriptionOptionMaxDepth";
 /* Basic Common Value Classes */
 
 @implementation NSString (EtoileModel)
+/** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 
 @implementation NSNumber (EtoileModel)
+/** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 
