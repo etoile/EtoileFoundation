@@ -34,6 +34,8 @@
 #import <Foundation/Foundation.h>
 #import <EtoileXML/ETXMLParserDelegate.h>
 
+@class ETXMLParser;
+
 /**
  * The ETXMLNullHandler class serves two purposes.  First, it is used when
  * parsing to ignore an XML element and all of its children.  It simply 
@@ -61,7 +63,7 @@
  * 'value' instance variable when -notifyParent: is called.  This is only
  * relevant to sub-classes.
  */
-- (id) initWithXMLParser: (id)aParser 
+- (id) initWithXMLParser: (ETXMLParser*)aParser 
                   parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey;
 /**

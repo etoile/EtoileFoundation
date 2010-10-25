@@ -314,7 +314,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	}
 }
 
-- (id) initWithXMLParser: (id)aParser 
+- (id) initWithXMLParser: (ETXMLParser*)aParser 
                   parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey
 {

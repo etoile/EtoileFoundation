@@ -36,7 +36,7 @@
 #import "Macros.h"
 
 @implementation ETXMLNullHandler
-- (id) initWithXMLParser: (id)aParser 
+- (id) initWithXMLParser: (ETXMLParser*)aParser 
                   parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey
 {
