@@ -42,7 +42,7 @@ DEALLOC(DESTROY(object))
 	return YES;
 }
 
-- (id) methodSignatureForSelector: (SEL)aSelector
+- (NSMethodSignature*) methodSignatureForSelector: (SEL)aSelector
 {
 	NSMethodSignature *sig = nil;
 

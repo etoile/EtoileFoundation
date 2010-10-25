@@ -165,7 +165,7 @@ DEALLOC([collection release]; [contents release];);
 	return [collection respondsToSelector: aSelector];
 }
 
-- (id)methodSignatureForSelector: (SEL)aSelector
+- (NSMethodSignature*)methodSignatureForSelector: (SEL)aSelector
 {
 	if ([collection respondsToSelector: aSelector])
 	{
@@ -1047,7 +1047,7 @@ not -[super methodSignatureForSelector:]. */
 	return [NSObject instanceMethodSignatureForSelector: @selector(self)];
 }
 
-- (id)methodSignatureForSelector: (SEL)aSelector
+- (NSMethodSignature*)methodSignatureForSelector: (SEL)aSelector
 {
 	if ([collection isEmpty])
 	{
