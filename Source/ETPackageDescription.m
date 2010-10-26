@@ -22,19 +22,19 @@
 {
 	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	if ([[selfDesc name] isEqual: [ETPackageDescription className]] == NO) 
+	if ([[selfDesc name] isEqual: [ETPackageDescription className]] == NO)
 		return selfDesc;
 
-	ETPropertyDescription *owner = 
-		[ETPropertyDescription descriptionWithName: @"owner" 
+	ETPropertyDescription *owner =
+		[ETPropertyDescription descriptionWithName: @"owner"
 		                                      type: (id)@"ETEntityDescription"];
-	ETPropertyDescription *entityDescriptions = 
-		[ETPropertyDescription descriptionWithName: @"entityDescriptions" 
+	ETPropertyDescription *entityDescriptions =
+		[ETPropertyDescription descriptionWithName: @"entityDescriptions"
 		                                      type: (id)@"ETEntityDescription"];
 	[entityDescriptions setMultivalued: YES];
 	[entityDescriptions setOpposite: (id)@"ETEntityDescription.owner"];
-	ETPropertyDescription *propertyDescriptions = 
-		[ETPropertyDescription descriptionWithName: @"propertyDescriptions" 
+	ETPropertyDescription *propertyDescriptions =
+		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"
 		                                     type: (id)@"ETPropertyDescription"];
 	[propertyDescriptions setMultivalued: YES];
 	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.package"];
@@ -114,7 +114,7 @@
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
 	INVALIDARG_EXCEPTION_TEST(propertyDescription, nil != propertyDescription);
-	INVALIDARG_EXCEPTION_TEST(propertyDescription, 
+	INVALIDARG_EXCEPTION_TEST(propertyDescription,
 		NO == [_entityDescriptions containsObject: [propertyDescription owner]]);
 
 	ETPackageDescription *package = [propertyDescription package];
@@ -193,7 +193,7 @@
 	[self addEntityDescription: object];
 }
 
-- (void) insertObject: (id)object atIndex: (unsigned int)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self addEntityDescription: object];
 	[_entityDescriptions removeObject: object];

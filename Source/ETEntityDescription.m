@@ -1,9 +1,9 @@
 /*
  ETEntityDescription.m
- 
- Entity description in a model description framework inspired by FAME 
+
+ Entity description in a model description framework inspired by FAME
  (http://scg.unibe.ch/wiki/projects/fame)
- 
+
  Copyright (C) 2009 Eric Wasylishen
 
  Author:  Eric Wasylishen <ewasylishen@gmail.com>
@@ -53,26 +53,26 @@
 {
 	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	if ([[selfDesc name] isEqual: [ETEntityDescription className]] == NO) 
+	if ([[selfDesc name] isEqual: [ETEntityDescription className]] == NO)
 		return selfDesc;
 
-	ETPropertyDescription *owner = 
+	ETPropertyDescription *owner =
 		[ETPropertyDescription descriptionWithName: @"owner" type: (id)@"ETPackageDescription"];
 	[owner setOpposite: (id)@"ETPackageDescription.entityDescriptions"];
-	ETPropertyDescription *abstract = 
+	ETPropertyDescription *abstract =
 		[ETPropertyDescription descriptionWithName: @"abstract" type: (id)@"BOOL"];
-	ETPropertyDescription *root = 
+	ETPropertyDescription *root =
 		[ETPropertyDescription descriptionWithName: @"root" type: (id)@"BOOL"];
 	[root setDerived: YES];
-	ETPropertyDescription *propertyDescriptions = 
+	ETPropertyDescription *propertyDescriptions =
 		[ETPropertyDescription descriptionWithName: @"propertyDescriptions" type: (id)@"ETPropertyDescription"];
 	[propertyDescriptions setMultivalued: YES];
 	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.owner"];
-	ETPropertyDescription *parent = 
+	ETPropertyDescription *parent =
 		[ETPropertyDescription descriptionWithName: @"parent" type: (id)@"ETEntityDescription"];
-	
+
 	[selfDesc setPropertyDescriptions: A(owner, abstract, root, propertyDescriptions, parent)];
-	
+
 	return selfDesc;
 }
 
@@ -124,7 +124,7 @@
 		[oldProperty setOwner: nil];
 	}
 	[_propertyDescriptions release];
-	
+
 	_propertyDescriptions = [[NSMutableDictionary alloc] initWithCapacity:
 		[propertyDescriptions count]];
 	FOREACH(propertyDescriptions, propertyDescription, ETPropertyDescription *)
@@ -215,28 +215,28 @@
 		if ([propertyDesc isContainer])
 			container++;
 	}
-	if (container > 1) 
+	if (container > 1)
 	{
-		[warnings addObject: [self warningWithMessage: 
+		[warnings addObject: [self warningWithMessage:
 			@"Found more than one container/composite relationship"]];
 	}
 
 	/* Primitives belongs to a package unlike FAME */
 	if ([[self owner] isString])
 	{
-		[warnings addObject: [self warningWithMessage: 
-			@"Failed to resolve owner (a package)"]];	
+		[warnings addObject: [self warningWithMessage:
+			@"Failed to resolve owner (a package)"]];
 	}
 	if ([self owner] == nil)
 	{
-		[warnings addObject: [self warningWithMessage: @"Miss an owner (a package)"]];	
+		[warnings addObject: [self warningWithMessage: @"Miss an owner (a package)"]];
 	}
 
-	if ([[self name] isEqual: [[self class] rootEntityDescriptionName]] == NO) 
+	if ([[self name] isEqual: [[self class] rootEntityDescriptionName]] == NO)
 	{
 		if ([[self parent] isString])
 		{
-			[warnings addObject: [self warningWithMessage: 
+			[warnings addObject: [self warningWithMessage:
 				@"Failed to resolve parent"]];
 		}
 		// NOTE: C primitives have no parent unlike ObjC primitives
@@ -244,9 +244,9 @@
 		{
 			[warnings addObject: [self warningWithMessage: @"Miss a parent"]];
 		}
-		if ([[self parent] isCPrimitive]) 
+		if ([[self parent] isCPrimitive])
 		{
-			[warnings addObject: [self warningWithMessage: 
+			[warnings addObject: [self warningWithMessage:
 				@"C Primitives are not allowed to be parent"]];
 		}
 	}
@@ -258,7 +258,7 @@
 	{
 		if ([entityDescSet containsObject: entityDesc])
 		{
-			[warnings addObject: [self warningWithMessage: 
+			[warnings addObject: [self warningWithMessage:
 				@"Found a loop in the parent chain"]];
 			break;
 		}
@@ -308,7 +308,7 @@
 	[self addPropertyDescription: object];
 }
 
-- (void) insertObject: (id)object atIndex: (unsigned int)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self addPropertyDescription: object];
 }
@@ -356,7 +356,7 @@
 /**
  * Serialize the object using the ETModelDescription meta-meta model.
  */
-- (NSDictionary *) _ETModelDescriptionSerializationOfObject: (id)obj withAlreadySerializedObjectsAndIds: 
+- (NSDictionary *) _ETModelDescriptionSerializationOfObject: (id)obj withAlreadySerializedObjectsAndIds:
 {
 	NSMutableDictionary *serialization = [NSMutableDictionary dictionary];
 	id desc = [obj entityDescription];
@@ -364,12 +364,12 @@
 	{
 		FOREACH([desc propertyDescriptions], propertyDescription, ETPropertyDescription *)
 		{
-			
+
 		}
 	}
 	else if ([obj class] == [NSArray class]) // NSDictionary, NSNumber
 	{
-		return D(@"primitiveType", @"NSArray", 
+		return D(@"primitiveType", @"NSArray",
 		@"value", [[obj map] serialize...];
 		}
 		else if ([NSValueAdaptor blahBlahBlah] works..)
@@ -378,19 +378,19 @@
 		}
 		return serialization;
 		}
-		
+
 #endif
-		
-		
+
+
 /**
- Very simple implementation of an adaptive model object that is causally 
+ Very simple implementation of an adaptive model object that is causally
  connected to its description. This means that changes to the entity description
  immediately take effect in the instance of ETAdaptiveModelObject.
- 
+
  Causal connection is ensured through the implementation of
  -valueForProperty: and -setValue:forProperty:.
- */		
-@implementation ETAdaptiveModelObject 
+ */
+@implementation ETAdaptiveModelObject
 
 - (id) init
 {
@@ -403,7 +403,7 @@
 DEALLOC(DESTROY(_properties); DESTROY(_description);)
 
 /* Property-value coding */
-		
+
 - (id) valueForProperty: (NSString *)key
 {
 	ETPropertyDescription *desc = [_description propertyDescriptionForName: key];
@@ -416,7 +416,7 @@ DEALLOC(DESTROY(_properties); DESTROY(_description);)
 		return nil;
 	}
 }
-			
+
 - (BOOL) setValue: (id)value forProperty: (NSString *)key
 {
 	ETPropertyDescription *desc = [_description propertyDescriptionForName: key];
@@ -433,12 +433,12 @@ DEALLOC(DESTROY(_properties); DESTROY(_description);)
 	//FIXME: Optimize if needed.
 	return (NSArray *)[[[_description propertyDescriptions] mappedCollection] name];
 }
-		
+
 - (NSArray *) allPropertyNames
 {
 	return (NSArray *)[[[_description allPropertyDescriptions] mappedCollection] name];
 }
-		
+
 /* Key-value coding */
 
 - (id) valueForKey: (NSString *)key
@@ -447,4 +447,4 @@ DEALLOC(DESTROY(_properties); DESTROY(_description);)
 }
 
 @end
-		
+

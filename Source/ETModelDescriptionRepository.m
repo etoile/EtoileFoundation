@@ -26,7 +26,7 @@
 {
 	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	if ([[selfDesc name] isEqual: [ETModelDescriptionRepository className]] == NO) 
+	if ([[selfDesc name] isEqual: [ETModelDescriptionRepository className]] == NO)
 		return selfDesc;
 
 	// TODO: Add property descriptions...
@@ -41,8 +41,8 @@
 	[self setEntityDescription: entityDesc forClass: aClass];
 }
 
-- (void) collectEntityDescriptionsFromClass: (Class)aClass 
-                            excludedClasses: (NSSet *)excludedClasses 
+- (void) collectEntityDescriptionsFromClass: (Class)aClass
+                            excludedClasses: (NSSet *)excludedClasses
                                  resolveNow: (BOOL)resolve
 {
 	[self addUnresolvedEntityDescriptionForClass: aClass];
@@ -66,7 +66,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	if (nil == mainRepo)
 	{
 		mainRepo = [[self alloc] init];
-		[mainRepo collectEntityDescriptionsFromClass: [ETModelElementDescription class] 
+		[mainRepo collectEntityDescriptionsFromClass: [ETModelElementDescription class]
 		                             excludedClasses: nil
 		                                  resolveNow: YES];
 	}
@@ -83,12 +83,12 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	ETEntityDescription *numberDesc = [NSNumber newEntityDescription];
 	ETEntityDescription *booleanDesc = [NSNumber newEntityDescription];
 	[booleanDesc setName: @"Boolean"];
-	NSArray *objCPrimitives = A(objectDesc, stringDesc, dateDesc, valueDesc, 
+	NSArray *objCPrimitives = A(objectDesc, stringDesc, dateDesc, valueDesc,
 		numberDesc, booleanDesc);
 
 	FOREACHI(objCPrimitives, desc)
 	{
-		object_setClass(desc, [ETPrimitiveEntityDescription class]);	
+		object_setClass(desc, [ETPrimitiveEntityDescription class]);
 	}
 
 	return objCPrimitives;
@@ -102,7 +102,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 		[ETCPrimitiveEntityDescription descriptionWithName: @"float"]);
 }
 
-- (void) setUpWithCPrimitives: (NSArray *)cPrimitives 
+- (void) setUpWithCPrimitives: (NSArray *)cPrimitives
              objectPrimitives: (NSArray *)objcPrimitives
 {
 	NSArray *primitives = [objcPrimitives arrayByAddingObjectsFromArray: cPrimitives];
@@ -141,7 +141,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 	_descriptionsByName = [[NSMutableDictionary alloc] init];
 	_entityDescriptionsByClass = [[NSMapTable alloc] init];
 	[self addDescription: [ETPackageDescription descriptionWithName: anonymousPackageName]];
-	[self setUpWithCPrimitives: [self newCPrimitives] 
+	[self setUpWithCPrimitives: [self newCPrimitives]
 	          objectPrimitives: [self newObjectPrimitives]];
 
 	ETAssert([[ETEntityDescription rootEntityDescriptionName] isEqual:
@@ -230,7 +230,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 	if ([_descriptionsByName objectForKey: [anEntityDescription fullName]] == nil
 	 && [_unresolvedDescriptions containsObject: anEntityDescription] == NO)
 	{
-		[NSException raise: NSInvalidArgumentException 
+		[NSException raise: NSInvalidArgumentException
 		            format: @"The entity description must have been previously "
 					         "added to the repository"];
 	}
@@ -242,7 +242,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 	[_unresolvedDescriptions addObject: aDescription];
 }
 
-/* 'isPackageRef' prevents to wrongly look up a package as an entity (with the 
+/* 'isPackageRef' prevents to wrongly look up a package as an entity (with the
 same name). */
 - (void) resolveProperty: (NSString *)aProperty
           forDescription: (ETModelElementDescription *)desc
@@ -260,7 +260,7 @@ same name). */
 		value = [anonymousPackageName stringByAppendingFormat: @".%@", value];
 		realValue = [self descriptionForName: (NSString *)value];
 	}
-	if (nil != realValue) 
+	if (nil != realValue)
 	{
 		[desc setValue: realValue forKey: aProperty];
 	}
@@ -314,7 +314,7 @@ same name). */
 	[[unresolvedPropertyDescs filter] isPropertyDescription];
 
 	[self addDescriptions: [unresolvedPackageDescs allObjects]];
-	NSSet *collectedPropertyDescs = 
+	NSSet *collectedPropertyDescs =
 		[self resolveAndAddEntityDescriptions: unresolvedEntityDescs];
 	[unresolvedPropertyDescs unionSet: collectedPropertyDescs];
 	[self resolveAndAddPropertyDescriptions: unresolvedPropertyDescs];
@@ -338,17 +338,17 @@ same name). */
 
 /** Returns YES when no package descriptions is registered, otherwise returns NO.
 
-By default, returns NO since an anonymous package descriptions is registered in 
+By default, returns NO since an anonymous package descriptions is registered in
 any new repository. */
 - (BOOL) isEmpty
 {
 	return ([[self packageDescriptions] count] == 0);
 }
 
-/** Returns a dictionary containing all the registered descriptions keyed by 
+/** Returns a dictionary containing all the registered descriptions keyed by
 full name.
 
-The returned dictionary contains descriptions other than package descriptions. 
+The returned dictionary contains descriptions other than package descriptions.
 You must assume that <code>[[self content] count] != [[self contentArray] count]</code>. */
 - (id) content
 {
@@ -378,7 +378,7 @@ You must assume that <code>[[self content] count] != [[self contentArray] count]
 	[self addDescription: object];
 }
 
-- (void) insertObject: (id)object atIndex: (unsigned int)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self addDescription: object];
 }
