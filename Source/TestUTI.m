@@ -83,7 +83,8 @@
 
 	id new = [ETUTI registerTypeWithString: @"etoile.testtype"
 	                           description: @"Testing type."
-	                      supertypeStrings: A(@"public.composite-content", @"public.jpeg")];
+	                      supertypeStrings: A(@"public.composite-content", @"public.jpeg")
+	                              typeTags: nil];
 	
 	UKNotNil(new);
 	UKStringsEqual(@"Testing type.", [new typeDescription]);

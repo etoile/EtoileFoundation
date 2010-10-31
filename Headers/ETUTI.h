@@ -85,10 +85,27 @@
 /**
  * Registers a UTI in the UTI database. UTIs registered with this method
  * are not currently persisted.
+ *
+ * A type tag dictionary can be passed to express how the UTI is mapped to 
+ * other type identification models. EUTI currently supports two other type  
+ * identification models: file extensions and MIME types. All MIME types and 
+ * file extensions belongs to two tag classes (encoded as UTI), respectively 
+ * kETUTITagClassMIMEType and kETUTITagClassFileExtension. Finally each entry 
+ * in a type tag dictionary must be an array. Here is an example of a valid 
+ * type tag dictionary:
+ *
+ * <example>
+ * [NSDictionary dictionaryWithObjectsAndKeys: 
+ * 	[NSArray arrayWithObject: @"image/tiff"], kETUTITagClassMIMEType,
+ * 	[NSArray arrayWithObjects: @"tif", @"tiff", nil], kETUTITagClassFileExtension, nil]
+ * </example>
+ *
+ * See also -fileExtensions and -MIMETypes.
  */
 + (ETUTI *) registerTypeWithString: (NSString *)aString
                        description: (NSString *)description
-                  supertypeStrings: (NSArray *)supertypeNames;
+                  supertypeStrings: (NSArray *)supertypeNames
+                          typeTags: (NSDictionary *)tags;
 /**
  * Returns a "transient" or anonymous ETUTI object based on the given UTI 
  * string representations as supertypes.
@@ -157,3 +174,8 @@
 
 @end
 
+
+/** Key to identify the MIME type string array in a type tag dictionary. */
+extern NSString * const kETUTITagClassMIMEType;
+/** Key to identify the file extension array in a type tag dictionary. */
+extern NSString * const kETUTITagClassFileExtension;
