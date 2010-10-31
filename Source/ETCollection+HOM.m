@@ -1012,6 +1012,10 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	return self;
 }
 
+DEALLOC(
+	[collection release];
+)
+
 - (BOOL)respondsToSelector: (SEL)aSelector
 {
 	if ([collection isEmpty])
@@ -1070,8 +1074,18 @@ not -[super methodSignatureForSelector:]. */
 	return [NSObject instanceMethodSignatureForSelector:aSelector];
 }
 
+// TODO: Intercept all messages from the NSObject protocol except -autorelease, 
+// -retain, -release, -isProxy and implement a special -proxyDescription for 
+// debugging supposing -description gets overriden for forwarding purpose.
+
+/* Intercepted NSObject Protocol Messages as Normal HOM Argument Messages */
+
 - (Class)class
 {
+	/* For this check, see -isEqual: */
+	if ([collection isEmpty])
+		return nil;
+	
 	NSInvocation *inv = [NSInvocation invocationWithTarget: self selector: _cmd arguments: nil];
 	Class retValue = Nil;
 
@@ -1080,9 +1094,26 @@ not -[super methodSignatureForSelector:]. */
 	return retValue;
 }
 
-DEALLOC(
-	[collection release];
-)
+- (BOOL)isEqual: (id)obj
+{
+	/* Discard the message, we cannot construct the invocation because 
+	   -methodSignatureForEmptyCollection would be called and returns the 
+	   same constant method signature per HOM proxy type.
+	   We could tweak -methodSignatureForEmptyCollection to accept a 
+	   selector in argument and look up the right signature on NSObject, but 
+	   that's useless given that we are going to ignore the message anyway. */
+	if ([collection isEmpty])
+		return NO;
+
+	NSInvocation *inv = [NSInvocation invocationWithTarget: self selector: _cmd arguments: nil];
+	BOOL retValue = NO;
+
+	[inv setArgument: &obj atIndex: 2];
+	[self forwardInvocation: inv];
+	[inv getReturnValue: &retValue];
+	return retValue;
+}
+
 @end
 
 @implementation ETCollectionMapProxy

@@ -395,6 +395,23 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	                   [NSNumber numberWithInt: 0]] intValue]);
 }
 
+- (void)testFilterWithIsEqualAsArgumentMessage
+{
+	NSMutableSet *emptySet = [NSMutableSet set];
+	NSMutableSet *set = [NSMutableSet setWithObjects: @"foo", @"bar", 
+		[NSNumber numberWithInt: 2], nil];
+	NSMutableSet *arraySet = [NSMutableSet setWithObjects: A(@"foo", @"bar"),
+		A([NSNumber numberWithInt: 2]), nil];
+
+	[[emptySet filter] isEqual: @"bar"];
+	[[set filter] isEqual: @"bar"];
+	[[[arraySet filter] firstObject] isEqual: @"foo"];
+
+	UKTrue([emptySet isEmpty]);
+	UKObjectsEqual(A(@"bar"), [set allObjects]);
+	UKObjectsEqual(A(A(@"foo", @"bar")), [arraySet allObjects]);
+}
+
 - (void)testFilterEmptyCollection
 {
 	NSMutableArray *array = [NSMutableArray array];
