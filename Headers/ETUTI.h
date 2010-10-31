@@ -42,6 +42,16 @@
  * The ETUTI implementation also integrates with the Objective-C runtime.
  * UTI's can be automatically generated for a given class,
  * which are given the form "org.etoile-project.objc.class.ClassName".
+ *
+ * EtoileFoundation provides a built-in UTI library and some class bindings 
+ * (UTI supertypes to which ObjC classes conforms to). See UTIDefinitions.plist
+ * and ClassBindings.plist in the EtoileFoundation framework resources.
+ *
+ * Additional UTIs and class bindings can be provided in third-party 
+ * applications. At launch time, ETUTI loads any UTIDefinitions.plist and 
+ * ClassBindings.plist present in the main bundle and merges the content into 
+ * its runtime UTI database. You cannot redefine a UTI built into 
+ * EtoileFoundation UTIDefinitions.plist.
  */
 @interface ETUTI : NSObject <NSCopying>
 {
