@@ -3,28 +3,23 @@
     ProductType = "com.apple.product-type.bundle";
     Description = "Target for building a loadable bundle for use by UnitKit.";
     CustomBuildSettings = {
-        INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-        INFOPLIST_FILE = "ÇPRODUCTNAMEÈ-Info.plist";
-        OTHER_CFLAGS = "";
-        OTHER_LDFLAGS =	"-framework Foundation";
-        GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+        INSTALL_PATH = "$(HOME)/Library/Bundles";
+        INFOPLIST_FILE = "Â«PRODUCTNAMEÂ»-Info.plist";
+        OTHER_LDFLAGS =	"-framework Foundation -framework AppKit -framework UnitKit";
+        GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
         GCC_PRECOMPILE_PREFIX_HEADER = YES;
-        PRODUCT_NAME = "ÇPRODUCTNAMEÈ";
-        GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-        GCC_WARN_UNKNOWN_PRAGMAS = NO;
-        WARNING_CFLAGS = "-Wmost";
+        WRAPPER_EXTENSION = bundle;
+        PRODUCT_NAME = "Â«PRODUCTNAMEÂ»";
     };
     CustomProductSettings = {
-        CFBundleExecutable = "ÇPRODUCTNAMEÈ";
-        CFBundleIconFile = "";
+        CFBundleExecutable = "Â«PRODUCTNAMEÂ»";
         CFBundleInfoDictionaryVersion = "6.0";
-        CFBundleVersion = "1.0.0d1";
-        CFBundleIdentifier = "com.MySoftwareCompany.ÇTARGETNAMEASIDENTIFIERÈ";
+        CFBundleShortVersionString = "1.0";
+        CFBundleVersion = "1";
+        CFBundleIdentifier = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
         CFBundleDevelopmentRegion = English;
-        CFBundlePackageType = "APPL";
+        CFBundlePackageType = "BNDL";
         CFBundleSignature = "????";
-        CFBundleShortVersionString = "";
-        CFBundleGetInfoString = "";
     };
 	BuildPhases = (
         {
@@ -39,10 +34,10 @@
         {
             Class = Frameworks;
         },
-	{
-	    Class = ShellScript;
-	    ShellPath = /bin/bash;
-	    ShellScript = "/usr/local/bin/ukrun \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
-	},
+		{
+		    Class = ShellScript;
+		    ShellPath = /bin/bash;
+		    ShellScript = "/usr/local/bin/ukrun \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
+		},
 	);
 }

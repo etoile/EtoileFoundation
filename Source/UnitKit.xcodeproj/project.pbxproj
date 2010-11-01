@@ -137,7 +137,7 @@
 		AE8CCFC20680B7D4008CA594 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
-			dstPath = "/Library/Application Support/Apple/Developer Tools/File Templates/Cocoa/Objective-C UnitKit class.pbfiletemplate";
+			dstPath = "/Library/Application Support/Developer/Shared/Xcode/File Templates/Cocoa/Objective-C UnitKit class.pbfiletemplate";
 			dstSubfolderSpec = 0;
 			files = (
 				AE8CCFC40680B80F008CA594 /* TemplateInfo.plist in CopyFiles */,
@@ -149,7 +149,7 @@
 		AE8CCFCA0680B818008CA594 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
-			dstPath = "/Library/Application Support/Apple/Developer Tools/Target Templates/Cocoa";
+			dstPath = "/Library/Application Support/Developer/Shared/Xcode/Target Templates/Cocoa";
 			dstSubfolderSpec = 0;
 			files = (
 				AE8CCFC50680B80F008CA594 /* UnitKitBundle.trgttmpl in CopyFiles */,
@@ -590,7 +590,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 600CE50C09F24490008BA30D /* Build configuration list for PBXProject "UnitKit" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* UnitKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";

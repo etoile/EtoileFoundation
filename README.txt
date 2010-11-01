@@ -33,7 +33,7 @@ BUILDING FOR MAC OS X
 
 To build under Mac OS X, open up the UnitKit.xcode project and build away. Or, you can build UnitKit into its final deployment location using the following:
 
-	$ sudo xcodebuild -target ukrun DSTROOT=/ install
+	$ sudo xcodebuild -alltargets DSTROOT=/ install
 
 --------------------------------------------
 BUILDING FOR GNUSTEP
