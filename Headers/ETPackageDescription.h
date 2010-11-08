@@ -29,6 +29,7 @@ From a Model Builder perspective, a package is the document you work on to
 specify a data model.  */
 @interface ETPackageDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
+	@private
 	NSMutableSet *_entityDescriptions;
 	NSMutableSet *_propertyDescriptions;
 }

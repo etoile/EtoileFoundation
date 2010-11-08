@@ -49,6 +49,7 @@ ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke
 -recordForObject:. */
 @interface ETStackTraceRecorder : NSObject
 {
+	@private
 	NSMapTable *_tracesByObject;
 	NSThread *_recordThread;
 	NSLock *_lock;

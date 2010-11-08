@@ -13,6 +13,7 @@
 /** ETUUID does not have a designated initializer. */
 @interface ETUUID : NSObject <NSCopying>
 {
+	@private
 	unsigned char uuid[16];
 }
 

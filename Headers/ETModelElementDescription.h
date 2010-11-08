@@ -55,6 +55,7 @@ NamedElement and NestedElement protocols don't exist explicitly.
 </chapter> */
 @interface ETModelElementDescription : NSObject
 {
+	@private
 	NSString *_name;
 	NSString *_itemIdentifier;
 	BOOL _isMetaMetamodel;

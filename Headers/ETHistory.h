@@ -27,6 +27,7 @@
  **/
 @interface ETHistory : NSObject <ETCollection>
 {
+	@private
 	NSMutableArray *history;
 	NSEnumerator *future;
 	int max_size;

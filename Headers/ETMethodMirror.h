@@ -14,6 +14,7 @@
 
 @interface ETMethodMirror : NSObject <ETMethodMirror>
 {
+	@private
 	Method _method;
 	BOOL _isClassMethod;
 }
@@ -26,6 +27,7 @@
  */
 @interface ETMethodDescriptionMirror : NSObject <ETMethodMirror>
 {
+	@private
 	NSString *_name;
 	BOOL _isClassMethod;
 }

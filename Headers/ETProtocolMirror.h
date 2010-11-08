@@ -14,6 +14,7 @@
 
 @interface ETProtocolMirror : NSObject <ETProtocolMirror>
 {
+	@private
 	Protocol *_protocol;
 }
 - (id) initWithProtocol: (Protocol *)protocol;

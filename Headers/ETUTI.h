@@ -55,6 +55,7 @@
  */
 @interface ETUTI : NSObject <NSCopying>
 {
+	@private	
 	NSString *string;
 	NSString *description;
 	NSArray *supertypes;	// array of ETUTUI instances

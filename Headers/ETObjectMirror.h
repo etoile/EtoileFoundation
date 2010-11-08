@@ -14,6 +14,7 @@
 
 @interface ETObjectMirror : NSObject <ETObjectMirror>
 {
+	@private
 	id _object;
 }
 + (id) mirrorWithObject: (id)object;

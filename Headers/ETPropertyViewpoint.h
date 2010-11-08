@@ -20,6 +20,7 @@ property and handles reading and writing the property value through -value and
 -setValue. */
 @interface ETProperty : NSObject <ETPropertyValueCoding>
 {
+	@private
 	id _propertyOwner;
 	id _propertyName;
 	BOOL _treatsAllKeysAsProperties;

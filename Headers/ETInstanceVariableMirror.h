@@ -17,6 +17,7 @@
 
 @interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror>
 {
+	@private
 	Ivar _ivar;
 	id <ETMirror> _ownerMirror;
 	id <ETObjectMirror> _cachedValueMirror;

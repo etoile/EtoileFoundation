@@ -22,6 +22,7 @@
  */
 @interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
+	@private
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;
 	ETEntityDescription *_parent;

@@ -14,6 +14,7 @@
 
 @interface ETClassMirror : NSObject <ETClassMirror>
 {
+	@private
 	Class _class;
 }
 + (id) mirrorWithClass: (Class)class;

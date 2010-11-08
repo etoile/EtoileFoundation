@@ -16,6 +16,7 @@
  */
 @interface ETValidationResult : NSObject
 {
+	@private
 	id _object;
 	NSString *_error;
 	BOOL _isValid;
