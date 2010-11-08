@@ -31,12 +31,10 @@ libEtoileFoundation_OBJC_FILES = \
 	ETClassMirror.m \
 	ETCollection.m \
 	ETCollection+HOM.m \
-	ETFilter.m \
 	ETGetOptionsDictionary.m \
 	ETHistory.m \
 	ETInstanceVariableMirror.m \
 	ETMethodMirror.m \
-	ETObjectChain.m \
 	ETObjectMirror.m \
 	UKPluginsRegistry.m \
 	ETPropertyViewpoint.m \

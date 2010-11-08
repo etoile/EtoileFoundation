@@ -33,7 +33,7 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-#import <EtoileFoundation/ETFilter.h>
+#import <Foundation/NSObject.h>
 
 /** ETTransform provides a visitor which supports double-dispatch on all
 	visited objects without implementing extra methods. Any visited objects 
@@ -63,7 +63,7 @@
 	create hybrid processing chain. In fact, any classes implementing 
 	ETRendering protocol can be inserted in such processing chain. */
 
-@interface ETTransform : ETFilter
+@interface ETTransform : NSObject
 {
 
 }

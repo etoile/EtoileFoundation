@@ -72,17 +72,14 @@ EtoileFoundation_HEADER_FILES = \
 	ETClassMirror.h \
 	ETCollection.h \
 	ETCollection+HOM.h \
-	ETFilter.h \
 	ETHistory.h \
 	ETInstanceVariableMirror.h \
 	ETMethodMirror.h \
-	ETObjectChain.h \
 	ETObjectMirror.h \
 	UKPluginsRegistry.h \
 	ETPropertyValueCoding.h \
 	ETPropertyViewpoint.h \
 	ETProtocolMirror.h \
-	ETRendering.h \
 	ETSocket.h \
 	ETStackTraceRecorder.h \
 	ETTranscript.h \

@@ -38,13 +38,10 @@
 #import <EtoileFoundation/ETByteSizeFormatter.h>
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETCollection+HOM.h>
-#import <EtoileFoundation/ETFilter.h>
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
 #import <EtoileFoundation/ETHistory.h>
-#import <EtoileFoundation/ETObjectChain.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETPropertyViewpoint.h>
-#import <EtoileFoundation/ETRendering.h>
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/ETSocket.h>
 #import <EtoileFoundation/ETStackTraceRecorder.h>
