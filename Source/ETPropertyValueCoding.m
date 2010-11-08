@@ -206,27 +206,3 @@
 
 @end
 
-#if 0
-
-/* To extend NSClassDescription and NSManagedObject */
-- (NSArray *) properties
-{
-	else if ([_modelObject respondsToSelector: @selector(entity)]
-	 && [[(id)_modelObject entity] respondsToSelector: @selector(properties)])
-	{
-		/* Managed Objects have an entity which describes them */
-		properties = (NSArray *)[[_modelObject entity] properties];
-	}
-	else if ([_modelObject respondsToSelector: @selector(classDescription)])
-	{
-		/* Any objects can declare a class description, so we try to use it */
-		NSClassDescription *desc = [_modelObject classDescription];
-		
-		properties = [NSMutableArray arrayWithArray: [desc attributeKeys]];
-		// NOTE: Not really sure we should include relationship keys
-		[(NSMutableArray *)properties addObjectsFromArray: (NSArray *)[desc toManyRelationshipKeys]];
-		[(NSMutableArray *)properties addObjectsFromArray: (NSArray *)[desc toOneRelationshipKeys]];
-	}
-}
-
-#endif

@@ -97,7 +97,7 @@ entity. See -isRelationship. */
 /** Sets the entity that describes the property's value.
 
 See -type. */
-- (void) setType: (ETEntityDescription *)aType;
+- (void) setType: (ETEntityDescription *)anEntityDescription;
 
 
 /** Returns YES when this property is a relationship to the destination entity 

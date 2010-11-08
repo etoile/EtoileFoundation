@@ -28,7 +28,7 @@ property and handles reading and writing the property value through -value and
 
 + (id) propertyWithName: (NSString *)key representedObject: (id)object;
 
-- (id) initWithName: (NSString *)key representedObject: (id)objet;
+- (id) initWithName: (NSString *)key representedObject: (id)object;
 
 - (NSString *) name;
 
