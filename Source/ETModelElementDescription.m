@@ -145,7 +145,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	_isMetaMetamodel = isMeta;
 }
 
-- (NSString *) itemIdentifier;
+- (NSString *) itemIdentifier
 {
 	return _itemIdentifier;
 }

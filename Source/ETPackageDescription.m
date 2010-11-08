@@ -67,7 +67,7 @@
 	return YES;
 }
 
-- (NSString *) typeDescription;
+- (NSString *) typeDescription
 {
 	return @"Package";
 }

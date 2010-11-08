@@ -121,11 +121,11 @@
 {
 	return [[self contentArray] count] == 0;
 }
-- (id) content;
+- (id) content
 {
 	return [self contentArray];
 }
-- (NSArray *) contentArray;
+- (NSArray *) contentArray
 {
 	return [self allMethodMirrors];
 }

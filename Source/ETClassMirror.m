@@ -248,11 +248,11 @@ which the returned protocols conform to themselves. */
 {
 	return [[self contentArray] count] == 0;
 }
-- (id) content;
+- (id) content
 {
 	return [self contentArray];
 }
-- (NSArray *) contentArray;
+- (NSArray *) contentArray
 {
 	return [[self instanceVariableMirrors] arrayByAddingObjectsFromArray: 
 			[self allMethodMirrors]];

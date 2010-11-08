@@ -38,7 +38,7 @@ static void ETDeallocateCallback(Class aClass, id self)
 {
 	if (nil == sharedInstance)
 	{
-		// FIXME: @synchronized(self)
+		@synchronized(self)
 		{
 			sharedInstance = [[self alloc] init];
 		}
@@ -108,7 +108,7 @@ For now, using this method on other recorders than the one returned by
 To detect object allocations, the receiver sets up alloc/dealloc callbacks with 
 GSSetDebugAllocationFunctions(). You cannot use these hooks in your code and at 
 the same time record the allocation with ETStackTraceRecorder.  */
-- (void) enableAllocationRecordingForClass: (Class)aClass;
+- (void) enableAllocationRecordingForClass: (Class)aClass
 {
 	ETAssert([self isEqual: sharedInstance]);
 
