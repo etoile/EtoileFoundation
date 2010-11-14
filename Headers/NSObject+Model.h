@@ -39,7 +39,7 @@
 @class ETEntityDescription;
 
 
-@interface NSObject (EtoileModel)
+@interface NSObject (ETModelAdditions)
 
 + (ETEntityDescription *) newEntityDescription;
 + (ETEntityDescription *) newBasicEntityDescription;
@@ -115,11 +115,11 @@ extern NSString * const kETDescriptionOptionMaxDepth;
 
 /* Basic Common Value Classes */
 
-@interface NSString (EtoileModel)
+@interface NSString (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end
 
-@interface NSNumber (EtoileModel)
+@interface NSNumber (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end
 

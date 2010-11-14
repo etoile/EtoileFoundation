@@ -19,7 +19,7 @@
 //#define DEBUG_PVC 1
 
 
-@implementation NSObject (EtoileModel)
+@implementation NSObject (ETModelAdditions)
 
 /** <override-dummy />
 Returns a new self-description (aka metamodel).
@@ -35,7 +35,8 @@ You can implement this method to describe your subclasses more precisely than
 You must never call [super newEntityDescription] in the implementation.
 
 For example:
-<code>
+
+<example>
 ETEntityDescription *desc = [self newBasicEntityDescription];
 
 // For subclasses that don't override -newEntityDescription, we must not add the 
@@ -51,15 +52,16 @@ ETPropertyDescription *country = [ETPropertyDescription descriptionWithName: @"c
 [desc setAbstract: YES];
 
 return desc;
-</code>
+</example>
 
 If you want set the parent explicitly, replace -newBasicEntityDescription with:
-<code>
+
+<example>
 ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self className]];
 
 // Will be resolved when the entity description is put in the repository
 [desc setParent: NSStringFromClass([self superclass])];
-</code>
+<example>
  */
 + (ETEntityDescription *) newEntityDescription
 {
@@ -407,20 +409,20 @@ The description format is roughly:
 depth based indentation + object class and address + keyPath1: value1, keyPath2: value2 etc.
 
 Here is an example based on EtoileUI that dumps an item tree structure:
-<example>
 
+<example>
 // ObjC code
 ETLog(@"\n%@\n", [browserItem descriptionWithOptions: [NSMutableDictionary dictionaryWithObjectsAndKeys: 
 	A(@"frame", @"autoresizingMask"), kETDescriptionOptionValuesForKeyPaths,
 	@"items", kETDescriptionOptionTraversalKey, nil]]);
 
 // Console Output
-<ETLayoutItemGroup: 0x9e7b268> frame: {x = 0; y = 0; width = 600; height = 300}, autoresizingMask: 18
-	<ETLayoutItemGroup: 0x9fbea48> frame: {x = 0; y = 0; width = 1150; height = 53}, autoresizingMask: 2
-		<ETLayoutItem: 0x9f29240> frame: {x = 12; y = 12; width = 100; height = 22}, autoresizingMask: 0
-		<ETLayoutItem: 0x9e6fcf0> frame: {x = 124; y = 12; width = 100; height = 24}, autoresizingMask: 0
-	<ETLayoutItemGroup: 0x9fac170> frame: {x = 0; y = 0; width = 1150; height = 482}, autoresizingMask: 18
-		<ETLayoutItemGroup: 0x9fb2870> frame: {x = 0; y = 0; width = 50; height = 50}, autoresizingMask: 0
+&lt;ETLayoutItemGroup: 0x9e7b268&gt; frame: {x = 0; y = 0; width = 600; height = 300}, autoresizingMask: 18
+	&lt;ETLayoutItemGroup: 0x9fbea48&gt; frame: {x = 0; y = 0; width = 1150; height = 53}, autoresizingMask: 2
+		&lt;ETLayoutItem: 0x9f29240&gt; frame: {x = 12; y = 12; width = 100; height = 22}, autoresizingMask: 0
+		&lt;ETLayoutItem: 0x9e6fcf0&gt; frame: {x = 124; y = 12; width = 100; height = 24}, autoresizingMask: 0
+	&lt;ETLayoutItemGroup: 0x9fac170&gt; frame: {x = 0; y = 0; width = 1150; height = 482}, autoresizingMask: 18
+		&lt;ETLayoutItemGroup: 0x9fb2870&gt; frame: {x = 0; y = 0; width = 50; height = 50}, autoresizingMask: 0
 </example>
 
 options must not be nil, otherwise raises an NSInvalidArgumentException.
@@ -559,12 +561,12 @@ NSString * const kETDescriptionOptionMaxDepth = @"kETDescriptionOptionMaxDepth";
 
 /* Basic Common Value Classes */
 
-@implementation NSString (EtoileModel)
+@implementation NSString (ETModelAdditions)
 /** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 
-@implementation NSNumber (EtoileModel)
+@implementation NSNumber (ETModelAdditions)
 /** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end
