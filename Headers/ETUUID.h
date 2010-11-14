@@ -10,7 +10,19 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSUserDefaults.h>
 
-/** ETUUID does not have a designated initializer. */
+/** An implementation of the <uref url="http://en.wikipedia.org/wiki/Universally_unique_identifier">
+Universally Unique Identifier</uref> standard. 
+
+When an ETUUID is instantiated, the underlying UUID is generated with the 
+version 4 (aka random) generation scheme.<br /> 
+Take note the random scheme used on Linux and BSD platforms is based on a 
+strong random number, unlike other platforms where a simpler random scheme is 
+used. Which means collisions can occur on these platforms if you try to 
+generate ETUUID in a tight loop.
+
+You can use -isEqual: to check the equality between two ETUUID instances.
+
+ETUUID does not have a designated initializer. */
 @interface ETUUID : NSObject <NSCopying>
 {
 	@private
@@ -40,7 +52,6 @@
  */
 - (id) init;
 
-- (BOOL) isEqual: (id)anObject;
 /** 
  * Returns a string representation of the receiver.
  */
@@ -54,6 +65,7 @@
 
 #define ETUUIDSize (36 * sizeof(char))
 
+/** UUID related additions to NSString. */
 @interface NSString (ETUUID)
 /**
  * Returns an autoreleased UUID string representation (see ETUUID).
@@ -61,6 +73,7 @@
 + (NSString *) UUIDString;
 @end
 
+/** Conveniency methods to easily read and write UUIDs in the default database. */
 @interface NSUserDefaults (ETUUID)
 /**
  * Returns an autoreleased UUID object if the value for aKey is an UUID string 
