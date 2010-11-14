@@ -3,8 +3,9 @@
 	<abstract>A generic history class which can contain arbitary entries located 
 	in the past or the future.</abstract>
 
-	Copyright (C) 2008 Truls Becken <truls.becken@gmail.com>
+	Copyright (C) 2008 Truls Becken
 
+	Author:  Truls Becken <truls.becken@gmail.com>
 	Date:  December 2008
 	License: Modified BSD (see COPYING)
  */
@@ -17,13 +18,13 @@
  * in time, it can go forward again towards the most recent object. Adding an
  * object while at a historic point will discard the forward history.
  *
- * It is also possible to give the manager an NSEnumerator to use as a lazy
+ * It is also possible to give ETHistory an NSEnumerator to use as a lazy
  * source for the forward history. This way, a collection of objects can be
  * added as a "future", replacing the current forward history.
  *
- * ETHistory supports ETCollection protocol, but not ETCollectionMutation 
- * which means -isMutableCollection returns NO and an history won't considered 
- * as a mutable represented object by EtoileUI.
+ * ETHistory supports ETCollection protocol, but not ETCollectionMutation
+ * which means -[NSObject isMutableCollection] returns NO and an history 
+ * won't be considered as a mutable represented object by EtoileUI.
  **/
 @interface ETHistory : NSObject <ETCollection>
 {
@@ -35,11 +36,11 @@
 }
 
 /**
- * Return a new autoreleased history manager.
+ * Return a new autoreleased history.
  */
 + (id) history;
 /**
- * <init />Initialize the history manager.
+ * <init />Initialize the history.
  */
 - (id) init;
 /**
@@ -94,9 +95,9 @@
  *
  * The default is to remember an unlimited number of objects (max size = 0).
  *
- * Note that max size only limits the number of objects before currentObject.
- * Setting a future and peeking into it may force the history manager to
- * temporarily hold more objects.
+ * Note that max size only limits the number of objects before -currentObject.
+ * Setting a future and peeking into it may force the history to temporarily 
+ * hold more objects.
  */
 - (void) setMaxHistorySize: (int)maxSize;
 /**
@@ -106,7 +107,7 @@
 /**
  * Return 'History'.
  *
- * See also -[NSObject(Model) displayName].
+ * See also -[NSObject displayName].
  */
 - (NSString *) displayName;
 /**
@@ -114,15 +115,15 @@
  */
 - (BOOL) isOrdered;
 /**
- * See -isEmpty in ETCollection protocol.
+ * See -[(ETCollection) isEmpty].
  */
 - (BOOL) isEmpty;
 /**
- * See -content in ETCollection protocol.
+ * See -[(ETCollection) content].
  */
 - (id) content;
 /**
- * See -contentArray in ETCollection protocol.
+ * See -[(ETCollection) contentArray].
  */
 - (NSArray *) contentArray;
 
