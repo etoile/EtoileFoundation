@@ -42,5 +42,14 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 			         forKey: key];
 		}
 	}
+
+    NSMutableArray *nonOptionArgs = [NSMutableArray array];
+    for (int i = optind; i < argc; i++)
+    {
+        [nonOptionArgs addObject: [NSString stringWithUTF8String: argv[i]]];
+    }
+    [dict setObject: [NSArray arrayWithArray: nonOptionArgs]
+             forKey: @""];
+
 	return dict;
 }
