@@ -7,10 +7,13 @@ PROJECT_DIR = $(CURDIR)
 FRAMEWORK_NAME = EtoileXML
 $(FRAMEWORK_NAME)_VERSION = 0.1
 
-
 # -lm for FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
+LIBRARIES_DEPEND_UPON += -lm -lEtoileFoundation $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
+# For EtoileFoundation, etoile.make after-all:: is not executed before all 
+# subprojects are built. Hence libEtoileFoundation.so is not present in the  
+# Build directory at EtoileXML build time.
+$(FRAMEWORK_NAME)_LIB_DIRS += -L../EtoileFoundation.framework
 $(FRAMEWORK_NAME)_OBJCFLAGS += -std=c99
 
 $(FRAMEWORK_NAME)_OBJC_FILES = \
@@ -33,6 +36,6 @@ $(FRAMEWORK_NAME)_HEADER_FILES = \
 	ETXMLWriter.h\
 	NSAttributedString+HTML.h
 
+include $(GNUSTEP_MAKEFILES)/framework.make
 -include ../../../etoile.make
 -include ../../../documentation.make
-include $(GNUSTEP_MAKEFILES)/framework.make

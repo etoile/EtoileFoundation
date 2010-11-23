@@ -1,9 +1,7 @@
+#import <EtoileFoundation/ETSocket.h>
+#import <EtoileFoundation/Macros.h>
+#import <EtoileFoundation/EtoileCompatibility.h>
 #import "ETXMLWriter.h"
-
-// FIXME: Cyclic dependency between EtoileFoundation and EtoileXML
-#import "../Headers/ETSocket.h"
-#import "../Headers/Macros.h"
-#import "../Headers/EtoileCompatibility.h"
 
 NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 

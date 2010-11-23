@@ -1,5 +1,5 @@
+#import "../Headers/Macros.h"
 #import "ETObjectPipe.h"
-#import <EtoileFoundation/EtoileFoundation.h>
 
 /**
  * The size of the ring buffer.  Defined statically so the masking is easy.  We

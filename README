@@ -46,6 +46,8 @@ Developer Notes
 
 If you want to use classes from EtoileThread or EtoileXML, you can use import EtoileFoundation.h which is an umbrella header for all the EtoileFoundation, EtoileThread and EtoileXML classes. However linking requires that you link EtoileXML and EtoileThread by yourself since EtoileFoundation does not.
 
+Unlike EtoileThread which has no dependency, EtoileXML depends on EtoileFoundation and links it.
+
 
 EtoileThread
 ------------

@@ -47,7 +47,7 @@ ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 -include ../../../etoile.make
 else
+include $(GNUSTEP_MAKEFILES)/framework.make
 -include ../../../etoile.make
 -include ../../../documentation.make
-include $(GNUSTEP_MAKEFILES)/framework.make
 endif

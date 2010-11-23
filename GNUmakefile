@@ -47,16 +47,16 @@ SSL_LIBS = -lssl -lcrypto
 endif
 
 # -lm for FreeBSD at least
-LIBRARIES_DEPEND_UPON += -lm -lEtoileThread -lEtoileXML $(SSL_LIBS) \
+LIBRARIES_DEPEND_UPON += -lm $(SSL_LIBS) \
 	$(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
 ifeq ($(test), yes)
 EtoileFoundation_LDFLAGS += -lUnitKit $(SSL_LIBS)
 endif
 
-EtoileFoundation_SUBPROJECTS += Source
+EtoileFoundation_SUBPROJECTS = Source
 
-EtoileFoundation_HEADER_FILES_DIR = ./EtoileFoundation
+EtoileFoundation_HEADER_FILES_DIR = Headers
 
 EtoileFoundation_HEADER_FILES = \
 	EtoileFoundation.h \
@@ -117,12 +117,12 @@ ifeq ($(GNUSTEP_TARGET_CPU), ix86)
  ADDITIONAL_OBJCFLAGS += -march=i586
 endif
 
-include $(GNUSTEP_MAKEFILES)/aggregate.make
--include ../../etoile.make
--include etoile.make
--include ../../documentation.make
 ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 else
 include $(GNUSTEP_MAKEFILES)/framework.make
 endif
+-include ../../etoile.make
+-include etoile.make
+-include ../../documentation.make
+include $(GNUSTEP_MAKEFILES)/aggregate.make
