@@ -359,7 +359,7 @@
 	if(![attributes isMemberOfClass:[NSMutableDictionary class]])
 	{
 		id oldAttributes = attributes;
-		attributes = [[NSMutableDictionary dictionaryWithDictionary:attributes] retain];
+		attributes = [attributes mutableCopy];
 		[oldAttributes release];
 	}	
 	[attributes setObject:value forKey:attribute];
