@@ -34,6 +34,7 @@ libEtoileFoundation_OBJC_FILES = \
 	ETGetOptionsDictionary.m \
 	ETHistory.m \
 	ETInstanceVariableMirror.m \
+	ETKeyValuePair.m \
 	ETMethodMirror.m \
 	ETObjectMirror.m \
 	UKPluginsRegistry.m \

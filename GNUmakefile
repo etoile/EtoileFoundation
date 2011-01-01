@@ -74,6 +74,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETCollection+HOM.h \
 	ETHistory.h \
 	ETInstanceVariableMirror.h \
+	ETKeyValuePair.h \
 	ETMethodMirror.h \
 	ETObjectMirror.h \
 	UKPluginsRegistry.h \
