@@ -35,7 +35,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * been inserted.  In this case, the subtraction will be something along the
  * lines of (0 - (2^32 - 14)).  This will be -(2^32 - 14), however this value
  * can't be represented in a 32-bit integer and so will overflow to 14, giving
- * the correct result, irrespective of overflow.  
+ * the correct result, irrespective of overflow.
  */
 #define SPACE(producer, consumer) (RING_BUFFER_SIZE - (producer - consumer))
 /**
@@ -61,27 +61,30 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  *
  * 1) Check that there is space in the buffer.
  *     Spin if there isn't any.
- * 2) Add the invocation and optionally the proxy containing the return value
- * (nil for none) to the next two elements in the ring buffer.
- * 3) Increment the producer counter (by two, since we are adding two elements).
+ * 2) Add the invocation to the ring buffer.
+ * 3) Increment the producer counter.
  * 4) If the queue was previously empty, we need to transition back to lockless
  * mode.  This is done by signalling the condition variable that the other
  * thread will be waiting on if it is in blocking mode.
  *
  * If the queue is full then we poke the condition variable periodically.  This
- * is not required when the condition variable is not shared, but when it is
- * more than one 
+ * is not required when the condition variable is not shared, but when more than
+ * one thread consumes the data, it needs to be signaled in order to wake a
+ * thread that will remove an element from the buffer.
  */
 #define INSERT(x,direction) do {\
 	int count = 0;\
 	/* Wait for space in the buffer */\
 	while (ISFULL(direction ## Producer, direction ## Consumer))\
 	{\
-		if (count % 20 == 0)\
+		if (++count % 20 == 0)\
 		{\
 			[direction ## Condition signal];\
 		}\
-		sched_yield();\
+		if (count % 39 == 0)\
+		{\
+			sched_yield();\
+		}\
 	}\
 	queue[MASK(direction ## Producer)] = x;\
 	__sync_fetch_and_add(&direction ## Producer, 1);\
@@ -99,7 +102,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * blocking mode.  The additional test inside the mutex ensures that a
  * transition from blocking to non-blocking mode will not be missed, since the
  * condition variable can only be signalled when the producer thread has the
- * mutex.  
+ * mutex.
  * 2) Read the invocation and return proxy from the buffer.
  * 3) Increment the consumer counter.
  */
