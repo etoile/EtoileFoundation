@@ -94,7 +94,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 		[direction ## Condition signal];\
 		[direction ## Condition unlock];\
 	}\
-} while(0);
+} while(0)
 /**
  * Removing an element from the queue involves the following steps:
  *
@@ -123,7 +123,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	x = queue[MASK(direction ## Consumer)];\
 	queue[MASK(direction ## Consumer)] = nil;\
 	__sync_fetch_and_add(&direction ## Consumer, 1);\
-} while(0);
+} while(0)
 
 @implementation ETObjectPipe
 - (id)init
