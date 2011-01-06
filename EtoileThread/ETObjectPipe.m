@@ -103,7 +103,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * transition from blocking to non-blocking mode will not be missed, since the
  * condition variable can only be signalled when the producer thread has the
  * mutex.
- * 2) Read the invocation and return proxy from the buffer.
+ * 2) Read the invocation from the buffer.
  * 3) Increment the consumer counter.
  */
 #define REMOVE(x,direction) do {\
