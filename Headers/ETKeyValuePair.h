@@ -22,6 +22,7 @@ to an ordered dictionary or a multi-value collection. */
 	id _value;
 }
 
++ (id) pairWithKey: (NSString *)aKey value: (id)aValue;
 - (id) initWithKey: (NSString *)aKey value: (id)aValue;
 
 - (NSString *) key;

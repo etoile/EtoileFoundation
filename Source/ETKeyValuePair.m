@@ -13,6 +13,12 @@
 
 @implementation ETKeyValuePair
 
+/** Returns a new autoreleased pair with the given key and value. */
++ (id) pairWithKey: (NSString *)aKey value: (id)aValue
+{
+	return AUTORELEASE([[self alloc] initWithKey: aKey value: aValue]);
+}
+
 /** <init />
 Initializes and returns a new pair with the given key and value. */
 - (id) initWithKey: (NSString *)aKey value: (id)aValue
