@@ -364,19 +364,35 @@ includes in the new array the given objects to be ignored by the filtering. */
 	return newArray;
 }
 
-/** Deprecated. */
+/** <strong>Deprecated</strong>
+
+Returns the objects on which -valueForKey: returns a value that matches 
+the given one.
+
+For every object in the receiver, -valueForKey: will be invoked with the given 
+key.
+
+<example>
+NSArray *personsNamedJohn = [persons objectsMatchingValue: @"John" forKey: @"name"];
+</example>
+
+You should now use -filteredArrayUsingPredicate or -filter instead. For example:
+
+<example>
+NSArray *personsNamedJohn = [persons filteredArrayUsingPredicate: 
+	[NSPredicate predicateWithFormat: @"name == %@", @"John"]];
+</example> */
 - (NSArray *) objectsMatchingValue: (id)value forKey: (NSString *)key
 {
     NSMutableArray *result = [NSMutableArray array];
     NSArray *values = [self valueForKey: key];
-    int i, n = 0;
-    
+
     if (values == nil)
         return result;
     
-    n = [values count];
+    int n = [values count];
     
-    for (i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
     {
         if ([[values objectAtIndex: i] isEqual: value])
         {
@@ -387,10 +403,20 @@ includes in the new array the given objects to be ignored by the filtering. */
     return result;
 }
 
-/** Deprecated. */
+/** <strong>Deprecated</strong>
+
+Same as the -objectsMatchingValue:forKey:, except it returns the first 
+object that matches the receiver.
+
+Nil is returned when no object can be matched. */
 - (id) firstObjectMatchingValue: (id)value forKey: (NSString *)key
 {
-    return [[self objectsMatchingValue: value forKey: key] objectAtIndex: 0];
+    NSArray *matchedObjects = [self objectsMatchingValue: value forKey: key];
+
+	if ([matchedObjects isEmpty])
+		return nil;
+	
+	return [matchedObjects firstObject];
 }
 
 @end
