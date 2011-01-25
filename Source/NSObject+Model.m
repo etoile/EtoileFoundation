@@ -463,7 +463,8 @@ The options dictionary can be changed arbitrarily in a new implementation. */
 	{
 		[desc appendString: keyPath];
 		[desc appendString: @": "];
-		[desc appendString: [[self valueForKeyPath: keyPath] stringValue]];
+		NSString *value = [[self valueForKeyPath: keyPath] stringValue];
+		[desc appendString: (value != nil ? value : @"nil")];
 		[desc appendString: @", "];
 	}
 	[desc deleteCharactersInRange: NSMakeRange([desc length] - 2, 2)];	
