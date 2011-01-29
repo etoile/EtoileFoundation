@@ -14,9 +14,10 @@
 
 @interface NSIndexPath (Etoile)
 + (NSIndexPath *) indexPath;
++ (NSIndexPath *) indexPathWithString: (NSString *)aPath;
 - (unsigned int) firstIndex;
 - (unsigned int) lastIndex;
 - (NSIndexPath *) indexPathByRemovingFirstIndex;
 - (NSString *) stringByJoiningIndexPathWithSeparator: (NSString *)separator;
-- (NSString *) keyPath;
+- (NSString *) stringValue;
 @end

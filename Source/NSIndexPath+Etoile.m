@@ -18,6 +18,22 @@
 	return AUTORELEASE([[NSIndexPath alloc] init]);
 }
 
+/** Returns a new autoreleased index path initialized with a index path string 
+representation.
+
+The string representation must use <em>.</em> as separator. For example, <em>5.6.7</em>. */
++ (NSIndexPath *) indexPathWithString: (NSString *)aPath
+{
+	NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes: NULL length: 0];
+
+	FOREACH([aPath componentsSeparatedByString: @"."], component, NSString *)
+	{
+		indexPath = [indexPath indexPathByAddingIndex: [component integerValue]];
+	}
+
+	return indexPath;
+}
+
 /** Returns the first path component in the index path. */
 - (unsigned int) firstIndex
 {
@@ -73,14 +89,13 @@ Will raise an NSInvalidArgumentException if the separator is nil. */
 	return path;
 }
 
-/** Returns a string representation of the receiver which can be used as a key
-path. 
+/** Returns a string representation of the receiver. 
 
 Take note that KVC as implemented by Foundation collection classes such as 
 NSArray doesn't support to look up elements with a key like '5' or a key path 
 like '6.name'. -valueForKey: and -valueForKeyPath: would try to lookup 5 and 6 
 as ivar or method names. */
-- (NSString *) keyPath
+- (NSString *) stringValue
 {
 	return [self stringByJoiningIndexPathWithSeparator: @"."];
 }
