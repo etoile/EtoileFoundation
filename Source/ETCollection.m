@@ -118,7 +118,7 @@
 {
 	// FIXME: In theory a bad implementation seeing that the documentation
 	// states -allKeys and -allValues return objects in an undefined order.
-	return [[self allKeys] objectAtIndex: index];
+	return [[[self allKeys] objectAtIndex: index] stringValue];
 }
 
 - (NSString *) stringValue
