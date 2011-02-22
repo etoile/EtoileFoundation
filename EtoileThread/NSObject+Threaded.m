@@ -46,11 +46,31 @@ void * threadedInvocationTrampoline(void *initialiser)
 {
 	struct ETThreadedInvocationInitialiser *init = initialiser;
 	id pool = [[NSAutoreleasePool alloc] init];
+	BOOL hadException = NO;
 
-	[init->invocation invoke];
+	@try
+	{
+		[init->invocation invoke];
+	}
+	@catch(NSException* exception)
+	{
+		/*
+		 * If the invocation did cause an exception, we catch it and transfer it
+		 * to the proxy.
+		 */
+		[init->retVal setProxyException: exception];
+		hadException = YES;
+	}
+	@finally
+	{
+	}
+
 	id retVal;
-	[init->invocation getReturnValue:&retVal];
-	[init->retVal setProxyObject:retVal];
+	if (NO == hadException)
+	{
+	  [init->invocation getReturnValue:&retVal];
+	  [init->retVal setProxyObject:retVal];
+	}
 	[init->invocation release];
 	[init->retVal release];
 

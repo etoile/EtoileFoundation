@@ -38,17 +38,25 @@
  * The ETThreadProxyReturn class is used to implement futures.  It is returned
  * from a threaded object.
  */
-@interface ETThreadProxyReturn : NSProxy 
+@interface ETThreadProxyReturn : NSProxy
 {
 	id object;
+	NSException *exception;
 	pthread_cond_t conditionVariable;
 	pthread_mutex_t mutex;
 }
 /**
- * Sets the object represented by the proxy.  Should only be called by 
+ * Sets the object represented by the proxy.  Should only be called by
  * ETThreadedObject.
  */
 - (void) setProxyObject: (id)anObject;
+
+/**
+ * Sets an exception that might be caused by executing a method on the other
+ * thread. Should only be called by ETThreadedObject.
+ */
+- (void) setProxyException: (NSException*)anException;
+
 /**
  * Returns the value represented by the object.
  */

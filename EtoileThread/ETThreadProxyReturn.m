@@ -51,6 +51,7 @@
 	pthread_cond_destroy(&conditionVariable);
 	pthread_mutex_destroy(&mutex);
 	[object release];
+	[exception release];
 	[super dealloc];
 }
 
@@ -63,16 +64,29 @@
 	[self release];
 }
 
+- (void) setProxyException: (NSException*)anException
+{
+	pthread_mutex_lock(&mutex);
+	exception = [anException retain];
+	pthread_cond_signal(&conditionVariable);
+	pthread_mutex_unlock(&mutex);
+	[self release];
+}
 - (id) value
 {
 	if (INVALID_OBJECT == object)
 	{
 		pthread_mutex_lock(&mutex);
-		if (INVALID_OBJECT == object)
+		if ((INVALID_OBJECT == object) && (nil == exception))
 		{
 			pthread_cond_wait(&conditionVariable, &mutex);
 		}
 		pthread_mutex_unlock(&mutex);
+	}
+	if (nil != exception)
+	{
+		[exception raise];
+		return nil;
 	}
 	return object;
 }
