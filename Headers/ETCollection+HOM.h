@@ -1,7 +1,7 @@
 /*
 	ETCollection+HOM.h
 
-	Higher-order messaging additions to ETCollection 
+	Higher-order messaging additions to ETCollection
 
 	Copyright (C) 2009 Niels Grewe
 
@@ -246,10 +246,13 @@
 @protocol ETCollectionHOMMapIntegration
 
 /**
- * This method will be called by the map- and zip-functions. If a class
- * implements a <code>-mapInfo</code> method the return value of that method
- * will be passed here. It can be used to pass information about the original
- * state of the collection.
+ * This method will be called by the map- and zip-functions and allows the
+ * receiver to control how the replacement object is placed in the target
+ * collection (which might be identical to the receiver). Classes adopting
+ * the ETCollectionHOMMapIntegration protocol can also implement the
+ * <code>-mapInfo</code> to provide additional information (e.g. about the
+ * original state of the collection, which will be passed as <var>mapInfo</var>
+ * here.
  */
 - (void)placeObject: (id)mappedObject
        inCollection: (id<ETCollectionMutation>*)aTarget
@@ -257,6 +260,13 @@
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
             mapInfo: (id)mapInfo;
+@optional
+/**
+ * Adopting classes can implement his method to pass additional information
+ * to the element-handling hook
+ * -placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:mapInfo:
+ */
+- (id)mapInfo;
 @end
 
 /**
@@ -299,7 +309,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @interface NSSet (ETCollectionHOM) <ETCollectionHOM>
 @end
 
-@interface NSIndexSet (ETCollectionHOM) <ETCollectionHOM> 
+@interface NSIndexSet (ETCollectionHOM) <ETCollectionHOM>
 @end
 
 @interface NSMutableArray (ETCollectionHOM) <ETCollectionMutationHOM,ETCollectionHOMMapIntegration>
