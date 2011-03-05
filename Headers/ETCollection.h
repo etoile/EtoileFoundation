@@ -91,7 +91,8 @@ When  a collection is received in argument, the collection type can be checked
 to know whether the code needs to convert the collection or not, to remove or 
 insert its content in the receiver. In most cases, the code below is a useless 
 optimization (the else branch is good enough).
-<code>
+
+<example>
 if ([[aCollection content] isArray] == NO)
 {
 	[personIvarArray addObjectsFromArray: (NSArray *)aCollection];
@@ -100,7 +101,8 @@ else
 {
 	[personIvarArray addObjectsFromArray: [aCollection contentArray]];
 }
-</code><br />
+</example>
+
 See NSObject+Model for other methods such as -isArray. */
 @interface NSObject (ETBatchCollectionMutation)
 /** Inserts the given collection elements at separate indexes.
