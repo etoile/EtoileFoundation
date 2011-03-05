@@ -260,13 +260,14 @@
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
             mapInfo: (id)mapInfo;
-@optional
+// NOTE: For now, disabled because it only works with Clang and not GCC.
+//@optional
 /**
  * Adopting classes can implement his method to pass additional information
  * to the element-handling hook
  * -placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:mapInfo:
  */
-- (id)mapInfo;
+//- (id)mapInfo;
 @end
 
 /**

@@ -434,8 +434,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	id<NSObject,ETCollection,ETCollectionMutation> theTarget = *aTarget;
 	NSInvocation *anInvocation = nil;
-	// Initialised to get rid of spurious warning from GCC
-	SEL selector = @selector(description);
+	SEL selector = NULL;
 
 	//Prefetch some stuff to avoid doing it repeatedly in the loop.
 
@@ -614,8 +613,7 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 
 	id accumulator = initialValue;
 	NSInvocation *anInvocation = nil;
-	// Initialised to get rid of spurious warning from GCC
-	SEL selector = @selector(description);
+	SEL selector = NULL;
 
 	if (NO == useBlock)
 	{
@@ -695,8 +693,8 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 
 	id<ETCollectionObject> theCollection = (id<ETCollectionObject>)*aCollection;
 	id<ETMutableCollectionObject> theTarget = (id<ETMutableCollectionObject>)*target;
-	NSInvocation *anInvocation;
-	SEL selector;
+	NSInvocation *anInvocation = nil;
+	SEL selector = NULL;
 	argField_t eachedSlots;
 	// Zeroing out the first byte of the field is enough to indicate that the
 	// field has not been filled.
@@ -859,8 +857,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 
 	BOOL modifiesSelf = ((id*)firstCollection == (id*)target);
 	NSInvocation *invocation = nil;
-	// Initialised to get rid of spurious warning from GCC
-	SEL selector = @selector(description);
+	SEL selector = NULL;
 	NSArray *contentsFirst = [(NSObject*)*firstCollection collectionArray];
 	NSArray *contentsSecond = [(NSObject*)*secondCollection collectionArray];
 	if (NO == useBlock)
@@ -883,7 +880,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	if (useBlock)
 	{
 		NSCAssert([blockOrInvocation respondsToSelector: valueSelector],
-				@"Block does nto respond to the correct selector!");
+				@"Block does not respond to the correct selector!");
 		invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
 	}
 
