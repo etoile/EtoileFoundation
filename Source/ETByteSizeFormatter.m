@@ -15,13 +15,14 @@
 
 /** Converts the given byte size (must be a NSNumber object) into a 
 human-readable string expressed in:
+
 <deflist>
 <term>B</term><desc>bytes</desc>
 <term>KB</term><desc>kilobytes</desc>
 <term>MB</term><desc>megabytes</desc>
 <term>GB</term><desc>gigabytes</desc>
 <term>TB</term><desc>terabytes</desc>
-</deflist>.
+</deflist>
 
 No digits are displayed after the decimal point for B and KB, one digit for 
 MB, two digits for GB and three digits for TB. */
