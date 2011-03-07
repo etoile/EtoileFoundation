@@ -31,7 +31,7 @@
 	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-	THE POSSIBILITY OF SUCH DAMAGE. 
+	THE POSSIBILITY OF SUCH DAMAGE.
 */
 #import <Foundation/Foundation.h>
 #import "ETCollection.h"
@@ -158,7 +158,7 @@ DEALLOC([collection release]; [contents release];);
 
 - (BOOL)respondsToSelector: (SEL)aSelector
 {
-	if (aSelector == @selector(nextObjectFromContents))
+	if (sel_isEqual(@selector(nextObjectFromContents), aSelector))
 	{
 		return YES;
 	}
@@ -218,7 +218,7 @@ static inline argField_t eachedArgumentsFromInvocation(NSInvocation *inv)
 {
 	NSMethodSignature *sig = [inv methodSignature];
 	NSUInteger argCount = [sig numberOfArguments];
-	/* 
+	/*
 	 * We need a char[16] to hold 128bits, since C99 allows 127 arguments and
 	 * initialize to zero:
 	 */
@@ -264,8 +264,8 @@ static inline argField_t eachedArgumentsFromInvocation(NSInvocation *inv)
 	return argField;
 }
 
-/* 
- * Scan the argField to finde the index of the next argument that has an
+/*
+ * Scan the argField to find the index of the next argument that has an
  * each-proxy set.
  */
 static inline NSUInteger nextSlotIDWithEachProxy(argField_t *slots, NSUInteger slotID)
@@ -415,7 +415,7 @@ static BOOL recursiveFilterWithInvocation(NSInvocation *inv, // The invocation, 
 	return result;
 }
 /*
- * The following functions will be used by both the ETCollectionHOM categories 
+ * The following functions will be used by both the ETCollectionHOM categories
  * and the corresponding proxies.
  */
 static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
@@ -473,7 +473,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	}
 	/*
 	 * For some collections (such as NSDictionary) the index of the object
-	 * needs to be tracked. 
+	 * needs to be tracked.
  	 */
 	unsigned int objectIndex = 0;
 	NSNull *nullObject = [NSNull null];
@@ -708,7 +708,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 	}
 
 	NSArray* content = [[(NSObject*)theCollection collectionArray] retain];
-	
+
 	/*
 	 * A snapshot of the object is needed at least for NSDictionary. It needs
 	 * to know about the key for which the original object was set in order to
@@ -1036,13 +1036,13 @@ DEALLOC(
 	return [NSObject instanceMethodSignatureForSelector: aSelector];
 }
 
-/* You can override this method to return a custom method signature as 
+/* You can override this method to return a custom method signature as
 ETCollectionMutationFilterProxy does.
-You can call -primitiveMethodSignatureForSelector: in the overriden version, but 
+You can call -primitiveMethodSignatureForSelector: in the overriden version, but
 not -[super methodSignatureForSelector:]. */
 - (NSMethodSignature*)methodSignatureForEmptyCollection
 {
-	/* 
+	/*
 	 * Returns any arbitrary NSObject selector whose return type is id.
 	 */
 	return [NSObject instanceMethodSignatureForSelector: @selector(self)];
@@ -1071,8 +1071,8 @@ not -[super methodSignatureForSelector:]. */
 	return [NSObject instanceMethodSignatureForSelector:aSelector];
 }
 
-// TODO: Intercept all messages from the NSObject protocol except -autorelease, 
-// -retain, -release, -isProxy and implement a special -proxyDescription for 
+// TODO: Intercept all messages from the NSObject protocol except -autorelease,
+// -retain, -release, -isProxy and implement a special -proxyDescription for
 // debugging supposing -description gets overriden for forwarding purpose.
 
 /* Intercepted NSObject Protocol Messages as Normal HOM Argument Messages */
@@ -1082,7 +1082,7 @@ not -[super methodSignatureForSelector:]. */
 	/* For this check, see -isEqual: */
 	if ([collection isEmpty])
 		return nil;
-	
+
 	NSInvocation *inv = [NSInvocation invocationWithTarget: self selector: _cmd arguments: nil];
 	Class retValue = Nil;
 
@@ -1093,11 +1093,11 @@ not -[super methodSignatureForSelector:]. */
 
 - (BOOL)isEqual: (id)obj
 {
-	/* Discard the message, we cannot construct the invocation because 
-	   -methodSignatureForEmptyCollection would be called and returns the 
+	/* Discard the message, we cannot construct the invocation because
+	   -methodSignatureForEmptyCollection would be called and returns the
 	   same constant method signature per HOM proxy type.
-	   We could tweak -methodSignatureForEmptyCollection to accept a 
-	   selector in argument and look up the right signature on NSObject, but 
+	   We could tweak -methodSignatureForEmptyCollection to accept a
+	   selector in argument and look up the right signature on NSObject, but
 	   that's useless given that we are going to ignore the message anyway. */
 	if ([collection isEmpty])
 		return NO;
@@ -1143,10 +1143,10 @@ not -[super methodSignatureForSelector:]. */
 
 
 @implementation ETCollectionFoldProxy
-- (id)initWithCollection: (id<ETCollectionObject>)aCollection 
+- (id)initWithCollection: (id<ETCollectionObject>)aCollection
               forInverse: (BOOL)shallInvert
 {
-	
+
 	if (nil == (self = [super initWithCollection: aCollection]))
 	{
 		return nil;
@@ -1214,22 +1214,22 @@ not -[super methodSignatureForSelector:]. */
 
 - (NSMethodSignature*)methodSignatureForEmptyCollection
 {
-	/* 
+	/*
 	 * Returns any arbitrary NSObject selector whose return type is BOOL.
 	 *
-	 * When the collection is empty, if we have two chained messages like 
-	 * [[[collection filter] name] isEqualToString: @"blabla"], the proxy cannot 
-	 * infer the return types of -name and -isEqualToString: (not exactly true 
-	 * in the GNU runtime case which supports typed selectors). Hence we cannot 
-	 * know whether we have one or two messages in arguments. 
-	 * The solution is to pretend we have only one message whose signature is 
-	 * -(BOOL)xxx and use NO as the return value. 
+	 * When the collection is empty, if we have two chained messages like
+	 * [[[collection filter] name] isEqualToString: @"blabla"], the proxy cannot
+	 * infer the return types of -name and -isEqualToString: (not exactly true
+	 * in the GNU runtime case which supports typed selectors). Hence we cannot
+	 * know whether we have one or two messages in arguments.
+	 * The solution is to pretend we have only one message whose signature is
+	 * -(BOOL)xxx and use NO as the return value.
 	 * Because NO is the same than nil, any second message is discarded.
 	 *
-	 * An alternative which doesn't require -primitiveMethodSignatureForSelector 
-	 * would be to pretend we have two messages. With [[x filter] isXYZ], -isXYZ 
-	 * would be treated as -(id)isXYZ. A secondary proxy would be created and 
-	 * its adress put into the BOOL return value. This secondary proxy would 
+	 * An alternative which doesn't require -primitiveMethodSignatureForSelector
+	 * would be to pretend we have two messages. With [[x filter] isXYZ], -isXYZ
+	 * would be treated as -(id)isXYZ. A secondary proxy would be created and
+	 * its adress put into the BOOL return value. This secondary proxy would
 	 * never receive a message and the returned boolean would be random.
 	 */
 	return [super primitiveMethodSignatureForSelector: @selector(isProxy)];
@@ -1417,7 +1417,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 havingAlreadyMapped: (NSArray*)alreadyMapped
             mapInfo: (id)mapInfo
 {
-	if (((id)self == (id)*aTarget) 
+	if (((id)self == (id)*aTarget)
 	 && (NO == [alreadyMapped containsObject: originalObject]))
 	{
 		[*aTarget removeObject: originalObject];
@@ -1429,7 +1429,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 
 /*
  * NSCountedSet does not implement the HOM-methods itself, but it does need to
- * override the -placeObject:... method of its superclass. 
+ * override the -placeObject:... method of its superclass.
  */
 @interface NSCountedSet (ETCollectionMapHandler)
 @end
@@ -1475,7 +1475,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 havingAlreadyMapped: (NSArray*)alreadyMapped
             mapInfo: (id)mapInfo
 {
-	if (((id)self == (id)*aTarget) 
+	if (((id)self == (id)*aTarget)
 	 && (NO == [alreadyMapped containsObject: originalObject]))
 	{
 		[*aTarget removeObject: originalObject];
