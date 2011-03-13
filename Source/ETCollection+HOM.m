@@ -1212,6 +1212,19 @@ not -[super methodSignatureForSelector:]. */
 	return self;
 }
 
+- (uintptr_t)pointerSizedProxyNull
+{
+	if ([collection isEmpty])
+	{
+		return 0;
+	}
+	NSInvocation *inv = [NSInvocation invocationWithTarget: self selector: _cmd arguments: nil];
+	uintptr_t retValue = 0;
+
+	[self forwardInvocation: inv];
+	[inv getReturnValue: &retValue];
+	return retValue;
+}
 - (NSMethodSignature*)methodSignatureForEmptyCollection
 {
 	/*
@@ -1223,8 +1236,11 @@ not -[super methodSignatureForSelector:]. */
 	 * in the GNU runtime case which supports typed selectors). Hence we cannot
 	 * know whether we have one or two messages in arguments.
 	 * The solution is to pretend we have only one message whose signature is
-	 * -(BOOL)xxx and use NO as the return value.
-	 * Because NO is the same than nil, any second message is discarded.
+	 * -(uintptr_t)xxx and use 0 as the return value. This will cause subsequent
+	 * messages be ignored.
+	 * We cannot use BOOL because the compiler might have allocated enough space
+	 * for the return value to store a pointer, and when sizeof(BOOL)<
+	 * sizeof(uintptr_t) we would not be setting the value to nil.
 	 *
 	 * An alternative which doesn't require -primitiveMethodSignatureForSelector
 	 * would be to pretend we have two messages. With [[x filter] isXYZ], -isXYZ
@@ -1232,7 +1248,7 @@ not -[super methodSignatureForSelector:]. */
 	 * its adress put into the BOOL return value. This secondary proxy would
 	 * never receive a message and the returned boolean would be random.
 	 */
-	return [super primitiveMethodSignatureForSelector: @selector(isProxy)];
+	return [self primitiveMethodSignatureForSelector: @selector(pointerSizedProxyNull)];
 }
 
 - (void)forwardInvocation: (NSInvocation*)anInvocation
@@ -1265,7 +1281,15 @@ not -[super methodSignatureForSelector:]. */
 		                                       andInvert: invert] autorelease];
 		[anInvocation setReturnValue: &nextProxy];
 	}
-	else
+	else if ((0 == strcmp(@encode(uintptr_t), returnType))
+		&& ([collection isEmpty]))
+	{
+		// This special case is used when the collection is empty and we were
+		// passed a phony method signature.
+		uintptr_t theNull = 0;
+		[anInvocation setReturnValue: &theNull];
+
+	}
 	{
 		[super forwardInvocation: anInvocation];
 	}
