@@ -1290,6 +1290,7 @@ not -[super methodSignatureForSelector:]. */
 		[anInvocation setReturnValue: &theNull];
 
 	}
+	else
 	{
 		[super forwardInvocation: anInvocation];
 	}
