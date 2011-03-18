@@ -1,11 +1,11 @@
 /*
 	Copyright (C) 2007 Quentin Mathe
- 
+
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
 	Date:  September 2007
 	License:  Modified BSD (see COPYING)
  */
- 
+
 #import "NSIndexPath+Etoile.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
@@ -18,7 +18,7 @@
 	return AUTORELEASE([[NSIndexPath alloc] init]);
 }
 
-/** Returns a new autoreleased index path initialized with a index path string 
+/** Returns a new autoreleased index path initialized with a index path string
 representation.
 
 The string representation must use <em>.</em> as separator. For example, <em>5.6.7</em>. */
@@ -35,13 +35,13 @@ The string representation must use <em>.</em> as separator. For example, <em>5.6
 }
 
 /** Returns the first path component in the index path. */
-- (unsigned int) firstIndex
+- (NSUInteger) firstIndex
 {
 	return [self indexAtPosition: 0];
 }
 
 /** Returns the last path component in the index path. */
-- (unsigned int) lastIndex
+- (NSUInteger) lastIndex
 {
 	return [self indexAtPosition: [self length] - 1];
 }
@@ -53,7 +53,7 @@ The string representation must use <em>.</em> as separator. For example, <em>5.6
 	unsigned int *buffer = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * ([self length] - 1));*/
 	NSUInteger *indexes = calloc(sizeof(unsigned int), [self length]);
 	NSUInteger *buffer = calloc(sizeof(unsigned int), [self length] - 1);
-	
+
 	[self getIndexes: indexes];
 	buffer = memcpy(buffer, &indexes[1], sizeof(unsigned int) * ([self length] -1));
 	//NSZoneFree(NSDefaultMallocZone(), indexes);
@@ -64,7 +64,7 @@ The string representation must use <em>.</em> as separator. For example, <em>5.6
 	return thePath;
 }
 
-/** Returns an autoreleased string representation by joining each index path 
+/** Returns an autoreleased string representation by joining each index path
 component with the given separator.
 
 e.g. '5/6/7' with '/' as separator or '5.6.7' with '.' as separator.
@@ -79,21 +79,21 @@ Will raise an NSInvalidArgumentException if the separator is nil. */
 
 	NSString *path = [NSString stringWithFormat: @"%lu", [self firstIndex]];
 	int indexCount = [self length];
-	
+
 	for (int i = 1; i < indexCount; i++)
 	{
-		path = [path stringByAppendingString: 
+		path = [path stringByAppendingString:
 			[NSString stringWithFormat: @"%@%lu", separator, [self indexAtPosition: i]]];
 	}
-	
+
 	return path;
 }
 
-/** Returns a string representation of the receiver. 
+/** Returns a string representation of the receiver.
 
-Take note that KVC as implemented by Foundation collection classes such as 
-NSArray doesn't support to look up elements with a key like '5' or a key path 
-like '6.name'. -valueForKey: and -valueForKeyPath: would try to lookup 5 and 6 
+Take note that KVC as implemented by Foundation collection classes such as
+NSArray doesn't support to look up elements with a key like '5' or a key path
+like '6.name'. -valueForKey: and -valueForKeyPath: would try to lookup 5 and 6
 as ivar or method names. */
 - (NSString *) stringValue
 {

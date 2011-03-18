@@ -8,15 +8,15 @@
 	Date:  September 2007
 	License:  Modified BSD (see COPYING)
  */
- 
+
 #import <Foundation/Foundation.h>
 
 
 @interface NSIndexPath (Etoile)
 + (NSIndexPath *) indexPath;
 + (NSIndexPath *) indexPathWithString: (NSString *)aPath;
-- (unsigned int) firstIndex;
-- (unsigned int) lastIndex;
+- (NSUInteger) firstIndex;
+- (NSUInteger) lastIndex;
 - (NSIndexPath *) indexPathByRemovingFirstIndex;
 - (NSString *) stringByJoiningIndexPathWithSeparator: (NSString *)separator;
 - (NSString *) stringValue;
