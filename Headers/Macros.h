@@ -37,7 +37,9 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  *
  * Example:
  *
+ * <example>
  * STACK_SCOPED Foo * foo = [[Foo alloc] init];
+ * </example>
  */
 #define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
 		__attribute__((unused))
@@ -69,12 +71,19 @@ __attribute__((unused)) static inline void ETUnlockObject(void* object)
 	NSAutoreleasePool *__COUNTER__ ## _pool = [NSAutoreleasePool new];
 
 /**
- * Set of macros providing a for each statement on collections, with IMP
- * caching.
+ * Macro providing a foreach statement on collections, with IMP caching.
+ *
+ * You should rather use FOREACH that provides basic typechecking.
  */
 #define FOREACHI(collection,object) FOREACH(collection,object,id)
 
 #ifdef __clang__
+/**
+ * Macro providing a foreach statement on collections, with IMP caching.
+ *
+ * @param type An element type such as 'NSString *' to typecheck the messages 
+ * sent to the elements in the code block.
+ */
 #	define FOREACH(collection,object,type) for (type object in [collection objectEnumerator])
 #else
 #	define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
@@ -85,6 +94,15 @@ NSEnumerator * enumerator = [collection objectEnumerator];\
 FOREACHE(collection,object,type,enumerator)
 
 #ifdef __clang__
+/**
+ * Macro providing a foreach statement on collections, with IMP caching.
+ *
+ * @param collection Can be nil, this argument is ignored.
+ * @param type An element type such as 'NSString *' to typecheck the messages 
+ * sent to the elements in the code block.
+ * @param enumerator A custom enumerator object to use to iterate over the 
+ * collection.
+ */
 #	define FOREACHE(collection,object,type,enumerator)\
 	for (type object in enumerator)
 #else
@@ -97,8 +115,11 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 												   @selector(nextObject))))
 #endif
 
+/** Shortcut macro to create a NSDictionary. Same as +[NSDictionary dictionaryWithObjectsAndKeys:]. */
 #define D(...) [NSDictionary dictionaryWithObjectsAndKeys:__VA_ARGS__ , nil]
+/** Shortcut macro to create a NSArray. Same as +[NSArray dictionaryWithObjects:]. */
 #define A(...) [NSArray arrayWithObjects:__VA_ARGS__ , nil]
+/** Shortcut macro to create a NSSet. Same as +[NSSet setWithObjects:]. */
 #define S(...) [NSSet setWithObjects:__VA_ARGS__ , nil]
 
 #ifdef DEFINE_STRINGS
