@@ -1,11 +1,11 @@
-/** <title>ETInstanceVariableMirror</title>
-
+/**
 	<abstract>Mirror class that represents an Objective-C instance 
 	variable.</abstract>
 
 	Copyright (C) 2009 Eric Wasylishen
  
 	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Author:  Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  June 2009
 	License: Modified BSD (see COPYING)
  */
@@ -14,7 +14,7 @@
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/runtime.h>
 
-
+/** @group Reflection */
 @interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror>
 {
 	@private

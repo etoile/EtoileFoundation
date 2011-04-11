@@ -1,5 +1,5 @@
-/*
-	Mirror-based reflection for Etoile.
+/**
+	<abstract>Mirror-based reflection for Etoile</abstract>
  
 	Copyright (C) 2009 Eric Wasylishen
  
@@ -13,12 +13,14 @@
 
 @class ETUTI;
 
+/** @group Reflection */
 @protocol ETMirror <NSObject>
 - (NSString *) name;
 - (ETUTI *) type;
 @end
 
 
+/** @group Reflection */
 @protocol ETClassMirror <ETMirror, ETCollection>
 - (id <ETClassMirror>) superclassMirror;
 - (NSArray *) subclassMirrors;
@@ -42,6 +44,7 @@
 @end
 
 
+/** @group Reflection */
 @protocol ETObjectMirror <ETMirror, ETCollection>
 - (id) representedObject;
 - (id <ETClassMirror>) classMirror;
@@ -57,6 +60,7 @@
 @end
 
 
+/** @group Reflection */
 @protocol ETProtocolMirror <ETMirror, ETCollection>
 - (NSArray *) ancestorProtocolMirrors;
 - (NSArray *) allAncestorProtocolMirrors;
@@ -65,16 +69,18 @@
 @end
 
 
+/** @group Reflection */
 @protocol ETMethodMirror <ETMirror>
 - (BOOL) isClassMethod;
 @end
 
 
+/** @group Reflection */
 @protocol ETInstanceVariableMirror <ETMirror>
 @end
 
 
-
+/** @group Reflection */
 @interface ETReflection : NSObject
 {
 }
@@ -84,5 +90,3 @@
 + (id <ETProtocolMirror>) reflectProtocolWithName: (NSString *)protocolName;
 + (id <ETProtocolMirror>) reflectProtocol: (Protocol *)aProtocol;
 @end
-
-

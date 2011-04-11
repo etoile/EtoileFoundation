@@ -1,5 +1,5 @@
-/*
-	Mirror-based reflection API for Etoile.
+/**
+	<abstract>Mirror-based reflection API for Etoile</abstract>
  
 	Copyright (C) 2009 Eric Wasylishen
  
@@ -12,6 +12,7 @@
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/runtime.h>
 
+/** @group Reflection */
 @interface ETMethodMirror : NSObject <ETMethodMirror>
 {
 	@private
@@ -23,6 +24,8 @@
 @end
 
 /**
+ * @group Reflection 
+ *
  * Used to mirror a method when we only know its name
  */
 @interface ETMethodDescriptionMirror : NSObject <ETMethodMirror>
