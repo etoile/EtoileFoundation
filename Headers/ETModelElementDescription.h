@@ -104,14 +104,14 @@ is <em>Untitled</em>. */
 The name is a key path built by joining every names in the owner chain up to 
 the root owner. The key path pattern is:
 <code>ownerName*.receiverName</code>.<br /> 
-The '+' sign indicates 'ownerName' can be repeated zero or multiple times.
+The <em>+</em> sign indicates <em>ownerName</em> can be repeated zero or multiple times.
 
-Given a class 'Movie' and its property 'director'. The full names are:
+Given a class <em>Movie</em> and its property <em>director</em>. The full names are:
 
 <list>
 <item>Movie for the class</item>
 <item>Movie.director for the property</item>
-</list>. */
+</list> */
 - (NSString *) fullName;
 /** Returns the element that owns the receiver.
 
@@ -121,7 +121,11 @@ For a package, there is no owner.
 
 By default, returns nil. */
 - (id) owner;
+/** Returns whether the receiver describes an object that belongs to the 
+metamodel. */
 - (BOOL) isMetaMetamodel;
+/** Sets whether the receiver describes an object that belongs to the 
+metamodel. */
 - (void) setIsMetaMetamodel: (BOOL)isMeta;
 
 /* @taskunit UI */
@@ -131,7 +135,7 @@ e.g. at UI level.
 
 By default, returns nil.
 
-See also -setIdemIdentifier:. */
+See also -setItemIdentifier:. */
 - (NSString *) itemIdentifier;
 /** Sets a hint that precises how the receiver should be rendered.
 
@@ -163,9 +167,9 @@ See -checkConstraints:. */
 /** <override-subclass />
 Returns a short and human-readable description of the receiver type.
 
-It must be derived from the class name. e.g. 'Package' for ETPackageDescription.
+It must be derived from the class name. e.g. <em>Package</em> for ETPackageDescription.
 
-By default, returns 'Element'. */
+By default, returns <em>Element</em>. */
 - (NSString *) typeDescription;
 
 @end
