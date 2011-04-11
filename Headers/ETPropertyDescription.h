@@ -19,6 +19,8 @@
 @class ETRoleDescription;
 
 /**
+ * @group Model and Metamodel
+ *
  * Description of an entity's property.
  */
 @interface ETPropertyDescription : ETModelElementDescription
@@ -36,12 +38,16 @@
 	BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
 }
 
+/** @taskunit Initialization */
+
 /** Returns an autoreleased property description.
 
 The given name and type must not be nil, otherwise an NSInvalidArgumentException 
 is raised. */
 + (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
                                            type: (ETEntityDescription *)aType;
+
+/** @taskunit Querying Type */
 
 /** Returns YES. */
 - (BOOL) isPropertyDescription;
@@ -51,7 +57,7 @@ If -type returns a valid entity description, the parenthesis contains the
 entity name in the returned string. */
 - (NSString *) typeDescription;
 
-/* Properties */
+/** @taskunit Model Specification */
 
 /**
  * If YES, this property's value/values are the child/children of the entity
@@ -116,10 +122,10 @@ isAttribute is derived from isRelationship.
 See -isRelationship. */
 - (BOOL) isAttribute;
 
-/* Validation */
-
 - (id) role;
 - (void) setRole: (ETRoleDescription *)role;
+
+/** @taskunit Validation */
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
 /**
@@ -131,11 +137,11 @@ See -isRelationship. */
 @end
 
 
-/* Property Role Description classes 
+/** @group Model and Metamodel
+
+Property Role Description classes.
  
- These allow a pluggable, more precise property description
- 
- */
+These allow a pluggable, more precise property description. */
 @interface ETRoleDescription : NSObject
 {
 }
@@ -145,6 +151,7 @@ See -isRelationship. */
 
 @end
 
+/** @group Model and Metamodel */
 @interface ETRelationshipRole : ETRoleDescription
 {
 	BOOL _isMandatory;
@@ -158,6 +165,7 @@ See -isRelationship. */
 
 @end
 
+/** @group Model and Metamodel */
 @interface ETMultiOptionsRole : ETRoleDescription
 {
 	NSArray *_allowedOptions;
@@ -168,6 +176,7 @@ See -isRelationship. */
 
 @end
 
+/** @group Model and Metamodel */
 @interface ETNumberRole : ETRoleDescription
 {
 	int _min;

@@ -16,7 +16,9 @@
 
 @class ETEntityDescription, ETPropertyDescription;
 
-/** Collection of related entity descriptions, usually equivalent to a data model.
+/** @group Model and Metamodel
+
+Collection of related entity descriptions, usually equivalent to a data model.
 
 A package can also include extensions to other entity descriptions. An extension 
 is a property description whose owner doesn't belong to the package it gets 
@@ -37,10 +39,14 @@ specify a data model.  */
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 
+/** @taskunit Querying Type */
+
 /** Returns YES. */
 - (BOOL) isPackageDescription;
 /** Returns 'Package'. */
 - (NSString *) typeDescription;
+
+/** @taskunit Packaged Entity Descriptions */
 
 /** Adds the given entity to the package, the package becomes its owner.
 
@@ -55,6 +61,8 @@ previously added with -addPropertyDescription: or -setPropertyDescriptions:. */
 
 The returned collection is an autoreleased copy. */
 - (NSSet *) entityDescriptions;
+
+/** @taskunit Packaged Entity Extensions */
 
 /** Adds the given entity extension to the package.
 
@@ -71,7 +79,7 @@ belongs to the package. */
 The returned collection is an autoreleased copy. */
 - (NSSet *) propertyDescriptions;
 
-/* Runtime Consistency Check */
+/** @taskunit Runtime Consistency Check */
 
 /** Checks the receiver conforms to the FM3 constraint spec and adds a short 
 warning to the given array for each failure. */

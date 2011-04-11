@@ -18,6 +18,8 @@
 @class ETPackageDescription, ETPropertyDescription, ETValidationResult, ETUTI;
 
 /**
+ * @group Model and Metamodel
+ *
  * A description of an "entity", which can either be a class or a prototype.
  */
 @interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
@@ -39,13 +41,12 @@
  */
 + (NSString *) rootEntityDescriptionName;
 
+/** @taskunit Querying Type */
+
 /** Returns YES. */
 - (BOOL) isEntityDescription;
 /** Returns 'Entity'. */
 - (NSString *) typeDescription;
-
-/* Property getters/setters */
-
 /**
  * Whether or not this entity is a primitive (i.e. describes attributes and not 
  * relationships)
@@ -65,15 +66,34 @@
  * See also -[ETPropertyDescription isPrimitive].
  */
 - (BOOL) isCPrimitive;
+
+/** @taskunit Model Specification */
+
 /**
  * Whether or not this entity is abstract (i.e. can't be instantiated)
  */
 - (BOOL) isAbstract;
 - (void) setAbstract: (BOOL)isAbstract;
+
+/** @taskunit Inheritance and Owning Package */
+
 /**
  * Whether this is a root entity (has no parent entity)
  */
 - (BOOL) isRoot;
+/**
+ * The parent entity of this entity. (Superclass or prototype)
+ */
+- (ETEntityDescription *) parent;
+- (void) setParent: (ETEntityDescription *)parentDescription;
+/** 
+ * The package to which this entity belongs to.
+ */
+- (ETPackageDescription *) owner;
+- (void) setOwner: (ETPackageDescription *)owner;
+
+/** @taskunit Property Descriptions */
+
 /**
  * Names of the property descriptions (not including those declared in parent 
  * entities).
@@ -92,34 +112,22 @@
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions;
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription;
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription;
-
 /**
  * Descriptions of the entity's properties, including those declared in parent
  * entities.
  */
 - (NSArray *) allPropertyDescriptions;
-/**
- * The parent entity of this entity. (Superclass or prototype)
- */
-- (ETEntityDescription *) parent;
-- (void) setParent: (ETEntityDescription *)parentDescription;
-/** 
- * The package to which this entity belongs to.
- */
-- (ETPackageDescription *) owner;
-- (void) setOwner: (ETPackageDescription *)owner;
-
-/* Utility methods */
-
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name;
 
-/* Validation */
+/** @taskunit Validation */
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
 
 @end
 
-/** Used to describe Model description primitives: object, string, boolean 
+/** @group Model and Metamodel
+
+Used to describe Model description primitives: object, string, boolean 
 etc. See -[ETEntityDescription isPrimitive].
 
 This class is used internally. You can possibly use it to support new 
@@ -129,7 +137,9 @@ primitives. */
 - (BOOL) isPrimitive;
 @end
 
-/** Used to describe Model description C primitives: float, BOOL, etc.
+/** @group Model and Metamodel
+
+Used to describe Model description C primitives: float, BOOL, etc.
 See -[ETEntityDescription isCPrimitive].
 
 This class is used internally. You can possibly use it to support new 
@@ -139,6 +149,7 @@ primitives. */
 - (BOOL) isCPrimitive;
 @end
 
+/** @group Model and Metamodel */
 @interface ETAdaptiveModelObject : NSObject
 {
 	NSMutableDictionary *_properties;

@@ -14,45 +14,42 @@
 
 @class ETEntityDescription, ETUTI;
 
-/** Abstract base class used by Model Description core classes. 
+/** @group Model and Metamodel
+
+Abstract base class used by Model Description core classes. 
 
 Also implements NestedElement and NamedElement protocols that exist in FAME/EMOF.
 
-<chapter>
-<heading>FAME and EtoileFoundation's Model Description</heading>
+@section FAME Teminology Change Summary
 
-<section>
-<heading>FAME Teminology Change Summary</heading>
 Those changes were made to further simplify the FAME terminology which can get 
 obscure since it overlaps with the host language object model, prevent any 
 conflict with existing GNUstep/Cocoa API and reuse GNUstep/Cocoa naming habits.
 
 We list the FAME term first, then its equivalent name in EtoileFoundation:
+
 <deflist>
-<item>FM3.Element</item><desc>ETModelElementDescription</desc>
-<item>FM3.Class</item><desc>ETEntityDescription</desc>
-<item>FM3.Property</item><desc>ETPropertyDescription</desc>
-<item>FM3.RuntimeElement</item><desc>ETAdaptiveModelObject</desc>
-<item>attributes (in Class)</item><desc>propertyDescriptions (in ETEntityDescription)</desc>
-<item>allAttributes (in Class)</item><desc>allPropertyDescriptions (in ETEntityDescription)</desc>
-<item>superclass (in Class)</item><desc>parent (in ETEntityDescription)</desc>
-<item>class (in Property)</item><desc>owner (in ETPropertyDescription)</desc>
+<term>FM3.Element</term><desc>ETModelElementDescription</desc>
+<term>FM3.Class</term><desc>ETEntityDescription</desc>
+<term>FM3.Property</term><desc>ETPropertyDescription</desc>
+<term>FM3.RuntimeElement</term><desc>ETAdaptiveModelObject</desc>
+<term>attributes (in Class)</term><desc>propertyDescriptions (in ETEntityDescription)</desc>
+<term>allAttributes (in Class)</term><desc>allPropertyDescriptions (in ETEntityDescription)</desc>
+<term>superclass (in Class)</term><desc>parent (in ETEntityDescription)</desc>
+<term>class (in Property)</term><desc>owner (in ETPropertyDescription)</desc>
 </deflist>
+
 For the last point class vs owner, we can consider they have been merged into 
 a single property in EtoileFoundation since they were redundant.
-</section>
 
-<section>
-<heading>Additions to FAME</heading>
+@section Additions to FAME
+
 itemIdentifier has been added as a mean to get precise control over the UI 
 generation with EtoileUI.
-</section>
 
-<heading>Removals to FAME/EMOF</heading>
-NamedElement and NestedElement protocols don't exist explicitly.
-</section>
+@section Removals to FAME/EMOF
 
-</chapter> */
+NamedElement and NestedElement protocols don't exist explicitly. */
 @interface ETModelElementDescription : NSObject
 {
 	@private
@@ -64,6 +61,8 @@ NamedElement and NestedElement protocols don't exist explicitly.
 /** <override-subclass />
 Returns a new self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
+
+/** @taskunit Initialization */
 
 /** Returns an autoreleased entity, property or package description.
 
@@ -82,8 +81,10 @@ description applies to a prototype rather than a class.
 Raises an NSInvalidArgumentException when the name is nil or already in use. */
 - (id) initWithName: (NSString *)name;
 /** Initializes and returns entity, property or package description whose name 
-is <em>Untitled<em>. */
+is <em>Untitled</em>. */
 - (id) init;
+
+/** @taskunit Querying Type */
 
 /** Returns whether the receiver describes a property. */
 - (BOOL) isPropertyDescription;
@@ -92,7 +93,7 @@ is <em>Untitled<em>. */
 /** Returns whether the receiver describes a package. */
 - (BOOL) isPackageDescription;
 
-/* Property getters/setters */
+/** @taskunit Basic Model Specification */
 
 /** Returns the name of the entity, property or package. */
 - (NSString *) name;
@@ -102,10 +103,11 @@ is <em>Untitled<em>. */
 
 The name is a key path built by joining every names in the owner chain up to 
 the root owner. The key path pattern is:
-<code>ownerName*.receiverName</code>. 
+<code>ownerName*.receiverName</code>.<br /> 
 The '+' sign indicates 'ownerName' can be repeated zero or multiple times.
 
 Given a class 'Movie' and its property 'director'. The full names are:
+
 <list>
 <item>Movie for the class</item>
 <item>Movie.director for the property</item>
@@ -122,7 +124,7 @@ By default, returns nil. */
 - (BOOL) isMetaMetamodel;
 - (void) setIsMetaMetamodel: (BOOL)isMeta;
 
-/* UI */
+/* @taskunit UI */
 
 /** Returns a hint that precises how the receiver should be rendered. 
 e.g. at UI level.
@@ -140,7 +142,7 @@ ETModelDescriptionRenderer in EtoileUI uses it to look up a template item that
 will represent the property at the UI level. */
 - (void) setItemIdentifier: (NSString *)anIdentifier;
 
-/* Runtime Consistency Check */
+/** @taskunit Runtime Consistency Check */
 
 /** <override-dummy />
 Checks the receiver conforms to the FM3 constraint spec and adds a short warning
@@ -154,7 +156,7 @@ should be created with -warningWithMessage:. */
 See -checkConstraints:. */
 - (NSString *) warningWithMessage: (NSString *)msg;
 
-/* Model Presentation */
+/** @taskunit Model Presentation */
 
 /** Returns -name. */
 - (NSString *) displayName;

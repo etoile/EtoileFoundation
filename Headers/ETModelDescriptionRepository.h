@@ -17,7 +17,9 @@
 @class ETModelElementDescription, ETEntityDescription, ETPackageDescription, 
 	ETPropertyDescription;
 
-/** Repository used to store the entity descriptions at runtime.
+/** @group Model and Metamodel
+
+Repository used to store the entity descriptions at runtime.
 
 Each repository manages a closed model description graph. Model element 
 descriptions present in a repository must only reference objects that belong to 
@@ -61,7 +63,7 @@ are not and the repository remain in an invalid state until
                             excludedClasses: (NSSet *)excludedClasses 
                                  resolveNow: (BOOL)resolve;
 
-/* Registering and Enumerating Descriptions */
+/** @taskunit Registering and Enumerating Descriptions */
 
 /** Returns the default package to which entity descriptions are added when 
 they have none and they get put in the repository.
@@ -121,17 +123,17 @@ e.g. 'Anonymous.NSObject' for NSObject entity */
 - (id) descriptionForName: (NSString *)aFullName;
 
 
-/* Binding Descriptions to Class Instances and Prototypes */
+/** @taskunit Binding Descriptions to Class Instances and Prototypes */
 
 - (ETEntityDescription *) entityDescriptionForClass: (Class)aClass;
 - (void) setEntityDescription: (ETEntityDescription *)anEntityDescription
                      forClass: (Class)aClass;
 
-/* Resolving References Between Entity Descriptions */
+/** @taskunit Resolving References Between Entity Descriptions */
 
 - (void) resolveNamedObjectReferences;
 
-/* Runtime Consistency Check */
+/** @taskunit Runtime Consistency Check */
 
 /** Checks the receiver content conforms to the FM3 constraint spec and adds a short 
 warning to the given array for each failure. */
