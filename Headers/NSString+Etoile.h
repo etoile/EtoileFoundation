@@ -1,5 +1,4 @@
-/**	<title>NSString+Etoile</title>
-
+/**
 	<abstract>NSString additions.</abstract>
 
 	Copyright (C) 2007 Quentin Mathe
@@ -11,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+/** @group String Manipulation and Formatting */
 @interface NSString (Etoile)
 
 - (NSString *) firstPathComponent;
@@ -20,4 +19,3 @@
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator;
 
 @end
-

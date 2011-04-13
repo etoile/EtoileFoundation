@@ -40,6 +40,7 @@
 
 #import <Foundation/Foundation.h>
 
+/** @group High Order Messaging and Blocks */
 @interface NSObject (ETEachHOM)
 /**
  * If the receiver conforms to the ETCollection protocol, this method returns a
@@ -68,6 +69,7 @@
 
 @protocol ETCollection, ETCollectionMutation;
 
+/** @group High Order Messaging and Blocks */
 @protocol ETCollectionHOM
 
 /**
@@ -170,6 +172,7 @@
 #endif
 @end
 
+/** @group High Order Messaging and Blocks */
 @protocol ETCollectionMutationHOM
 /**
  * Returns a proxy object on which methods can be called. These methods will
@@ -239,6 +242,8 @@
 @end
 
 /**
+ * @group High Order Messaging and Blocks
+ *
  * The ETCollectionHOMMapIntegration protocol defines a hook that collections can
  * use to tie into higher-order messaging if they need special treatment of
  * their elements.
@@ -271,6 +276,8 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @end
 
 /**
+ * @group High Order Messaging and Blocks
+ *
  * The ETCollectionHOMFilterIntegration protocol defines a hook that collections can
  * use to tie into higher-order messaging if they need special treatment of
  * their elements.
@@ -286,9 +293,11 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
        withSnapshot: (id)snapshot;
 @end
 
+/** @group High Order Messaging and Blocks */
 @protocol ETCollectionHOMIntegration <ETCollectionHOMMapIntegration,ETCollectionHOMFilterIntegration>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSObject (ETCollectionHOMIntegrationInformalProtocol)
 /**
  * Implement this method if your collection class needs special treatment of its
@@ -297,9 +306,11 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 - (id)mapInfo;
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSArray (ETCollectionHOM) <ETCollectionHOM>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSDictionary (ETCollectionHOM) <ETCollectionHOM,ETCollectionHOMIntegration>
 /**
  * Helper method for map-HOM integration. Returns the keys in the dictionary.
@@ -307,20 +318,26 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 - (NSArray*)mapInfo;
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSSet (ETCollectionHOM) <ETCollectionHOM>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSIndexSet (ETCollectionHOM) <ETCollectionHOM>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSMutableArray (ETCollectionHOM) <ETCollectionMutationHOM,ETCollectionHOMMapIntegration>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSMutableDictionary (ETCollectionHOM) <ETCollectionMutationHOM>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSMutableSet (ETCollectionHOM) <ETCollectionMutationHOM, ETCollectionHOMMapIntegration>
 @end
 
+/** @group High Order Messaging and Blocks */
 @interface NSMutableIndexSet (ETCollectionHOM) <ETCollectionMutationHOM, ETCollectionHOMMapIntegration>
 @end

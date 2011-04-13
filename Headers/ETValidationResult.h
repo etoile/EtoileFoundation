@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @group Model and Metamodel
+ *
  * Helper class used as the return value of a validation, rather than passing
  * pointers to objects and modifying them.
  */

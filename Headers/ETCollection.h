@@ -1,5 +1,4 @@
-/** <title>Collection Protocols and Categories</title>
-
+/**
 	<abstract>NSObject and collection class additions like a collection 
 	protocol.</abstract>
 
@@ -17,7 +16,8 @@
 /* NOTE: -isEmpty, -count and -objectEnumerator could be put in a 
    ETCollectionMixin because their implementation doesn't vary or their value 
    can be extrapolated from -contentArray. */
-   
+
+/** @group Collection Protocols */ 
 @protocol ETCollection
 /** Returns whether the receiveir stores the elements in a sorted order or not. */
 - (BOOL) isOrdered;
@@ -51,6 +51,7 @@
 // original class already declares/implements the method or not. 
 @end
 
+/** @group Collection Protocols */
 @protocol ETCollectionMutation
 /** Adds the element to the collection. 
 
@@ -75,7 +76,9 @@ the same than -addObject:. */
 //- (NSString *) elementType;
 @end
 
-/** Any mutable collection can also implement the optional methods listed below.
+/** @group Collection Protocols
+
+Any mutable collection can also implement the optional methods listed below.
 
 EtoileUI will use these methods when possible.<br />
 Initially you can skip implementing them. Later, they can be implemented to 
@@ -125,6 +128,7 @@ You should only implement this method when the collection is ordered. */
 
 /* Adopted by the following Foundation classes  */
 
+/** @group Collection Protocols */
 @interface NSArray (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (BOOL) isOrdered;
@@ -133,6 +137,7 @@ You should only implement this method when the collection is ordered. */
 - (NSArray *) contentArray;
 @end
 
+/** @group Collection Protocols */
 @interface NSDictionary (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (BOOL) isOrdered;
@@ -142,6 +147,7 @@ You should only implement this method when the collection is ordered. */
 - (NSString *) identifierAtIndex: (NSUInteger)index;
 @end
 
+/** @group Collection Protocols */
 @interface NSSet (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (BOOL) isOrdered;
@@ -150,12 +156,15 @@ You should only implement this method when the collection is ordered. */
 - (NSArray *) contentArray;
 @end
 
-/** NSCountedSet is a NSMutableSet subclass and thereby inherits the collection 
+/**  @group Collection Protocols
+
+NSCountedSet is a NSMutableSet subclass and thereby inherits the collection 
 protocol methods implemented in NSSet(ETCollection). */
 @interface NSCountedSet (ETCollection)
 + (Class) mutableClass;
 @end
 
+/** @group Collection Protocols */
 @interface NSIndexSet (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (BOOL) isOrdered;
@@ -165,29 +174,33 @@ protocol methods implemented in NSSet(ETCollection). */
 - (NSEnumerator *) objectEnumerator;
 @end
 
+/** @group Collection Protocols */
 @interface NSMutableArray (ETCollectionMutation) <ETCollectionMutation>
 
 @end
 
+/** @group Collection Protocols */
 @interface NSMutableDictionary (ETCollectionMutation) <ETCollectionMutation>
 - (void) addObject: (id)object;
 - (void) insertObject: (id)object atIndex: (NSUInteger)index;
 - (void) removeObject: (id)object;
 @end
 
+/** @group Collection Protocols */
 @interface NSMutableSet (ETCollectionMutation) <ETCollectionMutation>
 - (void) addObject: (id)object;
 - (void) insertObject: (id)object atIndex: (NSUInteger)index;
 @end
 
+
+/** @group Collection Protocols */
 @interface NSMutableIndexSet (ETCollectionMutation) <ETCollectionMutation>
 - (void) addObject: (id)object;
 - (void) insertObject: (id)object atIndex: (NSUInteger)index;
 - (void) removeObject: (id)object;
 @end
 
-/* NSArray Extensions */
-
+/** @group Collection Additions */
 @interface NSArray (Etoile)
 
 - (id) firstObject;
@@ -203,6 +216,8 @@ protocol methods implemented in NSSet(ETCollection). */
 @end
 
 /**
+ * @group Collection Additions
+ *
  * Extension to NSMutableDictionary for a common case where each key may map to
  * several values.
  */

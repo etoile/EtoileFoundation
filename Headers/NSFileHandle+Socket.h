@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @group Network and Communication
+ *
  * Category on NSFileHandle which adds support for creating protocol-agnostic
  * sockets.
  */

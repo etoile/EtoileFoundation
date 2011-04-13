@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @group File Management
+ *
  * Extensions to NSFileManager for creating temporary files and directories.
  */
 @interface NSFileManager (TempFile)

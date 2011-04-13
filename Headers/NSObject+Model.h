@@ -38,7 +38,7 @@
 
 @class ETEntityDescription;
 
-
+/** @group Model and Metamodel */
 @interface NSObject (ETModelAdditions)
 
 + (ETEntityDescription *) newEntityDescription;
@@ -115,10 +115,12 @@ extern NSString * const kETDescriptionOptionMaxDepth;
 
 /* Basic Common Value Classes */
 
+/** @group Model and Metamodel */
 @interface NSString (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end
 
+/** @group Model and Metamodel */
 @interface NSNumber (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end

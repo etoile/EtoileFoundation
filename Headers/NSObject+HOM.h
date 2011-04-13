@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 #import "NSObject+HOM.h"
 
-
+/** @group High Order Messaging and Blocks */
 @interface NSObject (HOM)
 
 /** Returns the receiver itself when it can respond to the next message that 

@@ -34,6 +34,8 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @group Uniform Type Identifier
+ *
  * ETUTI objects represent Uniform Type Identifiers (UTIs), strings written
  * in reverse-DNS notation (e.g. "org.etoile.group") which are used to
  * describe data type. UTIs support multiple inheritance to indicate that 

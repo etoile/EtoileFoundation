@@ -1,5 +1,4 @@
-/** <title>ETByteSizeFormatter</title>
-	
+/**	
 	<abstract>Formatter subclass to convert numbers expressed in bytes to a 
 	human-readable format.</abstract>
  
@@ -12,11 +11,12 @@
 
 #import <Foundation/Foundation.h>
 
-/** ETByteSizeFormatter supports to format NSNumber objects up the terabyte 
+/** @group String Manipulation and Formatting
+
+ETByteSizeFormatter supports to format NSNumber objects up the terabyte 
 unit as detailed in -stringForObjectValue:. */
 @interface ETByteSizeFormatter : NSFormatter
 
 - (NSString *) stringForObjectValue: (id)anObject;
 
 @end
-

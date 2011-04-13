@@ -1,5 +1,4 @@
-/** <title>ETPropertyViewpoint</title>
-
+/**
 	<abstract>A viewpoint class to represent an object property.</abstract>
 
 	Copyright (C) 2007 Quentin Mathe
@@ -15,7 +14,9 @@
 @class ETUTI;
 
 
-/** A property viewpoint is an adaptor-like object that represents an object 
+/** @group Viewpoints
+
+A property viewpoint is an adaptor-like object that represents an object 
 property and handles reading and writing the property value through -value and 
 -setValue. */
 @interface ETProperty : NSObject <ETPropertyValueCoding>

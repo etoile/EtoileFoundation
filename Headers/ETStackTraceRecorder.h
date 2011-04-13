@@ -1,5 +1,4 @@
-/** <title>ETStackTraceRecorder</title>
-
+/**
 	<abstract>A debug utility to record stack traces in relation to an 
 	instance.</abstract>
 
@@ -13,7 +12,9 @@
 #import <Foundation/Foundation.h>
 
 
-/** A stack trace recorder allows to snapshot the call stack symbols and 
+/** @group Debugging
+
+A stack trace recorder allows to snapshot the call stack symbols and 
 inspect these snapshots later on.
 
 You invoke -recordForObject: to snapshot the current call stack symbols and 
@@ -68,7 +69,9 @@ ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke
 
 @end
 
-/** Some conveniency methods which makes easier to work with the shared stack 
+/** @group Debugging
+
+Some conveniency methods which makes easier to work with the shared stack 
 trace recorder instance.
 
 For example, in GDB you can type [self recordStackTrace] to keep a trace of the 
@@ -81,7 +84,9 @@ And you can print all the stack traces recorded for the current object with
 @end
 
 
-/** Represents a stack trace built from an array of call stack symbols.
+/** @group Debugging
+
+Represents a stack trace built from an array of call stack symbols.
 
 You usually don't need to instantiate stack trace objects directly, 
 ETStackTraceRecorder does it. */

@@ -1,5 +1,4 @@
-/**	<title>NSURL+Etoile</title>
-	
+/**	
 	<abstract>NSURL additions.</abstract>
  
 	Copyright (C) 2008 Quentin Mathe
@@ -11,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+/** @group Network and Communication */
 @interface NSURL (Etoile)
 
 - (NSURL *) parentURL;

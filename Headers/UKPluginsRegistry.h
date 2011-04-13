@@ -27,7 +27,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+/** @group Plug-Ins */
 @interface UKPluginsRegistry : NSObject
 {
 	NSMutableArray          *plugins;		/* List of available plugins, with dictionaries for each. */

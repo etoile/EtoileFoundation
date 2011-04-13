@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @group Network and Communication
+ *
  * The ETSocket class provides a simple wrapper around a socket.  The socket is
  * opened when the object is created, and closed when it is destroyed.
  */
@@ -42,7 +44,7 @@
 - (void)sendData: (NSData*)data;
 @end
 
-
+/** @group Network and Communication */
 @interface ETListenSocket: ETSocket
 {
 	/**
@@ -81,6 +83,8 @@
 @end
 
 /**
+ * @group Network and Communication
+ *
  * Informal protocol for socket delegates.
  */
 @interface NSObject (ETSocketDelegate)
@@ -91,6 +95,8 @@
 @end
 
 /**
+ * @group Network and Communication
+ *
  * Informal protocol for delegates to listening sockets.
  */
 @interface NSObject (ETListenSocketDelegate)
@@ -102,6 +108,8 @@
 @end
 
 /**
+ * @group Network and Communication
+ *
  * Protocol for socket data filters.  Data sent or received by an ETSocket
  * instance will be pushed through a chain of filters conforming to this
  * protocol.

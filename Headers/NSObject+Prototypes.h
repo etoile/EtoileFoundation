@@ -1,5 +1,6 @@
 #import <Foundation/NSObject.h>
 
+/** @group Language Extensions */
 @interface NSObject (Prototypes)
 /**
  * Adds the specified method to this instance.  Objects modified in this way get

@@ -1,5 +1,4 @@
-/** <title>NSIndexPath+Etoile</title>
-
+/**
 	<abstract>Additions to NSIndexPath.</abstract>
 
 	Copyright (C) 2007 Quentin Mathe
@@ -11,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+/** @group Collection Additions */
 @interface NSIndexPath (Etoile)
 + (NSIndexPath *) indexPath;
 + (NSIndexPath *) indexPathWithString: (NSString *)aPath;

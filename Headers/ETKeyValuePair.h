@@ -10,7 +10,9 @@
 
 #import <Foundation/Foundation.h>
 
-/** Key value pairs are used by EtoileUI to present and interact with keyed data 
+/** @group Collection Additions
+
+Key value pairs are used by EtoileUI to present and interact with keyed data 
 structures.
 
 If you put them in an array, the resulting data structure is roughly equivalent 
@@ -36,12 +38,16 @@ to an ordered dictionary or a multi-value collection. */
 
 @end
 
-/** ETKeyValuePair-related extensions to NSArray. */
+/** @group Collection Additions
+
+ETKeyValuePair-related extensions to NSArray. */
 @interface NSArray (ETKeyValuePairRepresentation)
 - (NSDictionary *) dictionaryRepresentation;
 @end
 
-/** ETKeyValuePair-related extensions to NSDictionary. */
+/** @group Collection Additions
+
+ETKeyValuePair-related extensions to NSDictionary. */
 @interface NSDictionary (ETKeyValuePairRepresentation)
 - (NSArray *) arrayRepresentation;
 @end

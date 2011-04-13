@@ -10,7 +10,9 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSUserDefaults.h>
 
-/** An implementation of the <uref url="http://en.wikipedia.org/wiki/Universally_unique_identifier">
+/** @group UUID
+
+An implementation of the <uref url="http://en.wikipedia.org/wiki/Universally_unique_identifier">
 Universally Unique Identifier</uref> standard. 
 
 When an ETUUID is instantiated, the underlying UUID is generated with the 
@@ -65,7 +67,9 @@ ETUUID does not have a designated initializer. */
 
 #define ETUUIDSize (36 * sizeof(char))
 
-/** UUID related additions to NSString. */
+/** @group UUID
+
+UUID related additions to NSString. */
 @interface NSString (ETUUID)
 /**
  * Returns an autoreleased UUID string representation (see ETUUID).
@@ -73,7 +77,9 @@ ETUUID does not have a designated initializer. */
 + (NSString *) UUIDString;
 @end
 
-/** Conveniency methods to easily read and write UUIDs in the default database. */
+/** @group UUID
+
+Conveniency methods to easily read and write UUIDs in the default database. */
 @interface NSUserDefaults (ETUUID)
 /**
  * Returns an autoreleased UUID object if the value for aKey is an UUID string 

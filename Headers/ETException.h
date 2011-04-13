@@ -14,6 +14,7 @@ ETExceptionType GLOBAL_EXCEPTION_STATE;
  */
 typedef ETExceptionType (*ETHandler)(NSException * userInfo);
 
+/** @group Language Extensions */
 @interface NSException (ETException)
 /**
  * Adds aHandler to the top of the exception handling stack for exceptions

@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @group Language Extensions
+ *
  * Adds support for traits and mixins to Objective-C, as methods of class
  * composition, in addition to inheritance.  Mixins allow a single class to be
  * in the class hierarchy in multiple locations, while traits allow methods to
