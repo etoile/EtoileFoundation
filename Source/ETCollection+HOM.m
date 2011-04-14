@@ -1248,7 +1248,12 @@ not -[super methodSignatureForSelector:]. */
 	 * its adress put into the BOOL return value. This secondary proxy would
 	 * never receive a message and the returned boolean would be random.
 	 */
+#ifdef GNUSTEP
 	return [self primitiveMethodSignatureForSelector: @selector(pointerSizedProxyNull)];
+#else
+	// FIXME: Remove this Mac OS X hack.
+	return [self primitiveMethodSignatureForSelector: @selector(isProxy)];
+#endif
 }
 
 - (void)forwardInvocation: (NSInvocation*)anInvocation
