@@ -67,7 +67,7 @@ EtoileFoundation_HEADER_FILES = \
 	NSObject+Mixins.h \
 	NSFileManager+TempFile.h \
 	NSFileHandle+Socket.h\
-	UKPluginsRegistry.h \
+	ETPlugInRegistry.h \
 	ETByteSizeFormatter.h \
 	ETClassMirror.h \
 	ETCollection.h \
