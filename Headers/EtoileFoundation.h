@@ -41,6 +41,7 @@
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
 #import <EtoileFoundation/ETHistory.h>
 #import <EtoileFoundation/ETKeyValuePair.h>
+#import <EtoileFoundation/ETPlugInRegistry.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 #import <EtoileFoundation/ETPropertyViewpoint.h>
 #import <EtoileFoundation/ETReflection.h>

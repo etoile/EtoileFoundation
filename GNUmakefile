@@ -77,7 +77,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETKeyValuePair.h \
 	ETMethodMirror.h \
 	ETObjectMirror.h \
-	UKPluginsRegistry.h \
+	ETPlugInRegistry.h \
 	ETPropertyValueCoding.h \
 	ETPropertyViewpoint.h \
 	ETProtocolMirror.h \
