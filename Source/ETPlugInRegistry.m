@@ -96,7 +96,7 @@ Raises an NSInvalidArgumentException if ext is nil. */
 // TODO: Implement UTI check support for type parameter.
 /** Finds plug-ins within <var>folder</var> path which are identified by an 
 extension matching <var>ext</var>. Finally loads these plug-ins by calling 
--loadPluginForPath:.
+-loadPlugInForPath:.
 
 Raises an NSInvalidArgumentException if folder or ext is nil.*/
 - (void) loadPlugInsFromPath: (NSString *)folder ofType: (NSString *)ext
@@ -169,7 +169,7 @@ Valid <em>name</em> keys in the plug-in property list are:
 
 <list>
 <item>CFBundleName</item>
-<item>NSPrefPaneIconFile</item>
+<item>NSPrefPaneIconLabel</item>
 <item>ApplicationName</item>
 <item>NSExecutable</item>
 </list>
@@ -260,9 +260,10 @@ If there is no valid key, returns nil. */
 If the plug-in has already been loaded, immediately returns the same plug-in 
 than previously .
 
-Every property list values associated to Plugin schema are put in a dictionary 
-which represents a plug-in object; eventual validity errors may be reported each 
-time a value is read in NSBundle description values returned by -infoDictionary.
+Every property list values associated to the plug-in schema, detailed in 
+ETPlugInRegistry class description, are put in a dictionary which represents a 
+plug-in object; eventual validity errors may be reported each time a value is 
+read in NSBundle description values returned by -infoDictionary.
 
 Raises an NSInvalidArgumentException if path is nil. */
 - (NSMutableDictionary *) loadPlugInForPath: (NSString *)path
@@ -331,7 +332,7 @@ the registry.
 
 By default, returns YES.
 
-Read -setInstantiate: documentation to learn more. */
+Read -setShouldInstantiatePlugInClass: documentation to learn more. */
 - (BOOL)  shouldInstantiatePlugInClass
 {
     return shouldInstantiate;

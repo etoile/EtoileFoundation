@@ -18,7 +18,7 @@ Each plug-in is represented by an NSMutableDictionary to which you can add your
 own entries as needed. The keys ETPlugInRegistry adds to this dictionary are:
 
 <deflist>
-<term>bundle<term>
+<term>bundle</term>
 <desc>NSBundle instance for this plug-in</desc>
 <term>identifier</term>
 <desc>Unique identifier for this plug-in (bundle identifier in current implementation), see -plugInIdentifierForBundle:</desc>
@@ -64,6 +64,9 @@ ETPlugInRegistry is thread-safe. */
 - (void) setShouldInstantiatePlugInClass: (BOOL)instantiate;
 
 - (NSArray *) searchPaths;
+
+/** @taskunit Retrieving Plug-In Schema Infos */
+
 - (NSString *) plugInNameForBundle: (NSBundle *)bundle;
 - (NSString *) plugInIdentifierForBundle: (NSBundle *)bundle;
 - (NSString *) plugInIconPathForBundle: (NSBundle *)bundle;
