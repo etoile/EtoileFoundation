@@ -3,7 +3,7 @@ PACKAGE_NAME = EtoileFoundation
 include $(GNUSTEP_MAKEFILES)/common.make
 
 ifneq ($(test), yes)
-SUBPROJECTS = EtoileThread EtoileXML
+SUBPROJECTS = EtoileThread EtoileXML Tests/PlugInExample
 endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)

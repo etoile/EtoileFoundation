@@ -47,23 +47,28 @@
 
 - (NSString *) plugInPath
 {
-    return [[[[NSBundle bundleForClass: [self class]] bundlePath] 
-		stringByAppendingPathComponent: @"../PlugInExample.plugin"] stringByStandardizingPath];
+#ifdef GNUSTEP
+	NSString *plugInSubpath =  @"../Tests/PlugInExample/PlugInExample.plugin";
+#else
+	NSString *plugInSubpath =  @"../PlugInExample.plugin";
+#endif
+	return [[[[NSBundle bundleForClass: [self class]] bundlePath] 
+		stringByAppendingPathComponent: plugInSubpath] stringByStandardizingPath];
 }
 
 - (void) checkBatchLoadPreconditionsForPath: (NSString *)plugInDir
 {
-    BOOL isDir;
+	BOOL isDir;
 
-    UKTrue([[NSFileManager defaultManager] fileExistsAtPath: plugInDir isDirectory: &isDir]);
-    UKTrue(isDir);
+	UKTrue([[NSFileManager defaultManager] fileExistsAtPath: plugInDir isDirectory: &isDir]);
+	UKTrue(isDir);
 	UKTrue([[registry loadedPlugIns] isEmpty]);
 }
 
 #ifdef TEST_PLUGIN_INSTALLED_IN_APP_SUPPORT
 - (void) testLoadPlugInsOfType
 {
-    NSString *supportDir = [[[self libraryDirectories] firstObject] 
+	NSString *supportDir = [[[self libraryDirectories] firstObject] 
 		stringByAppendingPathComponent: [ETPlugInRegistry applicationSupportDirectoryName]];
 
 	[self checkBatchLoadPreconditionsForPath: supportDir];
@@ -76,13 +81,13 @@
 
 - (void) checkPlugInLoadingPreconditionsForPath: (NSString *)path
 {
-    NSBundle *bundle = [NSBundle bundleWithPath: path];
-    NSDictionary *info = [bundle infoDictionary];
-    BOOL isDir;
+	NSBundle *bundle = [NSBundle bundleWithPath: path];
+	NSDictionary *info = [bundle infoDictionary];
+	BOOL isDir;
 
-    UKTrue([[NSFileManager defaultManager] fileExistsAtPath: path isDirectory: &isDir]);
-    UKNotNil(bundle);
-    UKNotNil(info);
+	UKTrue([[NSFileManager defaultManager] fileExistsAtPath: path isDirectory: &isDir]);
+	UKNotNil(bundle);
+	UKNotNil(info);
 	UKTrue([registry shouldInstantiatePlugInClass]);
 }
 
@@ -90,24 +95,24 @@
 {
 	[self checkPlugInLoadingPreconditionsForPath: [self plugInPath]];
 
-    int initialCount = [[registry loadedPlugIns] count];    
-    NSDictionary *plugIn = [registry loadPlugInForPath: [self plugInPath]];
+	int initialCount = [[registry loadedPlugIns] count];    
+	NSDictionary *plugIn = [registry loadPlugInForPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
+	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 
-    UKNotNil(plugIn);
-    UKObjectKindOf([plugIn objectForKey: @"bundle"], NSBundle);
-    // FIXME: UKObjectKindOf([plugIn objectForKey: @"image"], NSImage);
-    UKStringsEqual(@"Plug-In Example", [plugIn objectForKey: @"name"]);
-    UKStringsEqual([self plugInPath], [plugIn objectForKey: @"path"]);
-    UKObjectsEqual(NSClassFromString(@"PlugInExample"), [plugIn objectForKey: @"class"]);
-    UKNotNil([plugIn objectForKey: @"instance"]);
+	UKNotNil(plugIn);
+	UKObjectKindOf([plugIn objectForKey: @"bundle"], NSBundle);
+	// FIXME: UKObjectKindOf([plugIn objectForKey: @"image"], NSImage);
+	UKStringsEqual(@"Plug-In Example", [plugIn objectForKey: @"name"]);
+	UKStringsEqual([self plugInPath], [plugIn objectForKey: @"path"]);
+	UKObjectsEqual(NSClassFromString(@"PlugInExample"), [plugIn objectForKey: @"class"]);
+	UKNotNil([plugIn objectForKey: @"instance"]);
 
 	/* Now ensure we don't load the same plug-in twice */
 
 	NSDictionary *samePlugIn = [registry loadPlugInForPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
+	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 	UKObjectsSame(plugIn, samePlugIn);
 }
 
@@ -117,10 +122,10 @@
 
 	[registry setShouldInstantiatePlugInClass: NO];
 
-    int initialCount = [[registry loadedPlugIns] count];
-    NSDictionary *plugIn = [registry loadPlugInForPath: [self plugInPath]];
+	int initialCount = [[registry loadedPlugIns] count];
+	NSDictionary *plugIn = [registry loadPlugInForPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
+	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 
 	UKNotNil(plugIn);
 	UKObjectKindOf([plugIn objectForKey: @"bundle"], NSBundle);
@@ -128,7 +133,7 @@
 	UKStringsEqual(@"Plug-In Example", [plugIn objectForKey: @"name"]);
 	UKStringsEqual([self plugInPath], [plugIn objectForKey: @"path"]);
 	UKObjectsEqual(NSClassFromString(@"PlugInExample"), [plugIn objectForKey: @"class"]);
-    UKNil([plugIn objectForKey: @"instance"]);
+	UKNil([plugIn objectForKey: @"instance"]);
 
 	/* Now ensure we don't load the same plug-in twice, and we ignore 
 	   'instantiate' change when the plug-in has already been loaded.  */
@@ -137,9 +142,9 @@
 
 	NSDictionary *samePlugIn = [registry loadPlugInForPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
+	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 	UKObjectsSame(plugIn, samePlugIn);
-    UKNil([plugIn objectForKey: @"instance"]);
+	UKNil([plugIn objectForKey: @"instance"]);
 }
 
 @end

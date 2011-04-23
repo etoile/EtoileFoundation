@@ -83,6 +83,7 @@ libEtoileFoundation_OBJC_FILES += \
 	TestEntityDescription.m \
 	TestIndexPath.m \
 	TestModelDescriptionRepository.m \
+	TestPlugInRegistry.m \
 	TestReflection.m \
 	TestStackTraceRecorder.m \
 	TestString.m \
