@@ -96,7 +96,7 @@ Raises an NSInvalidArgumentException if ext is nil. */
 // TODO: Implement UTI check support for type parameter.
 /** Finds plug-ins within <var>folder</var> path which are identified by an 
 extension matching <var>ext</var>. Finally loads these plug-ins by calling 
--loadPlugInForPath:.
+-loadPlugInAtPath:.
 
 Raises an NSInvalidArgumentException if folder or ext is nil.*/
 - (void) loadPlugInsFromPath: (NSString *)folder ofType: (NSString *)ext
@@ -119,7 +119,7 @@ Raises an NSInvalidArgumentException if folder or ext is nil.*/
 
 		NS_DURING
 
-			[self loadPlugInForPath: [folder stringByAppendingPathComponent: fileName]];
+			[self loadPlugInAtPath: [folder stringByAppendingPathComponent: fileName]];
             
 		NS_HANDLER
 
@@ -266,7 +266,7 @@ plug-in object; eventual validity errors may be reported each time a value is
 read in NSBundle description values returned by -infoDictionary.
 
 Raises an NSInvalidArgumentException if path is nil. */
-- (NSMutableDictionary *) loadPlugInForPath: (NSString *)path
+- (NSMutableDictionary *) loadPlugInAtPath: (NSString *)path
 {
 	[lock lock];
 
@@ -344,7 +344,7 @@ retrieve the plug-in class and instantiate it. This is especially useful if
 a custom initializer is required to make the instantiation. For example:
 
 <example>
-Class plugInClass = [[registry loadPlugInForPath: path] objectForKey: @"class"];
+Class plugInClass = [[registry loadPlugInAtPath: path] objectForKey: @"class"];
 CustomObject *mainObject = [[plugInClass alloc] initWithCity: @"Somewhere"];
 </example> */
 - (void) setShouldInstantiatePlugInClass: (BOOL)instantiate

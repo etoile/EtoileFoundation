@@ -52,7 +52,7 @@ ETPlugInRegistry is thread-safe. */
 
 - (void) loadPlugInsOfType: (NSString *)ext; 
 - (void) loadPlugInsFromPath: (NSString *)folder ofType: (NSString *)ext;
-- (NSMutableDictionary *) loadPlugInForPath: (NSString *)path;
+- (NSMutableDictionary *) loadPlugInAtPath: (NSString *)path;
 
 /** @taskunit Accessing Plug-Ins */
 

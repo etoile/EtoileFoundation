@@ -91,12 +91,12 @@
 	UKTrue([registry shouldInstantiatePlugInClass]);
 }
 
-- (void) testLoadPluginForPathWithInstantiate
+- (void) testLoadPluginAtPathWithInstantiate
 {
 	[self checkPlugInLoadingPreconditionsForPath: [self plugInPath]];
 
 	int initialCount = [[registry loadedPlugIns] count];    
-	NSDictionary *plugIn = [registry loadPlugInForPath: [self plugInPath]];
+	NSDictionary *plugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
 	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 
@@ -110,20 +110,20 @@
 
 	/* Now ensure we don't load the same plug-in twice */
 
-	NSDictionary *samePlugIn = [registry loadPlugInForPath: [self plugInPath]];
+	NSDictionary *samePlugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
 	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 	UKObjectsSame(plugIn, samePlugIn);
 }
 
-- (void) testLoadPluginForPathWithoutInstantiate
+- (void) testLoadPluginAtPathWithoutInstantiate
 {
 	[self checkPlugInLoadingPreconditionsForPath: [self plugInPath]];
 
 	[registry setShouldInstantiatePlugInClass: NO];
 
 	int initialCount = [[registry loadedPlugIns] count];
-	NSDictionary *plugIn = [registry loadPlugInForPath: [self plugInPath]];
+	NSDictionary *plugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
 	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 
@@ -140,7 +140,7 @@
 
 	[registry setShouldInstantiatePlugInClass: YES];
 
-	NSDictionary *samePlugIn = [registry loadPlugInForPath: [self plugInPath]];
+	NSDictionary *samePlugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
 	UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 	UKObjectsSame(plugIn, samePlugIn);
