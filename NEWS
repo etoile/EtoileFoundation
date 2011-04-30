@@ -1,6 +1,29 @@
 EtoileFoundation NEWS
 =====================
 
+0.4.2 (Etoile 0.4.2)
+--------------------
+
+- Introduced Metamodel inspired from Smalltalk's FAME
+- Introduced Higher-Order Messaging and Block extensions
+- Introduced Mirror-based Reflection
+- Introduced Socket API
+- Richer Collection protocols
+- Added ETByteSizeFormatter
+- Added ETKeyValuePair
+- Added ETPropertyViewpoint
+- Added ETStackTraceRecorder
+- Added NSData+Hash
+- Some new macros
+- Renamed ETHistoryManager to ETHistory
+- Renamed UKPluginsRegistry to ETPlugInRegistry and rewrote it
+- Removed ETFilter, ETObjectChain, ETObjectRegistry, ETRendering, 
+  OSBundleExtensionLoader, UKFileWatcher, UKMainThreadProxy, 
+  UKPushBackMessenger and UKThreadMessenger
+- Deprecated NSFileManager+NameForTempFile
+- Wrote most missing API documentation
+- EtoileThread bugfixes
+
 0.4.1 (Etoile 0.4.1)
 --------------------
 
