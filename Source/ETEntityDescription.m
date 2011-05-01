@@ -1,14 +1,9 @@
 /*
- ETEntityDescription.m
+	Copyright (C) 2009 Eric Wasylishen
 
- Entity description in a model description framework inspired by FAME
- (http://scg.unibe.ch/wiki/projects/fame)
-
- Copyright (C) 2009 Eric Wasylishen
-
- Author:  Eric Wasylishen <ewasylishen@gmail.com>
- Date:  July 2009
- License:  Modified BSD (see COPYING)
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  July 2009
+	License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -22,9 +17,6 @@
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
-/**
- * A description of an "entity", which can either be a class or a prototype.
- */
 @implementation ETEntityDescription
 
 + (NSString *) rootEntityDescriptionName
@@ -382,14 +374,6 @@
 #endif
 
 
-/**
- Very simple implementation of an adaptive model object that is causally
- connected to its description. This means that changes to the entity description
- immediately take effect in the instance of ETAdaptiveModelObject.
-
- Causal connection is ensured through the implementation of
- -valueForProperty: and -setValue:forProperty:.
- */
 @implementation ETAdaptiveModelObject
 
 - (id) init
