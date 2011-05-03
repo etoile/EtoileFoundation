@@ -54,7 +54,19 @@ ifeq ($(test), yes)
 EtoileFoundation_LDFLAGS += -lUnitKit $(SSL_LIBS)
 endif
 
-EtoileFoundation_SUBPROJECTS = Source
+ifeq ($(USE_SSL_PKG), yes)
+SSL_CFLAGS = $(shell pkg-config --cflags openssl)
+endif
+
+EtoileFoundation_CPPFLAGS += $(SSL_CFLAGS)
+EtoileFoundation_CPPFLAGS += -D_GNU_SOURCE # For Linux
+#EtoileFoundation_CPPFLAGS += -D_XOPEN_SOURCE=600 # For Solaris
+EtoileFoundation_OBJCFLAGS += -std=c99 
+EtoileFoundation_CFLAGS += -std=c99 $(SSL_CFLAGS)
+
+ifeq ($(CC), clang)
+ADDITIONAL_OBJCFLAGS += -fobjc-nonfragile-abi -fblocks
+endif
 
 EtoileFoundation_HEADER_FILES_DIR = Headers
 
@@ -113,6 +125,68 @@ EtoileFoundation_RESOURCE_FILES = \
 
 # Deprecated
 EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
+
+EtoileFoundation_OBJC_FILES = \
+	Source/NSFileManager+TempFile.m\
+	Source/NSFileHandle+Socket.m\
+	Source/ETByteSizeFormatter.m \
+	Source/ETClassMirror.m \
+	Source/ETCollection.m \
+	Source/ETCollection+HOM.m \
+	Source/ETGetOptionsDictionary.m \
+	Source/ETHistory.m \
+	Source/ETInstanceVariableMirror.m \
+	Source/ETKeyValuePair.m \
+	Source/ETMethodMirror.m \
+	Source/ETObjectMirror.m \
+	Source/ETPlugInRegistry.m \
+	Source/ETPropertyViewpoint.m \
+	Source/ETPropertyValueCoding.m \
+	Source/ETProtocolMirror.m \
+	Source/ETSocket.m \
+	Source/ETStackTraceRecorder.m \
+	Source/ETTranscript.m \
+	Source/ETTransform.m \
+	Source/ETUUID.m \
+	Source/ETUTI.m \
+	Source/NSBlocks.m\
+	Source/NSData+Hash.m\
+	Source/NSIndexPath+Etoile.m \
+	Source/NSIndexSet+Etoile.m \
+	Source/NSInvocation+Etoile.m \
+	Source/NSObject+Etoile.m \
+	Source/NSObject+HOM.m \
+	Source/NSObject+Model.m \
+	Source/NSObject+Prototypes.m \
+	Source/NSString+Etoile.m \
+	Source/NSURL+Etoile.m \
+	Source/ETReflection.m \
+	Source/ETEntityDescription.m \
+	Source/ETModelDescriptionRepository.m \
+	Source/ETModelElementDescription.m \
+	Source/ETPackageDescription.m \
+	Source/ETPropertyDescription.m \
+	Source/ETValidationResult.m
+
+EtoileFoundation_C_FILES = Source/ETCArray.c
+
+# Deprecated
+EtoileFoundation_OBJC_FILES += Source/NSFileManager+NameForTempFile.m
+
+ifeq ($(test), yes)
+EtoileFoundation_OBJC_FILES += \
+	Tests/TestBasicHOM.m \
+	Tests/TestETCollectionHOM.m \
+	Tests/TestEntityDescription.m \
+	Tests/TestIndexPath.m \
+	Tests/TestModelDescriptionRepository.m \
+	Tests/TestPlugInRegistry.m \
+	Tests/TestReflection.m \
+	Tests/TestStackTraceRecorder.m \
+	Tests/TestString.m \
+	Tests/TestUTI.m \
+	Tests/TestUUID.m
+endif
 
 ifeq ($(GNUSTEP_TARGET_CPU), ix86)
  ADDITIONAL_OBJCFLAGS += -march=i586
