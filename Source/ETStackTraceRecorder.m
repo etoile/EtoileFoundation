@@ -13,7 +13,7 @@
 #import "Macros.h"
 #import <objc/Object.h>
 
-#if defined(GNUstep) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
+#if defined(GNUSTEP) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
 
 @interface ETStackTraceRecorder (Private)
 - (void) didAllocObject: (id)anObject ofClass: (Class)aClass;
