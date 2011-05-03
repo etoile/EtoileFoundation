@@ -11,6 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
+// NOTE: -[NSThread callStackSymbols] was introduced with Mac OS X 10.6
+#if defined(GNUstep) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
 
 /** @group Debugging
 
@@ -99,3 +101,5 @@ ETStackTraceRecorder does it. */
 - (NSUInteger) numberOfFrames;
 
 @end
+
+#endif /* GNUstep or Mac OS X 10.6 */

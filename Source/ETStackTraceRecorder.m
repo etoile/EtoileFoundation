@@ -13,6 +13,8 @@
 #import "Macros.h"
 #import <objc/Object.h>
 
+#if defined(GNUstep) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
+
 @interface ETStackTraceRecorder (Private)
 - (void) didAllocObject: (id)anObject ofClass: (Class)aClass;
 - (void) didDeallocObject: (id)anObject ofClass: (Class)aClass;
@@ -20,6 +22,8 @@
 
 ETStackTraceRecorder *sharedInstance = nil;
 
+// NOTE: To prevent unused functions warning on Mac OS X
+#ifdef GNUSTEP
 static void ETAllocateCallback(Class aClass, id self)
 {
 	[sharedInstance didAllocObject: self ofClass: aClass];
@@ -29,7 +33,7 @@ static void ETDeallocateCallback(Class aClass, id self)
 {
 	[sharedInstance didDeallocObject: self ofClass: aClass];
 }
-
+#endif
 
 @implementation ETStackTraceRecorder
 
@@ -191,6 +195,12 @@ trace recorded for the receiver. */
 @end
 
 
+// NOTE: We compile with the 10.5 SDK on Mac OS X, hence we have to cheat to 
+// to eliminate 10.6 symbol warnings.
+@interface NSThread (Mac_OS_X_10_6_Symbols)
++ (NSArray *) callStackSymbols;
+@end
+
 @implementation ETStackTrace
 
 + (NSArray *) callStackSymbols
@@ -199,7 +209,7 @@ trace recorded for the receiver. */
 	id stackTraceObj = AUTORELEASE([[NSClassFromString(@"GSStackTrace") alloc] init]);
 	return [stackTraceObj performSelector: @selector(symbols)];
 #else
-	return [[NSThread currentThread] callStackSymbols];
+	return [NSThread callStackSymbols];
 #endif
 }
 
@@ -237,3 +247,5 @@ current thread. */
 }
 
 @end
+
+#endif /* GNUstep or Mac OS X 10.6 */

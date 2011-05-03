@@ -35,6 +35,7 @@
 	UKTrue([trace2 numberOfFrames] > 1);
 }
 
+#ifdef GNUstep
 - (void) testRecordStackTraceOnAllocation
 {
 	ETStackTraceRecorder *recorder = [ETStackTraceRecorder sharedInstance];
@@ -54,5 +55,6 @@
 	UKTrue([[recorder recordedStackTracesForObject: obj3] isEmpty]);	
 	UKTrue([[recorder recordedStackTracesForObject: obj4] isEmpty]);	
 }
+#endif
 
 @end
