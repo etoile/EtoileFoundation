@@ -1,5 +1,4 @@
-/** <title>ETModelDescriptionPackage</title>
-
+/**
 	<abstract>A model description framework inspired by FAME 
 	(http://scg.unibe.ch/wiki/projects/fame)</abstract>
  
@@ -43,7 +42,7 @@ specify a data model.  */
 
 /** Returns YES. */
 - (BOOL) isPackageDescription;
-/** Returns 'Package'. */
+/** Returns <em>Package</em>. */
 - (NSString *) typeDescription;
 
 /** @taskunit Packaged Entity Descriptions */

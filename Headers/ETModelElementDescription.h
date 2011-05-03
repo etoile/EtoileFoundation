@@ -1,5 +1,4 @@
-/** <title>ETModelElementDescription</title>
-
+/**
 	<abstract>A model description framework inspired by FAME 
 	(http://scg.unibe.ch/wiki/projects/fame)</abstract>
  

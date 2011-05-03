@@ -328,7 +328,7 @@ same name). */
 	}
 }
 
-/* Collection Protocol */
+/** @taskunit Collection Protocol */
 
 /** Returns NO */
 - (BOOL) isOrdered
