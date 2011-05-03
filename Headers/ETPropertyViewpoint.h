@@ -19,7 +19,7 @@
 A property viewpoint is an adaptor-like object that represents an object 
 property and handles reading and writing the property value through -value and 
 -setValue. */
-@interface ETProperty : NSObject <ETPropertyValueCoding>
+@interface ETPropertyViewpoint : NSObject <ETPropertyValueCoding>
 {
 	@private
 	id _propertyOwner;
@@ -28,7 +28,7 @@ property and handles reading and writing the property value through -value and
 	BOOL _usesKVC;
 }
 
-+ (id) propertyWithName: (NSString *)key representedObject: (id)object;
++ (id) viewpointWithName: (NSString *)key representedObject: (id)object;
 
 - (id) initWithName: (NSString *)key representedObject: (id)object;
 

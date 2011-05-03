@@ -13,7 +13,7 @@
 #import "EtoileCompatibility.h"
 
 
-@implementation ETProperty
+@implementation ETPropertyViewpoint
 
 /** We don't post KVO notification when -setValue: is called, we only modify 
 the property value in the property owner. */
@@ -51,9 +51,9 @@ the property value in the property owner. */
 
 /** Returns a new autoreleased property viewpoint that represents the property 
 identified by the given name in object. */
-+ (id) propertyWithName: (NSString *)key representedObject: (id)object
++ (id) viewpointWithName: (NSString *)key representedObject: (id)object
 {
-	return AUTORELEASE([[ETProperty alloc] initWithName: key representedObject: object]);
+	return AUTORELEASE([[ETPropertyViewpoint alloc] initWithName: key representedObject: object]);
 }
 
 /** <init />
