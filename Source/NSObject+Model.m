@@ -282,11 +282,6 @@ to adopt ETCollectionMutation protocol. */
 		@"primitiveDescription", nil];
 }
 
-- (NSArray *) properties
-{
-	return [self propertyNames];
-}
-
 - (id) valueForProperty: (NSString *)key
 {
 	id value = nil;
