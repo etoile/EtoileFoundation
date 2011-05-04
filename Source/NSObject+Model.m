@@ -273,7 +273,7 @@ to adopt ETCollectionMutation protocol. */
 
 /* Property Value Coding */
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
 	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className", 
 		@"stringValue", @"objectValue", @"isCollection", @"isGroup", 
@@ -282,11 +282,16 @@ to adopt ETCollectionMutation protocol. */
 		@"primitiveDescription", nil];
 }
 
+- (NSArray *) properties
+{
+	return [self propertyNames];
+}
+
 - (id) valueForProperty: (NSString *)key
 {
 	id value = nil;
 	
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		value = [self primitiveValueForKey: key];
 	}
@@ -306,7 +311,7 @@ to adopt ETCollectionMutation protocol. */
 {
 	BOOL result = NO;
 	
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		[self setPrimitiveValue: value forKey: key];
 		result = YES;

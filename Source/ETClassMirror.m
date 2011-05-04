@@ -268,9 +268,9 @@ which the returned protocols conform to themselves. */
 
 /* Property-value coding */
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
-	return [[super properties] arrayByAddingObjectsFromArray: 
+	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 			A(@"name")];
 }
 @end

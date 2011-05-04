@@ -32,7 +32,7 @@ to an ordered dictionary or a multi-value collection. */
 - (id) value;
 - (void) setValue: (id)aValue;
 
-- (NSArray *) properties;
+- (NSArray *) propertyNames;
 
 - (NSString *) displayName;
 

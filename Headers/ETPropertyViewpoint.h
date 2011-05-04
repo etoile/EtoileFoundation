@@ -46,7 +46,7 @@ property and handles reading and writing the property value through -value and
 
 /* Property Value Coding */
 
-- (NSArray *) properties;
+- (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 

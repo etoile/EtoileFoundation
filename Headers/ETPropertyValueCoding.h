@@ -17,7 +17,7 @@
 
 Protocol usually adopted by model objects */
 @protocol ETPropertyValueCoding
-- (NSArray *) properties;
+- (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end
@@ -25,7 +25,7 @@ Protocol usually adopted by model objects */
 
 /** @group Model and Metamodel */
 @interface NSDictionary (ETPropertyValueCoding) <ETPropertyValueCoding>
-- (NSArray *) properties;
+- (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end

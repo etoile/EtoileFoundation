@@ -43,9 +43,9 @@ DEALLOC(DESTROY(_ownerMirror))
 	return [NSString stringWithUTF8String: ivar_getName(_ivar)];
 }
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
-	return [[super properties] arrayByAddingObjectsFromArray: A(@"ownerMirror", 
+	return [[super propertyNames] arrayByAddingObjectsFromArray: A(@"ownerMirror", 
 		@"name", @"type", @"typeName", @"typeEncoding", @"isObjectType", @"value")];
 }
 

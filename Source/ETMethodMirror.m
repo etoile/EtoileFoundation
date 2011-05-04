@@ -32,9 +32,9 @@
 {
 	return [NSString stringWithUTF8String: sel_getName(method_getName(_method))];	
 }
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
-	return [[super properties] arrayByAddingObjectsFromArray: 
+	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 		A(@"name", @"isClassMethod")];
 }
 - (BOOL) isClassMethod
@@ -78,9 +78,9 @@
 {
 	return _name;
 }
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
-	return [[super properties] arrayByAddingObjectsFromArray: 
+	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 			A(@"name", @"isClassMethod")];
 }
 - (BOOL) isClassMethod

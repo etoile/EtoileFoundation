@@ -150,9 +150,9 @@
 
 /* Property-value coding */
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
-	return [[super properties] arrayByAddingObjectsFromArray: 
+	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 			A(@"isPrototype", @"representedObject")];
 }
 

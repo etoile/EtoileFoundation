@@ -59,6 +59,7 @@
 
 /* Property Value Coding */
 
+- (NSArray *) propertyNames;
 - (NSArray *) properties;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;

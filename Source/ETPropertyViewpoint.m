@@ -137,7 +137,7 @@ See -treatsDictionaryKeysAsProperties. */
 	   to return a non-nil value because the property value which was not 
 	   exposed with PVC can be now retrieved with KVC. 
 	   i.e. -valueForProperty: returns nil when the property isn't included in 
-	   [representedObject properties]. */
+	   [representedObject propertyNames]. */
 	[self willChangeValueForKey: @"value"];
 
 	_treatsAllKeysAsProperties = exposeAllKeys;
@@ -194,7 +194,7 @@ Allows to show the value type in an EtoileUI inspector. */
 /** Returns 'property', 'name', 'type', 'value' and 'representedObject'.
 
 See  -valueForProperty:. */
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
 	return A(@"property", @"name", @"type", @"value", @"representedObject");
 }
@@ -208,7 +208,7 @@ viewpoints are used as represented objects).
 {
 	id value = nil;
 	
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		if ([key isEqual: @"property"])
 		{
@@ -228,7 +228,7 @@ viewpoints are used as represented objects).
 {
 	BOOL result = NO;
 	
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		// NOTE: name, type are read-only properties
 		if ([key isEqual: @"value"])

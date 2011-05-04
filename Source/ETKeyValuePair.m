@@ -66,9 +66,9 @@ Initializes and returns a new pair with the given key and value. */
 }
 
 /** Exposes 'key' and 'value' in addition to the inherited properties. */
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
-	return [[super properties] arrayByAddingObjectsFromArray: A(@"key", @"value")];
+	return [[super propertyNames] arrayByAddingObjectsFromArray: A(@"key", @"value")];
 }
 
 /** Returns the key. */

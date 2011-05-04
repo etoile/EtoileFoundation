@@ -14,7 +14,7 @@
 
 @implementation NSDictionary (ETPropertyValueCoding)
 #if 0
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
 	return [self allKeys];
 }
@@ -30,19 +30,19 @@
 }
 #else
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
 	NSArray *properties = [NSArray arrayWithObjects: @"count", @"firstObject", 
 		@"lastObject", nil];
 	
-	return [[super properties] arrayByAddingObjectsFromArray: properties];
+	return [[super propertyNames] arrayByAddingObjectsFromArray: properties];
 }
 
 - (id) valueForProperty: (NSString *)key
 {
 	id value = nil;
 	
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		id (*NSObjectValueForKeyIMP)(id, SEL, id) = NULL;
 		
@@ -66,7 +66,7 @@
 {
 	BOOL result = YES;
 	
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		void (*NSObjectSetValueForKeyIMP)(id, SEL, id, id) = NULL;
 		
@@ -113,17 +113,17 @@
 
 @implementation NSArray (ETPropertyValueCoding)
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
 	NSArray *properties = [NSArray arrayWithObjects: @"count", @"firstObject", 
 		@"lastObject", nil];
 	
-	return [[super properties] arrayByAddingObjectsFromArray: properties];
+	return [[super propertyNames] arrayByAddingObjectsFromArray: properties];
 }
 
 - (id) valueForProperty: (NSString *)key
 {
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		id (*NSObjectValueForKeyIMP)(id, SEL, id) = NULL;
 		
@@ -155,7 +155,7 @@
 {
 	BOOL result = YES;
 
-	if ([[self properties] containsObject: key])
+	if ([[self propertyNames] containsObject: key])
 	{
 		void (*NSObjectSetValueForKeyIMP)(id, SEL, id, id) = NULL;
 		

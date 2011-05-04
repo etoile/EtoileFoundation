@@ -175,11 +175,11 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	return @"Element";
 }
 
-- (NSArray *) properties
+- (NSArray *) propertyNames
 {
 	ETModelDescriptionRepository *repo = [ETModelDescriptionRepository mainRepository];
 
-	return [[super properties] arrayByAddingObjectsFromArray: 
+	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 		[[repo entityDescriptionForClass: [self class]] allPropertyDescriptionNames]]; 
 }
 
