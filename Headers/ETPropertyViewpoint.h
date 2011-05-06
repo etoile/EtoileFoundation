@@ -28,23 +28,30 @@ property and handles reading and writing the property value through -value and
 	BOOL _usesKVC;
 }
 
+/** @taskunit Initialization */
+
 + (id) viewpointWithName: (NSString *)key representedObject: (id)object;
 
 - (id) initWithName: (NSString *)key representedObject: (id)object;
 
+/** @taskunit Represented Property */
+
 - (NSString *) name;
+- (ETUTI *) type;
+
+/** @taskunit Controlling Represented Object Access */
 
 - (id) representedObject;
 - (void) setRepresentedObject: (id)object;
 - (BOOL) treatsAllKeysAsProperties;
 - (void) setTreatsAllKeysAsProperties: (BOOL)exposeAllKeys;
 
-- (ETUTI *) type;
+/** @taskunit Reading and Writing the value */
 
 - (id) value;
 - (void) setValue: (id)objectValue;
 
-/* Property Value Coding */
+/** @taskunit Property Value Coding */
 
 - (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;

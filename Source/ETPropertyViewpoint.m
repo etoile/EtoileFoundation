@@ -130,7 +130,7 @@ otherwise only a property exposed by -propertyNames is valid. */
 /** Sets whether all the keys for which the represented object is 
 KVC-compliant should be considered as properties.
 
-See -treatsDictionaryKeysAsProperties. */
+See -treatsAllKeysAsProperties. */
 - (void) setTreatsAllKeysAsProperties: (BOOL)exposeAllKeys
 {
 	/* When treatsAllKeysAsProperties was NO and becomes YES, -value might start 
@@ -191,7 +191,8 @@ Allows to show the value type in an EtoileUI inspector. */
 
 /* Property Value Coding */
 
-/** Returns 'property', 'name', 'type', 'value' and 'representedObject'.
+/** Returns <em>property</em>, <em>name</em>, <em>type</em>, <em>value</em> and 
+<em>representedObject</em>.
 
 See  -valueForProperty:. */
 - (NSArray *) propertyNames
@@ -200,10 +201,10 @@ See  -valueForProperty:. */
 }
 
 /** Supports to view the property with several table columns such as 
-'property', 'value' and 'type' (e.g. an EtoileUI inspector where property 
-viewpoints are used as represented objects).
+<em>property</em>, <em>value</em> and <em>type</em> (e.g. an EtoileUI inspector 
+where property viewpoints are used as represented objects).
 
-'property' is mapped to the property name. */
+<em>property</em> is mapped to the property name. */
 - (id) valueForProperty: (NSString *)key
 {
 	id value = nil;
@@ -223,7 +224,7 @@ viewpoints are used as represented objects).
 	return value;
 }
 
-/** Supports to edit the property in a 'value' table column (e.g. in an EtoileUI inspector). */
+/** Supports to edit the property in a <em>value</em> table column (e.g. in an EtoileUI inspector). */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key
 {
 	BOOL result = NO;
