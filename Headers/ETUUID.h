@@ -31,6 +31,8 @@ ETUUID does not have a designated initializer. */
 	unsigned char uuid[16];
 }
 
+/** @taskunit Initialization */
+
 /**
  * Returns a new autoreleased UUID object initialized with a random 128-bit 
  * binary value.
@@ -53,6 +55,8 @@ ETUUID does not have a designated initializer. */
  * Initializes a UUID object by generating a random 128-bit binary value. 
  */
 - (id) init;
+
+/** @taskunit Alternative Representations */
 
 /** 
  * Returns a string representation of the receiver.

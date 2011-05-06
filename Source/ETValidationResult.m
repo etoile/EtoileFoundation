@@ -13,10 +13,7 @@
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
-/**
- * Helper class used as the return value of a validation, rather than passing
- * pointers to objects and modifying them.
- */
+
 @implementation ETValidationResult
 + (id) validResult: (id)value
 {

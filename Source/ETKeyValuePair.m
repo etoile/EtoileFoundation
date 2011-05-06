@@ -65,7 +65,7 @@ Initializes and returns a new pair with the given key and value. */
 	ASSIGN(_value, aValue);
 }
 
-/** Exposes 'key' and 'value' in addition to the inherited properties. */
+/** Exposes <em>key</em> and <em>value</em> in addition to the inherited properties. */
 - (NSArray *) propertyNames
 {
 	return [[super propertyNames] arrayByAddingObjectsFromArray: A(@"key", @"value")];
