@@ -25,28 +25,36 @@ now.
 
 A stack trace recorder is very handy to debug memory management issues. e.g. 
 You can easily discover where an over-released object was allocated in a vein 
-similar to malloc_history on Mac OS X.<br />
+similar to <em>malloc_history</em> on Mac OS X.<br />
 Take note that +enableAllocationRecordingForClass: is only available on GNUstep 
 and the example detailed below doesn't apply to Mac OS X where you must use 
 malloc_history instead.<br />
 To get meaningfull backtrace on GNUstep, you must install the GNU bin utils 
 (e.g. binutils-dev package on Ubuntu) and configure GNUstep Base with 
-'--enable-bfd'. 
+<em>--enable-bfd</em>.<br /> 
 Be aware that the resulting gnustep-base library will be GPL-licensed and 
 transively all the code that links it will become GPL-licensed too.
 
+@section Use Case Example
+
 For a retain/release crash, note the instance class that got double-released, 
 then add in main() or equivalent:
-<code>[[ETStackTraceRecorder sharedInstance] enableAllocationRecordingForClass: [MyClass class]];</code>
+
+<example>[[ETStackTraceRecorder sharedInstance] enableAllocationRecordingForClass: [MyClass class]];</example>
+
 To prevent the instance to be deallocated, set NSZombieEnabled to YES (e.g. 
-'export NSZombieEnabled YES' in the shell). Finally compile and run the program 
-in GDB and at crash time, type on the GDB prompt:
-<code>po [[ETStackTraceRecorder sharedInstance] recordedStackTracesForObject: instance] firstObject]</code>
-Where 'instance' is the instance address or a variable pointing on the instance. 
-Then GDB prints the stack trace which points back to the code that allocated 
-the instance.<br />
+<em>export NSZombieEnabled YES</em> in the shell). Finally compile and run the 
+program in GDB and at crash time, type on the GDB prompt:
+
+<example>po [[ETStackTraceRecorder sharedInstance] recordedStackTracesForObject: instance] firstObject]</example>
+
+Where <em>instance</em> is the instance address or a variable pointing on the 
+instance. Then GDB prints the stack trace which points back to the code that 
+allocated the instance.<br />
 You can also put a breakpoint on -[NSZombie forwardInvocation:], but take note 
 that NSZombie doesn't respond to -recordedStackTraces (at least on GNUstep).
+
+@section Thread Safety
 
 ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke 
 -recordForObject:. */
@@ -59,12 +67,18 @@ ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke
 	NSMutableSet *_allocMonitoredClasses;
 }
 
+/** @taskunit Initialization */
+
 + (id) sharedInstance;
+- (id) init;
 
 #ifdef GNUSTEP
+/** @taskunit Object Allocation Recording */
 - (void) enableAllocationRecordingForClass: (Class)aClass;
 - (void) disableAllocationRecordingForClass: (Class)aClass;
 #endif
+
+/** @taskunit Recording and Accessing Stack Traces */
 
 - (void) recordForObject: (id)anObject;
 - (NSArray *) recordedStackTracesForObject: (id)anObject;
