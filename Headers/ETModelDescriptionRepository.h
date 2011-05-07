@@ -39,6 +39,7 @@ main repository data model.  */
 	NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */
 	NSMapTable *_entityDescriptionsByClass;
 	NSMapTable *_entityDescriptionsByObject;
+	NSMapTable *_classesByEntityDescription;
 }
 
 /** Returns the initial repository that exists in each process.
@@ -125,6 +126,7 @@ e.g. 'Anonymous.NSObject' for NSObject entity */
 
 /** @taskunit Binding Descriptions to Class Instances and Prototypes */
 
+- (Class) classForEntityDescription: (ETEntityDescription*)anEntityDescription;
 - (ETEntityDescription *) entityDescriptionForClass: (Class)aClass;
 - (void) setEntityDescription: (ETEntityDescription *)anEntityDescription
                      forClass: (Class)aClass;
