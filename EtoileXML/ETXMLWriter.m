@@ -70,6 +70,11 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 }
 - (NSString*)endDocument
 {
+	// Close all open tags when ending a document.
+	while ([tagStack count] > 0)
+	{
+		[self endElement];
+	}
 	id ret = [buffer autorelease];
 	buffer = nil;
 	return ret;
