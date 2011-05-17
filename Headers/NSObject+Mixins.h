@@ -13,15 +13,19 @@
 /** 
  * Apply aClass to this class as a mixin.
  */
-+ (void) mixInClass:(Class)aClass;
++ (void) applyMixinFromClass:(Class)aClass;
 /**
  * Compose aClass with this one as a trait.
  */
-+ (void) applyTraitsFromClass:(Class)aClass;
++ (void) applyTraitFromClass:(Class)aClass;
++ (void) applyTraitFromClass: (Class)aClass 
+         excludedMethodNames: (NSArray *)excludedNames
+          aliasedMethodNames: (NSArray *)aliasedNames
+              allowsOverride: (BOOL)override;
 /**
  * Compose aClass with this one using mixin-style composition rules and
  * traits-style composition.  Methods in aClass may replace methods in this
  * class if their types match.
  */
-+ (void) flattenedMixinFromClass:(Class)aClass;
+//+ (void) flattenedMixinFromClass:(Class)aClass;
 @end

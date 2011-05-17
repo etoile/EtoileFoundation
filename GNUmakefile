@@ -106,6 +106,7 @@ EtoileFoundation_HEADER_FILES = \
 	NSInvocation+Etoile.h \
 	NSObject+Etoile.h \
 	NSObject+HOM.h \
+	NSObject+Mixins.h \
 	NSObject+Model.h \
 	NSObject+Prototypes.h \
 	NSString+Etoile.h \
@@ -158,6 +159,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/NSInvocation+Etoile.m \
 	Source/NSObject+Etoile.m \
 	Source/NSObject+HOM.m \
+	Source/NSObject+Mixins.m \
 	Source/NSObject+Model.m \
 	Source/NSObject+Prototypes.m \
 	Source/NSString+Etoile.m \
@@ -182,6 +184,7 @@ EtoileFoundation_OBJC_FILES += \
 	Tests/TestEntityDescription.m \
 	Tests/TestIndexPath.m \
 	Tests/TestModelDescriptionRepository.m \
+	Tests/TestMixin.m \
 	Tests/TestPlugInRegistry.m \
 	Tests/TestReflection.m \
 	Tests/TestStackTraceRecorder.m \
