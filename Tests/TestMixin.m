@@ -30,6 +30,9 @@
 @interface TestComplexMixin : NSObject <UKTest>
 @end
 
+@interface TestMixinSequence : NSObject <UKTest>
+@end
+
 @interface TestBasicMixin (BasicTrait)
 - (void) bip;
 - (NSString *) wanderWhere: (NSUInteger)aLocation;
@@ -37,6 +40,13 @@
 @end
 
 @interface TestComplexMixin (ComplexTrait)
+- (NSString *) wanderWhere: (NSUInteger)aLocation;
+- (BOOL) isOrdered;
+- (int) intValue;
+@end
+
+@interface TestMixinSequence (ComplexTraitFollowedByBasicTrait)
+- (void) bip;
 - (NSString *) wanderWhere: (NSUInteger)aLocation;
 - (BOOL) isOrdered;
 - (int) intValue;
@@ -147,6 +157,37 @@
 	UKObjectsEqual([TestComplexMixin class], [self class]);
 	UKObjectsEqual(NSClassFromString(@"TestComplexMixin+ComplexTrait"), [self superclass]);
 	UKObjectsEqual([NSObject class], [[self superclass] superclass]);
+}
+
+@end
+
+@implementation TestMixinSequence
+
+- (BOOL) isOrdered
+{
+	return YES;
+}
+
++ (void) initialize
+{
+	[[self class] applyMixinFromClass: [ComplexTrait class]];
+	[[self class] applyMixinFromClass: [BasicTrait class]];
+}
+
+- (void) testMethods
+{
+	UKTrue([self respondsToSelector: @selector(bip)]);
+	UKStringsEqual(@"Nowhere", [self wanderWhere: 5]);
+	UKFalse([self isOrdered]);
+	UKIntsEqual(3, [self intValue]);
+}
+
+- (void) testClassHierarchy
+{
+	UKObjectsEqual([TestMixinSequence class], [self class]);
+	UKObjectsEqual(NSClassFromString(@"TestMixinSequence+BasicTrait"), [self superclass]);
+	UKObjectsEqual(NSClassFromString(@"TestMixinSequence+ComplexTrait"), [[self superclass] superclass]);
+	UKObjectsEqual([NSObject class], [[[self superclass] superclass] superclass]);
 }
 
 @end
