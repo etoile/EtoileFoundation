@@ -37,6 +37,7 @@
 - (void) bip;
 - (NSString *) wanderWhere: (NSUInteger)aLocation;
 - (BOOL) isOrdered;
+- (NSString *) hello;
 @end
 
 @interface TestComplexMixin (ComplexTrait)
@@ -104,11 +105,26 @@
 
 @end
 
+
+/* We cannot shut down warnings such as -[BasicTrait hello], hence we have to 
+   provide a no-op in NSObject until we have a better way to handle that. */
+@interface NSObject (LateBoundSuperUseCases)
+- (NSString *) hello;
+@end
+@implementation NSObject (LateBoundSuperUseCases)
+- (NSString *) hello { return nil; }
+@end
+
 @implementation TestBasicMixin
 
 - (BOOL) isOrdered
 {
 	return YES;
+}
+
+- (NSString *) hello
+{
+	return @"Hello";
 }
 
 + (void) initialize
@@ -121,6 +137,8 @@
 	UKTrue([self respondsToSelector: @selector(bip)]);
 	UKStringsEqual(@"Nowhere", [self wanderWhere: 5]);
 	UKFalse([self isOrdered]);
+	UKStringsEqual(@"Hello", [super hello]);
+	// FIXME: UKStringsEqual(@"Hello super", [self hello]);
 }
 
 - (void) testClassHierarchy
@@ -198,6 +216,7 @@
 - (void) bip { }
 - (NSString *) wanderWhere: (NSUInteger)aLocation { return @"Nowhere"; }
 - (BOOL) isOrdered { return NO; }
+- (NSString *) hello { return [[super hello] stringByAppendingString: @" super"]; }
 @end
 
 @implementation ComplexTrait
