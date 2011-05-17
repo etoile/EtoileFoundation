@@ -159,7 +159,17 @@ static struct objc_class
 
 	checkSafeComposition(class, aClass);
 
-	Class newSuper = objc_allocateClassPair(class_getSuperclass(class), "test" , 0);
+	NSString *newSuperName = [[self className] 
+		stringByAppendingFormat: @"+%s", class_getName(aClass)];
+	Class existingClass = objc_getClass([newSuperName UTF8String]);
+
+	if (existingClass != Nil)
+	{
+		[NSException raise: @"ETMixinMultipleApplicationException"
+		            format: @"Mixin %s has already been applied to the class %@. A mixin cannot be applied multiple times to the same class.", class_getName(aClass), [self className]];
+	}
+
+	Class newSuper = objc_allocateClassPair(class_getSuperclass(class), [newSuperName UTF8String], 0);
 
 	/* Move ivar and method definitions to the new superclass */
 	// TODO: To rewrite that correctly we need class_removeMethod_np() and 
@@ -175,7 +185,7 @@ static struct objc_class
 	/* Insert into the class hierarchy */
 	class_setSuperclass(class, newSuper);
 
-	class_registerClassPair(newSuper);
+	objc_registerClassPair(newSuper);
 	objc_update_dtable_for_class(class);
 }
 
