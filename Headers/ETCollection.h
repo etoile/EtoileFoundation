@@ -66,8 +66,50 @@ the same than -addObject:. */
 /** Removes the element from the collection. */
 - (void) removeObject: (id)object;
 /** Removes the element at the given index from the collection. */
-- (void) removeObject: (id)object atIndex: (NSUInteger)index;
+- (void) removeObjectAtIndex: (NSUInteger)index;
+/** Inserts the element at the given index in the collection, by making 
+adjustments based on the hint if needed.
+
+The element to be inserted must never be nil. The collection can raise an 
+exception in such case.
+
+If the collection is not ordered, the index can be ignored (the insertion 
+becomes an addition), but otherwise it must not.
+
+If the index is ETUndeterminedIndex, the insertion must be treated as an 
+addition and the object inserted in last position if the collection is 
+ordered e.g. NSMutableArray. See also -addObject:.
+
+If the hint is not nil, the collection can test the hint type. If the hint 
+matches its expectation, it's up to the collection to choose another index 
+and/or another element to insert. Both the custom index and element can be 
+provided by the hint.<br />
+The collection must continue to behave in a predictable way (as detailed 
+above) when no hint is provided. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+/** Removes the element at the given index from the collection, by making 
+adjustments based on the hint if needed.
+
+The element can be nil, but then the index must not be ETUndeterminedIndex.
+
+If the collection is not ordered, the index can be ignored, but otherwise it 
+must not.
+
+If the index is ETUndeterminedIndex, all occurences of the element must 
+be removed from the collection.
+
+If both the element and index are both valid, the element should be ignored and 
+priority must be given to the index to locate the objects to remove (this rule 
+is subject to change a bit).
+
+If the hint is not nil, the collection can test the hint type. If the hint 
+matches its expectation, it's up to the collection to choose another index 
+and/or another element to remove. Both the custom index and element can be 
+provided by the hint.<br />
+The collection must continue to behave in a predictable way (as detailed 
+above) when no hint is provided.<br />
+If the hint can provide both a custom element and index, as stated previously, 
+priority must be given to the index to locate the objects to remove. */
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
@@ -121,11 +163,84 @@ You should only implement this method when the collection is ordered. */
 - (void) removeObjectAtIndexes: (NSIndexSet *)indexes;
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+
+This trait implements all ETCollection protocol methods, except -content and 
+-contentArray, for which concrete implementations must be provided by the 
+target class.
+
+Any method provided by ETCollectionTrait can be overriden by implementing the 
+method in the target class.
+
+Here is a simple example that implements a complete mutable collection API. In 
+addition to ETCollectionTrait, it also leverages ETMutableCollectionTrait to do 
+so.
+
+<example>
+@interface MyCollection : NSObject <ETCollection, ETCollectionMutation>
+{
+	NSMutableArray *things;
+}
+
+@end
+
+#pragma GCC diagnostic ignored "-Wprotocol"
+
+@implementation
+
++ (void) initialize
+{
+	if (self != [MyCollection class])
+		return;
+
+	[self applyTraitFromClass: [ETCollection class]];
+	[self applyTraitFromClass: [ETMutableCollection class]];
+}
+
+// Omitted initialization and deallocation methods
+
+- (id) content
+{
+	return things;
+}
+
+- (NSArray *) contentArray
+{
+	return [NSArray arrayWithArray: things];
+}
+
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	[things insertObject: object atIndex: index];
+}
+
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	if (index == ETUndeterminedIndex)
+	{
+		[things removeObject: object];
+	}
+	else
+	{
+		[things removeObjectAtIndex: index];
+	}
+}
+
+@end 
+</example> */
 @interface ETCollectionTrait : NSObject <ETCollection>
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+
+This trait implements all ETCollectionMutation protocol methods, except 
+-insertObject:atIndex:hint: and -removeObject:atIndex:hint:, for which concrete 
+implementations must be provided by the target class.
+
+Any method provided by ETMutableCollectionTrait can be overriden by 
+implementing the method in the target class.
+
+For a use case example, see ETCollectionTrait. */
 @interface ETMutableCollectionTrait : ETCollectionTrait <ETCollectionMutation>
 @end
 

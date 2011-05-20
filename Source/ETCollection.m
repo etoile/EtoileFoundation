@@ -17,41 +17,69 @@ const NSUInteger ETUndeterminedIndex = NSNotFound;
 
 @implementation ETCollectionTrait
 
+/** Returns NO. */
 - (BOOL) isOrdered
 {
 	return NO;
 }
 
+/** Returns the content count. 
+
+See -content. */
 - (NSUInteger) count
 {
 	return [[self content] count];
 }
 
+/** Returns nil.
+
+A concrete implementation must be provided in the target class. 
+The constraints to respect are detailed in -[(ETCollection) content]. */
 - (id) content
 {
 	return nil;
 }
 
+/** Returns nil.
+
+A concrete implementation must be provided in the target class.
+ The constraints to respect are detailed in -[(ETCollection) contentArray]. */
 - (NSArray *) contentArray
 {
 	return nil;
 }
 
+/** Returns whether the content count is zero.
+
+See -count. */
 - (BOOL) isEmpty
 {
 	return ([self count] == 0);
 }
 
+/** Returns the content enumerator. 
+
+See -content. */
 - (NSEnumerator *) objectEnumerator
 {
 	return [[self content] objectEnumerator];
 }
 
+/** Returns whether the given element belongs to the collection. 
+
+The implementation tests the membership against the content array. 
+
+See -contentArray. */
 - (BOOL) containsObject: (id)anObject
 {
 	return [[self contentArray] containsObject: anObject];
 }
 
+/** Returns whether the given elements are a subset of the receiver collection. 
+
+The implementation tests the membership against the content arrays. 
+
+See -contentArray. */
 - (BOOL) containsCollection: (id <ETCollection>)objects
 {
 	NSSet *contentSet = [NSSet setWithArray: [self contentArray]];
@@ -64,31 +92,45 @@ const NSUInteger ETUndeterminedIndex = NSNotFound;
 
 @implementation ETMutableCollectionTrait
 
+/** Calls -insertObject:AtIndex:hint: with ETUndeterminedIndex as the index and 
+a nil hint. */
 - (void) addObject: (id)object
 {
 	[self insertObject: object atIndex: ETUndeterminedIndex hint: nil];
 }
 
+/** Calls -insertObject:AtIndex:hint: with a nil hint. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index
 {
 	[self insertObject: object atIndex: index hint: nil];
 }
 
+/** Calls -removeObject:AtIndex:hint: with ETUndeterminedIndex as the index and 
+a nil hint. */
 - (void) removeObject: (id)object
 {
 	[self removeObject: object atIndex: ETUndeterminedIndex hint: nil];
 }
 
-- (void) removeObject: (id)object atIndex: (NSUInteger)index
+/** Calls -insertObject:AtIndex:hint: with a nil object and a nil hint. */
+- (void) removeObjectAtIndex: (NSUInteger)index
 {
-	[self removeObject: object atIndex: index hint: nil];
+	[self removeObject: nil atIndex: index hint: nil];
 }
 
+/** Does nothing.
+
+A concrete implementation must be provided in the target class.
+The constraints to respect are detailed in -[(ETCollectionMutation) insertObject:atIndex:hint:]. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 
 }
 
+/** Does nothing.
+
+A concrete implementation must be provided in the target class.
+The constraints to respect are detailed in -[(ETCollectionMutation) removeObject:atIndex:hint:]. */
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 
