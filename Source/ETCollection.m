@@ -6,31 +6,35 @@
 	License: Modified BSD (see COPYING)
  */
 
-// This is a really ugly hack.  We define ETCollectionMutation before we define
-// the prototype for it.  This allows us to not implement all of the methods
-// that the protocol requires, which gets rid of a spurious GCC warning.
-#import <Foundation/NSSet.h>
-@implementation NSMutableSet (ETCollectionMutationPremature)
-
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
-{
-	[self addObject: object];
-}
-
-@end
-
 #import "ETCollection.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
+const NSUInteger ETUndeterminedIndex = NSNotFound;
 
-#if 0
-@implementation ETCollectionMixin
+#pragma GCC diagnostic ignored "-Wprotocol"
+
+@implementation ETCollectionTrait
+
+- (BOOL) isOrdered
+{
+	return NO;
+}
 
 - (NSUInteger) count
 {
-	return [[self contentArray] count];
+	return [[self content] count];
+}
+
+- (id) content
+{
+	return nil;
+}
+
+- (NSArray *) contentArray
+{
+	return nil;
 }
 
 - (BOOL) isEmpty
@@ -38,13 +42,59 @@
 	return ([self count] == 0);
 }
 
-- (BOOL) objectEnumerator
+- (NSEnumerator *) objectEnumerator
 {
-	return [[self contentArray] objectEnumerator];
+	return [[self content] objectEnumerator];
+}
+
+- (BOOL) containsObject: (id)anObject
+{
+	return [[self contentArray] containsObject: anObject];
+}
+
+- (BOOL) containsCollection: (id <ETCollection>)objects
+{
+	NSSet *contentSet = [NSSet setWithArray: [self contentArray]];
+	NSSet *otherSet = [NSSet setWithArray: [objects contentArray]];
+
+	return [otherSet isSubsetOfSet: contentSet];
 }
 
 @end
-#endif
+
+@implementation ETMutableCollectionTrait
+
+- (void) addObject: (id)object
+{
+	[self insertObject: object atIndex: ETUndeterminedIndex hint: nil];
+}
+
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
+{
+	[self insertObject: object atIndex: index hint: nil];
+}
+
+- (void) removeObject: (id)object
+{
+	[self removeObject: object atIndex: ETUndeterminedIndex hint: nil];
+}
+
+- (void) removeObject: (id)object atIndex: (NSUInteger)index
+{
+	[self removeObject: object atIndex: index hint: nil];
+}
+
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+
+}
+
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+
+}
+
+@end
 
 @implementation NSArray (ETCollection)
 
@@ -235,8 +285,8 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 @implementation NSMutableDictionary (ETCollectionMutation)
 
 /** Adds object to the receiver using as key the value returned by 
-	-[object keyForCollection:] if not nil, otherwise falling back on the 
-	highest integer value of all keys incremented by one. */
+-[object keyForCollection:] if not nil, otherwise falling back on the highest 
+integer value of all keys incremented by one. */
 - (void) addObject: (id)object
 {
 	id key = [object keyForCollection: self];
@@ -274,6 +324,15 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 	{
 		[self removeObjectForKey: key];
 	}
+}
+
+@end
+
+@implementation NSMutableSet (ETCollectionMutation)
+
+- (void) insertObject: (id)object atIndex: (NSUInteger)index
+{
+	[self addObject: object];
 }
 
 @end

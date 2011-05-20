@@ -11,11 +11,15 @@
 
 #import <Foundation/Foundation.h>
 
-/* Collection Access and Mutation Protocols */
+/** Marks an element which shouldn't be considered bound to a particular index 
+in an ordered collection or whose index isn't yet determined.<br /> 
+For use cases, see ETCollectionMutation.
 
-/* NOTE: -isEmpty, -count and -objectEnumerator could be put in a 
-   ETCollectionMixin because their implementation doesn't vary or their value 
-   can be extrapolated from -contentArray. */
+With EtoileUI, can be used to indicate a drop is not an insertion at precise 
+index but a simple drop on. */
+extern const NSUInteger ETUndeterminedIndex;
+
+/* Collection Access and Mutation Protocols */
 
 /** @group Collection Protocols */ 
 @protocol ETCollection
@@ -24,31 +28,28 @@
 /** Returns YES when the collection contains no elements, otherwise returns NO. */
 - (BOOL) isEmpty;
 /** Returns the underlying data structure object holding the content or self 
-	when the protocol is adopted by a class which is a content data structure 
-	by itself (like NSArray, NSDictionary, NSSet etc.). 
-	Content by its very nature is always a collection of other objects. As 
-	such, content may hold one or no objects (empty collection).
-	When adopted, this method must never return nil. */
+when the protocol is adopted by a class which is a content data structure by 
+itself (like NSArray, NSDictionary, NSSet etc.). 
+
+Content by its very nature is always a collection of other objects. As such, 
+content may hold one or no objects (empty collection).
+
+When adopted, this method must never return nil. */
 - (id) content;
 /** Returns the content as a new NSArray-based collection of objects. 
-	When adopted, this method must never return nil, you should generally 
-	return an empty NSArray instead. */
-- (NSArray *) contentArray;
-/** Returns an enumerator which can be used as a conveniency to iterate over 
-	the elements of the content one-by-one. */
-//- (NSEnumerator *) objectEnumerator;
-/** Returns the number of elements hold by the receiver. */
-//- (NSUInteger) count;
-/** Returns whether the element is included in the collection. */
-//- (BOOL) containsObject: (id)anObject;
-/** Returns whether every element in the given collection are included in the receiver. */
-//- (BOOL) containsCollection: (id <ETCollection>)objects;
 
-// FIXME: Both objectEnumerator and count are problematic because they are 
-// declared on NSArray, NSDictionary etc. therefore the compiler complains about
-// unimplemented method when the protocol is adopted by a category on the 
-// collection. I think the compiler should be smart enough to check whether the
-// original class already declares/implements the method or not. 
+When adopted, this method must never return nil, you should generally 
+return an empty NSArray instead. */
+- (NSArray *) contentArray;
+/** Returns the number of elements hold by the receiver. */
+- (NSUInteger) count;
+/** Returns an enumerator which can be used as a conveniency to iterate over 
+the elements of the content one-by-one. */
+- (NSEnumerator *) objectEnumerator;
+/** Returns whether the element is included in the collection. */
+- (BOOL) containsObject: (id)anObject;
+/** Returns whether every element in the given collection are included in the receiver. */
+- (BOOL) containsCollection: (id <ETCollection>)objects;
 @end
 
 /** @group Collection Protocols */
@@ -64,16 +65,10 @@ the same than -addObject:. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index;
 /** Removes the element from the collection. */
 - (void) removeObject: (id)object;
-
-// NOTE: Next method could allow to simplify type checking of added and removed
-// objects and provides -addObject: -removeObject: implementation in a mixin.
-// For example you could declare elementType as ETLayoutItem to ensure proper 
-// type checking. If you check against [self class], in ETLayoutItemGroup you
-// won't be able to accept ETLayoutItem instances. So the valid common supertype
-// of collection objects must be declared in a superclass if you define subtype
-// for collection objects. ETLayer and ETLayoutItemGroup are such subtypes of 
-// ETLayoutItem.
-//- (NSString *) elementType;
+/** Removes the element at the given index from the collection. */
+- (void) removeObject: (id)object atIndex: (NSUInteger)index;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 /** @group Collection Protocols
@@ -124,6 +119,14 @@ to, see -[NSArray insertObjects:atIndexes:] in Cocoa documentation. */
 
 You should only implement this method when the collection is ordered. */
 - (void) removeObjectAtIndexes: (NSIndexSet *)indexes;
+@end
+
+/** @group Collection Protocols */
+@interface ETCollectionTrait : NSObject <ETCollection>
+@end
+
+/** @group Collection Protocols */
+@interface ETMutableCollectionTrait : ETCollectionTrait <ETCollectionMutation>
 @end
 
 /* Adopted by the following Foundation classes  */
@@ -188,7 +191,6 @@ protocol methods implemented in NSSet(ETCollection). */
 
 /** @group Collection Protocols */
 @interface NSMutableSet (ETCollectionMutation) <ETCollectionMutation>
-- (void) addObject: (id)object;
 - (void) insertObject: (id)object atIndex: (NSUInteger)index;
 @end
 
@@ -208,7 +210,7 @@ protocol methods implemented in NSSet(ETCollection). */
 - (NSArray *) filteredArrayUsingPredicate: (NSPredicate *)aPredicate
                           ignoringObjects: (NSSet *)ignoredObjects;
 
-/* Deprecated (DO NOT USE, WILL BE REMOVED LATER) */
+/** @taskunit Deprecated */
 
 - (NSArray *) objectsMatchingValue: (id)value forKey: (NSString *)key;
 - (id) firstObjectMatchingValue: (id)value forKey: (NSString *)key;

@@ -6,14 +6,26 @@
  */
 
 #import "ETHistory.h"
+#import "ETCollection.h"
+#import "NSObject+Mixins.h"
 #import "EtoileCompatibility.h"
 #import "Macros.h"
+
+#pragma GCC diagnostic ignored "-Wprotocol"
 
 #define INCREMENT_HISTORY_INDEX\
 	if (max_size < 1 || index < max_size) { ++index; }\
 	else { [history removeObjectAtIndex: 0]; }
 
 @implementation ETHistory
+
++ (void) initialize
+{
+	if (self != [ETHistory class])
+		return;
+
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
 
 + (id) history
 {
@@ -181,11 +193,6 @@
 - (BOOL) isOrdered
 {
 	return YES;
-}
-
-- (BOOL) isEmpty
-{
-	return ([history count] == 0);
 }
 
 - (id) content

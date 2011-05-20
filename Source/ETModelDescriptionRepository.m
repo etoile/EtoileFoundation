@@ -15,12 +15,23 @@
 #import "ETPropertyDescription.h"
 #import "ETReflection.h"
 #import "NSObject+Etoile.h"
+#import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
+#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation ETModelDescriptionRepository
+
++ (void) initialize
+{
+	if (self != [ETModelDescriptionRepository class])
+		return;
+
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -348,12 +359,6 @@ same name). */
 
 /** @taskunit Collection Protocol */
 
-/** Returns NO */
-- (BOOL) isOrdered
-{
-	return NO;
-}
-
 /** Returns YES when no package descriptions is registered, otherwise returns NO.
 
 By default, returns NO since an anonymous package descriptions is registered in
@@ -391,17 +396,13 @@ You must assume that <code>[[self content] count] != [[self contentArray] count]
 	return [[self packageDescriptions] objectEnumerator];
 }
 
-- (void) addObject: (id)object
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self addDescription: object];
 }
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
-{
-	[self addDescription: object];
-}
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 
-- (void) removeObject: (id)object
 {
 	[self removeDescription: object];
 }

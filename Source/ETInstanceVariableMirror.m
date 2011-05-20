@@ -14,11 +14,22 @@
 #import "ETInstanceVariableMirror.h"
 #import "ETUTI.h"
 #import "Macros.h"
+#import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 
+#pragma GCC diagnostic ignored "-Wprotocol"
+
 
 @implementation ETInstanceVariableMirror
+
++ (void) initialize
+{
+	if (self != [ETInstanceVariableMirror class])
+		return;
+
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
 
 - (id) initWithIvar: (Ivar)ivar ownerMirror: (id <ETMirror>)aMirror
 {
@@ -245,4 +256,30 @@ DEALLOC(DESTROY(_ownerMirror))
 	return [self cachedValueMirrorForValue: [self value]];
 }
 
+- (BOOL) isCollection
+{
+	return [self isObjectType];
+}
+
+/* Collection protocol */
+
+- (BOOL) isEmpty
+{
+	if ([self isObjectType] == NO)
+		return NO;
+
+	return ([[[self valueMirror] allInstanceVariableMirrors] count] == 0);
+}
+
+- (id) content
+{
+	return [self contentArray];
+}
+
+- (NSArray *) contentArray
+{
+	return [[self valueMirror] allInstanceVariableMirrors];
+}
+
 @end
+

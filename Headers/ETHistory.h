@@ -115,17 +115,5 @@
  * Returns YES.
  */
 - (BOOL) isOrdered;
-/**
- * See -[(ETCollection) isEmpty].
- */
-- (BOOL) isEmpty;
-/**
- * See -[(ETCollection) content].
- */
-- (id) content;
-/**
- * See -[(ETCollection) contentArray].
- */
-- (NSArray *) contentArray;
 
 @end

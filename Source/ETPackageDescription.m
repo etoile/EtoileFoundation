@@ -11,12 +11,23 @@
 #import "ETCollection+HOM.h"
 #import "ETEntityDescription.h"
 #import "ETPropertyDescription.h"
+#import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
+#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation ETPackageDescription
+
++ (void) initialize
+{
+	if (self != [ETPackageDescription class])
+		return;
+
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -158,16 +169,6 @@
 	}
 }
 
-- (BOOL) isOrdered
-{
-	return NO;
-}
-
-- (BOOL) isEmpty
-{
-	return ([_entityDescriptions count] == 0);
-}
-
 - (id) content
 {
 	return _entityDescriptions;
@@ -178,29 +179,19 @@
 	return [_entityDescriptions allObjects];
 }
 
-- (NSUInteger) count
-{
-	return [_entityDescriptions count];
-}
-
-- (id) objectEnumerator
-{
-	return [_entityDescriptions objectEnumerator];
-}
-
 - (void) addObject: (id)object
 {
 	[self addEntityDescription: object];
 }
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self addEntityDescription: object];
 	[_entityDescriptions removeObject: object];
 	[_entityDescriptions insertObject: object atIndex: index];
 }
 
-- (void) removeObject: (id)object
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self removeEntityDescription: object];
 }

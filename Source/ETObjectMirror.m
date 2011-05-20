@@ -11,15 +11,28 @@
 #import "ETObjectMirror.h"
 #import "ETClassMirror.h"
 #import "Macros.h"
+#import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "NSObject+Prototypes.h"
 #import "EtoileCompatibility.h"
 
+#pragma GCC diagnostic ignored "-Wprotocol"
+
 @implementation ETObjectMirror
+
++ (void) initialize
+{
+	if (self != [ETObjectMirror class])
+		return;
+
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
+
 + (id) mirrorWithObject: (id)object
 {
 	return [[[ETObjectMirror alloc] initWithObject: object] autorelease];
 }
+
 - (id) initWithObject: (id)object
 {
 	SUPERINIT
@@ -123,29 +136,14 @@
 
 /* Collection Protocol */
 
-- (BOOL) isOrdered
-{
-	return NO;
-}
-- (BOOL) isEmpty
-{
-	return [[self contentArray] count] == 0;
-}
 - (id) content
 {
 	return [self contentArray];
 }
+
 - (NSArray *) contentArray
 {
 	return [self allSlotMirrors];
-}
-- (NSEnumerator *) objectEnumerator
-{
-	return [[self contentArray] objectEnumerator];
-}
-- (NSUInteger) count
-{
-	return [[self contentArray] count];
 }
 
 /* Property-value coding */

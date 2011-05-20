@@ -14,8 +14,15 @@
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/runtime.h>
 
-/** @group Reflection */
-@interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror>
+/** @group Reflection
+
+ETInstanceVariableMirror implements the collection protocol to allow ivar 
+content to be recursively traversed when ivars are presented in a UI inspector. 
+For example,the inspector can use an outline view which makes possible to look 
+at the "subivars" that makes up the object which corresponds to each ivar value.<br />
+If the ivar isn't an object type, the ivar is not traversable.<br />
+See also ETViewModelLayout in EtoileUI. */
+@interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror, ETCollection>
 {
 	@private
 	Ivar _ivar;

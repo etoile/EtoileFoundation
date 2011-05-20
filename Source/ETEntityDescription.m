@@ -13,11 +13,23 @@
 #import "ETPropertyDescription.h"
 #import "ETReflection.h"
 #import "ETValidationResult.h"
+#import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
+#pragma GCC diagnostic ignored "-Wprotocol"
+
 @implementation ETEntityDescription
+
++ (void) initialize
+{
+	if (self != [ETEntityDescription class])
+		return;
+
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
 
 + (NSString *) rootEntityDescriptionName
 {
@@ -273,16 +285,6 @@
 	}
 }
 
-- (BOOL) isOrdered
-{
-	return NO;
-}
-
-- (BOOL) isEmpty
-{
-	return ([_propertyDescriptions count] == 0);
-}
-
 - (id) content
 {
 	return _propertyDescriptions;
@@ -293,27 +295,12 @@
 	return [_propertyDescriptions allValues];
 }
 
-- (NSUInteger) count
-{
-	return [_propertyDescriptions count];
-}
-
-- (id) objectEnumerator
-{
-	return [_propertyDescriptions objectEnumerator];
-}
-
-- (void) addObject: (id)object
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self addPropertyDescription: object];
 }
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
-{
-	[self addPropertyDescription: object];
-}
-
-- (void) removeObject: (id)object
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self removePropertyDescription: object];
 }
