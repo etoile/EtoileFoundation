@@ -180,6 +180,7 @@ EtoileFoundation_OBJC_FILES += Source/NSFileManager+NameForTempFile.m
 ifeq ($(test), yes)
 EtoileFoundation_OBJC_FILES += \
 	Tests/TestBasicHOM.m \
+	Tests/TestCollectionTrait.m \
 	Tests/TestETCollectionHOM.m \
 	Tests/TestEntityDescription.m \
 	Tests/TestIndexPath.m \

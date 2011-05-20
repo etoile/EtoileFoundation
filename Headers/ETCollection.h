@@ -211,7 +211,14 @@ so.
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	[things insertObject: object atIndex: index];
+	if (index == ETUndeterminedIndex)
+	{
+		[things addObject: object];
+	}
+	else
+	{
+		[things insertObject: object atIndex: index];
+	}
 }
 
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
