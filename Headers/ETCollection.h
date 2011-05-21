@@ -21,7 +21,32 @@ extern const NSUInteger ETUndeterminedIndex;
 
 /* Collection Access and Mutation Protocols */
 
-/** @group Collection Protocols */ 
+/** @group Collection Protocols
+
+Basic collection protocol that all collections must support. EtoileFoundation 
+extends Foundation classes such as NSArray, NSDictionary, NSSet and NSIndexSet 
+to adopt this protocol. EtoileUI extends NSView in the same way.
+
+With this protocol, the collection content can be accessed and queried in 
+various ways but cannot be mutated.
+
+Given most protocol method implementations remains the same accross collection 
+classes, we provide ETCollectionTrait as a reusable ETCollection implementation.
+
+The two primitives methods are -content and -contentArray. These methods must 
+be implemented in the collection class in all cases. See ETCollectionTrait.
+
+When you write a new class that includes a to-many relationship, it should 
+conform to ETCollection. If several to-many relationships exist, you should 
+pick the dominant relationship that best represents the main content. A good 
+hint is to pick the most recurrent way to browse the content with a UI, and 
+the relationship traversed in such a case.<br />
+EtoileUI can automatically present collection-like content and support 
+navigation into it when represented objects bound to ETLayoutItemGroup conform 
+to ETCollection.
+
+Note: In future, we will provide a viewpoint mechanism to view or traverse 
+objects through their non-dominant to-many relationships. */ 
 @protocol ETCollection
 /** Returns whether the receiveir stores the elements in a sorted order or not. */
 - (BOOL) isOrdered;
@@ -52,7 +77,28 @@ the elements of the content one-by-one. */
 - (BOOL) containsCollection: (id <ETCollection>)objects;
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols 
+
+Additional collection protocol that all mutable collections must support. 
+EtoileFoundation extends Foundation classes such as NSMutableArray, 
+NSMutableDictionary, NSMutableSet, NSCountedSet and NSMutableIndexSet 
+to adopt this protocol. EtoileUI extends NSView in the same way.
+
+Given most protocol method implementations remains the same accross collection 
+classes, we provide ETMutableCollectionTrait as a reusable ETCollectionMutation 
+implementation.
+
+The two primitive methods are -insertObject:atIndex:hint: and 
+-removeObject:atIndex:hint:. These methods must be implemented in the 
+collection class in all cases. See ETMutableCollectionTrait. 
+
+When you write a new class that includes a mutable to-many relationship, it should 
+conform to ETCollectionMutation, based on the rules presented in ETCollection 
+documentation.<br />
+EtoileUI can automatically mutate collection-like content and support 
+turning user actions (e.g. drag an drop) into collection operations, when 
+represented objects bound to ETLayoutItemGroup conform to ETCollectionMutation 
+in addition to ETCollection. */
 @protocol ETCollectionMutation
 /** Adds the element to the collection. 
 
@@ -98,7 +144,7 @@ must not.
 If the index is ETUndeterminedIndex, all occurences of the element must 
 be removed from the collection.
 
-If both the element and index are both valid, the element should be ignored and 
+If both the element and index are valid, the element should be ignored and 
 priority must be given to the index to locate the objects to remove (this rule 
 is subject to change a bit).
 
