@@ -102,16 +102,29 @@ in addition to ETCollection. */
 @protocol ETCollectionMutation
 /** Adds the element to the collection. 
 
+A collection can raise an exception on a nil object.
+
 When the collection is ordered, the element is inserted as the last element. */
 - (void) addObject: (id)object;
 /** Inserts the element at the given index in the collection.
 
+A collection can raise an exception on a nil object. <br />
+An ordered collection can raise an exception on an invalid index such as 
+ETUndeterminedIndex (this is not the same behavior than -insertObject:atIndex:hint:).
+
 When the collection is not ordered, the index is ignored and the behavior is 
 the same than -addObject:. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index;
-/** Removes the element from the collection. */
+/** Removes the element from the collection.
+
+A collection can raise an exception on a nil object. */
 - (void) removeObject: (id)object;
-/** Removes the element at the given index from the collection. */
+/** Removes the element at the given index from the collection.
+
+An ordered collection can raise an exception on an invalid index such as 
+ETUndeterminedIndex.
+
+When the collection is not ordered, an exception should be raised. */
 - (void) removeObjectAtIndex: (NSUInteger)index;
 /** Inserts the element at the given index in the collection, by making 
 adjustments based on the hint if needed.
@@ -136,7 +149,8 @@ above) when no hint is provided. */
 /** Removes the element at the given index from the collection, by making 
 adjustments based on the hint if needed.
 
-The element can be nil, but then the index must not be ETUndeterminedIndex.
+The element can be nil, but then the index must not be ETUndeterminedIndex. 
+Otherwise the collection can raise an exception.
 
 If the collection is not ordered, the index can be ignored, but otherwise it 
 must not.
@@ -338,29 +352,32 @@ protocol methods implemented in NSSet(ETCollection). */
 - (NSEnumerator *) objectEnumerator;
 @end
 
-/** @group Collection Protocols */
-@interface NSMutableArray (ETCollectionMutation) <ETCollectionMutation>
+/** @group Collection Protocols
 
+For NSMutableArray, -insertObject:atIndex: raises an exception when the index 
+is ETUndeterminedIndex. */
+@interface NSMutableArray (ETCollectionMutation) <ETCollectionMutation>
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 /** @group Collection Protocols */
 @interface NSMutableDictionary (ETCollectionMutation) <ETCollectionMutation>
-- (void) addObject: (id)object;
-- (void) insertObject: (id)object atIndex: (NSUInteger)index;
-- (void) removeObject: (id)object;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 /** @group Collection Protocols */
 @interface NSMutableSet (ETCollectionMutation) <ETCollectionMutation>
-- (void) insertObject: (id)object atIndex: (NSUInteger)index;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 
 /** @group Collection Protocols */
 @interface NSMutableIndexSet (ETCollectionMutation) <ETCollectionMutation>
-- (void) addObject: (id)object;
-- (void) insertObject: (id)object atIndex: (NSUInteger)index;
-- (void) removeObject: (id)object;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 /** @group Collection Additions */

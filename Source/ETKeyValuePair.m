@@ -41,6 +41,12 @@ Initializes and returns a new pair with the given key and value. */
 	[super dealloc];
 }
 
+/** Returns YES. */
+- (BOOL) isKeyValuePair
+{
+	return YES;
+}
+
 /** Returns the pair identifier. */
 - (NSString *) key
 {
@@ -134,6 +140,16 @@ The returned array is autoreleased. */
 	}
 
 	return array;
+}
+
+@end
+
+@implementation NSObject (ETKeyValuePair)
+
+/** Returns whether the receiver is a ETKeyValuePair instance. */
+- (BOOL) isKeyValuePair
+{
+	return NO;
 }
 
 @end

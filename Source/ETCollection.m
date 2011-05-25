@@ -7,6 +7,7 @@
  */
 
 #import "ETCollection.h"
+#import "ETKeyValuePair.h"
 #import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
@@ -334,47 +335,122 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 
 @end
 
+@implementation NSMutableArray (ETCollectionMutation)
+
+/** Inserts the object at the given index in the array.
+
+If the index is ETUndeterminedIndex, the object is added.
+
+See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	if (index == ETUndeterminedIndex)
+	{
+		[self addObject: object];
+	}
+	else
+	{
+		[self insertObject: object atIndex: index];
+	}
+}
+
+/** Removes the object at the given index from the array.
+
+If the index is ETUndeterminedIndex, all occurences of the object matched with 
+-isEqual are removed.<br />
+When a valid index is provided, the object can be nil.
+
+See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	NSParameterAssert(object != nil || index != ETUndeterminedIndex);
+
+	if (index == ETUndeterminedIndex)
+	{
+		[self removeObject: object];
+	}
+	else
+	{
+		[self removeObjectAtIndex: index];
+	}
+}
+
+@end
+
 @implementation NSMutableDictionary (ETCollectionMutation)
 
-/** Adds object to the receiver using as key the value returned by 
--[object keyForCollection:] if not nil, otherwise falling back on the highest 
-integer value of all keys incremented by one. */
-- (void) addObject: (id)object
++ (void) load
 {
-	id key = [object keyForCollection: self];
-	
-	if (key == nil)
+	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
+
+/** Inserts the object into the receiver for a key which is going to be:
+
+<list>
+<item>the hint key if the hint is a key-value pair (see ETKeyValuePair)</item>
+<item>else the value returned by -[object keyForCollection:] if not nil</item>
+<item>in last resort the highest integer value of all keys incremented by one</item>
+</list>
+
+The index is ignored in all cases.
+
+When a hint is provided, the object to be inserted can be nil.<br />
+However the hint value and key must not be nil.
+
+See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	id insertedObject = object;
+	id key = nil;
+
+	if ([hint isKeyValuePair])
 	{
-		int i = 0;
-		NSNumber *number = nil;
-		id matchedObject = nil;
+		insertedObject = [hint value];
+		key = [hint key];
+		ETAssert(object == nil || object == insertedObject);
+	}
+	else
+	{
+		key = [object keyForCollection: self];
+	
+		if (key == nil)
+		{
+				int i = 0;
+				NSNumber *number = nil;
+				id matchedObject = nil;
 
-		do {
-			number = [NSNumber numberWithInt: i];	
-			matchedObject = [self objectForKey: number];
-			i++;			
-		} while (matchedObject != nil);
+				do {
+						number = [NSNumber numberWithInt: i];	
+						matchedObject = [self objectForKey: number];
+						i++;			
+				} while (matchedObject != nil);
 
-		key = number;
+				key = number;
+		}
 	}
 	
-	[self setObject: object forKey: key];
+	[self setObject: insertedObject forKey: key];
 }
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
-{
-	[self addObject: object];
-}
+/** Removes all occurrences of an object in the receiver, unless a a key-value 
+pair hint is provided, in this case removes only the object that corresponds to 
+the hint key.
 
-/** Removes all occurrences of an object in  the receiver. */
-- (void) removeObject: (id)object
+The index is ignored in all cases.
+
+When a hint is provided, the object and the hint value can be nil.<br />
+However the hint key must not be nil.
+
+See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	NSEnumerator *e = [[self allKeysForObject: object] objectEnumerator];
-	id key = nil;
-	
-	while ((key = [e nextObject]) != nil)
+	if ([hint isKeyValuePair])
 	{
-		[self removeObjectForKey: key];
+		[self removeObjectForKey: [hint key]];
+	}
+	else
+	{
+		[self removeObjectsForKeys: [self allKeysForObject: object]];	
 	}
 }
 
@@ -382,50 +458,79 @@ integer value of all keys incremented by one. */
 
 @implementation NSMutableSet (ETCollectionMutation)
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
++ (void) load
+{
+	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
+
+/** Adds the object to the set. 
+
+The index is ignored in all case.
+
+See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self addObject: object];
+}
+
+/** Removes the object from the set.
+
+The index is ignored in all cases.
+
+See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	[self removeObject: object];
 }
 
 @end
 
 @implementation NSMutableIndexSet (ETCollectionMutation)
 
-- (void) addObject: (id)object
++ (void) load
+{
+	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
+
+/** Adds the number object to the set. 
+
+The index is ignored in all case.
+
+If the object is not a number, raises an NSInvalidArgumentException.
+
+See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	if ([object isNumber])
 	{
-		[self addIndex: [object unsignedIntValue]];
+		[self addIndex: [object unsignedIntegerValue]];
 	}
 	else
 	{
-		// TODO: Evaluate whether logging a warning is a better choice than 
-		// raising an exception.
-		ETLog(@"Object %@ must be an NSNumber instance to be added to %@ "
-			@"collection", object, self);
-		return;	
+		[NSException raise: NSInvalidArgumentException 
+		            format: @"Object %@ must be an NSNumber instance to be added to %@ collection", 
+		                    object, self];
 	}
 }
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index
-{
-	[self addObject: object];
-}
+/** Removes the number object from the set.
 
+The index is ignored in all cases.
 
-- (void) removeObject: (id)object
+If the object is not a number, raises an NSInvalidArgumentException.
+
+See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	if ([object isNumber])
 	{
-		[self removeIndex: [object unsignedIntValue]];
+		[self removeIndex: [object unsignedIntegerValue]];
 	}
 	else
 	{
-		// TODO: Evaluate whether logging a warning is a better choice than 
-		// raising an exception.
-		ETLog(@"Object %@ must be an NSNumber instance to be removed from %@ "
-			@"collection", object, self);
-		return;	
+		[NSException raise: NSInvalidArgumentException 
+		            format: @"Object %@ must be an NSNumber instance to be removed from %@ collection", 
+		                    object, self];
 	}
 }
 
@@ -533,9 +638,11 @@ Nil is returned when no object can be matched. */
 @end
 
 @implementation NSMutableDictionary (DictionaryOfLists)
+
 - (void)addObject: anObject forKey: aKey
 {
 	id old = [self objectForKey: aKey];
+
 	if (nil == old)
 	{
 		[self setObject: anObject forKey: aKey];
@@ -553,4 +660,5 @@ Nil is returned when no object can be matched. */
 		}
 	}
 }
+
 @end

@@ -27,6 +27,8 @@ to an ordered dictionary or a multi-value collection. */
 + (id) pairWithKey: (NSString *)aKey value: (id)aValue;
 - (id) initWithKey: (NSString *)aKey value: (id)aValue;
 
+- (BOOL) isKeyValuePair;
+
 - (NSString *) key;
 - (void) setKey: (NSString *)aKey;
 - (id) value;
@@ -52,3 +54,9 @@ ETKeyValuePair-related extensions to NSDictionary. */
 - (NSArray *) arrayRepresentation;
 @end
 
+/** @group Collection Additions
+
+ETKeyValuePair-related extensions to NSObject. */
+@interface NSObject (ETKeyValuePair)
+- (BOOL) isKeyValuePair;
+@end
