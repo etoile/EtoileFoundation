@@ -303,7 +303,6 @@ For a use case example, see ETCollectionTrait. */
 @interface NSArray (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (BOOL) isOrdered;
-- (BOOL) isEmpty;
 - (id) content;
 - (NSArray *) contentArray;
 @end
@@ -311,8 +310,6 @@ For a use case example, see ETCollectionTrait. */
 /** @group Collection Protocols */
 @interface NSDictionary (ETCollection) <ETCollection>
 + (Class) mutableClass;
-- (BOOL) isOrdered;
-- (BOOL) isEmpty;
 - (id) content;
 - (NSArray *) contentArray;
 - (NSString *) identifierAtIndex: (NSUInteger)index;
@@ -321,8 +318,6 @@ For a use case example, see ETCollectionTrait. */
 /** @group Collection Protocols */
 @interface NSSet (ETCollection) <ETCollection>
 + (Class) mutableClass;
-- (BOOL) isOrdered;
-- (BOOL) isEmpty;
 - (id) content;
 - (NSArray *) contentArray;
 @end
@@ -338,8 +333,6 @@ protocol methods implemented in NSSet(ETCollection). */
 /** @group Collection Protocols */
 @interface NSIndexSet (ETCollection) <ETCollection>
 + (Class) mutableClass;
-- (BOOL) isOrdered;
-- (BOOL) isEmpty;
 - (id) content;
 - (NSArray *) contentArray;
 - (NSEnumerator *) objectEnumerator;

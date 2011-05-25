@@ -7,6 +7,7 @@
  */
 
 #import "ETCollection.h"
+#import "NSObject+Mixins.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
@@ -140,6 +141,11 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 @implementation NSArray (ETCollection)
 
++ (void) load
+{
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
+
 /** Returns NSMutableDictionary class. */
 + (Class) mutableClass
 {
@@ -151,6 +157,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	return YES;
 }
 
+// NOTE: Could be removed, was kept to avoid the extra -content message send.
 - (BOOL) isEmpty
 {
 	return ([self count] == 0);
@@ -180,17 +187,18 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 @implementation NSDictionary (ETCollection)
 
++ (void) load
+{
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
+
 /** Returns NSMutableDictionary class. */
 + (Class) mutableClass
 {
 	return [NSMutableDictionary class];
 }
 
-- (BOOL) isOrdered
-{
-	return NO;
-}
-
+// NOTE: Could be removed, was kept to avoid the extra -content message send.
 - (BOOL) isEmpty
 {
 	return ([self count] == 0);
@@ -227,17 +235,18 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 @implementation NSSet (ETCollection)
 
++ (void) load
+{
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
+
 /** Returns NSMutableSet class. */
 + (Class) mutableClass
 {
 	return [NSMutableSet class];
 }
 
-- (BOOL) isOrdered
-{
-	return NO;
-}
-
+// NOTE: Could be removed, was kept to avoid the extra -content message send.
 - (BOOL) isEmpty
 {
 	return ([self count] == 0);
@@ -269,17 +278,18 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 
 @implementation NSIndexSet (ETCollection)
 
++ (void) load
+{
+	[self applyTraitFromClass: [ETCollectionTrait class]];
+}
+
 /** Returns NSMutableIndexSet class. */
 + (Class) mutableClass
 {
 	return [NSMutableIndexSet class];
 }
 
-- (BOOL) isOrdered
-{
-	return NO;
-}
-
+// NOTE: Could be removed, was kept to avoid the extra -content message send.
 - (BOOL) isEmpty
 {
 	return ([self count] == 0);
