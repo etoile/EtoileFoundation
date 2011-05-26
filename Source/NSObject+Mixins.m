@@ -129,7 +129,7 @@ static void checkSafeComposition(Class class, Class appliedClass)
 	}
 }
 
-static struct objc_class
+struct objc_class
 {
 	struct objc_class         *isa;
 	struct objc_class         *super_class;
