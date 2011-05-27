@@ -65,9 +65,18 @@ __attribute__((unused)) static inline void ETUnlockObject(void* object)
 		__attribute__((unused)) id __COUNTER__ ## _lock = x; [x lock]
 
 /**
+ * Cleanup function that releases a lock.
+ */
+__attribute__((unused)) static inline void ETDrainAutoreleasePool(void* object)
+{
+	[*(NSAutoreleasePool**)object drain];
+}
+
+/**
  * Create a temporary autorelease pool that is destroyed when the scope exits.
  */
-#define LOCAL_AUTORELEASE_POOL() STACK_SCOPED \
+#define LOCAL_AUTORELEASE_POOL() \
+	__attribute__((cleanup(ETDrainAutoreleasePool))) \
 	NSAutoreleasePool *__COUNTER__ ## _pool = [NSAutoreleasePool new];
 
 /**
