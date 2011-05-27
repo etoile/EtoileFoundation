@@ -10,17 +10,13 @@
  * composition while mixins are similar to classes.
  */
 @interface NSObject (Mixins)
-/** 
- * Apply aClass to this class as a mixin.
- */
-+ (void) applyMixinFromClass:(Class)aClass;
 /**
- * Compose aClass with this one as a trait.
+ * Apply aClass to this class as a trait.
  */
 + (void) applyTraitFromClass:(Class)aClass;
 + (void) applyTraitFromClass: (Class)aClass 
-         excludedMethodNames: (NSArray *)excludedNames
-          aliasedMethodNames: (NSArray *)aliasedNames
+         excludedMethodNames: (NSSet *)excludedNames
+          aliasedMethodNames: (NSDictionary *)aliasedNames
               allowsOverride: (BOOL)override;
 /**
  * Compose aClass with this one using mixin-style composition rules and

@@ -1,4 +1,5 @@
 #import "NSObject+Mixins.h"
+#import "Macros.h"
 #include <objc/runtime.h>
 
 static inline BOOL validateMethodTypes(Method method1, Method method2)
@@ -101,6 +102,7 @@ static inline void replaceMethodWithMethod(Class aClass, Method aMethod)
 	class_replaceMethod(aClass, selector, imp, typeEncoding);
 }
 
+// TODO: Probably remove
 static inline void replaceMethods(Class aClass, Method *methods, unsigned int methodCount)
 {
 	for (unsigned int i = 0; i < methodCount; i++)
@@ -129,65 +131,46 @@ static void checkSafeComposition(Class class, Class appliedClass)
 	}
 }
 
-struct objc_class
+@interface ETTraitApplication : NSObject
 {
-	struct objc_class         *isa;
-	struct objc_class         *super_class;
-	const char                *name;
-	long                       version;
-	unsigned long              info;
-	long                       instance_size;
-	struct objc_ivar_list     *ivars;
-	struct objc_method_list   *methods;
-	void                      *dtable;
-	struct objc_class         *subclass_list;
-	struct objc_class         *sibling_class;
-	struct objc_protocol_list *protocols;
-	void                      *gc_object_type;
-	long                       abi_version;
-	int                      **ivar_offsets;
-	struct objc_property_list *properties;
-};
+	Class trait;
+	NSSet *excludedMethodNames;
+	NSDictionary *aliasedMethodNames;
+	NSMapTable *overridenMethods;
+}
 
-#pragma clang diagnostic ignored "-Wdeprecated-declarations" /* For class_setSuperclass() */
+@property (retain, nonatomic) Class trait;
+@property (retain, nonatomic) NSSet *excludedMethodNames;
+@property (retain, nonatomic) NSDictionary *aliasedMethodNames;
+@property (retain, nonatomic) NSMapTable *overridenMethods;
+
+@end
+
+@implementation ETTraitApplication
+
+@synthesize trait, excludedMethodNames, aliasedMethodNames, overridenMethods;
+
+- (id) init
+{
+	SUPERINIT;
+	excludedMethodNames = [[NSSet alloc] init];
+	aliasedMethodNames = [[NSDictionary alloc] init];
+	overridenMethods = [[NSMapTable alloc] init];
+	return self;
+}
+
+- (void) dealloc
+{
+	DESTROY(excludedMethodNames);
+	DESTROY(aliasedMethodNames);
+	DESTROY(overridenMethods);
+	[super dealloc];
+}
+
+@end
+
 
 @implementation NSObject (Mixins)
-
-+ (void) applyMixinFromClass: (Class)aClass
-{
-	Class class = (Class)self;
-
-	checkSafeComposition(class, aClass);
-
-	NSString *newSuperName = [[self className] 
-		stringByAppendingFormat: @"+%s", class_getName(aClass)];
-	Class existingClass = objc_getClass([newSuperName UTF8String]);
-
-	if (existingClass != Nil)
-	{
-		[NSException raise: @"ETMixinMultipleApplicationException"
-		            format: @"Mixin %s has already been applied to the class %@. A mixin cannot be applied multiple times to the same class.", class_getName(aClass), [self className]];
-	}
-
-	Class newSuper = objc_allocateClassPair(class_getSuperclass(class), [newSuperName UTF8String], 0);
-
-	/* Move ivar and method definitions to the new superclass */
-	// TODO: To rewrite that correctly we need class_removeMethod_np() and 
-	// class_removeIvar_np()
-	newSuper->ivars = class->ivars;
-	newSuper->ivar_offsets = class->ivar_offsets;
-	class->ivars = NULL;
-	class->ivar_offsets = NULL;
-	newSuper->methods = class->methods; 
-	class->methods = aClass->methods;
-	newSuper->properties = class->properties;
-
-	/* Insert into the class hierarchy */
-	class_setSuperclass(class, newSuper);
-
-	objc_registerClassPair(newSuper);
-	objc_update_dtable_for_class(class);
-}
 
 + (void) applyTraitFromClass:(Class)aClass
 {
@@ -197,18 +180,51 @@ struct objc_class
 	           allowsOverride: NO];
 }
 
+static NSMapTable *traitApplicationsByClass = nil;
+
++ (void) load
+{
+	ASSIGN(traitApplicationsByClass, [NSMapTable mapTableWithWeakToStrongObjects]);
+}
+
++ (NSMutableArray *) traitApplications
+{
+	NSMutableArray *traitApplications = [traitApplicationsByClass objectForKey: self];
+
+	if (traitApplications == nil)
+	{
+		traitApplications = [NSMutableArray array];
+		[traitApplicationsByClass setObject: traitApplications forKey: self];
+	}
+
+	return traitApplications;
+}
+
 + (void) applyTraitFromClass: (Class)aClass 
-         excludedMethodNames: (NSArray *)excludedNames
-          aliasedMethodNames: (NSArray *)aliasedNames
+         excludedMethodNames: (NSSet *)excludedNames
+          aliasedMethodNames: (NSDictionary *)aliasedNames
               allowsOverride: (BOOL)override
 {
 	Class class = (Class)self;
 
 	checkSafeComposition(class, aClass);
 
+	// TODO: Finish to implement
+#if 0
+ 	ETTraitApplication *traitApplication = [[ETTraitApplication alloc] init];
+
+	[traitApplication setExcludedMethodNames: excludedNames];
+	[traitApplication setAliasedMethodNames: aliasedNames];
+	[traitApplication setOverridenMethods: overridenMethods];
+
+
+	checkTraitApplication(class, traitApplication);
+#endif
+
 	/* Check trait composition */
 	unsigned int methodCount = 0;
 	Method *methods = class_copyMethodList(aClass, &methodCount);
+	
 
 	for (unsigned int i = 0; i < methodCount; i++)
 	{
@@ -222,6 +238,7 @@ struct objc_class
 		}
 	}
 	free(methods);
+
 }
 
 @end

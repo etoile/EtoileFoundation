@@ -24,6 +24,7 @@
 - (int) intValue;
 @end
 
+#if 0
 @interface TestBasicMixin : NSObject <UKTest>
 @end
 
@@ -52,6 +53,7 @@
 - (BOOL) isOrdered;
 - (int) intValue;
 @end
+#endif
 
 /* Trait and Mixin Declarations */
 
@@ -105,7 +107,7 @@
 
 @end
 
-
+#if 0
 /* We cannot shut down warnings such as -[BasicTrait hello], hence we have to 
    provide a no-op in NSObject until we have a better way to handle that. */
 @interface NSObject (LateBoundSuperUseCases)
@@ -209,6 +211,7 @@
 }
 
 @end
+#endif
 
 /* Trait and Mixin Implementations */
 
@@ -216,7 +219,7 @@
 - (void) bip { }
 - (NSString *) wanderWhere: (NSUInteger)aLocation { return @"Nowhere"; }
 - (BOOL) isOrdered { return NO; }
-- (NSString *) hello { return [[super hello] stringByAppendingString: @" super"]; }
+//- (NSString *) hello { return [[super hello] stringByAppendingString: @" super"]; }
 @end
 
 @implementation ComplexTrait
