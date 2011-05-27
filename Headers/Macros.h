@@ -5,6 +5,8 @@
  *
  */
 
+#import <Foundation/NSAutoreleasePool.h>
+
 /**
  * Simple macro for safely initialising the superclass.
  */
