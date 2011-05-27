@@ -41,8 +41,12 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  * STACK_SCOPED Foo * foo = [[Foo alloc] init];
  * </example>
  */
-#define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
+#ifdef __OBJC_GC__
+#	define STACK_SCOPED
+#else
+#	define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
 		__attribute__((unused))
+#endif
 
 @interface NSLocking
 - (void)lock;
