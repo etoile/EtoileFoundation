@@ -16,6 +16,9 @@
 + (void) applyTraitFromClass:(Class)aClass;
 + (void) applyTraitFromClass: (Class)aClass 
          excludedMethodNames: (NSSet *)excludedNames
+          aliasedMethodNames: (NSDictionary *)aliasedNames;
++ (void) applyTraitFromClass: (Class)aClass 
+         excludedMethodNames: (NSSet *)excludedNames
           aliasedMethodNames: (NSDictionary *)aliasedNames
               allowsOverride: (BOOL)override;
 /**

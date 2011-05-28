@@ -1,4 +1,6 @@
 #import "NSObject+Mixins.h"
+#import "ETCollection+HOM.h"
+#import "ETReflection.h"
 #import "Macros.h"
 #include <objc/runtime.h>
 
@@ -93,11 +95,16 @@ static inline BOOL iVarTypesMatch(Class aClass, Class aMixin)
 	return YES;
 }
 
-static inline void replaceMethodWithMethod(Class aClass, Method aMethod)
+static inline void replaceMethodWithMethod(Class aClass, Method aMethod, const char *customMethodName)
 {
 	SEL selector = method_getName(aMethod);
 	IMP imp = method_getImplementation(aMethod);
 	const char *typeEncoding = method_getTypeEncoding(aMethod);
+
+	if (customMethodName != NULL)
+	{
+		selector = sel_registerName(customMethodName);
+	}
 
 	class_replaceMethod(aClass, selector, imp, typeEncoding);
 }
@@ -107,7 +114,7 @@ static inline void replaceMethods(Class aClass, Method *methods, unsigned int me
 {
 	for (unsigned int i = 0; i < methodCount; i++)
 	{
-		replaceMethodWithMethod(aClass, methods[i]);
+		replaceMethodWithMethod(aClass, methods[i], NULL);
 	}
 }
 
@@ -131,6 +138,17 @@ static void checkSafeComposition(Class class, Class appliedClass)
 	}
 }
 
+static NSSet *methodNamesForClass(Class aClass)
+{
+	NSMutableArray *methodMirrors = [NSMutableArray arrayWithArray: [[ETReflection reflectClass: aClass] methodMirrors]];
+	[[methodMirrors filterOut] isClassMethod];
+	return [NSSet setWithArray: (id)[[methodMirrors mappedCollection] name]];
+}
+
+@interface NSObject (Private)
++ (NSMutableArray *) traitApplications;
+@end
+
 @interface ETTraitApplication : NSObject
 {
 	Class trait;
@@ -143,6 +161,8 @@ static void checkSafeComposition(Class class, Class appliedClass)
 @property (retain, nonatomic) NSSet *excludedMethodNames;
 @property (retain, nonatomic) NSDictionary *aliasedMethodNames;
 @property (retain, nonatomic) NSMapTable *overridenMethods;
+@property (readonly, nonatomic) NSSet *methodNames;
+@property (readonly, nonatomic) NSSet *appliedMethodNames;
 
 @end
 
@@ -167,18 +187,97 @@ static void checkSafeComposition(Class class, Class appliedClass)
 	[super dealloc];
 }
 
+- (NSSet *) methodNames
+{
+	return methodNamesForClass(trait);
+}
+
+- (NSSet *) appliedMethodNames
+{
+	NSMutableSet *methodNames = [NSMutableSet set];
+
+	for (NSString *name in [self methodNames])
+	{
+		if ([excludedMethodNames containsObject: name])
+			continue;
+
+		NSString *aliasedName = [aliasedMethodNames objectForKey: name];
+
+		[methodNames addObject: (aliasedName != nil ? aliasedName : name)];
+	}
+
+	return methodNames;
+}
+
 @end
 
+static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
+{
+	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
+	NSSet *excludedNames = [aTraitApplication excludedMethodNames];
+	NSDictionary *aliasedNames = [aTraitApplication aliasedMethodNames];
+	unsigned int methodCount = 0;
+	Method *methods = class_copyMethodList([aTraitApplication trait], &methodCount);
+
+	for (unsigned int i = 0; i < methodCount; i++)
+	{
+		NSString *methodName = [NSString stringWithUTF8String: sel_getName(method_getName(methods[i]))];
+
+		if ([traitMethodNames containsObject: methodName] == NO)
+		{
+			/* A trait method can be excluded */
+			if ([excludedNames containsObject: methodName])
+					continue;
+
+			/* A trait method can be aliased */
+			methodName = [aliasedNames objectForKey: methodName];
+			assert(methodName != nil);
+		}
+
+		/* A trait method cannot override a method in the target class.
+		   checkTraitApplication() should have raise an exception in such case. */
+		assert(findMethod(methods[i], class, NO) == NULL);
+
+		replaceMethodWithMethod(class, methods[i], [methodName UTF8String]);
+	}
+	free(methods);
+}
+
+static NSSet *intersectionSet(NSSet *set, NSSet *otherSet)
+{
+	NSSet *newSet = [NSMutableSet setWithSet: set];
+	[newSet intersectsSet: otherSet];
+	return newSet;
+}
+
+static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplication)
+{
+	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
+	NSSet *methodNames = methodNamesForClass(aClass);
+
+	if ([traitMethodNames intersectsSet: methodNames])
+	{
+		[NSException raise: @"ETTraitApplicationException"
+		            format: @"Trait methods %@ from %@ already exist in class %@.", 
+		                    intersectionSet(traitMethodNames, methodNames), 
+		                    [aTraitApplication trait], aClass];
+	}
+
+	for (ETTraitApplication *traitApp in [aClass traitApplications])
+	{
+		methodNames = [traitApp appliedMethodNames];
+
+		if ([traitMethodNames intersectsSet: methodNames])
+		{
+			[NSException raise: @"ETTraitApplicationException"
+			            format: @"Trait methods %@ from %@ already exist in trait %@ previously applied to class %@.", 
+			                    intersectionSet(traitMethodNames, methodNames), 
+			                    [aTraitApplication trait], [traitApp trait], aClass];
+		}
+	}
+}
 
 @implementation NSObject (Mixins)
-
-+ (void) applyTraitFromClass:(Class)aClass
-{
-	[self applyTraitFromClass: aClass 
-          excludedMethodNames: nil 
-           aliasedMethodNames: nil 
-	           allowsOverride: NO];
-}
 
 static NSMapTable *traitApplicationsByClass = nil;
 
@@ -203,42 +302,55 @@ static NSMapTable *traitApplicationsByClass = nil;
 + (void) applyTraitFromClass: (Class)aClass 
          excludedMethodNames: (NSSet *)excludedNames
           aliasedMethodNames: (NSDictionary *)aliasedNames
-              allowsOverride: (BOOL)override
+        overridenMethodNames: (NSSet *)overridenNames
 {
-	Class class = (Class)self;
-
-	checkSafeComposition(class, aClass);
-
-	// TODO: Finish to implement
-#if 0
- 	ETTraitApplication *traitApplication = [[ETTraitApplication alloc] init];
+ 	ETTraitApplication *traitApplication = AUTORELEASE([[ETTraitApplication alloc] init]);
 
 	[traitApplication setExcludedMethodNames: excludedNames];
 	[traitApplication setAliasedMethodNames: aliasedNames];
-	[traitApplication setOverridenMethods: overridenMethods];
+	// TODO: Track overriden methods (aka mixin-style composition)
+	// [traitApplication setOverridenMethods: overridenMethods];
 
+	checkSafeComposition(self, aClass);
+	checkTraitApplication(self, traitApplication);
+	applyTrait(self, traitApplication);
+}
 
-	checkTraitApplication(class, traitApplication);
-#endif
++ (void) applyTraitFromClass:(Class)aClass
+{
+	[self applyTraitFromClass: aClass 
+          excludedMethodNames: nil 
+           aliasedMethodNames: nil 
+	           allowsOverride: NO];
+}
 
-	/* Check trait composition */
-	unsigned int methodCount = 0;
-	Method *methods = class_copyMethodList(aClass, &methodCount);
-	
++ (void) applyTraitFromClass: (Class)aClass 
+         excludedMethodNames: (NSSet *)excludedNames
+          aliasedMethodNames: (NSDictionary *)aliasedNames
+{
+	[self applyTraitFromClass: aClass 
+          excludedMethodNames: excludedNames
+           aliasedMethodNames: aliasedNames
+	           allowsOverride: NO];
+}
 
-	for (unsigned int i = 0; i < methodCount; i++)
++ (void) applyTraitFromClass: (Class)aClass 
+         excludedMethodNames: (NSSet *)excludedNames
+          aliasedMethodNames: (NSDictionary *)aliasedNames
+              allowsOverride: (BOOL)override
+{
+	NSSet *overridenNames = [NSSet set];
+
+	if (override)
 	{
-		// Check that the target class doesn't implement the method
-		if (findMethod(methods[i], class, NO) == NULL)
-		{
-			replaceMethodWithMethod(class, methods[i]);
-			// TODO: Support composite trait rules
-			//[NSException raise: @"TraitMethodExistsException"
-			//            format: @"Methods class %@ redefined in %@.", self, aClass];
-		}
+		/* All methods in the target class can be replaced by trait methods */
+		overridenNames = methodNamesForClass(aClass);
 	}
-	free(methods);
 
+	[self applyTraitFromClass: aClass 
+          excludedMethodNames: excludedNames
+           aliasedMethodNames: aliasedNames
+	     overridenMethodNames: overridenNames];
 }
 
 @end
