@@ -15,6 +15,18 @@
 @interface TestTraitExclusionAndAliasing : NSObject <UKTest>
 @end
 
+@interface TestTraitSequence : NSObject <UKTest>
+@end
+
+@interface TestBasicCompositeTrait : NSObject <UKTest>
+@end
+
+@interface TestRedundantSubtraitInheritance : NSObject <UKTest>
+@end
+
+@interface TestTraitMethodConflictAndOverridingRule : NSObject <UKTest>
+@end
+
 @interface TestBasicTrait (BasicTrait)
 - (void) bip;
 - (NSString *) wanderWhere: (NSUInteger)aLocation;
@@ -32,7 +44,31 @@
 - (NSString *) lost: (NSUInteger)aLocation;
 @end
 
-/* Trait and Mixin Declarations */
+@interface TestTraitSequence (BasicAndComplexTrait)
+- (void) bip;
+- (NSString *) lost: (NSUInteger)aLocation;
+- (NSString *) wanderWhere: (NSUInteger)aLocation;
+- (BOOL) isOrdered;
+- (int) intValue;
+@end
+
+@interface TestBasicCompositeTrait (BasicAndComplexTrait)
+- (void) bip;
+- (NSString *) lost: (NSUInteger)aLocation;
+- (NSString *) wanderWhere: (NSUInteger)aLocation;
+- (BOOL) isOrdered;
+- (int) intValue;
+@end
+
+@interface TestRedundantSubtraitInheritance (Subtrait)
+- (NSString *) name;
+@end
+
+@interface TestTraitMethodConflictAndOverridingRule (BasicAndComplexTrait)
+- (NSString *) wanderWhere: (NSUInteger)aLocation;
+@end
+
+/* Trait Declarations */
 
 @interface BasicTrait : NSObject
 - (void) bip;
@@ -45,6 +81,25 @@
 - (int) intValue;
 @end
 
+@interface CompositeTrait : NSObject
+- (NSString *) hello;
+@end
+
+@interface Trait1 : NSObject
+@end
+
+@interface Trait2 : NSObject
+@end
+
+@interface Subtrait : NSObject
+- (NSString *) name;
+@end
+
+/* Methods to be provided by the target class or subtraits */
+@interface CompositeTrait (RequiredMethods)
+- (NSString *) wanderWhere: (NSUInteger)aLocation;
+@end
+
 /* Test Suite */
 
 @implementation TestBasicTrait
@@ -54,7 +109,7 @@
 	return YES;
 }
 
-- (void) testApplyBasicTrait
+- (void) testApplyTrait
 {
 	[[self class] applyTraitFromClass: [BasicTrait class]];
 
@@ -72,7 +127,7 @@
 	return YES;
 }
 
-- (void) testApplyComplexTrait
+- (void) testApplyTrait
 {
 	[[self class] applyTraitFromClass: [ComplexTrait class]];
 
@@ -86,7 +141,7 @@
 
 @implementation TestTraitExclusionAndAliasing
 
-- (void) testApplyBasicTrait
+- (void) testApplyTrait
 {
 	[[self class] applyTraitFromClass: [BasicTrait class]
 	              excludedMethodNames: S(@"isOrdered")
@@ -101,7 +156,84 @@
 
 @end
 
-/* Trait and Mixin Implementations */
+@implementation TestTraitSequence
+
+- (void) testApplyTrait
+{
+	[[self class] applyTraitFromClass: [BasicTrait class]
+	              excludedMethodNames: S(@"isOrdered")
+	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
+	[[self class] applyTraitFromClass: [ComplexTrait class]];
+
+	UKTrue([self respondsToSelector: @selector(bip)]);
+	UKTrue([self respondsToSelector: @selector(lost:)]);
+	UKStringsEqual(@"Nowhere", [self lost: 5]);
+	UKTrue([self respondsToSelector: @selector(wanderWhere:)]);
+	UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
+	UKFalse([self respondsToSelector: @selector(isOrdered)]);
+	UKIntsEqual(3, [self intValue]);
+}
+
+@end
+
+@implementation TestBasicCompositeTrait
+
+- (void) testApplyTrait
+{
+	[[CompositeTrait class] applyTraitFromClass: [BasicTrait class]
+	                        excludedMethodNames: S(@"isOrdered")
+	                         aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
+	[[CompositeTrait class] applyTraitFromClass: [ComplexTrait class]];
+
+	[[self class] applyTraitFromClass: [CompositeTrait class]];
+
+	UKTrue([self respondsToSelector: @selector(bip)]);
+	UKTrue([self respondsToSelector: @selector(lost:)]);
+	UKStringsEqual(@"Nowhere", [self lost: 5]);
+	UKTrue([self respondsToSelector: @selector(wanderWhere:)]);
+	UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
+	UKFalse([self respondsToSelector: @selector(isOrdered)]);
+	UKIntsEqual(3, [self intValue]);
+}
+
+@end
+
+@implementation TestRedundantSubtraitInheritance
+
+- (void) testApplyTrait
+{
+	[[Trait1 class] applyTraitFromClass: [Subtrait class]];
+	[[Trait2 class] applyTraitFromClass: [Subtrait class]];
+	
+	[[self class] applyTraitFromClass: [Trait2 class]];
+	[[self class] applyTraitFromClass: [Trait1 class]];
+
+	UKStringsEqual(@"Mike", [self name]);
+}
+
+@end
+
+@implementation TestTraitMethodConflictAndOverridingRule
+
+- (NSString *) wanderWhere: (NSUInteger)aLocation
+{
+	return @"Anywhere";
+}
+
+- (void) testApplyTrait
+{	
+	[[self class] applyTraitFromClass: [BasicTrait class]];
+	// Although both trait classes implement -wanderWhere:, no exception 
+	// should be raised, because the target class implements its own 
+	// -wanderWhere: version.
+	[[self class] applyTraitFromClass: [ComplexTrait class]];
+
+	UKStringsEqual(@"Anywhere", [self wanderWhere: 9]);
+}
+
+@end
+
+/* Trait Implementations */
 
 @implementation BasicTrait
 - (void) bip { }
@@ -112,4 +244,18 @@
 @implementation ComplexTrait
 - (NSString *) wanderWhere: (NSUInteger)aLocation { return @"Somewhere"; }
 - (int) intValue { return 3; };
+@end
+
+@implementation CompositeTrait
+- (NSString *) hello { return [self wanderWhere: 0]; }
+@end
+
+@implementation Trait1
+@end
+
+@implementation Trait2
+@end
+
+@implementation Subtrait
+- (NSString *) name { return @"Mike"; }
 @end

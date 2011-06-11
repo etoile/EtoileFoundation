@@ -1,4 +1,5 @@
 #import "NSObject+Mixins.h"
+#import "ETCollection.h"
 #import "ETCollection+HOM.h"
 #import "Macros.h"
 #include <objc/runtime.h>
@@ -137,7 +138,7 @@ static void checkSafeComposition(Class class, Class appliedClass)
 	}
 }
 
-static NSSet *methodNamesForClass(Class aClass)
+static NSMutableSet *methodNamesForClass(Class aClass)
 {
 	unsigned int methodCount;
 	Method *methods = class_copyMethodList(aClass, &methodCount);
@@ -162,28 +163,34 @@ static NSSet *methodNamesForClass(Class aClass)
 	Class trait;
 	NSSet *excludedMethodNames;
 	NSDictionary *aliasedMethodNames;
+	NSMutableSet *skippedMethodNames;
 	NSMapTable *overridenMethods;
 }
 
 @property (retain, nonatomic) Class trait;
 @property (retain, nonatomic) NSSet *excludedMethodNames;
 @property (retain, nonatomic) NSDictionary *aliasedMethodNames;
+@property (readonly, nonatomic) NSMutableSet *skippedMethodNames;
 @property (retain, nonatomic) NSMapTable *overridenMethods;
-@property (readonly, nonatomic) NSSet *methodNames;
+@property (readonly, nonatomic) NSSet *initialMethodNames;
+@property (readonly, nonatomic) NSSet *allMethodNames;
 @property (readonly, nonatomic) NSSet *appliedMethodNames;
 
 @end
 
 @implementation ETTraitApplication
 
-@synthesize trait, excludedMethodNames, aliasedMethodNames, overridenMethods;
+@synthesize trait, excludedMethodNames, aliasedMethodNames, skippedMethodNames, overridenMethods;
 
+/* Initializes and returns a trait application that represents how the given 
+trait class is going to be applied to a target class. */
 - (id) initWithTrait: (Class)aTrait
 {
 	SUPERINIT;
 	ASSIGN(trait, aTrait);
 	excludedMethodNames = [[NSSet alloc] init];
 	aliasedMethodNames = [[NSDictionary alloc] init];
+	skippedMethodNames = [[NSMutableSet alloc] init];
 	overridenMethods = [[NSMapTable alloc] init];
 	return self;
 }
@@ -193,20 +200,69 @@ static NSSet *methodNamesForClass(Class aClass)
 	DESTROY(trait);
 	DESTROY(excludedMethodNames);
 	DESTROY(aliasedMethodNames);
+	DESTROY(skippedMethodNames);
 	DESTROY(overridenMethods);
 	[super dealloc];
 }
 
-- (NSSet *) methodNames
+/* Returns the local trait methods, not including subtrait methods if the 
+trait class is a composite.
+
+Methods that belong to the trait superclass are not included.
+
+No aliasing or exclusion is visible in the returned methods. */
+- (NSSet *) initialMethodNames
+{
+	NSMutableSet *methodNames = methodNamesForClass(trait);
+
+	for (ETTraitApplication *traitApp in [trait traitApplications])
+	{
+		[methodNames minusSet: [traitApp appliedMethodNames]];
+	}
+
+	return methodNames;
+}
+
+/* Returns both local trait methods and subtrait methods.
+
+Methods that belong to the trait superclass are not included.
+
+No aliasing or exclusion is visible in the returned methods. */
+- (NSSet *) allMethodNames
 {
 	return methodNamesForClass(trait);
 }
 
+/* Returns the methods that initially don't belong to the trait class, but 
+were added by applying traits (known as subtraits in such case) to the trait 
+class.
+
+Returns an empty set when the trait is not composite trait (i.e. no 
+subtraits). */
+- (NSSet *) subtraitMethodNames
+{
+	NSMutableSet *methodNames = [NSMutableSet set];
+
+	for (ETTraitApplication *traitApp in [trait traitApplications])
+	{
+		[methodNames unionSet: [traitApp appliedMethodNames]];
+	}
+
+	return methodNames;
+}
+
+/* Returns the methods to be added to the target class.
+
+The returned methods are the union of the local trait methods and the subtrait 
+methods, and also include methods overriden by the target class.
+
+Local methods provided by -methodNames can appear excluded and/or aliased in 
+the returned set. */
 - (NSSet *) appliedMethodNames
 {
 	NSMutableSet *methodNames = [NSMutableSet set];
 
-	for (NSString *name in [self methodNames])
+	for (NSString *name in [self allMethodNames])
 	{
 		if ([excludedMethodNames containsObject: name])
 			continue;
@@ -217,6 +273,24 @@ static NSSet *methodNamesForClass(Class aClass)
 	}
 
 	return methodNames;
+}
+
+- (ETTraitApplication *) subtraitApplicationForMethodName: (NSString *)aName
+{
+	if ([[self initialMethodNames] containsObject: aName])
+		return self;
+
+	ETTraitApplication *matchedSubtraitApp = nil;
+
+	for (ETTraitApplication *traitApp in [trait traitApplications])
+	{
+		matchedSubtraitApp = [traitApp subtraitApplicationForMethodName: aName];
+
+		if (matchedSubtraitApp != nil)
+			break;
+	}
+
+	return matchedSubtraitApp;
 }
 
 @end
@@ -249,32 +323,67 @@ static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
 		{
 			replaceMethodWithMethod(class, methods[i], [methodName UTF8String]);
 		}
+		else
+		{
+			/* Memorize each trait method overriden by the target class */
+			[[aTraitApplication skippedMethodNames] addObject: methodName];
+		}
 	}
 	free(methods);
 }
 
-static NSSet *intersectionSet(NSSet *set, NSSet *otherSet)
+static NSSet *redundantSubtraitMethodNames(NSSet *methodNames, ETTraitApplication *traitApp1, ETTraitApplication *traitApp2)
 {
-	NSSet *newSet = [NSMutableSet setWithSet: set];
-	[newSet intersectsSet: otherSet];
-	return newSet;
+	NSMutableSet *redundantMethodNames = [NSMutableSet set];
+
+	for (NSString *name in methodNames)
+	{
+		ETTraitApplication *subtraitApp1 = [traitApp1 subtraitApplicationForMethodName: name];
+		ETTraitApplication *subtraitApp2 = [traitApp2 subtraitApplicationForMethodName: name];
+		BOOL methodFromSameSubtraitClass = (subtraitApp1 != traitApp1 && subtraitApp2 != traitApp2
+		 && [[subtraitApp1 trait] isEqual: [subtraitApp2 trait]]);
+		
+		if (methodFromSameSubtraitClass)
+		{
+			[redundantMethodNames addObject: name];
+		}
+	}
+
+	return redundantMethodNames;
 }
 
 static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplication)
 {
 	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
-	NSSet *methodNames = methodNamesForClass(aClass);
+	/* All existing trait methods overriden by the target class */
+	NSMutableSet *allSkippedMethodNames = [NSMutableSet set];
 
 	for (ETTraitApplication *traitApp in [aClass traitApplications])
 	{
-		methodNames = [traitApp appliedMethodNames];
+		[allSkippedMethodNames unionSet: [traitApp skippedMethodNames]];
+	}
+
+	for (ETTraitApplication *traitApp in [aClass traitApplications])
+	{
+		NSSet *methodNames = [traitApp appliedMethodNames];
 
 		if ([traitMethodNames intersectsSet: methodNames])
 		{
+			NSMutableSet *conflictingMethodNames = [NSMutableSet setWithSet: methodNames];
+
+			[conflictingMethodNames intersectSet: traitMethodNames];
+			[conflictingMethodNames minusSet: 
+				redundantSubtraitMethodNames(conflictingMethodNames, aTraitApplication, traitApp)];
+			/* When a trait method is overriden by the target class, the conflict 
+			   is implicitly resolved */
+			[conflictingMethodNames minusSet: allSkippedMethodNames];
+
+			if ([conflictingMethodNames isEmpty])
+				continue;
+
 			[NSException raise: @"ETTraitApplicationException"
 			            format: @"Trait methods %@ from %@ already exist in trait %@ previously applied to class %@.", 
-			                    intersectionSet(traitMethodNames, methodNames), 
-			                    [aTraitApplication trait], [traitApp trait], aClass];
+			                    conflictingMethodNames, [aTraitApplication trait], [traitApp trait], aClass];
 		}
 	}
 }
@@ -316,6 +425,8 @@ static NSMapTable *traitApplicationsByClass = nil;
 	checkSafeComposition(self, aClass);
 	checkTraitApplication(self, traitApplication);
 	applyTrait(self, traitApplication);
+
+	[[self traitApplications] addObject: traitApplication];
 }
 
 + (void) applyTraitFromClass:(Class)aClass
