@@ -1,4 +1,6 @@
+#define DEFINE_STRINGS
 #import "NSObject+Mixins.h"
+#undef DEFINE_STRINGS
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
 #import "Macros.h"
@@ -68,28 +70,28 @@ static inline BOOL validateIvarTypes(Ivar ivar1, Ivar ivar2)
 	return (strcmp(ivar_getTypeEncoding(ivar1), ivar_getTypeEncoding(ivar2)) == 0);
 }
 
-static inline BOOL iVarTypesMatch(Class aClass, Class aMixin)
+static inline BOOL iVarTypesMatch(Class aClass, Class aTrait)
 {
-	unsigned int mixinIvarCount = 0;
-	Ivar *mixinIvars = class_copyIvarList(aMixin, &mixinIvarCount);
+	unsigned int traitIvarCount = 0;
+	Ivar *traitIvars = class_copyIvarList(aTrait, &traitIvarCount);
 	unsigned int classIvarCount = 0;
-	Ivar *classIvars = class_copyIvarList(aMixin, &classIvarCount);
+	Ivar *classIvars = class_copyIvarList(aTrait, &classIvarCount);
 
-	if (mixinIvars != NULL && classIvars != NULL && mixinIvarCount <= classIvarCount)
+	if (traitIvars != NULL && classIvars != NULL && traitIvarCount <= classIvarCount)
 	{
-		/* Look at each ivar in the mixin */
-		for (unsigned int i = 0; i < mixinIvarCount; i++)
+		/* Look at each ivar in the trait */
+		for (unsigned int i = 0; i < traitIvarCount; i++)
 		{
-			/* If the mixin has ivars of a different type to the class */
-			if (validateIvarTypes(mixinIvars[i], classIvars[i]) == NO) // FIXME: Should findIvars and not classIvars[i]
+			/* If the trait has ivars of a different type to the class */
+			if (validateIvarTypes(traitIvars[i], classIvars[i]) == NO) // FIXME: Should findIvars and not classIvars[i]
 			{
-				free(mixinIvars);
+				free(traitIvars);
 				free(classIvars);
 				return NO;
 			}
 		}
 	}
-	free(mixinIvars);
+	free(traitIvars);
 	free(classIvars);
 
 	return YES;
@@ -109,32 +111,29 @@ static inline void replaceMethodWithMethod(Class aClass, Method aMethod, const c
 	class_replaceMethod(aClass, selector, imp, typeEncoding);
 }
 
-// TODO: Probably remove
-static inline void replaceMethods(Class aClass, Method *methods, unsigned int methodCount)
-{
-	for (unsigned int i = 0; i < methodCount; i++)
-	{
-		replaceMethodWithMethod(aClass, methods[i], NULL);
-	}
-}
-
 static void checkSafeComposition(Class class, Class appliedClass)
 {
-	/* Check that the mixin will never try to access ivars from after the end of the object */
+	/* Check that the trait will never try to access ivars from after the end of the object */
 	if (class_getInstanceSize(class) < class_getInstanceSize(appliedClass))
 	{
-		[NSException raise: @"MixinTooBigException"
-		            format: @"Class %@ is smaller than composed class %@. Instance variables access from mixin is unsafe.", class, appliedClass];
+		[NSException raise: ETTraitInvalidSizeException
+		            format: @"Class %@ has a smaller instance size than trait %@. "
+		                     "Either the instance variable count or types do not match. "
+		                     "Instance variables access from trait is unsafe.", 
+		                    class, appliedClass];
 	}
 	if (!iVarTypesMatch(class, appliedClass))
 	{
-		[NSException raise: @"MixinIVarTypeMismatchException"
-		            format: @"Instance variables of class %@ do not match those of composed class %@. Instance variables access from composed class is unsafe.", class, appliedClass];
+		[NSException raise: ETTraitIVarTypeMismatchException
+		            format: @"Instance variable types of class %@ do not match those of trait %@. "
+		                     "Instance variables access from trait is unsafe.", 
+		                    class, appliedClass];
 	}
 	if (!methodTypesMatch(class, appliedClass))
 	{
-		[NSException raise: @"MixinMethodTypeMismatchException"
-		            format: @"Method types of class %@ do not match those of mixin %@.", class, appliedClass];
+		[NSException raise: ETTraitMethodTypeMismatchException
+		            format: @"Method types of class %@ do not match those of trait %@.", 
+		                    class, appliedClass];
 	}
 }
 
@@ -160,6 +159,7 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 
 @interface ETTraitApplication : NSObject
 {
+	@private
 	Class trait;
 	NSSet *excludedMethodNames;
 	NSDictionary *aliasedMethodNames;
@@ -275,6 +275,10 @@ the returned set. */
 	return methodNames;
 }
 
+/* Returns the trait application in which the given method name is declared.
+
+The returned trait can be the receiver, a subtrait or nil if no such method 
+can be found in the subtrait tree. */
 - (ETTraitApplication *) subtraitApplicationForMethodName: (NSString *)aName
 {
 	if ([[self initialMethodNames] containsObject: aName])
@@ -355,13 +359,16 @@ static NSSet *redundantSubtraitMethodNames(NSSet *methodNames, ETTraitApplicatio
 static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplication)
 {
 	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
-	/* All existing trait methods overriden by the target class */
 	NSMutableSet *allSkippedMethodNames = [NSMutableSet set];
+
+	/* Collect all existing trait methods overriden by the target class */
 
 	for (ETTraitApplication *traitApp in [aClass traitApplications])
 	{
 		[allSkippedMethodNames unionSet: [traitApp skippedMethodNames]];
 	}
+
+	/* Find method conflicts between new trait and every trait previously applied */
 
 	for (ETTraitApplication *traitApp in [aClass traitApplications])
 	{
@@ -381,7 +388,7 @@ static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplic
 			if ([conflictingMethodNames isEmpty])
 				continue;
 
-			[NSException raise: @"ETTraitApplicationException"
+			[NSException raise: ETTraitApplicationException
 			            format: @"Trait methods %@ from %@ already exist in trait %@ previously applied to class %@.", 
 			                    conflictingMethodNames, [aTraitApplication trait], [traitApp trait], aClass];
 		}

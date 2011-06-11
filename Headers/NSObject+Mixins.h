@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <EtoileFoundation/Macros.h>
 
 /**
  * @group Language Extensions
@@ -28,3 +29,12 @@
  */
 //+ (void) flattenedMixinFromClass:(Class)aClass;
 @end
+
+/** Exception thrown by NSObject(Trait). */
+EMIT_STRING(ETTraitInvalidSizeException)
+/** Exception thrown by NSObject(Trait). */
+EMIT_STRING(ETTraitIVarTypeMismatchException)
+/** Exception thrown by NSObject(Trait). */
+EMIT_STRING(ETTraitMethodTypeMismatchException)
+/** Exception thrown by NSObject(Trait). */
+EMIT_STRING(ETTraitApplicationException)
