@@ -98,12 +98,12 @@ EtoileFoundation_HEADER_FILES = \
 	ETSocket.h \
 	ETStackTraceRecorder.h \
 	ETTranscript.h \
-	ETTransform.h \
 	ETUUID.h \
 	NSData+Hash.h\
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
 	NSInvocation+Etoile.h \
+	NSObject+DoubleDispatch.h \
 	NSObject+Etoile.h \
 	NSObject+HOM.h \
 	NSObject+Mixins.h \
@@ -149,7 +149,6 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETSocket.m \
 	Source/ETStackTraceRecorder.m \
 	Source/ETTranscript.m \
-	Source/ETTransform.m \
 	Source/ETUUID.m \
 	Source/ETUTI.m \
 	Source/NSBlocks.m\
@@ -157,6 +156,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/NSIndexPath+Etoile.m \
 	Source/NSIndexSet+Etoile.m \
 	Source/NSInvocation+Etoile.m \
+	Source/NSObject+DoubleDispatch.m \
 	Source/NSObject+Etoile.m \
 	Source/NSObject+HOM.m \
 	Source/NSObject+Mixins.m \

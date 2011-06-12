@@ -47,7 +47,6 @@
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/ETSocket.h>
 #import <EtoileFoundation/ETStackTraceRecorder.h>
-#import <EtoileFoundation/ETTransform.h>
 #import <EtoileFoundation/ETUTI.h>
 #import <EtoileFoundation/ETUUID.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
@@ -59,6 +58,7 @@
 #import <EtoileFoundation/NSIndexPath+Etoile.h>
 #import <EtoileFoundation/NSIndexSet+Etoile.h>
 #import <EtoileFoundation/NSInvocation+Etoile.h>
+#import <EtoileFoundation/NSObject+DoubleDispatch.h>
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/NSObject+HOM.h>
 #import <EtoileFoundation/NSObject+Model.h>
