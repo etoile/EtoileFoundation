@@ -4,7 +4,7 @@
 #import "ETCollection.h"
 #import "Macros.h"
 
-#pragma clang diagnostic ignored "-Wprotocol"
+#pragma GCC diagnostic ignored "-Wprotocol"
 
 @interface TestBasicTrait : NSObject <UKTest>
 @end

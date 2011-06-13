@@ -61,7 +61,7 @@
 		603647E20E4092EA003377E0 /* EtoileCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C20E4092EA003377E0 /* EtoileCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E30E4092EA003377E0 /* EtoileFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C30E4092EA003377E0 /* EtoileFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E40E4092EA003377E0 /* ETPropertyValueCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C40E4092EA003377E0 /* ETPropertyValueCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		603647E70E4092EA003377E0 /* ETTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C70E4092EA003377E0 /* ETTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		603647E70E4092EA003377E0 /* NSObject+DoubleDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C70E4092EA003377E0 /* NSObject+DoubleDispatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E80E4092EA003377E0 /* ETUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C80E4092EA003377E0 /* ETUUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E90E4092EA003377E0 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C90E4092EA003377E0 /* Macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647EB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,7 +78,7 @@
 		6036481A0E40931E003377E0 /* ETException.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FD0E40931E003377E0 /* ETException.m */; };
 		6036481C0E40931E003377E0 /* ETGetOptionsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FF0E40931E003377E0 /* ETGetOptionsDictionary.m */; };
 		6036481F0E40931E003377E0 /* ETPropertyValueCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648020E40931E003377E0 /* ETPropertyValueCoding.m */; };
-		603648210E40931E003377E0 /* ETTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* ETTransform.m */; };
+		603648210E40931E003377E0 /* NSObject+DoubleDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */; };
 		603648220E40931E003377E0 /* ETUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648050E40931E003377E0 /* ETUUID.m */; };
 		603648230E40931E003377E0 /* GNUstep.h in Headers */ = {isa = PBXBuildFile; fileRef = 603648060E40931E003377E0 /* GNUstep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603648250E40931E003377E0 /* NSFileManager+NameForTempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */; };
@@ -91,7 +91,6 @@
 		6036482D0E40931E003377E0 /* NSString+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648100E40931E003377E0 /* NSString+Etoile.m */; };
 		6036482E0E40931E003377E0 /* NSURL+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648110E40931E003377E0 /* NSURL+Etoile.m */; };
 		603648320E40931E003377E0 /* ETPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648150E40931E003377E0 /* ETPlugInRegistry.m */; };
-		603649730E409488003377E0 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		603649740E409488003377E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		603812731021C51B00C221A2 /* TestString.m in Sources */ = {isa = PBXBuildFile; fileRef = 603812721021C51B00C221A2 /* TestString.m */; };
 		603813A31022246300C221A2 /* ETPropertyViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 603813A21022246300C221A2 /* ETPropertyViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -107,6 +106,10 @@
 		606A990C113F178800CC89B9 /* ETModelElementDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 606A990A113F178800CC89B9 /* ETModelElementDescription.m */; };
 		6072CF711360E190003256C5 /* PlugInExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 6072CF701360E190003256C5 /* PlugInExample.m */; };
 		60755B88114BDDAB00FAD90B /* ETModelDescriptionRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6093347E13A550B40033378C /* TestCollectionTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6093347C13A550B40033378C /* TestCollectionTrait.m */; };
+		6093347F13A550B40033378C /* TestMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6093347D13A550B40033378C /* TestMixin.m */; };
+		6093353113A561130033378C /* NSObject+Mixins.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480E0E40931E003377E0 /* NSObject+Mixins.m */; };
+		6093353213A561300033378C /* NSObject+Prototypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50E0F21FA4C00DF23D9 /* NSObject+Prototypes.m */; };
 		609B66D00FEE80CE0007F842 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600243C40CD133950023182D /* UnitKit.framework */; };
 		609B67CA0FEE81740007F842 /* TestBasicHOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 609B66120FEE7CD10007F842 /* TestBasicHOM.m */; };
 		609B67CB0FEE81740007F842 /* TestUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648130E40931E003377E0 /* TestUUID.m */; };
@@ -116,7 +119,7 @@
 		609B67D20FEE81740007F842 /* ETHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50C0F21FA4C00DF23D9 /* ETHistory.m */; };
 		609B67D40FEE81740007F842 /* ETPropertyValueCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648020E40931E003377E0 /* ETPropertyValueCoding.m */; };
 		609B67D50FEE81740007F842 /* ETTranscript.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50B0F21FA4C00DF23D9 /* ETTranscript.m */; };
-		609B67D60FEE81740007F842 /* ETTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* ETTransform.m */; };
+		609B67D60FEE81740007F842 /* NSObject+DoubleDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */; };
 		609B67D70FEE81740007F842 /* ETUTI.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50D0F21FA4C00DF23D9 /* ETUTI.m */; };
 		609B67D80FEE81740007F842 /* ETUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648050E40931E003377E0 /* ETUUID.m */; };
 		609B67DA0FEE81740007F842 /* NSFileManager+NameForTempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */; };
@@ -247,7 +250,7 @@
 		603647C20E4092EA003377E0 /* EtoileCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EtoileCompatibility.h; path = Headers/EtoileCompatibility.h; sourceTree = "<group>"; };
 		603647C30E4092EA003377E0 /* EtoileFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EtoileFoundation.h; path = Headers/EtoileFoundation.h; sourceTree = "<group>"; };
 		603647C40E4092EA003377E0 /* ETPropertyValueCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPropertyValueCoding.h; path = Headers/ETPropertyValueCoding.h; sourceTree = "<group>"; };
-		603647C70E4092EA003377E0 /* ETTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETTransform.h; path = Headers/ETTransform.h; sourceTree = "<group>"; };
+		603647C70E4092EA003377E0 /* NSObject+DoubleDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DoubleDispatch.h"; path = "Headers/NSObject+DoubleDispatch.h"; sourceTree = "<group>"; };
 		603647C80E4092EA003377E0 /* ETUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETUUID.h; path = Headers/ETUUID.h; sourceTree = "<group>"; };
 		603647C90E4092EA003377E0 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Macros.h; path = Headers/Macros.h; sourceTree = "<group>"; };
 		603647CB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+NameForTempFile.h"; path = "Headers/NSFileManager+NameForTempFile.h"; sourceTree = "<group>"; };
@@ -266,7 +269,7 @@
 		603647FD0E40931E003377E0 /* ETException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETException.m; path = Source/ETException.m; sourceTree = "<group>"; };
 		603647FF0E40931E003377E0 /* ETGetOptionsDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETGetOptionsDictionary.m; path = Source/ETGetOptionsDictionary.m; sourceTree = "<group>"; };
 		603648020E40931E003377E0 /* ETPropertyValueCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPropertyValueCoding.m; path = Source/ETPropertyValueCoding.m; sourceTree = "<group>"; };
-		603648040E40931E003377E0 /* ETTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETTransform.m; path = Source/ETTransform.m; sourceTree = "<group>"; };
+		603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DoubleDispatch.m"; path = "Source/NSObject+DoubleDispatch.m"; sourceTree = "<group>"; };
 		603648050E40931E003377E0 /* ETUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETUUID.m; path = Source/ETUUID.m; sourceTree = "<group>"; };
 		603648060E40931E003377E0 /* GNUstep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNUstep.h; path = Source/GNUstep.h; sourceTree = "<group>"; };
 		603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+NameForTempFile.m"; path = "Source/NSFileManager+NameForTempFile.m"; sourceTree = "<group>"; };
@@ -294,6 +297,8 @@
 		6072CF6C1360E144003256C5 /* PlugInExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "PlugInExample-Info.plist"; path = "Tests/PlugInExample/PlugInExample-Info.plist"; sourceTree = "<group>"; };
 		6072CF701360E190003256C5 /* PlugInExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlugInExample.m; path = Tests/PlugInExample/PlugInExample.m; sourceTree = "<group>"; };
 		60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETModelDescriptionRepository.h; path = Headers/ETModelDescriptionRepository.h; sourceTree = "<group>"; };
+		6093347C13A550B40033378C /* TestCollectionTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestCollectionTrait.m; path = Tests/TestCollectionTrait.m; sourceTree = "<group>"; };
+		6093347D13A550B40033378C /* TestMixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestMixin.m; path = Tests/TestMixin.m; sourceTree = "<group>"; };
 		609B660C0FEE75C00007F842 /* NSObject+HOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+HOM.h"; path = "Headers/NSObject+HOM.h"; sourceTree = "<group>"; };
 		609B66120FEE7CD10007F842 /* TestBasicHOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestBasicHOM.m; path = Tests/TestBasicHOM.m; sourceTree = "<group>"; };
 		609B66D70FEE80CE0007F842 /* TestEtoileFoundation.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestEtoileFoundation.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -370,7 +375,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				603649730E409488003377E0 /* AppKit.framework in Frameworks */,
 				603649740E409488003377E0 /* Foundation.framework in Frameworks */,
 				66C3AF9A10181DDE0046D74A /* libssl.dylib in Frameworks */,
 				66C3AFB610181ECD0046D74A /* libcrypto.dylib in Frameworks */,
@@ -504,6 +508,8 @@
 			isa = PBXGroup;
 			children = (
 				6072CF701360E190003256C5 /* PlugInExample.m */,
+				6093347C13A550B40033378C /* TestCollectionTrait.m */,
+				6093347D13A550B40033378C /* TestMixin.m */,
 				60DA3AE41359AEAB00D8946F /* TestStackTraceRecorder.m */,
 				60455B5E1356FBDA006A7642 /* TestPlugInRegistry.m */,
 				60C0217110FA40E800A46E65 /* TestIndexPath.m */,
@@ -609,8 +615,6 @@
 				603813A41022247400C221A2 /* ETPropertyViewpoint.m */,
 				60C021ED10FA4AB800A46E65 /* ETByteSizeFormatter.h */,
 				60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */,
-				603647C70E4092EA003377E0 /* ETTransform.h */,
-				603648040E40931E003377E0 /* ETTransform.m */,
 				603647D80E4092EA003377E0 /* ETPlugInRegistry.h */,
 				603648150E40931E003377E0 /* ETPlugInRegistry.m */,
 			);
@@ -655,6 +659,8 @@
 		792BF9B4124FBF6B0040BF68 /* NSObject Additions */ = {
 			isa = PBXGroup;
 			children = (
+				603647C70E4092EA003377E0 /* NSObject+DoubleDispatch.h */,
+				603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */,
 				603647D00E4092EA003377E0 /* NSObject+Etoile.h */,
 				6036480D0E40931E003377E0 /* NSObject+Etoile.m */,
 				603647D10E4092EA003377E0 /* NSObject+Mixins.h */,
@@ -743,7 +749,7 @@
 				603647E20E4092EA003377E0 /* EtoileCompatibility.h in Headers */,
 				603647E30E4092EA003377E0 /* EtoileFoundation.h in Headers */,
 				603647E40E4092EA003377E0 /* ETPropertyValueCoding.h in Headers */,
-				603647E70E4092EA003377E0 /* ETTransform.h in Headers */,
+				603647E70E4092EA003377E0 /* NSObject+DoubleDispatch.h in Headers */,
 				603647E80E4092EA003377E0 /* ETUUID.h in Headers */,
 				603647E90E4092EA003377E0 /* Macros.h in Headers */,
 				603647EB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h in Headers */,
@@ -977,7 +983,7 @@
 				6036481A0E40931E003377E0 /* ETException.m in Sources */,
 				6036481C0E40931E003377E0 /* ETGetOptionsDictionary.m in Sources */,
 				6036481F0E40931E003377E0 /* ETPropertyValueCoding.m in Sources */,
-				603648210E40931E003377E0 /* ETTransform.m in Sources */,
+				603648210E40931E003377E0 /* NSObject+DoubleDispatch.m in Sources */,
 				603648220E40931E003377E0 /* ETUUID.m in Sources */,
 				603648250E40931E003377E0 /* NSFileManager+NameForTempFile.m in Sources */,
 				603648260E40931E003377E0 /* NSFileManager+TempFile.m in Sources */,
@@ -1028,6 +1034,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6093353213A561300033378C /* NSObject+Prototypes.m in Sources */,
 				60DA3AF11359AFB600D8946F /* ETStackTraceRecorder.m in Sources */,
 				60222DB3101CCB4800B2B1C1 /* ETClassMirror.m in Sources */,
 				60222DB4101CCB4800B2B1C1 /* ETEntityDescription.m in Sources */,
@@ -1049,7 +1056,6 @@
 				609B67D20FEE81740007F842 /* ETHistory.m in Sources */,
 				609B67D40FEE81740007F842 /* ETPropertyValueCoding.m in Sources */,
 				609B67D50FEE81740007F842 /* ETTranscript.m in Sources */,
-				609B67D60FEE81740007F842 /* ETTransform.m in Sources */,
 				609B67D70FEE81740007F842 /* ETUTI.m in Sources */,
 				609B67D80FEE81740007F842 /* ETUUID.m in Sources */,
 				609B67DA0FEE81740007F842 /* NSFileManager+NameForTempFile.m in Sources */,
@@ -1057,7 +1063,9 @@
 				609B67DC0FEE81740007F842 /* NSIndexPath+Etoile.m in Sources */,
 				609B67DD0FEE81740007F842 /* NSIndexSet+Etoile.m in Sources */,
 				609B67DE0FEE81740007F842 /* NSInvocation+Etoile.m in Sources */,
+				609B67D60FEE81740007F842 /* NSObject+DoubleDispatch.m in Sources */,
 				609B67DF0FEE81740007F842 /* NSObject+Etoile.m in Sources */,
+				6093353113A561130033378C /* NSObject+Mixins.m in Sources */,
 				609B67E10FEE81740007F842 /* NSObject+Model.m in Sources */,
 				609B67E30FEE81740007F842 /* NSString+Etoile.m in Sources */,
 				609B67E40FEE81740007F842 /* NSURL+Etoile.m in Sources */,
@@ -1079,6 +1087,8 @@
 				60CED0AA12CFCF6800B5827C /* ETKeyValuePair.m in Sources */,
 				60455B5F1356FBDA006A7642 /* TestPlugInRegistry.m in Sources */,
 				60DA3AE51359AEAB00D8946F /* TestStackTraceRecorder.m in Sources */,
+				6093347E13A550B40033378C /* TestCollectionTrait.m in Sources */,
+				6093347F13A550B40033378C /* TestMixin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

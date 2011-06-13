@@ -4,6 +4,7 @@
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
 #import "Macros.h"
+#import "EtoileCompatibility.h"
 #include <objc/runtime.h>
 
 static inline BOOL validateMethodTypes(Method method1, Method method2)
