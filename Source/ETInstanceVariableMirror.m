@@ -14,7 +14,7 @@
 #import "ETInstanceVariableMirror.h"
 #import "ETUTI.h"
 #import "Macros.h"
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 

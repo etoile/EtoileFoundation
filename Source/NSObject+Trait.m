@@ -1,5 +1,5 @@
 #define DEFINE_STRINGS
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #undef DEFINE_STRINGS
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
@@ -396,7 +396,7 @@ static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplic
 	}
 }
 
-@implementation NSObject (Mixins)
+@implementation NSObject (Trait)
 
 static NSMapTable *traitApplicationsByClass = nil;
 

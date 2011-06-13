@@ -74,7 +74,7 @@
 #ifdef GNUSTEP
 
 #import <EtoileFoundation/ETCArray.h>
-#import <EtoileFoundation/NSObject+Mixins.h>
+#import <EtoileFoundation/NSObject+Trait.h>
 #import <EtoileFoundation/NSObject+Prototypes.h>
 
 /* EtoileFoundation subframeworks */

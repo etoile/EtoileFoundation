@@ -8,7 +8,7 @@
 
 #import "ETCollection.h"
 #import "ETKeyValuePair.h"
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"

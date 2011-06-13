@@ -11,7 +11,7 @@
 #import "ETObjectMirror.h"
 #import "ETClassMirror.h"
 #import "Macros.h"
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "NSObject+Model.h"
 #import "NSObject+Prototypes.h"
 #import "EtoileCompatibility.h"

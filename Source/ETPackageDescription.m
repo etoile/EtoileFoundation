@@ -11,7 +11,7 @@
 #import "ETCollection+HOM.h"
 #import "ETEntityDescription.h"
 #import "ETPropertyDescription.h"
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"

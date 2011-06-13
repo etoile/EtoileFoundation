@@ -10,7 +10,7 @@
  * be added to another class.  Traits are similar to categories in their
  * composition while mixins are similar to classes.
  */
-@interface NSObject (Mixins)
+@interface NSObject (Trait)
 /**
  * Apply aClass to this class as a trait.
  */

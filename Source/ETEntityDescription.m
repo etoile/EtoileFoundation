@@ -13,7 +13,7 @@
 #import "ETPropertyDescription.h"
 #import "ETReflection.h"
 #import "ETValidationResult.h"
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"

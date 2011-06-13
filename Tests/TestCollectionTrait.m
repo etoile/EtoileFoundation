@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "ETCollection.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"

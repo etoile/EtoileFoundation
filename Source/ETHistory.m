@@ -7,7 +7,7 @@
 
 #import "ETHistory.h"
 #import "ETCollection.h"
-#import "NSObject+Mixins.h"
+#import "NSObject+Trait.h"
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
