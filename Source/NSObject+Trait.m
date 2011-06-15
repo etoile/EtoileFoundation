@@ -84,7 +84,7 @@ static inline BOOL iVarTypesMatch(Class aClass, Class aTrait)
 		for (unsigned int i = 0; i < traitIvarCount; i++)
 		{
 			/* If the trait has ivars of a different type to the class */
-			if (validateIvarTypes(traitIvars[i], classIvars[i]) == NO) // FIXME: Should findIvars and not classIvars[i]
+			if (validateIvarTypes(traitIvars[i], classIvars[i]) == NO)
 			{
 				free(traitIvars);
 				free(classIvars);
@@ -172,10 +172,12 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 @property (retain, nonatomic) NSSet *excludedMethodNames;
 @property (retain, nonatomic) NSDictionary *aliasedMethodNames;
 @property (readonly, nonatomic) NSMutableSet *skippedMethodNames;
-@property (retain, nonatomic) NSMapTable *overridenMethods;
+@property (readonly, nonatomic) NSMapTable *overridenMethods;
 @property (readonly, nonatomic) NSSet *initialMethodNames;
 @property (readonly, nonatomic) NSSet *allMethodNames;
 @property (readonly, nonatomic) NSSet *appliedMethodNames;
+
+- (void) setOverridenMethodNames: (NSSet *)methodNames;
 
 @end
 
@@ -192,7 +194,8 @@ trait class is going to be applied to a target class. */
 	excludedMethodNames = [[NSSet alloc] init];
 	aliasedMethodNames = [[NSDictionary alloc] init];
 	skippedMethodNames = [[NSMutableSet alloc] init];
-	overridenMethods = [[NSMapTable alloc] init];
+	ASSIGN(overridenMethods, [NSMapTable mapTableWithKeyOptions: NSMapTableStrongMemory
+	                                               valueOptions: NSMapTableObjectPointerPersonality]);
 	return self;
 }
 
@@ -276,6 +279,14 @@ the returned set. */
 	return methodNames;
 }
 
+- (void) setOverridenMethodNames: (NSSet *)methodNames
+{
+	for (NSString *name in methodNames)
+	{
+		[overridenMethods setObject: NULL forKey: name];
+	}
+}
+
 /* Returns the trait application in which the given method name is declared.
 
 The returned trait can be the receiver, a subtrait or nil if no such method 
@@ -305,6 +316,7 @@ static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
 	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
 	NSSet *excludedNames = [aTraitApplication excludedMethodNames];
 	NSDictionary *aliasedNames = [aTraitApplication aliasedMethodNames];
+	NSArray *overridenMethodNames = [[[aTraitApplication overridenMethods] keyEnumerator] allObjects];
 	unsigned int methodCount = 0;
 	Method *methods = class_copyMethodList([aTraitApplication trait], &methodCount);
 
@@ -330,8 +342,19 @@ static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
 		}
 		else
 		{
-			/* Memorize each trait method overriden by the target class */
-			[[aTraitApplication skippedMethodNames] addObject: methodName];
+			/* Unless mixin-style composition has been requested */
+			if ([overridenMethodNames containsObject: methodName])
+			{
+				Method method = class_getInstanceMethod(class, method_getName(methods[i]));
+				[[aTraitApplication overridenMethods] setObject: (id)method_getImplementation(method)
+				                                         forKey: methodName];
+				replaceMethodWithMethod(class, methods[i], [methodName UTF8String]);	
+			}
+			else
+			{
+				/* Memorize each trait method overriden by the target class */
+				[[aTraitApplication skippedMethodNames] addObject: methodName];
+			}
 		}
 	}
 	free(methods);
@@ -399,14 +422,18 @@ static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplic
 @implementation NSObject (Trait)
 
 static NSMapTable *traitApplicationsByClass = nil;
+static NSRecursiveLock *lock = nil;
 
 + (void) load
 {
 	ASSIGN(traitApplicationsByClass, [NSMapTable mapTableWithWeakToStrongObjects]);
+	lock = [[NSRecursiveLock alloc] init];
 }
 
 + (NSMutableArray *) traitApplications
 {
+	[lock lock];
+
 	NSMutableArray *traitApplications = [traitApplicationsByClass objectForKey: self];
 
 	if (traitApplications == nil)
@@ -414,6 +441,8 @@ static NSMapTable *traitApplicationsByClass = nil;
 		traitApplications = [NSMutableArray array];
 		[traitApplicationsByClass setObject: traitApplications forKey: self];
 	}
+
+	[lock unlock];
 
 	return traitApplications;
 }
@@ -423,18 +452,21 @@ static NSMapTable *traitApplicationsByClass = nil;
           aliasedMethodNames: (NSDictionary *)aliasedNames
         overridenMethodNames: (NSSet *)overridenNames
 {
+	[lock lock];
+
  	ETTraitApplication *traitApplication = AUTORELEASE([[ETTraitApplication alloc] initWithTrait: aClass]);
 
 	[traitApplication setExcludedMethodNames: excludedNames];
 	[traitApplication setAliasedMethodNames: aliasedNames];
-	// TODO: Track overriden methods (aka mixin-style composition)
-	// [traitApplication setOverridenMethods: overridenMethods];
+	[traitApplication setOverridenMethodNames: overridenNames];
 
 	checkSafeComposition(self, aClass);
 	checkTraitApplication(self, traitApplication);
 	applyTrait(self, traitApplication);
 
 	[[self traitApplications] addObject: traitApplication];
+
+	[lock unlock];
 }
 
 + (void) applyTraitFromClass:(Class)aClass
