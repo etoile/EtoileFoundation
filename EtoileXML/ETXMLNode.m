@@ -114,7 +114,7 @@
 - (id) initWithType: (NSString *)type attributes: (NSDictionary *)_attributes
 {
 	nodeType = [type retain];
-	attributes = [_attributes retain];
+	attributes = [_attributes mutableCopy];
 	return [self init];
 }
 
@@ -373,7 +373,7 @@
 - (void) setCData: (NSString *)newCData
 {
 	[plainCDATA release];
-	plainCDATA = [newCData retain];
+	plainCDATA = [newCData mutableCopy];
 	for(unsigned int i=0 ; i < [elements count] ; i++)
 	{
 		while(i < [elements count] && [[elements objectAtIndex:i] isKindOfClass:[NSString class]])
