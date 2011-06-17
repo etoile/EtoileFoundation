@@ -17,6 +17,18 @@ typedef ETExceptionType (*ETHandler)(NSException * userInfo);
 /** @group Language Extensions */
 @interface NSException (ETException)
 /**
+ * Enable resumable and restartable exception handling.  This only needs to be
+ * called once; subsequent calls will have no effect.  If it is not called,
+ * then [NSException raise] will have the default behaviour.
+ *
+ * Note: The OS X implementation of NSException does not conform to the
+ * documented behaviour.  Resumable and restartable exceptions are not
+ * supported when using Apple's Foundation framework, unless exceptions are
+ * raised by creating an NSException object and then sending it a -raise
+ * message.
+ */
++ (void)enableEtoileExceptions;
+/**
  * Adds aHandler to the top of the exception handling stack for exceptions
  * named aName.  Any exceptions called with the specified name will cause this
  * handler to be invoked while it is on top of the exception handling stack.

@@ -14,5 +14,4 @@ TODO EtoileFoundation
 Known Issues
 ------------
 
-- Fix ETException to work without +poseAsClass:
 - Figure out why CArray doesn't compile on Mac OS X

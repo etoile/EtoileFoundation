@@ -1,9 +1,12 @@
 #import "ETException.h"
+#import "objc/runtime.h"
 
 void pophandler(void* exception)
 {
 	[NSException popHandlerForException:*(NSString**)exception];
 }
+
+IMP nsexception_raise;
 
 @implementation NSException (ETException)
 + (void) pushHandler:(ETHandler)aHandler forException:(NSString*)aName
@@ -31,16 +34,24 @@ void pophandler(void* exception)
 	NSMutableArray * stack = [handlers objectForKey:aName];
 	[stack removeLastObject];
 }
++ (void)enableEtoileExceptions
+{
+	if (0 != nsexception_raise) { return; }
+	Class nsexception = objc_getClass("NSException");
+	SEL raise = @selector(raise);
+	nsexception_raise = class_getMethodImplementation(nsexception, raise);
+	Method m = class_getInstanceMethod(self, raise);
+	class_replaceMethod(nsexception,
+	                    raise,
+	                    method_getImplementation(m),
+	                    method_getTypeEncoding(m));
+}
 @end
 
 @interface ETException : NSException {
 }
 @end
 @implementation ETException
-+ (void) load
-{
-	[self poseAsClass:[NSException class]];
-}
 - (void) raise
 {
 	NSMutableDictionary * threadDict = [[NSThread currentThread] threadDictionary];
@@ -61,7 +72,7 @@ void pophandler(void* exception)
 				GLOBAL_EXCEPTION_STATE = EXCEPTION_ABORT;
 		}
 	}
-	[super raise];
+	nsexception_raise(self, _cmd);
 }
 @end
 
