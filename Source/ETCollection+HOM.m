@@ -1182,7 +1182,7 @@ not -[super methodSignatureForSelector:]. */
 	{
 		return nil;
 	}
-	originalCollection = [theOriginal retain];
+	originalCollection = (id<ETMutableCollectionObject>)[theOriginal retain];
 	invert = shallInvert;
 	return self;
 }
