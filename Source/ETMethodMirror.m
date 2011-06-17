@@ -59,8 +59,8 @@
 + (id) mirrorWithMethodName: (const char *)name
               isClassMethod: (BOOL)isClassMethod
 {
-	return AUTORELEASE([[ETMethodMirror alloc] initWithMethodName: name
-	                                                isClassMethod: isClassMethod]);
+	return AUTORELEASE([[self alloc] initWithMethodName: name
+	                                      isClassMethod: isClassMethod]);
 }
 - (id) initWithMethodName: (const char *)name isClassMethod: (BOOL)isClassMethod
 {
