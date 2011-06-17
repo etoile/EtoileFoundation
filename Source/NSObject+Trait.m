@@ -472,8 +472,8 @@ static NSRecursiveLock *lock = nil;
 + (void) applyTraitFromClass:(Class)aClass
 {
 	[self applyTraitFromClass: aClass 
-          excludedMethodNames: nil 
-           aliasedMethodNames: nil 
+	      excludedMethodNames: nil 
+	       aliasedMethodNames: nil 
 	           allowsOverride: NO];
 }
 
@@ -482,8 +482,8 @@ static NSRecursiveLock *lock = nil;
           aliasedMethodNames: (NSDictionary *)aliasedNames
 {
 	[self applyTraitFromClass: aClass 
-          excludedMethodNames: excludedNames
-           aliasedMethodNames: aliasedNames
+	      excludedMethodNames: excludedNames
+	       aliasedMethodNames: aliasedNames
 	           allowsOverride: NO];
 }
 
@@ -501,8 +501,8 @@ static NSRecursiveLock *lock = nil;
 	}
 
 	[self applyTraitFromClass: aClass 
-          excludedMethodNames: excludedNames
-           aliasedMethodNames: aliasedNames
+	      excludedMethodNames: excludedNames
+	       aliasedMethodNames: aliasedNames
 	     overridenMethodNames: overridenNames];
 }
 
