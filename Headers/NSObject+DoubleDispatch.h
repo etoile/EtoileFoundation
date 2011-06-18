@@ -40,6 +40,8 @@ Here is a visitor example:
 // To start using the visitor, instantiate a visitor and do [visitor visit: someWindow]
 @implementation UIVisitor
 
+// visitXXX methods return id, but returning void would be valid
+
 - (id) visitWindow: (NSWindow *)aWindow
 {
 	NSLog(@"Visiting window %@", aWindow);
@@ -123,7 +125,7 @@ For a detailed example, see -visit:.
 
 Can be overriden in subclasses to implement an alternative strategy to build 
 the method names targeted by the double dispatch. */
-- (SEL) doubleDispatchSelectorWithType: (NSString *)aType;
+- (SEL) doubleDispatchSelectorWithObject: (id)object ofType: (NSString *)aType;
 
 /** Tries to invoke the selector with the given object as first argument, and 
 returns either the value returned by the invoked method or nil.

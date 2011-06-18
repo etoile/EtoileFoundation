@@ -18,7 +18,7 @@
 	return @"visit";
 }
 
-- (SEL) doubleDispatchSelectorWithType: (NSString *)aType
+- (SEL) doubleDispatchSelectorWithObject: (id)object ofType: (NSString *)aType
 {
 	NSString *methodName = [[[self doubleDispatchPrefix] 
 		stringByAppendingString: aType] stringByAppendingString: @":"];
@@ -34,7 +34,7 @@
 - (id) visit: (id)object result: (BOOL *)performed
 {
 	NSString *typeName = [object className];
-	id item = [self tryToPerformSelector: [self doubleDispatchSelectorWithType: typeName]
+	id item = [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
 	                          withObject: object 
 	                              result: performed];
 
@@ -43,7 +43,7 @@
 
 	typeName = [typeName substringFromIndex: [[object typePrefix] length]];
 
-	return [self tryToPerformSelector: [self doubleDispatchSelectorWithType: typeName]
+	return [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
 	                       withObject: object 
 	                           result: performed];
 }
@@ -51,7 +51,7 @@
 - (BOOL) supportsDoubleDispatchWithObject: (id)object
 {
 	NSString *typeName = [object className];
-	SEL selector = [self doubleDispatchSelectorWithType: typeName];
+	SEL selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
 
 	if ([self respondsToSelector: selector])
 		return YES;
@@ -60,7 +60,7 @@
 		return NO;
 
 	typeName = [typeName substringFromIndex: [[object typePrefix] length]];
-	selector = [self doubleDispatchSelectorWithType: typeName];
+	selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
 
 	return [self respondsToSelector: selector];
 }
