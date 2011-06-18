@@ -13,6 +13,9 @@
 #include <openssl/md5.h>
 #include <openssl/ripemd.h>
 
+/* For BIO_flush(mem); on Mac OS X */
+#pragma GCC diagnostic ignored "-Wunused"
+
 @implementation NSData (Hash)
 - (NSString*)base64String
 {

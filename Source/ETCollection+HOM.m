@@ -39,6 +39,7 @@
 #import "NSInvocation+Etoile.h"
 #import "NSObject+Etoile.h"
 #import "Macros.h"
+#import "runtime.h"
 #import "EtoileCompatibility.h"
 
 // Define the maximum number of arguments a function can take. (C99 allows up to
