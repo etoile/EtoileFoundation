@@ -74,7 +74,7 @@ Here is a visitor example:
 Returns the method name prefix used to build the method name to be invoked 
 by the double dispatch.
 
-By default, returns <em>visit<em>.
+By default, returns <em>visit</em>.
 
 Can be overriden to return a custom prefix such as <em>visit</em>.
 
@@ -93,7 +93,7 @@ Class name prefix are trimmed based on the value returned by
 -[NSObject(Etoile) typePrefix]. You can override this last method to return 
 a custom prefix, by default it returns <em>NS</em>.
 
-If you want to use another method name prefix than <em>visit<em> (e.g. to build 
+If you want to use another method name prefix than <em>visit</em> (e.g. to build 
 a selector such as <em>renderView:</em>), -doubleDispatchPrefix can be overriden.
 
 Subclasses can override this method, if they want to customize the 

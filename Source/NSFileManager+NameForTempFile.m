@@ -61,12 +61,12 @@
 //		2004-03-21	witness	Documented.
 // -----------------------------------------------------------------------------
 
--(NSString*)	uniqueFileName: (NSString*)oldName
+-(NSString*)	uniqueFileName: (NSString*)oldPath
 {
-	NSString*   baseName = [oldName stringByDeletingPathExtension];
-	NSString*   suffix = [oldName pathExtension];
+	NSString*   baseName = [oldPath stringByDeletingPathExtension];
+	NSString*   suffix = [oldPath pathExtension];
 	int			n = 1;
-	NSString*   fname = oldName;
+	NSString*   fname = oldPath;
 	
 	while( [self fileExistsAtPath: fname] ) // Keep looping until we have a unique name:
 	{

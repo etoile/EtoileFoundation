@@ -61,7 +61,7 @@ ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self clas
 
 // Will be resolved when the entity description is put in the repository
 [desc setParent: NSStringFromClass([self superclass])];
-<example>
+</example>
  */
 + (ETEntityDescription *) newEntityDescription
 {

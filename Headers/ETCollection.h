@@ -237,7 +237,7 @@ addition to ETCollectionTrait, it also leverages ETMutableCollectionTrait to do
 so.
 
 <example>
-@interface MyCollection : NSObject <ETCollection, ETCollectionMutation>
+@interface MyCollection : NSObject &gt;ETCollection, ETCollectionMutation&lt;
 {
 	NSMutableArray *things;
 }

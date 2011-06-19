@@ -10,7 +10,7 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
-#import "Macros.h"
+#import <EtoileFoundation/Macros.h>
 
 /**
  * Key used to identify the transcript delegate for this thread.
