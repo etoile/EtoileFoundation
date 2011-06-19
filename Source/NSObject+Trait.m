@@ -165,19 +165,22 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 	NSSet *excludedMethodNames;
 	NSDictionary *aliasedMethodNames;
 	NSMutableSet *skippedMethodNames;
-	NSMapTable *overridenMethods;
+	NSMutableDictionary *overridenMethods;
 }
 
 @property (retain, nonatomic) Class trait;
 @property (retain, nonatomic) NSSet *excludedMethodNames;
 @property (retain, nonatomic) NSDictionary *aliasedMethodNames;
 @property (readonly, nonatomic) NSMutableSet *skippedMethodNames;
-@property (readonly, nonatomic) NSMapTable *overridenMethods;
 @property (readonly, nonatomic) NSSet *initialMethodNames;
 @property (readonly, nonatomic) NSSet *allMethodNames;
 @property (readonly, nonatomic) NSSet *appliedMethodNames;
 
+/* Trait Extensions related to Mixin-style Composition */
+
+@property (readonly, nonatomic) NSMutableDictionary *overridenMethods;
 - (void) setOverridenMethodNames: (NSSet *)methodNames;
+@property (readonly, nonatomic) NSSet *appliedOverridenMethodNames;
 
 @end
 
@@ -194,8 +197,11 @@ trait class is going to be applied to a target class. */
 	excludedMethodNames = [[NSSet alloc] init];
 	aliasedMethodNames = [[NSDictionary alloc] init];
 	skippedMethodNames = [[NSMutableSet alloc] init];
-	ASSIGN(overridenMethods, [NSMapTable mapTableWithKeyOptions: NSMapTableStrongMemory
-	                                               valueOptions: NSMapTableObjectPointerPersonality]);
+	// NOTE: Could be used once we require Clang 3.0. 
+	// With Clang 2.9, -[NSConcretePointerFunctions initWithOptions:] receive corrupted args
+	//ASSIGN(overridenMethods, [NSMapTable mapTableWithKeyOptions: NSMapTableStrongMemory
+	//                                               valueOptions: NSPointerFunctionsOpaqueMemory]);
+	overridenMethods = [[NSMutableDictionary alloc] init];
 	return self;
 }
 
@@ -255,18 +261,11 @@ subtraits). */
 	return methodNames;
 }
 
-/* Returns the methods to be added to the target class.
-
-The returned methods are the union of the local trait methods and the subtrait 
-methods, and also include methods overriden by the target class.
-
-Local methods provided by -methodNames can appear excluded and/or aliased in 
-the returned set. */
-- (NSSet *) appliedMethodNames
+- (NSSet *) appliedMethodNamesForNames: (NSSet *)rawMethodNames
 {
 	NSMutableSet *methodNames = [NSMutableSet set];
 
-	for (NSString *name in [self allMethodNames])
+	for (NSString *name in rawMethodNames)
 	{
 		if ([excludedMethodNames containsObject: name])
 			continue;
@@ -279,12 +278,47 @@ the returned set. */
 	return methodNames;
 }
 
+/* Returns the methods to be added to the target class.
+
+The returned methods are the union of the local trait methods and the subtrait 
+methods, and also include methods overriden by the target class.
+
+Local methods provided by -methodNames can appear excluded and/or aliased in 
+the returned set. */
+- (NSSet *) appliedMethodNames
+{
+	return [self appliedMethodNamesForNames: [self allMethodNames]];
+}
+
+/* Declares the methods which should be overriden in the target class by 
+trait provided methods.
+
+-setAliasedMethodNames: must be called before this method.
+
+Method IMPs must be later inserted with -overridenMethods. When this method 
+returns, -overridenMethods only contains method names as keys but no IMP as values. */
 - (void) setOverridenMethodNames: (NSSet *)methodNames
 {
 	for (NSString *name in methodNames)
 	{
-		[overridenMethods setObject: NULL forKey: name];
+		NSString *aliasedName = [aliasedMethodNames objectForKey: name];
+
+		[overridenMethods setObject: [NSNull null] 
+		                     forKey: (aliasedName != nil ? aliasedName : name)
+];
 	}
+}
+
+/* Returns the methods to be overriden in the target class.
+
+The returned method names are keys in -overridenMethods.
+
+Local methods provided by -methodNames can appear aliased in the returned set, 
+but no exclusion is visible. */
+- (NSSet *) appliedOverridenMethodNames
+{
+	return [self appliedMethodNamesForNames: 
+		[NSSet setWithArray: [[overridenMethods keyEnumerator] allObjects]]];
 }
 
 /* Returns the trait application in which the given method name is declared.
@@ -316,7 +350,7 @@ static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
 	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
 	NSSet *excludedNames = [aTraitApplication excludedMethodNames];
 	NSDictionary *aliasedNames = [aTraitApplication aliasedMethodNames];
-	NSArray *overridenMethodNames = [[[aTraitApplication overridenMethods] keyEnumerator] allObjects];
+	NSSet *overridenMethodNames = [aTraitApplication appliedOverridenMethodNames];
 	unsigned int methodCount = 0;
 	Method *methods = class_copyMethodList([aTraitApplication trait], &methodCount);
 
@@ -346,8 +380,10 @@ static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
 			if ([overridenMethodNames containsObject: methodName])
 			{
 				Method method = class_getInstanceMethod(class, method_getName(methods[i]));
-				[[aTraitApplication overridenMethods] setObject: (id)method_getImplementation(method)
+				NSValue *imp = [NSValue valueWithPointer: (id)method_getImplementation(method)];
+				[[aTraitApplication overridenMethods] setObject: imp 
 				                                         forKey: methodName];
+
 				replaceMethodWithMethod(class, methods[i], [methodName UTF8String]);	
 			}
 			else
@@ -383,6 +419,7 @@ static NSSet *redundantSubtraitMethodNames(NSSet *methodNames, ETTraitApplicatio
 static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplication)
 {
 	NSSet *traitMethodNames = [aTraitApplication appliedMethodNames];
+	NSSet *traitOverridenMethodNames = [aTraitApplication appliedOverridenMethodNames];
 	NSMutableSet *allSkippedMethodNames = [NSMutableSet set];
 
 	/* Collect all existing trait methods overriden by the target class */
@@ -408,6 +445,14 @@ static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplic
 			/* When a trait method is overriden by the target class, the conflict 
 			   is implicitly resolved */
 			[conflictingMethodNames minusSet: allSkippedMethodNames];
+
+			/* When a method is declared as to be overriden by the trait method, the 
+			   conflict is also implicitly resolved
+
+			   The method to be overriden originates either from:
+			   - the target class
+			   - a trait previously applied to the target class. */
+			[conflictingMethodNames minusSet: traitOverridenMethodNames];
 
 			if ([conflictingMethodNames isEmpty])
 				continue;

@@ -27,6 +27,9 @@
 @interface TestTraitMethodConflictAndOverridingRule : NSObject <UKTest>
 @end
 
+@interface TestMixinStyleComposition : NSObject <UKTest>
+@end
+
 @interface TestBasicTrait (BasicTrait)
 - (void) bip;
 - (NSString *) wanderWhere: (NSUInteger)aLocation;
@@ -66,6 +69,12 @@
 
 @interface TestTraitMethodConflictAndOverridingRule (BasicAndComplexTrait)
 - (NSString *) wanderWhere: (NSUInteger)aLocation;
+@end
+
+@interface TestMixinStyleComposition (BasicAndComplexTrait)
+- (BOOL) isOrdered;
+- (NSString *) lost: (NSUInteger)aLocation;
+- (int) intValue;
 @end
 
 /* Trait Declarations */
@@ -229,6 +238,51 @@
 	[[self class] applyTraitFromClass: [ComplexTrait class]];
 
 	UKStringsEqual(@"Anywhere", [self wanderWhere: 9]);
+}
+
+@end
+
+@implementation TestMixinStyleComposition
+
+- (BOOL) isOrdered
+{
+	return YES;
+}
+
+- (NSString *) lost: (NSUInteger)aLocation
+{
+	return @"Anywhere";
+}
+
+- (int) intValue 
+{
+	return 100; 
+}
+
+- (void) testApplyTrait
+{
+	[[self class] applyTraitFromClass: [BasicTrait class]
+	              excludedMethodNames: S(@"isOrdered")
+	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")
+	                   allowsOverride: YES];
+
+	UKTrue([self respondsToSelector: @selector(bip)]);
+	UKTrue([self respondsToSelector: @selector(lost:)]);
+	UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
+	UKStringsEqual(@"Nowhere", [self lost: 5]);
+	UKTrue([self isOrdered]);
+
+	[[self class] applyTraitFromClass: [ComplexTrait class]
+	              excludedMethodNames: [NSSet set]
+	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")
+	                   allowsOverride: YES];
+
+	UKTrue([self respondsToSelector: @selector(bip)]);
+	UKTrue([self respondsToSelector: @selector(lost:)]);
+	UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
+	UKStringsEqual(@"Somewhere", [self lost: 5]);
+	UKTrue([self isOrdered]);
+	UKIntsEqual(3, [self intValue]);
 }
 
 @end
