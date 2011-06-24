@@ -12,7 +12,7 @@ UnitKit_HEADER_FILES = UKRunner.h UKTest.h UKTestHandler.h UKTask.h UnitKit.h
 
 UnitKit_OBJC_FILES = UKRunner.m UKTestHandler.m UKTask.m
 
-UnitKit_LOCALIZED_RESOURCE_FILES = UKRunner.strings UKTestHandler.strings
+UnitKit_LOCALIZED_RESOURCE_FILES = UKTestHandler.strings
 UnitKit_LANGUAGES = English
 
 include $(GNUSTEP_MAKEFILES)/framework.make
