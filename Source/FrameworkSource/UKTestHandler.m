@@ -68,6 +68,16 @@
     return [NSString stringWithFormat:@"\"%@\"", description];
 }
 
++ (NSString *) displayStringForException:(id)exc
+{
+    if ([exc isKindOfClass:[NSException class]]) {
+        return [NSString stringWithFormat:@"NSException: %@ %@", [exc name],
+            [exc reason]];
+    } else {
+        return NSStringFromClass([exc class]);
+    }
+}
+
 - (int) testsPassed
 {
     return testsPassed;
@@ -76,6 +86,11 @@
 - (int) testsFailed
 {
     return testsFailed;
+}
+
+- (int) exceptionsReported
+{
+    return exceptionsReported;
 }
 
 - (void) setDelegate:(id)aDelegate
@@ -111,6 +126,37 @@
     } else {
         testsFailed++;
         printf("%s:%i: warning: %s\n", filename, line, [msg UTF8String]);
+    }
+}
+
+- (void) reportException:(NSException *)exception inClass: (Class)testClass hint: (NSString *)hint
+{
+	exceptionsReported++;
+
+    if (delegate != nil && [delegate respondsToSelector: @selector(reportWarning:)]) 
+	{
+        [delegate reportException: exception inClass: testClass hint: hint];
+    }
+	else
+	{
+		NSString *excstring = [[self class] displayStringForException: exception];
+		NSString *msg = nil;
+
+		if ([hint isEqual: @"errExceptionOnInit"] || [hint isEqual: @"errExceptionOnRelease"])
+		{
+			msg = [[self class] localizedString: hint];
+			msg = [NSString stringWithFormat: msg, NSStringFromClass(testClass), excstring];
+		}
+		else
+		{
+			NSString *testMethodName = hint;
+
+			msg = [[self class] localizedString: @"errExceptionInTestMethod"];
+			msg = [NSString stringWithFormat: msg, NSStringFromClass(testClass),
+                testMethodName, excstring];	
+		}
+
+        [self reportWarning: msg];
     }
 }
 

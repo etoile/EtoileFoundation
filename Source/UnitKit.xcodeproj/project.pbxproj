@@ -31,7 +31,6 @@
 		600CE53509F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		60FBE08A09FAE81900F734E1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE70B65505F7100400D56367 /* Info.plist */; };
 		AE390EF10724F2530036A22B /* TestFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBED01906AFADB000451E26 /* TestFramework.framework */; };
-		AE41F3D206812A3F0044760C /* UKRunner.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE41F3D106812A3F0044760C /* UKRunner.strings */; };
 		AE55498B06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
 		AE55498C06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
 		AE55498D06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
@@ -176,7 +175,6 @@
 		8DC2EF5B0486A6940098B216 /* UnitKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnitKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE39C80605FBFF7F0011F066 /* UKTaskTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTaskTests.h; path = UnitKitTests/UKTaskTests.h; sourceTree = "<group>"; };
 		AE39C80705FBFF7F0011F066 /* UKTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTaskTests.m; path = UnitKitTests/UKTaskTests.m; sourceTree = "<group>"; };
-		AE41F3CF06812A310044760C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/UKRunner.strings; sourceTree = "<group>"; };
 		AE55498A06C5ACDC005FF2F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		AE613E6705F181AE009B020F /* UKTestHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UKTestHandler.h; sourceTree = "<group>"; };
 		AE613E6805F181AE009B020F /* UKTestHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = UKTestHandler.m; sourceTree = "<group>"; };
@@ -373,7 +371,6 @@
 				AEFFFA70060140EB0002576C /* UKTestHandler.strings */,
 				AE923D8905C3B9EC00549058 /* UKRunner.h */,
 				AE923D8A05C3B9EC00549058 /* UKRunner.m */,
-				AE41F3D106812A3F0044760C /* UKRunner.strings */,
 				AEF570CD05F6E94700FB3F0B /* UKTask.h */,
 				AEF570CE05F6E94700FB3F0B /* UKTask.m */,
 				32DBCF5E0370ADEE00C91783 /* Info.plist */,
@@ -620,7 +617,6 @@
 			files = (
 				AE923B7105C3B62B00549058 /* InfoPlist.strings in Resources */,
 				AEFFFA71060140EB0002576C /* UKTestHandler.strings in Resources */,
-				AE41F3D206812A3F0044760C /* UKRunner.strings in Resources */,
 				AEBED16906B0603600451E26 /* NOTICE in Resources */,
 				AEEB74D106B1BEFD00BE53E8 /* LICENSE in Resources */,
 				03BC00BE0DEE32AD009AFC82 /* Icon-Pass.tiff in Resources */,
@@ -782,14 +778,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AE41F3D106812A3F0044760C /* UKRunner.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AE41F3CF06812A310044760C /* English */,
-			);
-			name = UKRunner.strings;
-			sourceTree = "<group>";
-		};
 		AE923B6F05C3B62B00549058 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -981,7 +969,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DSTROOT = /;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;

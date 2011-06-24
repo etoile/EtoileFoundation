@@ -57,6 +57,7 @@
     [[thread threadDictionary] setObject:@"YES" forKey:@"UKLoopTriggerRan"];
 }
 
+/*
 - (void) testRunLoopAdditionExecuted
 {
     NSThread *thread = [NSThread currentThread];
@@ -72,8 +73,6 @@
     UKStringsEqual([runLoop currentMode], NSDefaultRunLoopMode);
     
 }
-
-/*
 
 - (void) testClassesFromBundle
 {

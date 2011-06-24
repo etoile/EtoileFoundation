@@ -40,6 +40,7 @@
 + (void) performGrowlNotification
 :(int) testsPassed 
 :(int) testsFailed
+:(int) exceptionsReported
 :(int) testClassesRun
 :(int) testMethodsRun;
 #endif

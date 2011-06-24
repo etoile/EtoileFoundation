@@ -163,6 +163,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
         
     int testsPassed = [[UKTestHandler handler] testsPassed];
     int testsFailed = [[UKTestHandler handler] testsFailed];
+	int exceptionsReported = [[UKTestHandler handler] exceptionsReported];
     int testClasses = runner->testClassesRun;
     int testMethods = runner->testMethodsRun;
     
@@ -170,13 +171,13 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
     [pool release];
     
     // XXX i18n
-    printf("Result: %i classes, %i methods, %i tests, %i failed\n", testClasses, testMethods, (testsPassed + testsFailed), testsFailed);
+    printf("Result: %i classes, %i methods, %i tests, %i failed, %i exceptions\n", testClasses, testMethods, (testsPassed + testsFailed), testsFailed, exceptionsReported);
 
 #ifndef GNUSTEP
-    [self performGrowlNotification: testsPassed :testsFailed :testClasses :testMethods];
+    [self performGrowlNotification: testsPassed :testsFailed :exceptionsReported :testClasses :testMethods];
 #endif
 
-    if (testsFailed == 0) {
+    if (testsFailed == 0 && exceptionsReported == 0) {
         return 0;
     } else {
         return -1;
@@ -188,21 +189,22 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 + (void) performGrowlNotification
 :(int) testsPassed 
 :(int) testsFailed
+:(int) exceptionsReported
 :(int) testClassesRun
 :(int) testMethodsRun
 {
     NSString *title;
     
-    if (testsFailed == 0) {
+    if (testsFailed == 0 && exceptionsReported == 0) {
         title = @"UnitKit Test Run Passed";
     } else {
         title = @"UnitKit Test Run Failed";
     }
     
     NSString *msg = [NSString stringWithFormat:
-					 @"%i test classes, %i methods\n%i assertions passed, %i failed",
-					 testClassesRun, testMethodsRun,  testsPassed, testsFailed];
-    
+					 @"%i test classes, %i methods\n%i assertions passed, %i failed, %i exceptions",
+					 testClassesRun, testMethodsRun,  testsPassed, testsFailed, exceptionsReported];
+	
     NSMutableDictionary *notiInfo = [NSMutableDictionary dictionary];
     [notiInfo setObject:@"UnitKit Notification" forKey:@"NotificationName"];
     [notiInfo setObject:@"UnitKit" forKey:@"ApplicationName"];
@@ -305,11 +307,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
                  object = [object init];
             }
             @catch (id exc) {
-                NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
-                NSString *excstring = [UKRunner displayStringForException:exc];
-                msg = [NSString stringWithFormat:msg, 
-                    NSStringFromClass(testClass), excstring];
-                [[UKTestHandler handler] reportWarning:msg];
+                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionOnInit"];
                 [pool release];
                 return;
            }
@@ -320,12 +318,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
             [self runTest:testSel onObject: object];
         }
         @catch (id exc) {
-            NSString *msg = [UKRunner 
-                localizedString:@"errExceptionInTestMethod"];            
-            NSString *excstring = [UKRunner displayStringForException:exc];
-            msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass),
-                testMethodName, excstring];
-            [[UKTestHandler handler] reportWarning:msg];
+                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionInTestMethod"];
         }
         
         if (isClass == NO)
@@ -334,11 +327,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
                 [object release];
             }
             @catch (id exc) {
-                NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
-                NSString *excstring = [UKRunner displayStringForException:exc];
-                msg = [NSString stringWithFormat:msg, 
-                                  NSStringFromClass(testClass), excstring];
-                [[UKTestHandler handler] reportWarning:msg];
+                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionOnRelease"];
                 [pool release];
                 return;
             }
@@ -363,9 +352,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 	}
         NS_HANDLER
 	{
-            NSString *msg = [UKRunner localizedString:@"errExceptionOnInit"];
-            msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), [localException name]];
-            [[UKTestHandler handler] reportWarning:msg];
+			[[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnInit"];
             [pool release];
             NS_VOIDRETURN;	
 	}
@@ -378,10 +365,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 	}
         NS_HANDLER
 	{
-            NSString *msg = [UKRunner localizedString:@"errExceptionInTestMethod"];            
-            msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), testMethodName, [localException name]];
-            [[UKTestHandler handler] reportWarning:msg];
-            [[UKTestHandler handler] reportWarning:[localException reason]];
+		[[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionInTestMethod"];
 	    [pool release];
 	    NS_VOIDRETURN;
 	}
@@ -404,9 +388,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 	}
         NS_HANDLER
 	{
-            NSString *msg = [UKRunner localizedString:@"errExceptionOnRelease"];
-            msg = [NSString stringWithFormat:msg, NSStringFromClass(testClass), [localException name]];
-            [[UKTestHandler handler] reportWarning:msg];
+			[[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnRelease"];
             [pool release];
             NS_VOIDRETURN;
 	}

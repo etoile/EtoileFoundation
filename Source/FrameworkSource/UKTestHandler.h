@@ -30,6 +30,7 @@
     id delegate;
     int testsPassed;
     int testsFailed;
+	int exceptionsReported;
     BOOL quiet;
 }
 
@@ -39,12 +40,23 @@
 - (void) setQuiet:(BOOL)isQuiet;
 
 - (void) reportStatus:(BOOL)cond inFile:(char *)filename line:(int)line message:(NSString *)msg;
+/** Reports an uncaught exception and a hint that represents the context in 
+which the exception arised (e.g. -init on a test object).
+
+By default, forwards the message to the delegate if there is one, otherwise uses 
+-reportWarning: to print the exception reason. */
+- (void) reportException:(NSException *)exception inClass: (Class)testClass hint: (NSString *)hint ;
 
 - (void) reportWarning:(NSString *)message;
 
 - (int) testsPassed;
 
 - (int) testsFailed;
+/** Returns the current number of exceptions caught by UKRunner and reported to 
+the test handler.
+
+See -reportException:inClass:hint:. */
+- (int) exceptionsReported;
 
 - (void) passInFile:(char *)filename line:(int)line;
 

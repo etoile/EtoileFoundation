@@ -24,6 +24,10 @@
  affiliated with the Apache Software Foundation.
 */
 
+errExceptionOnInit = "Error in [%@:init]. Uncaught exception %@";
+errExceptionInTestMethod = "Error in test [%@:%@]. Uncaught exception %@";
+errExceptionOnRelease = "Error in test [%@:dealloc]. Uncaught exception %@";
+
 msgUKPass = "Passed";
 msgUKFail = "Failed";
 msgUKTrue.pass = "Passed, expected true, got true";
