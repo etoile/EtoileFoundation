@@ -1,0 +1,16 @@
+EtoileXML NEWS
+==============
+
+0.2 (Etoile 0.4.2)
+------------------
+
+- Added ETXMLWriter including
+	- socket-based writing
+	- transactional writing
+	- Seaside-style subelement creation with blocks
+- Bugfixes
+
+0.1 (Etoile 0.4)
+----------------
+
+- First release

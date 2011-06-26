@@ -5,7 +5,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 PROJECT_DIR = $(CURDIR)
 
 FRAMEWORK_NAME = EtoileXML
-$(FRAMEWORK_NAME)_VERSION = 0.1
+$(FRAMEWORK_NAME)_VERSION = 0.2
 
 # -lm for FreeBSD at least
 LIBRARIES_DEPEND_UPON += -lm -lEtoileFoundation $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
