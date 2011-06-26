@@ -24,7 +24,6 @@ EtoileFoundation NEWS
 - Deprecated NSFileManager+NameForTempFile
 - Wrote most missing API documentation
 - EtoileThread bugfixes
-- Updated ETException to support the new GNUstep runtime
 
 0.4.1 (Etoile 0.4.1)
 --------------------

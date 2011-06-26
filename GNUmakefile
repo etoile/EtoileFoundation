@@ -135,6 +135,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETClassMirror.m \
 	Source/ETCollection.m \
 	Source/ETCollection+HOM.m \
+	Source/ETException.m \
 	Source/ETGetOptionsDictionary.m \
 	Source/ETHistory.m \
 	Source/ETInstanceVariableMirror.m \

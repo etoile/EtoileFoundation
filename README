@@ -14,7 +14,6 @@ EtoileFoundation is the core framework for all Etoile projects, providing numero
 
 - mirror-based reflection
 - mixins and traits
-- restartable exceptions
 - double-dispatch
 - collection class protocol and additions
 - UUID
@@ -28,6 +27,7 @@ EtoileFoundation is the core framework for all Etoile projects, providing numero
 - stack trace recording
 
 Two sub-frameworks are bundled with it: 
+
 - *EtoileThread* which allows objects to transparently be run in a separate thread. 
 - *EtoileXML* which is a light-weight and tolerant XML parsing framework whose main ability is to handle truncated and not well-formed XML documents. For example, with XML streams used by the XMPP protocol, the XML is received in fragments.
 
@@ -46,9 +46,9 @@ Mac OS X support
 EtoileFoundation is supported on Mac OS X, minus the parts that only works with the GNU runtime (prototypes, restartable exceptions and some introspection stuff).
 An Xcode project is available to build both EtoileFoundation and EtoileXML on Mac OS X. EtoileThread is unsupported on Mac OS X presently.
 
-ETException.m, NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on Mac OS X.
+NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on Mac OS X.
 
-For EtoileFoundation compilation, many warnings about missing protocol method implementations are reported, because #pragma GCC diagnostic ignored "-Wprotocol" only works with LLVM 1.5 64 bits. By default, EtoileFoundation is compiled as a Universal 32/64 bits framework. Switch *Architectures* to Intel 64 bits to eliminate these issues at development time (supposing your machine is 64 bits compatible).
+For EtoileFoundation compilation, many warnings about missing protocol method implementations are reported, because *#pragma GCC diagnostic ignored "-Wprotocol"* only works with LLVM 1.5 64 bits. By default, EtoileFoundation is compiled as a Universal 32/64 bits framework. Switch *Architectures* to Intel 64 bits to eliminate these issues at development time (supposing your machine is 64 bits compatible).
 
 Developer Notes
 ===============
