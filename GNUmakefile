@@ -39,7 +39,7 @@ else
 FRAMEWORK_NAME = EtoileFoundation
 endif
 
-VERSION = 0.4.1
+VERSION = 0.5
 
 # libssl and libcrypto are packaged together
 ifeq ($(USE_SSL_PKG), yes)

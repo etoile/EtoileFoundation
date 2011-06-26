@@ -8,7 +8,7 @@ Authors
 License
 : Modified BSD License
 Version
-: 0.4.2
+: 0.5
 
 EtoileFoundation is the core framework for all Etoile projects, providing numerous convenience methods on top of the OpenStep foundation and significantly better support for reflection. Here is a summary of some the interesting features:
 

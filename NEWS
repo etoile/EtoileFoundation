@@ -1,8 +1,8 @@
 EtoileFoundation NEWS
 =====================
 
-0.4.2 (Etoile 0.4.2)
---------------------
+0.5 (Etoile 0.4.2)
+------------------
 
 - Introduced Metamodel inspired from Smalltalk's FAME
 - Introduced Higher-Order Messaging and Block extensions
