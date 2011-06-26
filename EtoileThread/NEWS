@@ -1,0 +1,20 @@
+EtoileThread NEWS
+=================
+
+0.3 (Etoile 0.4.2)
+------------------
+
+- Added ETObjectPipe
+- Added exception proxy support to ETThreadProxyReturn
+- Bugfixes
+
+0.2 (Etoile 0.4.1)
+--------------------
+
+- Bugfixes 
+- Added test suite
+
+0.1 (Etoile 0.4)
+----------------
+
+- First release

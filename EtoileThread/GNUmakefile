@@ -9,7 +9,7 @@ BUNDLE_NAME = EtoileThread
 $(BUNDLE_NAME)_LDFLAGS += -lUnitKit
 else
 FRAMEWORK_NAME = EtoileThread
-$(FRAMEWORK_NAME)_VERSION = 0.2
+$(FRAMEWORK_NAME)_VERSION = 0.3
 endif
 
 ifeq ($(GNUSTEP_TARGET_CPU), ix86)
