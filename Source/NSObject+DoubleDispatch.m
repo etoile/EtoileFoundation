@@ -38,7 +38,7 @@
 	                          withObject: object 
 	                              result: performed];
 
-	if (performed || [typeName hasPrefix: [object typePrefix]] == NO)
+	if (*performed || [typeName hasPrefix: [object typePrefix]] == NO)
 		return item;
 
 	typeName = [typeName substringFromIndex: [[object typePrefix] length]];
