@@ -1,6 +1,8 @@
 EtoileFoundation NEWS
 =====================
 
+See also EtoileXML/NEWS and EtoileThread/NEWS.
+
 0.5 (Etoile 0.4.2)
 ------------------
 
@@ -23,14 +25,12 @@ EtoileFoundation NEWS
   UKPushBackMessenger and UKThreadMessenger
 - Deprecated NSFileManager+NameForTempFile
 - Wrote most missing API documentation
-- EtoileThread bugfixes
 
 0.4.1 (Etoile 0.4.1)
 --------------------
 
 - Introduced ETUTI, an implementation of Uniform Type Identifiers
 - New ETPrototype implementation
-- EtoileThread bugfixes
 - Added ETHistoryManager
 
 0.4 (Etoile 0.4)
