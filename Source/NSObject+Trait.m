@@ -471,8 +471,10 @@ static NSRecursiveLock *lock = nil;
 
 + (void) load
 {
+	CREATE_AUTORELEASE_POOL(pool);
 	ASSIGN(traitApplicationsByClass, [NSMapTable mapTableWithWeakToStrongObjects]);
 	lock = [[NSRecursiveLock alloc] init];
+	DESTROY(pool);
 }
 
 + (NSMutableArray *) traitApplications
@@ -497,6 +499,7 @@ static NSRecursiveLock *lock = nil;
           aliasedMethodNames: (NSDictionary *)aliasedNames
         overridenMethodNames: (NSSet *)overridenNames
 {
+	CREATE_AUTORELEASE_POOL(pool);
 	[lock lock];
 
  	ETTraitApplication *traitApplication = AUTORELEASE([[ETTraitApplication alloc] initWithTrait: aClass]);
@@ -512,6 +515,7 @@ static NSRecursiveLock *lock = nil;
 	[[self traitApplications] addObject: traitApplication];
 
 	[lock unlock];
+	DESTROY(pool);
 }
 
 + (void) applyTraitFromClass:(Class)aClass
@@ -537,6 +541,8 @@ static NSRecursiveLock *lock = nil;
           aliasedMethodNames: (NSDictionary *)aliasedNames
               allowsOverride: (BOOL)override
 {
+	CREATE_AUTORELEASE_POOL(pool);
+
 	NSSet *overridenNames = [NSSet set];
 
 	if (override)
@@ -549,6 +555,8 @@ static NSRecursiveLock *lock = nil;
 	      excludedMethodNames: excludedNames
 	       aliasedMethodNames: aliasedNames
 	     overridenMethodNames: overridenNames];
+
+	DESTROY(pool);
 }
 
 @end
