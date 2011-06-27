@@ -1,3 +1,12 @@
+/*
+	Copyright (C) 2007 David Chisnall
+
+	Author:  David Chisnall,
+	         Quentin Mathe <quentin.mathe@gmail.com>
+	Date:  October 2007
+	License:  Modified BSD (see COPYING)
+ */
+
 #define DEFINE_STRINGS
 #import "NSObject+Trait.h"
 #undef DEFINE_STRINGS
