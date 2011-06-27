@@ -18,6 +18,7 @@ Adds traits to Objective-C, to support class composition, in addition to
 inheritance. Traits allow methods to be added to another class.
 
 The trait support in EtoileFoundation is based on:
+
 <list> 
 <item>http://scg.unibe.ch/archive/papers/Scha03aTraits.pdf (original and short one)</item>
 <item>http://scg.unibe.ch/archive/papers/Duca06bTOPLASTraits.pdf (most recent and quite lengthy)</item>
@@ -30,14 +31,17 @@ read the short paper listed above.
 
 The trait API supports both trait operators (exclusion, aliasing) and composite 
 trait (a trait with subtraits). However there are two important restrictions:
+
 <list>
 <item>the super keyword must not be used in a trait method</item>
 <item>instances variables must not be accessed directly but only through accessors</item>
 </list>
+
 If these restrictions are ignored, the code may compile, but will surely result 
-in a buggy behavior at runtime.</br>
+in a buggy behavior at runtime.
 
 With the current implementation, the limitations below should be kept in mind:
+
 <list>
 <item>trait applications don't take in account class methods</item>
 <item>no mechanism to declare and check non-trait methods required by trait 
@@ -46,8 +50,9 @@ methods (so you get a runtime exception instead)</item>
 
 @section Basic example and Terminology
 
-To apply a trait, the basic API is -applyTraitFromClass:, and we use the 
+To apply a trait, the basic API is +applyTraitFromClass:, and we use the 
 terminology below:
+
 <deflist>
 <term>trait class</term><desc>the class which represents a trait and whose 
 methods are called trait methods. The superclass methods are ignored if the 
@@ -134,7 +139,7 @@ commutative and the ordering matters. That's why we'd rather discourage its use.
          excludedMethodNames: (NSSet *)excludedNames
           aliasedMethodNames: (NSDictionary *)aliasedNames;
 /** 
- * Does the same than -applyTraitFromClass:excludedMethodNames:aliasedMethodNames: 
+ * Does the same than +applyTraitFromClass:excludedMethodNames:aliasedMethodNames: 
  * but allows to replace methods in the target class with trait methods if YES 
  * is passed as the last argument. 
  *
