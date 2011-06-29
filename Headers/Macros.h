@@ -29,10 +29,12 @@
 /**
  * Cleanup function used for stack-scoped objects.
  */
+#if !__has_feature(objc_arc)
 __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
 {
 	[*(id*)object release];
 }
+#endif
 /**
  * Macro used to declare objects with lexical scoping.  The object will be sent
  * a release message when it goes out of scope.  
@@ -43,7 +45,7 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  * STACK_SCOPED Foo * foo = [[Foo alloc] init];
  * </example>
  */
-#ifdef __OBJC_GC__
+#if !defined(__OBJC_GC__)  && !defined(objc_arc)
 #	define STACK_SCOPED
 #else
 #	define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
@@ -60,7 +62,7 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  */
 __attribute__((unused)) static inline void ETUnlockObject(void* object)
 {
-	[*(id*)object unlock];
+	[*(__unsafe_unretained id*)object unlock];
 }
 /**
  * Macro that sends a -lock message to the argument immediately, and then an
@@ -70,6 +72,7 @@ __attribute__((unused)) static inline void ETUnlockObject(void* object)
 #define LOCK_FOR_SCOPE(x) __attribute__((cleanup(ETUnlockObject))) \
 		__attribute__((unused)) id __COUNTER__ ## _lock = x; [x lock]
 
+#if !__has_feature(objc_arc)
 /**
  * Cleanup function that releases a lock.
  */
@@ -84,6 +87,8 @@ __attribute__((unused)) static inline void ETDrainAutoreleasePool(void* object)
 #define LOCAL_AUTORELEASE_POOL() \
 	__attribute__((cleanup(ETDrainAutoreleasePool))) \
 	NSAutoreleasePool *__COUNTER__ ## _pool = [NSAutoreleasePool new];
+
+#endif
 
 /**
  * Macro providing a foreach statement on collections, with IMP caching.
@@ -157,7 +162,7 @@ on in a release version. */
 #define ETDebugAssert(condition) \
 	ETAssert(condition)
 #else
-#define ETDebugAssert(condition)
+#define ETDebugAssert(condition) __builtin_unreachable()
 #endif
 /** Assertion macro to mark code portion that should never be reached. e.g. the 
 default case in a switch statement. */
