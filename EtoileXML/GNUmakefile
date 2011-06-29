@@ -36,6 +36,8 @@ $(FRAMEWORK_NAME)_HEADER_FILES = \
 	ETXMLWriter.h\
 	NSAttributedString+HTML.h
 
+EtoileXMLDoc_EXCLUDED_DOC_FILES = TRXHTMLTest.h TRXHTMLTest.m ParserTest.m
+
 include $(GNUSTEP_MAKEFILES)/framework.make
 -include ../../../etoile.make
 -include ../../../documentation.make
