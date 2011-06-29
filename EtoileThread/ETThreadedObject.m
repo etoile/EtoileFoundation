@@ -33,6 +33,7 @@
 
 #import "ETThreadedObject.h"
 #import "ETThreadProxyReturn.h"
+#import "Macros.h"
 #include <sched.h>
 
 /**
@@ -180,27 +181,20 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 /* Designated initializer */
 - (id) init
 {
-	pthread_cond_init(&conditionVariable, NULL);
-	pthread_mutex_init(&mutex, NULL);
+	return [self initWithObject: nil];
 	return self;
 }
 
 - (id) initWithClass: (Class)aClass
 {
-	if (nil == (self = [self init]))
-	{
-		return nil;
-	}
-	object = [[aClass alloc] init];
-	return self;
+	return [self initWithObject: [[aClass alloc] init]];
 }
 
 - (id) initWithObject: (id)anObject
 {
-	if (nil == (self = [self init]))
-	{
-		return nil;
-	}
+	SUPERINIT;
+	pthread_cond_init(&conditionVariable, NULL);
+	pthread_mutex_init(&mutex, NULL);
 	// Retained in the creating thread.
 	object = anObject;
 	return self;
