@@ -35,7 +35,7 @@ argument. */
 	[inv setSelector: selector];
 	FOREACHI(args, object)
 	{
-		[inv setArgument: &object atIndex: i];
+		[inv setArgument: (void*)&object atIndex: i];
 		i++;
 	}
 

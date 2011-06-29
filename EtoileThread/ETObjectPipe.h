@@ -14,30 +14,7 @@
  * The intended use for this is to allow a small set of buffers to be recycled
  * between a cooperating pair of filters.  
  */
-@interface ETObjectPipe : NSObject {
-	/** The ring buffer. */
-	id *queue;
-	/** Producer free-running counter for requests. */
-	uint32_t requestProducer;
-	/** Consumer free-running counter for requests. */
-	uint32_t requestConsumer;
-	/** Producer free-running counter for replies. */
-	uint32_t replyProducer;
-	/** Consumer free-running counter for replies. */
-	uint32_t replyConsumer;
-	/** 
-	 * Condition variable used to signal a transition from locked to lockless
-	 * mode for requests.
-	 */
-	NSCondition *requestCondition;
-	/** 
-	 * Condition variable used to signal a transition from locked to lockless
-	 * mode for replies.
-	 */
-	NSCondition *replyCondition;
-	/** Flag used to interrupt the object in locked mode */
-	volatile BOOL disconnect;
-}
+@interface ETObjectPipe : NSObject
 /**
  * Disconnects the pipe.  This prevents either end from blocking waiting for
  * data that will never arrive.  There is no mechanism for reconnecting a

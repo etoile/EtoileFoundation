@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ETEntityDescription.h"
+#import "ETPackageDescription.h"
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
 #import "ETPropertyDescription.h"
@@ -379,7 +380,12 @@
 	return self;
 }
 
-DEALLOC(DESTROY(_properties); DESTROY(_description);)
+- (void)dealloc
+{
+	[_properties release];
+	[_description release];
+	[super dealloc];
+}
 
 /* Property-value coding */
 

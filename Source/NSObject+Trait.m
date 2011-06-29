@@ -177,7 +177,7 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 	NSMutableDictionary *overridenMethods;
 }
 
-@property (retain, nonatomic) Class trait;
+@property (assign, nonatomic) Class trait;
 @property (retain, nonatomic) NSSet *excludedMethodNames;
 @property (retain, nonatomic) NSDictionary *aliasedMethodNames;
 @property (readonly, nonatomic) NSMutableSet *skippedMethodNames;
@@ -389,7 +389,7 @@ static void applyTrait(Class class, ETTraitApplication *aTraitApplication)
 			if ([overridenMethodNames containsObject: methodName])
 			{
 				Method method = class_getInstanceMethod(class, method_getName(methods[i]));
-				NSValue *imp = [NSValue valueWithPointer: (id)method_getImplementation(method)];
+				NSValue *imp = [NSValue valueWithPointer: (void*)method_getImplementation(method)];
 				[[aTraitApplication overridenMethods] setObject: imp 
 				                                         forKey: methodName];
 

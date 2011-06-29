@@ -20,22 +20,6 @@
 			method_getImplementation(*m), method_getTypeEncoding(*m));
 	}
 }
-- (id)copyWithZone: (NSZone*)aZone
-{
-	return Block_copy(self);
-}
-- (id)copy
-{
-	return Block_copy(self);
-}
-- (id)retain
-{
-	return Block_copy(self);
-}
-- (void)release
-{
-	Block_release(self);
-}
 
 // Define __has_feature() for compilers that don't support it.
 #ifndef __has_feature

@@ -48,7 +48,7 @@ be deprecated in the future. */
 
 	if (numberOfClasses > 0)
 	{
-		Class *allClasses = malloc(sizeof(Class) * numberOfClasses);
+		Class *allClasses = (Class*)malloc(sizeof(Class) * numberOfClasses);
 		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
 		for (int i = 0; i < numberOfClasses; i++)
 		{
@@ -77,7 +77,7 @@ The returned array doesn't include the receiver class. */
 	 
 	if (numberOfClasses > 0)
 	{
-		Class *allClasses = malloc(sizeof(Class) * numberOfClasses);
+		Class *allClasses = (Class*)malloc(sizeof(Class) * numberOfClasses);
 		numberOfClasses = objc_getClassList(allClasses, numberOfClasses);
 		for (int i = 0; i < numberOfClasses; i++)
 		{

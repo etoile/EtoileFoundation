@@ -23,7 +23,6 @@ EtoileThread_OBJCFLAGS += -std=c99
 
 EtoileThread_OBJC_FILES = \
 	ETObjectPipe.m \
-	ETThread.m \
 	ETThreadProxyReturn.m \
 	ETThreadedObject.m \
 	NSObject+Threaded.m \

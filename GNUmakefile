@@ -106,7 +106,6 @@ EtoileFoundation_HEADER_FILES = \
 	NSObject+Etoile.h \
 	NSObject+HOM.h \
 	NSObject+Model.h \
-	NSObject+Prototypes.h \
 	NSObject+Trait.h \
 	NSString+Etoile.h \
 	NSURL+Etoile.h \
@@ -135,7 +134,6 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETClassMirror.m \
 	Source/ETCollection.m \
 	Source/ETCollection+HOM.m \
-	Source/ETException.m \
 	Source/ETGetOptionsDictionary.m \
 	Source/ETHistory.m \
 	Source/ETInstanceVariableMirror.m \
@@ -160,7 +158,6 @@ EtoileFoundation_OBJC_FILES = \
 	Source/NSObject+Etoile.m \
 	Source/NSObject+HOM.m \
 	Source/NSObject+Model.m \
-	Source/NSObject+Prototypes.m \
 	Source/NSObject+Trait.m \
 	Source/NSString+Etoile.m \
 	Source/NSURL+Etoile.m \

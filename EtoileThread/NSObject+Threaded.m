@@ -32,60 +32,15 @@
  */
 
 #import "NSObject+Threaded.h"
-#import "ETThread.h"
 #import "ETThreadedObject.h"
 #import "ETThreadProxyReturn.h"
-
-struct ETThreadedInvocationInitialiser
-{
-	NSInvocation  *invocation;
-	ETThreadProxyReturn *retVal;
-};
-
-void * threadedInvocationTrampoline(void *initialiser)
-{
-	struct ETThreadedInvocationInitialiser *init = initialiser;
-	id pool = [[NSAutoreleasePool alloc] init];
-	BOOL hadException = NO;
-
-	@try
-	{
-		[init->invocation invoke];
-	}
-	@catch(NSException* exception)
-	{
-		/*
-		 * If the invocation did cause an exception, we catch it and transfer it
-		 * to the proxy.
-		 */
-		[init->retVal setProxyException: exception];
-		hadException = YES;
-	}
-	@finally
-	{
-	}
-
-	id retVal;
-	if (NO == hadException)
-	{
-	  [init->invocation getReturnValue:&retVal];
-	  [init->retVal setProxyObject:retVal];
-	}
-	[init->invocation release];
-	[init->retVal release];
-
-	free(init);
-	[pool release];
-
-	return NULL;
-}
 
 @implementation NSObject (Threaded)
 
 + (id) threadedNew
 {
 	id proxy = [[ETThreadedObject alloc] initWithClass: [self class]];
-	[ETThread detachNewThreadSelector: @selector(runloop:)
+	[NSThread detachNewThreadSelector: @selector(runloop:)
 	                         toTarget: proxy
 	                       withObject: nil];
     return proxy;
@@ -94,7 +49,7 @@ void * threadedInvocationTrampoline(void *initialiser)
 - (id) inNewThread
 {
 	id proxy = [[[ETThreadedObject alloc] initWithObject: self] autorelease];
-	[ETThread detachNewThreadSelector: @selector(runloop:)
+	[NSThread detachNewThreadSelector: @selector(runloop:)
 	                         toTarget: [[proxy retain] autorelease]
 	                       withObject: nil];
     return proxy;

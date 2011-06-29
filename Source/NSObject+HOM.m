@@ -35,7 +35,11 @@
 	return self;
 }
 
-DEALLOC(DESTROY(object))
+- (void)dealloc
+{
+	[object release];
+	[super dealloc];
+}
 
 - (BOOL) respondsToSelector: (SEL)aSelector
 {

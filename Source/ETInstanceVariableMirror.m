@@ -47,7 +47,11 @@
 	                                           ownerMirror: aMirror] autorelease];
 }
 
-DEALLOC(DESTROY(_ownerMirror))
+- (void)dealloc
+{
+	[_ownerMirror release];
+	[super dealloc];
+}
 
 - (NSString *) name
 {

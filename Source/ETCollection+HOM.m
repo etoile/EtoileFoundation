@@ -128,13 +128,13 @@ typedef struct
 // needs.
 typedef struct
 {
-	id<ETCollection> source;
-	id<ETCollectionMutation> target;
-	NSMutableArray *alreadyMapped;
-	id mapInfo;
+	__unsafe_unretained id<ETCollection> source;
+	__unsafe_unretained id<ETCollectionMutation> target;
+	__unsafe_unretained NSMutableArray *alreadyMapped;
+	__unsafe_unretained id mapInfo;
 	IMP elementHandler;
 	SEL handlerSelector;
-	NSNull *theNull;
+	__unsafe_unretained NSNull *theNull;
 	NSUInteger objIndex;
 	BOOL modifiesSelf;
 } ETMapContext;
@@ -150,7 +150,12 @@ typedef struct
 	return self;
 }
 
-DEALLOC([collection release]; [contents release];);
+- (void)dealloc
+{
+	[collection release];
+	[contents release];
+	[super dealloc];
+}
 
 - (id)forwardingTargetForSelector: (SEL)aSelector
 {
@@ -420,10 +425,10 @@ static BOOL recursiveFilterWithInvocation(NSInvocation *inv, // The invocation, 
  * and the corresponding proxies.
  */
 static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
-                                      id<ETCollectionObject> *aCollection,
+                                const id<ETCollectionObject> *aCollection,
                                                      id blockOrInvocation,
                                                             BOOL useBlock,
-                  id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
+            const id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
                                                        BOOL isArrayTarget)
 {
 	if ([*aCollection isEmpty])
@@ -431,7 +436,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 		return;
 	}
 
-	BOOL modifiesSelf = ((id*)aCollection == (id*)aTarget);
+	BOOL modifiesSelf = ((void*)aCollection == (void*)aTarget);
 	id<NSObject,ETCollection> theCollection = *aCollection;
 	id<NSObject,ETCollection,ETCollectionMutation> theTarget = *aTarget;
 	NSInvocation *anInvocation = nil;
@@ -588,10 +593,10 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 }
 
 static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
-                               id<ETCollectionObject> *aCollection,
+                         const id<ETCollectionObject> *aCollection,
                                               id blockOrInvocation,
                                                      BOOL useBlock,
-                            id<ETMutableCollectionObject> *aTarget)
+                       const id<ETMutableCollectionObject> *aTarget)
 {
 	ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(aCollection,
 	                                                       blockOrInvocation,
@@ -601,7 +606,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
 }
 
 static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInvert(
-                                             id<ETCollectionObject>*aCollection,
+                                       const id<ETCollectionObject>*aCollection,
                                                            id blockOrInvocation,
                                                                   BOOL useBlock,
                                                                 id initialValue,
@@ -680,11 +685,11 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 }
 
 static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
-                                            id<ETCollectionObject> *aCollection,
+                                      const id<ETCollectionObject> *aCollection,
                                                            id blockOrInvocation,
                                                                   BOOL useBlock,
-                                          id<ETMutableCollectionObject> *target,
-                                               id<ETCollectionObject> *original,
+                                    const id<ETMutableCollectionObject> *target,
+                                         const id<ETCollectionObject> *original,
                                                                     BOOL invert)
 {
 	if ([*aCollection isEmpty])
@@ -798,10 +803,10 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 }
 
 static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndInvert(
-                                            id<ETCollectionObject> *aCollection,
+                                      const id<ETCollectionObject> *aCollection,
                                                           id  blockOrInvocation,
                                                                   BOOL useBlock,
-                                          id<ETMutableCollectionObject> *target,
+                                    const id<ETMutableCollectionObject> *target,
                                                                     BOOL invert)
 {
 	ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
@@ -814,7 +819,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndInvert(
 }
 
 static inline id ETHOMFilteredCollectionWithBlockOrInvocationAndInvert(
-                                            id<ETCollectionObject> *aCollection,
+                                      const id<ETCollectionObject> *aCollection,
                                                            id blockOrInvocation,
                                                                   BOOL useBlock,
                                                                     BOOL invert)
@@ -829,7 +834,7 @@ static inline id ETHOMFilteredCollectionWithBlockOrInvocationAndInvert(
 }
 
 static inline void ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(
-                                     id<ETMutableCollectionObject> *aCollection,
+                               const id<ETMutableCollectionObject> *aCollection,
                                                            id blockOrInvocation,
                                                                   BOOL useBlock,
                                                                     BOOL invert)
@@ -845,18 +850,18 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(
 
 
 static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
-                          id<NSObject,ETCollection> *firstCollection,
-                         id<NSObject,ETCollection> *secondCollection,
+                    const id<NSObject,ETCollection> *firstCollection,
+                   const id<NSObject,ETCollection> *secondCollection,
                                                 id blockOrInvocation,
                                                        BOOL useBlock,
-              id<NSObject,ETCollection,ETCollectionMutation> *target)
+        const id<NSObject,ETCollection,ETCollectionMutation> *target)
 {
 	if ([*firstCollection isEmpty])
 	{
 		return;
 	}
 
-	BOOL modifiesSelf = ((id*)firstCollection == (id*)target);
+	BOOL modifiesSelf = ((void*)firstCollection == (void*)target);
 	NSInvocation *invocation = nil;
 	SEL selector = NULL;
 	NSArray *contentsFirst = [(NSObject*)*firstCollection collectionArray];
@@ -1010,9 +1015,11 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	return self;
 }
 
-DEALLOC(
+- (void)dealloc
+{
 	[collection release];
-)
+	[super dealloc];
+}
 
 - (BOOL)respondsToSelector: (SEL)aSelector
 {
@@ -1120,7 +1127,7 @@ not -[super methodSignatureForSelector:]. */
 	Class mutableClass = [[collection class] mutableClass];
 	id<ETMutableCollectionObject> mappedCollection = [[[mutableClass alloc] init] autorelease];
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
-	                                    (id<ETCollectionObject>*) &collection,
+	                              (const id<ETCollectionObject>*) &collection,
 	                                                             anInvocation,
 	                                                                       NO,
 	                                                        &mappedCollection);
@@ -1133,10 +1140,10 @@ not -[super methodSignatureForSelector:]. */
 {
 
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
-	                                    (id<ETCollectionObject>*)&collection,
+	                              (const id<ETCollectionObject>*)&collection,
 	                                                            anInvocation,
 	                                                                      NO,
-	                             (id<ETMutableCollectionObject>*)&collection);
+	                       (const id<ETMutableCollectionObject>*)&collection);
 	//Actually, we don't care for the return value.
 	[anInvocation setReturnValue:&collection];
 }
@@ -1263,11 +1270,11 @@ not -[super methodSignatureForSelector:]. */
 	if (0 == strcmp(@encode(BOOL), returnType))
 	{
 		ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert(
-		                                                       (id*)&collection,
+		                                                            &collection,
 		                                                           anInvocation,
 		                                                                     NO,
-		                                               (id*)&originalCollection,
-		                                               (id*)&originalCollection,
+		                                                    &originalCollection,
+		                                                    &originalCollection,
 		                                                                 invert);
 		BOOL result = NO;
 		[anInvocation setReturnValue: &result];
@@ -1276,11 +1283,11 @@ not -[super methodSignatureForSelector:]. */
 	  || (0 == strcmp(@encode(Class), returnType)))
 	{
 		id<ETMutableCollectionObject> nextCollection = [NSMutableArray array];
-		ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray((id*)&collection,
-		                                                          anInvocation,
-		                                                                    NO,
-		                       (id<ETMutableCollectionObject>*)&nextCollection,
-		                                                                  YES);
+		ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(&collection,
+		                                                      anInvocation,
+		                                                                NO,
+		             (const id<ETMutableCollectionObject>*)&nextCollection,
+		                                                              YES);
 		id nextProxy = [[[ETCollectionMutationFilterProxy alloc]
 		                              initWithCollection: nextCollection
 		                                     andOriginal: originalCollection
@@ -1302,9 +1309,11 @@ not -[super methodSignatureForSelector:]. */
 	}
 }
 
-DEALLOC(
+- (void)dealloc
+{
 	[originalCollection release];
-)
+	[super dealloc];
+}
 @end
 
 @implementation ETCollectionZipProxy
@@ -1331,9 +1340,10 @@ DEALLOC(
 	[anInvocation setReturnValue: &result];
 }
 
-DEALLOC(
+- (void)dealloc
+{
 	[secondCollection release];
-)
+}
 @end
 
 @implementation ETCollectionMutationZipProxy
@@ -1343,7 +1353,7 @@ DEALLOC(
 	                                            &secondCollection,
 	                                                 anInvocation,
 	                                                           NO,
-	                                             (id*)&collection);
+	                                       (const id*)&collection);
 	[anInvocation setReturnValue: &collection];
 }
 @end

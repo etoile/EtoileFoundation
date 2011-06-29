@@ -67,7 +67,7 @@
 	unsigned int classesCount = objc_getClassList(NULL, 0);
 	if (classesCount > 0)
 	{
-		Class *allClasses = malloc(sizeof(Class) * classesCount);
+		Class *allClasses = (Class*)malloc(sizeof(Class) * classesCount);
 		classesCount = objc_getClassList(allClasses, classesCount);
 		for (unsigned int i=0; i<classesCount; i++)
 		{
@@ -87,7 +87,7 @@
 	unsigned int classesCount = objc_getClassList(NULL, 0);
 	if (classesCount > 0)
 	{
-		Class *allClasses = malloc(sizeof(Class) * classesCount);
+		Class *allClasses = (Class*)malloc(sizeof(Class) * classesCount);
 		classesCount = objc_getClassList(allClasses, classesCount);
 		for (unsigned int i=0; i<classesCount; i++)
 		{
@@ -113,7 +113,7 @@ which the returned protocols conform to themselves. */
 - (NSArray *) adoptedProtocolMirrors
 {
 	unsigned int protocolsCount;
-	Protocol **protocols = class_copyProtocolList(_class, &protocolsCount);
+	Protocol *__unsafe_unretained*protocols = class_copyProtocolList(_class, &protocolsCount);
 	NSMutableArray *mirrors = [NSMutableArray arrayWithCapacity: protocolsCount];
 	for (int i=0; i<protocolsCount; i++)
 	{

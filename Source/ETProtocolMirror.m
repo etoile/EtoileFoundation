@@ -55,7 +55,7 @@
 - (NSArray *) ancestorProtocolMirrors
 {
 	unsigned int protocolsCount;
-	Protocol **protocols = protocol_copyProtocolList(_protocol, &protocolsCount);
+	Protocol *__unsafe_unretained*protocols = protocol_copyProtocolList(_protocol, &protocolsCount);
 	NSMutableArray *mirrors = [NSMutableArray arrayWithCapacity: protocolsCount];
 	for (int i=0; i<protocolsCount; i++)
 	{

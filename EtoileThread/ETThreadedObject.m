@@ -165,6 +165,12 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 - (void) _storeRetval;
 @end
 
+@interface ETThreadedObject ()
+{
+	NSConditionLock *returnConcrete;
+}
+@end
+
 
 @implementation ETThreadedObject
 // Remove this when GNUstep is fixed.
@@ -182,7 +188,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 - (id) init
 {
 	return [self initWithObject: nil];
-	return self;
 }
 
 - (id) initWithClass: (Class)aClass
@@ -195,6 +200,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	SUPERINIT;
 	pthread_cond_init(&conditionVariable, NULL);
 	pthread_mutex_init(&mutex, NULL);
+	returnConcrete = [NSConditionLock new];
 	// Retained in the creating thread.
 	object = anObject;
 	return self;
@@ -225,6 +231,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	pthread_mutex_destroy(&mutex);
 
 	[object release];
+	[returnConcrete release];
 
 	[super dealloc];
 }
@@ -262,6 +269,11 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 			*/
 			//[retVal release];
 		}
+		else
+		{
+			[returnConcrete lock];
+			[returnConcrete unlockWithCondition: 1];
+		}
 
 		[anInvocation setTarget: nil];
 		[anInvocation release];
@@ -284,7 +296,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 - (void) forwardInvocation: (NSInvocation *)anInvocation
 {
 	BOOL concreteType = NO;
-	int rc = [anInvocation retainCount];
 
 	if (![anInvocation argumentsRetained])
 	{
@@ -333,11 +344,8 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 
 	if (concreteType)
 	{
-		while ([anInvocation retainCount] > rc) 
-		{
-			// do nothing... just poll...
-			sched_yield();
-		}
+		[returnConcrete lockWhenCondition: 1];
+		[returnConcrete unlockWithCondition: 0];
 	}
 }
 

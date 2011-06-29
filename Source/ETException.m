@@ -3,7 +3,7 @@
 
 void pophandler(void* exception)
 {
-	[NSException popHandlerForException:*(NSString**)exception];
+	[NSException popHandlerForException: *(NSString**)exception];
 }
 
 IMP nsexception_raise;

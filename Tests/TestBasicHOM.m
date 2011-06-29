@@ -26,7 +26,7 @@
 	id otherObject = AUTORELEASE([[NSObject alloc] init]);
 
 	UKObjectsEqual([self bark], [[self ifResponds] bark]);
-	UKNil([[otherObject ifResponds] bark]);
+	UKNil((__bridge void*)[[otherObject ifResponds] bark]);
 
 	/* NSProxy implements -description and -class but -className is only 
 	   implemented on NSObject (Cocoa scripting addition). */

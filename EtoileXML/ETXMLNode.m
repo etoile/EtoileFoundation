@@ -61,13 +61,13 @@
 
 - (NSArray *) allObjects
 {
-	NSMutableArray * elementsLeft = AUTORELEASED(NSMutableArray);
+	NSMutableArray * elementsLeft = [NSMutableArray new];
 	ETXMLNode * nextObject;
 	while((nextObject = [self nextObject]) != nil)
 	{
 		[elementsLeft addObject:nextObject];
 	}
-	return elementsLeft;
+	return [elementsLeft autorelease];
 }
 
 - (id) nextObject

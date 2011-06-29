@@ -1,6 +1,7 @@
 #import "../Headers/Macros.h"
 #import "ETObjectPipe.h"
 
+
 /**
  * The size of the ring buffer.  Defined statically so the masking is easy.  We
  * could make this dynamic in future though...
@@ -125,11 +126,37 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	__sync_fetch_and_add(&direction ## Consumer, 1);\
 } while(0)
 
+@interface ETObjectPipe ()
+{
+	/** The ring buffer. */
+	id queue[RING_BUFFER_SIZE];
+	/** Producer free-running counter for requests. */
+	uint32_t requestProducer;
+	/** Consumer free-running counter for requests. */
+	uint32_t requestConsumer;
+	/** Producer free-running counter for replies. */
+	uint32_t replyProducer;
+	/** Consumer free-running counter for replies. */
+	uint32_t replyConsumer;
+	/** 
+	 * Condition variable used to signal a transition from locked to lockless
+	 * mode for requests.
+	 */
+	NSCondition *requestCondition;
+	/** 
+	 * Condition variable used to signal a transition from locked to lockless
+	 * mode for replies.
+	 */
+	NSCondition *replyCondition;
+	/** Flag used to interrupt the object in locked mode */
+	volatile BOOL disconnect;
+}
+@end
+
 @implementation ETObjectPipe
 - (id)init
 {
 	SUPERINIT;
-	queue = calloc(sizeof(id), RING_BUFFER_SIZE);
 	requestCondition  = [NSCondition new];
 	replyCondition  = [NSCondition new];
 	if (NULL == queue || nil == replyCondition || nil == requestCondition)
@@ -145,7 +172,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	{
 		[queue[i] release];
 	}
-	free(queue);
 	[requestCondition release];
 	[replyCondition release];
 	[super dealloc];

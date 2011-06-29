@@ -13,6 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ETPropertyDescription.h"
+#import "ETPackageDescription.h"
 #import "ETCollection.h"
 #import "ETEntityDescription.h"
 #import "ETReflection.h"

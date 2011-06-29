@@ -81,7 +81,7 @@
 {
 	id<ETMutableCollectionObject> mappedCollection = [[[[self class] mutableClass] alloc] init];
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
-	                                            (id<ETCollectionObject>*) &self,
+	                                       (const id<ETCollectionObject>*) &self,
 	                                                                      aBlock,
 	                                                                         YES,
 	                                                          &mappedCollection);

@@ -64,10 +64,10 @@
 - (void)mapWithBlock: (id)aBlock
 {
 	ETHOMMapCollectionWithBlockOrInvocationToTarget(
-	                                         (id<ETCollectionObject>*) &self,
+	                                  (const id<ETCollectionObject>*) &self,
 	                                                                  aBlock,
 	                                                                     YES,
-	                                 (id<ETMutableCollectionObject>*) &self);
+	                            (const id<ETMutableCollectionObject>*) &self);
 }
 
 - (void)zipWithCollection: (id<NSObject,ETCollection>)aCollection

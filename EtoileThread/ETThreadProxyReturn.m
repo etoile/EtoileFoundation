@@ -32,12 +32,16 @@
  */
 
 #import "ETThreadProxyReturn.h"
-#define INVALID_OBJECT ((id)-1)
+@interface ETThreadProxyReturn ()
+{
+	BOOL replyReceived;
+}
+@end
+
 @implementation ETThreadProxyReturn
 
 - (id) init
 {
-	object = INVALID_OBJECT;
 	// Retain self so that the proxy isn't dealloc'd until after the real
 	// object is set.
 	[self retain];
@@ -59,6 +63,7 @@
 {
 	pthread_mutex_lock(&mutex);
 	object = [anObject retain];
+	replyReceived = YES;
 	pthread_cond_signal(&conditionVariable);
 	pthread_mutex_unlock(&mutex);
 	[self release];
@@ -74,10 +79,10 @@
 }
 - (id) value
 {
-	if (INVALID_OBJECT == object)
+	if (!replyReceived)
 	{
 		pthread_mutex_lock(&mutex);
-		if ((INVALID_OBJECT == object) && (nil == exception))
+		if (!replyReceived && (nil == exception))
 		{
 			pthread_cond_wait(&conditionVariable, &mutex);
 		}
@@ -100,7 +105,7 @@
 {
 	/* If we haven't yet got the object, then block until we have, otherwise do
 	   this quickly */
-	if (INVALID_OBJECT == object)
+	if (!replyReceived)
 	{
 		[self value];
 	}
@@ -109,7 +114,7 @@
 
 - (void) forwardInvocation: (NSInvocation *)anInvocation
 {
-	if (INVALID_OBJECT == object)
+	if (!replyReceived)
 	{
 		[self value];
 	}
