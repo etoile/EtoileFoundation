@@ -19,12 +19,13 @@ EtoileFoundation is the core framework for all Etoile projects, providing numero
 - UUID
 - convenient macros such as FOREACH
 - dynamic C array
-- prototypes (if you use the GNUstep libobjc2 which is required to do a full Etoile build)
 - metamodel
 - UTI
 - generic history model
 - socket
 - stack trace recording
+
+**Note:**  Prototypes and restartable exceptions have been temporarily removed in the current version.
 
 Two sub-frameworks are bundled with it: 
 
