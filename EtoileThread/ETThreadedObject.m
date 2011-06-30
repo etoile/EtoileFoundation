@@ -33,7 +33,7 @@
 
 #import "ETThreadedObject.h"
 #import "ETThreadProxyReturn.h"
-#import "Macros.h"
+#import "../Headers/Macros.h"
 #include <sched.h>
 
 /**
