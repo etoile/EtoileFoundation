@@ -63,3 +63,9 @@
 #    define __unsafe_unretained
 #  endif
 #endif
+
+#ifndef __bridge
+#  if !__has_feature(objc_arc)
+#    define __bridge
+#  endif
+#endif
