@@ -66,10 +66,6 @@ EtoileFoundation_CPPFLAGS += -D_GNU_SOURCE # For Linux
 EtoileFoundation_OBJCFLAGS += -std=c99 
 EtoileFoundation_CFLAGS += -std=c99 $(SSL_CFLAGS)
 
-ifeq ($(CC), clang)
-ADDITIONAL_OBJCFLAGS += -fobjc-nonfragile-abi -fblocks
-endif
-
 EtoileFoundation_HEADER_FILES_DIR = Headers
 
 EtoileFoundation_HEADER_FILES = \
