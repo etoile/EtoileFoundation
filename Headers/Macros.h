@@ -6,6 +6,7 @@
  */
 
 #import <Foundation/NSAutoreleasePool.h>
+#import <EtoileFoundation/EtoileCompatibility.h>
 
 /**
  * Simple macro for safely initialising the superclass.
