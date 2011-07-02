@@ -1124,7 +1124,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = EtoileXML;
 			};
 			name = Debug;
@@ -1134,7 +1134,6 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				PRODUCT_NAME = EtoileXML;
 				ZERO_LINK = NO;
@@ -1160,7 +1159,7 @@
 					/usr/GNUstep/System/Library/Headers/,
 				);
 				INFOPLIST_FILE = "../EtoileFoundation/EtoileFoundation-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@rpath";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1175,15 +1174,9 @@
 		603647AF0E409245003377E0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
-				HEADER_SEARCH_PATHS = (
-					$SRCROOT,
-					/usr/GNUstep/System/Library/Headers/,
-				);
+				HEADER_SEARCH_PATHS = $SRCROOT;
 				INFOPLIST_FILE = "../EtoileFoundation/EtoileFoundation-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1230,10 +1223,8 @@
 		609B66D60FEE80CE0007F842 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
-				INFOPLIST_FILE = "/Users/qmathe/reps/trunkEtoile/Etoile/Frameworks/EtoileUI/Tests/EtoileUITests-Info copy.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = TestEtoileFoundation;
 				ZERO_LINK = NO;
@@ -1259,8 +1250,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CURRENT_PROJECT_VERSION = 0.5;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				SDKROOT = macosx10.5;
