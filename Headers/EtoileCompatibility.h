@@ -13,59 +13,71 @@
 
 #define __ETOILE__
 
+/* Logging Hacks */
+
 // FIXME: Temporary hack until ETLog class is available
 #define ETLog NSLog
 #ifndef GNUSTEP
 /* NSDebugLog and similar macros are not available with Cocoa, please avoid to 
    use them. */
-#define NSDebugLog NSLog
-#endif // GNUSTEP
-
+#  define NSDebugLog NSLog
+#endif
 
 /* GCC version test code by Kazunobu Kuriyama */
+
 #ifndef GCC_VERSION
-#if __GNUC__ > 3
-#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCH_LEVEL__)
-#else
-#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100)
+#  if __GNUC__ > 3
+#    define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCH_LEVEL__)
+#  else
+#    define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100)
+#  endif
 #endif
-#endif // GCC_VERSION
+
+/* How to get GNUstep.h */
 
 #ifdef GNUSTEP
-#import <GNUstepBase/GNUstep.h>
+#  import <GNUstepBase/GNUstep.h>
 #else
-#import <EtoileFoundation/GNUstep.h>
-#endif // GNUstep
-
-
-/* ARC macros taken from Headers/GNUstepBase/Preface.h.in */
-
-// Strong has different semantics in GC and ARC modes, so we need to have a
-// macro that picks the correct one.
-#if __OBJC_GC__
-#  define GS_GC_STRONG __strong
-#else
-#  define GS_GC_STRONG
+#  import <EtoileFoundation/GNUstep.h>
 #endif
 
-#if !__has_feature(objc_arc)
-#  if __OBJC_GC__
-#    define __strong __attribute__((objc_gc(strong)))
-#    define __weak __attribute__((objc_gc(weak)))
-#  else
-#    define __strong 
-#    define __weak 
+/*  Compatibility with non-clang compilers */
+
+#ifndef __has_feature
+#	define __has_feature(x) 0
+#endif
+
+/* ARC macros taken from Headers/GNUstepBase/Preface.h.in
+   Note: Apple GCC + GC supports __weak and __strong qualifiers */
+
+#ifndef __weak
+#  if !defined(__clang__) || !__has_feature(objc_arc)
+#    if __OBJC_GC__
+#      define __weak __attribute__((objc_gc(weak)))
+#    elif defined(GNUSTEP)
+#      define __weak 
+#    endif
+#  endif
+#endif
+
+#ifndef __strong
+#  if !defined(__clang__) || !__has_feature(objc_arc)
+#    if __OBJC_GC__
+#      define __strong __attribute__((objc_gc(strong)))
+#    elif defined(GNUSTEP)
+#      define __strong 
+#    endif
 #  endif
 #endif
 
 #ifndef __unsafe_unretained
-#  if !__has_feature(objc_arc)
+#  if !defined(__clang__) || !__has_feature(objc_arc)
 #    define __unsafe_unretained
 #  endif
 #endif
 
 #ifndef __bridge
-#  if !__has_feature(objc_arc)
+#  if !defined(__clang__) || !__has_feature(objc_arc)
 #    define __bridge
 #  endif
 #endif

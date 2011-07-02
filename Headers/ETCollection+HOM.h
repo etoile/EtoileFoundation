@@ -33,12 +33,8 @@
 	THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Compatibility with non-clang compilers:
-#ifndef __has_feature
-#	define __has_feature(x) 0
-#endif
-
 #import <Foundation/Foundation.h>
+#import <EtoileFoundation/EtoileCompatibility.h>
 
 /** @group High Order Messaging and Blocks */
 @interface NSObject (ETEachHOM)
