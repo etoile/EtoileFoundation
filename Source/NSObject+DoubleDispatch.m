@@ -38,10 +38,10 @@
 	                          withObject: object 
 	                              result: performed];
 
-	if (*performed || [typeName hasPrefix: [object typePrefix]] == NO)
+	if (*performed || [typeName hasPrefix: [[object class] typePrefix]] == NO)
 		return item;
 
-	typeName = [typeName substringFromIndex: [[object typePrefix] length]];
+	typeName = [typeName substringFromIndex: [[[object class] typePrefix] length]];
 
 	return [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
 	                       withObject: object 
@@ -56,10 +56,10 @@
 	if ([self respondsToSelector: selector])
 		return YES;
 
-	if ([typeName hasPrefix: [object typePrefix]] == NO)
+	if ([typeName hasPrefix: [[object class] typePrefix]] == NO)
 		return NO;
 
-	typeName = [typeName substringFromIndex: [[object typePrefix] length]];
+	typeName = [typeName substringFromIndex: [[[object class] typePrefix] length]];
 	selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
 
 	return [self respondsToSelector: selector];

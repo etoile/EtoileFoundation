@@ -30,7 +30,7 @@ Here is a visitor example:
 
 @implementation ETView
 
-- (NSString *) typePrefix
++ (NSString *) typePrefix
 {
 	return @"ET";
 }
@@ -90,7 +90,7 @@ the receiver. If the receiver doesn't respond to <em>visitNSView:</em>, then
 If the receiver still doesn't respond the last built selector, then it fails 
 silently and returns nil.<br />
 Class name prefix are trimmed based on the value returned by 
--[NSObject(Etoile) typePrefix]. You can override this last method to return 
++[NSObject(Etoile) typePrefix]. You can override this last method to return 
 a custom prefix, by default it returns <em>NS</em>.
 
 If you want to use another method name prefix than <em>visit</em> (e.g. to build 
