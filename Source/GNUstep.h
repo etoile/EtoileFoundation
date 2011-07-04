@@ -26,53 +26,48 @@
 
 #ifndef GNUSTEP
 
-#define AUTORELEASE(object)      [object autorelease]
-#define TEST_AUTORELEASE(object) ({ if (object) [object autorelease]; })
+#define	RETAIN(object)		(id)[object retain]
+#define	RELEASE(object)		[object release]
+#define	AUTORELEASE(object)	(id)[object autorelease]
 
-#define RELEASE(object)          [object release]
-#define TEST_RELEASE(object)     ({ if (object) [object release]; })
+#define	TEST_RETAIN(object)	({\
+id __object = (id)(object); (__object != nil) ? [__object retain] : nil; })
 
-#define RETAIN(object)           [object retain]
-#define TEST_RETAIN(object)      ({ if (object) [object retain]; })
+#define	TEST_RELEASE(object)	({\
+id __object = (id)(object); if (__object != nil) [__object release]; })
 
-#define ASSIGN(object,value)     ({\
-     id __value = (id)(value); \
-     id __object = (id)(object); \
-     if (__value != __object) \
-       { \
-         if (__value != nil) \
-           { \
-             [__value retain]; \
-           } \
-         object = __value; \
-         if (__object != nil) \
-           { \
-             [__object release]; \
-           } \
-       } \
-   })
+#define	TEST_AUTORELEASE(object)	({\
+id __object = (id)(object); (__object != nil) ? [__object autorelease] : nil; })
 
-#define ASSIGNCOPY(object,value) ASSIGN(object, [[value copy] autorelease]);
+#define	ASSIGN(object,value)	({\
+  id __object = (id)(object); \
+  object = [((id)value) retain]; \
+  [__object release]; \
+})
 
-#define DESTROY(object)          ({ \
-     if (object) \
-       { \
-         id __o = object; \
-         object = nil; \
-         [__o release]; \
-       } \
-   })
+#define	ASSIGNCOPY(object,value)	({\
+  id __object = (id)(object); \
+  object = [((id)value) copy];\
+  [__object release]; \
+})
+
+#define	DESTROY(object) 	({ \
+  id __o = object; \
+  object = nil; \
+  [__o release]; \
+})
 
 #define CREATE_AUTORELEASE_POOL(X) \
-NSAutoreleasePool *(X) = [NSAutoreleasePool new]
+  NSAutoreleasePool *(X) = [NSAutoreleasePool new]
 
-#define NSLocalizedString(key, comment) \
-  [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
+#define RECREATE_AUTORELEASE_POOL(X)  \
+  DESTROY(X);\
+  (X) = [NSAutoreleasePool new]
 
-#define _(X) NSLocalizedString (X, nil)
+#define _(X) NSLocalizedString (X, @"")
 #define __(X) X
 
-#define NSLocalizedStaticString(X, Y) X
+#define GSLocalizedStaticString(key, comment) key
 
 #endif /* GNUSTEP */
 
