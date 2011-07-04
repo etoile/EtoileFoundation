@@ -46,7 +46,7 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  * STACK_SCOPED Foo * foo = [[Foo alloc] init];
  * </example>
  */
-#if !defined(__OBJC_GC__)  && !defined(objc_arc)
+#if defined(__OBJC_GC__)  || __has_feature(objc_arc)
 #	define STACK_SCOPED
 #else
 #	define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
