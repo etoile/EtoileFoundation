@@ -1181,6 +1181,20 @@ not -[super methodSignatureForSelector:]. */
 }
 @end
 
+/* NSProxy has no methods to retrieve the method signatures e.g. 
+   -methodSignatureForSelector:, so -methodSignatureForEmptyCollection must 
+   invoke -primitiveMethodSignatureForSelector: on a class whose kind is 
+   NSObject to get a method signature. */
+@interface NSObject (PointerSizedProxyNull)
+- (uintptr_t)pointerSizedProxyNull;
+@end
+@implementation NSObject (PointerSizedProxyNull)
+- (uintptr_t)pointerSizedProxyNull
+{
+	return 0;
+}
+@end
+
 @implementation ETCollectionMutationFilterProxy
 - (id)initWithCollection: (id<ETCollectionObject>) aCollection
              andOriginal: (id<ETCollectionObject>) theOriginal
@@ -1256,12 +1270,7 @@ not -[super methodSignatureForSelector:]. */
 	 * its adress put into the BOOL return value. This secondary proxy would
 	 * never receive a message and the returned boolean would be random.
 	 */
-#ifdef GNUSTEP
 	return [self primitiveMethodSignatureForSelector: @selector(pointerSizedProxyNull)];
-#else
-	// FIXME: Remove this Mac OS X hack.
-	return [self primitiveMethodSignatureForSelector: @selector(isProxy)];
-#endif
 }
 
 - (void)forwardInvocation: (NSInvocation*)anInvocation
