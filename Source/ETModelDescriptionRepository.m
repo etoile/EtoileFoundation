@@ -347,6 +347,8 @@ same name). */
 		[self resolveAndAddEntityDescriptions: unresolvedEntityDescs];
 	[unresolvedPropertyDescs unionSet: collectedPropertyDescs];
 	[self resolveAndAddPropertyDescriptions: unresolvedPropertyDescs];
+
+	ASSIGN(_unresolvedDescriptions, [NSMutableSet set]);
 }
 
 - (void) checkConstraints: (NSMutableArray *)warnings
