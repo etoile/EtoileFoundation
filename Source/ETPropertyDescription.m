@@ -175,9 +175,8 @@
 		_opposite = RETAIN(opposite);
 		return;
 	}
-	// FIXME: what does it mean if opposite == self? 
-	//        FM3 seems to do this for the opposite property of FM3.Property
-	if (_isSettingOpposite || opposite == _opposite || opposite == self)
+
+	if (_isSettingOpposite || opposite == _opposite)
 	{
 		return;
 	}

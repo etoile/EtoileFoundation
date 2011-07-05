@@ -88,6 +88,11 @@ entity name in the returned string. */
 - (void) setMultivalued: (BOOL)isMultivalued;
 - (BOOL) isOrdered;
 - (void) setOrdered: (BOOL)isOrdered;
+
+/** Can be self, if the relationship is reflexive. For example, a "spouse" 
+property or a "cousins" property that belong to a "person" entity.<br />
+For reflexive relationships, one-to-one or many-to-many are the only valid 
+cardinality. */
 - (ETPropertyDescription *) opposite;
 - (void) setOpposite: (ETPropertyDescription *)opposite;
 - (ETEntityDescription *) owner;

@@ -240,7 +240,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 - (Class) classForEntityDescription: (ETEntityDescription*)anEntityDescription
 {
        Class cls = [_classesByEntityDescription objectForKey: anEntityDescription];
-       if (cls == nil && [anEntityDescription parent] != nil)
+       if (cls == Nil && [anEntityDescription parent] != nil)
        {
                cls = [self classForEntityDescription: [anEntityDescription parent]];
        }
