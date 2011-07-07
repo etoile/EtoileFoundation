@@ -77,7 +77,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	if (nil == mainRepo)
 	{
 		mainRepo = [[self alloc] init];
-		[mainRepo collectEntityDescriptionsFromClass: [ETModelElementDescription class]
+		[mainRepo collectEntityDescriptionsFromClass: [NSObject class]
 		                             excludedClasses: nil
 		                                  resolveNow: YES];
 	}
