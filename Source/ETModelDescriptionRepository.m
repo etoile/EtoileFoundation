@@ -110,7 +110,12 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	return A([ETCPrimitiveEntityDescription descriptionWithName: @"BOOL"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSUInteger"],
-		[ETCPrimitiveEntityDescription descriptionWithName: @"float"]);
+		[ETCPrimitiveEntityDescription descriptionWithName: @"float"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"NSPoint"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"NSSize"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"NSRect"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"NSRange"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"SEL"]);
 }
 
 - (void) setUpWithCPrimitives: (NSArray *)cPrimitives
