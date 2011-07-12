@@ -98,6 +98,7 @@ EtoileFoundation_HEADER_FILES = \
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
 	NSInvocation+Etoile.h \
+	NSMapTable+Etoile.h \
 	NSObject+DoubleDispatch.h \
 	NSObject+Etoile.h \
 	NSObject+HOM.h \
@@ -150,6 +151,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/NSIndexPath+Etoile.m \
 	Source/NSIndexSet+Etoile.m \
 	Source/NSInvocation+Etoile.m \
+	Source/NSMapTable+Etoile.m \
 	Source/NSObject+DoubleDispatch.m \
 	Source/NSObject+Etoile.m \
 	Source/NSObject+HOM.m \

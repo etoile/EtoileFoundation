@@ -138,6 +138,9 @@
 		60A221EC0FEFF8EF00952E11 /* NSObject+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A221EB0FEFF8EF00952E11 /* NSObject+HOM.m */; };
 		60A221ED0FEFF8EF00952E11 /* NSObject+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A221EB0FEFF8EF00952E11 /* NSObject+HOM.m */; };
 		60A222140FEFFC9100952E11 /* NSObject+HOM.h in Headers */ = {isa = PBXBuildFile; fileRef = 609B660C0FEE75C00007F842 /* NSObject+HOM.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60A549AC13CA133300261FDC /* NSMapTable+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 60A549AB13CA133300261FDC /* NSMapTable+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60A549AE13CA134700261FDC /* NSMapTable+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */; };
+		60A549AF13CA134700261FDC /* NSMapTable+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */; };
 		60B27D740FF7B51D0012BB42 /* TestETCollectionHOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B27D730FF7B51D0012BB42 /* TestETCollectionHOM.m */; };
 		60B27D760FF7B54F0012BB42 /* TestUTI.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B27D750FF7B54F0012BB42 /* TestUTI.m */; };
 		60B27D7F0FF7B56C0012BB42 /* ETCollection+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B27D7C0FF7B56C0012BB42 /* ETCollection+HOM.m */; };
@@ -308,6 +311,8 @@
 		609B66120FEE7CD10007F842 /* TestBasicHOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestBasicHOM.m; path = Tests/TestBasicHOM.m; sourceTree = "<group>"; };
 		609B66D70FEE80CE0007F842 /* TestEtoileFoundation.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestEtoileFoundation.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A221EB0FEFF8EF00952E11 /* NSObject+HOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+HOM.m"; path = "Source/NSObject+HOM.m"; sourceTree = "<group>"; };
+		60A549AB13CA133300261FDC /* NSMapTable+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMapTable+Etoile.h"; path = "Headers/NSMapTable+Etoile.h"; sourceTree = "<group>"; };
+		60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMapTable+Etoile.m"; path = "Source/NSMapTable+Etoile.m"; sourceTree = "<group>"; };
 		60B27D730FF7B51D0012BB42 /* TestETCollectionHOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestETCollectionHOM.m; path = Tests/TestETCollectionHOM.m; sourceTree = "<group>"; };
 		60B27D750FF7B54F0012BB42 /* TestUTI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUTI.m; path = Tests/TestUTI.m; sourceTree = "<group>"; };
 		60B27D7C0FF7B56C0012BB42 /* ETCollection+HOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ETCollection+HOM.m"; path = "Source/ETCollection+HOM.m"; sourceTree = "<group>"; };
@@ -657,6 +662,8 @@
 			children = (
 				603647CE0E4092EA003377E0 /* NSIndexSet+Etoile.h */,
 				6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */,
+				60A549AB13CA133300261FDC /* NSMapTable+Etoile.h */,
+				60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */,
 				603647BC0E4092EA003377E0 /* ETCollection.h */,
 				603647FC0E40931E003377E0 /* ETCollection.m */,
 				603647C40E4092EA003377E0 /* ETPropertyValueCoding.h */,
@@ -797,6 +804,7 @@
 				603647F30E4092EA003377E0 /* NSString+Etoile.h in Headers */,
 				603647F40E4092EA003377E0 /* NSURL+Etoile.h in Headers */,
 				792BF98E124FBD0B0040BF68 /* runtime.h in Headers */,
+				60A549AC13CA133300261FDC /* NSMapTable+Etoile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,6 +1037,7 @@
 				601909E213A61AF100A0F639 /* NSObject+Trait.m in Sources */,
 				6036482D0E40931E003377E0 /* NSString+Etoile.m in Sources */,
 				6036482E0E40931E003377E0 /* NSURL+Etoile.m in Sources */,
+				60A549AE13CA134700261FDC /* NSMapTable+Etoile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1108,7 @@
 				6093347F13A550B40033378C /* TestTrait.m in Sources */,
 				60B27D760FF7B54F0012BB42 /* TestUTI.m in Sources */,
 				609B67CB0FEE81740007F842 /* TestUUID.m in Sources */,
+				60A549AF13CA134700261FDC /* NSMapTable+Etoile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
