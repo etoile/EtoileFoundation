@@ -100,6 +100,11 @@ declared in parent entities). */
 /** Descriptions of the entity's properties, including those declared in parent 
 entities. */
 - (NSArray *) allPropertyDescriptions;
+/** Descriptions of the entity's persistent properties, including those declared 
+in parent entities.
+
+See -[ETPropertyDescription isPersistent]. */
+- (NSArray *) allPersistentPropertyDescriptions;
 /** Returns the property description which matches the given name.
 
 See also -[ETModelElementDescription name] which is inherited by 

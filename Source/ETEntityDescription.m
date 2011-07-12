@@ -170,6 +170,13 @@
 	}
 }
 
+- (NSArray *) allPersistentPropertyDescriptions
+{
+	NSMutableArray *propertyDescs = [NSMutableArray arrayWithArray: [self allPropertyDescriptions]];
+	[[propertyDescs filter] isPersistent];
+	return propertyDescs;
+}
+
 - (ETEntityDescription *) parent
 {
 	return _parent;

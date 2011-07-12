@@ -26,6 +26,8 @@
 
 @implementation ETPropertyDescription
 
+@synthesize persistent = _persistent;
+
 + (ETEntityDescription *) newEntityDescription
 {
 	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
