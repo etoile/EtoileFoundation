@@ -76,6 +76,10 @@
  * Example: <code>addresses = [[people mappedCollection] address];</code> will
  * cause <code>addresses</code> to be a collection created by sending
  * <code>-address</code> to every element in <code>people</code>.
+ *
+ * Note: Can be used to send the same message to multiple objects even if the 
+ * message returns void, then the result is not a new collection but nil. For 
+ * example, <code>[[people mappedCollection] setCity: @"New York"]</code>.
  */
 - (id)mappedCollection;
 

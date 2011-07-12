@@ -1131,7 +1131,11 @@ not -[super methodSignatureForSelector:]. */
 	                                                             anInvocation,
 	                                                                       NO,
 	                                                        &mappedCollection);
-	[anInvocation setReturnValue: &mappedCollection];
+
+	if ([[anInvocation methodSignature] methodReturnLength] > 0)
+	{
+		[anInvocation setReturnValue: &mappedCollection];
+	}
 }
 @end
 
