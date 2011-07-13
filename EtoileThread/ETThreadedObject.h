@@ -32,7 +32,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <EtoileThread/NSObject+Threaded.h>
+#import "NSObject+Threaded.h"
 #include <pthread.h>
 
 #define QUEUE_SIZE 256
