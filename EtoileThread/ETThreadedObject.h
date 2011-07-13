@@ -32,7 +32,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <EtoileThread/ETThread.h>
 #import <EtoileThread/NSObject+Threaded.h>
 #include <pthread.h>
 
@@ -73,7 +72,7 @@
 	unsigned long consumer;
 	id proxy;
 	BOOL terminate;
-	ETThread *thread;
+	NSThread *thread;
 }
 /**
  * Create a threaded instance of aClass

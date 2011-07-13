@@ -157,14 +157,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 } while(0);
 
 
-@interface NSInvocation (_Private)
-/**
- * Exposes the private method which tells the NSInvocation not to store its
- * return value in the original location.
- */
-- (void) _storeRetval;
-@end
-
 @interface ETThreadedObject ()
 {
 	NSConditionLock *returnConcrete;
@@ -197,7 +189,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 
 - (id) initWithObject: (id)anObject
 {
-	SUPERINIT;
 	pthread_cond_init(&conditionVariable, NULL);
 	pthread_mutex_init(&mutex, NULL);
 	returnConcrete = [NSConditionLock new];
@@ -223,7 +214,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 	pthread_mutex_unlock(&mutex);
 
 	/* Wait for worker thread to terminate */
-	[thread waitForTermination];
+	// FIXME: [thread waitForTermination];
 	[thread release];
 
 	/* Destroy synchronisation objects */
@@ -238,7 +229,7 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 
 - (void) runloop: (id)sender
 {
-	thread = [[ETThread currentThread] retain];
+	thread = [[NSThread currentThread] retain];
 	BOOL idle = [object conformsToProtocol: @protocol(Idle)];
 	while (object)
 	{
@@ -249,12 +240,6 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 		ETThreadProxyReturn *retVal;
 		REMOVE(anInvocation, retVal);
 
-		// If we are returning an object, we don't want to be overwriting the
-		// proxy on the stack.
-		if (retVal != nil)
-		{
-			[anInvocation _storeRetval];
-		}
 		[anInvocation invokeWithTarget:object];
 		if (retVal != nil)
 		{
