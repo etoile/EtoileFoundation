@@ -17,7 +17,34 @@ const NSUInteger ETUndeterminedIndex = NSNotFound;
 
 #pragma GCC diagnostic ignored "-Wprotocol"
 
+// Number of classes and categories that must be loaded before 
+// ETApplyCollectionTraits() will work.
+// The count includes collection categories on NSArray, NSDictionary, NSSet, 
+// NSIndexSet, NSMutableDictionary, NSMutableSet, NSMutableIndexSet,  
+// trait classes ETCollectionTrait and ETMutableCollectionTrait, and 
+// ETTraitApplication private class in NSObject+Trait.m
+static int loading = 7 + 2 + 1;
+
+void ETApplyCollectionTraits()
+{
+	if (--loading != 0) return;
+
+	[NSArray applyTraitFromClass: [ETCollectionTrait class]];
+	[NSDictionary applyTraitFromClass: [ETCollectionTrait class]];
+	[NSSet applyTraitFromClass: [ETCollectionTrait class]];
+	[NSIndexSet applyTraitFromClass: [ETCollectionTrait class]];
+
+	[NSMutableDictionary applyTraitFromClass: [ETMutableCollectionTrait class]];
+	[NSMutableSet applyTraitFromClass: [ETMutableCollectionTrait class]];
+	[NSMutableIndexSet applyTraitFromClass: [ETMutableCollectionTrait class]];
+}
+
 @implementation ETCollectionTrait
+
++ (void) load
+{
+	ETApplyCollectionTraits();
+}
 
 /** Returns NO. */
 - (BOOL) isOrdered
@@ -94,6 +121,11 @@ See -contentArray. */
 
 @implementation ETMutableCollectionTrait
 
++ (void) load
+{
+	ETApplyCollectionTraits();
+}
+
 /** Calls -insertObject:AtIndex:hint: with ETUndeterminedIndex as the index and 
 a nil hint. */
 - (void) addObject: (id)object
@@ -144,7 +176,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Returns NSMutableDictionary class. */
@@ -190,7 +222,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Returns NSMutableDictionary class. */
@@ -238,7 +270,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Returns NSMutableSet class. */
@@ -281,7 +313,7 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Returns NSMutableIndexSet class. */
@@ -381,7 +413,7 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Inserts the object into the receiver for a key which is going to be:
@@ -460,7 +492,7 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Adds the object to the set. 
@@ -489,7 +521,7 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 
 + (void) load
 {
-	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+	ETApplyCollectionTraits();
 }
 
 /** Adds the number object to the set. 

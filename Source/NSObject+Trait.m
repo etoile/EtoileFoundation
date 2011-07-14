@@ -193,7 +193,17 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 
 @end
 
+// WARNING: Don't use EtoileFoundation symbols in ETTraitApplication code, 
+// because ETApplyCollectionTraits() will indirectly use it, at a time where 
+// EtoileFoundation classes and categories are not all loaded.
 @implementation ETTraitApplication
+
+void ETApplyCollectionTraits();
+
++ (void) load
+{
+	ETApplyCollectionTraits();
+}
 
 @synthesize trait, excludedMethodNames, aliasedMethodNames, skippedMethodNames, overridenMethods;
 
@@ -463,7 +473,7 @@ static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplic
 			   - a trait previously applied to the target class. */
 			[conflictingMethodNames minusSet: traitOverridenMethodNames];
 
-			if ([conflictingMethodNames isEmpty])
+			if ([conflictingMethodNames count] == 0)
 				continue;
 
 			[NSException raise: ETTraitApplicationException
