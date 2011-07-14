@@ -29,14 +29,18 @@ void ETApplyCollectionTraits()
 {
 	if (--loading != 0) return;
 
-	[NSArray applyTraitFromClass: [ETCollectionTrait class]];
-	[NSDictionary applyTraitFromClass: [ETCollectionTrait class]];
-	[NSSet applyTraitFromClass: [ETCollectionTrait class]];
-	[NSIndexSet applyTraitFromClass: [ETCollectionTrait class]];
+	Class collectionTrait = [ETCollectionTrait class];
+	NSCAssert(Nil != collectionTrait, @"Collection trait not yet loaded!");
+	[NSArray applyTraitFromClass: collectionTrait];
+	[NSDictionary applyTraitFromClass: collectionTrait];
+	[NSSet applyTraitFromClass: collectionTrait];
+	[NSIndexSet applyTraitFromClass: collectionTrait];
 
-	[NSMutableDictionary applyTraitFromClass: [ETMutableCollectionTrait class]];
-	[NSMutableSet applyTraitFromClass: [ETMutableCollectionTrait class]];
-	[NSMutableIndexSet applyTraitFromClass: [ETMutableCollectionTrait class]];
+	Class mutableCollectionTrait = [ETMutableCollectionTrait class];
+	NSCAssert(Nil != collectionTrait, @"Collection trait not yet loaded!");
+	[NSMutableDictionary applyTraitFromClass: mutableCollectionTrait];
+	[NSMutableSet applyTraitFromClass: mutableCollectionTrait];
+	[NSMutableIndexSet applyTraitFromClass: mutableCollectionTrait];
 }
 
 @implementation ETCollectionTrait
