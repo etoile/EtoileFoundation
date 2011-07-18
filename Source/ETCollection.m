@@ -588,6 +588,16 @@ empty. */
 }
 
 /** Returns a new array by copying the receiver and removing the objects equal 
+to the given one. */
+- (NSArray *) arrayByRemovingObject: (id)anObject
+{
+	NSMutableArray *mutableArray = [NSMutableArray arrayWithArray: self];
+	[mutableArray removeObject: anObject];
+	/* For safety we return an immutable array */
+	return [NSArray arrayWithArray: mutableArray];
+}
+
+/** Returns a new array by copying the receiver and removing the objects equal 
 to those contained in the given array. */
 - (NSArray *) arrayByRemovingObjectsInArray: (NSArray *)anArray
 {

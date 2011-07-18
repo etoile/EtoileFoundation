@@ -384,6 +384,7 @@ is ETUndeterminedIndex. */
 @interface NSArray (Etoile)
 
 - (id) firstObject;
+- (NSArray *) arrayByRemovingObject: (id)anObject;
 - (NSArray *) arrayByRemovingObjectsInArray: (NSArray *)anArray;
 - (NSArray *) filteredArrayUsingPredicate: (NSPredicate *)aPredicate
                           ignoringObjects: (NSSet *)ignoredObjects;
