@@ -198,14 +198,14 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 // EtoileFoundation classes and categories are not all loaded.
 @implementation ETTraitApplication
 
+@synthesize trait, excludedMethodNames, aliasedMethodNames, skippedMethodNames, overridenMethods;
+
 void ETApplyCollectionTraits();
 
 + (void) load
 {
 	ETApplyCollectionTraits();
 }
-
-@synthesize trait, excludedMethodNames, aliasedMethodNames, skippedMethodNames, overridenMethods;
 
 /* Initializes and returns a trait application that represents how the given 
 trait class is going to be applied to a target class. */
