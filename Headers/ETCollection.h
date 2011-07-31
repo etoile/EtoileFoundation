@@ -50,6 +50,11 @@ objects through their non-dominant to-many relationships. */
 @protocol ETCollection
 /** Returns whether the receiveir stores the elements in a sorted order or not. */
 - (BOOL) isOrdered;
+/** Returns whether the receiveir stores the elements by key.
+
+If the receivers returns YES, it must implement -arrayRepresentation.<br />
+-arrayRepresentation must return the content as a key-value pair array. */
+- (BOOL) isKeyed;
 /** Returns YES when the collection contains no elements, otherwise returns NO. */
 - (BOOL) isEmpty;
 /** Returns the underlying data structure object holding the content or self 
@@ -324,6 +329,7 @@ For a use case example, see ETCollectionTrait. */
 /** @group Collection Protocols */
 @interface NSDictionary (ETCollection) <ETCollection>
 + (Class) mutableClass;
+- (BOOL) isKeyed;
 - (id) content;
 - (NSArray *) contentArray;
 - (NSString *) identifierAtIndex: (NSUInteger)index;

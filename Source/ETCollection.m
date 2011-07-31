@@ -56,6 +56,12 @@ void ETApplyCollectionTraits()
 	return NO;
 }
 
+/** Returns NO. */
+- (BOOL) isKeyed
+{
+	return NO;
+}
+
 /** Returns the content count. 
 
 See -content. */
@@ -233,6 +239,11 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 + (Class) mutableClass
 {
 	return [NSMutableDictionary class];
+}
+
+- (BOOL) isKeyed
+{
+	return YES;
 }
 
 // NOTE: Could be removed, was kept to avoid the extra -content message send.
