@@ -9,17 +9,13 @@
  */
 - (void) setMethod:(IMP)aMethod forSelector:(SEL)aSelector;
 /**
- * Provides a clone of the object in the specified zone.  Requires the class to
- * implement copyWithZone: to perform the copy, then performs a hidden class
- * transform to make it into a new prototype.
- */
-- (id) cloneWithZone: (NSZone *)zone;
-/**
- * Returns a clone by calling cloneWithZone: passing NSDefaultMallocZone().
+ * Returns a clone of the object.  The clone will inherit all methods and
+ * associated objects.  To copy instance variables, you must override this
+ * method.
  */
 - (id) clone;
 /**
- * Returns YES if this object is a prototype.
+ * Returns YES if this object inherits from another object.
  */
 - (BOOL) isPrototype;
 /**
@@ -27,10 +23,6 @@
  * one.
  */
 - (id) prototype;
-/**
- * Performs a hidden class transform, making this object into a prototype.
- */
-- (void) becomePrototype;
 /**
  * Does the same as valueForKey:, except when this object is a prototype and
  * a block closure is associated with the supplied key. The block closure is

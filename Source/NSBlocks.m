@@ -6,7 +6,6 @@
 #define __has_feature(x) 0
 #endif
 
-#if __has_feature(blocks)
 @interface ETBlock
 {
 	id isa;
@@ -26,7 +25,12 @@
 			method_getImplementation(*m), method_getTypeEncoding(*m));
 	}
 }
+- (BOOL)isBlock
+{
+	return YES;
+}
 
+#if __has_feature(blocks)
 - (id) value
 {
 	return ((id(^)(void))self)();
@@ -43,8 +47,8 @@
 {
 	return ((id(^)(id,id,id))self)(anObject, obj2, obj3);
 }
-@end
 #else
 #warning Compiling without blocks enabled is not recommended.
 #endif
+@end
 
