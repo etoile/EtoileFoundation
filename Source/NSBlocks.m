@@ -1,18 +1,24 @@
 #import <Foundation/NSObject.h>
 #import "objc/blocks_runtime.h"
 
-@interface NSBlock
+// Define __has_feature() for compilers that don't support it.
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+
+#if __has_feature(blocks)
+@interface ETBlock
 {
 	id isa;
 }
 @end
 
-@implementation NSBlock
+@implementation ETBlock
 + (void)load
 {
 	unsigned int methodCount;
 	Method *methods = 
-		class_copyMethodList(objc_getClass("NSBlock"), &methodCount);
+		class_copyMethodList(objc_getClass("ETBlock"), &methodCount);
 	id blockClass = objc_lookUpClass("_NSBlock");
 	for (Method *m = methods ; NULL!=*m ; m++)
 	{
@@ -21,12 +27,6 @@
 	}
 }
 
-// Define __has_feature() for compilers that don't support it.
-#ifndef __has_feature
-#define __has_feature(x) 0
-#endif
-
-#if __has_feature(blocks)
 - (id) value
 {
 	return ((id(^)(void))self)();
@@ -43,6 +43,8 @@
 {
 	return ((id(^)(id,id,id))self)(anObject, obj2, obj3);
 }
-#endif
 @end
+#else
+#warning Compiling without blocks enabled is not recommended.
+#endif
 
