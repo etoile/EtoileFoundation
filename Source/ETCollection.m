@@ -221,11 +221,6 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	return [self descriptionWithLocale: nil];
 }
 
-- (NSString *) description
-{
-	return [NSString stringWithFormat: @"Array %d ordered objects", [self count]];
-}
-
 @end
 
 @implementation NSDictionary (ETCollection)
@@ -272,11 +267,6 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 - (NSString *) stringValue
 {
 	return [self descriptionWithLocale: nil];
-}
-
-- (NSString *) description
-{
-	return [NSString stringWithFormat: @"Dictionary %d key/value pairs", [self count]];
 }
 
 @end
