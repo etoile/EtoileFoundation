@@ -63,7 +63,6 @@
 #import <EtoileFoundation/NSObject+Etoile.h>
 #import <EtoileFoundation/NSObject+HOM.h>
 #import <EtoileFoundation/NSObject+Model.h>
-#import <EtoileFoundation/NSObject+Prototypes.h>
 #import <EtoileFoundation/NSObject+Trait.h>
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
@@ -78,6 +77,7 @@
 #ifdef GNUSTEP
 
 #import <EtoileFoundation/ETCArray.h>
+#import <EtoileFoundation/NSObject+Prototypes.h>
 
 /* EtoileFoundation subframeworks */
 
