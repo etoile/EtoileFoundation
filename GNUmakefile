@@ -184,6 +184,7 @@ EtoileFoundation_OBJC_FILES += \
 	Tests/TestModelDescriptionRepository.m \
 	Tests/TestTrait.m \
 	Tests/TestPlugInRegistry.m \
+	Tests/TestPrototypes.m \
 	Tests/TestReflection.m \
 	Tests/TestStackTraceRecorder.m \
 	Tests/TestString.m \

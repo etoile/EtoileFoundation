@@ -7,28 +7,33 @@
 #ifdef OBJC_CAP_PROTOTYPES
 #import <Foundation/Foundation.h>
 
-
-static id blockTrampoline(id self, SEL _cmd, ...)
-{
-	// FIXME: It's a lot of effort, but ideally we should generate a proper
-	// static trampoline for this with either libffi or some magic assembly
-	// code (doing that on x86, ARM, and x86-64 would probably be enough).
-	id(^block)(id, ...) = objc_getAssociatedObject(self, (void*)sel_getName(_cmd));
-	if (NULL == block) { return nil; }
-	va_list ap;
-	va_start(ap, _cmd);
-	id arg1 = va_arg(ap, id);
-	id arg2 = va_arg(ap, id);
-	id arg3 = va_arg(ap, id);
-	id arg4 = va_arg(ap, id);
-	va_end(ap);
-	return block(self, _cmd, arg1, arg2, arg3, arg4);
-}
-
 @implementation NSObject (Prototypes)
++ (BOOL)addInstanceMethod: (SEL)aSelector fromBlock: (id)aBlock
+{
+	IMP imp = imp_implementationWithBlock(aBlock);
+	if (0 == imp) { return NO; }
+	char *encoding = block_copyIMPTypeEncoding_np(aBlock);
+	class_replaceMethod(self, aSelector, imp, encoding);
+	free(encoding);
+	return YES;
+}
++ (BOOL)addClassMethod: (SEL)aSelector fromBlock: (id)aBlock
+{
+	return [object_getClass(self) addInstanceMethod: aSelector fromBlock: aBlock];
+}
+- (BOOL)addMethod: (SEL)aSelector fromBlock: (id)aBlock
+{
+	IMP imp = imp_implementationWithBlock(aBlock);
+	if (0 == imp) { return NO; }
+	char *encoding = block_copyIMPTypeEncoding_np(aBlock);
+	if (NULL == encoding) { return NO; }
+	object_replaceMethod_np(self, aSelector, imp, encoding);
+	free(encoding);
+	return YES;
+}
 - (void)setMethod: (IMP)aMethod forSelector: (SEL)aSelector
 {
-	object_addMethod_np(self, aSelector, aMethod, sel_getType_np(aSelector));
+	object_replaceMethod_np(self, aSelector, aMethod, sel_getType_np(aSelector));
 }
 - (id) clone
 {
@@ -54,9 +59,18 @@ static id blockTrampoline(id self, SEL _cmd, ...)
 	{
 		blockClass = objc_lookUpClass("_NSBlock");
 	}
-	if ([aValue isKindOfClass: blockClass])
+	if ([aValue isKindOfClass: blockClass] )
 	{
-		object_addMethod_np(self, sel, blockTrampoline, block_getType_np(aValue));
+		IMP imp = imp_implementationWithBlock(aValue);
+		if (0 != imp)
+		{
+			char *encoding = block_copyIMPTypeEncoding_np(aValue);
+			if (NULL != encoding)
+			{
+				object_replaceMethod_np(self, sel, imp, encoding);
+				free(encoding);
+			}
+		}
 	}
 }
 - (id) slotValueForKey:(NSString *)aKey
