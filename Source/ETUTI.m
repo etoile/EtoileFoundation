@@ -205,7 +205,8 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 		// This is a hack to work around the fact that NSClassFromString will
 		// sometimes return a private subclass of the requested class.
 		// (for example, NSClassFromString(@"NSImage") == [CLImage class])
-		while (![NSStringFromClass(class) isEqualToString: selfClassName])
+		while (nil != class &&
+		       ![NSStringFromClass(class) isEqualToString: selfClassName])
 		{
 			class = [class superclass];
 		}
