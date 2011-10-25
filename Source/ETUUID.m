@@ -175,25 +175,35 @@ static void ETSRandomDev()
    Rough collision estimate for a given number of generated UUIDs, computed 
    with -testHash in TestUUID.m. For each case, -testHash has been run around 
    15 times.
-   100000: ~1 (between 0 to 3 collisions)
-   200000: ~4 (1 to 11)
-   300000: ~11 (4 to 16)
-   400000: ~19 (13 to 31)
-   500000: ~28 (20 to 35). */
+           32-bit NSUInteger               64-bit NSUInteger
+   100000: ~1 (between 0 to 3 collisions)  0
+   200000: ~4 (1 to 11)                    0
+   300000: ~11 (4 to 16)                   0
+   400000: ~19 (13 to 31)                  0
+   500000: ~28 (20 to 35)                  0
+*/
 - (NSUInteger) hash
 {
-	/* uuid is 128 bits long. Hence to compute the hash, we simply divide it in 
-	   four parts of 32 bits, we xor the two left parts, then the two right 
-	   parts . Finally we xor the two previous xor results. */
-	uint32_t part1 = *((uint32_t *)&uuid[0]);
-	uint32_t part2 = *((uint32_t *)&uuid[4]);
-	uint32_t part3 = *((uint32_t *)&uuid[8]);
-	uint32_t part4 = *((uint32_t *)&uuid[12]);
-	uint32_t hash = ((part1 ^ part2) ^ (part3 ^ part4));
-
-	//NSLog(@"part1 %u part2 %u part3 %u part4 %u : %u", part1, part2, part3, part4, hash);
-
-    return (unsigned int)hash;
+    if (sizeof(NSUInteger) == 8)
+    {
+        uint64_t part1 = *((uint64_t *)&uuid[0]);
+        uint64_t part2 = *((uint64_t *)&uuid[8]);
+        uint64_t hash = part1 ^ part2;
+        return hash;
+    }
+    else 
+    {
+        /* uuid is 128 bits long. Hence to compute the hash, we simply divide it in 
+         four parts of 32 bits, we xor the two left parts, then the two right 
+         parts . Finally we xor the two previous xor results. */
+        uint32_t part1 = *((uint32_t *)&uuid[0]);
+        uint32_t part2 = *((uint32_t *)&uuid[4]);
+        uint32_t part3 = *((uint32_t *)&uuid[8]);
+        uint32_t part4 = *((uint32_t *)&uuid[12]);
+        uint32_t hash = ((part1 ^ part2) ^ (part3 ^ part4));
+        //NSLog(@"part1 %u part2 %u part3 %u part4 %u : %u", part1, part2, part3, part4, hash);
+        return hash;
+    }
 }
 
 - (BOOL) isEqual: (id)anObject

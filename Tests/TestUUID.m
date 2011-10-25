@@ -67,7 +67,7 @@
 	for (int i = 0; i < 10000; i++)
 	{
 		uuid = [ETUUID UUID];
-		hashNumber = [NSNumber numberWithUnsignedInt: [uuid hash]];
+		hashNumber = [NSNumber numberWithUnsignedLong: [uuid hash]];
 
 		if ([hashSet containsObject: hashNumber])
 		{
