@@ -33,11 +33,7 @@
 /* For -pathForImageResource: */
 #import <AppKit/AppKit.h>
 
-#if defined(__APPLE__) || defined(__GNUSTEP_RUNTIME__)
 #include <objc/runtime.h>
-#elif defined(GNU_RUNTIME)
-#include <ObjectiveC2/runtime.h>
-#endif 
 
 @interface NSObject (Application)
 + (id) sharedApplication;
