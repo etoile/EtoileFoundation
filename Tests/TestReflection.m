@@ -29,6 +29,25 @@
 }
 @end
 
+@interface TestClass3 : TestClass1
+{
+	@public
+	double _isDouble;
+	id object;
+	NSRect rect;
+	NSPoint _point;
+	NSSize size;
+	Class isClass;
+	NSInteger integer;
+	NSUInteger uinteger;
+	int _int;
+	float isFloat;
+	NSRange range;
+}
+@end
+@implementation TestClass3
+@end
+
 
 
 @interface TestReflection : NSObject <UKTest>
@@ -112,6 +131,44 @@
 
 	UKTrue([[test2 allMethodMirrors] count] > 10);
 
+}
+
+- (void) testSetInstanceVariableValueForKey
+{
+	TestClass3 *test3 = AUTORELEASE([[TestClass3 alloc] init]);
+
+	ETSetInstanceVariableValueForKey(test3, @"bla", @"object");
+	ETSetInstanceVariableValueForKey(test3, [self class], @"class");
+
+	UKObjectsEqual(@"bla", test3->object);
+	UKObjectsEqual([self class], test3->isClass);
+
+	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithInteger: 50], @"integer");
+	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithUnsignedInteger: -50], @"uinteger");
+	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithInt: 2], @"int");
+	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithFloat: 0.2], @"float");
+	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithDouble: 1.5e+300], @"double");
+
+	UKTrue(50 == test3->integer);
+	UKTrue(-50 == test3->uinteger);
+	UKIntsEqual(2, test3->_int);
+	UKFloatsEqual(0.2, test3->isFloat, 0);
+	UKTrue(1.5e+300 == test3->_isDouble);
+
+	NSRect rect = NSMakeRect(-1, 5, 10, 20);
+	NSPoint point = NSMakePoint(-3, 10);
+	NSSize size = NSMakeSize(4, -10);
+	NSRange range = NSMakeRange(3, 10);
+
+	ETSetInstanceVariableValueForKey(test3, [NSValue valueWithRect: rect], @"rect");
+	ETSetInstanceVariableValueForKey(test3, [NSValue valueWithPoint: point], @"point");
+	ETSetInstanceVariableValueForKey(test3, [NSValue valueWithSize: size], @"size");
+	ETSetInstanceVariableValueForKey(test3, [NSValue valueWithRange: range], @"range");
+
+	UKTrue(NSEqualRects(test3->rect, rect));
+	UKTrue(NSEqualPoints(test3->_point, point));
+	UKTrue(NSEqualSizes(test3->size, size));
+	UKTrue(NSEqualRanges(test3->range, range));
 }
 
 @end
