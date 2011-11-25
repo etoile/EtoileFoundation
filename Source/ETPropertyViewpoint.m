@@ -217,7 +217,7 @@ where property viewpoints are used as represented objects).
 		}
 		else /* name, type properties */
 		{
-			value = [self primitiveValueForKey: key];
+			value = [self basicValueForKey: key];
 		}
 	}
 	

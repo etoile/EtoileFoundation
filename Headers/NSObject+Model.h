@@ -65,8 +65,8 @@
 
 /* Key Value Coding */
 
-- (id) primitiveValueForKey: (NSString *)key;
-- (void) setPrimitiveValue: (id)value forKey: (NSString *)key;
+- (id) basicValueForKey: (NSString *)key;
+- (void) setBasicValue: (id)value forKey: (NSString *)key;
 
 /* Basic Properties */
 

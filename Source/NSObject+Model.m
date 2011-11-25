@@ -288,7 +288,7 @@ to adopt ETCollectionMutation protocol. */
 	
 	if ([[self propertyNames] containsObject: key])
 	{
-		value = [self primitiveValueForKey: key];
+		value = [self basicValueForKey: key];
 	}
 	else
 	{
@@ -308,7 +308,7 @@ to adopt ETCollectionMutation protocol. */
 	
 	if ([[self propertyNames] containsObject: key])
 	{
-		[self setPrimitiveValue: value forKey: key];
+		[self setBasicValue: value forKey: key];
 		result = YES;
 	}
 	else
@@ -334,7 +334,7 @@ static void (*setValueForKeyIMP)(id, SEL, id, NSString *) = NULL;
     This method allows to use basic KVC access (through ivars and accessors) 
     from -valueForProperty: or other methods in subclasses, when a custom KVC 
     strategy is implemented in subclasses for -valueForKey:. */
-- (id) primitiveValueForKey: (NSString *)key
+- (id) basicValueForKey: (NSString *)key
 {
 	valueForKeyIMP = (id (*)(id, SEL, NSString *))[[NSObject class] 
 		instanceMethodForSelector: @selector(valueForKey:)];
@@ -346,7 +346,7 @@ static void (*setValueForKeyIMP)(id, SEL, id, NSString *) = NULL;
     This method allows to use basic KVC access (through ivars and accessors) 
     from -setValue:forProperty: or other methods in subclasses, when a custom 
     KVC strategy is implemented in subclasses for -setValue:forKey:. */
-- (void) setPrimitiveValue: (id)value forKey: (NSString *)key
+- (void) setBasicValue: (id)value forKey: (NSString *)key
 {
 	setValueForKeyIMP = (void (*)(id, SEL, id, NSString *))[[NSObject class] 
 		instanceMethodForSelector: @selector(setValue:forKey:)];
