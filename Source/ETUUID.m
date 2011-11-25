@@ -59,11 +59,7 @@ static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 	SUPERINIT
 
 	// Initialise with random data.
-	for (unsigned i=0 ; i<16 ; i++)
-	{
-		long r = random();
-		uuid[i] = (unsigned char)r;
-	}
+	ETUUIDGet16RandomBytes(uuid);
 	// Clear bits 6 and 7
 	CLOCK_SEQ_HI_AND_RESERVED(uuid) &= (unsigned char)63;
 	// Set bit 6
