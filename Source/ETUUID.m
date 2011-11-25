@@ -138,7 +138,7 @@ static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 */
 - (NSUInteger) hash
 {
-	return *((uint64_t *)uuuid);
+	return *((uint64_t *)uuid);
 }
 
 - (BOOL) isEqual: (id)anObject
