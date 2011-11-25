@@ -10,83 +10,7 @@
 #import "ETUUID.h"
 #import "EtoileCompatibility.h"
 #include <stdlib.h>
-// On *BSD and Linux we have a srandomdev() function which seeds the random 
-// number generator with entropy collected from a variety of sources. On other
-// platforms we don't, so we use some less random data based on the current 
-// time and pid to seed the random number generator.
-#if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__) || defined(__APPLE__)
-#define INITRANDOM() srandomdev()
-#else
-#include <sys/time.h>
-#include <time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "glibc_hack_unistd.h"
-#include <errno.h>
-#pragma GCC diagnostic ignored "-Wuninitialized" /* For junk variable */
-#if defined(__linux__)
-/** Returns a strong random number which can be used as a seed for srandom().
-    This random number is obtained from Linux entropy pool through /dev/random.
-    Unlike /dev/urandom, /dev/random blocks when the entropy estimate isn't 
-    positive enough. In this case, a random number is created by falling back on 
-    the following combination:
-   'current time' + 'pid' + 'an uninitialized var value' 
-    
-    ETSRandomDev is derived from FreeBSD libc/stdlib/random.c srandomdev(). */
-static void ETSRandomDev()
-{
-	int fd = -1;
-	unsigned int seed = 0;
-	size_t len = sizeof(seed);
-	BOOL hasSeed = NO;
-
-	fd = open("/dev/random", O_RDONLY | O_NONBLOCK, 0);
-	if (fd >= 0) 
-	{
-		if (errno != EWOULDBLOCK)
-		{
-			if (read(fd, &seed, len) == (ssize_t)len)
-			{
-				hasSeed = YES;
-			}
-		}
-		close(fd);
-	}
-
-	if (hasSeed == NO) 
-	{
-		struct timeval tv;
-		unsigned long junk;
-		
-		gettimeofday(&tv, NULL);
-		seed = ((getpid() << 16) ^ tv.tv_sec ^ tv.tv_usec ^ junk);
-	}
-	
-	srandom(seed);
-}
-#define INITRANDOM() ETSRandomDev()
-#else
-static void ETSRandomDev()
-{
-	struct timeval tv;
-	unsigned long junk;
-	unsigned int seed = 0;
-
-	/* Within a process, junk is always initialized to the same value (on Linux), 
-	   gettimeofday is microsecond-based and pid is fixed. This leads to many 
-	   collisions if you call ETSRandomDev() in a loop, as -testString does
-	   in TestUUID.m. */
-
-	gettimeofday(&tv, NULL);
-	seed = ((getpid() << 16) ^ tv.tv_sec ^ tv.tv_usec ^ junk);
-	//ETLog(@"seed %u --- sec %li usec %li junk %lu pid %u", seed, tv.tv_sec, tv.tv_usec, junk, getpid());
-
-	srandom(seed);
-}
-#define INITRANDOM() ETSRandomDev()
-#endif
-#endif
+#include <stdint.h>
 #import "Macros.h"
 
 
@@ -97,12 +21,28 @@ static void ETSRandomDev()
 #define CLOCK_SEQ_LOW(uuid) (*(&(uuid)[9]))
 #define NODE(uuid) ((char*)(&(uuid)[10]))
 
-@implementation ETUUID
-
-+ (void) initialize
+#if defined(arc4random)
+static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 {
-	INITRANDOM();
+	*((uint32_t*)&bytes[0]) = arc4random();
+	*((uint32_t*)&bytes[4]) = arc4random();
+	*((uint32_t*)&bytes[8]) = arc4random();
+	*((uint32_t*)&bytes[12]) = arc4random();
 }
+#else
+#include <openssl/rand.h>
+static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
+{
+	if (1 != RAND_pseudo_bytes(bytes, 16))
+	{
+		[NSException raise: NSGenericException
+					format: @"libcrypto can't automatically seed its random numer generator on your OS"];
+	}
+}
+#endif
+
+
+@implementation ETUUID
 
 + (id) UUID
 {
@@ -147,10 +87,17 @@ static void ETSRandomDev()
 - (id) initWithString: (NSString *)aString
 {
 	NILARG_EXCEPTION_TEST(aString);
-	SUPERINIT
+	
+	if ([aString length] != 36)
+	{
+		[NSException raise: NSInvalidArgumentException
+		            format: @"%@ not 36 characters in length", aString];
+	}
+	
+	SUPERINIT;
 
 	const char *data = [aString UTF8String];
-	sscanf(data, "%x-%hx-%hx-%2hhx%2hhx-%2hhx%2hhx%2hhx%2hhx%2hhx%2hhx", 
+	int scanned = sscanf(data, "%x-%hx-%hx-%2hhx%2hhx-%2hhx%2hhx%2hhx%2hhx%2hhx%2hhx", 
 	   &TIME_LOW(uuid), 
 	   &TIME_MID(uuid),
 	   &TIME_HI_AND_VERSION(uuid),
@@ -163,6 +110,13 @@ static void ETSRandomDev()
 	   &NODE(uuid)[4],
 	   &NODE(uuid)[5]);
 
+	if (scanned != 11)
+	{
+		[self release];
+		[NSException raise: NSInvalidArgumentException
+		            format: @"%@ not a well formed UUID", aString];
+	}
+	
 	return self;
 }
 
@@ -184,26 +138,7 @@ static void ETSRandomDev()
 */
 - (NSUInteger) hash
 {
-    if (sizeof(NSUInteger) == 8)
-    {
-        uint64_t part1 = *((uint64_t *)&uuid[0]);
-        uint64_t part2 = *((uint64_t *)&uuid[8]);
-        uint64_t hash = part1 ^ part2;
-        return hash;
-    }
-    else 
-    {
-        /* uuid is 128 bits long. Hence to compute the hash, we simply divide it in 
-         four parts of 32 bits, we xor the two left parts, then the two right 
-         parts . Finally we xor the two previous xor results. */
-        uint32_t part1 = *((uint32_t *)&uuid[0]);
-        uint32_t part2 = *((uint32_t *)&uuid[4]);
-        uint32_t part3 = *((uint32_t *)&uuid[8]);
-        uint32_t part4 = *((uint32_t *)&uuid[12]);
-        uint32_t hash = ((part1 ^ part2) ^ (part3 ^ part4));
-        //NSLog(@"part1 %u part2 %u part3 %u part4 %u : %u", part1, part2, part3, part4, hash);
-        return hash;
-    }
+	return *((uint64_t *)uuuid);
 }
 
 - (BOOL) isEqual: (id)anObject
