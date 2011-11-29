@@ -572,3 +572,7 @@ NSString * const kETDescriptionOptionMaxDepth = @"kETDescriptionOptionMaxDepth";
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 
+@implementation NSDate (ETModelAdditions)
+/** Returns YES. */
+- (BOOL) isCommonObjectValue { return YES; }
+@end

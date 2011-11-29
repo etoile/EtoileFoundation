@@ -125,3 +125,7 @@ extern NSString * const kETDescriptionOptionMaxDepth;
 - (BOOL) isCommonObjectValue;
 @end
 
+/** @group Model and Metamodel */
+@interface NSDate (ETModelAdditions)
+- (BOOL) isCommonObjectValue;
+@end
