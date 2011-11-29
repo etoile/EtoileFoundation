@@ -23,6 +23,8 @@
 
 @implementation ETEntityDescription
 
+@synthesize localizedDescription = _localizedDescription;
+
 + (void) initialize
 {
 	if (self != [ETEntityDescription class])
@@ -45,12 +47,14 @@
 	_abstract = NO;
 	_propertyDescriptions = [[NSMutableDictionary alloc] init];
 	_parent = nil;
+	ASSIGN(_localizedDescription, name);
 	return self;
 }
 
 - (void) dealloc
 {
 	DESTROY(_propertyDescriptions);
+	DESTROY(_localizedDescription);
 	[super dealloc];
 }
 

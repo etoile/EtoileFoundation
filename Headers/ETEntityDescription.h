@@ -25,6 +25,7 @@ A description of an entity, which can either be a class or a prototype. */
 	NSMutableDictionary *_propertyDescriptions;
 	ETEntityDescription *_parent;
 	ETPackageDescription *_owner;
+	NSString *_localizedDescription;
 }
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
@@ -36,6 +37,15 @@ ETModelDescriptionRepository.
 
 Will be used by -checkConstraints:. */
 + (NSString *) rootEntityDescriptionName;
+
+/**
+ * A short and human-readable description e.g. Person, Music Track.
+ *
+ * This is used to present the entity type to the user in the UI.
+ *
+ * By default, returns the entity name that is not localized.
+ */ 
+@property (nonatomic, retain) NSString *localizedDescription;
 
 /** @taskunit Querying Type */
 
