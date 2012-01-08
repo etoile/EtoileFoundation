@@ -8,6 +8,8 @@
 
 #import "NSString+Etoile.h"
 
+#pragma GCC diagnostic ignored "-Wobjc-protocol-method-implementation"
+
 #ifdef GNUSTEP
 @interface GSString : NSString
 + (void)reinitialize;

@@ -1356,6 +1356,7 @@ not -[super methodSignatureForSelector:]. */
 - (void)dealloc
 {
 	[secondCollection release];
+	[super dealloc];
 }
 @end
 

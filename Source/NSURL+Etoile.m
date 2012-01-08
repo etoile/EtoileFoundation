@@ -9,6 +9,9 @@
 #import "NSURL+Etoile.h"
 #import "NSString+Etoile.h"
 
+// TODO: Once a new base release has been made, we can remove our 
+// -lastPathComponent implementation
+#pragma GCC diagnostic ignored "-Wobjc-protocol-method-implementation"
 
 @implementation NSURL (Etoile)
 
