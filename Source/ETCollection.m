@@ -82,7 +82,7 @@ The constraints to respect are detailed in -[(ETCollection) content]. */
 /** Returns nil.
 
 A concrete implementation must be provided in the target class.
- The constraints to respect are detailed in -[(ETCollection) contentArray]. */
+The constraints to respect are detailed in -[(ETCollection) contentArray]. */
 - (NSArray *) contentArray
 {
 	return nil;
@@ -102,6 +102,16 @@ See -content. */
 - (NSEnumerator *) objectEnumerator
 {
 	return [[self content] objectEnumerator];
+}
+
+/** Forwards the message to the content.
+
+See -content. */
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *)state 
+                                   objects: (id *)objects
+                                     count: (NSUInteger)count
+{
+	return [[self content] countByEnumeratingWithState: state objects: objects count: count];
 }
 
 /** Returns whether the given element belongs to the collection. 

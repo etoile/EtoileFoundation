@@ -76,6 +76,21 @@ return an empty NSArray instead. */
 /** Returns an enumerator which can be used as a conveniency to iterate over 
 the elements of the content one-by-one. */
 - (NSEnumerator *) objectEnumerator;
+/** Returns a C array through <var>objects</var> which can be used to iterate 
+over the content in several quick passes until 0 is returned.
+
+Each time the method is called, the C array contains a new content portion to 
+be iterated over.
+
+The method returns the number of objects in the C array.
+
+The count argument must be used to indicate the maximum number of objects 
+allowed in the C array to be returned.
+
+See NSFastEnumeration protocol.  */
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *)state 
+                                   objects: (id *)objects
+                                     count: (NSUInteger)count;
 /** Returns whether the element is included in the collection. */
 - (BOOL) containsObject: (id)anObject;
 /** Returns whether every element in the given collection are included in the receiver. */
