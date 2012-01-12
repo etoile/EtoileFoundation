@@ -81,11 +81,13 @@
 
 /* EtoileFoundation subframeworks */
 
+#if 0
 #import <EtoileThread/ETThread.h>
 #import <EtoileThread/ETThreadedObject.h>
 #import <EtoileThread/ETThreadProxyReturn.h>
 #import <EtoileThread/NSObject+Futures.h>
 #import <EtoileThread/NSObject+Threaded.h>
+#endif
 
 #endif
 
