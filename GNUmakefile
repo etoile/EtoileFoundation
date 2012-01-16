@@ -5,7 +5,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 ifeq ($(test), yes)
 SUBPROJECTS = Tests/PlugInExample
 else
-SUBPROJECTS = EtoileThread EtoileXML
+SUBPROJECTS = EtoileXML
 endif
 
 ifneq ($(findstring freebsd, $(GNUSTEP_HOST_OS)),)
