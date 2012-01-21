@@ -113,6 +113,13 @@ should stop to traverse collections with kETDescriptionOptionTraversalKey.
 Default value is 20. */
 extern NSString * const kETDescriptionOptionMaxDepth;
 
+/** Posts this notification to let other objects know about collection mutation   
+in your model object. 
+
+For example, EtoileUI uses this notification to reload the UI transparently. 
+See -[ETLayoutItemGroup setRepresentedObject:]. */
+extern NSString * const ETCollectionDidUpdateNotification;
+
 /* Basic Common Value Classes */
 
 /** @group Model and Metamodel */

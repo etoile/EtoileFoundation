@@ -559,6 +559,7 @@ NSString * const kETDescriptionOptionValuesForKeyPaths = @"kETDescriptionOptionV
 NSString * const kETDescriptionOptionTraversalKey = @"kETDescriptionOptionTraversalKey";
 NSString * const kETDescriptionOptionMaxDepth = @"kETDescriptionOptionMaxDepth";
 
+NSString * const ETCollectionDidUpdateNotification = @"ETCollectionDidUpdateNotification";
 
 /* Basic Common Value Classes */
 
