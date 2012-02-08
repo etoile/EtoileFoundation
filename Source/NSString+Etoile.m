@@ -55,6 +55,31 @@ defined by -firstPathComponent. */
 	return [NSString pathWithComponents: pathComponents];
 }
 
+/** Returns a new string instance by first standardizing the path, then 
+resolving remaining relative path components against the current directory to 
+ensure the first path component is a '/' (the resulting path returns YES to 
+-[NSString isAbsolutePath]).
+
+See also -[NSString stringByStandardizingPath] and 
+-[NSFileManager currentDirectoryPath].
+
+For a current directory <em>/home/john/documents</em>, <em>../beach.jpg</em> 
+is resolved to <em>/home/john/beach.jpg</em>, and <em>beach.jpg</em> is 
+resolved to <em>/home/john/documents/beach.jpg</em>.   */
+- (NSString *) stringByStandardizingIntoAbsolutePath
+{
+	NSString *path = [self stringByStandardizingPath];
+
+	if (![path isAbsolutePath])
+	{
+		path = [[[NSFileManager defaultManager] currentDirectoryPath] 
+			stringByAppendingPathComponent: path];
+		/* For paths such as ../../beach.jpg where '/../' cannot be resolved 
+		   the first time -stringByStandardizingPath is used */
+		path = [path stringByStandardizingPath];
+	}
+	return path;
+}
 /** Returns a string where all words are separated by spaces for a given string 
 of capitalized words with no spaces at all. 
 
