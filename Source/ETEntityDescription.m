@@ -161,7 +161,7 @@
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
 }
 
-- (NSArray *) allPropertyDescriptions
+- (NSArray *) allPropertyDescriptionsIncludingDuplicates
 {
 	if ([self isRoot])
 	{
@@ -172,6 +172,28 @@
 		return [[[self parent] allPropertyDescriptions]
 			arrayByAddingObjectsFromArray: [_propertyDescriptions allValues]];
 	}
+}
+
+- (NSArray *) allPropertyDescriptions
+{
+	NSArray *propertyDescs = [self allPropertyDescriptionsIncludingDuplicates];
+	NSMutableArray *finalPropertyDescs = [NSMutableArray array];
+	NSCountedSet *propertyNames = [NSCountedSet set];
+
+	/* We scan the property descriptions backwards to eliminate the ones that 
+	   overriden upwards in the entity chain. */
+	for (ETPropertyDescription *propertyDesc in [propertyDescs reverseObjectEnumerator])
+	{
+		NSString *name = [propertyDesc name];
+
+		if ([propertyNames countForObject: name] == 0)
+		{
+			[finalPropertyDescs insertObject: propertyDesc atIndex: 0];
+		}
+
+		[propertyNames addObject: name];
+	}
+	return finalPropertyDescs;
 }
 
 - (NSArray *) allPersistentPropertyDescriptions
