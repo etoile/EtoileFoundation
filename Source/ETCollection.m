@@ -694,6 +694,15 @@ Nil is returned when no object can be matched. */
 
 @end
 
+@implementation NSMutableArray (Etoile)
+
+- (void) removeObjectsFromIndex: (NSUInteger)anIndex
+{
+	[self removeObjectsInRange: NSMakeRange(anIndex, [self count] - anIndex)];
+}
+
+@end
+
 @implementation NSMutableDictionary (DictionaryOfLists)
 
 - (void)addObject: anObject forKey: aKey

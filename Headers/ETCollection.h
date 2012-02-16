@@ -417,6 +417,16 @@ is ETUndeterminedIndex. */
 
 @end
 
+/** @group Collection Additions */
+@interface NSMutableArray (Etoile)
+/**
+ * Removes the objects located between anIndex and the end of the array.
+ *
+ * The object located at anIndex is included in the removed objects.
+ */
+- (void) removeObjectsFromIndex: (NSUInteger)anIndex;
+@end
+
 /**
  * @group Collection Additions
  *
