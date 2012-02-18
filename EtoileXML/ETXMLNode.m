@@ -124,8 +124,8 @@
 /*	NSLog(@"Ending Element %@", _Name);*/
 	if([_Name isEqualToString:nodeType])
 	{
-		[parser setContentHandler:parent];
-		[parent addChild:(id)self];
+		[[parser parentHandler] addChild:(id)self];
+		[parser popContentHandler];
 	}
 }
 
@@ -142,8 +142,7 @@
 	}*/
 	id newNode = [[ETXMLNode alloc] initWithType:_Name attributes:_attributes];
 	[newNode setParser:parser];
-	[newNode setParent:self];
-	[parser setContentHandler:newNode];		
+	[parser pushContentHandler:newNode];
 }
 
 
@@ -337,11 +336,6 @@
 {
 	//Don't retain, since we can't release.
 	parser = XMLParser;
-}
-
-- (void) setParent: (id)newParent
-{
-	parent = newParent;
 }
 
 - (NSString *) get: (NSString *)attribute

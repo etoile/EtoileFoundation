@@ -109,9 +109,4 @@ static inline NSMutableString * unescapeXMLCData(NSString *_XMLString)
  * the XMPP code.
  */
 - (void) setParser: (id)XMLParser;
-/**
- * Sets the parent.  When the delegate has finished parsing it should return 
- * control to the parent by setting the delegate in the associated parser.
- */
-- (void) setParent: (id)newParent;
 @end

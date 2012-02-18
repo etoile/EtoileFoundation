@@ -315,10 +315,9 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 }
 
 - (id) initWithXMLParser: (ETXMLParser*)aParser 
-                  parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey
 {
-	self = [super initWithXMLParser: aParser parent: aParent key: aKey];
+	self = [super initWithXMLParser: aParser key: aKey];
 	if (nil == self) { return nil; }
 
 	string = [[NSMutableAttributedString alloc] init];
@@ -394,7 +393,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	{
 		//Ignore any elements that are not <body>
 		[[[ETXMLNullHandler alloc] initWithXMLParser:parser
-											  parent:self
 												 key:nil] startElement:_Name
 															attributes:_attributes];
 	}
@@ -459,9 +457,8 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	}
 	if(depth == 0)
 	{
-		[parser setContentHandler: parent];
 		[self notifyParent];
-		[self release];
+		[parser popContentHandler];
 	}
 	else
 	{
@@ -475,11 +472,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		currentAttributes = [attributeStack lastObject];
 		[attributeStack removeLastObject];
 	}
-}
-
-- (void) notifyParent
-{
-	[(id)parent addChild:string forKey:key];
 }
 
 - (void) dealloc

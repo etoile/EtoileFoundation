@@ -29,7 +29,6 @@
 	NSMutableDictionary * childrenByName;
 	NSMutableDictionary * attributes;
 	id parser;
-	id parent;
 	NSString * nodeType;
 	NSMutableString * plainCDATA;
 }

@@ -46,11 +46,11 @@
 @interface ETXMLParser : NSObject 
 {
 	NSMutableString *buffer;
-	id <ETXMLWriting> delegate;
 	int depth;
 	NSMutableArray *openTags;
 	enum {notag, intag, inattribute, incdata, instupidcdata, incomment, broken} state;
 	enum MarkupLanguage {PARSER_MODE_XML, PARSER_MODE_SGML}  mode;
+	NSMutableArray *handlers;
 }
 /**
  * Create a new parser with the specified delegate.
@@ -62,10 +62,18 @@
 - (id) initWithContentHandler: (id <ETXMLWriting>)_contentHandler;
 /**
  * Set the class to receive messages from input data.  Commonly used to delegate
- * handling child elements to other classes, or to pass control back to the 
- * parent afterwards.
+ * handling child elements to other classes.
  */
-- (id) setContentHandler: (id <ETXMLWriting>)_contentHandler;
+- (id) pushContentHandler: (id <ETXMLWriting>)_contentHandler;
+/**
+ * Pops the top content handler from the stack and returns control to the one
+ * below.  Typically used when a handler has parsed a closing tag.
+ */
+- (void)popContentHandler;
+/**
+ * Returns the content handler above the current one.  
+ */
+- (id)parentHandler;
 /**
  * Parse the given input string.  This, appended to any data previously supplied
  * using this method, must form a (partial) XML document.  This function returns

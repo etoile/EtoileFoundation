@@ -49,7 +49,6 @@
 {
 	unsigned int depth;
 	id parser;
-	id<ETXMLParserDelegate> parent;
 	id key;
 	id value;
 }
@@ -64,7 +63,6 @@
  * relevant to sub-classes.
  */
 - (id) initWithXMLParser: (ETXMLParser*)aParser 
-                  parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey;
 /**
  * Dynamic dispatch method that calls [self add{aChild}:aKey] if the object

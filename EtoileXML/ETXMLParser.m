@@ -33,6 +33,7 @@
 
 #import "ETXMLParser.h"
 #import "ETXMLParserDelegate.h"
+#import "../Headers/Macros.h"
 
 #define SUCCESS 0
 #define FAILURE -1
@@ -48,29 +49,45 @@
 - (id) initWithContentHandler: (id <ETXMLWriting>)_contentHandler
 {
 	[self init];
-	[self setContentHandler:_contentHandler];
+	[self pushContentHandler: _contentHandler];
 	return self;
 }
 
 - (id) init
 {
-	delegate = nil;
+	SUPERINIT;
+	handlers = [NSMutableArray new];
 	buffer = [[NSMutableString stringWithString:@""] retain];
 	openTags = [[NSMutableArray alloc] init];
 	mode = PARSER_MODE_XML;
 	state = notag;
-	return [super init];
+	return self;
 }
 
-- (id) setContentHandler: (id <ETXMLWriting>)_contentHandler
+- (id) pushContentHandler: (id <ETXMLWriting>)aContentHandler
 {
-	[delegate release];
-	delegate = [_contentHandler retain];
-	if ([delegate conformsToProtocol: @protocol(ETXMLParserDelegate)])
+	[handlers addObject: aContentHandler];
+	if ([aContentHandler conformsToProtocol: @protocol(ETXMLParserDelegate)])
 	{
-		[(id)delegate setParser: self];
+		[(id<ETXMLParserDelegate>)aContentHandler setParser: self];
 	}
 	return self;
+}
+
+- (void)popContentHandler
+{
+	[handlers removeLastObject];
+	id handler = [handlers lastObject];
+	if ([handler conformsToProtocol: @protocol(ETXMLParserDelegate)])
+	{
+		[(id<ETXMLParserDelegate>)handler setParser: self];
+	}
+}
+- (id)parentHandler
+{
+	NSUInteger count = [handlers count];
+	if (count < 2) { return nil; }
+	return [handlers objectAtIndex: count-1];
 }
 
 - (int) parseFrom: (int)_index to: (unichar)_endCharacter
@@ -255,6 +272,7 @@
 	[buffer appendString:data];
 	//NSLog(@"XML: %@", buffer);
 	bufferLength = [buffer length];
+	id delegate = [handlers lastObject];
 	while(currentIndex < bufferLength)
 	{
 		unichar currentChar;

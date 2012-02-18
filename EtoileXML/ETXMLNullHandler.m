@@ -37,14 +37,12 @@
 
 @implementation ETXMLNullHandler
 - (id) initWithXMLParser: (ETXMLParser*)aParser 
-                  parent: (id <ETXMLParserDelegate>)aParent 
                      key: (id)aKey
 {
 	SUPERINIT
 	value = [self retain];
-	[aParser setContentHandler:self];
+	[aParser pushContentHandler: self];
 	[self setParser:aParser];
-	[self setParent:aParent];
 	key = [aKey retain];
 	return self;
 }
@@ -52,18 +50,12 @@
 - (id) init
 {
 	return [self initWithXMLParser: nil
-	                        parent: nil
 	                           key: nil];
 }
 
 - (void) setParser: (id)XMLParser
 {
 	parser = XMLParser;
-}
-
-- (void) setParent: (id)newParent
-{
-	parent = newParent;
 }
 
 - (void) characters: (NSString *)_chars
@@ -82,9 +74,8 @@
 	depth--;
 	if(depth == 0)
 	{
-		[parser setContentHandler:parent];
+		[parser popContentHandler];
 		[self notifyParent];
-		[self release];
 	}
 }
 - (void) addChild: (id)aChild forKey: (id)aKey
@@ -103,17 +94,20 @@
 
 - (void) notifyParent
 {
+	id parent = [parser parentHandler];
 	if(key != nil && [parent respondsToSelector:@selector(addChild:forKey:)])
 	{
-		[(id)parent addChild:value forKey:key];
+		[[parser parentHandler] addChild:value forKey:key];
 		//NSLog(@"Setting value: %@ for key: %@ in %@", value, key, parent);
 	}
-	[self release];
+	[value release];
+	value = nil;
 }
 
 - (void) dealloc
 {
 	[key release];
+	[value release];
 	[super dealloc];
 }
 

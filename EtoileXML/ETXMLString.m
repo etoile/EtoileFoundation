@@ -38,16 +38,15 @@
 @implementation ETXMLString
 
 - (id) initWithXMLParser: (ETXMLParser*)aParser
-                  parent: (id <ETXMLParserDelegate>)aParent
                      key: (id)aKey
 {
 	self = [super initWithXMLParser: aParser
-	                         parent: aParent
 	                            key: aKey];
 	if (nil == self)
 	{
 		return nil;
 	}
+	[value release];
 	value = nil;
 	return self;
 }
