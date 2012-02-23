@@ -272,7 +272,6 @@
 	[buffer appendString:data];
 	//NSLog(@"XML: %@", buffer);
 	bufferLength = [buffer length];
-	id delegate = [handlers lastObject];
 	while(currentIndex < bufferLength)
 	{
 		unichar currentChar;
@@ -353,7 +352,7 @@
 									NS_DURING
 									{
 										//NSLog(@"<%@> (%@)", tagName, tagAttributes);
-										[delegate startElement:tagName attributes:tagAttributes];
+										[[handlers lastObject] startElement:tagName attributes:tagAttributes];
 									}
 									NS_HANDLER
 									{
@@ -384,7 +383,7 @@
 							NS_DURING
 							{
 								//NSLog(@"</%@> (%@)", tagName, openTags);
-								[delegate endElement:tagName];
+								[[handlers lastObject] endElement:tagName];
 							}
 							NS_HANDLER
 							{
@@ -429,7 +428,7 @@
 					}
 					NS_DURING
 					{
-						[delegate characters:cdata];
+						[[handlers lastObject] characters:cdata];
 					}
 					NS_HANDLER
 					{
@@ -449,7 +448,7 @@
 				{				
 					NS_DURING
 					{
-						[delegate characters:cdata];
+						[[handlers lastObject] characters:cdata];
 					}
 					NS_HANDLER
 					{
@@ -462,7 +461,7 @@
 				{
 					NS_DURING
 					{
-						[delegate characters:[cdata substringToIndex:cdataEnd.location]];
+						[[handlers lastObject] characters:[cdata substringToIndex:cdataEnd.location]];
 					}
 					NS_HANDLER
 					{
