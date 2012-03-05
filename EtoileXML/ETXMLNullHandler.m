@@ -74,8 +74,8 @@
 	depth--;
 	if(depth == 0)
 	{
-		[parser popContentHandler];
 		[self notifyParent];
+		[parser popContentHandler];
 	}
 }
 - (void) addChild: (id)aChild forKey: (id)aKey

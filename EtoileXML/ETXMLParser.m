@@ -87,7 +87,7 @@
 {
 	NSUInteger count = [handlers count];
 	if (count < 2) { return nil; }
-	return [handlers objectAtIndex: count-1];
+	return [handlers objectAtIndex: count - 2];
 }
 
 - (int) parseFrom: (int)_index to: (unichar)_endCharacter
