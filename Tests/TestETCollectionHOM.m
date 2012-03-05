@@ -456,6 +456,28 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKTrue([dict isEmpty]);
 }
 
+- (void)testFilterWithMessageNotUnderstoodByCollectionElements
+{
+	INPUT_MUTABLE_ARRAY
+	INPUT_ATTR_ARRAY
+	NSMutableArray *nullArray = [NSMutableArray arrayWithObjects: [NSNull null], [NSNull null], nil];
+	NSMutableArray *mixedArray = [NSMutableArray arrayWithObjects: [NSNull null], @"foo", [NSNull null], @"foo", nil];
+
+	[[array filter] isEqualToNumber: [NSNumber numberWithInt: 2]];
+	[(id)[[attrArray filter] numberAttribute] isEqualToString: @"foo"];
+	[[nullArray filter] isEqualToString: @"foo"];
+	[[mixedArray filter] isEqualToString: @"foo"];
+
+	UKTrue([array isEmpty]);
+	UKTrue([attrArray isEmpty]);
+	UKTrue([nullArray isEmpty]);
+	// FIXME: The test below is broken because 
+	// ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert()
+	// skip elements that don't responds to the argument message rather than 
+	// removing them in the original collection.
+	//UKObjectsEqual(A(@"foo", @"foo"), mixedArray);
+}
+
 - (void)testFilterArraysAndSets
 {
 	INPUT_MUTABLE_ARRAY

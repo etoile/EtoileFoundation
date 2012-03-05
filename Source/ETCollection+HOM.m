@@ -994,6 +994,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	// operates on a modified one.
 	id<ETMutableCollectionObject> originalCollection;
 	BOOL invert;
+	BOOL selectorIncompatibleWithCollectionElements;
 
 }
 @end
@@ -1277,6 +1278,33 @@ not -[super methodSignatureForSelector:]. */
 	return [self primitiveMethodSignatureForSelector: @selector(pointerSizedProxyNull)];
 }
 
+- (BOOL)respondsToSelector: (SEL)aSelector
+{
+	/* For -filter, we accept any argument message. More explanations below, in 
+	   -methodSignatureForSelector: code comment. */
+	return YES;
+}
+
+- (NSMethodSignature*)methodSignatureForSelector: (SEL)aSelector
+{
+	NSMethodSignature *sig = [super methodSignatureForSelector: aSelector];
+
+	/* When no elements in the collection responds to the argument message, then 
+	   we return the same marker we use to denote an empty collection, and set 
+	   a boolean flag to be checked in -forwardInvocation:.
+	   This ensures that [[collection filter] isEqualToString: @"bla"] works 
+	   even when the collection contains no NSString objects.
+	   Another example would be [[[collection] filter] name] isEqualToString: @"bla"]
+	   where [[collection] map] name] would return ( [NSNull null], [NSNull null] ... )
+	   because -name on a element returns nil. */
+	if (sig == nil)
+	{
+		selectorIncompatibleWithCollectionElements = YES;
+		return [self methodSignatureForEmptyCollection];
+	}
+	return sig;
+}
+
 - (void)forwardInvocation: (NSInvocation*)anInvocation
 {
 	const char *returnType = [[anInvocation methodSignature] methodReturnType];
@@ -1308,10 +1336,22 @@ not -[super methodSignatureForSelector:]. */
 		[anInvocation setReturnValue: &nextProxy];
 	}
 	else if ((0 == strcmp(@encode(uintptr_t), returnType))
-		&& ([collection isEmpty]))
+		&& [collection isEmpty])
 	{
 		// This special case is used when the collection is empty and we were
 		// passed a phony method signature.
+		uintptr_t theNull = 0;
+		[anInvocation setReturnValue: &theNull];
+
+	}
+	else if ((0 == strcmp(@encode(uintptr_t), returnType))
+		&& selectorIncompatibleWithCollectionElements)
+	{
+		// This special case is used when no elements respond to the argument 
+		// message and we were passed a phony method signature.
+		// TODO: Add -removeAllObjects to ETCollectionMutation to support 
+		// NSMutableIndexSet.
+		[(id)originalCollection removeAllObjects];
 		uintptr_t theNull = 0;
 		[anInvocation setReturnValue: &theNull];
 
