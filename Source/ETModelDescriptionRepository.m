@@ -50,6 +50,7 @@
 	ETEntityDescription *entityDesc = [aClass newEntityDescription];
 	[self addUnresolvedDescription: entityDesc];
 	[self setEntityDescription: entityDesc forClass: aClass];
+	RELEASE(entityDesc);
 }
 
 - (void) collectEntityDescriptionsFromClass: (Class)aClass

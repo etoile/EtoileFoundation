@@ -32,7 +32,8 @@ the entity descriptions and make them available in this repository.
 
 You can implement this method to describe your subclasses more precisely than 
 -basicNewEntityDescription.<br />
-You must never call [super newEntityDescription] in the implementation.
+You must never call [super newEntityDescription] in the implementation.<br />
+You must not return an autoreleased object.
 
 For example:
 
@@ -78,10 +79,12 @@ The parent will be resolved once when the description is added to the repository
 You must never use this method to retrieve an entity description, but only a 
 ETModelDescriptionRepository instance to do so.
 
+The returned object is not autoreleased.
+
 See also -newEntityDescription. */
 + (ETEntityDescription *) newBasicEntityDescription
 {
-	ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self className]];
+	ETEntityDescription *desc = [[ETEntityDescription alloc] initWithName: [self className]];
 
 	if ([self superclass] != nil)
 	{
