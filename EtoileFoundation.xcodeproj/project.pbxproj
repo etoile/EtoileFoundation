@@ -328,6 +328,7 @@
 		60CED0A812CFCF6800B5827C /* ETKeyValuePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETKeyValuePair.m; path = Source/ETKeyValuePair.m; sourceTree = "<group>"; };
 		60DA3AE41359AEAB00D8946F /* TestStackTraceRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStackTraceRecorder.m; path = Tests/TestStackTraceRecorder.m; sourceTree = "<group>"; };
 		60DEB05A1156445E00744298 /* TestModelDescriptionRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModelDescriptionRepository.m; path = Tests/TestModelDescriptionRepository.m; sourceTree = "<group>"; };
+		60F494FB15076CDA008F1E99 /* EtoileXML-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "EtoileXML-Info.plist"; path = "EtoileXML/EtoileXML-Info.plist"; sourceTree = "<group>"; };
 		60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileHandle+Socket.h"; path = "Headers/NSFileHandle+Socket.h"; sourceTree = "<group>"; };
 		60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileHandle+Socket.m"; path = "Source/NSFileHandle+Socket.m"; sourceTree = "<group>"; };
 		60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glibc_hack_unistd.h; path = Headers/glibc_hack_unistd.h; sourceTree = "<group>"; };
@@ -474,6 +475,7 @@
 		60073EA310074CF3007272E6 /* EtoileXML */ = {
 			isa = PBXGroup;
 			children = (
+				60F494FB15076CDA008F1E99 /* EtoileXML-Info.plist */,
 				60073EB610074D6A007272E6 /* ETXMLDeclaration.h */,
 				60073EB710074D6A007272E6 /* ETXMLDeclaration.m */,
 				60073EB810074D6A007272E6 /* ETXMLNode.h */,
@@ -1137,9 +1139,10 @@
 		60073EAF10074D27007272E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 2;
 				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "EtoileXML/EtoileXML-Info.plist";
 				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = EtoileXML;
 			};
@@ -1148,8 +1151,9 @@
 		60073EB010074D27007272E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 2;
+				INFOPLIST_FILE = "EtoileXML/EtoileXML-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				PRODUCT_NAME = EtoileXML;
 			};
@@ -1158,8 +1162,8 @@
 		603647AE0E409245003377E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 5;
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = (
 					$SRCROOT,
@@ -1174,6 +1178,9 @@
 		603647AF0E409245003377E0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 5;
+				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = $SRCROOT;
 				INFOPLIST_FILE = "../EtoileFoundation/EtoileFoundation-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
@@ -1225,10 +1232,12 @@
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				SDKROOT = macosx10.6;
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unknown-pragmas",
+				);
 			};
 			name = Debug;
 		};
@@ -1236,13 +1245,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				CURRENT_PROJECT_VERSION = 0.5;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PREPROCESSOR_DEFINITIONS = NeXT_RUNTIME;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				SDKROOT = macosx10.6;
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wno-unknown-pragmas",
+				);
 			};
 			name = Release;
 		};
