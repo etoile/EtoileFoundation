@@ -457,6 +457,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	}
 	if(depth == 0)
 	{
+		value = string;
 		[self notifyParent];
 		[parser popContentHandler];
 	}

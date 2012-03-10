@@ -97,7 +97,7 @@
 	id parent = [parser parentHandler];
 	if(key != nil && [parent respondsToSelector:@selector(addChild:forKey:)])
 	{
-		[[parser parentHandler] addChild:value forKey:key];
+		[parent addChild:value forKey:key];
 		//NSLog(@"Setting value: %@ for key: %@ in %@", value, key, parent);
 	}
 	[value release];
