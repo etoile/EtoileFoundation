@@ -57,9 +57,7 @@
 	ETXMLParser * p = [[ETXMLParser alloc] init];
 	XHTMLCollector * c = [[XHTMLCollector alloc] init];
 	[p setMode:PARSER_MODE_SGML];
-	[[ETXMLXHTML_IMParser alloc] initWithXMLParser:p
-											parent:c
-											   key:@"html"];
+	[[ETXMLXHTML_IMParser alloc] initWithXMLParser:p									   key:@"html"];
 	[p parseFromSource:aString];
 	[p release];
 	NSAttributedString * html = c->html;
