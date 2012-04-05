@@ -14,6 +14,7 @@ EtoileFoundation is the core framework for all Etoile projects, providing numero
 
 - mirror-based reflection
 - mixins and traits
+- prototypes
 - double-dispatch
 - collection class protocol and additions
 - UUID
@@ -25,12 +26,14 @@ EtoileFoundation is the core framework for all Etoile projects, providing numero
 - socket
 - stack trace recording
 
-**Note:**  Prototypes and restartable exceptions have been temporarily removed in the current version.
+**Note:** Restartable exceptions have been temporarily removed in the current version.
 
 Two sub-frameworks are bundled with it: 
 
 - *EtoileThread* which allows objects to transparently be run in a separate thread. 
 - *EtoileXML* which is a light-weight and tolerant XML parsing framework whose main ability is to handle truncated and not well-formed XML documents. For example, with XML streams used by the XMPP protocol, the XML is received in fragments.
+
+**Warning:** EtoileThread is not available in this release.
 
 Be wary that the framework is really much work-in-progress for now, so some parts really need improvements and the API is still a moving target.
 
@@ -59,8 +62,8 @@ If you want to use classes from EtoileThread or EtoileXML, you can use import Et
 Unlike EtoileThread which has no dependency, EtoileXML depends on EtoileFoundation and links it.
 
 
-EtoileThread
-------------
+EtoileThread (not available)
+----------------------------
 
 See the README in the EtoileThread subdirectory.
 
