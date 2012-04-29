@@ -223,6 +223,14 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKFalse([mappedArray containsObject: @"bar"]);
 }
 
+- (void)testDoLikeMappingReturnsNil
+{
+	INPUT_ARRAY
+	unichar buf[1];
+	UKNil((void*)[[inputArray mappedCollection] getCharacters: buf
+	                                                    range: NSMakeRange(0,1)]);
+}
+
 - (void)testMappedSet
 {
 	INPUT_SET
@@ -398,7 +406,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testFilterWithIsEqualAsArgumentMessage
 {
 	NSMutableSet *emptySet = [NSMutableSet set];
-	NSMutableSet *set = [NSMutableSet setWithObjects: @"foo", @"bar", 
+	NSMutableSet *set = [NSMutableSet setWithObjects: @"foo", @"bar",
 		[NSNumber numberWithInt: 2], nil];
 	NSMutableSet *arraySet = [NSMutableSet setWithObjects: A(@"foo", @"bar"),
 		A([NSNumber numberWithInt: 2]), nil];

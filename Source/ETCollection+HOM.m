@@ -157,10 +157,11 @@ typedef struct
 	[super dealloc];
 }
 
-- (id)forwardingTargetForSelector: (SEL)aSelector
+/*- (id)forwardingTargetForSelector: (SEL)aSelector
 {
 	return collection;
 }
+*/
 
 - (BOOL)respondsToSelector: (SEL)aSelector
 {
@@ -1137,6 +1138,13 @@ not -[super methodSignatureForSelector:]. */
 	{
 		[anInvocation setReturnValue: &mappedCollection];
 	}
+	else
+	{
+		// If the invocation has a void return type, we make sure that the
+		// return value is set to nil.
+		id theNil = nil;
+		[anInvocation setReturnValue: &theNil];
+	}
 }
 @end
 
@@ -1186,9 +1194,9 @@ not -[super methodSignatureForSelector:]. */
 }
 @end
 
-/* NSProxy has no methods to retrieve the method signatures e.g. 
-   -methodSignatureForSelector:, so -methodSignatureForEmptyCollection must 
-   invoke -primitiveMethodSignatureForSelector: on a class whose kind is 
+/* NSProxy has no methods to retrieve the method signatures e.g.
+   -methodSignatureForSelector:, so -methodSignatureForEmptyCollection must
+   invoke -primitiveMethodSignatureForSelector: on a class whose kind is
    NSObject to get a method signature. */
 @interface NSObject (PointerSizedProxyNull)
 - (uintptr_t)pointerSizedProxyNull;
