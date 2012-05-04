@@ -493,13 +493,16 @@
 - (BOOL) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
 {
 	Class appClass = NSClassFromString(@"NSApplication");
+	Class etAppClass = NSClassFromString(@"ETApplication");
 
-	if (appClass == nil) /* AppKit not loaded */
+	if (appClass == Nil) /* AppKit and EtoileUI not loaded */
+	{
 		return NO;
-
-	appClass = NSClassFromString(@"ETApplication");
-	if (appClass == nil) /* EtoileUI not loaded */
-		return NO;
+	}
+	else if (etAppClass != Nil) /* EtoileUI loaded */
+	{
+		appClass = etAppClass;
+	}
 
 	Class principalClass = [testBundle principalClass];
 
