@@ -60,34 +60,81 @@
     }
 }
 
-static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
+- (id) init
 {
-	bundlePath = [bundlePath stringByExpandingTildeInPath];
-	if ( ![bundlePath isAbsolutePath]) {
-		bundlePath = [cwd stringByAppendingPathComponent:bundlePath];
-		bundlePath = [bundlePath stringByStandardizingPath];
-	}
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	//NSLog (@"bundle path: %@", bundlePath);
+	self = [super init];
+	if (self == nil)
+		return nil;
 
-	printf("looking for bundle at path: %s\n", [bundlePath UTF8String]);
-	// make sure bundle exists and is loaded
+	setUpClasses = [[NSMutableSet alloc] init];
+	return self;
+}
 
-    NSBundle *testBundle = [NSBundle bundleWithPath:bundlePath];
-	if (testBundle == nil) {
+- (void) dealloc
+{
+	[setUpClasses release];
+	[super dealloc];
+}
+
+- (id) loadBundleAtPath: (NSString *)bundlePath
+{
+    NSBundle *testBundle = [NSBundle bundleWithPath: bundlePath];
+	
+	if (testBundle == nil)
+	{
 		// XXX i18n as well as message improvements
-		printf("Test bundle %s could not be found\n", 
-				[bundlePath UTF8String]);
-		[pool release];
-		return;
+		printf("Test bundle %s could not be found\n", [bundlePath UTF8String]);
+		return nil;
 	}
-	if (![testBundle load]) {
+	if (![testBundle load])
+	{
 		// XXX i18n as well as message improvements
 		printf("Test bundle could not be loaded\n");
-		[pool release];
-		return;            
+		return nil;            
 	}
-	[runner runTestsInBundle:testBundle];
+	return testBundle;
+}
+
+- (NSArray *) bundlePathsInCurrentDirectory: (NSString *)cwd
+{
+	NSMutableArray *bundlePaths = [NSMutableArray array];
+
+	for (NSString *file in [[NSFileManager defaultManager] directoryContentsAtPath: cwd])
+	{
+		BOOL isDir = NO;
+		if ([[NSFileManager defaultManager] fileExistsAtPath: file isDirectory: &isDir] && isDir)
+		{
+			int len = [file length];
+	
+			if (len > 8 
+			 && [[file substringFromIndex: (len - 6)] isEqualToString: @"bundle"])
+			{
+				[bundlePaths addObject: file];
+			}
+		}
+	}
+	return bundlePaths;
+}
+
+- (void) runTestsInBundleAtPath: (NSString *)bundlePath currentDirectory: (NSString *)cwd
+{
+	bundlePath = [bundlePath stringByExpandingTildeInPath];
+
+	if (![bundlePath isAbsolutePath])
+	{
+		bundlePath = [cwd stringByAppendingPathComponent: bundlePath];
+		bundlePath = [bundlePath stringByStandardizingPath];
+	}
+
+	printf("Looking for bundle at path: %s\n", [bundlePath UTF8String]);
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSBundle *testBundle = [self loadBundleAtPath: bundlePath];
+
+	if (testBundle != nil)
+	{
+		[self runTestsInBundle: testBundle principalClass: nil];
+	}
 	[pool release];
 }
 
@@ -100,85 +147,76 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
      If there are no arguments given, then we'll just execute every 
      test class found. Otherwise
      */
-    
-	NSFileManager *fm = [NSFileManager defaultManager];
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSString *cwd = [fm currentDirectoryPath];
-    //printf("ukrun starting\n");
+	printf("ukrun version 1.3 (Etoile)\n"); // XXX replace with a real auto version
+
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
+    UKRunner *runner = [[UKRunner alloc] init];
+
     //printf("cwd: %s\n", [cwd UTF8String]);
 
-    NSArray *args = [[NSProcessInfo processInfo] arguments];
-    int argCount = [args count];
-    
-    UKRunner *runner = [[UKRunner alloc] init];
-    
-	int bundles = 0;
-    if (argCount >= 2) 
-	{
-        printf("ukrun version 1.3 (GNUstep)\n"); // XXX replace with a real auto version
+	NSArray *bundlePaths = [runner parseArgumentsWithCurrentDirectory: cwd];
 
+	// If no bundles are specified, then just run every bundle in this folder
+	if ([bundlePaths count] == 0)
+	{
+		bundlePaths = [bundlePaths arrayByAddingObjectsFromArray: [runner bundlePathsInCurrentDirectory: cwd]];
+	}
+
+	for (NSString *path in bundlePaths)
+	{
+		[runner runTestsInBundleAtPath: path currentDirectory: cwd];
+	}
+	
+	int result = [runner reportTestResults];
+
+    [runner release];
+    [pool release];
+
+	return result;
+}
+
+- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd
+{
+    NSArray *args = [[NSProcessInfo processInfo] arguments];
+	NSMutableArray *bundlePaths = [NSMutableArray array];
+
+    if ([args count] >= 2) 
+	{
         // Mark Dalrymple contributed this bit about going quiet.
         
-        for (int i=1 ; i < argCount ; i++)
+        for (int i = 1; i < [args count]; i++)
 		{
-			if ([[args objectAtIndex:i] isEqualToString: @"-q"])
+			if ([[args objectAtIndex: i] isEqualToString: @"-q"])
 			{
 				[[UKTestHandler handler] setQuiet: YES];
 				i++;
 			}
 			else
 			{
-				NSString *bundlePath = [args objectAtIndex:i];
-				loadBundle(runner, cwd, bundlePath);
-				bundles++;
+				[bundlePaths addObject: [args objectAtIndex: i]];
 			}
         }
-    } 
-	// If no bundles are specified, then just run every bundle in this folder.
-	if (bundles == 0)
-	{
-		NSArray *files = [fm directoryContentsAtPath:cwd];
-		NSEnumerator *e = [files objectEnumerator];
-		NSString *file;
-		while (nil != (file = [e nextObject]))
-		{
-			BOOL isDir = NO;
-			if ([fm fileExistsAtPath:file isDirectory:&isDir] && isDir)
-			{
-				int len = [file length];
-				if(len > 8 && [[file substringFromIndex:(len - 6)] isEqualToString:@"bundle"])
-				{
-					loadBundle(runner, cwd, file);
-				}
-			}
-		}
+    }
+	return bundlePaths;
+}
 
-	}
-    
-        
+- (int) reportTestResults
+{
     int testsPassed = [[UKTestHandler handler] testsPassed];
     int testsFailed = [[UKTestHandler handler] testsFailed];
 	int exceptionsReported = [[UKTestHandler handler] exceptionsReported];
-    int testClasses = runner->testClassesRun;
-    int testMethods = runner->testMethodsRun;
     
-    [runner release];
-    [pool release];
-    
-    // XXX i18n
-    printf("Result: %i classes, %i methods, %i tests, %i failed, %i exceptions\n", testClasses, testMethods, (testsPassed + testsFailed), testsFailed, exceptionsReported);
+    // TODO: XXX i18n and may be extract in -testResultSummary
+    printf("Result: %i classes, %i methods, %i tests, %i failed, %i exceptions\n", 
+		testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
 
 #ifndef GNUSTEP
-    [self performGrowlNotification: testsPassed :testsFailed :exceptionsReported :testClasses :testMethods];
+    [[self class] performGrowlNotification: testsPassed :testsFailed :exceptionsReported :testClassesRun :testMethodsRun];
 #endif
 
-    if (testsFailed == 0 && exceptionsReported == 0) {
-        return 0;
-    } else {
-        return -1;
-    }
-
+    return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
 }
 
 #ifndef GNUSTEP
@@ -412,7 +450,7 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
     [self runTests:testMethods onObject: [testClass alloc]];
 }
 
-- (void) runTestsInBundle:(NSBundle *)bundle
+- (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
 {
 	// NOTE: First we must create the app object, because on Mac OS X (10.6) in 
 	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes 
@@ -420,7 +458,19 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication. 
 	// When no app object is available yet, an NSApplication instance will be 
 	// created rather than the subclass instance we might want.
-    [self setUpAppObjectIfNeededForBundle: bundle];
+    BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
+
+	/* In addition, -setUp is also sent to the principal class */
+	Class setUpClass = (principalClass != nil ? principalClass : [bundle principalClass]);
+	BOOL setUpCalled = (setUpCalledOnAppObject 
+		&& [principalClass isKindOfClass: NSClassFromString(@"NSApplication")]
+		&& [setUpClasses containsObject: setUpClass] == NO );
+
+	if (setUpCalled == NO && [setUpClass respondsToSelector: @selector(setUp)])
+	{
+		[setUpClass setUp];
+		[setUpClasses addObject: setUpClass];
+	}
 
     NSArray *testClasses = UKTestClasseNamesFromBundle(bundle);
     NSEnumerator *e = [testClasses objectEnumerator];
@@ -440,16 +490,16 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
    - ETApplication 
    - NSApplication
 */
-- (void) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
+- (BOOL) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
 {
 	Class appClass = NSClassFromString(@"NSApplication");
 
 	if (appClass == nil) /* AppKit not loaded */
-		return;
+		return NO;
 
 	appClass = NSClassFromString(@"ETApplication");
 	if (appClass == nil) /* EtoileUI not loaded */
-		return;
+		return NO;
 
 	Class principalClass = [testBundle principalClass];
 
@@ -459,10 +509,13 @@ static void loadBundle(UKRunner *runner, NSString *cwd, NSString *bundlePath)
 
 	id app = [appClass sharedApplication];
 
-	if ([app respondsToSelector: @selector(setUp)])
+	if ([app respondsToSelector: @selector(setUp)] && [setUpClasses containsObject: appClass] == NO)
 	{
 		[app setUp];
+		[setUpClasses addObject: appClass];
+		return YES;
 	}
+	return NO;
 }
 
 @end

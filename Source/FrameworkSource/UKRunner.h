@@ -24,17 +24,22 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UKRunner : NSObject {
+@interface UKRunner : NSObject
+{
+	NSMutableSet *setUpClasses;
     int testClassesRun;
     int testMethodsRun;
 }
 
 + (int) runTests;
 
-- (void) runTestsInBundle:(NSBundle *)bundle;
+- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd;
+- (int) reportTestResults;
+
+- (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass;
 - (void) runTests:(NSArray *)testMethods onObject:(id)testObject;
 
-- (void) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle;
+- (BOOL) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle;
 
 #ifndef GNUSTEP
 + (void) performGrowlNotification
