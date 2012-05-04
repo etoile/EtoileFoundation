@@ -223,17 +223,6 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKFalse([mappedArray containsObject: @"bar"]);
 }
 
-// FIXME: void cannot be cast to void*
-#if 0
-- (void)testDoLikeMappingReturnsNil
-{
-	INPUT_ARRAY
-	unichar buf[1];
-	UKNil((void*)[[inputArray mappedCollection] getCharacters: buf
-	                                                    range: NSMakeRange(0,1)]);
-}
-#endif
-
 - (void)testMappedSet
 {
 	INPUT_SET
@@ -482,9 +471,9 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKTrue([array isEmpty]);
 	UKTrue([attrArray isEmpty]);
 	UKTrue([nullArray isEmpty]);
-	// FIXME: The test below is broken because 
+	// FIXME: The test below is broken because
 	// ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOriginalAndInvert()
-	// skip elements that don't responds to the argument message rather than 
+	// skip elements that don't responds to the argument message rather than
 	// removing them in the original collection.
 	//UKObjectsEqual(A(@"foo", @"foo"), mixedArray);
 }

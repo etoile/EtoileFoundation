@@ -1138,13 +1138,6 @@ not -[super methodSignatureForSelector:]. */
 	{
 		[anInvocation setReturnValue: &mappedCollection];
 	}
-	else
-	{
-		// If the invocation has a void return type, we make sure that the
-		// return value is set to nil.
-		id theNil = nil;
-		[anInvocation setReturnValue: &theNil];
-	}
 }
 @end
 
@@ -1288,7 +1281,7 @@ not -[super methodSignatureForSelector:]. */
 
 - (BOOL)respondsToSelector: (SEL)aSelector
 {
-	/* For -filter, we accept any argument message. More explanations below, in 
+	/* For -filter, we accept any argument message. More explanations below, in
 	   -methodSignatureForSelector: code comment. */
 	return YES;
 }
@@ -1297,10 +1290,10 @@ not -[super methodSignatureForSelector:]. */
 {
 	NSMethodSignature *sig = [super methodSignatureForSelector: aSelector];
 
-	/* When no elements in the collection responds to the argument message, then 
-	   we return the same marker we use to denote an empty collection, and set 
+	/* When no elements in the collection responds to the argument message, then
+	   we return the same marker we use to denote an empty collection, and set
 	   a boolean flag to be checked in -forwardInvocation:.
-	   This ensures that [[collection filter] isEqualToString: @"bla"] works 
+	   This ensures that [[collection filter] isEqualToString: @"bla"] works
 	   even when the collection contains no NSString objects.
 	   Another example would be [[[collection] filter] name] isEqualToString: @"bla"]
 	   where [[collection] map] name] would return ( [NSNull null], [NSNull null] ... )
@@ -1355,9 +1348,9 @@ not -[super methodSignatureForSelector:]. */
 	else if ((0 == strcmp(@encode(uintptr_t), returnType))
 		&& selectorIncompatibleWithCollectionElements)
 	{
-		// This special case is used when no elements respond to the argument 
+		// This special case is used when no elements respond to the argument
 		// message and we were passed a phony method signature.
-		// TODO: Add -removeAllObjects to ETCollectionMutation to support 
+		// TODO: Add -removeAllObjects to ETCollectionMutation to support
 		// NSMutableIndexSet.
 		[(id)originalCollection removeAllObjects];
 		uintptr_t theNull = 0;
