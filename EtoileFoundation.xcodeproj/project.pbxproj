@@ -320,7 +320,6 @@
 		60B27D750FF7B54F0012BB42 /* TestUTI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUTI.m; path = Tests/TestUTI.m; sourceTree = "<group>"; };
 		60B27D7C0FF7B56C0012BB42 /* ETCollection+HOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ETCollection+HOM.m"; path = "Source/ETCollection+HOM.m"; sourceTree = "<group>"; };
 		60B27D8A0FF7B6180012BB42 /* ETCollection+HOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ETCollection+HOM.h"; path = "Headers/ETCollection+HOM.h"; sourceTree = "<group>"; };
-		60BB9F140EED2FD000D5E1A6 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		60C0217110FA40E800A46E65 /* TestIndexPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestIndexPath.m; path = Tests/TestIndexPath.m; sourceTree = "<group>"; };
 		60C021ED10FA4AB800A46E65 /* ETByteSizeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETByteSizeFormatter.h; path = Headers/ETByteSizeFormatter.h; sourceTree = "<group>"; };
 		60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETByteSizeFormatter.m; path = Source/ETByteSizeFormatter.m; sourceTree = "<group>"; };
@@ -452,7 +451,6 @@
 		29B97314FDCFA39411CA2CEA /* FlowAutolayoutExample */ = {
 			isa = PBXGroup;
 			children = (
-				60BB9F140EED2FD000D5E1A6 /* ChangeLog */,
 				605D6D4F0CE94218009ED244 /* EtoileFoundation */,
 				60073EA310074CF3007272E6 /* EtoileXML */,
 				66AC42A5108AD6BB00047C26 /* EtoileThread */,

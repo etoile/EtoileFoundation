@@ -223,6 +223,8 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKFalse([mappedArray containsObject: @"bar"]);
 }
 
+// FIXME: void cannot be cast to void*
+#if 0
 - (void)testDoLikeMappingReturnsNil
 {
 	INPUT_ARRAY
@@ -230,6 +232,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 	UKNil((void*)[[inputArray mappedCollection] getCharacters: buf
 	                                                    range: NSMakeRange(0,1)]);
 }
+#endif
 
 - (void)testMappedSet
 {
