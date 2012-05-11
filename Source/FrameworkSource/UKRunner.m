@@ -265,22 +265,27 @@
 }
 #endif
 
-#ifndef GNUSTEP
-- (void) runTest:(SEL)testSelector onObject:(id)testObject
+- (void) runTest: (SEL)testSelector onObject: (id)testObject
 {
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    [runLoop performSelector:testSelector 
-                      target:testObject 
-                    argument:nil 
-                       order:0 
-                       modes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
-    CFRunLoopRef cfRunLoop = [runLoop getCFRunLoop];
-    [runLoop runUntilDate:nil];
-    while (CFRunLoopIsWaiting(cfRunLoop)) {
-        [runLoop runUntilDate:nil];
-    }
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+
+	[runLoop performSelector: testSelector 
+	                  target: testObject 
+ 	                argument: nil 
+ 	                   order: 0 
+	                   modes: [NSArray arrayWithObject:NSDefaultRunLoopMode]];
+	// NOTE: nil, [NSDate date] or LDBL_EPSILON don't work on GNUstep
+	[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.0001]];
+
+	/* The code below is unsupported on GNUstep and this doesn't seem to matter
+
+	CFRunLoopRef cfRunLoop = [runLoop getCFRunLoop];
+	
+	while (CFRunLoopIsWaiting(cfRunLoop))
+	{
+		[runLoop runUntilDate: nil];
+	}*/
 }
-#endif
 
 /*!
  @method runTests:onObject:
@@ -395,7 +400,7 @@
         NS_DURING
 	{
             SEL testSel = NSSelectorFromString(testMethodName);
-            [object performSelector:testSel];
+            [self runTest: testSel onObject: object];
 	}
         NS_HANDLER
 	{
