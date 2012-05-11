@@ -528,6 +528,19 @@
 
 @end
 
+BOOL UKTestClassConformsToProtocol(Class aClass)
+{
+	Class class = aClass;
+	BOOL isTestClass = NO;
+
+	while (class != Nil && isTestClass == NO)
+	{
+		isTestClass = class_conformsToProtocol(class, @protocol(UKTest));
+		class = class_getSuperclass(class);
+	}
+	return isTestClass;
+}
+
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 {        
     NSMutableArray *testClasseNames = [[NSMutableArray alloc] init];
@@ -558,8 +571,7 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 			/* Using class_conformsToProtocol() intead of +conformsToProtocol: 
 			   does not require sending a message to the class. This prevents 
 			   +initialize being sent to classes that are not explicitly used. */	 
-            if (bundle == classBundle && 
-                class_conformsToProtocol(c, @protocol(UKTest))) {
+            if (bundle == classBundle && UKTestClassConformsToProtocol(c)) {
                 [testClasseNames addObject:NSStringFromClass(c)];
             }
         }
