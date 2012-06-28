@@ -49,24 +49,23 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 		/* EtoileFoundation Bundle */
 
-		NSBundle *bundle = [NSBundle bundleForClass: [ETUTI class]];
-		NSString *path = [bundle pathForResource: @"UTIDefinitions" 
-		                                  ofType: @"plist"];
-		[ETUTI registerUTIDefinitions: [ETUTI propertyListWithPath: path]];
-	
-		path = [bundle pathForResource: @"UTIClassBindings" 
-		                        ofType: @"plist"];
-		[ETUTI registerClassBindings: [ETUTI propertyListWithPath: path]];
+		NSBundle *etoileFoundationBundle = [NSBundle bundleForClass: [ETUTI class]];
+
+		[self registerTypesFromBundle: etoileFoundationBundle];
+
+		/* Loaded Framework Bundles */
+
+		for (NSBundle *framework in [NSBundle allFrameworks])
+		{
+			if ([framework isEqual: etoileFoundationBundle])
+				continue;
+
+			[self registerTypesFromBundle: framework];
+		}
 
 		/* Main Bundle (e.g. application document types) */
 
-		path = [[NSBundle mainBundle] pathForResource: @"UTIDefinitions"
-		                                       ofType: @"plist"];
-		[ETUTI registerUTIDefinitions: [ETUTI propertyListWithPath: path]];
-
-		path = [[NSBundle mainBundle] pathForResource: @"UTIClassBindings"
-		                                       ofType: @"plist"];
-		[ETUTI registerClassBindings: [ETUTI propertyListWithPath: path]];
+		[self registerTypesFromBundle: [NSBundle mainBundle]];		
 	}
 }
 
@@ -139,6 +138,17 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 	[aType setSupertypesFromStrings: supertypeNames];
 	[UTIInstances setObject: aType forKey: aString];
 	return [aType autorelease];
+}
+
++ (void) registerTypesFromBundle: (NSBundle *)aBundle
+{
+	NSString *path = [aBundle pathForResource: @"UTIDefinitions" 
+	                                   ofType: @"plist"];
+	[ETUTI registerUTIDefinitions: [ETUTI propertyListWithPath: path]];
+	
+	path = [aBundle pathForResource: @"UTIClassBindings" 
+	                         ofType: @"plist"];
+	[ETUTI registerClassBindings: [ETUTI propertyListWithPath: path]];
 }
 
 + (ETUTI *) transientTypeWithSupertypeStrings: (NSArray *)supertypeNames

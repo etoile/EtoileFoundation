@@ -28,10 +28,10 @@
  * and ClassBindings.plist in the EtoileFoundation framework resources.
  *
  * Additional UTIs and class bindings can be provided in third-party 
- * applications. At launch time, ETUTI loads any UTIDefinitions.plist and 
- * ClassBindings.plist present in the main bundle and merges the content into 
- * its runtime UTI database. You cannot redefine a UTI built into 
- * EtoileFoundation UTIDefinitions.plist.
+ * applications or frameworks. At launch time, ETUTI loads any 
+ * UTIDefinitions.plist and ClassBindings.plist present in the main bundle and 
+ * loaded frameworks, and merges the content into its runtime UTI database. You 
+ * cannot redefine a UTI built into EtoileFoundation UTIDefinitions.plist.
  */
 @interface ETUTI : NSObject <NSCopying>
 {
@@ -102,6 +102,14 @@
                        description: (NSString *)description
                   supertypeStrings: (NSArray *)supertypeNames
                           typeTags: (NSDictionary *)tags;
+/**
+ * Registers additional UTIs and class bindings in the UTI database by loading
+ * any UTIDefinitions.plist and ClassBindings.plist present in the bundle 
+ * resources directory. 
+ *
+ * UTIs and class bindings registered with this method are not persisted.
+ */
++ (void) registerTypesFromBundle: (NSBundle *)aBundle;
 /**
  * Returns a "transient" or anonymous ETUTI object based on the given UTI 
  * string representations as supertypes.
