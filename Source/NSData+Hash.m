@@ -7,6 +7,7 @@
 //
 
 #import "NSData+Hash.h"
+#if !(TARGET_OS_IPHONE)
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/sha.h>
@@ -131,3 +132,5 @@
 	return data;	
 }
 @end
+
+#endif

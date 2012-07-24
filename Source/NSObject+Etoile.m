@@ -136,5 +136,15 @@ subclasses inheriting from the class that redefines -typePrefix. */
 	return @"NS";
 }
 
+#if TARGET_OS_IPHONE
+/** Returns the class name.
+
+This Foundation method is missing on iOS. */
+- (NSString *) className
+{
+	return NSStringFromClass([self class]);
+}
+#endif
+
 @end
 

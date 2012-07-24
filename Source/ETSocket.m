@@ -1,4 +1,5 @@
 #import "ETSocket.h"
+#if !(TARGET_OS_IPHONE)
 #import "Macros.h"
 #import "NSFileHandle+Socket.h"
 #import "EtoileCompatibility.h"
@@ -428,3 +429,5 @@ NSString *ETSocketException = @"ETSocketException";
 	}
 }
 @end
+
+#endif

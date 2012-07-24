@@ -23,6 +23,26 @@ Steps to build:
 	make install
 
 
+iOS support
+-----------
+
+For iOS, build the target named  **EtoileFoundation Library (iOS)** that belong to **EtoileFoundation-iOS.xcodeproj**.
+
+To use the resulting library in your own project, the EtoileFoundation headers and library have to be made visible in the project search paths as explained below.
+
+First, create a symbolic link inside your project directory (the one that contains the Xcode project) pointing on the EtoileFoundation directory :
+
+	ln -s path/to/EtoileFoundation path/to/your/project
+
+You must then tweak your project build setting $HEADER_SEARCH_PATHS (in the Search Paths section) to include the line below:
+
+	$(PROJECT_DIR)/EtoileFoundation/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+
+Finally link the library, and include the EtoileFoundation/Resources directory content among your project resources. You are now ready to use EtoileFoundation in your project by importing EtoileFoundation.h as you would usually:
+
+	#import <EtoileFoundation/EtoileFoundation.h>
+
+
 Trouble
 -------
 

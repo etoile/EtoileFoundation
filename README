@@ -47,12 +47,21 @@ Read INSTALL document.
 Mac OS X support
 ----------------
 
-EtoileFoundation is supported on Mac OS X, minus the parts that only works with the GNU runtime (prototypes, restartable exceptions and some introspection stuff).
+EtoileFoundation is supported on Mac OS X, minus the parts that only work with the GNU runtime (prototypes, restartable exceptions and some introspection stuff).
 An Xcode project is available to build both EtoileFoundation and EtoileXML on Mac OS X. EtoileThread is unsupported on Mac OS X presently.
 
 NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on Mac OS X.
 
 For EtoileFoundation compilation, many warnings about missing protocol method implementations are reported, because *#pragma GCC diagnostic ignored "-Wprotocol"* only works with LLVM 1.5 64 bits. By default, EtoileFoundation is compiled as a Universal 32/64 bits framework. Switch *Architectures* to Intel 64 bits to eliminate these issues at development time (supposing your machine is 64 bits compatible).
+
+iOS support
+-----------
+
+EtoileFoundation is supported on iOS, minus the parts only work with the GNU runtime (prototypes, restartable exceptions and some introspection stuff). For now, ETSocket and NSData(Hash) are also missing  on iOS, because it doesn't include the OpenSSL library.
+An Xcode project is available to build EtoileFoundation as a static library on iOS. Both EtoileXML and EtoileThread are unsupported on iOS presently.
+
+ETSocket.m, ETStackTraceRecorder.m, NSData+Hash.m, NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on iOS.
+
 
 Developer Notes
 ===============

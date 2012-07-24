@@ -6,14 +6,12 @@
 	License:  Modified BSD (see COPYING)
  */
 
-#import <Foundation/NSDebug.h>
 #import "ETStackTraceRecorder.h"
 #import "ETCollection.h"
 #import "EtoileCompatibility.h"
 #import "Macros.h"
-#import <objc/Object.h>
 
-#if defined(GNUSTEP) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
+#if defined(GNUSTEP) || (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6 && !(TARGET_OS_IPHONE))
 
 @interface ETStackTraceRecorder (Private)
 - (void) didAllocObject: (id)anObject ofClass: (Class)aClass;

@@ -81,6 +81,8 @@
 
 /* EtoileFoundation subframeworks */
 
+#if !(TARGET_OS_IPHONE)
+
 #if 0
 #import <EtoileThread/ETThread.h>
 #import <EtoileThread/ETThreadedObject.h>
@@ -99,3 +101,5 @@
 #import <EtoileXML/ETXMLWriter.h>
 #import <EtoileXML/ETXMLXHTML-IMParser.h>
 #import <EtoileXML/NSAttributedString+HTML.h>
+
+#endif

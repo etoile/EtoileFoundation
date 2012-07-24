@@ -106,4 +106,16 @@ CFDictionaryValueCallBacks strongValueCallBacks =
 	CFDictionaryRemoveValue(dict, aKey);
 }
 
+/** Returns the keys used in the map table. */
+- (NSArray *)allKeys
+{
+	return [(NSDictionary *)dict allKeys];
+}
+
+/** Returns the objects stored in the map table. */
+- (NSArray *)allValues
+{
+	return [(NSDictionary *)dict allValues];
+}
+
 @end

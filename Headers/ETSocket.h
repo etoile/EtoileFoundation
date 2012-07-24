@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#if !(TARGET_OS_IPHONE)
 
 /**
  * @group Network and Communication
@@ -127,3 +128,5 @@
  * Exception thrown on abrupt termination.
  */
 extern NSString *ETSocketException;
+
+#endif

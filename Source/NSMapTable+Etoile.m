@@ -7,6 +7,7 @@
  */
  
 #import "NSMapTable+Etoile.h"
+#if !(TARGET_OS_IPHONE)
 
 @implementation NSMapTable (Etoile)
 
@@ -23,3 +24,5 @@
 }
 
 @end
+
+#endif

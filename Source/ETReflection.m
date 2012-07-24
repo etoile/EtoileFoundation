@@ -8,12 +8,14 @@
 	License: Modified BSD (see COPYING)
  */
 
-#import <EtoileFoundation/EtoileFoundation.h>
 #import "ETReflection.h"
 #import "ETClassMirror.h"
 #import "ETInstanceVariableMirror.h"
 #import "ETObjectMirror.h"
 #import "ETProtocolMirror.h"
+#import "Macros.h"
+#import "EtoileCompatibility.h"
+
 
 @implementation ETReflection
 

@@ -26,5 +26,9 @@ The true Etoile reflection API is declared in ETReflection.h. */
 - (NSString *) typeName;
 + (NSString *) typePrefix;
 
+#if TARGET_OS_IPHONE
+- (NSString *) className;
+#endif
+
 @end
 

@@ -1,5 +1,6 @@
 #import <Foundation/NSData.h>
 #import <Foundation/NSString.h>
+#if !(TARGET_OS_IPHONE)
 
 /**
  * This NSData category provides methods for base 64 encoding and decoding the
@@ -34,3 +35,5 @@
  */
 - (NSData*) base64DecodedData;
 @end
+
+#endif

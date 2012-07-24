@@ -19,6 +19,9 @@
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
+#if TARGET_OS_IPHONE
+#import "ETCFMapTable.h"
+#endif
 
 #pragma GCC diagnostic ignored "-Wprotocol"
 
@@ -156,8 +159,8 @@ static NSString *anonymousPackageName = @"Anonymous";
 	SUPERINIT;
 	_unresolvedDescriptions = [[NSMutableSet alloc] init];
 	_descriptionsByName = [[NSMutableDictionary alloc] init];
-	_entityDescriptionsByClass = [[NSMapTable alloc] init];
-	_classesByEntityDescription = [[NSMapTable alloc] init];
+	ASSIGN(_entityDescriptionsByClass, [NSMapTable mapTableWithStrongToStrongObjects]);
+	ASSIGN(_classesByEntityDescription, [NSMapTable mapTableWithStrongToStrongObjects]);
 	[self addDescription: [ETPackageDescription descriptionWithName: anonymousPackageName]];
 	[self setUpWithCPrimitives: [self newCPrimitives]
 	          objectPrimitives: [self newObjectPrimitives]];

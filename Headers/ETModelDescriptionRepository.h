@@ -14,8 +14,9 @@
 #import <EtoileFoundation/ETModelElementDescription.h>
 #import <EtoileFoundation/ETCollection.h>
 
+// NOTE: NSMapTable is not available on iOS (see implementation)
 @class ETModelElementDescription, ETEntityDescription, ETPackageDescription, 
-	ETPropertyDescription;
+	ETPropertyDescription, NSMapTable;
 
 /** @group Model and Metamodel
 

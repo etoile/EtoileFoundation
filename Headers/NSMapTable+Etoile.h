@@ -9,6 +9,7 @@
  */
  
 #import <Foundation/Foundation.h>
+#if !(TARGET_OS_IPHONE)
 
 /** @group Collection Additions
 
@@ -19,3 +20,5 @@ For now, this category is limited to NSDictionary-compatibility methods. */
 - (NSArray *) allValues;
 
 @end
+
+#endif

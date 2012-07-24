@@ -13,6 +13,23 @@
 
 #define __ETOILE__
 
+/* iOS Support */
+
+#if TARGET_OS_IPHONE
+#import "NSObject+Etoile.h"
+
+/* NSPoint, NSSize, NSRect and NSValue related additions belong to Foundation on 
+   Mac OS X, unlike iOS where these are split between CoreGraphcics and UIKit. */
+#import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
+#define NSPoint CGPoint
+#define NSSize CGSize
+#define NSRect CGRect
+#define pointValue CGPointValue
+#define sizeValue CGSizeValue
+#define rectValue CGRectValue
+#endif
+
 /* Logging Hacks */
 
 // FIXME: Temporary hack until ETLog class is available

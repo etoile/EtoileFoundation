@@ -14,6 +14,9 @@
 #import "ETCollection+HOM.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
+#if TARGET_OS_IPHONE
+#import "ETCFMapTable.h"
+#endif
 #include <objc/runtime.h>
 
 static inline BOOL validateMethodTypes(Method method1, Method method2)
