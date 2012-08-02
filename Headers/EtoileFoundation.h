@@ -74,6 +74,10 @@
 #import <EtoileFoundation/ETPropertyDescription.h>
 #import <EtoileFoundation/ETValidationResult.h>
 
+#if TARGET_OS_IPHONE
+#import <EtoileFoundation/ETCFMapTable.h>
+#endif
+
 #ifdef GNUSTEP
 
 #import <EtoileFoundation/ETCArray.h>
@@ -81,16 +85,12 @@
 
 /* EtoileFoundation subframeworks */
 
-#if !(TARGET_OS_IPHONE)
-
 #if 0
 #import <EtoileThread/ETThread.h>
 #import <EtoileThread/ETThreadedObject.h>
 #import <EtoileThread/ETThreadProxyReturn.h>
 #import <EtoileThread/NSObject+Futures.h>
 #import <EtoileThread/NSObject+Threaded.h>
-#endif
-
 #endif
 
 #import <EtoileXML/ETXMLDeclaration.h>
