@@ -77,13 +77,13 @@ Will raise an NSInvalidArgumentException if the separator is nil. */
 	if ([self length] == 0)
 		return @"";
 
-	NSString *path = [NSString stringWithFormat: @"%lu", [self firstIndex]];
+	NSString *path = [NSString stringWithFormat: @"%lu", (unsigned long)[self firstIndex]];
 	int indexCount = [self length];
 
 	for (int i = 1; i < indexCount; i++)
 	{
 		path = [path stringByAppendingString:
-			[NSString stringWithFormat: @"%@%lu", separator, [self indexAtPosition: i]]];
+			[NSString stringWithFormat: @"%@%lu", separator, (unsigned long)[self indexAtPosition: i]]];
 	}
 
 	return path;

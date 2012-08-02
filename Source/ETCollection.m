@@ -452,7 +452,7 @@ See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 
 	if ([hint isKeyValuePair])
 	{
-		insertedObject = [hint value];
+		insertedObject = [(ETKeyValuePair *)hint value];
 		key = [hint key];
 		ETAssert(object == nil || object == insertedObject);
 	}
