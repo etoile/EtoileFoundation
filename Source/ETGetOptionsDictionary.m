@@ -33,8 +33,25 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 		char *opt = strchr(optString, (char)ch);
 		if (*(opt+1) == ':')
 		{
-			[dict setObject: [NSString stringWithUTF8String: optarg]
-			         forKey: key];
+			id old = [dict objectForKey: key];
+			if (nil != old)
+			{
+				if ([old isKindOfClass: [NSMutableArray subclass]])
+				{
+					[old addObject: [NSString stringWithUTF8String: optarg]];
+				}
+				else
+				{
+					old = [NSMutableArray arrayWithObjects: old, [NSString stringWithUTF8String: optarg], nil];
+				}
+				[dict setObject: old
+				         forKey: key];
+			}
+			else
+			{
+				[dict setObject: [NSString stringWithUTF8String: optarg]
+				         forKey: key];
+			}
 		}
 		else
 		{
