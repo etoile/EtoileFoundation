@@ -36,7 +36,7 @@ NSDictionary *ETGetOptionsDictionary(char *optString, int argc, char **argv)
 			id old = [dict objectForKey: key];
 			if (nil != old)
 			{
-				if ([old isKindOfClass: [NSMutableArray subclass]])
+				if ([old isKindOfClass: [NSMutableArray class]])
 				{
 					[old addObject: [NSString stringWithUTF8String: optarg]];
 				}
