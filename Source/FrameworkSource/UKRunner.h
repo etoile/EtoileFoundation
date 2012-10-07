@@ -37,6 +37,9 @@
 - (int) reportTestResults;
 
 - (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass;
+- (void) runTests: (NSArray*)testClasses 
+   inBundleAtPath: (NSString *)bundlePath 
+ currentDirectory: (NSString *)cwd;
 - (void) runTests:(NSArray *)testMethods onObject:(id)testObject;
 
 - (BOOL) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle;

@@ -30,6 +30,9 @@
 
 /* For GNUstep, but we should check if it is really needed */
 #import <Foundation/NSException.h>
+#import <Foundation/NSDictionary.h>
+#import <Foundation/NSArray.h>
+#import <Foundation/NSTimer.h>
 /* For -pathForImageResource: */
 #import <AppKit/AppKit.h>
 
@@ -116,7 +119,9 @@
 	return bundlePaths;
 }
 
-- (void) runTestsInBundleAtPath: (NSString *)bundlePath currentDirectory: (NSString *)cwd
+- (void) runTests: (NSArray*)testClasses 
+   inBundleAtPath: (NSString *)bundlePath 
+ currentDirectory: (NSString *)cwd
 {
 	bundlePath = [bundlePath stringByExpandingTildeInPath];
 
@@ -131,9 +136,13 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSBundle *testBundle = [self loadBundleAtPath: bundlePath];
 
+	if ([testClasses count] == 0)
+	{
+    		testClasses = UKTestClasseNamesFromBundle(testBundle);
+	}
 	if (testBundle != nil)
 	{
-		[self runTestsInBundle: testBundle principalClass: nil];
+		[self runTests: testClasses inBundle: testBundle principalClass: nil];
 	}
 	[pool release];
 }
@@ -156,17 +165,31 @@
 
     //printf("cwd: %s\n", [cwd UTF8String]);
 
-	NSArray *bundlePaths = [runner parseArgumentsWithCurrentDirectory: cwd];
+	NSArray *bundleDicts = [runner parseArgumentsWithCurrentDirectory: cwd];
 
-	// If no bundles are specified, then just run every bundle in this folder
-	if ([bundlePaths count] == 0)
+	// Return an error if an error occurs
+	if (nil == bundleDicts)
 	{
-		bundlePaths = [bundlePaths arrayByAddingObjectsFromArray: [runner bundlePathsInCurrentDirectory: cwd]];
+		return -1;
+	}
+	// If no bundles are specified, then just run every bundle in this folder
+	else if ([bundleDicts count] == 0)
+	{
+		NSArray *bundlePathsInCWD = [runner bundlePathsInCurrentDirectory: cwd];
+		for (NSString *bundlePath in bundlePathsInCWD)
+		{
+			[(NSMutableArray*)bundleDicts addObject: 
+				[NSDictionary dictionaryWithObject: bundlePath forKey: @"Bundle"]];
+		}
 	}
 
-	for (NSString *path in bundlePaths)
+	for (NSDictionary *bundleDict in bundleDicts)
 	{
-		[runner runTestsInBundleAtPath: path currentDirectory: cwd];
+		NSString *testBundle =[bundleDict objectForKey: @"Bundle"];
+    		NSArray *testClasses = [bundleDict objectForKey: @"Classes"];	
+		[runner runTests: testClasses
+		  inBundleAtPath: testBundle 
+		currentDirectory: cwd];
 	}
 	
 	int result = [runner reportTestResults];
@@ -177,7 +200,7 @@
 	return result;
 }
 
-- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd
+- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd 
 {
     NSArray *args = [[NSProcessInfo processInfo] arguments];
 	NSMutableArray *bundlePaths = [NSMutableArray array];
@@ -185,17 +208,32 @@
     if ([args count] >= 2) 
 	{
         // Mark Dalrymple contributed this bit about going quiet.
+	NSMutableDictionary *testBundleDict = nil;
         
         for (int i = 1; i < [args count]; i++)
 		{
-			if ([[args objectAtIndex: i] isEqualToString: @"-q"])
+			NSString *arg = [args objectAtIndex: i];
+			if ([arg isEqualToString: @"-q"])
 			{
 				[[UKTestHandler handler] setQuiet: YES];
 				i++;
 			}
+			else if ([arg isEqualToString: @"-c"])
+			{
+				if (++i >= [args count])
+				{
+					NSLog(@"-c argument must be followed by list of test classes");
+					return nil;
+				}
+				arg = [args objectAtIndex: i];
+				NSArray *testClasses = [arg componentsSeparatedByString: @","];
+				[testBundleDict setObject: testClasses forKey: @"Classes"];
+			}
 			else
 			{
-				[bundlePaths addObject: [args objectAtIndex: i]];
+				testBundleDict = [NSMutableDictionary dictionary];
+				[testBundleDict setObject: [args objectAtIndex: i] forKey: @"Bundle"];	
+				[bundlePaths addObject: testBundleDict];
 			}
         }
     }
@@ -265,18 +303,47 @@
 }
 #endif
 
-- (void) runTest: (SEL)testSelector onObject: (id)testObject
+- (void) internalRunTest: (NSTimer*)timer
 {
+	NSDictionary* testParameters = [timer userInfo];
+	SEL testSel = NSSelectorFromString([testParameters objectForKey: @"TestSelector"]);
+	id testObject = [testParameters objectForKey: @"TestObject"]; 
+	Class testClass = [testParameters objectForKey: @"TestClass"];
+        @try {
+		[testObject performSelector: testSel];
+        }
+        @catch (id exc) {
+                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionInTestMethod"];
+        }
+}
+- (void) runTest: (SEL)testSelector onObject: (id)testObject class: (Class)testClass
+{
+	NSLog(@"=== [%@ %@] ===", [testObject class], NSStringFromSelector(testSelector));
 	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 
-	[runLoop performSelector: testSelector 
+	/*[runLoop performSelector: testSelector 
 	                  target: testObject 
  	                argument: nil 
  	                   order: 0 
 	                   modes: [NSArray arrayWithObject:NSDefaultRunLoopMode]];
 	// NOTE: nil, [NSDate date] or LDBL_EPSILON don't work on GNUstep
-	[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.0001]];
-
+	[runLoop runUntilDate: nil]; //[NSDate dateWithTimeIntervalSinceNow: 0.0001]];
+	*/
+	NSDictionary *testParams = [NSDictionary dictionaryWithObjectsAndKeys: testObject, @"TestObject", 
+		NSStringFromSelector(testSelector), @"TestSelector",
+		testClass, @"TestClass", nil];
+	NSTimer *runTimer = [NSTimer
+		scheduledTimerWithTimeInterval: 0.0
+		                        target: self
+		                      selector: @selector(internalRunTest:)
+		                      userInfo: testParams
+		                       repeats: NO];
+	[runTimer retain];
+	while ([runTimer isValid] == YES)
+	{
+		[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.1]];
+	}
+	[runTimer release];
 	/* The code below is unsupported on GNUstep and this doesn't seem to matter
 
 	CFRunLoopRef cfRunLoop = [runLoop getCFRunLoop];
@@ -330,7 +397,7 @@
     else
     {
 	testClass = [testObject class];
-        /* It is instance, we instanize and release it in the loop */
+        /* It is instance, we instantiate it and release it in the loop */
     }
 
     while ((testMethodName = [e nextObject])) {
@@ -354,7 +421,7 @@
 
         @try {
             SEL testSel = NSSelectorFromString(testMethodName);
-            [self runTest:testSel onObject: object];
+            [self runTest:testSel onObject: object class: testClass];
         }
         @catch (id exc) {
                 [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionInTestMethod"];
@@ -391,7 +458,7 @@
 	}
         NS_HANDLER
 	{
-			[[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnInit"];
+            [[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnInit"];
             [pool release];
             NS_VOIDRETURN;	
 	}
@@ -400,11 +467,11 @@
         NS_DURING
 	{
             SEL testSel = NSSelectorFromString(testMethodName);
-            [self runTest: testSel onObject: object];
+            [self runTest: testSel onObject: object class: testClass];
 	}
         NS_HANDLER
 	{
-		[[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionInTestMethod"];
+            [[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionInTestMethod"];
 	    [pool release];
 	    NS_VOIDRETURN;
 	}
@@ -427,7 +494,7 @@
 	}
         NS_HANDLER
 	{
-			[[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnRelease"];
+            [[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnRelease"];
             [pool release];
             NS_VOIDRETURN;
 	}
@@ -457,6 +524,15 @@
 
 - (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
 {
+    NSArray *testClasses = UKTestClasseNamesFromBundle(bundle);
+    [self runTests: testClasses
+          inBundle: bundle
+       principalClass: principalClass];
+}
+- (void) runTests: (NSArray*)testClasses
+         inBundle: (NSBundle*)bundle
+   principalClass: (Class)principalClass
+{
 	// NOTE: First we must create the app object, because on Mac OS X (10.6) in 
 	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes 
 	// class_respondsToSelector() which results in +initialize being called and 
@@ -477,7 +553,6 @@
 		[setUpClasses addObject: setUpClass];
 	}
 
-    NSArray *testClasses = UKTestClasseNamesFromBundle(bundle);
     NSEnumerator *e = [testClasses objectEnumerator];
     NSString *testClassName;
 
