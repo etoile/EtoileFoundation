@@ -47,7 +47,7 @@ to ETCollection.
 
 Note: In future, we will provide a viewpoint mechanism to view or traverse 
 objects through their non-dominant to-many relationships. */ 
-@protocol ETCollection
+@protocol ETCollection <NSObject>
 /** Returns whether the receiveir stores the elements in a sorted order or not. */
 - (BOOL) isOrdered;
 /** Returns whether the receiveir stores the elements by key.
