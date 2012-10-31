@@ -39,7 +39,7 @@
 - (void) setDelegate:(id)aDelegate;
 - (void) setQuiet:(BOOL)isQuiet;
 
-- (void) reportStatus:(BOOL)cond inFile:(char *)filename line:(int)line message:(NSString *)msg;
+- (void) reportStatus:(BOOL)cond inFile:(const char *)filename line:(int)line message:(NSString *)msg;
 /** Reports an uncaught exception and a hint that represents the context in 
 which the exception arised (e.g. -init on a test object).
 
@@ -58,51 +58,51 @@ the test handler.
 See -reportException:inClass:hint:. */
 - (int) exceptionsReported;
 
-- (void) passInFile:(char *)filename line:(int)line;
+- (void) passInFile:(const char *)filename line:(int)line;
 
-- (void) failInFile:(char *)filename line:(int)line;
+- (void) failInFile:(const char *)filename line:(int)line;
 
-- (void) testTrue:(BOOL)cond inFile:(char *)filename line:(int)line;
+- (void) testTrue:(BOOL)cond inFile:(const char *)filename line:(int)line;
 
-- (void) testFalse:(BOOL)cond inFile:(char *)filename line:(int)line;
+- (void) testFalse:(BOOL)cond inFile:(const char *)filename line:(int)line;
 
-- (void) testNil:(void *)ref inFile:(char *)filename line:(int)line;
+- (void) testNil:(void *)ref inFile:(const char *)filename line:(int)line;
 
-- (void) testNotNil:(void *)ref inFile:(char *)filename line:(int)line;
+- (void) testNotNil:(void *)ref inFile:(const char *)filename line:(int)line;
 
-- (void) testInt:(int)a equalTo:(int)b inFile:(char *)filename line:(int)line;
+- (void) testInt:(int)a equalTo:(int)b inFile:(const char *)filename line:(int)line;
 
-- (void) testInt:(int)a notEqualTo:(int)b inFile:(char *)filename line:(int)line;
+- (void) testInt:(int)a notEqualTo:(int)b inFile:(const char *)filename line:(int)line;
 
-- (void) testFloat:(float)a equalTo:(float)b delta:(float)delta inFile:(char *)filename line:(int)line;
+- (void) testFloat:(float)a equalTo:(float)b delta:(float)delta inFile:(const char *)filename line:(int)line;
 
-- (void) testFloat:(float)a notEqualTo:(float)b delta:(float)delta inFile:(char *)filename line:(int)line;
+- (void) testFloat:(float)a notEqualTo:(float)b delta:(float)delta inFile:(const char *)filename line:(int)line;
 
-- (void) testObject:(id)a kindOf:(id)b inFile:(char *)filename line:(int)line;
+- (void) testObject:(id)a kindOf:(id)b inFile:(const char *)filename line:(int)line;
 
-- (void) testObject:(id)a equalTo:(id)b inFile:(char *)filename line:(int)line;
+- (void) testObject:(id)a equalTo:(id)b inFile:(const char *)filename line:(int)line;
 
-- (void) testObject:(id)a notEqualTo:(id)b inFile:(char *)filename line:(int)line;
+- (void) testObject:(id)a notEqualTo:(id)b inFile:(const char *)filename line:(int)line;
 
-- (void) testObject:(id)a sameAs:(id)b inFile:(char *)filename line:(int)line;
+- (void) testObject:(id)a sameAs:(id)b inFile:(const char *)filename line:(int)line;
 
-- (void) testObject:(id)a notSameAs:(id)b inFile:(char *)filename line:(int)line;
+- (void) testObject:(id)a notSameAs:(id)b inFile:(const char *)filename line:(int)line;
 
-- (void) testString:(NSString *)a equalTo:(NSString *)b inFile:(char *)filename line:(int)line;
+- (void) testString:(NSString *)a equalTo:(NSString *)b inFile:(const char *)filename line:(int)line;
 
-- (void) testString:(NSString *)a notEqualTo:(NSString *)b inFile:(char *)filename line:(int)line;
+- (void) testString:(NSString *)a notEqualTo:(NSString *)b inFile:(const char *)filename line:(int)line;
 
-- (void) testString:(NSString *)a contains:(NSString *)b inFile:(char *)filename line:(int)line;
+- (void) testString:(NSString *)a contains:(NSString *)b inFile:(const char *)filename line:(int)line;
 
-- (void) testString:(NSString *)a doesNotContain:(NSString *)b inFile:(char *)filename line:(int)line;
+- (void) testString:(NSString *)a doesNotContain:(NSString *)b inFile:(const char *)filename line:(int)line;
 
-- (void) raisesException:(NSException*)exception inFile:(char *)filename line:(int)line;
+- (void) raisesException:(NSException*)exception inFile:(const char *)filename line:(int)line;
 
-- (void) doesNotRaisesException:(NSException*)exception inFile:(char *)filename line:(int)line;
+- (void) doesNotRaisesException:(NSException*)exception inFile:(const char *)filename line:(int)line;
 
-- (void) raisesException:(NSException*)exception named:(NSString*)expected inFile:(char *)filename line:(int)line;
+- (void) raisesException:(NSException*)exception named:(NSString*)expected inFile:(const char *)filename line:(int)line;
 
-- (void) raisesException:(id)raisedObject class:(Class)expectedClass inFile:(char *)filename line:(int)line;
+- (void) raisesException:(id)raisedObject class:(Class)expectedClass inFile:(const char *)filename line:(int)line;
 
 
 @end
