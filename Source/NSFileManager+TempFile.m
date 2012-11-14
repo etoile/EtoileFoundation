@@ -23,8 +23,17 @@ static char * makeTempPattern(void)
 	patternString = 
 		[patternString stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
 	// Make sure that this application's temporary directory exists.
-	[[NSFileManager defaultManager] createDirectoryAtPath: patternString 
-	                                           attributes: nil];
+	NSError *error = nil;
+	BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath: patternString
+	                                         withIntermediateDirectories: YES
+	                                                          attributes: nil
+	                                                               error: &error];
+
+	if (success == NO)
+	{
+		NSLog(@"Failed to create a temporary directory: %@", error);
+		return NULL;
+	}
 	patternString = [patternString stringByAppendingPathComponent:@"tmpXXXXXXXX"];
 	return strdup([patternString UTF8String]);
 }
