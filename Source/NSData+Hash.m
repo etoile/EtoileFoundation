@@ -90,7 +90,7 @@
 {
 	unsigned char buffer[16];
 	MD5([self bytes], [self length], buffer);
-	return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+	return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
 			buffer[0],
 			buffer[1],
 			buffer[2],
