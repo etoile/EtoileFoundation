@@ -421,7 +421,9 @@
 
         @try {
             SEL testSel = NSSelectorFromString(testMethodName);
+	    NSAutorelease *testMethodPool = [NSAutoreleasePool new];
             [self runTest:testSel onObject: object class: testClass];
+	    [testMethodPool release];
         }
         @catch (id exc) {
                 [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionInTestMethod"];
@@ -467,7 +469,16 @@
         NS_DURING
 	{
             SEL testSel = NSSelectorFromString(testMethodName);
+	    /* This pool makes easier to separate autorelease issues between:
+	       - test method
+	       - test object configuration due to -init and -dealloc 
+
+	       For testing CoreObject, this also ensures all autoreleased 
+	       objects in relation to a db are deallocated before closing the 
+	       db connection in -dealloc (see TestCommon.h in CoreObject for details) */
+            NSAutoreleasePool *testMethodPool = [NSAutoreleasePool new];
             [self runTest: testSel onObject: object class: testClass];
+	    [testMethodPool release];
 	}
         NS_HANDLER
 	{
