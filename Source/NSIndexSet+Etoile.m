@@ -18,7 +18,7 @@ Each resulting index path only contains a single index. */
 {
 	NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity: [self count]];
 	/* Will set lastIndex to 0 or NSNotFound */
-	unsigned int lastIndex = [self indexGreaterThanOrEqualToIndex: 0];
+	NSUInteger lastIndex = [self indexGreaterThanOrEqualToIndex: 0];
 
 	if (lastIndex == NSNotFound)
 		return nil;
