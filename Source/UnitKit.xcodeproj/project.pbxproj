@@ -802,37 +802,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "";
-				DEBUGGING_SYMBOLS = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
-				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = FrameworkSource/Info.plist;
 				INSTALL_PATH = "@rpath";
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Dynamic;
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = UnitKit;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
@@ -840,36 +815,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "";
-				DEAD_CODE_STRIPPING = NO;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
-				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = FrameworkSource/Info.plist;
 				INSTALL_PATH = "@rpath";
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Dynamic;
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = UnitKit;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
@@ -877,25 +828,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = "";
-				DEBUGGING_SYMBOLS = YES;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Xcode Integration";
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Debug;
 		};
@@ -903,76 +836,35 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Xcode Integration";
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Release;
 		};
 		600CE4FD09F24490008BA30D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = "";
-				DEBUGGING_SYMBOLS = YES;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ukrun;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Debug;
 		};
 		600CE4FE09F24490008BA30D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEAD_CODE_STRIPPING = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ukrun;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Release;
 		};
@@ -980,31 +872,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = "";
-				DEBUGGING_SYMBOLS = YES;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = TestSource/TestBundle/Info.plist;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = TestBundle;
-				REZ_EXECUTABLE = NO;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Debug;
 		};
@@ -1012,25 +885,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = TestSource/TestBundle/Info.plist;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = TestBundle;
-				REZ_EXECUTABLE = NO;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Release;
 		};
@@ -1038,34 +899,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "";
-				DEBUGGING_SYMBOLS = YES;
-				DEPLOYMENT_LOCATION = NO;
 				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
 				INFOPLIST_FILE = TestSource/TestFramework/Info.plist;
 				INSTALL_PATH = "@rpath";
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = TestFramework;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Debug;
 		};
@@ -1073,29 +916,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_LOCATION = NO;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
 				INFOPLIST_FILE = TestSource/TestFramework/Info.plist;
 				INSTALL_PATH = "@rpath";
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = TestFramework;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Release;
 		};
@@ -1103,31 +933,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = "";
-				DEBUGGING_SYMBOLS = YES;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = TestSource/UnitKitTests/Info.plist;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = UnitKitTests;
-				REZ_EXECUTABLE = NO;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -1136,25 +947,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = TestSource/UnitKitTests/Info.plist;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = UnitKitTests;
-				REZ_EXECUTABLE = NO;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -1170,6 +969,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
@@ -1183,6 +983,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};

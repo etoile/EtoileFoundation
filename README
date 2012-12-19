@@ -23,8 +23,9 @@ Mac OS X support
 UnitKit development has been halted for few years on Mac OS X and the official 
 project web site unitkit.org is no longer available. So you can use UnitKit 
 (GNUstep) as a replacement. 
-Both Cocoa and Xcode support are actively maintained and used by several 
-Etoile modules that can be built on Mac OS X.
+Both Cocoa and Xcode 4 support are actively maintained and used by several 
+Etoile modules that can be built on Mac OS X. However Xcode 3 is not supported 
+anymore.
 
 
 Features
