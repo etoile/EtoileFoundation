@@ -101,8 +101,9 @@
 - (NSArray *) bundlePathsInCurrentDirectory: (NSString *)cwd
 {
 	NSMutableArray *bundlePaths = [NSMutableArray array];
+	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: cwd error: NULL];
 
-	for (NSString *file in [[NSFileManager defaultManager] directoryContentsAtPath: cwd])
+	for (NSString *file in files)
 	{
 		BOOL isDir = NO;
 		if ([[NSFileManager defaultManager] fileExistsAtPath: file isDirectory: &isDir] && isDir)

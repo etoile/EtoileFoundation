@@ -31,7 +31,7 @@
     self = [super init];
     handler = [UKTestHandler handler];
     [handler setDelegate:self];
-    actualFilename = [[NSString alloc] initWithCString:__FILE__];
+    actualFilename = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
     return self;
 }
 
@@ -44,7 +44,7 @@
 
 - (void) reportStatus:(BOOL)cond inFile:(char *)filename line:(int)line message:(NSString *)msg
 {
-    reportedFilename = [[NSString alloc] initWithCString:filename];
+    reportedFilename = [[NSString alloc] initWithCString:filename encoding:NSUTF8StringEncoding];
 }
 
 - (void) testUKPass

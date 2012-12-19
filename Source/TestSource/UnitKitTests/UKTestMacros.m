@@ -355,7 +355,8 @@
 
 - (void) testUKObjectsEqual2
 {
-    UKObjectsEqual(@"", [NSString stringWithString:@""]);
+    NSString *string = @"";
+	UKObjectsEqual(string, [NSString stringWithString:string]);
     [handler setDelegate:nil];
     UKTrue(reportedStatus);
 }
@@ -376,14 +377,16 @@
 
 - (void) testUKStringsEqual2
 {
-    UKStringsEqual(@"abc", [NSString stringWithString:@"abc"]);
+    NSString *string = @"abc";
+    UKStringsEqual(string, [NSString stringWithString:string]);
     [handler setDelegate:nil];
     UKTrue(reportedStatus);
 }
 
 - (void) testUKStringsEqual3
 {
-    UKStringsEqual(@"abc", [NSString stringWithCString:"abc"]);
+    NSString *string = [NSString stringWithCString:"abc" encoding:NSUTF8StringEncoding];
+    UKStringsEqual(@"abc", string);
     [handler setDelegate:nil];
     UKTrue(reportedStatus);
 }
@@ -411,14 +414,16 @@
 
 - (void) testUKStringsNotEqual_Negative2
 {
-    UKStringsNotEqual(@"abc", [NSString stringWithString:@"abc"]);
+    NSString *string = @"abc";
+    UKStringsNotEqual(string, [NSString stringWithString:string]);
     [handler setDelegate:nil];
     UKFalse(reportedStatus);    
 }
 
 - (void) testUKStringsNotEqual_Negative3
 {
-    UKStringsNotEqual(@"abc", [NSString stringWithCString:"abc"]);
+    NSString *string = [NSString stringWithCString:"abc" encoding:NSUTF8StringEncoding];
+    UKStringsNotEqual(@"abc", string);
     [handler setDelegate:nil];
     UKFalse(reportedStatus);    
 }
