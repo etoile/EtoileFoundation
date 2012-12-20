@@ -199,7 +199,7 @@
 		AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitKitTests.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3705C3B1DF00549058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UnitKitTests/Info.plist; sourceTree = "<group>"; };
 		AE923B6D05C3B57600549058 /* UnitKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitKit.h; path = FrameworkSource/UnitKit.h; sourceTree = "<group>"; };
-		AE923B7005C3B62B00549058 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AE923B7005C3B62B00549058 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE923D8505C3B90100549058 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 0; };
 		AE923D8905C3B9EC00549058 /* UKRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKRunner.h; sourceTree = "<group>"; usesTabs = 0; };
 		AE923D8A05C3B9EC00549058 /* UKRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKRunner.m; sourceTree = "<group>"; usesTabs = 0; };
@@ -963,7 +963,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
