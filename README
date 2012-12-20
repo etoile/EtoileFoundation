@@ -54,6 +54,8 @@ NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on Mac OS X.
 
 For EtoileFoundation compilation, many warnings about missing protocol method implementations are reported, because *#pragma GCC diagnostic ignored "-Wprotocol"* only works with LLVM 1.5 64 bits. By default, EtoileFoundation is compiled as a Universal 32/64 bits framework. Switch *Architectures* to Intel 64 bits to eliminate these issues at development time (supposing your machine is 64 bits compatible).
 
+**Warning:** Xcode 4 is required to build the project.
+
 iOS support
 -----------
 
