@@ -28,7 +28,7 @@ Boolean Equal(const void *value1, const void *value2)
 
 CFStringRef CopyDescription(const void *value)
 {
-	return (CFStringRef)[(id)value description];
+	return (CFStringRef)[[(id)value description] retain];
 }
 
 CFDictionaryKeyCallBacks weakKeyCallBacks = 
