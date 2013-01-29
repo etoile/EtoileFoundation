@@ -280,8 +280,10 @@ Raises an NSInvalidArgumentException if path is nil. */
 	// If useful, a custom plug-in schema could be provided with the bundle plist.
 
 	if (info != nil)
+	{
+		[lock unlock];
 		return info;
-
+	}
 	NSBundle *bundle = [NSBundle bundleWithPath: path];
 	NSString *name = [self plugInNameForBundle: bundle];
 	NSString *identifier = [self plugInIdentifierForBundle: bundle];
@@ -304,6 +306,7 @@ Raises an NSInvalidArgumentException if path is nil. */
 	{
 		if ([bundle principalClass] == Nil)
 		{
+			[lock unlock];
 			[NSException raise: @"ETInvalidPlugInException"
 			            format: @""];
 		}
