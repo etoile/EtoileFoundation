@@ -26,9 +26,9 @@
 
 #ifndef GNUSTEP
 
-#define	RETAIN(object)		(id)[object retain]
+#define	RETAIN(object)		[(id)object retain]
 #define	RELEASE(object)		[object release]
-#define	AUTORELEASE(object)	(id)[object autorelease]
+#define	AUTORELEASE(object)	[(id)object autorelease]
 
 #define	TEST_RETAIN(object)	({\
 id __object = (id)(object); (__object != nil) ? [__object retain] : nil; })
