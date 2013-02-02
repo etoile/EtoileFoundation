@@ -42,7 +42,7 @@ the property value in the property owner. */
 {
 	NSParameterAssert([keyPath isEqualToString: [self name]]);
 
-	ETLog(@"Will forward KVO property %@ change", keyPath);
+	//ETLog(@"Will forward KVO property %@ change", keyPath);
 
 	// NOTE: Invoking just -didChangeValueForKey: won't work
 	[self willChangeValueForKey: @"value"];
