@@ -57,6 +57,21 @@
 	}
 	return nil;
 }
++ (NSArray*) reflectAllRootClasses
+{
+	unsigned int classCount;
+	Class *classList = objc_copyClassList(&classCount);
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	for (int i=0 ; i<classCount ; i++)
+	{
+		if (Nil == class_getSuperclass(classList[i]))
+		{
+			[array addObject: [self reflectClass: classList[i]]];
+		}
+	}
+	free(classList);
+	return [array autorelease];
+}
 
 @end
 
