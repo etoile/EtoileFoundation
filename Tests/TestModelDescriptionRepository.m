@@ -14,7 +14,6 @@
 @interface TestModelDescriptionRepository : NSObject <UKTest>
 {
 	ETModelDescriptionRepository *repo;
-	ETPackageDescription *anonymousPackage;
 }
 
 @end
@@ -24,8 +23,7 @@
 - (id) init
 {
 	SUPERINIT;
-	repo = [[ETModelDescriptionRepository alloc] init];
-	anonymousPackage = [repo anonymousPackageDescription];
+	ASSIGN(repo, [ETModelDescriptionRepository mainRepository]);
 	return self;
 }
 
@@ -35,8 +33,25 @@
 	[super dealloc];
 }
 
+- (void) testDescriptionLookUp
+{
+	ETEntityDescription *string = [repo descriptionForName: @"Anonymous.NSString"];
+	ETEntityDescription *package = [repo descriptionForName: @"Anonymous.ETPackageDescription"];
+	ETPropertyDescription *packageProperty = [package propertyDescriptionForName: @"entityDescriptions"];
+
+	UKObjectsSame(string, [repo descriptionForName: @"NSString"]);
+	UKObjectsSame(package, [repo descriptionForName: @"ETPackageDescription"]);
+	UKObjectsSame(packageProperty, [repo descriptionForName: @"Anonymous.ETPackageDescription.entityDescriptions"]);
+	UKObjectsSame(packageProperty, [repo descriptionForName: @"ETPackageDescription.entityDescriptions"]);
+}
+
 - (void) testResolveObjectRefsWithMetaMetaModel
 {
+	/* We use a pristine repository to collect the entity descriptions 
+	   explicitly and check class exclusion behavior. */
+	ASSIGN(repo, [[[ETModelDescriptionRepository alloc] init] autorelease]);
+
+	ETPackageDescription *anonymousPackage = [repo anonymousPackageDescription];
 	ETEntityDescription *root = [repo descriptionForName: @"Object"];
 	NSSet *primitiveDescClasses = 
 		S([ETPrimitiveEntityDescription class], [ETCPrimitiveEntityDescription class]);
@@ -100,6 +115,87 @@
 		ETLog(@"Constraint Warnings: %@", warnings);
 	}
 	
+}
+
+- (void) testPrimitiveEntityDescriptions
+{
+	/* All Object primitives */
+	ETEntityDescription *object = [repo descriptionForName: @"NSObject"];
+	ETEntityDescription *string = [repo descriptionForName: @"NSString"];
+	ETEntityDescription *date = [repo descriptionForName: @"NSDate"];
+	ETEntityDescription *value = [repo descriptionForName: @"NSValue"];
+	ETEntityDescription *number = [repo descriptionForName: @"NSNumber"];
+	ETEntityDescription *booleanNumber = [repo descriptionForName: @"Boolean"];
+	/* Some C primitives */
+	ETEntityDescription *boolean = [repo descriptionForName: @"BOOL"];
+	ETEntityDescription *integer = [repo descriptionForName: @"NSInteger"];
+	ETEntityDescription *rect = [repo descriptionForName: @"NSRect"];
+	ETEntityDescription *sel = [repo descriptionForName: @"SEL"];
+
+	UKObjectKindOf(object, ETPrimitiveEntityDescription);
+	UKObjectKindOf(string, ETPrimitiveEntityDescription);
+	UKObjectKindOf(date, ETPrimitiveEntityDescription);
+	UKObjectKindOf(value, ETPrimitiveEntityDescription);
+	UKObjectKindOf(number, ETPrimitiveEntityDescription);
+	UKObjectKindOf(booleanNumber, ETPrimitiveEntityDescription);
+
+	UKObjectKindOf(boolean, ETPrimitiveEntityDescription);
+	UKObjectKindOf(integer, ETCPrimitiveEntityDescription);
+	UKObjectKindOf(rect, ETCPrimitiveEntityDescription);
+	UKObjectKindOf(sel, ETCPrimitiveEntityDescription);
+
+	UKTrue([object isPrimitive]);
+	UKTrue([string isPrimitive]);
+	UKTrue([date isPrimitive]);
+	UKTrue([value isPrimitive]);
+	UKTrue([number isPrimitive]);
+	UKTrue([booleanNumber isPrimitive]);
+	UKTrue([boolean isPrimitive]);
+	UKTrue([integer isPrimitive]);
+	UKTrue([rect isPrimitive]);
+	UKTrue([sel isPrimitive]);
+
+	UKFalse([booleanNumber isCPrimitive]);
+	UKTrue([boolean isCPrimitive]);
+	UKTrue([integer isCPrimitive]);
+	UKTrue([rect isCPrimitive]);
+	UKTrue([sel isCPrimitive]);
+
+	/* Check FM 3 names are mapped to ObjC names */
+
+	UKObjectsSame(object, [repo descriptionForName: @"Object"]);
+	UKObjectsSame(string, [repo descriptionForName: @"String"]);
+	UKObjectsSame(date, [repo descriptionForName: @"Date"]);
+	UKObjectsSame(number, [repo descriptionForName: @"Number"]);
+	UKObjectsSame(booleanNumber, [repo descriptionForName: @"Boolean"]);
+	/* Full names are not the same Anonymous.NSNumber vs Anonymous.Boolean, 
+	   although instantiated values are NSNumber in both cases. */
+	UKObjectsNotEqual(number, booleanNumber);
+	UKObjectsEqual([repo classForEntityDescription: number], [repo classForEntityDescription: booleanNumber]);
+
+	/* Check ObjC names are mapped to ObjC clases */
+	
+	UKObjectsSame(object, [repo entityDescriptionForClass: [NSObject class]]);
+	UKObjectsSame(string, [repo entityDescriptionForClass: [NSString class]]);
+	UKObjectsSame(date, [repo entityDescriptionForClass: [NSDate class]]);
+	UKObjectsSame(value, [repo entityDescriptionForClass: [NSValue class]]);
+	UKObjectsSame(number, [repo entityDescriptionForClass: [NSNumber class]]);
+}
+
+- (void) testPropertyDescriptionType
+{
+	ETEntityDescription *package = [[ETModelDescriptionRepository mainRepository]
+		descriptionForName: @"ETPackageDescription"];
+	ETPropertyDescription *name = [package propertyDescriptionForName: @"name"];
+	ETPropertyDescription *isMetaMetamodel = [package propertyDescriptionForName: @"isMetaMetamodel"];
+	ETPropertyDescription *owner = [package propertyDescriptionForName: @"owner"];
+
+	UKTrue([[name type] isPrimitive]);
+	UKTrue([name isAttribute]);
+	UKTrue([[isMetaMetamodel type] isPrimitive]);
+	UKTrue([isMetaMetamodel isAttribute]);
+	UKFalse([[owner type] isPrimitive]);
+	UKTrue([owner isRelationship]);
 }
 
 @end

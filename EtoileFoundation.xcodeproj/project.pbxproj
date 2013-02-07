@@ -228,20 +228,6 @@
 			remoteGlobalIDString = AEBED01906AFADB000451E26;
 			remoteInfo = TestFramework;
 		};
-		3D01CFAA1646B2DE00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = UnitKit;
-		};
-		3D01CFAD1646B33D00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AE923B2B05C3B1CE00549058;
-			remoteInfo = ukrun;
-		};
 		60235C541360F35B0048DDEB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -952,8 +938,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3D01CFAE1646B33D00917AC8 /* PBXTargetDependency */,
-				3D01CFAB1646B2DE00917AC8 /* PBXTargetDependency */,
 				60235C551360F35B0048DDEB /* PBXTargetDependency */,
 			);
 			name = TestEtoileFoundation;
@@ -1084,7 +1068,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "export DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\nexport DYLD_LIBRARY_PATH=$LIBRARY_SEARCH_PATHS\n\"$TARGET_BUILD_DIR/ukrun\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
+			shellScript = "#export DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\n#export DYLD_LIBRARY_PATH=$LIBRARY_SEARCH_PATHS\n#\"$TARGET_BUILD_DIR/ukrun\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1231,16 +1215,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3D01CFAB1646B2DE00917AC8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UnitKit;
-			targetProxy = 3D01CFAA1646B2DE00917AC8 /* PBXContainerItemProxy */;
-		};
-		3D01CFAE1646B33D00917AC8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ukrun;
-			targetProxy = 3D01CFAD1646B33D00917AC8 /* PBXContainerItemProxy */;
-		};
 		60235C551360F35B0048DDEB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6072CF681360E144003256C5 /* PlugInExample */;

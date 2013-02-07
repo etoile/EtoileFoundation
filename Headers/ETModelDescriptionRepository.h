@@ -85,14 +85,22 @@ properties listed below:
 <item>package</item>
 <item>parent</item>
 <item>opposite</item>
+<item>type</item>
 </list>
 For example, [anEntityDesc setParent: @"MyPackage.MySuperEntity"] or 
 [aPropertyDesc setOpposite: @"MyPackage.MyEntity.whatever"].
+ 
+For entity descriptions that belong to the anonymous package, the 
+<em>Anonymous</em> prefix can be ommitted. For example, <em>@"NSDate"</em> is 
+interpreted as <em>@"Anonymous.NSDate"</em> in -resolveNamedObjectReferences.
 
 Once all the descriptions (unresolved or not) are registered to ensure a valid 
 repository state, if any unresolved description was added, you must call 
 -resolveNamedObjectReferences on the repository before using it or any 
-registered description. */
+registered description.
+ 
+If the added entity description is equal to a previously registered entity 
+(based on a full name comparison), raises an exception.  */
 - (void) addUnresolvedDescription: (ETModelElementDescription *)aDescription;
 /** Adds the given package, entity or property description to the repository.
 
@@ -121,7 +129,12 @@ The returned collection is an autoreleased copy. */
 - (NSArray *) allDescriptions;
 /** Returns a package, entity or property description registered for the given 
 full name.<br />
-e.g. 'Anonymous.NSObject' for NSObject entity */
+e.g. <em>Anonymous.NSObject<em> for NSObject entity.
+ 
+For model element descriptions that belong to the anonymous package, the 
+<em>Anonymous</em> prefix can be ommitted. For example, 
+<em>@"ETModelElementDescription.name"</em> is interpreted as 
+<em>@"Anonymous.ETModelDescription.name"</em>. */
 - (id) descriptionForName: (NSString *)aFullName;
 
 

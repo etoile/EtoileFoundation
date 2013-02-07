@@ -60,11 +60,21 @@
                             excludedClasses: (NSSet *)excludedClasses
                                  resolveNow: (BOOL)resolve
 {
-	[self addUnresolvedEntityDescriptionForClass: aClass];
+	NSSet *objectPrimitiveNames = (id)[[[self newObjectPrimitives] mappedCollection] name];
+
+	/* Don't overwrite existing entity descriptions such as primitives e.g. NSObject/Object */
+	if ([self entityDescriptionForClass: aClass] == nil)
+	{
+		[self addUnresolvedEntityDescriptionForClass: aClass];
+	}
+
 	FOREACH([[ETReflection reflectClass: aClass] allSubclassMirrors], mirror, ETClassMirror *)
 	{
 		if ([excludedClasses containsObject: [mirror representedClass]])
 			continue;
+
+		if ([objectPrimitiveNames containsObject: [mirror name]])
+			 continue;
 
 		[self addUnresolvedEntityDescriptionForClass: [mirror representedClass]];
 	}
@@ -96,10 +106,9 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	/* We include NSValue because it is NSNumber superclass */
 	ETEntityDescription *valueDesc = [NSValue newEntityDescription];
 	ETEntityDescription *numberDesc = [NSNumber newEntityDescription];
-	ETEntityDescription *booleanDesc = [NSNumber newEntityDescription];
-	[booleanDesc setName: @"Boolean"];
+
 	NSArray *objCPrimitives = A(objectDesc, stringDesc, dateDesc, valueDesc,
-		numberDesc, booleanDesc);
+		numberDesc);
 
 	FOREACHI(objCPrimitives, desc)
 	{
@@ -122,6 +131,25 @@ static ETModelDescriptionRepository *mainRepo = nil;
 		[ETCPrimitiveEntityDescription descriptionWithName: @"SEL"]);
 }
 
+/* FM3 names are Object, String, Date, Number and Boolean. */
+- (NSString *) FM3NameForClassName: (NSString *)className
+{
+	Class class = NSClassFromString(className);
+	NSString *typePrefix = (Nil != class ? [class typePrefix] : (NSString *)@"");
+	int prefixEnd = [className rangeOfString: typePrefix
+	                                 options: NSAnchoredSearch].length;
+
+	return [className substringFromIndex: prefixEnd];
+}
+
+/* Special case to map FM3 Boolean object type to Number/NSNumber */								
+- (void) setUpFM3BooleanPrimitive
+{
+	ETEntityDescription *booleanDesc = [ETPrimitiveEntityDescription descriptionWithName: @"Boolean"];
+	[booleanDesc setParent: [_descriptionsByName objectForKey: @"Number"]];
+	[_descriptionsByName setObject: booleanDesc forKey: @"Boolean"];
+}
+
 - (void) setUpWithCPrimitives: (NSArray *)cPrimitives
              objectPrimitives: (NSArray *)objcPrimitives
 {
@@ -135,20 +163,19 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	{
 		NSString *className = [objcDesc name];
 		Class class = NSClassFromString(className);
-		NSString *typePrefix = (Nil != class ? [class typePrefix] : (NSString *)@"");
-
+	
 		if (Nil != class)
 		{
 			[self setEntityDescription: objcDesc forClass: class];
 		}
 
-		/* FM3 names are Object, String, Date, Number and Boolean */
-		int prefixEnd = [className rangeOfString: typePrefix
-		                                 options: NSAnchoredSearch].length;
-		NSString *fm3Name = [className substringFromIndex: prefixEnd];
-
-		[_descriptionsByName setObject: objcDesc forKey: fm3Name];
+		[_descriptionsByName setObject: objcDesc
+								forKey: [self nameInAnonymousPackageForPartialName: className]];
+		[_descriptionsByName setObject: objcDesc
+								forKey: [self FM3NameForClassName: className]];
 	}
+	[self setUpFM3BooleanPrimitive];
+
 	[self resolveNamedObjectReferences];
 }
 
@@ -234,9 +261,19 @@ static NSString *anonymousPackageName = @"Anonymous";
 	return AUTORELEASE([[_descriptionsByName allValues] copy]);
 }
 
+- (NSString *)nameInAnonymousPackageForPartialName: (NSString *)aName
+{
+	return [anonymousPackageName stringByAppendingFormat: @".%@", aName];
+}
+
 - (id) descriptionForName: (NSString *)aFullName
 {
-	return [_descriptionsByName objectForKey: aFullName];
+	ETModelElementDescription *description = [_descriptionsByName objectForKey: aFullName];
+	
+	if (description!= nil)
+		return description;
+
+	return [_descriptionsByName objectForKey: [self nameInAnonymousPackageForPartialName: aFullName]];
 }
 
 /* Binding Descriptions to Class Instances and Prototypes */
@@ -273,6 +310,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 
 - (void) addUnresolvedDescription: (ETModelElementDescription *)aDescription
 {
+	NSParameterAssert([self descriptionForName: [aDescription fullName]] == nil);
 	[_unresolvedDescriptions addObject: aDescription];
 }
 
@@ -291,7 +329,7 @@ same name). */
 
 	if (lookUpInAnonymousPackage)
 	{
-		value = [anonymousPackageName stringByAppendingFormat: @".%@", value];
+		value = [self nameInAnonymousPackageForPartialName: value];
 		realValue = [self descriptionForName: (NSString *)value];
 	}
 	if (nil != realValue)
@@ -300,7 +338,9 @@ same name). */
 	}
 	else
 	{
-	        [NSException raise: NSInternalInconsistencyException format: @"Couldn't resolve property %@ value %@ for %@", aProperty, value, desc];
+	        [NSException raise: NSInternalInconsistencyException
+			            format: @"Couldn't resolve property %@ value %@ for %@",
+			                    aProperty, value, desc];
 	}
 }
 
