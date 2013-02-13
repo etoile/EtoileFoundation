@@ -26,6 +26,7 @@ property and handles reading and writing the property value through -value and
 	id _propertyName;
 	BOOL _treatsAllKeysAsProperties;
 	BOOL _usesKVC;
+	BOOL _isSettingValue;
 }
 
 /** @taskunit Initialization */

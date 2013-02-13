@@ -42,6 +42,9 @@ the property value in the property owner. */
 {
 	NSParameterAssert([keyPath isEqualToString: [self name]]);
 
+	if (_isSettingValue)
+		return;
+
 	//ETLog(@"Will forward KVO property %@ change", keyPath);
 
 	// NOTE: Invoking just -didChangeValueForKey: won't work
@@ -179,6 +182,7 @@ Allows to show the value type in an EtoileUI inspector. */
 /** Sets the value of the property to be the given object value. */
 - (void) setValue: (id)objectValue
 {
+	_isSettingValue = YES;
 	if (_usesKVC)
 	{
 		[[self representedObject] setValue: objectValue forKey: [self name]];
@@ -186,7 +190,8 @@ Allows to show the value type in an EtoileUI inspector. */
 	else /* Use PVC by default */
 	{
 		[[self representedObject] setValue: objectValue forProperty: [self name]];
-	}	
+	}
+	_isSettingValue = NO;
 }
 
 /* Property Value Coding */
