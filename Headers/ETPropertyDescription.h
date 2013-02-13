@@ -31,6 +31,7 @@
 	BOOL _multivalued;
 	BOOL _ordered;
 	BOOL _persistent;
+	BOOL _readOnly;
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
 	ETPackageDescription *_package;
@@ -90,6 +91,7 @@ entity name in the returned string. */
 - (BOOL) isOrdered;
 - (void) setOrdered: (BOOL)isOrdered;
 @property (assign, nonatomic, getter=isPersistent) BOOL persistent;
+@property (assign, nonatomic, getter=isReadOnly) BOOL readOnly;
 
 /** Can be self, if the relationship is reflexive. For example, a "spouse" 
 property or a "cousins" property that belong to a "person" entity.<br />

@@ -26,7 +26,7 @@
 
 @implementation ETPropertyDescription
 
-@synthesize persistent = _persistent;
+@synthesize persistent = _persistent, readOnly = _readOnly;
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -139,6 +139,7 @@
 - (void) setDerived: (BOOL)isDerived
 {
 	_derived = isDerived;
+	[self setReadOnly: YES];
 }
 
 - (BOOL) isMultivalued
@@ -306,6 +307,10 @@
 	if ([[self package] isString])
 	{
 		[warnings addObject: [self warningWithMessage: @"Failed to resolve package"]];
+	}
+	if ([self isDerived] && [self isReadOnly] == NO)
+	{
+		[warnings addObject: [self warningWithMessage: @"Derived implies read only"]];
 	}
 }
 

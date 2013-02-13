@@ -49,6 +49,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 		[ETPropertyDescription descriptionWithName: @"itemIdentifier" type: (id)@"NSString"];
 	ETPropertyDescription *typeDescription = 
 		[ETPropertyDescription descriptionWithName: @"typeDescription" type: (id)@"NSString"];
+	[typeDescription setReadOnly: YES];
 
 	[selfDesc setAbstract: YES];
 	[selfDesc setPropertyDescriptions: A(name, fullName, isMetaMetamodel, itemIdentifier, typeDescription)];
