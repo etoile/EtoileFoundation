@@ -89,6 +89,8 @@
 		printf("Test bundle %s could not be found\n", [bundlePath UTF8String]);
 		return nil;
 	}
+    /* For Mac OS X (10.8), the test bundle info.plist must declare a principal 
+       class, to prevent +load from instantiating NSApp (see -setUpAppObjectIfNeededForBundle:). */
 	if (![testBundle load])
 	{
 		// XXX i18n as well as message improvements
@@ -137,10 +139,6 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSBundle *testBundle = [self loadBundleAtPath: bundlePath];
 
-	if ([testClasses count] == 0)
-	{
-    		testClasses = UKTestClasseNamesFromBundle(testBundle);
-	}
 	if (testBundle != nil)
 	{
 		[self runTests: testClasses inBundle: testBundle principalClass: nil];
@@ -536,21 +534,14 @@
 
 - (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
 {
-    NSArray *testClasses = UKTestClasseNamesFromBundle(bundle);
-    [self runTests: testClasses
-          inBundle: bundle
-       principalClass: principalClass];
+    [self runTests: nil inBundle: bundle principalClass: principalClass];
 }
-- (void) runTests: (NSArray*)testClasses
+
+- (void) runTests: (NSArray*)testedClasses
          inBundle: (NSBundle*)bundle
    principalClass: (Class)principalClass
 {
-	// NOTE: First we must create the app object, because on Mac OS X (10.6) in 
-	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes 
-	// class_respondsToSelector() which results in +initialize being called and 
-	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication. 
-	// When no app object is available yet, an NSApplication instance will be 
-	// created rather than the subclass instance we might want.
+
     BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
 
 	/* In addition, -setUp is also sent to the principal class */
@@ -565,6 +556,13 @@
 		[setUpClasses addObject: setUpClass];
 	}
 
+    // NOTE: First we must create the app object, because on Mac OS X in
+	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes
+	// class_respondsToSelector() which results in +initialize being called and
+	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication.
+	// When no app object is available yet, an NSApplication instance will be
+	// created rather than the subclass instance we might want.
+    NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
     NSEnumerator *e = [testClasses objectEnumerator];
     NSString *testClassName;
 
@@ -603,6 +601,10 @@
 		appClass = principalClass;
 
 	id app = [appClass sharedApplication];
+    NSAssert([app isKindOfClass: appClass], @"+sharedApplication returns an app "
+        "object of the wrong kind, this usually means +sharedApplication has "
+        "been sent before. For Mac OS X, the test bundle info.plist must declare "
+        "a principal class to ensure loading the bundle won't instantiate NSApp.");
 
 	if ([app respondsToSelector: @selector(setUp)] && [setUpClasses containsObject: appClass] == NO)
 	{
