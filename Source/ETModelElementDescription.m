@@ -18,6 +18,17 @@
 
 @implementation ETModelElementDescription
 
+/** Returns ET. */
++ (NSString *) typePrefix
+{
+	return @"ET";
+}
+
++ (NSString *) baseClassName
+{
+	return @"Description";
+}
+
 /* As a unique exception, we override +basicEntityDescription to ensure all 
 the subclass returned descriptions belongs to the meta-metamodel. */
 + (ETEntityDescription *) newBasicEntityDescription
