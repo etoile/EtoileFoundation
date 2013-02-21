@@ -12,6 +12,7 @@
 #import "NSObject+Etoile.h"
 #import "ETCollection.h"
 #import "ETEntityDescription.h"
+#import "ETModelDescriptionRepository.h"
 #import "EtoileCompatibility.h"
 #ifndef GNUSTEP
 #import <objc/runtime.h>
@@ -276,13 +277,51 @@ to adopt ETCollectionMutation protocol. */
 
 /* Property Value Coding */
 
+/** <override-dummy />
+Returns the property names accessible through Property Value Coding but
+not declared in the metamodel (e.g. NSObject or subclass entity description). 
+ 
+For example, this includes properties such as <em>icon</em> or <em>isMutable</em>.
+ 
+Can be overriden to include additional properties not declared in the metamodel, 
+but must call the superclass implementation.
+
+See -propertyNames. */
+- (NSArray *) basicPropertyNames
+{
+	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className",
+		@"stringValue", @"objectValue", @"isCollection", @"isGroup",@"isMutable",
+		@"isMutableCollection", @"isCommonObjectValue", @"isNumber", @"isString",
+			 @"isClass", @"description", @"primitiveDescription", nil];
+}
+
+/** Returns both the property names bound to the object entity description and 
+ the basic property names.
+ 
++ETModelDescriptionRepository mainRepository] is used to look up the entity 
+description.
+
+To be exposed through Property Value Coding, the receiver properties must be 
+listed among the returned properties.
+ 
+Can be overriden to return property names bound to entity descriptions that 
+don't belong to the main repository, or filter some properties out. In the 
+overriden method, you should usually return -basicPropertyNames along the 
+property description names.
+ 
+For a NSObject subclass not bound to an entity description, the property names 
+related to the closest superclass bound to an entity description are returned 
+through a recursive lookup in -entityDescriptionForClass:.
+ 
+See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:. */
 - (NSArray *) propertyNames
 {
-	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className", 
-		@"stringValue", @"objectValue", @"isCollection", @"isGroup", 
-		@"isMutable", @"isMutableCollection", @"isCommonObjectValue", 
-		@"isNumber", @"isString", @"isClass", @"description", 
-		@"primitiveDescription", nil];
+	ETEntityDescription *description =
+		[[ETModelDescriptionRepository mainRepository] entityDescriptionForClass: [self class]];
+	ETAssert(description != nil);
+	NSArray *properties = [description allPropertyDescriptionNames];
+	ETAssert(properties != nil);
+	return [[self basicPropertyNames] arrayByAddingObjectsFromArray: properties];
 }
 
 - (id) valueForProperty: (NSString *)key
