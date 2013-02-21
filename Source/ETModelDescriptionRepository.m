@@ -50,6 +50,8 @@
 
 - (void) addUnresolvedEntityDescriptionForClass: (Class)aClass
 {
+	NSParameterAssert([_entityDescriptionsByClass objectForKey: aClass] == nil);
+	NSParameterAssert([[[_classesByEntityDescription objectEnumerator] allObjects] containsObject: aClass] == NO);
 	ETEntityDescription *entityDesc = [aClass newEntityDescription];
 	[self addUnresolvedDescription: entityDesc];
 	[self setEntityDescription: entityDesc forClass: aClass];
@@ -63,7 +65,7 @@
 	NSSet *objectPrimitiveNames = (id)[[[self newObjectPrimitives] mappedCollection] name];
 
 	/* Don't overwrite existing entity descriptions such as primitives e.g. NSObject/Object */
-	if ([self entityDescriptionForClass: aClass] == nil)
+	if ([_entityDescriptionsByClass objectForKey: aClass] == nil)
 	{
 		[self addUnresolvedEntityDescriptionForClass: aClass];
 	}
@@ -280,7 +282,20 @@ static NSString *anonymousPackageName = @"Anonymous";
 
 - (ETEntityDescription *) entityDescriptionForClass: (Class)aClass
 {
-	return [_entityDescriptionsByClass objectForKey: aClass];
+	ETEntityDescription *entityDescription = [_entityDescriptionsByClass objectForKey: aClass];
+
+	/* Workaround multiple class objects for __NSCFConstantString on Mac OS X */
+	if (entityDescription == nil)
+	{
+		Class usedClass = NSClassFromString(NSStringFromClass(aClass));
+		entityDescription = [_entityDescriptionsByClass objectForKey: usedClass];
+	}
+
+	if (entityDescription == nil && [aClass superclass] != Nil)
+	{
+		entityDescription = [self entityDescriptionForClass: [aClass superclass]];
+	}
+	return entityDescription;
 }
 
 - (Class) classForEntityDescription: (ETEntityDescription*)anEntityDescription

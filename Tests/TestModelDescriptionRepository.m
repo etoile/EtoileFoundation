@@ -45,6 +45,57 @@
 	UKObjectsSame(packageProperty, [repo descriptionForName: @"ETPackageDescription.entityDescriptions"]);
 }
 
+- (void) testEntityDescriptionForClass
+{
+	/* We use a pristine repository to collect the entity descriptions
+	   explicitly and exclude some classes. */
+	ASSIGN(repo, [[[ETModelDescriptionRepository alloc] init] autorelease]);
+
+	/* For testing purpose, we just exclude NSMutableString class but
+	   it is not the expected way to set up a repository (see +mainRepository). */
+	NSSet *excludedClasses = [S([NSMutableString class])
+		setByAddingObjectsFromArray: [NSMutableString allSubclasses]];
+	[repo collectEntityDescriptionsFromClass: [NSObject class]
+	                         excludedClasses: excludedClasses
+	                              resolveNow: YES];
+
+	ETEntityDescription *root = [repo descriptionForName: @"NSObject"];
+	ETEntityDescription *string = [repo descriptionForName: @"NSString"];
+
+	UKObjectsSame(root, [repo entityDescriptionForClass: [NSObject class]]);
+	UKObjectsSame(string, [repo entityDescriptionForClass: [NSString class]]);
+	UKObjectsSame(string, [repo entityDescriptionForClass: [NSMutableString class]]);
+}
+
+/* On Mac OS X, [@"" class] and NSClassFromString( @"__NSCFConstantString")
+   are or can be two distinct class objects. So in other words, we have
+   multiple class objects using the same class name. This means only a single 
+   class among these classes is going to be collected in the model description 
+   repository when -collectEntityDescriptionsFromClass:excludedClasses:resolveNow: is called. */
+- (void) testMultipleClassObjectsUsingSameName
+{
+	ETEntityDescription *constantString = [repo entityDescriptionForClass: [@"" class]];
+
+	UKNotNil(constantString);
+#ifndef GNUSTEP
+	UKObjectsSame(constantString, [repo entityDescriptionForClass: NSClassFromString( @"__NSCFConstantString")]);
+#endif
+}
+
+- (void) testClassForEntityDescription
+{
+	ETEntityDescription *root = [repo descriptionForName: @"NSObject"];
+	ETEntityDescription *string = [repo descriptionForName: @"NSString"];
+	ETEntityDescription *customString = [ETEntityDescription descriptionWithName: @"CustomString"];
+
+	[customString setParent: string];
+	[repo addDescription: customString];
+
+	UKObjectsSame([NSObject class], [repo classForEntityDescription: root]);
+	UKObjectsSame([NSString class], [repo classForEntityDescription: string]);
+	UKObjectsSame([NSString class], [repo classForEntityDescription: customString]);
+}
+
 - (void) testResolveObjectRefsWithMetaMetaModel
 {
 	/* We use a pristine repository to collect the entity descriptions 
