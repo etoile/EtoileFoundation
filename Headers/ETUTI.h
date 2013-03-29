@@ -164,6 +164,10 @@
 /**
  * Returns all known UTI objects which are supertypes of the receiver (all UTIs 
  * which the receiver conforms to).
+ *
+ * The immediate supertypes comes first in the returned array.<br />
+ * Types higher in the hierarchy follow. The ordering among the supertypes  
+ * beside the immediate supertypes is undetermined (due to multiple inheritance). 
  */
 - (NSArray *) allSupertypes;
 /**

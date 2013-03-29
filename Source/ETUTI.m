@@ -233,13 +233,22 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 - (NSArray *) allSupertypes
 {
-	NSMutableSet *resultSet = [NSMutableSet setWithCapacity: 32];
-	FOREACH([self supertypes], supertype, ETUTI *)
+	NSMutableArray *allSupertypes = [NSMutableArray array];
+	NSMutableArray *moreSupertypes = [NSMutableArray array];
+
+	for (ETUTI *supertype in [self supertypes])
 	{
-		[resultSet addObject: supertype];
-		[resultSet addObjectsFromArray: [supertype allSupertypes]];
+		if ([allSupertypes containsObject: supertypes])
+			continue;
+
+		[allSupertypes addObject: supertype];
+		[moreSupertypes addObject: supertype];
 	}
-	return [resultSet allObjects];
+	for (ETUTI *supertype in moreSupertypes)
+	{
+		[allSupertypes addObjectsFromArray: [supertype allSupertypes]];
+	}
+	return allSupertypes;
 }
 
 - (NSArray *) subtypes
