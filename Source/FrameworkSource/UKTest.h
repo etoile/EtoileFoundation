@@ -43,9 +43,9 @@
 
 #define UKFalse(condition) [[UKTestHandler handler] testFalse:(condition) inFile:__FILE__ line:__LINE__]
 
-#define UKNil(ref) [[UKTestHandler handler] testNil:(ref) inFile:__FILE__ line:__LINE__] 
+#define UKNil(ref) [[UKTestHandler handler] testNil: (void *)(ref) inFile:__FILE__ line:__LINE__] 
 
-#define UKNotNil(ref) [[UKTestHandler handler] testNotNil:(ref) inFile:__FILE__ line:__LINE__]
+#define UKNotNil(ref) [[UKTestHandler handler] testNotNil: (void *)(ref) inFile:__FILE__ line:__LINE__]
 
 #define UKIntsEqual(a, b) [[UKTestHandler handler] testInt:(a) equalTo:(b) inFile:__FILE__ line:__LINE__]
 
