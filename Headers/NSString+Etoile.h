@@ -17,6 +17,7 @@
 - (NSString *) stringByDeletingFirstPathComponent;
 - (NSString *) stringByStandardizingIntoAbsolutePath;
 - (NSString *) stringBySpacingCapitalizedWords;
+- (NSString *) stringByCapitalizingFirstLetter;
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator;
 
 @end

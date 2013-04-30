@@ -134,6 +134,18 @@ Useful to convert a name in camel case into a more user friendly name. */
 	return displayName;
 }
 
+/** Returns a string where the first letter is capitalized and the other letter 
+case remains the same (unlike -capitalizedString).
+ 
+Useful to create accessor names from Key-Value-Coding keys. */
+- (NSString *) stringByCapitalizingFirstLetter
+{
+	// TODO: Probably a bit slow, rewrite in C a bit
+	NSString *suffix = [[self substringToIndex: 1] uppercaseString];
+	return [self stringByReplacingCharactersInRange: NSMakeRange(0, 1)
+	                                     withString: suffix];
+}
+
 // FIXME: Implement
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator
 {
