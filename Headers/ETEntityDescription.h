@@ -26,6 +26,7 @@ A description of an entity, which can either be a class or a prototype. */
 	ETEntityDescription *_parent;
 	ETPackageDescription *_owner;
 	NSString *_localizedDescription;
+	NSArray *_UIBuilderPropertyNames;
 }
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
@@ -127,6 +128,11 @@ ETPropertyDescription. */
 by delegating the validation to the right property description, and returns a 
 validation result object. */
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
+
+/** @taskunit UI Builder Support */
+
+@property (nonatomic, copy) NSArray *UIBuilderPropertyNames;
+@property (nonatomic, readonly) NSArray *allUIBuilderPropertyNames;
 
 @end
 

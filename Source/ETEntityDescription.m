@@ -23,7 +23,8 @@
 
 @implementation ETEntityDescription
 
-@synthesize localizedDescription = _localizedDescription;
+@synthesize localizedDescription = _localizedDescription,
+	UIBuilderPropertyNames = _UIBuilderPropertyNames;
 
 + (void) initialize
 {
@@ -48,6 +49,7 @@
 	_propertyDescriptions = [[NSMutableDictionary alloc] init];
 	_parent = nil;
 	ASSIGN(_localizedDescription, name);
+	_UIBuilderPropertyNames = [NSArray new];
 	return self;
 }
 
@@ -55,6 +57,7 @@
 {
 	DESTROY(_propertyDescriptions);
 	DESTROY(_localizedDescription);
+	DESTROY(_UIBuilderPropertyNames);
 	[super dealloc];
 }
 
@@ -239,6 +242,19 @@
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
 	return [[self propertyDescriptionForName: key] validateValue: value forKey: key];
+}
+
+- (NSArray *) allUIBuilderPropertyNames
+{
+	if ([self isRoot])
+	{
+		return [self UIBuilderPropertyNames];
+	}
+	else
+	{
+		return [[[self parent] allUIBuilderPropertyNames]
+			arrayByAddingObjectsFromArray: [self UIBuilderPropertyNames]];
+	}
 }
 
 - (BOOL) isPrimitive
