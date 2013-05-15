@@ -89,12 +89,19 @@
 		printf("Test bundle %s could not be found\n", [bundlePath UTF8String]);
 		return nil;
 	}
+    
+    NSError *error = nil;
+
     /* For Mac OS X (10.8), the test bundle info.plist must declare a principal 
        class, to prevent +load from instantiating NSApp (see -setUpAppObjectIfNeededForBundle:). */
-	if (![testBundle load])
+#ifdef GNUSTEP
+    if (![testBundle load])
+#else
+	if (![testBundle loadAndReturnError: &error])
+#endif
 	{
 		// XXX i18n as well as message improvements
-		printf("Test bundle could not be loaded\n");
+		printf("Test bundle could not be loaded: %s\n", [[error description] UTF8String]);
 		return nil;            
 	}
 	return testBundle;
