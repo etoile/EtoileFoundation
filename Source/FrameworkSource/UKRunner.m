@@ -86,10 +86,15 @@
 	if (testBundle == nil)
 	{
 		// XXX i18n as well as message improvements
-		printf("Test bundle %s could not be found\n", [bundlePath UTF8String]);
-		return nil;
+		printf("\n == Test bundle '%s' could not be found ==\n\n", [[bundlePath lastPathComponent] UTF8String]);
+		return nil; 
 	}
-    
+
+    if ([[bundlePath pathExtension] isEqual: @"bundle"] == NO)
+    {
+ 		printf("\n == Directory '%s' is not a test bundle ==\n\n", [[bundlePath lastPathComponent] UTF8String]);
+    }
+
     NSError *error = nil;
 
     /* For Mac OS X (10.8), the test bundle info.plist must declare a principal 
@@ -101,7 +106,7 @@
 #endif
 	{
 		// XXX i18n as well as message improvements
-		printf("Test bundle could not be loaded: %s\n", [[error description] UTF8String]);
+		printf("\n == Test bundle could not be loaded: %s ==\n\n", [[error description] UTF8String]);
 		return nil;            
 	}
 	return testBundle;
@@ -222,7 +227,6 @@
 			if ([arg isEqualToString: @"-q"])
 			{
 				[[UKTestHandler handler] setQuiet: YES];
-				i++;
 			}
 			else if ([arg isEqualToString: @"-c"])
 			{
