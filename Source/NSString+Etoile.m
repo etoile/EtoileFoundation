@@ -28,6 +28,20 @@
 }
 #endif
 
+/** Returns the substring that starts at the first index and ends at the second 
+index. 
+
+The character located at the start index is included in the returned string, 
+unlike the character located at the end index which isn't included.
+ 
+This is a convenient alternative to -substringWithRange: which tends to be 
+error-prone for most use cases. */
+- (NSString *) substringFromIndex: (NSUInteger)startIndex toIndex: (NSUInteger)endIndex
+{
+	NSParameterAssert(startIndex <= endIndex);
+	return [self substringWithRange: NSMakeRange(startIndex, endIndex - startIndex)];
+}
+
 /** Returns the first path component of the receiver. If the receiver isn't a 
 path, returns the a new instance of the entire string. 
 
@@ -142,6 +156,20 @@ Useful to create accessor names from Key-Value-Coding keys. */
 {
 	// TODO: Probably a bit slow, rewrite in C a bit
 	NSString *suffix = [[self substringToIndex: 1] uppercaseString];
+	return [self stringByReplacingCharactersInRange: NSMakeRange(0, 1)
+	                                     withString: suffix];
+}
+
+/** Returns a string where the first letter is lowercased and the other letter 
+case remains the same.
+ 
+Useful to create accessor names from Key-Value-Coding keys.
+ 
+See also -stringByCapitalizingFirstLetter. */
+- (NSString *) stringByLowercasingFirstLetter
+{
+	// TODO: Probably a bit slow, rewrite in C a bit
+	NSString *suffix = [[self substringToIndex: 1] lowercaseString];
 	return [self stringByReplacingCharactersInRange: NSMakeRange(0, 1)
 	                                     withString: suffix];
 }

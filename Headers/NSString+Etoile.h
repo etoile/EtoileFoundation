@@ -13,11 +13,13 @@
 /** @group String Manipulation and Formatting */
 @interface NSString (Etoile)
 
+- (NSString *) substringFromIndex: (NSUInteger)startIndex toIndex: (NSUInteger)endIndex;
 - (NSString *) firstPathComponent;
 - (NSString *) stringByDeletingFirstPathComponent;
 - (NSString *) stringByStandardizingIntoAbsolutePath;
 - (NSString *) stringBySpacingCapitalizedWords;
 - (NSString *) stringByCapitalizingFirstLetter;
+- (NSString *) stringByLowercasingFirstLetter;
 - (NSIndexPath *) indexPathBySplittingPathWithSeparator: (NSString *)separator;
 
 @end
