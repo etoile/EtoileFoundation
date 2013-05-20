@@ -180,8 +180,13 @@ These allow a pluggable, more precise property description. */
 	NSArray *_allowedOptions;
 }
 
-- (void) setAllowedOptions: (NSArray *)allowedOptions;
-- (NSArray *) allowedOptions;
+/** The ETKeyValuePair objects that represent the options.
+ 
+-[ETKeyValuePair value] is expected to return the option value (e.g. a NSNumber 
+for an enumeration) and -[ETKeyValuePair key] to return the option name.
+ 
+You can use a localized string as the pair key to present the options in the UI. */
+@property (nonatomic, copy) NSArray *allowedOptions;
 
 @end
 

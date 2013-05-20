@@ -15,6 +15,7 @@
 #import "ETPropertyDescription.h"
 #import "ETPackageDescription.h"
 #import "ETCollection.h"
+#import "ETCollection+HOM.h"
 #import "ETEntityDescription.h"
 #import "ETReflection.h"
 #import "ETUTI.h"
@@ -364,25 +365,17 @@
 
 @implementation ETMultiOptionsRole
 
+@synthesize allowedOptions = _allowedOptions;
+
 - (void) dealloc
 {
 	DESTROY(_allowedOptions);
 	[super dealloc];
 }
 
-- (void) setAllowedOptions: (NSArray *)allowedOptions
-{
-	ASSIGN(_allowedOptions, [allowedOptions copy]);
-}
-
-- (NSArray *) allowedOptions
-{
-	return _allowedOptions;
-}
-
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	if ([_allowedOptions containsObject: value])
+	if ([(id)[[_allowedOptions mappedCollection] value] containsObject: value])
 	{
 		return [ETValidationResult validResult: value];
 	}
