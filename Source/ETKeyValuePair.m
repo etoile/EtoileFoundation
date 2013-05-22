@@ -41,6 +41,15 @@ Initializes and returns a new pair with the given key and value. */
 	[super dealloc];
 }
 
+/** Returns YES when both key and value are equal, otherwise returns NO. */
+- (BOOL) isEqual: (id)object
+{
+	if ([object isKindOfClass: [ETKeyValuePair class]] == NO)
+		return NO;
+
+	return ([[self key] isEqualToString: [object key]] && [[self value] isEqual: [object value]]);
+}
+
 /** Returns YES. */
 - (BOOL) isKeyValuePair
 {

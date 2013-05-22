@@ -100,6 +100,10 @@
 		603813A31022246300C221A2 /* ETPropertyViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 603813A21022246300C221A2 /* ETPropertyViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603813A51022247400C221A2 /* ETPropertyViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 603813A41022247400C221A2 /* ETPropertyViewpoint.m */; };
 		603813A61022247400C221A2 /* ETPropertyViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 603813A41022247400C221A2 /* ETPropertyViewpoint.m */; };
+		6043D0A4174CBF21002103CC /* TestViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D0A3174CBF21002103CC /* TestViewpoint.m */; };
+		6043D0A6174CD74E002103CC /* ETCollectionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */; };
+		6043D0A9174CD76C002103CC /* ETCollectionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */; };
+		6043D0AA174CD770002103CC /* ETCollectionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D0A7174CD763002103CC /* ETCollectionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60455B5F1356FBDA006A7642 /* TestPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 60455B5E1356FBDA006A7642 /* TestPlugInRegistry.m */; };
 		605816D810B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
 		605816D910B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
@@ -333,6 +337,9 @@
 		603812721021C51B00C221A2 /* TestString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestString.m; path = Tests/TestString.m; sourceTree = "<group>"; };
 		603813A21022246300C221A2 /* ETPropertyViewpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPropertyViewpoint.h; path = Headers/ETPropertyViewpoint.h; sourceTree = "<group>"; };
 		603813A41022247400C221A2 /* ETPropertyViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPropertyViewpoint.m; path = Source/ETPropertyViewpoint.m; sourceTree = "<group>"; };
+		6043D0A3174CBF21002103CC /* TestViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestViewpoint.m; path = Tests/TestViewpoint.m; sourceTree = "<group>"; };
+		6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCollectionViewpoint.m; path = Source/ETCollectionViewpoint.m; sourceTree = "<group>"; };
+		6043D0A7174CD763002103CC /* ETCollectionViewpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCollectionViewpoint.h; path = Headers/ETCollectionViewpoint.h; sourceTree = "<group>"; };
 		60455B5E1356FBDA006A7642 /* TestPlugInRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestPlugInRegistry.m; path = Tests/TestPlugInRegistry.m; sourceTree = "<group>"; };
 		605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UTIClassBindings.plist; sourceTree = "<group>"; };
 		6062DE10114BDD320008B771 /* ETModelDescriptionRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETModelDescriptionRepository.m; path = Source/ETModelDescriptionRepository.m; sourceTree = "<group>"; };
@@ -585,6 +592,7 @@
 				603812721021C51B00C221A2 /* TestString.m */,
 				60B27D750FF7B54F0012BB42 /* TestUTI.m */,
 				603648130E40931E003377E0 /* TestUUID.m */,
+				6043D0A3174CBF21002103CC /* TestViewpoint.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -719,6 +727,8 @@
 				60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */,
 				603647BC0E4092EA003377E0 /* ETCollection.h */,
 				603647FC0E40931E003377E0 /* ETCollection.m */,
+				6043D0A7174CD763002103CC /* ETCollectionViewpoint.h */,
+				6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */,
 				603647C40E4092EA003377E0 /* ETPropertyValueCoding.h */,
 				603648020E40931E003377E0 /* ETPropertyValueCoding.m */,
 			);
@@ -858,6 +868,7 @@
 				603647F40E4092EA003377E0 /* NSURL+Etoile.h in Headers */,
 				792BF98E124FBD0B0040BF68 /* runtime.h in Headers */,
 				60A549AC13CA133300261FDC /* NSMapTable+Etoile.h in Headers */,
+				6043D0AA174CD770002103CC /* ETCollectionViewpoint.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1137,6 +1148,7 @@
 				6036482E0E40931E003377E0 /* NSURL+Etoile.m in Sources */,
 				60A549AE13CA134700261FDC /* NSMapTable+Etoile.m in Sources */,
 				60ADA96E1410E821003EACF1 /* NSBlocks.m in Sources */,
+				6043D0A9174CD76C002103CC /* ETCollectionViewpoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1209,6 +1221,8 @@
 				609B67CB0FEE81740007F842 /* TestUUID.m in Sources */,
 				60A549AF13CA134700261FDC /* NSMapTable+Etoile.m in Sources */,
 				60ADA96F1410E821003EACF1 /* NSBlocks.m in Sources */,
+				6043D0A4174CBF21002103CC /* TestViewpoint.m in Sources */,
+				6043D0A6174CD74E002103CC /* ETCollectionViewpoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

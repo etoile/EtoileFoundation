@@ -81,6 +81,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETClassMirror.h \
 	ETCollection.h \
 	ETCollection+HOM.h \
+	ETCollectionViewpoint.h \
 	ETHistory.h \
 	ETInstanceVariableMirror.h \
 	ETKeyValuePair.h \
@@ -132,6 +133,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETClassMirror.m \
 	Source/ETCollection.m \
 	Source/ETCollection+HOM.m \
+	Source/ETCollectionViewpoint.m \
 	Source/ETGetOptionsDictionary.m \
 	Source/ETHistory.m \
 	Source/ETInstanceVariableMirror.m \
@@ -189,7 +191,8 @@ EtoileFoundation_OBJC_FILES += \
 	Tests/TestStackTraceRecorder.m \
 	Tests/TestString.m \
 	Tests/TestUTI.m \
-	Tests/TestUUID.m
+	Tests/TestUUID.m \
+	Tests/TestViewpoint.m
 endif
 
 ifeq ($(GNUSTEP_TARGET_CPU), ix86)

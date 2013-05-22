@@ -38,6 +38,7 @@
 #import <EtoileFoundation/ETByteSizeFormatter.h>
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETCollection+HOM.h>
+#import <EtoileFoundation/ETCollectionViewpoint.h>
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
 #import <EtoileFoundation/ETHistory.h>
 #import <EtoileFoundation/ETKeyValuePair.h>
@@ -93,6 +94,8 @@
 #import <EtoileThread/NSObject+Threaded.h>
 #endif
 
+#endif
+
 #import <EtoileXML/ETXMLDeclaration.h>
 #import <EtoileXML/ETXMLNullHandler.h>
 #import <EtoileXML/ETXMLParserDelegate.h>
@@ -101,5 +104,3 @@
 #import <EtoileXML/ETXMLWriter.h>
 #import <EtoileXML/ETXMLXHTML-IMParser.h>
 #import <EtoileXML/NSAttributedString+HTML.h>
-
-#endif
