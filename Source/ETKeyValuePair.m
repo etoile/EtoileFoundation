@@ -50,6 +50,11 @@ Initializes and returns a new pair with the given key and value. */
 	return ([[self key] isEqualToString: [object key]] && [[self value] isEqual: [object value]]);
 }
 
+- (NSUInteger)hash
+{
+	return [[self key] hash] ^ [[self value] hash];
+}
+
 /** Returns YES. */
 - (BOOL) isKeyValuePair
 {

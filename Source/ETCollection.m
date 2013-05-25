@@ -694,6 +694,16 @@ Nil is returned when no object can be matched. */
 
 @end
 
+@implementation NSDictionary (Etoile)
+
+/** Returns whether the dictionary contains the given key among -allKeys. */
+- (BOOL) containsKey: (NSString *)aKey
+{
+	return ([self objectForKey: aKey] != nil);
+}
+
+@end
+
 @implementation NSMutableArray (Etoile)
 
 - (void) removeObjectsFromIndex: (NSUInteger)anIndex

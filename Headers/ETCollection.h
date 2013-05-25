@@ -427,6 +427,11 @@ is ETUndeterminedIndex. */
 - (void) removeObjectsFromIndex: (NSUInteger)anIndex;
 @end
 
+/** @group Collection Additions */
+@interface NSDictionary (Etoile)
+- (BOOL) containsKey: (NSString *)aKey;
+@end
+
 /**
  * @group Collection Additions
  *
