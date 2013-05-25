@@ -279,6 +279,23 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	return [self descriptionWithLocale: nil];
 }
 
+- (NSArray *) arrayRepresentation
+{
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity: [self count]];
+	NSEnumerator *keyEnumerator = [self keyEnumerator];
+
+	FOREACHE(nil, key, NSString *, keyEnumerator)
+	{
+		id value = [self objectForKey: key];
+ 		ETKeyValuePair *pair = [[ETKeyValuePair alloc] initWithKey: key value: value];
+
+		[array addObject: pair];
+		RELEASE(pair);
+	}
+
+	return array;
+}
+
 @end
 
 @implementation NSSet (ETCollection)

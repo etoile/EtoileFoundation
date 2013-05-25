@@ -80,13 +80,13 @@ identified by the given name in object. */
 	
 	if (nil != _representedObject)
 	{
-		[_representedObject removeObserver: self forKeyPath: name];
+		// FIXME: [_representedObject removeObserver: self forKeyPath: name];
 	}
 	ASSIGN(_representedObject, object);
 	
 	if (nil != object)
 	{
-		[object addObserver: self forKeyPath: name options: 0 context: NULL];
+		// FIXME: [object addObserver: self forKeyPath: name options: 0 context: NULL];
 		ETAssert([self content] != nil);
 	}
 }
@@ -153,6 +153,11 @@ identified by the given name in object. */
 - (NSArray *) contentArray
 {
 	return [[self content] contentArray];
+}
+
+- (NSArray *) arrayRepresentation
+{
+	return ([self isKeyed] ? [[self content] arrayRepresentation] : [self contentArray]);
 }
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;

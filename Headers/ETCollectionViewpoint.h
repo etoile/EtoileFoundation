@@ -26,7 +26,7 @@ dominant/main collection aspect, but the represent object doesn't support
 these protocols to access other collections exposed as properties. 
 ETCollectionViewpoint exposes these other collections as the main collection is 
 usually exposed. */
-@interface ETCollectionViewpoint : NSObject <ETCollection, ETCollectionMutation, NSCopying>
+@interface ETCollectionViewpoint : NSObject <ETKeyedCollection, ETCollectionMutation, NSCopying>
 {
 	@private
 	id _representedObject;

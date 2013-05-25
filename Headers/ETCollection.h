@@ -97,6 +97,14 @@ See NSFastEnumeration protocol.  */
 - (BOOL) containsCollection: (id <ETCollection>)objects;
 @end
 
+@protocol ETKeyedCollection <ETCollection>
+/** Returns an ETKeyValuePair array where every entry present in the keyed 
+collection is turned into a pair object.
+
+The returned array is autoreleased. */
+- (NSArray *) arrayRepresentation;
+@end
+
 /** @group Collection Protocols 
 
 Additional collection protocol that all mutable collections must support. 
@@ -342,11 +350,12 @@ For a use case example, see ETCollectionTrait. */
 @end
 
 /** @group Collection Protocols */
-@interface NSDictionary (ETCollection) <ETCollection>
+@interface NSDictionary (ETCollection) <ETKeyedCollection>
 + (Class) mutableClass;
 - (BOOL) isKeyed;
 - (id) content;
 - (NSArray *) contentArray;
+- (NSArray *) arrayRepresentation;
 - (NSString *) identifierAtIndex: (NSUInteger)index;
 @end
 

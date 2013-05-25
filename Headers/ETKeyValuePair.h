@@ -49,13 +49,6 @@ ETKeyValuePair-related extensions to NSArray. */
 
 /** @group Collection Additions
 
-ETKeyValuePair-related extensions to NSDictionary. */
-@interface NSDictionary (ETKeyValuePairRepresentation)
-- (NSArray *) arrayRepresentation;
-@end
-
-/** @group Collection Additions
-
 ETKeyValuePair-related extensions to NSObject. */
 @interface NSObject (ETKeyValuePair)
 - (BOOL) isKeyValuePair;

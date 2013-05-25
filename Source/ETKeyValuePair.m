@@ -133,30 +133,6 @@ an ETKeyValuePair object. */
 
 @end
 
-@implementation NSDictionary (ETKeyValuePairRepresentation)
-
-/** Returns an ETKeyValuePair array where every entry present in the dictionary 
-is turned into a pair object.
-
-The returned array is autoreleased. */
-- (NSArray *) arrayRepresentation
-{
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity: [self count]];
-	NSEnumerator *keyEnumerator = [self keyEnumerator];
-
-	FOREACHE(nil, key, NSString *, keyEnumerator)
-	{
-		id value = [self objectForKey: key];
- 		ETKeyValuePair *pair = [[ETKeyValuePair alloc] initWithKey: key value: value];
-
-		[array addObject: pair];
-		RELEASE(pair);
-	}
-
-	return array;
-}
-
-@end
 
 @implementation NSObject (ETKeyValuePair)
 
