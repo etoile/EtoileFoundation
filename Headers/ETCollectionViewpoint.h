@@ -7,8 +7,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import <EtoileFoundation/ETCollection.h>
+#import <EtoileFoundation/ETMutableObjectViewpoint.h>
 
 /** @group Viewpoints
 @abstract A proxy giving access to a model property as a mutable collection.
@@ -26,37 +26,16 @@ dominant/main collection aspect, but the represent object doesn't support
 these protocols to access other collections exposed as properties. 
 ETCollectionViewpoint exposes these other collections as the main collection is 
 usually exposed. */
-@interface ETCollectionViewpoint : NSObject <ETKeyedCollection, ETCollectionMutation, NSCopying>
+@interface ETCollectionViewpoint : ETMutableObjectViewpoint <ETKeyedCollection, ETCollectionMutation>
 {
-	@private
-	id _representedObject;
-	id _name;
+
 }
-
-/** @taskunit Initialization */
-
-+ (id) viewpointWithName: (NSString *)key representedObject: (id)object;
-
-- (id) initWithName: (NSString *)key representedObject: (id)object;
-
-/** @taskunit Represented Property */
-
-/** The property name of the original collection in the represented object. */
-@property (nonatomic, readonly) NSString *name;
 
 /** @taskunit Controlling Represented Object Access */
 
-@property (nonatomic, retain) id representedObject;
 /** Posts an ETSourceDidUpdateNotification which can be intercepted by all
 the objects that observes the represented object. */
 - (void) didUpdate;
-
-/** @taskunit Property Value Coding */
-
-@property (nonatomic, readonly) NSArray *propertyNames;
-
-- (id) valueForProperty: (NSString *)key;
-- (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
 @end
 

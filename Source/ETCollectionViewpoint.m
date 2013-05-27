@@ -17,8 +17,6 @@
 
 @implementation ETCollectionViewpoint
 
-@synthesize representedObject = _representedObject, name = _name;
-
 + (void) initialize
 {
 	if (self != [ETCollectionViewpoint class])
@@ -26,42 +24,6 @@
 	
 	[self applyTraitFromClass: [ETCollectionTrait class]];
 	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
-}
-
-/** Returns a new autoreleased viewpoint that represents the property
-identified by the given name in object. */
-+ (id) viewpointWithName: (NSString *)key representedObject: (id)object
-{
-	return AUTORELEASE([[ETCollectionViewpoint alloc] initWithName: key representedObject: object]);
-}
-
-/** <init />
-Returns and initializes a new property viewpoint that represents the property
-identified by the given name in object. */
-- (id) initWithName: (NSString *)key representedObject: (id)object
-{
-	NSParameterAssert(nil != key);
-	SUPERINIT;
-	ASSIGN(_name, key);
-	[self setRepresentedObject: object];
-	return self;
-}
-
-- (id) init
-{
-	return [self initWithName: nil representedObject: nil];
-}
-
-- (void) dealloc
-{
-	[self setRepresentedObject: nil]; /* Will end KVO observation */
-	DESTROY(_name);
-	[super dealloc];
-}
-
-- (id) copyWithZone: (NSZone *)aZone
-{
-	return [[[self class] alloc] initWithName: [self name] representedObject: _representedObject];
 }
 
 - (void) observeValueForKeyPath: (NSString *)keyPath
@@ -78,11 +40,11 @@ identified by the given name in object. */
 	
 	NSParameterAssert(nil != name);
 	
-	if (nil != _representedObject)
+	if (nil != [super representedObject])
 	{
 		// FIXME: [_representedObject removeObserver: self forKeyPath: name];
 	}
-	ASSIGN(_representedObject, object);
+	[super setRepresentedObject: object];
 	
 	if (nil != object)
 	{
@@ -94,25 +56,7 @@ identified by the given name in object. */
 - (void) didUpdate
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName: ETCollectionDidUpdateNotification
-	                  object: _representedObject];
-}
-
-#pragma mark Property Value Coding
-#pragma mark -
-
-- (NSArray *) propertyNames
-{
-	return [[self content] propertyNames];
-}
-
-- (id) valueForProperty: (NSString *)aProperty
-{
-	return [[self content] valueForProperty: aProperty];
-}
-
-- (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
-{
-	return [[self content] setValue: aValue forProperty: aProperty];
+	                                                    object: [self representedObject]];
 }
 
 #pragma mark Collection Protocol
@@ -126,7 +70,7 @@ identified by the given name in object. */
 
 - (BOOL) isMutableCollection
 {
-	return [_representedObject respondsToSelector: [self collectionSetter]];
+	return [[self representedObject] respondsToSelector: [self collectionSetter]];
 }
 
 - (BOOL) isKeyed
@@ -141,13 +85,13 @@ identified by the given name in object. */
 
 - (id) content
 {
-	return [_representedObject valueForProperty: [self name]];
+	return [self value];
 }
 
 /* This is an internal addition to the collection protocol. */
 - (void) setContent: (id <ETCollection>)aCollection
 {
-	[_representedObject setValue: aCollection forProperty: [self name]];
+	[self setValue: aCollection];
 }
 
 - (NSArray *) contentArray

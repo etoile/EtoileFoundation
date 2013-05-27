@@ -32,8 +32,8 @@ model property with a new immutable object in reaction to -setValue:forProperty:
 ETMutableObjectViewpoint doesn't work as a mutable collection proxy for a 
 to-many relationship property, you must use ETCollectionViewpoint instead.
  
-Using a mutable object as ETMutableObjectViewpoint represented object doesn't 
-bring a lot of benefits, but is well supported and works transparently. 
+Using a mutable object as ETMutableObjectViewpoint value doesn't bring a lot of 
+benefits, but is well supported and works transparently.
 
 For supporting editing a mutable object class, ETMutableObjectViewpoint must be 
 subclassed. For example, for editing NSSortDescriptor, you must implement a 
@@ -57,7 +57,10 @@ represented object. */
 
 /** @taskunit Represented Property */
 
-/** The property name of the original collection in the represented object. */
+/** The property name of the original object value in the represented object.
+ 
+The object value bound to the property can be a collection. For customizing 
+the collection interaction through the viewpoint, see ETCollectionViewpoint. */
 @property (nonatomic, readonly) NSString *name;
 
 /** @taskunit Controlling Represented Object Access */
