@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import <EtoileFoundation/ETCollection.h>
+#import <EtoileFoundation/ETPropertyViewpoint.h>
 
 /** @group Viewpoints
  
@@ -42,11 +42,13 @@ EtoileUI though).
  
 This viewpoint uses Key-Value-Observing to detect any property changes on the 
 represented object. */
-@interface ETMutableObjectViewpoint : NSObject <NSCopying>
+@interface ETMutableObjectViewpoint : NSObject <ETPropertyViewpoint>
 {
 	@private
 	id _representedObject;
 	id _name;
+	BOOL _usesKeyValueCodingForAccessingValueProperties;
+	BOOL _isSettingValue;
 }
 
 /** @taskunit Initialization */
@@ -66,6 +68,7 @@ the collection interaction through the viewpoint, see ETCollectionViewpoint. */
 /** @taskunit Controlling Represented Object Access */
 
 @property (nonatomic, retain) id representedObject;
+@property (nonatomic, assign) BOOL usesKeyValueCodingForAccessingValueProperties;
 
 /** @taskunit Reading and Writing the value */
 

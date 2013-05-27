@@ -98,8 +98,6 @@
 		603649740E409488003377E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		603812731021C51B00C221A2 /* TestString.m in Sources */ = {isa = PBXBuildFile; fileRef = 603812721021C51B00C221A2 /* TestString.m */; };
 		603813A31022246300C221A2 /* ETPropertyViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 603813A21022246300C221A2 /* ETPropertyViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		603813A51022247400C221A2 /* ETPropertyViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 603813A41022247400C221A2 /* ETPropertyViewpoint.m */; };
-		603813A61022247400C221A2 /* ETPropertyViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 603813A41022247400C221A2 /* ETPropertyViewpoint.m */; };
 		6043D0A6174CD74E002103CC /* ETCollectionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */; };
 		6043D0A9174CD76C002103CC /* ETCollectionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */; };
 		6043D0AA174CD770002103CC /* ETCollectionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D0A7174CD763002103CC /* ETCollectionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -339,7 +337,6 @@
 		603649810E4095F0003377E0 /* EtoileFoundation-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EtoileFoundation-Info.plist"; sourceTree = "<group>"; };
 		603812721021C51B00C221A2 /* TestString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestString.m; path = Tests/TestString.m; sourceTree = "<group>"; };
 		603813A21022246300C221A2 /* ETPropertyViewpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPropertyViewpoint.h; path = Headers/ETPropertyViewpoint.h; sourceTree = "<group>"; };
-		603813A41022247400C221A2 /* ETPropertyViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPropertyViewpoint.m; path = Source/ETPropertyViewpoint.m; sourceTree = "<group>"; };
 		6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCollectionViewpoint.m; path = Source/ETCollectionViewpoint.m; sourceTree = "<group>"; };
 		6043D0A7174CD763002103CC /* ETCollectionViewpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCollectionViewpoint.h; path = Headers/ETCollectionViewpoint.h; sourceTree = "<group>"; };
 		6043D28E17523AE6002103CC /* ETMutableObjectViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETMutableObjectViewpoint.m; path = Source/ETMutableObjectViewpoint.m; sourceTree = "<group>"; };
@@ -568,7 +565,6 @@
 				6043D29017523AF2002103CC /* ETMutableObjectViewpoint.h */,
 				6043D28E17523AE6002103CC /* ETMutableObjectViewpoint.m */,
 				603813A21022246300C221A2 /* ETPropertyViewpoint.h */,
-				603813A41022247400C221A2 /* ETPropertyViewpoint.m */,
 			);
 			name = Viewpoints;
 			sourceTree = "<group>";
@@ -1138,7 +1134,6 @@
 				603648320E40931E003377E0 /* ETPlugInRegistry.m in Sources */,
 				662EA3FC101916310044F013 /* ETPropertyDescription.m in Sources */,
 				6036481F0E40931E003377E0 /* ETPropertyValueCoding.m in Sources */,
-				603813A51022247400C221A2 /* ETPropertyViewpoint.m in Sources */,
 				662EA83A101BC8610044F013 /* ETProtocolMirror.m in Sources */,
 				6680CED9101257C800CAF439 /* ETReflection.m in Sources */,
 				66C3AF9010181D110046D74A /* ETSocket.m in Sources */,
@@ -1199,7 +1194,6 @@
 				609B67E50FEE81740007F842 /* ETPlugInRegistry.m in Sources */,
 				60222DB8101CCB4800B2B1C1 /* ETPropertyDescription.m in Sources */,
 				609B67D40FEE81740007F842 /* ETPropertyValueCoding.m in Sources */,
-				603813A61022247400C221A2 /* ETPropertyViewpoint.m in Sources */,
 				60222DB9101CCB4800B2B1C1 /* ETProtocolMirror.m in Sources */,
 				60222DBA101CCB4800B2B1C1 /* ETReflection.m in Sources */,
 				60222DBB101CCB4800B2B1C1 /* ETSocket.m in Sources */,

@@ -50,17 +50,51 @@ identified by the given name in object. */
 	[super dealloc];
 }
 
-- (id) copyWithZone: (NSZone *)aZone
+/*- (id) copyWithZone: (NSZone *)aZone
 {
 	return [[[self class] alloc] initWithName: [self name] representedObject: _representedObject];
+}*/
+
++ (BOOL) automaticallyNotifiesObserversForKey:(NSString *)key
+{
+	/* -setValue: changes the represented object but not the viewpoint state.
+	   The viewpoint synthesizes a value change notification if a represented 
+	   object property changes (see -observeValueForKeyPath:ofObject:change:context:).
+	   If other objects observe the viewpoint, these objects receives a KVO 
+	   notification for -value. */
+	if ([key isEqualToString: @"value"])
+	{
+		return NO;
+	}
+	else
+	{
+		return [super automaticallyNotifiesObserversForKey: key];
+	}
 }
 
+- (NSSet *) observableKeyPaths
+{
+	return S(@"value", @"representedObject");
+}
+
+// NOTE: By keeping track of the observer, we could do...
+// [observer observeValueForKeyPath: @"value" ofObject: self change: change
+//	context: NULL]
 - (void) observeValueForKeyPath: (NSString *)keyPath
                        ofObject: (id)object
                          change: (NSDictionary *)change
                         context: (void *)context
 {
-	// TODO: Implement
+	NSParameterAssert([keyPath isEqualToString: [self name]]);
+	
+	if (_isSettingValue)
+		return;
+	
+	ETLog(@"Will forward KVO property %@ change", keyPath);
+
+	// NOTE: Invoking just -didChangeValueForKey: won't work
+	[self willChangeValueForKey: @"value"];
+	[self didChangeValueForKey: @"value"];
 }
 
 - (void) setRepresentedObject: (id)object
@@ -71,27 +105,85 @@ identified by the given name in object. */
 	
 	if (nil != _representedObject)
 	{
-		// FIXME: [_representedObject removeObserver: self forKeyPath: name];
+		[_representedObject removeObserver: self forKeyPath: name];
 	}
 	ASSIGN(_representedObject, object);
 	
 	if (nil != object)
 	{
-		// FIXME: [object addObserver: self forKeyPath: name options: 0 context: NULL];
+		[object addObserver: self forKeyPath: name options: 0 context: NULL];
 	}
 }
 
 #pragma mark Property Value Coding
 #pragma mark -
 
-- (id) value
+/** Returns whether the -value object properties should be accessed through 
+Key-Value-Coding rather than Property-Value-Coding.
+
+By default, returns NO.
+
+When YES is returned, -valueForProperty: accepts any key (e.g. a dictionary key), 
+otherwise only a property exposed by -propertyNames is valid.<br />
+
+When the KVC use is turned on, -value might start to return a non-nil value 
+because the property value which was not exposed with PVC can be now retrieved 
+with KVC. */
+- (BOOL) usesKeyValueCodingForAccessingValueProperties
 {
-	return [[self representedObject] valueForProperty: [self name]];
+	return _usesKeyValueCodingForAccessingValueProperties;
 }
 
-- (void) setValue: (id)aValue
+/** Sets whether the represented object properties should be accessed
+through Key-Value-Coding rather than Property-Value-Coding.
+
+See -usesKeyValueCodingForAccessingValueProperties. */
+- (void) setUsesKeyValueCodingForAccessingValueProperties: (BOOL)usesKVC
 {
-	[[self representedObject] setValue: aValue forProperty: [self name]];
+	_usesKeyValueCodingForAccessingValueProperties = usesKVC;
+}
+
+- (void) reportPropertyAccessFailure: (BOOL)hasFoundProperty
+{
+	if (hasFoundProperty)
+		return;
+
+	[NSException raise: NSInvalidArgumentException
+				format: @"Found no property %@ among -propertyNames of %@ in %@.\n"
+	                     "If you use an entity description for %@, you should "
+	                     "add a property description, otherwise just override "
+	                     "-propertyNames to include %@.",
+	                     [self name], [[self representedObject] primitiveDescription],
+	                     self, [[self representedObject] primitiveDescription], [self name]];
+}
+
+/** Returns the value of the property. */
+- (id) value
+{
+	if ([[self representedObject] requiresKeyValueCodingForAccessingProperties])
+	{
+		return [[self representedObject] valueForKey: [self name]];
+	}
+	else /* Use PVC by default */
+	{
+		return [[self representedObject] valueForProperty: [self name]];
+	}	
+}
+
+/** Sets the value of the property to be the given object value. */
+- (void) setValue: (id)objectValue
+{
+	_isSettingValue = YES;
+	if ([[self representedObject] requiresKeyValueCodingForAccessingProperties])
+	{
+		[[self representedObject] setValue: objectValue forKey: [self name]];
+	}
+	else /* Use PVC by default */
+	{
+		[self reportPropertyAccessFailure: [[self representedObject] setValue: objectValue
+		                                                          forProperty: [self name]]];
+	}
+	_isSettingValue = NO;
 }
 
 - (NSArray *) propertyNames

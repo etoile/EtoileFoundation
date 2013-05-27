@@ -143,7 +143,6 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETMutableObjectViewpoint.m \
 	Source/ETObjectMirror.m \
 	Source/ETPlugInRegistry.m \
-	Source/ETPropertyViewpoint.m \
 	Source/ETPropertyValueCoding.m \
 	Source/ETProtocolMirror.m \
 	Source/ETSocket.m \

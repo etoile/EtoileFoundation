@@ -277,6 +277,14 @@ to adopt ETCollectionMutation protocol. */
 
 /* Property Value Coding */
 
+/** Returns NO.
+
+See -[ETPropertyValueCoding requiresKeyValueCodingForAccessingProperties]. */
+- (BOOL) requiresKeyValueCodingForAccessingProperties
+{
+	return NO;
+}
+
 /** <override-dummy />
 Returns the property names accessible through Property Value Coding but
 not declared in the metamodel (e.g. NSObject or subclass entity description). 
@@ -296,7 +304,7 @@ See -propertyNames. */
 }
 
 /** Returns both the property names bound to the object entity description and 
- the basic property names.
+the basic property names.
  
 +ETModelDescriptionRepository mainRepository] is used to look up the entity 
 description.
@@ -313,7 +321,8 @@ For a NSObject subclass not bound to an entity description, the property names
 related to the closest superclass bound to an entity description are returned 
 through a recursive lookup in -entityDescriptionForClass:.
  
-See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:. */
+See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:.
+See also -[ETPropertyValueCoding propertyNames]. */
 - (NSArray *) propertyNames
 {
 	ETEntityDescription *description =
@@ -324,6 +333,7 @@ See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:. */
 	return [[self basicPropertyNames] arrayByAddingObjectsFromArray: properties];
 }
 
+/** See -[ETPropertyValueCoding valueForProperty:]. */
 - (id) valueForProperty: (NSString *)key
 {
 	id value = nil;
@@ -344,6 +354,7 @@ See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:. */
 	return value;
 }
 
+/** See -[ETPropertyValueCoding setValue:forProperty:]. */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key
 {
 	BOOL result = NO;

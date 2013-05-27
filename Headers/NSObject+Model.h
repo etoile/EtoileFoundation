@@ -39,7 +39,7 @@
 @class ETEntityDescription;
 
 /** @group Model and Metamodel */
-@interface NSObject (ETModelAdditions)
+@interface NSObject (ETModelAdditions) <ETPropertyValueCoding>
 
 + (ETEntityDescription *) newEntityDescription;
 + (ETEntityDescription *) newBasicEntityDescription;
@@ -57,18 +57,19 @@
 
 - (NSString *) typeForKey: (NSString *)key;
 
-/* Property Value Coding */
+/** @taskunit Property Value Coding */
 
+- (BOOL) requiresKeyValueCodingForAccessingProperties;
 - (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
-/* Key Value Coding */
+/** @taskunit Key Value Coding */
 
 - (id) basicValueForKey: (NSString *)key;
 - (void) setBasicValue: (id)value forKey: (NSString *)key;
 
-/* Basic Properties */
+/** @taskunit Basic Properties */
 
 - (NSString *) displayName;
 /* NSObject+EtoileUI offers also the following basic property
@@ -77,13 +78,13 @@
 - (NSString *) primitiveDescription;
 - (NSString *) descriptionWithOptions: (NSMutableDictionary *)options;
 
-/* KVO Syntactic Sugar (Unstable API) */
+/** @taskunit KVO Syntactic Sugar (Unstable API) */
 
 - (NSSet *) observableKeyPaths;
 - (void) addObserver: (id)anObserver;
 - (void) removeObserver: (id)anObserver;
 
-/* Collection & Mutability */
+/** @taskunit Collection & Mutability */
 
 + (Class) mutableClass;
 
