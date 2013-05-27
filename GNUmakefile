@@ -86,6 +86,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETInstanceVariableMirror.h \
 	ETKeyValuePair.h \
 	ETMethodMirror.h \
+	ETMutableObjectViewpoint.h \
 	ETObjectMirror.h \
 	ETPlugInRegistry.h \
 	ETPropertyValueCoding.h \
@@ -139,6 +140,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETInstanceVariableMirror.m \
 	Source/ETKeyValuePair.m \
 	Source/ETMethodMirror.m \
+	Source/ETMutableObjectViewpoint.m \
 	Source/ETObjectMirror.m \
 	Source/ETPlugInRegistry.m \
 	Source/ETPropertyViewpoint.m \

@@ -38,13 +38,11 @@
 #import <EtoileFoundation/ETByteSizeFormatter.h>
 #import <EtoileFoundation/ETCollection.h>
 #import <EtoileFoundation/ETCollection+HOM.h>
-#import <EtoileFoundation/ETCollectionViewpoint.h>
 #import <EtoileFoundation/ETGetOptionsDictionary.h>
 #import <EtoileFoundation/ETHistory.h>
 #import <EtoileFoundation/ETKeyValuePair.h>
 #import <EtoileFoundation/ETPlugInRegistry.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>
-#import <EtoileFoundation/ETPropertyViewpoint.h>
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/ETSocket.h>
 #import <EtoileFoundation/ETStackTraceRecorder.h>
@@ -68,12 +66,20 @@
 #import <EtoileFoundation/NSString+Etoile.h>
 #import <EtoileFoundation/NSURL+Etoile.h>
 
+/* Model Description */
+
 #import <EtoileFoundation/ETModelDescriptionRepository.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
 #import <EtoileFoundation/ETEntityDescription.h>
 #import <EtoileFoundation/ETPackageDescription.h>
 #import <EtoileFoundation/ETPropertyDescription.h>
 #import <EtoileFoundation/ETValidationResult.h>
+
+/* Viewpoints */
+
+#import <EtoileFoundation/ETCollectionViewpoint.h>
+#import <EtoileFoundation/ETMutableObjectViewpoint.h>
+#import <EtoileFoundation/ETPropertyViewpoint.h>
 
 #if TARGET_OS_IPHONE
 #import <EtoileFoundation/ETCFMapTable.h>
