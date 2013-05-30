@@ -27,7 +27,7 @@
 
 @implementation ETPropertyDescription
 
-@synthesize persistent = _persistent, readOnly = _readOnly;
+@synthesize persistent = _persistent, readOnly = _readOnly, commitDescriptor = _commitDescriptor;
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -50,6 +50,8 @@
 		[ETPropertyDescription descriptionWithName: @"multivalued" type: (id)@"BOOL"];
 	ETPropertyDescription *ordered = 
 		[ETPropertyDescription descriptionWithName: @"ordered" type: (id)@"BOOL"];
+	ETPropertyDescription *commitDescriptor =
+		[ETPropertyDescription descriptionWithName: @"commitDescriptor" type: (id)@"NSObject"];
 	ETPropertyDescription *opposite = 
 		[ETPropertyDescription descriptionWithName: @"opposite" type: (id)@"ETPropertyDescription"];
 	[opposite setOpposite: opposite];
@@ -60,7 +62,7 @@
 	[package setOpposite: (id)@"ETPackageDescription.propertyDescriptions"];
 	
 	[selfDesc setPropertyDescriptions: A(owner, composite, container, derived, 
-		multivalued, ordered, opposite, type, package)];
+		multivalued, ordered, commitDescriptor, opposite, type, package)];
 
 	return selfDesc;
 }
@@ -76,6 +78,7 @@
 
 - (void) dealloc
 {
+	DESTROY(_commitDescriptor);
 	DESTROY(_type);
 	DESTROY(_role);
 	[super dealloc];
