@@ -88,6 +88,11 @@
 	return selfDesc;
 }
 
+- (NSString *) typePrefix
+{
+	return [NSClassFromString([self name]) typePrefix];
+}
+
 - (BOOL) isEntityDescription
 {
 	return YES;

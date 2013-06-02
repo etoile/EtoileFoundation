@@ -12,11 +12,14 @@
 #import "ETPropertyDescription.h"
 #import "ETUTI.h"
 #import "NSObject+Model.h"
+#import "NSString+Etoile.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
 
 @implementation ETModelElementDescription
+
+@synthesize displayName = _displayName;
 
 /** Returns ET. */
 + (NSString *) typePrefix
@@ -58,12 +61,14 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	//[owner setDerived: YES];
 	ETPropertyDescription *itemIdentifier = 
 		[ETPropertyDescription descriptionWithName: @"itemIdentifier" type: (id)@"NSString"];
+	ETPropertyDescription *displayName =
+		[ETPropertyDescription descriptionWithName: @"displayName" type: (id)@"NSString"];
 	ETPropertyDescription *typeDescription = 
 		[ETPropertyDescription descriptionWithName: @"typeDescription" type: (id)@"NSString"];
 	[typeDescription setReadOnly: YES];
 
 	[selfDesc setAbstract: YES];
-	[selfDesc setPropertyDescriptions: A(name, fullName, isMetaMetamodel, itemIdentifier, typeDescription)];
+	[selfDesc setPropertyDescriptions: A(name, fullName, isMetaMetamodel, itemIdentifier, displayName, typeDescription)];
 
 	return selfDesc;
 }
@@ -97,6 +102,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 {
 	DESTROY(_name);
 	DESTROY(_itemIdentifier);
+	DESTROY(_displayName);
 	[super dealloc];
 }
 
@@ -177,9 +183,24 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	return [[self description] stringByAppendingFormat: @" - %@", msg];
 }
 
+- (NSString *) typePrefix
+{
+	return nil;
+}
+
 - (NSString *) displayName
 {
-	return [self name];
+	if (_displayName != nil)
+		return _displayName;
+
+	NSString *typePrefix = [self typePrefix];
+	NSString *name = [self name];
+
+	if (typePrefix != nil)
+	{
+		name = [name substringFromIndex: [typePrefix length]];
+	}
+	return [[name stringByCapitalizingFirstLetter] stringBySpacingCapitalizedWords];
 }
 
 - (NSString *) typeDescription

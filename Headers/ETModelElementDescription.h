@@ -53,6 +53,7 @@ NamedElement and NestedElement protocols don't exist explicitly. */
 {
 	@private
 	NSString *_name;
+	NSString *_displayName;
 	NSString *_itemIdentifier;
 	BOOL _isMetaMetamodel;
 }
@@ -161,8 +162,20 @@ See -checkConstraints:. */
 
 /** @taskunit Model Presentation */
 
-/** Returns -name. */
-- (NSString *) displayName;
+/**
+ * A short and human-readable name e.g. Person, Music Track, Anchor Point.
+ *
+ * This is used to present the entity, property or package localized name to the 
+ * user in the UI.
+ *
+ * By default, returns -name that is not localized, but in a capitalized and 
+ * spaced version. For an ETEntityDescription, the type prefix is removed (if 
+ * +[NSObject typePrefix] returns a valid value). For example, ETMusicTrack is 
+ * returned as <em>Music Track</em>.
+ *
+ * You can override this built-in display name by setting a custom one.
+ */ 
+@property (nonatomic, retain) NSString *displayName;
 /** <override-subclass />
 Returns a short and human-readable description of the receiver type.
 
