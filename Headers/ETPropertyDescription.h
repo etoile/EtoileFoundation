@@ -32,6 +32,7 @@
 	BOOL _ordered;
 	BOOL _persistent;
 	BOOL _readOnly;
+	BOOL _showsItemDetails;
 	id _commitDescriptor;
 	ETPropertyDescription *_opposite;
 	ETEntityDescription *_owner;
@@ -94,6 +95,8 @@ entity name in the returned string. */
 @property (assign, nonatomic, getter=isPersistent) BOOL persistent;
 @property (assign, nonatomic, getter=isReadOnly) BOOL readOnly;
 @property (nonatomic, retain) id commitDescriptor;
+@property (nonatomic, assign) BOOL showsItemDetails;
+
 
 /** Can be self, if the relationship is reflexive. For example, a "spouse" 
 property or a "cousins" property that belong to a "person" entity.<br />
