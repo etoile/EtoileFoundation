@@ -297,7 +297,7 @@ but must call the superclass implementation.
 See -propertyNames. */
 - (NSArray *) basicPropertyNames
 {
-	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className",
+	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className", @"self",
 		@"stringValue", @"objectValue", @"isCollection", @"isGroup",@"isMutable",
 		@"isMutableCollection", @"isCommonObjectValue", @"isNumber", @"isString",
 			 @"isClass", @"description", @"primitiveDescription", nil];
