@@ -72,6 +72,9 @@ Initializes and returns a new pair with the given key and value. */
 /** Sets the pair identifier. */
 - (void) setKey: (NSString *)aKey
 {
+	if ([self validateKey: aKey] == NO)
+		return;
+
 	NSString *oldKey = RETAIN(_key);
 	ASSIGN(_key, aKey);
 	[self didChangeKeyOrValueForOldKey: oldKey value: [self value]];
@@ -107,6 +110,18 @@ Initializes and returns a new pair with the given key and value. */
 	ASSIGN(_representedObject, anObject);
 }
 
+- (BOOL) validateKey: (NSString *)aKey
+{
+	id collection = [self representedObject];
+
+	if (collection == nil || [collection isKeyed] == NO)
+		return YES;
+
+	// TODO: Remove content call once -objectForKey: is in ETKeyedCollection
+	BOOL isNewKeyAvailable = ([[collection content] objectForKey: aKey] == nil);
+	return isNewKeyAvailable;
+}
+
 - (void) didChangeKeyOrValueForOldKey: (NSString *)oldKey value: (id)oldValue
 {
 	NSParameterAssert(oldKey != nil);
@@ -125,11 +140,9 @@ Initializes and returns a new pair with the given key and value. */
 	}
 
 	id value = [self value];
-
-	/* Foundation doesn't ordered keyed collections, but somebody might implement one */
-	BOOL isOrdered = [collection isOrdered];
 	NSUInteger index = ETUndeterminedIndex;
-	
+
+	/* Foundation doesn't provide ordered keyed collections, but somebody might implement one */
 	if ([collection isOrdered])
 	{
 		// TODO: -Declare a ETOrderedCollection protocol that includes -indexOfObject:
