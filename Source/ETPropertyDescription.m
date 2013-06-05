@@ -28,7 +28,8 @@
 @implementation ETPropertyDescription
 
 @synthesize persistent = _persistent, readOnly = _readOnly,
-	showsItemDetails = _showsItemDetails, commitDescriptor = _commitDescriptor;
+	showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames,
+	commitDescriptor = _commitDescriptor;
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -53,6 +54,10 @@
 		[ETPropertyDescription descriptionWithName: @"ordered" type: (id)@"BOOL"];
 	ETPropertyDescription *showsItemDetails =
 		[ETPropertyDescription descriptionWithName: @"showsItemDetails" type: (id)@"BOOL"];
+	ETPropertyDescription *detailedProperties =
+		[ETPropertyDescription descriptionWithName: @"detailedPropertyNames" type: (id)@"NSString"];
+	[detailedProperties setMultivalued: YES];
+	[detailedProperties setOrdered: YES];
 	ETPropertyDescription *commitDescriptor =
 		[ETPropertyDescription descriptionWithName: @"commitDescriptor" type: (id)@"NSObject"];
 	ETPropertyDescription *opposite = 
@@ -65,7 +70,8 @@
 	[package setOpposite: (id)@"ETPackageDescription.propertyDescriptions"];
 	
 	[selfDesc setPropertyDescriptions: A(owner, composite, container, derived, 
-		multivalued, ordered, showsItemDetails, commitDescriptor, opposite, type, package)];
+		multivalued, ordered, showsItemDetails, detailedProperties,
+		commitDescriptor, opposite, type, package)];
 
 	return selfDesc;
 }
@@ -79,8 +85,19 @@
 	return desc;
 }
 
+- (id) initWithName: (NSString *)aName
+{
+	self = [super initWithName: aName];
+	if (self == nil)
+		return nil;
+
+	_detailedPropertyNames = [NSArray new];
+	return self;
+}
+
 - (void) dealloc
 {
+	DESTROY(_detailedPropertyNames);
 	DESTROY(_commitDescriptor);
 	DESTROY(_type);
 	DESTROY(_role);
