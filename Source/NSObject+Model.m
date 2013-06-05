@@ -297,10 +297,11 @@ but must call the superclass implementation.
 See -propertyNames. */
 - (NSArray *) basicPropertyNames
 {
-	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className", @"self",
-		@"stringValue", @"objectValue", @"isCollection", @"isGroup",@"isMutable",
+	return [NSArray arrayWithObjects: @"icon", @"displayName", @"className",
+		@"class", @"superclass", @"hash", @"self", @"isProxy", @"stringValue",
+		@"objectValue", @"isCollection", @"isGroup",@"isMutable",
 		@"isMutableCollection", @"isCommonObjectValue", @"isNumber", @"isString",
-			 @"isClass", @"description", @"primitiveDescription", nil];
+		@"isClass", @"description", @"primitiveDescription", nil];
 }
 
 /** Returns both the property names bound to the object entity description and 
