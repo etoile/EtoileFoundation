@@ -238,10 +238,7 @@
 {
 	UKObjectsEqual([[person object] characteristic], [object valueForProperty: @"characteristic"]);
 	UKNil([object valueForProperty: @"missing"]);
-
-	/* For now, class is not included among -[NSObject propertyNames] */
-	UKNil([object valueForProperty: @"class"]);
-	UKStringsEqual(@"ImmutableObject", [object valueForProperty: @"className"]);
+	UKObjectsEqual([ImmutableObject class], [object valueForProperty: @"class"]);
 }
 
 - (void) testSetValueForProperty
