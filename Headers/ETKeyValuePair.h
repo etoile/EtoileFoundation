@@ -22,6 +22,7 @@ to an ordered dictionary or a multi-value collection. */
 	@private
 	NSString *_key;
 	id _value;
+	id _representedObject;
 }
 
 + (id) pairWithKey: (NSString *)aKey value: (id)aValue;
@@ -33,6 +34,8 @@ to an ordered dictionary or a multi-value collection. */
 - (void) setKey: (NSString *)aKey;
 - (id) value;
 - (void) setValue: (id)aValue;
+- (id) representedObject;
+- (void) setRepresentedObject: (id)anObject;
 
 - (NSArray *) propertyNames;
 

@@ -7,6 +7,7 @@
  */
 
 #import "ETKeyValuePair.h"
+#import "ETCollection.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 #import "Macros.h"
@@ -38,6 +39,7 @@ Initializes and returns a new pair with the given key and value. */
 {
 	DESTROY(_key);
 	DESTROY(_value);
+	DESTROY(_representedObject);
 	[super dealloc];
 }
 
@@ -70,7 +72,10 @@ Initializes and returns a new pair with the given key and value. */
 /** Sets the pair identifier. */
 - (void) setKey: (NSString *)aKey
 {
+	NSString *oldKey = RETAIN(_key);
 	ASSIGN(_key, aKey);
+	[self didChangeKeyOrValueForOldKey: oldKey value: [self value]];
+	RELEASE(oldKey);
 }
 
 /** Returns the pair content. */
@@ -82,19 +87,87 @@ Initializes and returns a new pair with the given key and value. */
 /** Sets the pair content. */
 - (void) setValue: (id)aValue
 {
+	id oldValue = RETAIN(_value);
 	ASSIGN(_value, aValue);
+	[self didChangeKeyOrValueForOldKey: [self key] value: oldValue];
+	RELEASE(oldValue);
+}
+
+// TODO: Formalize ETKeyValuePair a bit more as a viewpoint. When a represented
+// object is set -value should look up its value dynamically (no value cached in an ivar).
+
+- (id) representedObject
+{
+	return _representedObject;
+}
+
+- (void) setRepresentedObject: (id)anObject
+{
+	INVALIDARG_EXCEPTION_TEST(anObject, [anObject conformsToProtocol: @protocol(ETCollection)]);
+	ASSIGN(_representedObject, anObject);
+}
+
+- (void) didChangeKeyOrValueForOldKey: (NSString *)oldKey value: (id)oldValue
+{
+	NSParameterAssert(oldKey != nil);
+	id collection = [self representedObject];
+
+	/* Checking -isKeyed ensures we don't attempt to mutate a key-value pair array */
+	if (collection == nil || [collection isKeyed] == NO)
+		return;
+
+	if ([collection isMutableCollection] == NO)
+	{
+		[NSException raise: NSInternalInconsistencyException
+					format: @"Tried to mutate immutable collection %@ through %@",
+		                    collection, self];
+		return;
+	}
+
+	id value = [self value];
+
+	/* Foundation doesn't ordered keyed collections, but somebody might implement one */
+	BOOL isOrdered = [collection isOrdered];
+	NSUInteger index = ETUndeterminedIndex;
+	
+	if ([collection isOrdered])
+	{
+		// TODO: -Declare a ETOrderedCollection protocol that includes -indexOfObject:
+		[collection indexOfObject: value];
+	}
+
+	[collection removeObject: nil atIndex: index hint: [ETKeyValuePair pairWithKey: oldKey value: oldValue]];
+	[collection insertObject: value atIndex: index hint: self];
 }
 
 /** Exposes <em>key</em> and <em>value</em> in addition to the inherited properties. */
 - (NSArray *) propertyNames
 {
-	return [[super propertyNames] arrayByAddingObjectsFromArray: A(@"key", @"value")];
+	return [[[self value] propertyNames] arrayByAddingObjectsFromArray: A(@"key", @"value")];
 }
 
 /** Returns the key. */
 - (NSString *) displayName
 {
 	return _key;
+}
+
+- (id) valueForProperty: (NSString *)aProperty
+{
+	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"])
+	{
+		return [super valueForProperty: aProperty];
+	}
+	return [[self value] valueForProperty: aProperty];
+}
+
+- (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
+{
+	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"])
+	{
+		return [super setValue: aValue forProperty: aProperty];
+	}
+	return [[self value] setValue: aValue forProperty: aProperty];
 }
 
 @end
