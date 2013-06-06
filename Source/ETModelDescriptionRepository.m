@@ -126,6 +126,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSUInteger"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"float"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"double"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSPoint"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSSize"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSRect"],
