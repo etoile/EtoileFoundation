@@ -33,7 +33,7 @@ usually exposed. */
 + (id) mixedValueMarker;
 
 @property (nonatomic, retain) NSString *contentKeyPath;
-@property (nonatomic, readonly) BOOL isCollectionUnion;
+// TODO: Implement @property (nonatomic, readonly) BOOL isCollectionUnion;
 
 @end
 

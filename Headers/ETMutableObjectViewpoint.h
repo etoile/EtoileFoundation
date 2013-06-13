@@ -75,4 +75,8 @@ the collection interaction through the viewpoint, see ETCollectionViewpoint. */
  This method accesses properties of the represented property. */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
+/** @taskunit Subclassing */
+
+@property (nonatomic, readonly) NSString *observedKeyPath;
+
 @end

@@ -94,7 +94,7 @@
 
 - (NSArray *) arrayRepresentation
 {
-	return ([self isKeyed] ? [[self content] arrayRepresentation] : [self contentArray]);
+	return ([self isKeyed] ? [(id <ETKeyedCollection>)[self content] arrayRepresentation] : [self contentArray]);
 }
 
 - (NSArray *) viewpointArray
@@ -107,7 +107,8 @@
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 {
 	ETAssert([self isMutableCollection]);
-	id <ETCollection, ETCollectionMutation> mutableCollection = [[self content] mutableCopy];
+	ETAssert([[self content] conformsToProtocol: @protocol(NSMutableCopying)]);
+	id <ETCollection, ETCollectionMutation> mutableCollection = [(id)[self content] mutableCopy];
 
 	[mutableCollection insertObject: object atIndex: index hint: hint];
 
@@ -117,7 +118,8 @@
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	ETAssert([self isMutableCollection]);
-	id <ETCollection, ETCollectionMutation> mutableCollection = [[self content] mutableCopy];
+	ETAssert([[self content] conformsToProtocol: @protocol(NSMutableCopying)]);
+	id <ETCollection, ETCollectionMutation> mutableCollection = [(id)[self content] mutableCopy];
 	
 	[mutableCollection removeObject: object atIndex: index hint: hint];
 	
