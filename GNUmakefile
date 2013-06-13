@@ -95,7 +95,7 @@ EtoileFoundation_HEADER_FILES = \
 	ETSocket.h \
 	ETStackTraceRecorder.h \
 	ETTranscript.h \
-	ETUnionViewpoint. h \
+	ETUnionViewpoint.h \
 	ETUUID.h \
 	ETViewpoint.h \
 	NSData+Hash.h\
