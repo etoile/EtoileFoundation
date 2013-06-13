@@ -78,8 +78,9 @@
 /* Viewpoints */
 
 #import <EtoileFoundation/ETCollectionViewpoint.h>
+#import <EtoileFoundation/ETIndexValuePair.h>
 #import <EtoileFoundation/ETMutableObjectViewpoint.h>
-#import <EtoileFoundation/ETPropertyViewpoint.h>
+#import <EtoileFoundation/ETViewpoint.h>
 
 #if TARGET_OS_IPHONE
 #import <EtoileFoundation/ETCFMapTable.h>

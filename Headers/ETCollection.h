@@ -95,6 +95,9 @@ See NSFastEnumeration protocol.  */
 - (BOOL) containsObject: (id)anObject;
 /** Returns whether every element in the given collection are included in the receiver. */
 - (BOOL) containsCollection: (id <ETCollection>)objects;
+@optional
+/** Returns the collection represented as viewpoints on the collection elements. */
+- (NSArray *) viewpointArray;
 @end
 
 @protocol ETKeyedCollection <ETCollection>
@@ -347,6 +350,7 @@ For a use case example, see ETCollectionTrait. */
 - (BOOL) isOrdered;
 - (id) content;
 - (NSArray *) contentArray;
+- (NSArray *) viewpointArray;
 @end
 
 /** @group Collection Protocols */
@@ -356,6 +360,7 @@ For a use case example, see ETCollectionTrait. */
 - (id) content;
 - (NSArray *) contentArray;
 - (NSArray *) arrayRepresentation;
+- (NSArray *) viewpointArray;
 - (NSString *) identifierAtIndex: (NSUInteger)index;
 @end
 
@@ -364,6 +369,7 @@ For a use case example, see ETCollectionTrait. */
 + (Class) mutableClass;
 - (id) content;
 - (NSArray *) contentArray;
+- (NSArray *) viewpointArray;
 @end
 
 /**  @group Collection Protocols

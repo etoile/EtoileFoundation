@@ -8,19 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import <EtoileFoundation/ETPropertyViewpoint.h>
-
-/** @group Viewpoints
- 
-Immutable object class that wants to support editing or mutation through a 
-ETMutableObjectViewpoint must implement this protocol. */
-@protocol ETViewpointMutation
-/** Returns the ETMutableObjectViewpoint subclass used to mutate the receiver 
-instances.
-
-Must not return Nil. */
-+ (Class) mutableViewpointClass;
-@end
+#import <EtoileFoundation/ETViewpoint.h>
 
 /** @group Viewpoints
 @abstract A proxy giving access to a model property as a mutable object.
@@ -67,19 +55,24 @@ the collection interaction through the viewpoint, see ETCollectionViewpoint. */
 
 /** @taskunit Controlling Represented Object Access */
 
+/** The object to which the property belongs to. */
 @property (nonatomic, retain) id representedObject;
 @property (nonatomic, assign) BOOL usesKeyValueCodingForAccessingValueProperties;
 
 /** @taskunit Reading and Writing the value */
 
-- (id) value;
-- (void) setValue: (id)objectValue;
+/** The object value of the represented property. */
+@property (nonatomic, retain) id value;
 
 /** @taskunit Property Value Coding */
 
-@property (nonatomic, readonly) NSArray *propertyNames;
-
+/** Returns a value bound to a property of the object -value.
+ 
+ This method accesses properties of the represented property. */
 - (id) valueForProperty: (NSString *)key;
+/** Returns a value bound to a property of the object -value.
+ 
+ This method accesses properties of the represented property. */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
 @end

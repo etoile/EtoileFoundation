@@ -31,8 +31,26 @@ usually exposed. */
 
 }
 
+- (BOOL) isIndexValuePairCollection;
+
 /** @taskunit Controlling Represented Object Access */
 
+/** Returns the represented property collection.
+ 
+This is the primitive method to access the underlying collection. 
+ETCollectionViewpoint never accesses the collection in another way. You must
+do the same in any ETCollectionViewpoint subclasses or categories.
+
+Can be overriden, but -setContent: must be overriden too. */
+- (id <ETCollection>) content;
+/** Sets the represented property collection.
+ 
+This is is the primitive method to access the underlying collection.
+ETCollectionViewpoint never accesses the collection in another way. You must
+do the same in any ETCollectionViewpoint subclasses or categories.
+ 
+Can be overriden, but -content must be overriden too. */
+- (void) setContent: (id <ETCollection>)aContent;
 /** Posts an ETSourceDidUpdateNotification which can be intercepted by all
 the objects that observes the represented object. */
 - (void) didUpdate;

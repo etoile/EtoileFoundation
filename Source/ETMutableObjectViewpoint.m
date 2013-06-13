@@ -7,7 +7,9 @@
  */
 
 #import "Macros.h"
+#import "ETCollection.h"
 #import "ETMutableObjectViewpoint.h"
+#import "NSObject+HOM.h"
 #import "NSObject+Model.h"
 #import "NSObject+Trait.h"
 #import "NSString+Etoile.h"
@@ -18,6 +20,14 @@
 @implementation ETMutableObjectViewpoint
 
 @synthesize representedObject = _representedObject, name = _name;
+
++ (void) initialize
+{
+	if (self != [ETMutableObjectViewpoint class])
+		return;
+	
+	[self applyTraitFromClass: [ETViewpointTrait class]];
+}
 
 /** Returns a new autoreleased viewpoint that represents the property
 identified by the given name in object. */
@@ -49,11 +59,6 @@ identified by the given name in object. */
 	DESTROY(_name);
 	[super dealloc];
 }
-
-/*- (id) copyWithZone: (NSZone *)aZone
-{
-	return [[[self class] alloc] initWithName: [self name] representedObject: _representedObject];
-}*/
 
 + (BOOL) automaticallyNotifiesObserversForKey:(NSString *)key
 {
@@ -97,6 +102,17 @@ identified by the given name in object. */
 	[self didChangeValueForKey: @"value"];
 }
 
+- (NSString *) observedKeyPath
+{
+	return ([[self name] isEqualToString: @"self"] ? nil : [self name]);
+}
+
+- (BOOL) isObservableObject: (id)anObject
+{
+	return ([anObject isKindOfClass: [NSSet class]] == NO
+		 && [anObject isKindOfClass: [NSArray class]] == NO);
+}
+
 - (void) setRepresentedObject: (id)object
 {
 	NSString *name = [self name];
@@ -105,13 +121,22 @@ identified by the given name in object. */
 	
 	if (nil != _representedObject)
 	{
-		[_representedObject removeObserver: self forKeyPath: name];
+		if ([self observedKeyPath] != nil && [self isObservableObject: _representedObject])
+		{
+			[_representedObject removeObserver: self forKeyPath: [self observedKeyPath]];
+		}
+		[self unapplyMutableViewpointTraitForValue: [self value]];
 	}
 	ASSIGN(_representedObject, object);
 	
-	if (nil != object)
+	if (nil != object && [[self observedKeyPath] hasPrefix: @"self"] == NO)
 	{
-		[object addObserver: self forKeyPath: name options: 0 context: NULL];
+		if ([self observedKeyPath] != nil && [self isObservableObject: _representedObject])
+		{
+			NSUInteger options = (NSKeyValueObservingOptionNew| NSKeyValueObservingOptionOld);
+			[object addObserver: self forKeyPath: [self observedKeyPath] options: options context: NULL];
+		}
+		[self applyMutableViewpointTraitForValue: [self value]];
 	}
 }
 
@@ -167,7 +192,7 @@ See -usesKeyValueCodingForAccessingValueProperties. */
 	else /* Use PVC by default */
 	{
 		return [[self representedObject] valueForProperty: [self name]];
-	}	
+	}
 }
 
 /** Sets the value of the property to be the given object value. */
@@ -186,19 +211,44 @@ See -usesKeyValueCodingForAccessingValueProperties. */
 	_isSettingValue = NO;
 }
 
-- (NSArray *) propertyNames
-{
-	return [[self value] propertyNames];
-}
-
+/** Returns the value bound to the given property of -value.
+ 
+This method accesses properties of the represented element. */
 - (id) valueForProperty: (NSString *)aProperty
 {
+	if ([aProperty isEqualToString: @"value"])
+	{
+		return [super valueForProperty: aProperty];
+	}
 	return [[self value] valueForProperty: aProperty];
 }
 
+/** Sets the value bound to the given property of -value.
+ 
+This method accesses properties of the represented property or element. */
 - (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
 {
-	return [super setValue: aValue forProperty: aProperty];
+	if ([aProperty isEqualToString: @"value"])
+	{
+		return [super setValue: aValue forProperty: aProperty];
+	}
+
+	if ([self isMutableValue])
+	{
+		return [[self value] setValue: aValue forProperty: aProperty];
+	}
+	else
+	{
+		return [super setValue: aValue forProperty: aProperty];
+	}
+}
+
+#pragma mark Mutability Trait
+#pragma mark -
+
+- (Class) originalClass
+{
+	return [ETMutableObjectViewpoint class];
 }
 
 @end

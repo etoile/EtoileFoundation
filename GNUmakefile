@@ -84,18 +84,20 @@ EtoileFoundation_HEADER_FILES = \
 	ETCollectionViewpoint.h \
 	ETHistory.h \
 	ETInstanceVariableMirror.h \
+	ETIndexValuePair.h \
 	ETKeyValuePair.h \
 	ETMethodMirror.h \
 	ETMutableObjectViewpoint.h \
 	ETObjectMirror.h \
 	ETPlugInRegistry.h \
 	ETPropertyValueCoding.h \
-	ETPropertyViewpoint.h \
 	ETProtocolMirror.h \
 	ETSocket.h \
 	ETStackTraceRecorder.h \
 	ETTranscript.h \
+	ETUnionViewpoint. h \
 	ETUUID.h \
+	ETViewpoint.h \
 	NSData+Hash.h\
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
@@ -138,6 +140,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETGetOptionsDictionary.m \
 	Source/ETHistory.m \
 	Source/ETInstanceVariableMirror.m \
+	Source/ETIndexValuePair.m \
 	Source/ETKeyValuePair.m \
 	Source/ETMethodMirror.m \
 	Source/ETMutableObjectViewpoint.m \
@@ -148,8 +151,10 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETSocket.m \
 	Source/ETStackTraceRecorder.m \
 	Source/ETTranscript.m \
+	Source/ETUnionViewpoint.m \
 	Source/ETUUID.m \
 	Source/ETUTI.m \
+	Source/ETViewpoint.m \
 	Source/NSBlocks.m\
 	Source/NSData+Hash.m\
 	Source/NSIndexPath+Etoile.m \

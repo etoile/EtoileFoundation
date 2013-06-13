@@ -9,13 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 #import "Macros.h"
+#import "ETCollection+HOM.h"
 #import "ETCollectionViewpoint.h"
 #import "ETMutableObjectViewpoint.h"
 #import "ETKeyValuePair.h"
+#import "ETUnionViewpoint.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 
-@interface ETMutableImmutableObjectViewpoint : ETMutableObjectViewpoint
+@interface ImmutableObjectMutableViewpointTrait : NSObject
 @end
 
 @interface ImmutableObject : NSObject <ETViewpointMutation>
@@ -31,7 +33,7 @@
 
 + (Class) mutableViewpointClass
 {
-	return [ETMutableImmutableObjectViewpoint class];
+	return [ImmutableObjectMutableViewpointTrait class];
 }
 
 - (id) initWithCharacteristic: (NSNumber *)aCharacteristic
@@ -196,6 +198,121 @@
 @end
 
 
+@interface TestUnionViewpoint : NSObject <UKTest>
+{
+	NSMutableArray *persons;
+	ETUnionViewpoint *viewpoint;
+}
+
+@end
+
+@implementation TestUnionViewpoint
+
+- (id) init
+{
+	SUPERINIT;
+	
+	Person *john = AUTORELEASE([Person new]);
+	Person *julie = AUTORELEASE([Person new]);
+
+	[john setName: @"John"];
+	[john setEmails: D(@"john@etoile.com", @"Work", @"john@nowhere.org", @"Home")];
+	[john setObject: AUTORELEASE([[ImmutableObject alloc]
+		initWithCharacteristic: [NSNumber numberWithInt: 10]])];
+	[julie setName: @"Julie"];
+	[julie setObject: AUTORELEASE([[ImmutableObject alloc]
+		initWithCharacteristic: [NSNumber numberWithInt: 20]])];
+
+	persons = [A(john, julie) mutableCopy];
+	[[persons mappedCollection] setGroupNames: A(@"Somebody", @"Nobody")];
+
+	viewpoint = [[ETUnionViewpoint alloc] initWithName: @"self" representedObject: persons];
+	return self;
+}
+
+- (void) dealloc
+{
+	DESTROY(persons);
+	DESTROY(viewpoint);
+	[super dealloc];
+}
+
+- (void) testKeyValueCodingForUnionOperator
+{
+	NSArray *allGroupNames = [persons valueForKeyPath: @"@distinctUnionOfArrays.groupNames"];
+	
+	UKObjectsEqual(allGroupNames, [[persons lastObject] valueForKeyPath: @"groupNames"]);
+}
+
+- (void) testValueForProperty
+{
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"name"]);
+	UKObjectsEqual(A(@"Somebody", @"Nobody"), [viewpoint valueForProperty: @"groupNames"]);
+	UKNil([viewpoint valueForProperty: @"missing"]);
+}
+
+- (void) testContentKey
+{
+	[viewpoint setContentKeyPath: @"name"];
+
+	UKObjectsEqual(A(@"John", @"Julie"), [viewpoint value]);
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
+	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSString class]]);
+	UKNil([viewpoint valueForProperty: @"missing"]);
+}
+
+- (void) testCollectionOperator
+{
+	[viewpoint setContentKeyPath: @"@distinctUnionOfArrays.groupNames"];
+
+	UKObjectsEqual(A(@"Somebody", @"Nobody"), [viewpoint value]);
+	/* Here the result is not A(@"Somebody", @"Nobody") because 'self' points 
+	   to each group name in the collection or not to the collection itself. */
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
+	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSString class]]);
+	UKNil([viewpoint valueForProperty: @"missing"]);
+}
+
+- (void) testContentKeyPath
+{
+	[viewpoint setContentKeyPath: @"object"];
+
+	UKObjectsEqual([[persons mappedCollection] object], [viewpoint value]);
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"characteristic"]);
+	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [ImmutableObject class]]);
+	UKNil([viewpoint valueForProperty: @"missing"]);
+
+	[viewpoint setContentKeyPath: @"object.characteristic"];
+	
+	NSArray *characteristics = A([NSNumber numberWithInt: 10], [NSNumber numberWithInt: 20]);
+
+	UKObjectsEqual(characteristics, [viewpoint value]);
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
+	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSNumber class]]);
+	UKNil([viewpoint valueForProperty: @"missing"]);
+}
+
+- (void) testValueChangeInContentKeyPath
+{
+	[viewpoint setContentKeyPath: @"object.characteristic"];
+	ImmutableObject *object = AUTORELEASE([[ImmutableObject alloc]
+		initWithCharacteristic: [NSNumber numberWithInt: 30]]);
+	[(Person *)[persons mappedCollection] setObject: object];
+
+	UKObjectsEqual([NSNumber numberWithInt: 30], [viewpoint valueForProperty: @"self"]);
+}
+
+- (void) testCollectionChangeInContentKeyPath
+{
+	[viewpoint setContentKeyPath: @"object.characteristic"];
+	[persons addObject: AUTORELEASE([Person new])];
+
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
+}
+
+@end
+
+
 @interface TestMutableObjectViewpoint : NSObject <UKTest>
 {
 	Person *person;
@@ -212,8 +329,7 @@
 	person = [Person new];
 	[person setObject: AUTORELEASE([[ImmutableObject alloc]
 		initWithCharacteristic: [NSNumber numberWithInt: 10]])];
-	Class viewpointClass = [[[person object] class] mutableViewpointClass];
-	object = [[viewpointClass alloc] initWithName: @"object" representedObject: person];
+	object = [[ETMutableObjectViewpoint alloc] initWithName: @"object" representedObject: person];
 	return self;
 }
 
@@ -224,9 +340,14 @@
 	[super dealloc];
 }
 
+- (void) testIsMutableValue
+{
+	UKFalse([object isMutableValue]);
+}
+
 - (void) testViewpointClass
 {
-	UKObjectKindOf(object, ETMutableImmutableObjectViewpoint);
+	UKObjectKindOf(object, ETMutableObjectViewpoint);
 }
 
 - (void) testPropertyNames
@@ -237,8 +358,8 @@
 - (void) testValueForProperty
 {
 	UKObjectsEqual([[person object] characteristic], [object valueForProperty: @"characteristic"]);
-	UKNil([object valueForProperty: @"missing"]);
 	UKObjectsEqual([ImmutableObject class], [object valueForProperty: @"class"]);
+	UKNil([object valueForProperty: @"missing"]);
 }
 
 - (void) testSetValueForProperty
@@ -260,7 +381,7 @@
 
 @end
 
-@implementation ETMutableImmutableObjectViewpoint
+@implementation ImmutableObjectMutableViewpointTrait
 
 - (void) setCharacteristic: (NSNumber *)aCharacteristic
 {

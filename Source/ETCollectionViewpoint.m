@@ -8,6 +8,7 @@
 
 #import "Macros.h"
 #import "ETCollectionViewpoint.h"
+#import "ETCollection+HOM.h"
 #import "NSObject+Model.h"
 #import "NSObject+Trait.h"
 #import "NSString+Etoile.h"
@@ -26,6 +27,11 @@
 	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
 }
 
+- (BOOL) isIndexValuePairCollection
+{
+	return ([self isKeyed] == NO);
+}
+
 - (void) observeValueForKeyPath: (NSString *)keyPath
                        ofObject: (id)object
                          change: (NSDictionary *)change
@@ -36,21 +42,8 @@
 
 - (void) setRepresentedObject: (id)object
 {
-	NSString *name = [self name];
-	
-	NSParameterAssert(nil != name);
-	
-	if (nil != [super representedObject])
-	{
-		// FIXME: [_representedObject removeObserver: self forKeyPath: name];
-	}
 	[super setRepresentedObject: object];
-	
-	if (nil != object)
-	{
-		// FIXME: [object addObserver: self forKeyPath: name options: 0 context: NULL];
-		ETAssert([self content] != nil);
-	}
+	ETAssert(object == nil || [self content] != nil);
 }
 
 - (void) didUpdate
@@ -102,6 +95,13 @@
 - (NSArray *) arrayRepresentation
 {
 	return ([self isKeyed] ? [[self content] arrayRepresentation] : [self contentArray]);
+}
+
+- (NSArray *) viewpointArray
+{
+	NSArray *viewpoints = [[self content] viewpointArray];
+	[[viewpoints mappedCollection] setRepresentedObject: self];
+	return viewpoints;
 }
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;

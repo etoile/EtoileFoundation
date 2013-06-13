@@ -7,6 +7,7 @@
  */
 
 #import "ETCollection.h"
+#import "ETIndexValuePair.h"
 #import "ETKeyValuePair.h"
 #import "NSObject+Trait.h"
 #import "NSObject+Model.h"
@@ -226,6 +227,22 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	return [NSArray arrayWithArray: self];
 }
 
+- (NSArray *) viewpointArray
+{
+	NSMutableArray *viewpoints = [NSMutableArray arrayWithCapacity: [self count]];
+
+	[self enumerateObjectsUsingBlock: ^(id object, NSUInteger index, BOOL *stop)
+	{
+		ETIndexValuePair *viewpoint =
+			AUTORELEASE([[ETIndexValuePair alloc] initWithIndex: index
+			                                              value: object
+		                                      representedObject: self]);
+
+		[viewpoints addObject: viewpoint];
+	}];
+	return viewpoints;
+}
+
 - (NSString *) stringValue
 {
 	return [self descriptionWithLocale: nil];
@@ -267,6 +284,19 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	return [self allValues];
 }
 
+- (NSArray *) viewpointArray
+{
+	NSMutableArray *viewpoints = [NSMutableArray arrayWithCapacity: [self count]];
+
+	[self enumerateKeysAndObjectsUsingBlock: ^(id key, id object, BOOL *stop)
+	{
+		ETKeyValuePair *viewpoint = [ETKeyValuePair pairWithKey: key value: object];
+		[viewpoint setRepresentedObject: self];
+		[viewpoints addObject: viewpoint];
+	}];
+	 return viewpoints;
+}
+
 - (NSString *) identifierAtIndex: (NSUInteger)index
 {
 	// FIXME: In theory a bad implementation seeing that the documentation
@@ -281,19 +311,13 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 - (NSArray *) arrayRepresentation
 {
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity: [self count]];
-	NSEnumerator *keyEnumerator = [self keyEnumerator];
+	NSMutableArray *viewpoints = [NSMutableArray arrayWithCapacity: [self count]];
 
-	FOREACHE(nil, key, NSString *, keyEnumerator)
+	[self enumerateKeysAndObjectsUsingBlock: ^(id key, id object, BOOL *stop)
 	{
-		id value = [self objectForKey: key];
- 		ETKeyValuePair *pair = [[ETKeyValuePair alloc] initWithKey: key value: value];
-
-		[array addObject: pair];
-		RELEASE(pair);
-	}
-
-	return array;
+		[viewpoints addObject: [ETKeyValuePair pairWithKey: key value: object]];
+	}];
+	return viewpoints;
 }
 
 @end
@@ -325,6 +349,22 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 - (NSArray *) contentArray
 {
 	return [self allObjects];
+}
+	 
+- (NSArray *) viewpointArray
+{
+	NSMutableArray *viewpoints = [NSMutableArray arrayWithCapacity: [self count]];
+
+	[self enumerateObjectsUsingBlock: ^(id object, BOOL *stop)
+	{
+		ETIndexValuePair *viewpoint =
+			AUTORELEASE([[ETIndexValuePair alloc] initWithIndex: ETUndeterminedIndex
+			                                              value: object
+		                                      representedObject: self]);
+
+		[viewpoints addObject: viewpoint];
+	}];
+	return viewpoints;
 }
 
 @end

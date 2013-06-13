@@ -9,10 +9,21 @@
 #import "ETKeyValuePair.h"
 #import "ETCollection.h"
 #import "NSObject+Model.h"
+#import "NSObject+Trait.h"
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
+#pragma GCC diagnostic ignored "-Wprotocol"
+
 @implementation ETKeyValuePair
+
++ (void) initialize
+{
+	if (self != [ETKeyValuePair class])
+		return;
+	
+	[self applyTraitFromClass: [ETViewpointTrait class]];
+}
 
 /** Returns a new autoreleased pair with the given key and value. */
 + (id) pairWithKey: (NSString *)aKey value: (id)aValue
@@ -57,11 +68,34 @@ Initializes and returns a new pair with the given key and value. */
 	return [[self key] hash] ^ [[self value] hash];
 }
 
+- (NSString *) description
+{
+	return [NSString stringWithFormat: @"%@ = %@, %@ - %@", [self key],
+		[self value] , [self representedObject], [super description]];
+}
+
++ (BOOL) automaticallyNotifiesObserversForKey:(NSString *)key
+{
+	/* Automatic KVO notifications are disabled to prevent conflicts if a 
+	   class transform is used to support editing immutable objects. */
+	return NO;
+}
+
 /** Returns YES. */
 - (BOOL) isKeyValuePair
 {
 	return YES;
 }
+
+/** Returns <em>displayName</em>, <em>key</em>, <em>value</em> 
+and <em>representedObject</em>. */
+- (NSSet *) observableKeyPaths
+{
+	return S(@"displayeName", @"key", @"value", @"representedObject");
+}
+
+#pragma mark Controlling the Represented Element
+#pragma mark -
 
 /** Returns the pair identifier. */
 - (NSString *) key
@@ -81,6 +115,20 @@ Initializes and returns a new pair with the given key and value. */
 	RELEASE(oldKey);
 }
 
+// TODO: Formalize ETKeyValuePair a bit more as a viewpoint. When a represented
+// object is set -value should look up its value dynamically (no value cached in an ivar).
+
+- (id) representedObject
+{
+	return _representedObject;
+}
+
+- (void) setRepresentedObject: (id)anObject
+{
+	INVALIDARG_EXCEPTION_TEST(anObject, [anObject conformsToProtocol: @protocol(ETCollection)]);
+	ASSIGN(_representedObject, anObject);
+}
+
 /** Returns the pair content. */
 - (id) value
 {
@@ -94,20 +142,6 @@ Initializes and returns a new pair with the given key and value. */
 	ASSIGN(_value, aValue);
 	[self didChangeKeyOrValueForOldKey: [self key] value: oldValue];
 	RELEASE(oldValue);
-}
-
-// TODO: Formalize ETKeyValuePair a bit more as a viewpoint. When a represented
-// object is set -value should look up its value dynamically (no value cached in an ivar).
-
-- (id) representedObject
-{
-	return _representedObject;
-}
-
-- (void) setRepresentedObject: (id)anObject
-{
-	INVALIDARG_EXCEPTION_TEST(anObject, [anObject conformsToProtocol: @protocol(ETCollection)]);
-	ASSIGN(_representedObject, anObject);
 }
 
 - (BOOL) validateKey: (NSString *)aKey
@@ -153,16 +187,13 @@ Initializes and returns a new pair with the given key and value. */
 	[collection insertObject: value atIndex: index hint: self];
 }
 
+#pragma mark Property Value Coding
+#pragma mark -
+
 /** Exposes <em>key</em> and <em>value</em> in addition to the inherited properties. */
 - (NSArray *) propertyNames
 {
 	return [[[self value] propertyNames] arrayByAddingObjectsFromArray: A(@"key", @"value")];
-}
-
-/** Returns the key. */
-- (NSString *) displayName
-{
-	return _key;
 }
 
 - (id) valueForProperty: (NSString *)aProperty
@@ -180,7 +211,32 @@ Initializes and returns a new pair with the given key and value. */
 	{
 		return [super setValue: aValue forProperty: aProperty];
 	}
-	return [[self value] setValue: aValue forProperty: aProperty];
+
+	if ([self isMutableValue])
+	{
+		return [[self value] setValue: aValue forProperty: aProperty];
+	}
+	else
+	{
+		return [super setValue: aValue forProperty: aProperty];
+	}
+}
+
+#pragma mark UI Presentation
+#pragma mark -
+
+/** Returns the key. */
+- (NSString *) displayName
+{
+	return _key;
+}
+
+#pragma mark Mutability Trait
+#pragma mark -
+
+- (Class) originalClass
+{
+	return [ETKeyValuePair class];
 }
 
 @end
