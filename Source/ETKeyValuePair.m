@@ -15,14 +15,22 @@
 
 #pragma GCC diagnostic ignored "-Wprotocol"
 
+@interface ETKeyValuePair (ETViewpointTraitAliasedMethods)
+- (NSArray *) viewpointTraitPropertyNames;
+@end
+
 @implementation ETKeyValuePair
 
 + (void) initialize
 {
 	if (self != [ETKeyValuePair class])
 		return;
-	
+
 	[self applyTraitFromClass: [ETViewpointTrait class]];
+	// FIXME: Method aliasing is broken
+	/*[self applyTraitFromClass: [ETViewpointTrait class]
+	      excludedMethodNames: [NSSet set]
+	       aliasedMethodNames: D(@"viewpointTraitPropertyNames", @"propertyNames")];*/
 }
 
 /** Returns a new autoreleased pair with the given key and value. */
@@ -193,7 +201,20 @@ and <em>representedObject</em>. */
 /** Exposes <em>key</em> and <em>value</em> in addition to the inherited properties. */
 - (NSArray *) propertyNames
 {
-	return [[[self value] propertyNames] arrayByAddingObjectsFromArray: A(@"key", @"value")];
+	// FIXME: See +intialize
+	//return [[self viewpointTraitPropertyNames] arrayByAddingObjectsFromArray: A(@"key")];
+
+	NSArray *properties = [[self value] propertyNames];
+
+	/* If -value is nil, we just return A(@"value"), there is no need to return  
+	   the property description names for the value entity description, because  
+	   the value object must exist to access any property. */
+	if (properties == nil)
+	{
+		properties = [NSArray array];
+	}
+
+	return [properties arrayByAddingObjectsFromArray: A(@"key", @"value")];
 }
 
 - (id) valueForProperty: (NSString *)aProperty

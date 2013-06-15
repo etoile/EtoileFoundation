@@ -8,6 +8,8 @@
  */
 
 #import "ETViewpoint.h"
+#import "ETEntityDescription.h"
+#import "ETModelDescriptionRepository.h"
 #import "NSObject+HOM.h"
 #import "NSObject+Trait.h"
 #include <objc/runtime.h>
@@ -38,7 +40,17 @@
 
 - (NSArray *) propertyNames
 {
-	return [[self value] propertyNames];
+	NSArray *properties = [[self value] propertyNames];
+
+	/* If -value is nil, we just return A(@"value"), there is no need to return  
+	   the property description names for the value entity description, because  
+	   the value object must exist to access any property. */
+	if (properties == nil)
+	{
+		properties = [NSArray array];
+	}
+
+	return [properties arrayByAddingObjectsFromArray: A(@"value")];
 }
 
 - (id) valueForProperty: (NSString *)aProperty
@@ -48,6 +60,8 @@
 
 - (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
 {
+	/* Since model properties are edited through ETLayoutItem or ETViewpoint 
+	   objects, we delegate the value type validation to the model object. */
 	return [[self value] setValue: aValue forProperty: aProperty];
 }
 

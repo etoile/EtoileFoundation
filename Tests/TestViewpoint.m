@@ -11,11 +11,14 @@
 #import "Macros.h"
 #import "ETCollection+HOM.h"
 #import "ETCollectionViewpoint.h"
+#import "ETIndexValuePair.h"
 #import "ETMutableObjectViewpoint.h"
 #import "ETKeyValuePair.h"
 #import "ETUnionViewpoint.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
+
+#define SA(x) [NSSet setWithArray: x]
 
 @interface ImmutableObjectMutableViewpointTrait : NSObject
 @end
@@ -132,10 +135,40 @@
 	[super dealloc];
 }
 
+- (void) testKeyValuePairPropertyNames
+{
+	ETKeyValuePair *pair = [[emails viewpointArray] firstObject];
+
+	UKTrue([[pair propertyNames] containsCollection: S(@"key", @"value")]);
+}
+
+- (void) testIndexValuePairPropertyNames
+{
+	ETIndexValuePair *pair = [[groupNames viewpointArray] firstObject];
+	
+	UKTrue([[pair propertyNames] containsCollection: S(@"index", @"value")]);
+}
+
 - (void) testPropertyNames
 {
-	UKObjectsEqual([[NSDictionary dictionary] propertyNames], [emails propertyNames]);
-	UKObjectsEqual([[NSArray array] propertyNames], [groupNames propertyNames]);
+	NSSet *dictViewpointProperties =
+		SA([[[NSDictionary dictionary] propertyNames] arrayByAddingObject: @"value"]);
+	NSSet *arrayViewpointProperties =
+		SA([[[NSArray array] propertyNames] arrayByAddingObject: @"value"]);
+
+	UKObjectsEqual(dictViewpointProperties, SA([emails propertyNames]));
+	UKObjectsEqual(arrayViewpointProperties, SA([groupNames propertyNames]));
+}
+
+- (void) testPropertyNamesForNilValue
+{
+	[emails setValue: nil];
+	[groupNames setValue: nil];
+
+	UKNil([emails value]);
+	UKNil([groupNames value]);
+	UKObjectsEqual(A(@"value"), [emails propertyNames]);
+	UKObjectsEqual(A(@"value"), [groupNames propertyNames]);
 }
 
 - (void) testValueForProperty
@@ -352,7 +385,18 @@
 
 - (void) testPropertyNames
 {
-	UKObjectsEqual([[person object] propertyNames], [object propertyNames]);
+	NSSet *viewpointProperties = SA([[AUTORELEASE([ImmutableObject new]) propertyNames]
+		arrayByAddingObject: @"value"]);
+
+	UKObjectsEqual(viewpointProperties, SA([object propertyNames]));
+}
+
+- (void) testPropertyNamesForNilValue
+{
+	[object setValue: nil];
+
+	UKNil([object value]);
+	UKObjectsEqual(A(@"value"), [object propertyNames]);
 }
 
 - (void) testValueForProperty

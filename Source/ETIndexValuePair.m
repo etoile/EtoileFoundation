@@ -19,7 +19,13 @@
 
 #pragma GCC diagnostic ignored "-Wprotocol"
 
+@interface ETIndexValuePair (ETViewpointTraitAliasedMethods)
+- (NSArray *) viewpointTraitPropertyNames;
+@end
+
 @implementation ETIndexValuePair
+
+@synthesize representedObject = _representedObject, index = _index;
 
 + (void) initialize
 {
@@ -27,9 +33,13 @@
 		return;
 	
 	[self applyTraitFromClass: [ETViewpointTrait class]];
+	// FIXME: Method aliasing is broken
+	/*[self applyTraitFromClass: [ETViewpointTrait class]
+	      excludedMethodNames: [NSSet set]
+	       aliasedMethodNames: D(@"viewpointTraitPropertyNames", @"propertyNames")];
+	ETAssert([self instancesRespondToSelector: @selector(viewpointTraitPropertyNames)]);
+	ETAssert([self instancesRespondToSelector: @selector(propertyNames)]);*/
 }
-
-@synthesize representedObject = _representedObject, index = _index;
 
 /** <init />
 Returns and initializes a new viewpoint that represents the element at the
@@ -157,7 +167,20 @@ given object value. */
 
 - (NSArray *) propertyNames
 {
-	return [[[self value] propertyNames] arrayByAddingObjectsFromArray: A(@"index", @"value")];
+	// FIXME: See +intialize
+	//return [[self viewpointTraitPropertyNames] arrayByAddingObjectsFromArray: A(@"index")];
+
+	NSArray *properties = [[self value] propertyNames];
+	
+	/* If -value is nil, we just return A(@"value"), there is no need to return
+	   the property description names for the value entity description, because
+	   the value object must exist to access any property. */
+	if (properties == nil)
+	{
+		properties = [NSArray array];
+	}
+	
+	return [properties arrayByAddingObjectsFromArray: A(@"value", @"index")];
 }
 
 /** Returns the value bound to the given property of -value.
