@@ -219,7 +219,14 @@ and <em>representedObject</em>. */
 
 - (id) valueForProperty: (NSString *)aProperty
 {
-	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"])
+	/* For key-value pairs that belong to an heterogen collection, the
+	   UI presentation uses a 'displayName' column in many cases. It is important 
+	   to intercept any 'displayName' access to ensure key-value pairs appear
+	   with a name when presented. For example, objects in an ETAspectCategory
+	   have their names determined by -[ETKeyValuePair key].
+	   -name and -setName: can still be used to access the value object name. */
+	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"]
+	 || [aProperty isEqualToString: @"displayName"])
 	{
 		return [super valueForProperty: aProperty];
 	}
@@ -228,7 +235,8 @@ and <em>representedObject</em>. */
 
 - (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
 {
-	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"])
+	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"]
+	 || [aProperty isEqualToString: @"displayName"])
 	{
 		return [super setValue: aValue forProperty: aProperty];
 	}
