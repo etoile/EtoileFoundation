@@ -138,15 +138,22 @@
 - (void) testKeyValuePairPropertyNames
 {
 	ETKeyValuePair *pair = [[emails viewpointArray] firstObject];
+	
+	UKTrue([[pair propertyNames] containsCollection: S(@"self", @"key", @"value")]);
+}
 
-	UKTrue([[pair propertyNames] containsCollection: S(@"key", @"value")]);
+- (void) testKeyValuePairPropertyNamesForNilValue
+{
+	ETKeyValuePair *pair = [ETKeyValuePair pairWithKey: @"unknown" value: nil];
+	
+	UKObjectsEqual(A(@"self", @"key", @"value"), [pair propertyNames]);
 }
 
 - (void) testIndexValuePairPropertyNames
 {
 	ETIndexValuePair *pair = [[groupNames viewpointArray] firstObject];
 	
-	UKTrue([[pair propertyNames] containsCollection: S(@"index", @"value")]);
+	UKTrue([[pair propertyNames] containsCollection: S(@"self", @"index", @"value")]);
 }
 
 - (void) testPropertyNames
@@ -167,8 +174,8 @@
 
 	UKNil([emails value]);
 	UKNil([groupNames value]);
-	UKObjectsEqual(A(@"value"), [emails propertyNames]);
-	UKObjectsEqual(A(@"value"), [groupNames propertyNames]);
+	UKObjectsEqual(A(@"self", @"value"), [emails propertyNames]);
+	UKObjectsEqual(A(@"self", @"value"), [groupNames propertyNames]);
 }
 
 - (void) testValueForProperty
@@ -396,7 +403,7 @@
 	[object setValue: nil];
 
 	UKNil([object value]);
-	UKObjectsEqual(A(@"value"), [object propertyNames]);
+	UKObjectsEqual(A(@"self", @"value"), [object propertyNames]);
 }
 
 - (void) testValueForProperty

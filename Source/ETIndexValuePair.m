@@ -172,12 +172,12 @@ given object value. */
 
 	NSArray *properties = [[self value] propertyNames];
 	
-	/* If -value is nil, we just return A(@"value"), there is no need to return
-	   the property description names for the value entity description, because
-	   the value object must exist to access any property. */
+	/* If -value is nil, we just return A(@"self", @"value"), there is no need 
+	   to return the property description names for the value entity description, 
+	   because the value object must exist to access any property. */
 	if (properties == nil)
 	{
-		properties = [NSArray array];
+		properties = A(@"self");
 	}
 	
 	return [properties arrayByAddingObjectsFromArray: A(@"value", @"index")];
