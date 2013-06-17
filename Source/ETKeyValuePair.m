@@ -225,7 +225,8 @@ and <em>representedObject</em>. */
 	   with a name when presented. For example, objects in an ETAspectCategory
 	   have their names determined by -[ETKeyValuePair key].
 	   -name and -setName: can still be used to access the value object name. */
-	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"]
+	if (([aProperty isEqualToString: @"value"] && [[self value] isViewpoint] == NO)
+	 || [aProperty isEqualToString: @"key"]
 	 || [aProperty isEqualToString: @"displayName"])
 	{
 		return [super valueForProperty: aProperty];
@@ -235,7 +236,8 @@ and <em>representedObject</em>. */
 
 - (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
 {
-	if ([aProperty isEqualToString: @"value"] || [aProperty isEqualToString: @"key"]
+	if (([aProperty isEqualToString: @"value"] && [[self value] isViewpoint] == NO)
+	 || [aProperty isEqualToString: @"key"]
 	 || [aProperty isEqualToString: @"displayName"])
 	{
 		return [super setValue: aValue forProperty: aProperty];

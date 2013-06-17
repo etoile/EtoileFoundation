@@ -68,10 +68,18 @@ Must not return Nil. */
 	
 }
 
+/** Returns YES. */
+- (BOOL) isViewpoint;
+
 /** @taskunit Mutability Trait */
 
 - (BOOL) isMutableValue;
 - (void) applyMutableViewpointTraitForValue: (id)aValue;
 - (void) unapplyMutableViewpointTraitForValue: (id)aValue;
 
+@end
+
+@interface NSObject (ETViewpointAdditions)
+/** Returns NO. */
+- (BOOL) isViewpoint;
 @end

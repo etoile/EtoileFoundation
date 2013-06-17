@@ -234,7 +234,7 @@ See -usesKeyValueCodingForAccessingValueProperties. */
 This method accesses properties of the represented element. */
 - (id) valueForProperty: (NSString *)aProperty
 {
-	if ([aProperty isEqualToString: @"value"])
+	if ([aProperty isEqualToString: @"value"] && [[self value] isViewpoint] == NO)
 	{
 		return [super valueForProperty: aProperty];
 	}
@@ -246,7 +246,7 @@ This method accesses properties of the represented element. */
 This method accesses properties of the represented property or element. */
 - (BOOL) setValue: (id)aValue forProperty: (NSString *)aProperty
 {
-	if ([aProperty isEqualToString: @"value"])
+	if ([aProperty isEqualToString: @"value"] && [[self value] isViewpoint] == NO)
 	{
 		return [super setValue: aValue forProperty: aProperty];
 	}

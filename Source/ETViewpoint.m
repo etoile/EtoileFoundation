@@ -16,6 +16,11 @@
 
 @implementation ETViewpointTrait
 
+- (BOOL) isViewpoint
+{
+	return YES;
+}
+
 - (id) representedObject
 {
 	[self doesNotRecognizeSelector: _cmd];
@@ -113,6 +118,16 @@
 - (void) unapplyMutableViewpointTraitForValue: (id)aValue
 {
 	// TODO: Unapply exisisting trait
+}
+
+@end
+
+
+@implementation NSObject (ETViewpointAdditions)
+
+- (BOOL) isViewpoint
+{
+	return NO;
 }
 
 @end
