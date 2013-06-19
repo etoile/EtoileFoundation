@@ -86,6 +86,4 @@ Must not return Nil. */
 - (void) setValue: (id)aValue forContentKey: (NSString *)key;
 - (id) valueForContentKeyPath: (NSString *)aKeyPath;
 - (void) setValue: (id)aValue forContentKeyPath: (NSString *)aKeyPath;
-- (id) valueForContentKeyPath: (NSString *)aKeyPath;
-- (void) setValue: (id)aValue forContentKeyPath: (NSString *)aKeyPath;
 @end
