@@ -82,4 +82,10 @@ Must not return Nil. */
 @interface NSObject (ETViewpointAdditions)
 /** Returns NO. */
 - (BOOL) isViewpoint;
+- (id) valueForContentKey: (NSString *)key;
+- (void) setValue: (id)aValue forContentKey: (NSString *)key;
+- (id) valueForContentKeyPath: (NSString *)aKeyPath;
+- (void) setValue: (id)aValue forContentKeyPath: (NSString *)aKeyPath;
+- (id) valueForContentKeyPath: (NSString *)aKeyPath;
+- (void) setValue: (id)aValue forContentKeyPath: (NSString *)aKeyPath;
 @end

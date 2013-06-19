@@ -90,7 +90,7 @@ identified by the given name in object. */
                          change: (NSDictionary *)change
                         context: (void *)context
 {
-	NSParameterAssert([keyPath isEqualToString: [self name]]);
+	NSParameterAssert([keyPath isEqualToString: [self observedKeyPath]]);
 	
 	if (_isSettingValue)
 		return;
@@ -113,31 +113,56 @@ identified by the given name in object. */
 		 && [anObject isKindOfClass: [NSArray class]] == NO);
 }
 
-- (void) setRepresentedObject: (id)object
+- (void) startObserveRepresentedObject: (id)anObject forKeyPath: (NSString *)aKeyPath
 {
-	NSString *name = [self name];
-	
-	NSParameterAssert(nil != name);
-	
+	NSUInteger options = (NSKeyValueObservingOptionNew| NSKeyValueObservingOptionOld);
+	[anObject addObserver: self forKeyPath: aKeyPath options: options context: NULL];
+}
+
+- (void) stopObserveRepresentedObject: (id)anObject forKeyPath: (NSString *)aKeyPath
+{
+	[anObject removeObserver: self forKeyPath: aKeyPath];
+}
+
+- (void) setRepresentedObject: (id)object
+           oldObservedKeyPath: (NSString *)oldObservedKeyPath
+           newObservedKeyPath: (NSString *)newObservedKeyPath
+{
 	if (nil != _representedObject)
 	{
-		if ([self observedKeyPath] != nil && [self isObservableObject: _representedObject])
+		if (oldObservedKeyPath != nil && [self isObservableObject: _representedObject])
 		{
-			[_representedObject removeObserver: self forKeyPath: [self observedKeyPath]];
+			[self stopObserveRepresentedObject: _representedObject forKeyPath: oldObservedKeyPath];
 		}
 		[self unapplyMutableViewpointTraitForValue: [self value]];
 	}
 	ASSIGN(_representedObject, object);
 	
-	if (nil != object && [[self observedKeyPath] hasPrefix: @"self"] == NO)
+	if (nil != object && [newObservedKeyPath hasPrefix: @"self"] == NO)
 	{
-		if ([self observedKeyPath] != nil && [self isObservableObject: _representedObject])
+		if (newObservedKeyPath != nil && [self isObservableObject: object])
 		{
-			NSUInteger options = (NSKeyValueObservingOptionNew| NSKeyValueObservingOptionOld);
-			[object addObserver: self forKeyPath: [self observedKeyPath] options: options context: NULL];
+			[self startObserveRepresentedObject: object forKeyPath: newObservedKeyPath];
 		}
 		[self applyMutableViewpointTraitForValue: [self value]];
 	}
+}
+
+- (void) setRepresentedObject: (id)anObject
+{
+	[self setRepresentedObject: anObject
+	        oldObservedKeyPath: [self observedKeyPath]
+	        newObservedKeyPath: [self observedKeyPath]];
+}
+
+- (void) setName: (NSString *)aName
+{
+	NSString *oldObservedKeyPath = [self observedKeyPath];
+	ASSIGN(_name, aName);
+	/* Update observation and mutable viewpoint trait */
+	[self setRepresentedObject: [self representedObject]
+	        oldObservedKeyPath: oldObservedKeyPath
+	        newObservedKeyPath: [self observedKeyPath]];
 }
 
 #pragma mark Property Value Coding

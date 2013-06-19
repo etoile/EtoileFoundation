@@ -11,6 +11,7 @@
 #import "ETEntityDescription.h"
 #import "ETModelDescriptionRepository.h"
 #import "NSObject+HOM.h"
+#import "NSObject+Model.h"
 #import "NSObject+Trait.h"
 #include <objc/runtime.h>
 
@@ -128,6 +129,112 @@
 - (BOOL) isViewpoint
 {
 	return NO;
+}
+
+- (id) valueForContentKey: (NSString *)key
+{
+	if ([self isViewpoint])
+	{
+		return [self valueForProperty: key];
+	}
+	else
+	{
+		return [self valueForKey: key];
+	}
+}
+
+- (void) setValue: (id)aValue forContentKey: (NSString *)key
+{
+	if ([self isViewpoint])
+	{
+		[self setValue: aValue forProperty: key];
+	}
+	else
+	{
+		[self setValue: aValue forKey: key];
+	}
+}
+
+- (id) valueForContentKeyPath: (NSString *)aKeyPath
+{
+	NILARG_EXCEPTION_TEST(aKeyPath);
+	INVALIDARG_EXCEPTION_TEST(aKeyPath, [aKeyPath length] != 0);
+
+	id intermediateObject = self;
+
+	for (NSString *key in [aKeyPath componentsSeparatedByString: @"."])
+	{
+		BOOL isOperator = [key hasPrefix: @"@"];
+		
+		if (isOperator)
+			continue;
+
+		intermediateObject = [intermediateObject valueForContentKey: key];
+	}
+	return intermediateObject;
+}
+
+- (void) setValue: (id)aValue forContentKeyPath: (NSString *)aKeyPath
+{
+	NSArray *keyPathComponents = [aKeyPath componentsSeparatedByString: @"."];
+	NSArray *baseKeyPathComponents =
+		[keyPathComponents subarrayWithRange: NSMakeRange(0, [keyPathComponents count] - 1)];
+	NSString *baseKeyPath = [baseKeyPathComponents componentsJoinedByString: @"."];
+		
+	id intermediateObject = [self valueForContentKeyPath: baseKeyPath];
+
+	[intermediateObject setValue: aValue forContentKey: [keyPathComponents lastObject]];
+}
+
+@end
+
+
+// NOTE: Private addition that might make sense to expose in ETCollection protocol
+@interface ETCollectionTrait (ETViewpointAdditions)
+@end
+
+@implementation  ETCollectionTrait (ETViewpointAdditions)
+
+- (BOOL) isPrimitiveCollection
+{
+	return [self isEqual: [self content]];
+}
+
+- (id) valueForContentKey: (NSString *)key
+{
+	if ([self isPrimitiveCollection] == NO)
+		return [super valueForContentKey: key];
+
+	NSMutableArray *content = [NSMutableArray arrayWithCapacity: [self count]];
+
+	/* For returning content of keyed collections such as dictionaries, we 
+	   must use -objectEnumerator */
+	for (id element in [self objectEnumerator])
+	{
+		id value = [element valueForContentKey: key];
+
+		if (value == nil)
+			continue;
+
+		[content addObject: value];
+	}
+	return content;
+}
+
+- (void) setValue: (id)aValue forContentKey: (NSString *)key
+{
+	if ([self isPrimitiveCollection] == NO)
+	{
+		[super setValue: aValue forContentKey: key];
+		return;
+	}
+
+	/* For accessing content of keyed collections such as dictionaries, we 
+	   must use -objectEnumerator */	
+	for (id element in [self objectEnumerator])
+	{
+		[element setValue: aValue forContentKey: key];
+	}
 }
 
 @end

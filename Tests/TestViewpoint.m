@@ -135,6 +135,17 @@
 	[super dealloc];
 }
 
+- (void) testViewpoint
+{
+	UKTrue([[ETKeyValuePair pairWithKey: @"unknown" value: nil] isViewpoint]);
+	ETIndexValuePair *pair = AUTORELEASE([[ETIndexValuePair alloc]
+		initWithIndex: 0 value: nil representedObject: nil]);
+	UKTrue([pair isViewpoint]);
+	UKTrue([[ETMutableObjectViewpoint viewpointWithName: @"unknown" representedObject: nil] isViewpoint]);
+	UKTrue([[ETCollectionViewpoint viewpointWithName: @"unknown" representedObject: nil] isViewpoint]);
+	UKTrue([[ETUnionViewpoint viewpointWithName: @"unknown" representedObject: nil] isViewpoint]);
+}
+
 - (void) testKeyValuePairPropertyNames
 {
 	ETKeyValuePair *pair = [[emails viewpointArray] firstObject];
@@ -295,7 +306,9 @@
 {
 	[viewpoint setContentKeyPath: @"name"];
 
-	UKObjectsEqual(A(@"John", @"Julie"), [viewpoint value]);
+	UKObjectsEqual(A(@"John", @"Julie"), [viewpoint content]);
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint value]);
+	UKObjectsEqual([viewpoint value], [viewpoint valueForProperty: @"value"]);
 	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
 	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSString class]]);
 	UKNil([viewpoint valueForProperty: @"missing"]);
@@ -305,11 +318,11 @@
 {
 	[viewpoint setContentKeyPath: @"@distinctUnionOfArrays.groupNames"];
 
+	UKObjectsEqual(A(A(@"Somebody", @"Nobody"), A(@"Somebody", @"Nobody")), [viewpoint content]);
 	UKObjectsEqual(A(@"Somebody", @"Nobody"), [viewpoint value]);
-	/* Here the result is not A(@"Somebody", @"Nobody") because 'self' points 
-	   to each group name in the collection or not to the collection itself. */
-	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
-	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSString class]]);
+	UKObjectsEqual([viewpoint value], [viewpoint valueForProperty: @"value"]);
+	UKObjectsEqual(A(@"Somebody", @"Nobody"), [viewpoint valueForProperty: @"self"]);
+	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSArray class]]);
 	UKNil([viewpoint valueForProperty: @"missing"]);
 }
 
@@ -317,7 +330,10 @@
 {
 	[viewpoint setContentKeyPath: @"object"];
 
-	UKObjectsEqual([[persons mappedCollection] object], [viewpoint value]);
+	UKObjectsEqual([[persons mappedCollection] object], [viewpoint content]);
+	/* The two objects are not equal */
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint value]);
+	UKObjectsEqual([viewpoint value], [viewpoint valueForProperty: @"value"]);
 	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"characteristic"]);
 	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [ImmutableObject class]]);
 	UKNil([viewpoint valueForProperty: @"missing"]);
@@ -326,7 +342,9 @@
 	
 	NSArray *characteristics = A([NSNumber numberWithInt: 10], [NSNumber numberWithInt: 20]);
 
-	UKObjectsEqual(characteristics, [viewpoint value]);
+	UKObjectsEqual(characteristics, [viewpoint content]);
+	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint value]);
+	UKObjectsEqual([viewpoint value], [viewpoint valueForProperty: @"value"]);
 	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
 	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSNumber class]]);
 	UKNil([viewpoint valueForProperty: @"missing"]);

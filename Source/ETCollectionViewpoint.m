@@ -32,14 +32,6 @@
 	return ([self isKeyed] == NO);
 }
 
-- (void) observeValueForKeyPath: (NSString *)keyPath
-                       ofObject: (id)object
-                         change: (NSDictionary *)change
-                        context: (void *)context
-{
-	// TODO: Implement
-}
-
 - (void) setRepresentedObject: (id)object
 {
 	[super setRepresentedObject: object];

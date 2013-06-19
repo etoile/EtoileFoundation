@@ -36,6 +36,7 @@ represented object. */
 	id _representedObject;
 	id _name;
 	BOOL _usesKeyValueCodingForAccessingValueProperties;
+	@protected
 	BOOL _isSettingValue;
 }
 
@@ -78,5 +79,10 @@ the collection interaction through the viewpoint, see ETCollectionViewpoint. */
 /** @taskunit Subclassing */
 
 @property (nonatomic, readonly) NSString *observedKeyPath;
+- (void) setRepresentedObject: (id)object
+           oldObservedKeyPath: (NSString *)oldObservedKeyPath
+           newObservedKeyPath: (NSString *)newObservedKeyPath;
+- (void) startObserveRepresentedObject: (id)anObject forKeyPath: (NSString *)aKeyPath;
+- (void) stopObserveRepresentedObject: (id)anObject forKeyPath: (NSString *)aKeyPath;
 
 @end

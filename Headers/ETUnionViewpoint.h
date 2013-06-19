@@ -28,6 +28,7 @@ usually exposed. */
 @interface ETUnionViewpoint : ETCollectionViewpoint
 {
 	NSString *_contentKeyPath;
+	NSMutableDictionary *_observations;
 }
 
 + (id) mixedValueMarker;
