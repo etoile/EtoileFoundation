@@ -233,7 +233,7 @@
 
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name
 {
-	ETPropertyDescription *desc = [_propertyDescriptions valueForKey: name];
+	ETPropertyDescription *desc = [_propertyDescriptions objectForKey: name];
 	if (desc == nil)
 	{
 		return [[self parent] propertyDescriptionForName: name];
@@ -242,6 +242,17 @@
 	{
 		return desc;
 	}
+}
+
+- (NSArray *)propertyDescriptionsForNames: (NSArray *)names
+{
+	NSMutableArray *descs = [NSMutableArray arrayWithCapacity: [names count]];
+
+	for (NSString *name in names)
+	{
+		[descs addObject: [self propertyDescriptionForName: name]];
+	}
+	return descs;
 }
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key

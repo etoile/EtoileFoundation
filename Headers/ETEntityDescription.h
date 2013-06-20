@@ -118,9 +118,14 @@ See -[ETPropertyDescription isPersistent]. */
 - (NSArray *) allPersistentPropertyDescriptions;
 /** Returns the property description which matches the given name.
 
-See also -[ETModelElementDescription name] which is inherited by 
-ETPropertyDescription. */
+See also -propertyDescriptionsForNames: and -[ETModelElementDescription name] 
+which is inherited by ETPropertyDescription. */
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name;
+/** Returns the property descriptions which matches the given names.
+ 
+See also -propertyDescriptionForName: and -[ETModelElementDescription name]
+which is inherited by ETPropertyDescription. */
+- (NSArray *)propertyDescriptionsForNames: (NSArray *)names;
 
 /** @taskunit Validation */
 
