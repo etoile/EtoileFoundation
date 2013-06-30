@@ -341,6 +341,8 @@
 
 - (id) valueForProperty: (NSString *)aProperty onObject: (id)accessedObject
 {
+	NSParameterAssert(aProperty != nil && [aProperty length] > 0);
+
 	id lastValue = nil;
 	BOOL isFirstValue = YES;
 	
@@ -361,12 +363,18 @@
 
 - (id) value
 {
+	if ([self contentKeyPath] == nil)
+		return nil;
+
 	NSString *component = [[[self contentKeyPath] componentsSeparatedByString: @"."] lastObject];
 	return [self valueForProperty: component onObject: [self accessedObjectForMutation]];
 }
 
 - (void) setValue: (id)aValue
 {
+	if ([self contentKeyPath] == nil)
+		return;
+
 	NSString *component = [[[self contentKeyPath] componentsSeparatedByString: @"."] lastObject];
 	[self setValue: aValue forProperty: component onObject: [self accessedObjectForMutation]];
 }
