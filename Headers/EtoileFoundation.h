@@ -80,6 +80,7 @@
 #import <EtoileFoundation/ETCollectionViewpoint.h>
 #import <EtoileFoundation/ETIndexValuePair.h>
 #import <EtoileFoundation/ETMutableObjectViewpoint.h>
+#import <EtoileFoundation/ETUnionViewpoint.h>
 #import <EtoileFoundation/ETViewpoint.h>
 
 #if TARGET_OS_IPHONE
