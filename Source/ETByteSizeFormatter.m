@@ -32,7 +32,7 @@ MB, two digits for GB and three digits for TB. */
 
 	NSArray *sizeUnits = A(_(@"B"), _(@"KB"), _(@"MB"), _(@"GB"), _(@"TB"));
 	int nbOfUnits = [sizeUnits count];
-	float value = [anObject floatValue];
+	CGFloat value = [anObject floatValue];
   	int unitLevel = 0;
 
 	while (value >= 1024 && unitLevel < nbOfUnits)

@@ -41,7 +41,7 @@
 	NSInteger integer;
 	NSUInteger uinteger;
 	int _int;
-	float isFloat;
+	CGFloat isFloat;
 	NSRange range;
 }
 @end

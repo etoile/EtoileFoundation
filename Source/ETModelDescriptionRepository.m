@@ -129,7 +129,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	return A([ETCPrimitiveEntityDescription descriptionWithName: @"BOOL"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSUInteger"],
-		[ETCPrimitiveEntityDescription descriptionWithName: @"float"],
+		[ETCPrimitiveEntityDescription descriptionWithName: @"CGFloat"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"double"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSPoint"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSSize"],
