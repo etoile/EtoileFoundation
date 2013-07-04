@@ -54,6 +54,12 @@ static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 	return AUTORELEASE([[self alloc] initWithString: aString]);
 }
 
++ (ETUUID *) UUIDWithData: (NSData *)aData
+{
+    NSParameterAssert([aData length] == 16);
+    return [[[self alloc] initWithUUID: [aData bytes]] autorelease];
+}
+
 - (id) init
 {
 	SUPERINIT

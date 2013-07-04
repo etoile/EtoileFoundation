@@ -42,7 +42,10 @@ ETUUID does not have a designated initializer. */
  * Returns an autoreleased UUID object for the given UUID string representation. 
  */
 + (id) UUIDWithString: (NSString *)aString;
-
+/**
+ * Returns an autoreleased UUID object for the given 16-byte NSData.
+ */
++ (ETUUID *) UUIDWithData: (NSData *)aData;
 /**
  * Initializes the UUID object with a 128-bit binary value.
  */
