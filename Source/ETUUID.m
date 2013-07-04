@@ -182,6 +182,11 @@ static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 	return uuid;
 }
 
+- (NSData *) dataValue
+{
+    return [NSData dataWithBytes: uuid length: 16];
+}
+
 - (NSString*) description
 {
 	return [self stringValue];

@@ -70,6 +70,8 @@ ETUUID does not have a designated initializer. */
  */
 - (const unsigned char *) UUIDValue;
 
+- (NSData *) dataValue;
+
 @end
 
 #define ETUUIDSize (36 * sizeof(char))
