@@ -93,6 +93,32 @@
 @end
 
 /**
+ * Returns the value into the object instance variable by looking it up with the  
+ * Key Value Coding semantics based on the key, and returns YES on success.
+ *
+ * For a key equal to 'variable', Key Value Coding search pattern to access 
+ * instance variables happens in the order below:
+ *
+ * <list>
+ * <item>_variable</item>
+ * <item>_isVariable</item>
+ * <item>variable</item>
+ * <item>isVariable</item>
+ * </list>
+ *
+ * Valid values are all the supported Key Value Coding types such as id, float 
+ * or NSRect boxed in a NSValue etc.
+ *
+ * If no matching instance variable is found, returns NO. Which means that 
+ * either the key is invalid or the declared ivar type is not supported by Key 
+ * Value Coding.
+ *
+ * This function won't invoke -[NSObject valueForUndefinedKey:].<br /> 
+ * To implement these extra Key Value Coding behaviors, check whether NO is 
+ * returned (to call -valueForUndefinedKey:).
+ */
+BOOL ETGetInstanceVariableValueForKey(id object, id *value, NSString *key);
+/**
  * Sets the value into the object instance variable by looking it up with the  
  * Key Value Coding semantics based on the key, and returns YES on success.
  *

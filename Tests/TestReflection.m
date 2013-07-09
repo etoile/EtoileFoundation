@@ -133,7 +133,7 @@
 
 }
 
-- (void) testSetInstanceVariableValueForKey
+- (void) testInstanceVariableValueForKey
 {
 	TestClass3 *test3 = AUTORELEASE([[TestClass3 alloc] init]);
 
@@ -142,6 +142,15 @@
 
 	UKObjectsEqual(@"bla", test3->object);
 	UKObjectsEqual([self class], test3->isClass);
+
+	id objValue = nil;
+	id classValue = nil;
+
+	ETGetInstanceVariableValueForKey(test3, &objValue, @"object");
+	ETGetInstanceVariableValueForKey(test3, &classValue, @"class");
+
+	UKObjectsEqual(@"bla", objValue);
+	UKObjectsEqual([self class], classValue);
 
 	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithInteger: 50], @"integer");
 	ETSetInstanceVariableValueForKey(test3, [NSNumber numberWithUnsignedInteger: -50], @"uinteger");
@@ -154,6 +163,24 @@
 	UKIntsEqual(2, test3->_int);
 	UKFloatsEqual(0.2, test3->isFloat, 0);
 	UKTrue(1.5e+300 == test3->_isDouble);
+	
+	id integerValue = nil;
+	id uintegerValue = nil;
+	id intValue = nil;
+	id floatValue = nil;
+	id doubleValue = nil;
+
+	ETGetInstanceVariableValueForKey(test3, &integerValue, @"integer");
+	ETGetInstanceVariableValueForKey(test3, &uintegerValue, @"uinteger");
+	ETGetInstanceVariableValueForKey(test3, &intValue, @"int");
+	ETGetInstanceVariableValueForKey(test3, &floatValue, @"float");
+	ETGetInstanceVariableValueForKey(test3, &doubleValue, @"double");
+
+	UKTrue(50 == [integerValue integerValue]);
+	UKTrue(-50 == [uintegerValue unsignedIntegerValue]);
+	UKIntsEqual(2, [intValue intValue]);
+	UKFloatsEqual(0.2, [floatValue floatValue], 0);
+	UKTrue(1.5e+300 == [doubleValue doubleValue]);
 
 	NSRect rect = NSMakeRect(-1, 5, 10, 20);
 	NSPoint point = NSMakePoint(-3, 10);
@@ -169,6 +196,21 @@
 	UKTrue(NSEqualPoints(test3->_point, point));
 	UKTrue(NSEqualSizes(test3->size, size));
 	UKTrue(NSEqualRanges(test3->range, range));
+
+	id rectValue = nil;
+	id pointValue = nil;
+	id sizeValue = nil;
+	id rangeValue = nil;
+
+	ETGetInstanceVariableValueForKey(test3, &rectValue, @"rect");
+	ETGetInstanceVariableValueForKey(test3, &pointValue, @"point");
+	ETGetInstanceVariableValueForKey(test3, &sizeValue, @"size");
+	ETGetInstanceVariableValueForKey(test3, &rangeValue, @"range");
+	
+	UKTrue(NSEqualRects(test3->rect, [rectValue rectValue]));
+	UKTrue(NSEqualPoints(test3->_point, [pointValue pointValue]));
+	UKTrue(NSEqualSizes(test3->size, [sizeValue sizeValue]));
+	UKTrue(NSEqualRanges(test3->range, [rangeValue rangeValue]));
 }
 
 @end
