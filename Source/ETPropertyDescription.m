@@ -27,7 +27,7 @@
 
 @implementation ETPropertyDescription
 
-@synthesize persistent = _persistent, readOnly = _readOnly,
+@synthesize keyed = _keyed, persistent = _persistent, readOnly = _readOnly,
 	showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames,
 	commitDescriptor = _commitDescriptor;
 
@@ -52,6 +52,8 @@
 		[ETPropertyDescription descriptionWithName: @"multivalued" type: (id)@"BOOL"];
 	ETPropertyDescription *ordered = 
 		[ETPropertyDescription descriptionWithName: @"ordered" type: (id)@"BOOL"];
+	ETPropertyDescription *keyed =
+		[ETPropertyDescription descriptionWithName: @"keyed" type: (id)@"BOOL"];
 	ETPropertyDescription *showsItemDetails =
 		[ETPropertyDescription descriptionWithName: @"showsItemDetails" type: (id)@"BOOL"];
 	ETPropertyDescription *detailedProperties =
@@ -70,7 +72,7 @@
 	[package setOpposite: (id)@"ETPackageDescription.propertyDescriptions"];
 	
 	[selfDesc setPropertyDescriptions: A(owner, composite, container, derived, 
-		multivalued, ordered, showsItemDetails, detailedProperties,
+		multivalued, ordered, keyed, showsItemDetails, detailedProperties,
 		commitDescriptor, opposite, type, package)];
 
 	return selfDesc;

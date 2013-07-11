@@ -30,6 +30,7 @@
 	BOOL _container;
 	BOOL _multivalued;
 	BOOL _ordered;
+	BOOL _keyed;
 	BOOL _persistent;
 	BOOL _readOnly;
 	BOOL _showsItemDetails;
@@ -93,6 +94,7 @@ entity name in the returned string. */
 - (void) setMultivalued: (BOOL)isMultivalued;
 - (BOOL) isOrdered;
 - (void) setOrdered: (BOOL)isOrdered;
+@property (assign, nonatomic, getter=isKeyed) BOOL keyed;
 @property (assign, nonatomic, getter=isPersistent) BOOL persistent;
 @property (assign, nonatomic, getter=isReadOnly) BOOL readOnly;
 @property (nonatomic, retain) id commitDescriptor;
