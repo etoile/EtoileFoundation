@@ -223,11 +223,11 @@
 
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc
 {
-	ETEntityDescription *entity = anEntityDesc;
+	ETEntityDescription *entity = self;
 
 	while (entity != nil)
 	{
-		if ([[entity name] isEqual: [self name]])
+		if ([[entity name] isEqual: [anEntityDesc name]])
 			return YES;
 
 		entity = [entity parent];
