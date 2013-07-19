@@ -221,6 +221,20 @@
 	_parent = parentDescription;
 }
 
+- (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc
+{
+	ETEntityDescription *entity = anEntityDesc;
+
+	while (entity != nil)
+	{
+		if ([[entity name] isEqual: [self name]])
+			return YES;
+
+		entity = [entity parent];
+	}
+	return NO;
+}
+
 - (ETPackageDescription *) owner
 {
 	return _owner;

@@ -85,6 +85,8 @@ See also -[ETPropertyDescription isPrimitive]. */
 - (ETEntityDescription *) parent;
 /** The parent entity of this entity. (Superclass or prototype) */
 - (void) setParent: (ETEntityDescription *)parentDescription;
+/** Returns whether the given entity is a subentity of the receiver. */
+- (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc;
 /** The package to which this entity belongs to. */
 - (ETPackageDescription *) owner;
 /** The package to which this entity belongs to. */
