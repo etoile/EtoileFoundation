@@ -81,7 +81,7 @@ given index in a collection. */
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat: @"%lu = %@, %@ - %@", [self index],
+	return [NSString stringWithFormat: @"%lu = %@, %@ - %@", (unsigned long)[self index],
 		[self value] , [self representedObject], [super description]];
 }
 
