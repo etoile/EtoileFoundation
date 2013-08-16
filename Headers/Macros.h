@@ -201,7 +201,7 @@ on in a release version. */
 #define ETDebugAssert(condition) \
 	ETAssert(condition)
 #else
-#define ETDebugAssert(condition) __builtin_unreachable()
+#define ETDebugAssert(condition)
 #endif
 /** Assertion macro to mark code portion that should never be reached. e.g. the 
 default case in a switch statement. */
