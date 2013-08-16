@@ -351,7 +351,7 @@
 	[runTimer retain];
 	while ([runTimer isValid] == YES)
 	{
-		[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.1]];
+		[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.0]];
 	}
 	[runTimer release];
 	/* The code below is unsupported on GNUstep and this doesn't seem to matter
