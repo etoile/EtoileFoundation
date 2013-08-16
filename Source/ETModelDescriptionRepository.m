@@ -55,7 +55,7 @@
 	// 600 ms are spent in -addUnresolvedEntityDescriptionForClass: for EtoileUI
 	// examples, and this assertion accounts for 80%). So it makes us lose
 	// almost half a second at launch even on a recent machine.
-	NSParameterAssert([[[_classesByEntityDescription objectEnumerator] allObjects] containsObject: aClass] == NO);
+	ETDebugAssert([[[_classesByEntityDescription objectEnumerator] allObjects] containsObject: aClass] == NO);
 	ETEntityDescription *entityDesc = [aClass newEntityDescription];
 	[self addUnresolvedDescription: entityDesc];
 	[self setEntityDescription: entityDesc forClass: aClass];
