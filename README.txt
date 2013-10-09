@@ -33,7 +33,7 @@ BUILDING FOR MAC OS X
 
 To build under Mac OS X, open up the UnitKit.xcode project and build away. Or, you can build UnitKit into its final deployment location using the following from the Source directory:
 
-	$ sudo xcodebuild -target ukrun -configuration Release
+	$ sudo xcodebuild -target ukrun -configuration Release clean install
 
 --------------------------------------------
 BUILDING FOR GNUSTEP
