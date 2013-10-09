@@ -705,7 +705,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\n\"$TARGET_BUILD_DIR/ukrun\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"";
+			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\n\"$TARGET_BUILD_DIR/ukrun\" -q \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
