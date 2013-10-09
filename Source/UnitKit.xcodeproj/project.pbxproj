@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		AE8CCFC30680B7D4008CA594 /* Xcode Integration */ = {
+		AE8CCFC30680B7D4008CA594 /* Xcode 3 Integration */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 600CE4F809F24490008BA30D /* Build configuration list for PBXAggregateTarget "Xcode Integration" */;
+			buildConfigurationList = 600CE4F809F24490008BA30D /* Build configuration list for PBXAggregateTarget "Xcode 3 Integration" */;
 			buildPhases = (
 				AE8CCFC20680B7D4008CA594 /* CopyFiles */,
 				AE8CD0170680C0AF008CA594 /* CopyFiles */,
@@ -17,7 +17,7 @@
 			);
 			dependencies = (
 			);
-			name = "Xcode Integration";
+			name = "Xcode 3 Integration";
 			productName = "Xcode Integration";
 		};
 /* End PBXAggregateTarget section */
@@ -191,10 +191,10 @@
 		AE70B72905F73A3F00D56367 /* TestThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestThree.h; path = ../../TestSource/TestBundle/TestThree.h; sourceTree = "<group>"; usesTabs = 0; };
 		AE70B72A05F73A3F00D56367 /* TestThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestThree.m; path = ../../TestSource/TestBundle/TestThree.m; sourceTree = "<group>"; usesTabs = 0; };
 		AE73F21F05F1573200CAFD4D /* UKTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTest.h; sourceTree = "<group>"; usesTabs = 0; };
-		AE8CCF680680B539008CA594 /* class.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = class.h; path = XcodeIntegration/FileTemplates/class.h; sourceTree = "<group>"; usesTabs = 0; };
-		AE8CCF690680B539008CA594 /* class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = class.m; path = XcodeIntegration/FileTemplates/class.m; sourceTree = "<group>"; usesTabs = 0; };
-		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = TemplateInfo.plist; path = XcodeIntegration/FileTemplates/TemplateInfo.plist; sourceTree = "<group>"; };
-		AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = UnitKitBundle.trgttmpl; path = XcodeIntegration/TargetTemplates/UnitKitBundle.trgttmpl; sourceTree = "<group>"; };
+		AE8CCF680680B539008CA594 /* class.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = class.h; path = Xcode3Integration/FileTemplates/class.h; sourceTree = "<group>"; usesTabs = 0; };
+		AE8CCF690680B539008CA594 /* class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = class.m; path = Xcode3Integration/FileTemplates/class.m; sourceTree = "<group>"; usesTabs = 0; };
+		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = TemplateInfo.plist; path = Xcode3Integration/FileTemplates/TemplateInfo.plist; sourceTree = "<group>"; };
+		AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = UnitKitBundle.trgttmpl; path = Xcode3Integration/TargetTemplates/UnitKitBundle.trgttmpl; sourceTree = "<group>"; };
 		AE923B2C05C3B1CE00549058 /* ukrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ukrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitKitTests.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3705C3B1DF00549058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UnitKitTests/Info.plist; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 				AE923B4E05C3B33400549058 /* TestSource */,
 				AE70B65E05F71D3900D56367 /* TestBundle */,
 				AEBED01E06AFADBE00451E26 /* TestFramework */,
-				AE8CCDFB0680B4C1008CA594 /* Xcode Integration */,
+				AE8CCDFB0680B4C1008CA594 /* Xcode 3 Integration */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
@@ -332,13 +332,13 @@
 			path = TestSource/TestBundle;
 			sourceTree = "<group>";
 		};
-		AE8CCDFB0680B4C1008CA594 /* Xcode Integration */ = {
+		AE8CCDFB0680B4C1008CA594 /* Xcode 3 Integration */ = {
 			isa = PBXGroup;
 			children = (
 				AE8CCE010680B4E6008CA594 /* Target Templates */,
 				AE8CCDFE0680B4D9008CA594 /* File Templates */,
 			);
-			name = "Xcode Integration";
+			name = "Xcode 3 Integration";
 			sourceTree = "<group>";
 		};
 		AE8CCDFE0680B4D9008CA594 /* File Templates */ = {
@@ -607,7 +607,7 @@
 				AE923B3505C3B1DF00549058 /* UnitKitTests */,
 				AE70B65305F7100400D56367 /* TestBundle */,
 				AEBED01806AFADB000451E26 /* TestFramework */,
-				AE8CCFC30680B7D4008CA594 /* Xcode Integration */,
+				AE8CCFC30680B7D4008CA594 /* Xcode 3 Integration */,
 			);
 		};
 /* End PBXProject section */
@@ -753,7 +753,7 @@
 		};
 		AE8CCFE00680B890008CA594 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AE8CCFC30680B7D4008CA594 /* Xcode Integration */;
+			target = AE8CCFC30680B7D4008CA594 /* Xcode 3 Integration */;
 			targetProxy = AE8CCFDF0680B890008CA594 /* PBXContainerItemProxy */;
 		};
 		AE923B3905C3B1E900549058 /* PBXTargetDependency */ = {
@@ -998,7 +998,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		600CE4F809F24490008BA30D /* Build configuration list for PBXAggregateTarget "Xcode Integration" */ = {
+		600CE4F809F24490008BA30D /* Build configuration list for PBXAggregateTarget "Xcode 3 Integration" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				600CE4F909F24490008BA30D /* Debug */,
