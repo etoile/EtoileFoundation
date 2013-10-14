@@ -305,10 +305,6 @@
 		[warnings addObject: [self warningWithMessage: 
 			@"Opposites must refer to each other"]];
 	}
-	if (islower([[self name] characterAtIndex: 0]) == NO)
-	{
-		[warnings addObject: [self warningWithMessage: @"Name should be in lower case"]];
-	}
 	if ([[self type] isString])
 	{
 		[warnings addObject: [self warningWithMessage: @"Failed to resolve type"]];

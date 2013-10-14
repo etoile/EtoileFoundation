@@ -48,7 +48,10 @@ generation with EtoileUI.
 
 @section Removals to FAME/EMOF
 
-NamedElement and NestedElement protocols don't exist explicitly. */
+NamedElement and NestedElement protocols don't exist explicitly.
+
+Property description names can be in upper case (FAME was imposing lower case 
+as a constraint). */
 @interface ETModelElementDescription : NSObject
 {
 	@private
