@@ -86,13 +86,7 @@ NSString *ETSocketException = @"ETSocketException";
 }
 - (NSMutableData*)readDataFromSocket
 {
-	NSMutableData *data = [NSMutableData data];
-	int s = [handle fileDescriptor];
-	int count = 0;
-	while (0 < (count = read(s, buffer, 512)))
-	{
-		[data appendBytes: buffer length: count];
-	}
+	NSMutableData *data = [NSMutableData dataWithData: [handle availableData]];
 	return data;
 }
 - (void)receiveData: (NSNotification*)aNotification
