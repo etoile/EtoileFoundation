@@ -329,39 +329,31 @@
 - (void) runTest: (SEL)testSelector onObject: (id)testObject class: (Class)testClass
 {
 	NSLog(@"=== [%@ %@] ===", [testObject class], NSStringFromSelector(testSelector));
-	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 
-	/*[runLoop performSelector: testSelector 
-	                  target: testObject 
- 	                argument: nil 
- 	                   order: 0 
-	                   modes: [NSArray arrayWithObject:NSDefaultRunLoopMode]];
-	// NOTE: nil, [NSDate date] or LDBL_EPSILON don't work on GNUstep
-	[runLoop runUntilDate: nil]; //[NSDate dateWithTimeIntervalSinceNow: 0.0001]];
-	*/
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 	NSDictionary *testParams = [NSDictionary dictionaryWithObjectsAndKeys: testObject, @"TestObject", 
 		NSStringFromSelector(testSelector), @"TestSelector",
 		testClass, @"TestClass", nil];
 	NSTimer *runTimer = [NSTimer
-		scheduledTimerWithTimeInterval: 0.0
+		scheduledTimerWithTimeInterval: 0
 		                        target: self
 		                      selector: @selector(internalRunTest:)
 		                      userInfo: testParams
 		                       repeats: NO];
+
 	[runTimer retain];
 	while ([runTimer isValid] == YES)
 	{
-		[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.0]];
+		// NOTE: nil, [NSDate date], time intervals such as 0, 0.0000001 or
+		// LDBL_EPSILON don't work on GNUstep
+#ifdef GNUSTEP
+		NSTimeInterval interval = 0.000001;
+#else
+		NSTimeInterval interval = 0;
+#endif
+		[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: interval]];
 	}
 	[runTimer release];
-	/* The code below is unsupported on GNUstep and this doesn't seem to matter
-
-	CFRunLoopRef cfRunLoop = [runLoop getCFRunLoop];
-	
-	while (CFRunLoopIsWaiting(cfRunLoop))
-	{
-		[runLoop runUntilDate: nil];
-	}*/
 }
 
 /*!
