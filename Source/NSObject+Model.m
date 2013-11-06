@@ -460,7 +460,17 @@ You can collect key path values on each object node by specifying an array of
 key paths with ETDescriptionOptionValuesForKeyPaths.
 
 The description format is roughly:
-depth based indentation + object class and address + keyPath1: value1, keyPath2: value2 etc.
+depth based indentation + object short description + keyPath1: value1, keyPath2: value2 etc.
+
+By default, the object short description is based on -stringValue and contains 
+the object class and address (for non-primitive objects).
+
+For customizing the object short description, put 
+kETDescriptionOptionShortDescriptionSelector with a custom selector string in 
+the options (-stringValue is then used as fallback).
+
+For presenting each key path on a new line, put kETDescriptionOptionPropertyIndent 
+with a tab string in the options.
 
 Here is an example based on EtoileUI that dumps an item tree structure:
 
@@ -471,12 +481,12 @@ ETLog(@"\n%@\n", [browserItem descriptionWithOptions: [NSMutableDictionary dicti
 	@"items", kETDescriptionOptionTraversalKey, nil]]);
 
 // Console Output
-&lt;ETLayoutItemGroup: 0x9e7b268&gt; frame: {x = 0; y = 0; width = 600; height = 300}, autoresizingMask: 18
-	&lt;ETLayoutItemGroup: 0x9fbea48&gt; frame: {x = 0; y = 0; width = 1150; height = 53}, autoresizingMask: 2
-		&lt;ETLayoutItem: 0x9f29240&gt; frame: {x = 12; y = 12; width = 100; height = 22}, autoresizingMask: 0
-		&lt;ETLayoutItem: 0x9e6fcf0&gt; frame: {x = 124; y = 12; width = 100; height = 24}, autoresizingMask: 0
-	&lt;ETLayoutItemGroup: 0x9fac170&gt; frame: {x = 0; y = 0; width = 1150; height = 482}, autoresizingMask: 18
-		&lt;ETLayoutItemGroup: 0x9fb2870&gt; frame: {x = 0; y = 0; width = 50; height = 50}, autoresizingMask: 0
+&lt;ETLayoutItemGroup: 0x9e7b268&gt; { frame: {x = 0; y = 0; width = 600; height = 300}, autoresizingMask: 18 }
+	&lt;ETLayoutItemGroup: 0x9fbea48&gt; { frame: {x = 0; y = 0; width = 1150; height = 53}, autoresizingMask: 2 }
+		&lt;ETLayoutItem: 0x9f29240&gt; { frame: {x = 12; y = 12; width = 100; height = 22}, autoresizingMask: 0 }
+		&lt;ETLayoutItem: 0x9e6fcf0&gt; { frame: {x = 124; y = 12; width = 100; height = 24}, autoresizingMask: 0 }
+	&lt;ETLayoutItemGroup: 0x9fac170&gt; { frame: {x = 0; y = 0; width = 1150; height = 482}, autoresizingMask: 18 }
+		&lt;ETLayoutItemGroup: 0x9fb2870&gt; { frame: {x = 0; y = 0; width = 50; height = 50}, autoresizingMask: 0 }
 </example>
 
 options must not be nil, otherwise raises an NSInvalidArgumentException.
@@ -489,9 +499,115 @@ The options dictionary can be changed arbitrarily in a new implementation. */
 
 	NSMutableString *desc = [NSMutableString string];
 	NSArray *keyPaths = [options objectForKey: kETDescriptionOptionValuesForKeyPaths];
+	NSString *traversalKey = [options objectForKey: kETDescriptionOptionTraversalKey];
 	NSString *indent = [options objectForKey: @"kETDescriptionOptionCurrentIndent"];
-	if (nil == indent) indent = @"";
-	NSString *newIndent = [indent stringByAppendingString: @"\t"];
+	if (nil == indent)
+	{
+	 	indent = @"";
+		[options setObject: indent forKey: @"kETDescriptionOptionCurrentIndent"];
+	}
+	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
+	if (nil == propertyIndent)
+	{
+		propertyIndent = @"";
+	}
+	BOOL usesPropertyIndent = ([propertyIndent isEqualToString: @""] == NO);
+	propertyIndent = [indent stringByAppendingString: propertyIndent];
+	SEL shortDescriptionSel =
+		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
+
+	[desc appendString: @"\n"];
+	[desc appendString: indent];
+	if ([self respondsToSelector: shortDescriptionSel])
+	{
+		[desc appendString: [self performSelector: shortDescriptionSel]];
+	}
+	else
+	{
+		[desc appendString: [self stringValue]];
+	}
+	[desc appendString: @" "];
+	if (usesPropertyIndent)
+	{
+		[desc appendString: @"\n"];
+	}
+
+	/* Print Properties */
+
+	if (usesPropertyIndent)
+	{
+		[desc appendString: indent];
+		[desc appendString: @"{\n"];
+	}
+	else
+	{
+		[desc appendString: @"{ "];
+	}
+
+	NSArray *visibleKeyPaths =
+		(usesPropertyIndent ? [keyPaths arrayByRemovingObject: traversalKey] : keyPaths);
+
+	FOREACH(visibleKeyPaths, keyPath, NSString *)
+	{
+		if (usesPropertyIndent)
+		{
+			[desc appendString: propertyIndent];
+		}
+		[desc appendString: keyPath];
+		[desc appendString: @": "];
+		
+		id value = [self valueForKeyPath: keyPath];
+		NSString *valueString = nil;
+		BOOL isPrimitiveCollection =
+			([value isCollection] && [(id <ETCollection>)value content] == value);
+	
+		/* For printing collections on multiple lines using the current indent */
+		if (isPrimitiveCollection)
+		{
+			NSInteger labelLength = [propertyIndent length] + [keyPath length] + [@": " length];
+			NSString *valueIndent = [propertyIndent stringByPaddingToLength: labelLength
+			                                                     withString: @" "
+			                                                startingAtIndex: 0];
+
+			[options setObject: valueIndent forKey: @"kETDescriptionOptionCurrentIndent"];
+			valueString = [value descriptionWithOptions: options];
+			[options setObject: indent forKey: @"kETDescriptionOptionCurrentIndent"];
+		}
+		else if ([value respondsToSelector: shortDescriptionSel])
+		{
+			valueString = [value performSelector: shortDescriptionSel];
+		}
+		else
+		{
+			valueString = [value stringValue];
+		}
+
+		BOOL isLast = ([keyPath isEqual: [visibleKeyPaths lastObject]]);
+
+		[desc appendString: (valueString != nil ? valueString : @"nil")];
+		if (isLast == NO)
+		{
+			[desc appendString: @", "];
+		}
+		if (usesPropertyIndent)
+		{
+			[desc appendString: @"\n"];
+		}
+	}
+
+	if (usesPropertyIndent)
+	{
+		[desc appendString: indent];
+		[desc appendString: @"}"];
+	}
+	else
+	{
+		[desc appendString: @" }"];
+	}
+
+	/* Print Children */
+
+	NSString *newIndent = [propertyIndent stringByAppendingString: @"\t"];
 	NSNumber *depthObject = [options objectForKey: @"kETDescriptionOptionCurrentDepth"];
 	NSNumber *maxDepthObject = [options objectForKey: kETDescriptionOptionMaxDepth];
 
@@ -506,28 +622,8 @@ The options dictionary can be changed arbitrarily in a new implementation. */
 		[options setObject: maxDepthObject forKey: kETDescriptionOptionMaxDepth];
 	}
 
-	[desc appendString: @"\n"];
-	[desc appendString: indent];
-	[desc appendString: [self primitiveDescription]];
-	[desc appendString: @" "];
-
-	/* Print Properties */
-
-	FOREACH(keyPaths, keyPath, NSString *)
-	{
-		[desc appendString: keyPath];
-		[desc appendString: @": "];
-		NSString *value = [[self valueForKeyPath: keyPath] stringValue];
-		[desc appendString: (value != nil ? value : @"nil")];
-		[desc appendString: @", "];
-	}
-	[desc deleteCharactersInRange: NSMakeRange([desc length] - 2, 2)];	
-
-	/* Print Children */
-
 	NSInteger depth = [depthObject integerValue];
 	NSInteger maxDepth = [maxDepthObject integerValue];
-	NSString *traversalKey = [options objectForKey: kETDescriptionOptionTraversalKey];
 
 	if (depth < maxDepth && nil != traversalKey)
 	{
@@ -611,6 +707,8 @@ type of collection. This parameter is usually the mutated collection itself. */
 
 NSString * const kETDescriptionOptionValuesForKeyPaths = @"kETDescriptionOptionValuesForKeyPaths";;
 NSString * const kETDescriptionOptionTraversalKey = @"kETDescriptionOptionTraversalKey";
+NSString * const kETDescriptionOptionPropertyIndent = @"kETDescriptionOptionPropertyIndent";
+NSString * const kETDescriptionOptionShortDescriptionSelector = @"kETDescriptionOptionShortDescriptionSelector";
 NSString * const kETDescriptionOptionMaxDepth = @"kETDescriptionOptionMaxDepth";
 
 NSString * const ETCollectionDidUpdateNotification = @"ETCollectionDidUpdateNotification";

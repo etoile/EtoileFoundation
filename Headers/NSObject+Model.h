@@ -108,6 +108,20 @@ descendant description.
 
 Default value is nil.  */
 extern NSString * const kETDescriptionOptionTraversalKey;
+/** String used as the base indentation for properties in -descriptionWithOptions:.
+
+For an empty string, all properties are output on the same line.<br />
+For other indentation e.g. a tab, each property is output on a distinct line.
+
+Default value is an empty string. */
+extern NSString * const kETDescriptionOptionPropertyIndent;
+/** Selector string to indicate which method should be called to print a short 
+object description.
+
+If the receiver doesn't respond to this selector, then -stringValue is used.
+
+Default value is 'stringValue'. */
+extern NSString * const kETDescriptionOptionShortDescriptionSelector;
 /** Integer number object to indicate the depth at which -descriptionWithOptions: 
 should stop to traverse collections with kETDescriptionOptionTraversalKey.
 

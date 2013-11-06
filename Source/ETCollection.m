@@ -367,6 +367,59 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	return viewpoints;
 }
 
+- (NSString *)descriptionWithOptions: (NSMutableDictionary *)options
+{
+	NSMutableString *desc = [NSMutableString string];
+	NSString *indent = [options objectForKey: @"kETDescriptionOptionCurrentIndent"];
+	if (nil == indent) indent = @"";
+	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
+	if (nil == propertyIndent) propertyIndent = @"";
+	BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
+	SEL shortDescriptionSel =
+		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
+	NSArray *objects = [self allObjects];
+	int n = [objects count];
+
+	[desc appendString: @"{"];
+
+	if (usesNewLineIndent)
+	{
+  		/* To line up the elements vertically, we increment the indent by the
+		   legnth of the opening curly brace */
+		indent = [indent stringByAppendingString: @" "];
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		id obj = [objects objectAtIndex: i];
+		BOOL isLast = (i == (n - 1));
+
+		if ([obj respondsToSelector: shortDescriptionSel])
+		{
+			[desc appendString: [obj performSelector: shortDescriptionSel]];
+		}
+		else
+		{
+			[desc appendString: [obj stringValue]];
+		}
+		[desc appendString: @", "];
+
+		if (isLast)
+			break;
+
+		[desc appendString: @", "];
+		if (usesNewLineIndent)
+		{
+			[desc appendString: @"\n"];
+			[desc appendString: indent];
+		}
+	}
+	
+	[desc appendString: @"}"];
+
+	return desc;
+}
+
 @end
 
 @implementation NSCountedSet (ETCollection)
@@ -747,6 +800,57 @@ Nil is returned when no object can be matched. */
 		return nil;
 	
 	return [matchedObjects firstObject];
+}
+
+- (NSString *)descriptionWithOptions: (NSMutableDictionary *)options
+{
+	NSMutableString *desc = [NSMutableString string];
+	NSString *indent = [options objectForKey: @"kETDescriptionOptionCurrentIndent"];
+	if (nil == indent) indent = @"";
+	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
+	if (nil == propertyIndent) propertyIndent = @"";
+	BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
+	SEL shortDescriptionSel =
+		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
+	int n = [self count];
+
+	[desc appendString: @"("];
+
+	if (usesNewLineIndent)
+	{
+		/* To line up the elements vertically, we increment the indent by the 
+		   length of the opening parenthesis */
+		indent = [indent stringByAppendingString: @" "];
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		id obj = [self objectAtIndex: i];
+		BOOL isLast = (i == (n - 1));
+	
+		if ([obj respondsToSelector: shortDescriptionSel])
+		{
+			[desc appendString: [obj performSelector: shortDescriptionSel]];
+		}
+		else
+		{
+			[desc appendString: [obj stringValue]];
+		}
+
+		if (isLast)
+			break;
+
+		[desc appendString: @", "];
+		if (usesNewLineIndent)
+		{
+			[desc appendString: @"\n"];
+			[desc appendString: indent];
+		}
+	}
+	
+	[desc appendString: @")"];
+
+	return desc;
 }
 
 @end

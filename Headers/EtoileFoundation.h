@@ -88,9 +88,9 @@
 #endif
 
 #ifdef GNUSTEP
-
 #import <EtoileFoundation/ETCArray.h>
 #import <EtoileFoundation/NSObject+Prototypes.h>
+#endif
 
 /* EtoileFoundation subframeworks */
 
@@ -102,8 +102,7 @@
 #import <EtoileThread/NSObject+Threaded.h>
 #endif
 
-#endif
-
+#if defined(GNUSTEP) || !TARGET_OS_IPHONE
 #import <EtoileXML/ETXMLDeclaration.h>
 #import <EtoileXML/ETXMLNullHandler.h>
 #import <EtoileXML/ETXMLParserDelegate.h>
@@ -112,3 +111,4 @@
 #import <EtoileXML/ETXMLWriter.h>
 #import <EtoileXML/ETXMLXHTML-IMParser.h>
 #import <EtoileXML/NSAttributedString+HTML.h>
+#endif
