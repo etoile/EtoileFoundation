@@ -272,7 +272,7 @@
 		initWithCharacteristic: [NSNumber numberWithInt: 10]])];
 	[julie setName: @"Julie"];
 	[julie setObject: AUTORELEASE([[ImmutableObject alloc]
-		initWithCharacteristic: [NSNumber numberWithInt: 20]])];
+		initWithCharacteristic: [NSNumber numberWithInt: 11]])];
 
 	persons = [A(john, julie) mutableCopy];
 	[[persons mappedCollection] setGroupNames: A(@"Somebody", @"Nobody")];
@@ -340,12 +340,18 @@
 
 	[viewpoint setContentKeyPath: @"object.characteristic"];
 	
-	NSArray *characteristics = A([NSNumber numberWithInt: 10], [NSNumber numberWithInt: 20]);
+	NSArray *characteristics = A([NSNumber numberWithInt: 10], [NSNumber numberWithInt: 11]);
 
+	/* To detect NSNumber class cluster mismaches. Numbers from -1 to 12 are special singletons on GNUstep:
+           [[NSNumber numberWithInt: 10] class] -> NSIntNumber
+           [[NSNumber numberWithInt: 20] class] -> NSSmallInt */
+	UKObjectsEqual([[characteristics firstObject] class], [[characteristics lastObject] class]);
+	
 	UKObjectsEqual(characteristics, [viewpoint content]);
 	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint value]);
 	UKObjectsEqual([viewpoint value], [viewpoint valueForProperty: @"value"]);
 	UKObjectsEqual([[viewpoint class] mixedValueMarker], [viewpoint valueForProperty: @"self"]);
+	/* For 'class', the returned value is not a mixed value marker, but the class used to represent both 10 and 11 */
 	UKTrue([[viewpoint valueForProperty: @"class"] isSubclassOfClass: [NSNumber class]]);
 	UKNil([viewpoint valueForProperty: @"missing"]);
 }
@@ -456,7 +462,7 @@
 {
 	ImmutableObject *newObject =
 		AUTORELEASE([[ImmutableObject alloc] initWithCharacteristic: aCharacteristic]);
-	[self setValue: newObject];
+	[(ETMutableObjectViewpoint *)self setValue: newObject];
 }
 
 @end
