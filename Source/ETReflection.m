@@ -399,7 +399,7 @@ static inline BOOL ETSetInstanceVariableValueForKeyWithIvar(id object, id value,
 			   So we use -objCType on the value to get the type, whose encoding  
 			   matches @encode. See also the more detailed comment in 
 			   ETGetInstanceVariableValueForKeyWithIvar(). */
-			const char *valueType = NULL;
+			const char *valueType = "";
 
 			if ([value respondsToSelector: @selector(objCType)])
 			{

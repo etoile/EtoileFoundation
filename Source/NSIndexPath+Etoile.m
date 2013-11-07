@@ -51,11 +51,11 @@ The string representation must use <em>.</em> as separator. For example, <em>5.6
 {
 	/*unsigned int *indexes = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * [self length]);
 	unsigned int *buffer = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * ([self length] - 1));*/
-	NSUInteger *indexes = calloc(sizeof(unsigned int), [self length]);
-	NSUInteger *buffer = calloc(sizeof(unsigned int), [self length] - 1);
+	NSUInteger *indexes = calloc(sizeof(NSUInteger), [self length]);
+	NSUInteger *buffer = calloc(sizeof(NSUInteger), [self length] - 1);
 
 	[self getIndexes: indexes];
-	buffer = memcpy(buffer, &indexes[1], sizeof(unsigned int) * ([self length] -1));
+	buffer = memcpy(buffer, &indexes[1], sizeof(NSUInteger) * ([self length] -1));
 	//NSZoneFree(NSDefaultMallocZone(), indexes);
 	free(indexes);
 	NSIndexPath *thePath = [NSIndexPath indexPathWithIndexes: buffer

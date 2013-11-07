@@ -39,7 +39,6 @@ main repository data model.  */
 	NSMutableSet *_unresolvedDescriptions; /* Used to build the repository */
 	NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */
 	NSMapTable *_entityDescriptionsByClass;
-	NSMapTable *_entityDescriptionsByObject;
 	NSMapTable *_classesByEntityDescription;
 }
 

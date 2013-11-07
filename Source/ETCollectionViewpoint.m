@@ -100,7 +100,7 @@
 {
 	ETAssert([self isMutableCollection]);
 	ETAssert([[self content] conformsToProtocol: @protocol(NSMutableCopying)]);
-	id <ETCollection, ETCollectionMutation> mutableCollection = [(id)[self content] mutableCopy];
+	id <ETCollection, ETCollectionMutation> mutableCollection = AUTORELEASE([(id)[self content] mutableCopy]);
 
 	[mutableCollection insertObject: object atIndex: index hint: hint];
 
@@ -111,7 +111,7 @@
 {
 	ETAssert([self isMutableCollection]);
 	ETAssert([[self content] conformsToProtocol: @protocol(NSMutableCopying)]);
-	id <ETCollection, ETCollectionMutation> mutableCollection = [(id)[self content] mutableCopy];
+	id <ETCollection, ETCollectionMutation> mutableCollection = AUTORELEASE([(id)[self content] mutableCopy]);
 	
 	[mutableCollection removeObject: object atIndex: index hint: hint];
 	

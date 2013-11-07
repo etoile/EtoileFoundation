@@ -66,7 +66,7 @@
                             excludedClasses: (NSSet *)excludedClasses
                                  resolveNow: (BOOL)resolve
 {
-	NSSet *objectPrimitiveNames = (id)[[[self newObjectPrimitives] mappedCollection] name];
+	NSArray *objectPrimitiveNames = (id)[[[self newObjectPrimitives] mappedCollection] name];
 
 	/* Don't overwrite existing entity descriptions such as primitives e.g. NSObject/Object */
 	if ([_entityDescriptionsByClass objectForKey: aClass] == nil)
@@ -104,7 +104,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	return mainRepo;
 }
 
-- (NSArray *) newObjectPrimitives
+- (NSArray *) newObjectPrimitives NS_RETURNS_NOT_RETAINED
 {
 	ETEntityDescription *objectDesc = [NSObject newEntityDescription];
 	ETEntityDescription *stringDesc = [NSString newEntityDescription];
@@ -124,7 +124,7 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	return objCPrimitives;
 }
 
-- (NSArray *) newCPrimitives
+- (NSArray *) newCPrimitives NS_RETURNS_NOT_RETAINED
 {
 	return A([ETCPrimitiveEntityDescription descriptionWithName: @"BOOL"],
 		[ETCPrimitiveEntityDescription descriptionWithName: @"NSInteger"],
