@@ -63,6 +63,8 @@
 - (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
+- (id) valueForPropertyPath: (NSString *)aPropertyPath;
+- (BOOL) setValue: (id)aValue forPropertyPath: (NSString *)aPropertyPath;
 
 /** @taskunit Key Value Coding */
 
@@ -91,6 +93,7 @@
 - (BOOL) isMutable;
 - (BOOL) isCollection;
 - (BOOL) isMutableCollection;
+- (BOOL) isPrimitiveCollection;
 - (BOOL) isGroup;
 
 - (id) keyForCollection: (id)collection;

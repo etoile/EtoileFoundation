@@ -249,6 +249,17 @@ to adopt ETCollectionMutation protocol. */
 	return [self conformsToProtocol: @protocol(ETCollectionMutation)];
 }
 
+/** <override-never />
+Returns YES if the receiver is a low-level collection such as NSArray, NSet, 
+etc., otherwise returns NO. 
+
+For a model object such as ETLayoutItemGroup that conforms to ETCollection 
+protocol, would return NO. */
+- (BOOL) isPrimitiveCollection
+{
+	return ([self isCollection] &&  [self isEqual: [(id <ETCollection>)self content]]);
+}
+
 - (BOOL) validateValue: (id *)value forKey: (NSString *)key error: (NSError **)err
 {
 	id val = *value;
@@ -376,6 +387,37 @@ See also -[ETPropertyValueCoding propertyNames]. */
 	}
 	
 	return result;
+}
+
+- (id) valueForPropertyPath: (NSString *)aPropertyPath
+{
+	id value = self;
+
+	for (NSString *property in [aPropertyPath componentsSeparatedByString: @"."])
+	{
+		value = [value valueForProperty: property];
+	}
+	return value;
+}
+
+- (BOOL) setValue: (id)aValue forPropertyPath: (NSString *)aPropertyPath
+{
+	NSArray *components = [aPropertyPath componentsSeparatedByString: @"."];
+
+	if ([components count] > 1)
+	{
+		NSString *property = [components lastObject];
+
+		components = [components subarrayWithRange: NSMakeRange(0, [components count] - 1)];
+
+		NSString *basePath = [components componentsJoinedByString: @"."];
+		
+		return [[self valueForPropertyPath: basePath] setValue: aValue forProperty: property];
+	}
+	else
+	{
+		return [self setValue: aValue forProperty: aPropertyPath];
+	}
 }
 
 /* Key Value Coding */
