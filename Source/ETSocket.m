@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <objc/runtime.h>
 
 NSString *ETSocketException = @"ETSocketException";
 
@@ -63,7 +64,7 @@ NSString *ETSocketException = @"ETSocketException";
 	SSL_set_fd(ssl, [handle fileDescriptor]);
 	int ret = SSL_connect(ssl);
 	fcntl([handle fileDescriptor], F_SETFL, O_NONBLOCK);
-	isa = [ETSSLSocket class];
+	object_setClass(self, [ETSSLSocket class]);
 	return ret == 1;
 }
 
