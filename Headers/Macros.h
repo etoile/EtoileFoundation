@@ -162,6 +162,13 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
     [NSArray arrayWithObjects: __objects \
 						count: (sizeof(__objects)/sizeof(id))]; \
 })
+#ifndef GNUSTEP
+#define ORDEREDSET(...) ({ \
+	id __objects[] = {__VA_ARGS__}; \
+	[NSOrderedSet orderedSetWithObjects: __objects \
+								  count: (sizeof(__objects)/sizeof(id))]; \
+})
+#endif
 /** Shortcut macro to create a NSSet. Same as +[NSSet setWithObjects:]. */
 #define S(...) ({ \
     id __objects[] = {__VA_ARGS__}; \
