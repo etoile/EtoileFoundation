@@ -250,6 +250,63 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 
 @end
 
+#ifndef GNUSTEP
+@implementation NSOrderedSet (ETCollection)
+
+- (BOOL) isOrdered
+{
+	return YES;
+}
+
+- (BOOL) isKeyed
+{
+	return NO;
+}
+
+- (BOOL) isEmpty
+{
+	return ([self count] == 0);
+}
+
+- (id) content
+{
+	return self;
+}
+
+- (NSArray *) contentArray
+{
+	return [self array];
+}
+
+- (NSArray *) viewpointArray
+{
+	NSMutableArray *viewpoints = [NSMutableArray arrayWithCapacity: [self count]];
+	
+	[self enumerateObjectsUsingBlock: ^(id object, NSUInteger index, BOOL *stop)
+	 {
+		 ETIndexValuePair *viewpoint =
+		 AUTORELEASE([[ETIndexValuePair alloc] initWithIndex: index
+													   value: object
+										   representedObject: self]);
+		 
+		 [viewpoints addObject: viewpoint];
+	 }];
+	return viewpoints;
+}
+
+- (BOOL) containsCollection: (id <ETCollection>)objects
+{
+	for (id obj in objects)
+	{
+		if (![self containsObject: obj])
+			return NO;
+	}
+	return YES;
+}
+
+@end
+#endif
+
 @implementation NSDictionary (ETCollection)
 
 + (void) load
@@ -533,6 +590,50 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 }
 
 @end
+
+#ifndef GNUSTEP
+@implementation NSMutableOrderedSet (ETCollectionMutation)
+
+/** Inserts the object at the given index in the array.
+ 
+ If the index is ETUndeterminedIndex, the object is added.
+ 
+ See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	if (index == ETUndeterminedIndex)
+	{
+		[self addObject: object];
+	}
+	else
+	{
+		[self insertObject: object atIndex: index];
+	}
+}
+
+/** Removes the object at the given index from the array.
+ 
+ If the index is ETUndeterminedIndex, all occurences of the object matched with
+ -isEqual are removed.<br />
+ When a valid index is provided, the object can be nil.
+ 
+ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
+- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+{
+	NSParameterAssert(object != nil || index != ETUndeterminedIndex);
+	
+	if (index == ETUndeterminedIndex)
+	{
+		[self removeObject: object];
+	}
+	else
+	{
+		[self removeObjectAtIndex: index];
+	}
+}
+
+@end
+#endif
 
 @implementation NSMutableDictionary (ETCollectionMutation)
 

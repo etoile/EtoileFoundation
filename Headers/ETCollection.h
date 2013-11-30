@@ -359,6 +359,12 @@ For a use case example, see ETCollectionTrait. */
 @end
 
 /** @group Collection Protocols */
+#ifndef GNUSTEP
+@interface NSOrderedSet (ETCollection) <ETCollection>
+@end
+#endif
+
+/** @group Collection Protocols */
 @interface NSDictionary (ETCollection) <ETKeyedCollection>
 + (Class) mutableClass;
 - (BOOL) isKeyed;
@@ -401,6 +407,11 @@ is ETUndeterminedIndex. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
+
+#ifndef GNUSTEP
+@interface NSMutableOrderedSet (ETCollectionMutation) <ETCollectionMutation>
+@end
+#endif
 
 /** @group Collection Protocols */
 @interface NSMutableDictionary (ETCollectionMutation) <ETCollectionMutation>
