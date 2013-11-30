@@ -253,6 +253,11 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 #ifndef GNUSTEP
 @implementation NSOrderedSet (ETCollection)
 
++ (Class) mutableClass
+{
+	return [NSMutableOrderedSet class];
+}
+
 - (BOOL) isOrdered
 {
 	return YES;
