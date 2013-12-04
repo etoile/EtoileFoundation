@@ -7,6 +7,7 @@
  */
 
 #import "ETCollection.h"
+#import "ETCollection+HOM.h"
 #import "ETIndexValuePair.h"
 #import "ETKeyValuePair.h"
 #import "NSObject+Trait.h"
@@ -21,10 +22,10 @@ const NSUInteger ETUndeterminedIndex = NSNotFound;
 // Number of classes and categories that must be loaded before 
 // ETApplyCollectionTraits() will work.
 // The count includes collection categories on NSArray, NSDictionary, NSSet, 
-// NSIndexSet, NSMutableDictionary, NSMutableSet, NSMutableIndexSet,  
+// NSIndexSet, NSMutableArray, NSMutableDictionary, NSMutableSet, NSMutableIndexSet,  
 // trait classes ETCollectionTrait and ETMutableCollectionTrait, and 
 // ETTraitApplication private class in NSObject+Trait.m
-static int loading = 7 + 2 + 1;
+static int loading = 8 + 2 + 1;
 
 void ETApplyCollectionTraits()
 {
@@ -39,6 +40,7 @@ void ETApplyCollectionTraits()
 
 	Class mutableCollectionTrait = [ETMutableCollectionTrait class];
 	NSCAssert(Nil != collectionTrait, @"Collection trait not yet loaded!");
+	[NSMutableArray applyTraitFromClass: mutableCollectionTrait];
 	[NSMutableDictionary applyTraitFromClass: mutableCollectionTrait];
 	[NSMutableSet applyTraitFromClass: mutableCollectionTrait];
 	[NSMutableIndexSet applyTraitFromClass: mutableCollectionTrait];
@@ -179,7 +181,12 @@ A concrete implementation must be provided in the target class.
 The constraints to respect are detailed in -[(ETCollectionMutation) insertObject:atIndex:hint:]. */
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
+	NSIndexSet *indexes =
+		(index != ETUndeterminedIndex ? [NSIndexSet indexSetWithIndex: index] : [NSIndexSet indexSet]);
 
+	[self insertObjects: (object != nil ? A(object) : [NSArray array])
+	          atIndexes: indexes
+	              hints: (hint != nil ? A(hint) : nil)];
 }
 
 /** Does nothing.
@@ -188,10 +195,149 @@ A concrete implementation must be provided in the target class.
 The constraints to respect are detailed in -[(ETCollectionMutation) removeObject:atIndex:hint:]. */
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
+	NSIndexSet *indexes =
+		(index != ETUndeterminedIndex ? [NSIndexSet indexSetWithIndex: index] : [NSIndexSet indexSet]);
+	
+	[self removeObjects: (object != nil ? A(object) : [NSArray array])
+	          atIndexes: indexes
+	              hints: (hint != nil ? A(hint) : nil)];
+}
 
+- (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
+{
+#if 0
+	[self doesNotRecognizeSelector: _cmd];
+#else
+	for (int i = 0; i < [objects count]; i++)
+	{
+		[self insertObject: [objects objectAtIndex: i] atIndex: i hint: (hints != nil ? [hints objectAtIndex: i] : nil)];
+	}
+#endif
+}
+
+- (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
+{
+#if 0
+	[self doesNotRecognizeSelector: _cmd];
+#else
+	for (int i = 0; i < [objects count]; i++)
+	{
+		[self removeObject: [objects objectAtIndex: i] atIndex: i hint: (hints != nil ? [hints objectAtIndex: i] : nil)];
+	}
+#endif
 }
 
 @end
+
+
+@implementation NSObject (ETCollectionMutationKVOSupport)
+
+/*
+ * NSKeyValueChangeSetting is an optimization we don't support, we just treat it 
+ * as a subcase of NSKeyValueChangeReplacement.
+ */
+- (NSKeyValueChange) keyValueChangeForMutationKind: (ETCollectionMutationKind)mutationKind
+{
+	NSKeyValueChange keyValueChange = 0;
+
+	if (mutationKind == ETCollectionMutationKindInsertion)
+	{
+		keyValueChange = NSKeyValueChangeInsertion;
+	}
+	else if (mutationKind == ETCollectionMutationKindRemoval)
+	{
+		keyValueChange = NSKeyValueChangeRemoval;
+	}
+	else if (mutationKind == ETCollectionMutationKindReplacement)
+	{
+		keyValueChange = NSKeyValueChangeReplacement;
+	}
+	else
+	{
+		ETAssertUnreachable();
+	}
+	return keyValueChange;
+}
+
+/*
+ * NSKeyValueIntersectSetMutation is an optimization we don't support, we just  
+ * treat it as a subcase of NSKeyValueSetSetMutation.
+ */
+- (NSKeyValueSetMutationKind) keyValueSetMutationKindForMutationKind: (ETCollectionMutationKind)mutationKind
+{
+	NSKeyValueSetMutationKind setMutationKind = 0;
+
+	if (mutationKind == ETCollectionMutationKindInsertion)
+	{
+		setMutationKind = NSKeyValueUnionSetMutation;
+	}
+	else if (mutationKind == ETCollectionMutationKindRemoval)
+	{
+		setMutationKind = NSKeyValueMinusSetMutation;
+	}
+	else if (mutationKind == ETCollectionMutationKindReplacement)
+	{
+		setMutationKind = NSKeyValueSetSetMutation;
+	}
+	else
+	{
+		ETAssertUnreachable();
+	}
+	return setMutationKind;
+}
+
+- (void) willChangeValueForKey: (NSString *)key
+                     atIndexes: (NSIndexSet *)indexes
+                   withObjects: (NSArray *)objects
+                  mutationKind: (ETCollectionMutationKind)mutationKind
+{
+	id value = [self valueForKey: key];
+
+	if ([value isKindOfClass: [NSArray class]])
+	{
+		[self willChange: [self keyValueChangeForMutationKind: mutationKind]
+		 valuesAtIndexes: indexes
+		          forKey: key];
+	}
+	else if ([value isKindOfClass: [NSSet class]])
+	{
+		[self willChangeValueForKey: key
+		            withSetMutation: [self keyValueSetMutationKindForMutationKind: mutationKind]
+		               usingObjects: [NSSet setWithArray: objects]];
+	}
+	else
+	{
+		[self willChangeValueForKey: key];
+	}
+}
+
+- (void) didChangeValueForKey: (NSString *)key
+                    atIndexes: (NSIndexSet *)indexes
+                  withObjects: (NSArray *)objects
+                 mutationKind: (ETCollectionMutationKind)mutationKind
+{
+	id value = [self valueForKey: key];
+
+	if ([value isKindOfClass: [NSArray class]])
+	{
+		[self didChange: [self keyValueChangeForMutationKind: mutationKind]
+		valuesAtIndexes: indexes
+		         forKey: key];
+	}
+	else if ([value isKindOfClass: [NSSet class]])
+	{
+		[self didChangeValueForKey: key
+		           withSetMutation: [self keyValueSetMutationKindForMutationKind: mutationKind]
+		              usingObjects: [NSSet setWithArray: objects]];
+	}
+	else
+	{
+		[self didChangeValueForKey: key];
+	}
+}
+
+@end
+
 
 @implementation NSArray (ETCollection)
 
@@ -556,20 +702,33 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 
 @implementation NSMutableArray (ETCollectionMutation)
 
++ (void) load
+{
+	ETApplyCollectionTraits();
+}
+
 /** Inserts the object at the given index in the array.
 
 If the index is ETUndeterminedIndex, the object is added.
 
 See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+- (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	if (index == ETUndeterminedIndex)
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+
+	if ([objects count] == [indexes count])
 	{
-		[self addObject: object];
+		[self insertObjects: objects atIndexes: indexes];
+	}
+	else if ([indexes isEmpty])
+	{
+		[self addObjectsFromArray: objects];
 	}
 	else
 	{
-		[self insertObject: object atIndex: index];
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
 	}
 }
 
@@ -580,17 +739,23 @@ If the index is ETUndeterminedIndex, all occurences of the object matched with
 When a valid index is provided, the object can be nil.
 
 See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+- (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NSParameterAssert(object != nil || index != ETUndeterminedIndex);
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
 
-	if (index == ETUndeterminedIndex)
+	if ([objects count] == [indexes count])
 	{
-		[self removeObject: object];
+		[self removeObjectsAtIndexes: indexes];
+	}
+	else if ([indexes isEmpty])
+	{
+		[self removeObjectsInArray: objects];
 	}
 	else
 	{
-		[self removeObjectAtIndex: index];
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
 	}
 }
 
@@ -651,8 +816,7 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 
 <list>
 <item>the hint key if the hint is a key-value pair (see ETKeyValuePair)</item>
-<item>else the value returned by -[object keyForCollection:] if not nil</item>
-<item>in last resort the highest integer value of all keys incremented by one</item>
+<item>else the value returned by -[object insertionKeyForCollection:]</item>
 </list>
 
 The index is ignored in all cases.
@@ -661,38 +825,34 @@ When a hint is provided, the object to be inserted can be nil.<br />
 However the hint value and key must not be nil.
 
 See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+- (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	id insertedObject = object;
-	id key = nil;
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
 
-	if ([hint isKeyValuePair])
+	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
 	{
-		insertedObject = [(ETKeyValuePair *)hint value];
-		key = [hint key];
-		ETAssert(object == nil || object == insertedObject);
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
+	}
+
+	if ([[hints firstObject] isKeyValuePair])
+	{
+		[self addEntriesFromDictionary: [hints dictionaryRepresentation]];
+		
+		// TODO; Perhaps turn into a debug assertion
+		ETAssert([[NSSet setWithArray : (id)[[hints mappedCollection] value]]
+			isSubsetOfSet: [NSSet setWithArray: objects]]);
 	}
 	else
 	{
-		key = [object keyForCollection: self];
-	
-		if (key == nil)
+		for (id object in objects)
 		{
-				int i = 0;
-				NSNumber *number = nil;
-				id matchedObject = nil;
-
-				do {
-						number = [NSNumber numberWithInt: i];	
-						matchedObject = [self objectForKey: number];
-						i++;			
-				} while (matchedObject != nil);
-
-				key = number;
+			[self setObject: object
+			         forKey: [object insertionKeyForCollection: self]];
+	
 		}
 	}
-	
-	[self setObject: insertedObject forKey: key];
 }
 
 /** Removes all occurrences of an object in the receiver, unless a a key-value 
@@ -705,15 +865,34 @@ When a hint is provided, the object and the hint value can be nil.<br />
 However the hint key must not be nil.
 
 See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+- (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	if ([hint isKeyValuePair])
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+
+	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
 	{
-		[self removeObjectForKey: [hint key]];
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
+	}
+
+	if ([[hints firstObject] isKeyValuePair])
+	{
+		[self removeObjectsForKeys: (id)[[hints mappedCollection] key]];
 	}
 	else
 	{
-		[self removeObjectsForKeys: [self allKeysForObject: object]];	
+		NSSet *removedValues = [NSSet setWithArray: objects];
+		NSMutableSet *removedKeys = [NSMutableSet set];
+
+		[self enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop)
+		{
+			if ([removedValues member: obj] == obj)
+			{
+				[removedKeys addObject: key];
+			}
+		}];
+		[self removeObjectsForKeys: [removedKeys allObjects]];
 	}
 }
 
@@ -731,9 +910,18 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 The index is ignored in all case.
 
 See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+- (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	[self addObject: object];
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+
+	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
+	{
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
+	}
+
+	[self addObjectsFromArray: objects];
 }
 
 /** Removes the object from the set.
@@ -741,13 +929,27 @@ See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 The index is ignored in all cases.
 
 See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
+- (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	[self removeObject: object];
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+
+	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
+	{
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
+	}
+
+	[self minusSet: [NSSet setWithArray: objects]];
 }
 
 @end
 
+// TODO: Both batch insertion and removal into NSMutableIndexSet can become fast,
+// if we provide a NSArray class cluster subclass wrapping a NSIndexSet.
+// [NSArray initWithIndexSet:] would return it and we would have a private
+// method to access the underlying index set (and a special case in each
+// primitive batch insertion and removal method).
 @implementation NSMutableIndexSet (ETCollectionMutation)
 
 + (void) load
@@ -770,9 +972,42 @@ See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 	}
 	else
 	{
-		[NSException raise: NSInvalidArgumentException 
+		[NSException raise: NSInvalidArgumentException
 		            format: @"Object %@ must be an NSNumber instance to be added to %@ collection", 
 		                    object, self];
+	}
+}
+
+- (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
+{
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+
+	if ([objects count] == [indexes count])
+	{
+		NSUInteger currentIndex = [indexes firstIndex];
+		NSUInteger count = [indexes count];
+	 
+		for (NSUInteger i = 0; i < count; i++)
+		{
+			// TODO: Pass the hint
+			[self insertObject: [objects objectAtIndex: i]
+			           atIndex: currentIndex
+			              hint: nil];
+			currentIndex = [indexes indexGreaterThanIndex: currentIndex];
+		}
+	}
+	else if ([indexes isEmpty])
+	{
+		for (id number in objects)
+		{
+			[self insertObject:  number atIndex: ETUndeterminedIndex hint: nil];
+		}
+	}
+	else
+	{
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
 	}
 }
 
@@ -791,9 +1026,42 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 	}
 	else
 	{
-		[NSException raise: NSInvalidArgumentException 
+		[NSException raise: NSInvalidArgumentException
 		            format: @"Object %@ must be an NSNumber instance to be removed from %@ collection", 
 		                    object, self];
+	}
+}
+
+- (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
+{
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+
+	if ([objects count] == [indexes count])
+	{
+		NSUInteger currentIndex = [indexes firstIndex];
+		NSUInteger i, count = [indexes count];
+	 
+		for (i = 0; i < count; i++)
+		{
+			// TODO: Pass the hint
+			[self removeObject: [objects objectAtIndex: i]
+			           atIndex: currentIndex
+			              hint: nil];
+			currentIndex = [indexes indexGreaterThanIndex: currentIndex];
+		}
+	}
+	else if ([indexes isEmpty])
+	{
+		for (id number in objects)
+		{
+			[self removeObject:  number atIndex: ETUndeterminedIndex hint: nil];
+		}
+	}
+	else
+	{
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched objects and insertion indexes"];
 	}
 }
 

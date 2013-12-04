@@ -207,6 +207,26 @@ above) when no hint is provided.<br />
 If the hint can provide both a custom element and index, as stated previously, 
 priority must be given to the index to locate the objects to remove. */
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints;
+- (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints;
+@end
+
+typedef enum
+{
+	ETCollectionMutationKindInsertion,
+	ETCollectionMutationKindRemoval,
+	ETCollectionMutationKindReplacement
+} ETCollectionMutationKind;
+
+@interface NSObject (ETCollectionMutationKVOSupport)
+- (void) willChangeValueForKey: (NSString *)key
+                     atIndexes: (NSIndexSet *)indexes
+                   withObjects: (NSArray *)objects
+                  mutationKind: (ETCollectionMutationKind)mutationKind;
+- (void) didChangeValueForKey: (NSString *)key
+                    atIndexes: (NSIndexSet *)indexes
+                  withObjects: (NSArray *)objects
+                 mutationKind: (ETCollectionMutationKind)mutationKind;
 @end
 
 /** @group Collection Protocols
@@ -404,8 +424,6 @@ protocol methods implemented in NSSet(ETCollection). */
 For NSMutableArray, -insertObject:atIndex: raises an exception when the index 
 is ETUndeterminedIndex. */
 @interface NSMutableArray (ETCollectionMutation) <ETCollectionMutation>
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 #ifndef GNUSTEP
@@ -415,21 +433,15 @@ is ETUndeterminedIndex. */
 
 /** @group Collection Protocols */
 @interface NSMutableDictionary (ETCollectionMutation) <ETCollectionMutation>
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 /** @group Collection Protocols */
 @interface NSMutableSet (ETCollectionMutation) <ETCollectionMutation>
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 
 /** @group Collection Protocols */
 @interface NSMutableIndexSet (ETCollectionMutation) <ETCollectionMutation>
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
-- (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 @end
 
 /** @group Collection Additions */

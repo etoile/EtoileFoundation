@@ -37,6 +37,7 @@
 #import <EtoileFoundation/ETPropertyValueCoding.h>
 
 @class ETEntityDescription;
+@protocol ETKeyedCollection;
 
 /** @group Model and Metamodel */
 @interface NSObject (ETModelAdditions) <ETPropertyValueCoding>
@@ -96,7 +97,7 @@
 - (BOOL) isPrimitiveCollection;
 - (BOOL) isGroup;
 
-- (id) keyForCollection: (id)collection;
+- (id) insertionKeyForCollection: (id <ETKeyedCollection>)collection;
 
 @end
 

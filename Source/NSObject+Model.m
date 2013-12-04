@@ -734,15 +734,34 @@ by -observableKeyPaths. */
 /* Collection */
 
 /** <override-dummy /> 
-Returns a key which can be used on inserting the receiver into a keyed 
-collection like a dictionary.
+Returns a key for inserting the receiver into the given keyed collection.
 
-This key is retrieved by a collection in reply to -addObject: of 
-ETCollectionMutation protocol. You can return different keys depending on the 
+By default, returns a key built by incrementing the integer value in the 
+'Unknown <number>' pattern, until it provides a key not yet in use in the 
+collection argument.
+
+This key is retrieved by a collection in reply to -insertObjects:atIndexes:hints: 
+of ETCollectionMutation protocol. You can return different keys depending on the 
 type of collection. This parameter is usually the mutated collection itself. */
-- (id) keyForCollection: (id)collection
+- (NSString *) insertionKeyForCollection: (id <ETKeyedCollection>)aCollection
 {
-	return nil;
+	NSString *key = @"Unknown";
+	NSString *uniqueKey = key;
+	NSUInteger counter = 0;
+	BOOL isUsed = NO;
+
+	do
+	{
+		if (counter > 0)
+		{
+			uniqueKey = [NSString stringWithFormat: @"%@ %lu", key, (unsigned long)counter];
+		}
+		// TODO: Remove the content call once -objectForKey: is included in ETKeyedCollection
+		isUsed = ([[aCollection content] objectForKey: uniqueKey] != nil);
+		counter++;
+	} while (isUsed);
+
+	return uniqueKey;
 }
 
 @end
