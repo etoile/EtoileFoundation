@@ -85,9 +85,11 @@ entity name in the returned string. */
  * <term>isComposite</term><desc>is a parent property and the to-many 
  * relationship to the children</desc>
  * </deflist>
+ *
+ * isContainer is derived, it is automatically YES when for a one-to-many
+ * relationship.
  */
 - (BOOL) isContainer;
-- (void) setIsContainer: (BOOL)isContainer;
 - (BOOL) isDerived;
 - (void) setDerived: (BOOL)isDerived;
 - (BOOL) isMultivalued;

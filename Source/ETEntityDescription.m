@@ -218,6 +218,16 @@
 
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
+	// FIXME: This is terrible
+	if ([parentDescription isKindOfClass: [NSString class]])
+	{
+		[parentDescription retain];
+	}
+	if ([_parent isKindOfClass: [NSString class]])
+	{
+		[_parent release];
+	}
+	
 	_parent = parentDescription;
 }
 

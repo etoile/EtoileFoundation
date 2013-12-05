@@ -137,24 +137,14 @@
 
 - (BOOL) isContainer
 {
-	return _container;
-}
-
-- (void) setIsContainer: (BOOL)isContainer
-{
-	_container = isContainer;
-	if (isContainer)
+	if (_opposite != nil && [_opposite isString] == NO)
 	{
-		FOREACH([[self owner] propertyDescriptions], otherProperty, ETPropertyDescription *)
+		if (_derived && !_multivalued)
 		{
-			if (otherProperty != self)
-			{
-				[otherProperty setIsContainer: NO];
-			}
+			return YES;
 		}
-		[self setMultivalued: NO];
 	}
-	//FIXME: do other checks that the parent link is valid
+	return NO;
 }
 
 - (BOOL) isDerived
