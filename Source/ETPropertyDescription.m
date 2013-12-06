@@ -29,7 +29,7 @@
 
 @synthesize keyed = _keyed, persistent = _persistent, readOnly = _readOnly,
 	showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames,
-	commitDescriptor = _commitDescriptor;
+	commitDescriptor = _commitDescriptor, indexed = _indexed;
 
 + (ETEntityDescription *) newEntityDescription
 {

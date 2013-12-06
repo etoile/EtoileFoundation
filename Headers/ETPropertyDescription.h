@@ -42,6 +42,7 @@
 	ETEntityDescription *_type;
 	ETRoleDescription *_role;
 	BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
+	BOOL _indexed;
 }
 
 /** @taskunit Initialization */
@@ -102,6 +103,8 @@ entity name in the returned string. */
 @property (nonatomic, retain) id commitDescriptor;
 @property (nonatomic, assign) BOOL showsItemDetails;
 @property (nonatomic, copy) NSArray *detailedPropertyNames;
+
+@property (nonatomic, readwrite, assign, getter=isIndexed) BOOL indexed;
 
 /** Can be self, if the relationship is reflexive. For example, a "spouse" 
 property or a "cousins" property that belong to a "person" entity.<br />
