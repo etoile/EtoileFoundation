@@ -388,6 +388,7 @@ same name). */
 	FOREACH(unresolvedPropertyDescs, desc, ETPropertyDescription *)
 	{
 		[self resolveProperty: @"type" forDescription: desc isPackageRef: NO];
+		[self resolveProperty: @"persistentType" forDescription: desc isPackageRef: NO];
 		[self resolveProperty: @"owner" forDescription: desc isPackageRef: NO];
 		/* A package is set when the property is an entity extension */
 		[self resolveProperty: @"package" forDescription: desc isPackageRef: YES];

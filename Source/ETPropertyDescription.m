@@ -29,7 +29,8 @@
 
 @synthesize keyed = _keyed, persistent = _persistent, readOnly = _readOnly,
 	showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames,
-	commitDescriptor = _commitDescriptor, indexed = _indexed;
+	commitDescriptor = _commitDescriptor, indexed = _indexed,
+	valueTransformerName = _valueTransformerName, persistentType = _persistentType;
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -67,13 +68,17 @@
 	[opposite setOpposite: opposite];
 	ETPropertyDescription *type = 
 		[ETPropertyDescription descriptionWithName: @"type" type: (id)@"ETEntityDescription"];
-	ETPropertyDescription *package = 
+	ETPropertyDescription *valueTransformerName =
+		[ETPropertyDescription descriptionWithName: @"valueTransformerName" type: (id)@"NSString"];
+	ETPropertyDescription *persistentType =
+		[ETPropertyDescription descriptionWithName: @"persistentType" type: (id)@"ETEntityDescription"];
+	ETPropertyDescription *package =
 		[ETPropertyDescription descriptionWithName: @"package" type: (id)@"ETPackageDescription"];
 	[package setOpposite: (id)@"ETPackageDescription.propertyDescriptions"];
 	
 	[selfDesc setPropertyDescriptions: A(owner, composite, container, derived, 
 		multivalued, ordered, keyed, showsItemDetails, detailedProperties,
-		commitDescriptor, opposite, type, package)];
+		commitDescriptor, opposite, type, valueTransformerName, persistentType,  package)];
 
 	return selfDesc;
 }
@@ -102,6 +107,8 @@
 	DESTROY(_detailedPropertyNames);
 	DESTROY(_commitDescriptor);
 	DESTROY(_type);
+	DESTROY(_valueTransformerName);
+	DESTROY(_persistentType);
 	DESTROY(_role);
 	[super dealloc];
 }

@@ -43,6 +43,8 @@
 	ETRoleDescription *_role;
 	BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
 	BOOL _indexed;
+	NSString *_valueTransformerName;
+	ETEntityDescription *_persistentType;
 }
 
 /** @taskunit Initialization */
@@ -127,8 +129,10 @@ entity. See -isRelationship. */
 See -type. */
 - (void) setType: (ETEntityDescription *)anEntityDescription;
 
+@property (nonatomic, readwrite, retain) NSString *valueTransformerName;
+@property (nonatomic, readwrite, retain) ETEntityDescription *persistentType;
 
-/** Returns YES when this property is a relationship to the destination entity 
+/** Returns YES when this property is a relationship to the destination entity
 returned by -type, otherwise returns NO when the property is an attribute.
 
 When the destination entity is a primitive, then the property is an attribute 
