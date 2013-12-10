@@ -257,7 +257,7 @@ For a model object such as ETLayoutItemGroup that conforms to ETCollection
 protocol, would return NO. */
 - (BOOL) isPrimitiveCollection
 {
-	return ([self isCollection] &&  [self isEqual: [(id <ETCollection>)self content]]);
+	return ([self isCollection] &&  self == [(id <ETCollection>)self content]);
 }
 
 - (BOOL) validateValue: (id *)value forKey: (NSString *)key error: (NSError **)err

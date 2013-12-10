@@ -195,11 +195,6 @@
 
 @implementation  ETCollectionTrait (ETViewpointAdditions)
 
-- (BOOL) isPrimitiveCollection
-{
-	return [self isEqual: [self content]];
-}
-
 - (id) valueForContentKey: (NSString *)key
 {
 	if ([self isPrimitiveCollection] == NO)
