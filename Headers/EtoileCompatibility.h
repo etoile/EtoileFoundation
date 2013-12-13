@@ -115,6 +115,7 @@
 
 /* Not present in 1.24.5 */
 @interface NSSortDescriptor (ETGNUstepCompatibility)
++ (id) sortDescriptorWithKey: (NSString *)aKey ascending: (BOOL)ascending;
 + (id) sortDescriptorWithKey: (NSString *)aKey ascending: (BOOL)ascending selector: (SEL)aSelector;
 @end
 

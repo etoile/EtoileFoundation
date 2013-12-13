@@ -16,6 +16,11 @@
 
 @implementation NSSortDescriptor (ETGNUstepCompatibility)
 
++ (id) sortDescriptorWithKey: (NSString *)aKey ascending: (BOOL)ascending
+{
+	return AUTORELEASE([[self alloc] initWithKey: aKey ascending: ascending]);
+}
+
 + (id) sortDescriptorWithKey: (NSString *)aKey ascending: (BOOL)ascending selector: (SEL)aSelector
 {
 	return AUTORELEASE([[self alloc] initWithKey: aKey ascending: ascending selector: aSelector]);
