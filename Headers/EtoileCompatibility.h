@@ -3,8 +3,8 @@
 
 	Copyright (C) 2005 Quentin Mathe
 
-	Author:  Quentin Mathe <qmathe@club-internet.fr
-	Date: 2005
+	Author:  Quentin Mathe <quentin.mathe@gmail.com>
+	Date:  2005
 	
 	This file may be used under the terms of either GNU Lesser General Public 
 	License Version 2.1 (or later), GNU General Public License Version 2 (or
@@ -97,4 +97,20 @@
 #  if !defined(__clang__) || !__has_feature(objc_arc)
 #    define __bridge
 #  endif
+#endif
+
+/* Missing from GNUstep Base */
+
+#ifdef GNUSTEP
+
+/* Not present in 1.24.5 */
+@interface NSNotificationCenter (ETGNUstepCompatibility)
+- (id)addObserverForName: (NSString *)name object: (id)object queue: (NSOperationQueue *)queue usingBlock: (void (^)(NSNotification *))block;
+@end
+
+/* Not present in 1.24.5 */
+@interface NSSortDescriptor (ETGNUstepCompatibility)
++ (id) sortDescriptorWithKey: (NSString *)aKey ascending: (BOOL)ascending selector: (SEL)aSelector;
+@end
+
 #endif
