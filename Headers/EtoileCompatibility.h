@@ -103,6 +103,11 @@
 
 #ifdef GNUSTEP
 
+#import <Foundation/NSSortDescriptor.h>
+#import <Foundation/NSNotification.h>
+
+@class NSOperationQueue;
+
 /* Not present in 1.24.5 */
 @interface NSNotificationCenter (ETGNUstepCompatibility)
 - (id)addObserverForName: (NSString *)name object: (id)object queue: (NSOperationQueue *)queue usingBlock: (void (^)(NSNotification *))block;

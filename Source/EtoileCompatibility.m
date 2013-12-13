@@ -9,8 +9,7 @@
 	later), BSD modified license or Apache License Version 2.
  */
 
-#import <Foundation/NSSortDescriptor.h>
-#import <Foundation/NSNotification.h>
+#import <Foundation/NSOperation.h>
 #import "EtoileCompatibility.h"
 
 #ifdef GNUSTEP
