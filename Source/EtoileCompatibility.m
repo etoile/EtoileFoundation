@@ -9,10 +9,11 @@
 	later), BSD modified license or Apache License Version 2.
  */
 
+#import <Foundation/NSArray.h>
 #import <Foundation/NSOperation.h>
 #import "EtoileCompatibility.h"
 
-#ifdef GNUSTEP
+#ifdef GNUSTEP_MISSING_API_COMPATIBILITY
 
 @implementation NSSortDescriptor (ETGNUstepCompatibility)
 
@@ -24,6 +25,16 @@
 + (id) sortDescriptorWithKey: (NSString *)aKey ascending: (BOOL)ascending selector: (SEL)aSelector
 {
 	return AUTORELEASE([[self alloc] initWithKey: aKey ascending: ascending selector: aSelector]);
+}
+
+@end
+
+
+@implementation NSSet (ETGNUstepCompatibility) 
+
+- (NSArray *) sortedArrayUsingDescriptors: (NSArray *)sortDescriptors
+{
+	return [[self allObjects] sortedArrayUsingDescriptors: sortDescriptors];
 }
 
 @end

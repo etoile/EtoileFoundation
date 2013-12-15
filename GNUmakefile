@@ -60,7 +60,7 @@ ifeq ($(USE_SSL_PKG), yes)
 SSL_CFLAGS = $(shell pkg-config --cflags openssl)
 endif
 
-EtoileFoundation_CPPFLAGS += $(SSL_CFLAGS)
+EtoileFoundation_CPPFLAGS += $(SSL_CFLAGS) -DGNUSTEP_MISSING_API_COMPATIBILITY
 EtoileFoundation_CPPFLAGS += -D_GNU_SOURCE # For Linux
 #EtoileFoundation_CPPFLAGS += -D_XOPEN_SOURCE=600 # For Solaris
 EtoileFoundation_OBJCFLAGS += -std=c99 

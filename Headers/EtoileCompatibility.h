@@ -101,16 +101,22 @@
 
 /* Missing from GNUstep Base */
 
-#ifdef GNUSTEP
+#ifdef GNUSTEP_MISSING_API_COMPATIBILITY
 
 #import <Foundation/NSSortDescriptor.h>
 #import <Foundation/NSNotification.h>
+#import <Foundation/NSSet.h>
 
-@class NSOperationQueue;
+@class NSArray, NSOperationQueue;
 
 /* Not present in 1.24.5 */
 @interface NSNotificationCenter (ETGNUstepCompatibility)
 - (id)addObserverForName: (NSString *)name object: (id)object queue: (NSOperationQueue *)queue usingBlock: (void (^)(NSNotification *))block;
+@end
+
+/* Not present in 1.24.5 */
+@interface NSSet (ETGNUstepCompatibility) 
+- (NSArray *) sortedArrayUsingDescriptors: (NSArray *)sortDescriptors;
 @end
 
 /* Not present in 1.24.5 */
