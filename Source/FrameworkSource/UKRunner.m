@@ -675,27 +675,30 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
         sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
-NSArray *UKTestMethodNamesFromClass(Class c)
+NSArray *UKTestMethodNamesFromClass(Class sourceClass)
 {
     NSMutableArray *testMethods = [NSMutableArray array];
     
-	unsigned int methodCount = 0;	
-	Method *methodList = class_copyMethodList(c, &methodCount);
-	Method method = NULL;
+    for (Class c = sourceClass; c != Nil; c = class_getSuperclass(c))
+    {
+        unsigned int methodCount = 0;
+        Method *methodList = class_copyMethodList(c, &methodCount);
+        Method method = NULL;
 
-	for (int i = 0; i < methodCount; i++)
-	{
-		method = methodList[i];
-		SEL sel = method_getName(method);
-		NSString *methodName = NSStringFromSelector(sel);
-	
-		if ([methodName hasPrefix: @"test"])
-		{
-			[testMethods addObject: methodName];
-		}
-	}
-	free(methodList);
-
+        for (int i = 0; i < methodCount; i++)
+        {
+            method = methodList[i];
+            SEL sel = method_getName(method);
+            NSString *methodName = NSStringFromSelector(sel);
+        
+            if ([methodName hasPrefix: @"test"])
+            {
+                [testMethods addObject: methodName];
+            }
+        }
+        free(methodList);
+    }
+    
     return [testMethods 
         sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
