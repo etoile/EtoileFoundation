@@ -82,8 +82,10 @@
 	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.owner"];
 	ETPropertyDescription *parent =
 		[ETPropertyDescription descriptionWithName: @"parent" type: (id)@"ETEntityDescription"];
-
-	[selfDesc setPropertyDescriptions: A(owner, abstract, root, propertyDescriptions, parent)];
+	ETPropertyDescription *diffAlgorithm =
+		[ETPropertyDescription descriptionWithName: @"diffAlgorithm" type: (id)@"NSString"];
+	
+	[selfDesc setPropertyDescriptions: A(owner, abstract, root, propertyDescriptions, parent, diffAlgorithm)];
 
 	return selfDesc;
 }
@@ -296,6 +298,8 @@
 			arrayByAddingObjectsFromArray: [self UIBuilderPropertyNames]];
 	}
 }
+
+@synthesize diffAlgorithm = _diffAlgorithm;
 
 - (BOOL) isPrimitive
 {

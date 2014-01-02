@@ -27,6 +27,7 @@ A description of an entity, which can either be a class or a prototype. */
 	ETPackageDescription *_owner;
 	NSString *_localizedDescription;
 	NSArray *_UIBuilderPropertyNames;
+	NSString *_diffAlgorithm;
 }
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
@@ -140,6 +141,14 @@ validation result object. */
 
 @property (nonatomic, copy) NSArray *UIBuilderPropertyNames;
 @property (nonatomic, readonly) NSArray *allUIBuilderPropertyNames;
+
+/** @taskunit Diff/Merge */
+
+/**
+ * Diff algorithm name. Normally nil, in which case the default diff/merge
+ * algorithm is used
+ */
+@property (nonatomic, copy) NSString *diffAlgorithm;
 
 @end
 
