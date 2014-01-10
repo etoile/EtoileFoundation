@@ -137,6 +137,7 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETCollection.m \
 	Source/ETCollection+HOM.m \
 	Source/ETCollectionViewpoint.m \
+	Source/EtoileCompatibility.m \
 	Source/ETGetOptionsDictionary.m \
 	Source/ETHistory.m \
 	Source/ETInstanceVariableMirror.m \

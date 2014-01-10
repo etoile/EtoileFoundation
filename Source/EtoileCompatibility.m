@@ -94,7 +94,14 @@
 
 - (void) didReceiveNotification: (NSNotification *)notif
 {
-	[_queue addOperation: [[CONotificationBlockOperation alloc] initWithNotification: notif block: _block]];
+	if (_queue != nil)
+	{
+		[_queue addOperation: [[CONotificationBlockOperation alloc] initWithNotification: notif block: _block]];
+	}
+	else
+	{
+		_block(notif);
+	}
 }
 
 @end
@@ -103,7 +110,7 @@
 
 - (id)addObserverForName: (NSString *)name object: (id)object queue: (NSOperationQueue *)queue usingBlock: (void (^)(NSNotification *))block
 {
-	CONotificationObserver *observer = [CONotificationObserver new];
+	CONotificationObserver *observer = [[CONotificationObserver alloc] initWithQueue: queue block: block];
 
 	[self addObserver: observer selector: @selector(didReceiveNotification:) name: name object: object];
 
