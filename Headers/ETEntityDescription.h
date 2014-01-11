@@ -23,6 +23,7 @@ A description of an entity, which can either be a class or a prototype. */
 	@private
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;
+	NSArray *_cachedAllPropertyDescriptions;
 	ETEntityDescription *_parent;
 	ETPackageDescription *_owner;
 	NSString *_localizedDescription;

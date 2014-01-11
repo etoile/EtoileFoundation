@@ -55,6 +55,7 @@
 
 - (void) dealloc
 {
+	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_propertyDescriptions);
 	DESTROY(_localizedDescription);
 	DESTROY(_UIBuilderPropertyNames);
@@ -138,6 +139,8 @@
 
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions
 {
+	DESTROY(_cachedAllPropertyDescriptions);
+	
 	FOREACH([self propertyDescriptions], oldProperty, ETPropertyDescription *)
 	{
 		[oldProperty setOwner: nil];
@@ -154,6 +157,8 @@
 
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	DESTROY(_cachedAllPropertyDescriptions);
+	
 	ETEntityDescription *owner = [propertyDescription owner];
 
 	if (nil != owner)
@@ -167,43 +172,31 @@
 
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	DESTROY(_cachedAllPropertyDescriptions);
+	
 	[propertyDescription setOwner: nil];
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
 }
 
-- (NSArray *) allPropertyDescriptionsIncludingDuplicates
+static void CollectAllPropertyDescriptionsRecursive(ETEntityDescription *entity, NSMutableDictionary *dest)
 {
-	if ([self isRoot])
+	if (entity->_parent != nil)
 	{
-		return [_propertyDescriptions allValues];
+		CollectAllPropertyDescriptionsRecursive(entity->_parent, dest);
 	}
-	else
-	{
-		return [[[self parent] allPropertyDescriptions]
-			arrayByAddingObjectsFromArray: [_propertyDescriptions allValues]];
-	}
+	// N.B. This automatically makes child properties replace parent properties
+	[dest addEntriesFromDictionary: entity->_propertyDescriptions];
 }
 
 - (NSArray *) allPropertyDescriptions
 {
-	NSArray *propertyDescs = [self allPropertyDescriptionsIncludingDuplicates];
-	NSMutableArray *finalPropertyDescs = [NSMutableArray array];
-	NSCountedSet *propertyNames = [NSCountedSet set];
-
-	/* We scan the property descriptions backwards to eliminate the ones that 
-	   overriden upwards in the entity chain. */
-	for (ETPropertyDescription *propertyDesc in [propertyDescs reverseObjectEnumerator])
+	if (_cachedAllPropertyDescriptions == nil)
 	{
-		NSString *name = [propertyDesc name];
-
-		if ([propertyNames countForObject: name] == 0)
-		{
-			[finalPropertyDescs insertObject: propertyDesc atIndex: 0];
-		}
-
-		[propertyNames addObject: name];
+		NSMutableDictionary *allPropertyDescriptionsDict = [NSMutableDictionary dictionary];
+		CollectAllPropertyDescriptionsRecursive(self, allPropertyDescriptionsDict);
+		ASSIGN(_cachedAllPropertyDescriptions, [allPropertyDescriptionsDict allValues]);
 	}
-	return finalPropertyDescs;
+	return _cachedAllPropertyDescriptions;
 }
 
 - (NSArray *) allPersistentPropertyDescriptions
