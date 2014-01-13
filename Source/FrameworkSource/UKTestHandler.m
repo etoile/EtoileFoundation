@@ -51,6 +51,11 @@
 + (NSString *) displayStringForObject:(id) obj
 {
     NSString *description = [obj description];
+    // TODO: It might be nice to abbreviate the descriptions if the test passes and
+    // print the whole description if the test fails. For now, always print the
+    // whole description since it's very annoying to see failed tests with an
+    // useless truncated description
+#if 0
     if ([description hasPrefix:@"<"] && [description hasSuffix:@">"]) {
         // assume it's <Classname 0x2394920> and return
         if ([description length] < 30) {
@@ -64,7 +69,7 @@
         description = [description substringWithRange:NSMakeRange(0, 27)];
         description = [description stringByAppendingString:@"..."];
     } 
-    
+#endif
     return [NSString stringWithFormat:@"\"%@\"", description];
 }
 
