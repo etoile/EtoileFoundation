@@ -126,11 +126,11 @@
     } else if (cond) {
         testsPassed++;
         if (!quiet) {
-            printf("%s:%i %s\n", filename, line, [msg UTF8String]);
+            NSLog(@"%s:%i %s\n", filename, line, [msg UTF8String]);
         }
     } else {
         testsFailed++;
-        printf("%s:%i: warning: %s\n", filename, line, [msg UTF8String]);
+        NSLog(@"%s:%i: warning: %s\n", filename, line, [msg UTF8String]);
     }
 }
 
@@ -173,7 +173,7 @@
     if (delegate && [delegate respondsToSelector:@selector(reportWarning:)]) {
         [delegate reportWarning:msg];
     } else {
-        printf(":: warning: %s\n", [msg UTF8String]);
+        NSLog(@":: warning: %s\n", [msg UTF8String]);
     }
 }
 
