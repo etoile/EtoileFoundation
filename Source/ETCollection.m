@@ -1237,6 +1237,61 @@ Nil is returned when no object can be matched. */
 	return ([self objectForKey: aKey] != nil);
 }
 
+- (NSString *)descriptionWithOptions: (NSMutableDictionary *)options
+{
+	NSMutableString *desc = [NSMutableString string];
+	NSString *indent = [options objectForKey: @"kETDescriptionOptionCurrentIndent"];
+	if (nil == indent) indent = @"";
+	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
+	if (nil == propertyIndent) propertyIndent = @"";
+	BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
+	SEL shortDescriptionSel =
+		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
+	NSArray *allKeys = [self allKeys];
+	int n = [self count];
+
+	[desc appendString: @"{"];
+
+	if (usesNewLineIndent)
+	{
+		/* To line up the elements vertically, we increment the indent by the 
+		   length of the opening parenthesis */
+		indent = [indent stringByAppendingString: @" "];
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		NSString *key = [allKeys objectAtIndex: i];
+		id obj = [self objectForKey: key];
+		BOOL isLast = (i == (n - 1));
+	
+		[desc appendFormat: @"%@ = ", key];
+
+		if ([obj respondsToSelector: shortDescriptionSel])
+		{
+			[desc appendString: [obj performSelector: shortDescriptionSel]];
+		}
+		else
+		{
+			[desc appendString: [obj stringValue]];
+		}
+
+		if (isLast)
+			break;
+
+		[desc appendString: @"; "];
+		if (usesNewLineIndent)
+		{
+			[desc appendString: @"\n"];
+			[desc appendString: indent];
+		}
+	}
+	
+	[desc appendString: @"}"];
+
+	return desc;
+}
+
 @end
 
 @implementation NSMutableArray (Etoile)
