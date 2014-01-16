@@ -122,9 +122,9 @@ extern NSString * const kETDescriptionOptionPropertyIndent;
 /** Selector string to indicate which method should be called to print a short 
 object description.
 
-If the receiver doesn't respond to this selector, then -stringValue is used.
+If the receiver doesn't respond to this selector, then -description is used.
 
-Default value is 'stringValue'. */
+Default value is 'description'. */
 extern NSString * const kETDescriptionOptionShortDescriptionSelector;
 /** Integer number object to indicate the depth at which -descriptionWithOptions: 
 should stop to traverse collections with kETDescriptionOptionTraversalKey.

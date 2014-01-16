@@ -583,8 +583,6 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
 	if (nil == propertyIndent) propertyIndent = @"";
 	BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
-	SEL shortDescriptionSel =
-		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
 	NSArray *objects = [self allObjects];
 	int n = [objects count];
 
@@ -602,15 +600,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 		id obj = [objects objectAtIndex: i];
 		BOOL isLast = (i == (n - 1));
 
-		if ([obj respondsToSelector: shortDescriptionSel])
-		{
-			[desc appendString: [obj performSelector: shortDescriptionSel]];
-		}
-		else
-		{
-			[desc appendString: [obj stringValue]];
-		}
-		[desc appendString: @", "];
+		[desc appendString: [obj description]];
 
 		if (isLast)
 			break;
@@ -1184,8 +1174,6 @@ Nil is returned when no object can be matched. */
 	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
 	if (nil == propertyIndent) propertyIndent = @"";
 	BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
-	SEL shortDescriptionSel =
-		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
 	int n = [self count];
 
 	[desc appendString: @"("];
@@ -1202,14 +1190,7 @@ Nil is returned when no object can be matched. */
 		id obj = [self objectAtIndex: i];
 		BOOL isLast = (i == (n - 1));
 	
-		if ([obj respondsToSelector: shortDescriptionSel])
-		{
-			[desc appendString: [obj performSelector: shortDescriptionSel]];
-		}
-		else
-		{
-			[desc appendString: [obj stringValue]];
-		}
+		[desc appendString: [obj description]];
 
 		if (isLast)
 			break;
@@ -1245,8 +1226,6 @@ Nil is returned when no object can be matched. */
 	NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
 	if (nil == propertyIndent) propertyIndent = @"";
 	BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
-	SEL shortDescriptionSel =
-		NSSelectorFromString([options objectForKey: kETDescriptionOptionShortDescriptionSelector]);
 	NSArray *allKeys = [self allKeys];
 	int n = [self count];
 
@@ -1266,15 +1245,7 @@ Nil is returned when no object can be matched. */
 		BOOL isLast = (i == (n - 1));
 	
 		[desc appendFormat: @"%@ = ", key];
-
-		if ([obj respondsToSelector: shortDescriptionSel])
-		{
-			[desc appendString: [obj performSelector: shortDescriptionSel]];
-		}
-		else
-		{
-			[desc appendString: [obj stringValue]];
-		}
+		[desc appendString: [obj description]];
 
 		if (isLast)
 			break;

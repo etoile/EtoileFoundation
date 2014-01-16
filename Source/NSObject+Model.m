@@ -504,12 +504,15 @@ key paths with ETDescriptionOptionValuesForKeyPaths.
 The description format is roughly:
 depth based indentation + object short description + keyPath1: value1, keyPath2: value2 etc.
 
-By default, the object short description is based on -stringValue and contains 
-the object class and address (for non-primitive objects).
+By default, -description is used to print both object short description and key 
+path values.
 
 For customizing the object short description, put 
 kETDescriptionOptionShortDescriptionSelector with a custom selector string in 
-the options (-stringValue is then used as fallback).
+the options (-description is then used as fallback). <br />
+If you override -description to call -descriptionWithOptions:, you must provide 
+a valid kETDescriptionOptionShortDescriptionSelector to prevent an endless loop 
+(for example, just use -primitiveDescription).
 
 For presenting each key path on a new line, put kETDescriptionOptionPropertyIndent 
 with a tab string in the options.
@@ -566,7 +569,7 @@ The options dictionary can be changed arbitrarily in a new implementation. */
 	}
 	else
 	{
-		[desc appendString: [self stringValue]];
+		[desc appendString: [self description]];
 	}
 	[desc appendString: @" "];
 	if (usesPropertyIndent)
@@ -615,13 +618,9 @@ The options dictionary can be changed arbitrarily in a new implementation. */
 			valueString = [value descriptionWithOptions: options];
 			[options setObject: indent forKey: @"kETDescriptionOptionCurrentIndent"];
 		}
-		else if ([value respondsToSelector: shortDescriptionSel])
-		{
-			valueString = [value performSelector: shortDescriptionSel];
-		}
 		else
 		{
-			valueString = [value stringValue];
+			valueString = [value description];
 		}
 
 		BOOL isLast = ([keyPath isEqual: [visibleKeyPaths lastObject]]);
