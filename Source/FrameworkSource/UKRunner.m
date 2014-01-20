@@ -153,7 +153,7 @@
 
 	if (testBundle != nil)
 	{
-		[self runTests: testClasses inBundle: testBundle principalClass: nil];
+		[self runTests: testClasses inBundle: testBundle principalClass: [testBundle principalClass]];
 	}
 	[pool release];
 }
@@ -544,6 +544,10 @@
          inBundle: (NSBundle*)bundle
    principalClass: (Class)principalClass
 {
+    if ([principalClass respondsToSelector: @selector(willRunTestSuite)])
+    {
+        [principalClass willRunTestSuite];
+    }
 
     BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
 
@@ -571,6 +575,11 @@
 
     while ((testClassName = [e nextObject])) {
         [self runTestsInClass:NSClassFromString(testClassName)];
+    }
+
+    if ([principalClass respondsToSelector: @selector(didRunTestSuite)])
+    {
+        [principalClass didRunTestSuite];
     }
 }
 

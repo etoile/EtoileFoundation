@@ -55,5 +55,10 @@
 
 @end
 
+@interface NSObject (UKPrincipalClassNotifications)
++ (void) willRunTestSuite;
++ (void) didRunTestSuite;
+@end
+
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle);
 NSArray *UKTestMethodNamesFromClass(Class c);
