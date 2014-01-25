@@ -346,18 +346,52 @@
 	[runTimer release];
 }
 
-+ (id) newObjectOfClassForTest: (Class)testClass
+- (id)newTestObjectOfClass: (Class)testClass
 {
-    id object = [testClass alloc];
-    if ([object respondsToSelector: @selector(initForTest)])
-    {
-        object = [object initForTest];
-    }
-    else if ([object respondsToSelector: @selector(init)])
-    {
-        object = [object init];
-    }
-    return object;
+	id object = [testClass alloc];
+
+	@try
+	{
+		if ([object respondsToSelector: @selector(initForTest)])
+		{
+			object = [object initForTest];
+		}
+		else if ([object respondsToSelector: @selector(init)])
+		{
+			object = [object init];
+		}
+	}
+	@catch (NSException *exception)
+	{
+		[[UKTestHandler handler] reportException: exception
+		                                 inClass: testClass
+		                                    hint: @"errExceptionOnInit"];
+		return nil;
+	}
+
+	return object;
+}
+
+- (void)releaseTestObject: (id)object
+{
+	@try
+	{
+		if ([object respondsToSelector: @selector(releaseForTest)])
+		{
+			[object releaseForTest];
+		}
+		else if ([object respondsToSelector: @selector(release)])
+		{
+			[object release];
+		}
+		object = nil;
+	}
+	@catch (NSException *exception)
+	{
+		[[UKTestHandler handler] reportException: exception
+		                                 inClass: [object class]
+		                                    hint: @"errExceptionOnRelease"];
+	}
 }
 
 /*!
@@ -382,17 +416,12 @@
             
             if (instance)
             {
-                @try
-                {
-                    object = [[self class] newObjectOfClassForTest: testClass];
-                }
-                @catch (NSException *exception)
-                {
-                    [[UKTestHandler handler] reportException: exception inClass: testClass hint: @"errExceptionOnInit"];
-                    // N.B.: If -init throws an exception, we don't attempt to run any more methods
-                    // on this class
-                    return;
-                }
+				object = [self newTestObjectOfClass: testClass];
+
+				// N.B.: If -init throws an exception or returns nil, we don't attempt to run any
+				// more methods on this class
+				if (object == nil)
+					return;
             }
             else
             {
@@ -419,30 +448,16 @@
             }
             @catch (NSException *exception)
             {
-                [[UKTestHandler handler] reportException: exception inClass: testClass hint: @"errExceptionInTestMethod"];
+                [[UKTestHandler handler] reportException: exception
+				                                 inClass: testClass
+				                                    hint: @"errExceptionInTestMethod"];
             }
 
             // Release the object
-            
+
             if (instance)
             {
-                @try
-                {
-                    if ([object respondsToSelector: @selector(releaseForTest)])
-                    {
-                        [object releaseForTest];
-                        object = nil;
-                    }
-                    else if ([object respondsToSelector: @selector(release)])
-                    {
-                        [object release];
-                        object = nil;
-                    }
-                }
-                @catch (NSException *exception)
-                {
-                    [[UKTestHandler handler] reportException: exception inClass: testClass hint: @"errExceptionOnRelease"];
-                }
+				[self releaseTestObject: object];
             }
         }
     }
