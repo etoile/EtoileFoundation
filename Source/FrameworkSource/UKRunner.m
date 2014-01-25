@@ -151,17 +151,14 @@
 	[pool release];
 }
 
-+ (int) runTests
-{    
-    /*
-     We expect the following usage:
-          $ ukrun [BundleName]
-     
-     If there are no arguments given, then we'll just execute every 
-     test class found. Otherwise
-     */
++ (NSString *)ukrunVersion
+{
+	return @"1.3";
+}
 
-	NSLog(@"ukrun version 1.3 (Etoile)"); // XXX replace with a real auto version
++ (int) runTests
+{
+	NSLog(@"ukrun version %@ (Etoile)", [self ukrunVersion]);
 
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
@@ -208,38 +205,38 @@
 {
     NSArray *args = [[NSProcessInfo processInfo] arguments];
 	NSMutableArray *bundlePaths = [NSMutableArray array];
+	BOOL noOptions = ([args count] <= 1);
 
-    if ([args count] >= 2) 
-	{
-        // Mark Dalrymple contributed this bit about going quiet.
+	if (noOptions)
+		return bundlePaths;
+
 	NSMutableDictionary *testBundleDict = nil;
         
-        for (int i = 1; i < [args count]; i++)
+	for (int i = 1; i < [args count]; i++)
+	{
+		NSString *arg = [args objectAtIndex: i];
+		if ([arg isEqualToString: @"-q"])
 		{
-			NSString *arg = [args objectAtIndex: i];
-			if ([arg isEqualToString: @"-q"])
+			[[UKTestHandler handler] setQuiet: YES];
+		}
+		else if ([arg isEqualToString: @"-c"])
+		{
+			if (++i >= [args count])
 			{
-				[[UKTestHandler handler] setQuiet: YES];
+				NSLog(@"-c argument must be followed by list of test classes");
+				return nil;
 			}
-			else if ([arg isEqualToString: @"-c"])
-			{
-				if (++i >= [args count])
-				{
-					NSLog(@"-c argument must be followed by list of test classes");
-					return nil;
-				}
-				arg = [args objectAtIndex: i];
-				NSArray *testClasses = [arg componentsSeparatedByString: @","];
-				[testBundleDict setObject: testClasses forKey: @"Classes"];
-			}
-			else
-			{
-				testBundleDict = [NSMutableDictionary dictionary];
-				[testBundleDict setObject: [args objectAtIndex: i] forKey: @"Bundle"];	
-				[bundlePaths addObject: testBundleDict];
-			}
-        }
-    }
+			arg = [args objectAtIndex: i];
+			NSArray *testClasses = [arg componentsSeparatedByString: @","];
+			[testBundleDict setObject: testClasses forKey: @"Classes"];
+		}
+		else
+		{
+			testBundleDict = [NSMutableDictionary dictionary];
+			[testBundleDict setObject: [args objectAtIndex: i] forKey: @"Bundle"];
+			[bundlePaths addObject: testBundleDict];
+		}
+	}
 	return bundlePaths;
 }
 
