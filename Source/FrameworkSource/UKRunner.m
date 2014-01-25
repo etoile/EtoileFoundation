@@ -489,6 +489,12 @@
         [principalClass willRunTestSuite];
     }
 
+	// NOTE: First we must create the app object, because on Mac OS X in
+	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes
+	// class_respondsToSelector() which results in +initialize being called and
+	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication.
+	// When no app object is available yet, an NSApplication instance will be
+	// created rather than the subclass instance we might want.
     BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
 
 	/* In addition, -setUp is also sent to the principal class */
@@ -503,19 +509,12 @@
 		[setUpClasses addObject: setUpClass];
 	}
 
-    // NOTE: First we must create the app object, because on Mac OS X in
-	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes
-	// class_respondsToSelector() which results in +initialize being called and
-	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication.
-	// When no app object is available yet, an NSApplication instance will be
-	// created rather than the subclass instance we might want.
     NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
-    NSEnumerator *e = [testClasses objectEnumerator];
-    NSString *testClassName;
 
-    while ((testClassName = [e nextObject])) {
-        [self runTestsInClass:NSClassFromString(testClassName)];
-    }
+	for (NSString *testClassName in testClasses)
+	{
+		[self runTestsInClass: NSClassFromString(testClassName)];
+	}
 
     if ([principalClass respondsToSelector: @selector(didRunTestSuite)])
     {
@@ -583,46 +582,35 @@ BOOL UKTestClassConformsToProtocol(Class aClass)
 }
 
 NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
-{        
-    NSMutableArray *testClasseNames = [[NSMutableArray alloc] init];
-    
+{
+	NSMutableArray *testClasseNames = [NSMutableArray array];
+	int numClasses = objc_getClassList(NULL, 0);
 
-    /*
-     I found the code to walk the classes in the system from an example in
-     Apple's documentation. Pretty much all I changed was the bit that tested
-     which bundle a class came from and that it implements the UKTest protocol.
-     It's a bit low level (hell, there's a malloc and free here!), but there
-     doesn't seem to be any easier way to get a list of classes from a bundle.
-     
-     I keep thinking that this kind of functionality could be factored out
-     into a general "What classes are in which bundles and what classes 
-     implement what protocols. But so far I've resisted the urge.
-     */    
-    
-    int numClasses;
-    numClasses = objc_getClassList(NULL, 0);
-    if (numClasses > 0) {
-        Class *classes = malloc(sizeof(Class) * numClasses);
-        (void) objc_getClassList (classes, numClasses);
-        int i;
-        for (i = 0; i < numClasses; i++) {
-            Class c = classes[i];
-            NSBundle *classBundle = [NSBundle bundleForClass:c];
+	if (numClasses > 0)
+	{
+		Class *classes = malloc(sizeof(Class) * numClasses);
 
-			/* Using class_conformsToProtocol() intead of +conformsToProtocol: 
-			   does not require sending a message to the class. This prevents 
-			   +initialize being sent to classes that are not explicitly used. */	 
-            if (bundle == classBundle && UKTestClassConformsToProtocol(c)) {
-                [testClasseNames addObject:NSStringFromClass(c)];
-            }
-        }
-        free(classes);
-    }    
-    
-    [testClasseNames autorelease];
-    return [testClasseNames
-        sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+		objc_getClassList(classes, numClasses);
+
+		for (int i = 0; i < numClasses; i++)
+		{
+			Class c = classes[i];
+			NSBundle *classBundle = [NSBundle bundleForClass: c];
+
+			/* Using class_conformsToProtocol() intead of +conformsToProtocol:
+			   does not require sending a message to the class. This prevents
+			   +initialize being sent to classes that are not explicitly used. */
+			if (bundle == classBundle && UKTestClassConformsToProtocol(c))
+			{
+				[testClasseNames addObject: NSStringFromClass(c)];
+			}
+		}
+		free(classes);
+	}
+
+	return [testClasseNames sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
 }
+
 
 NSArray *UKTestMethodNamesFromClass(Class sourceClass)
 {
