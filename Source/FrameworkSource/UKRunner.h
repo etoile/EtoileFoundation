@@ -40,7 +40,7 @@
 - (void) runTests: (NSArray*)testClasses 
    inBundleAtPath: (NSString *)bundlePath 
  currentDirectory: (NSString *)cwd;
-- (void) runTests:(NSArray *)testMethods onObject:(id)testObject;
+- (void) runTests: (NSArray *)testMethods onInstance: (BOOL)instance ofClass:(Class)testClass;
 
 - (BOOL) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle;
 

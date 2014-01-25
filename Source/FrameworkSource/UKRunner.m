@@ -356,165 +356,105 @@
 	[runTimer release];
 }
 
++ (id) newObjectOfClassForTest: (Class)testClass
+{
+    id object = [testClass alloc];
+    if ([object respondsToSelector: @selector(initForTest)])
+    {
+        object = [object initForTest];
+    }
+    else if ([object respondsToSelector: @selector(init)])
+    {
+        object = [object init];
+    }
+    return object;
+}
+
 /*!
- @method runTests:onObject:
+ @method runTests:onInstance:ofClass:
  @param testMethods An array containing the list of method names to execute on the test object.
- @param testObject The instance or the class object on which to perform the test methods on
+ @param instance YES if testMethods contains instance method names that should be run on an instantiated testClass. NO if testMethods contains class method names that should be run directly on testClass
+ @param testClass The instance or the class object on which to perform the test methods on
  @abstract Runs a set of tests on the given object (either an instance or a class)
  @discussion This method takes an object and a list of methods that should be executed on it. For each method in the list, the test object will be initialized by -initForTest when implemented or -init as a fallback and the method called on it. If there is a problem with the initialization, or in the release of that object instance, an error will be reported and all test execution on the object will end. If there is an error while running the test method, an error will be reported and execution will move on to the next method.
  */
-
-- (void) runTests:(NSArray *)testMethods onObject:(id)testObject
+- (void) runTests:(NSArray *)testMethods onInstance: (BOOL)instance ofClass:(Class)testClass
 {
-    /*
-     The hairy thing about this method is catching and dealing with all of 
-     the permutations of uncaught exceptions that might be heading our way. 
-     */
-	 
-    //NSLog(@"testObject %@", testObject);
-    
-    Class testClass = nil;
-    NSEnumerator *e = [testMethods objectEnumerator];
-    NSString *testMethodName;
-
-    BOOL isClass = testObject != nil && object_getClass(testObject) != nil 
-		&& class_isMetaClass(object_getClass(testObject));
-
-    id object = nil;
-
-    /* We use local variable so that the testObject will not be messed up.
-       And we have to distinguish class and instance
-       because -init and -release apply to instance.
-       And -release also dealloc object, which will cause memory problem */
-    /* FIXME: there is a memory leak because testObject comes 
-       here as allocated to tell whether it is class or instance.
-       We can dealloc it here, but it is not really a good practice.
-       Object is better to be pass as autoreleased. */
-
-    if (isClass)
+    for (NSString *testMethodName in testMethods)
     {
-	testClass = testObject;
-	object = testClass;
-    }
-    else
-    {
-	testClass = [testObject class];
-        /* It is instance, we instantiate it and release it in the loop */
-    }
-
-    while ((testMethodName = [e nextObject])) {
         testMethodsRun++;
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-#ifdef NEW_EXCEPTION_MODEL
-
-        if (isClass == NO)
+        @autoreleasepool
         {
-            object = [testClass alloc];
-            @try {
-                 object = [object init];
+            id object = nil;
+            
+            // Create the object to test
+            
+            if (instance)
+            {
+                @try
+                {
+                    object = [[self class] newObjectOfClassForTest: testClass];
+                }
+                @catch (NSException *exception)
+                {
+                    [[UKTestHandler handler] reportException: exception inClass: testClass hint: @"errExceptionOnInit"];
+                    // N.B.: If -init throws an exception, we don't attempt to run any more methods
+                    // on this class
+                    return;
+                }
             }
-            @catch (id exc) {
-                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionOnInit"];
-                [pool release];
-                return;
-           }
-        } 
-
-        @try {
-            SEL testSel = NSSelectorFromString(testMethodName);
-	    NSAutorelease *testMethodPool = [NSAutoreleasePool new];
-            [self runTest:testSel onObject: object class: testClass];
-	    [testMethodPool release];
-        }
-        @catch (id exc) {
-                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionInTestMethod"];
-        }
-        
-        if (isClass == NO)
-        {
-            @try {
-                [object release];
+            else
+            {
+                object = testClass;
             }
-            @catch (id exc) {
-                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionOnRelease"];
-                [pool release];
-                return;
+
+            // Run the test method
+            
+            @try
+            {
+                SEL testSel = NSSelectorFromString(testMethodName);
+                
+                /* This pool makes easier to separate autorelease issues between:
+                 - test method
+                 - test object configuration due to -init and -dealloc
+                 
+                 For testing CoreObject, this also ensures all autoreleased
+                 objects in relation to a db are deallocated before closing the
+                 db connection in -dealloc (see TestCommon.h in CoreObject for details) */
+                @autoreleasepool
+                {
+                    [self runTest: testSel onObject: object class: testClass];
+                }
+            }
+            @catch (NSException *exception)
+            {
+                [[UKTestHandler handler] reportException: exception inClass: testClass hint: @"errExceptionInTestMethod"];
+            }
+
+            // Release the object
+            
+            if (instance)
+            {
+                @try
+                {
+                    if ([object respondsToSelector: @selector(releaseForTest)])
+                    {
+                        [object releaseForTest];
+                        object = nil;
+                    }
+                    else if ([object respondsToSelector: @selector(release)])
+                    {
+                        [object release];
+                        object = nil;
+                    }
+                }
+                @catch (NSException *exception)
+                {
+                    [[UKTestHandler handler] reportException: exception inClass: testClass hint: @"errExceptionOnRelease"];
+                }
             }
         }
-
-#else
-
-        NS_DURING
-	{
-	    if (isClass == NO)
-	    {
-		object = [testClass alloc];
-		if ([object respondsToSelector: @selector(initForTest)])
-		{
-			object = [object initForTest];
-		}
-		else if ([object respondsToSelector: @selector(init)])
-		{
-			object = [object init];
-		}
-	    }
-	}
-        NS_HANDLER
-	{
-            [[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnInit"];
-            [pool release];
-            NS_VOIDRETURN;	
-	}
-        NS_ENDHANDLER
-        
-        NS_DURING
-	{
-            SEL testSel = NSSelectorFromString(testMethodName);
-	    /* This pool makes easier to separate autorelease issues between:
-	       - test method
-	       - test object configuration due to -init and -dealloc 
-
-	       For testing CoreObject, this also ensures all autoreleased 
-	       objects in relation to a db are deallocated before closing the 
-	       db connection in -dealloc (see TestCommon.h in CoreObject for details) */
-            NSAutoreleasePool *testMethodPool = [NSAutoreleasePool new];
-            [self runTest: testSel onObject: object class: testClass];
-	    [testMethodPool release];
-	}
-        NS_HANDLER
-	{
-            [[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionInTestMethod"];
-	    [pool release];
-	    NS_VOIDRETURN;
-	}
-        NS_ENDHANDLER
-        
-        NS_DURING
-	{
-	    if (isClass == NO)
-	    {
-		if ([object respondsToSelector: @selector(releaseForTest)])
-		{
-		    [object releaseForTest];
-		}
-		else if ([testObject respondsToSelector: @selector(release)])
-		{
-		    [object release];
-		}
-		object = nil;
-	    }
-	}
-        NS_HANDLER
-	{
-            [[UKTestHandler handler] reportException: localException inClass: testClass hint: @"errExceptionOnRelease"];
-            [pool release];
-            NS_VOIDRETURN;
-	}
-        NS_ENDHANDLER
-        
-#endif        
-        [pool release];
     }
 }
 
@@ -529,10 +469,10 @@
 	if (testClass != nil)
 		testMethods = UKTestMethodNamesFromClass(objc_getMetaClass(class_getName(testClass)));
     
-    [self runTests:testMethods onObject:testClass];
+    [self runTests:testMethods onInstance: NO ofClass: testClass];
     /* Test instance methods */
     testMethods = UKTestMethodNamesFromClass(testClass);
-    [self runTests:testMethods onObject: [testClass alloc]];
+    [self runTests:testMethods onInstance: YES ofClass: testClass];
 }
 
 - (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
