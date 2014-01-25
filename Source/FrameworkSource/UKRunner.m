@@ -80,14 +80,13 @@
 	
 	if (testBundle == nil)
 	{
-		// XXX i18n as well as message improvements
-		printf("\n == Test bundle '%s' could not be found ==\n\n", [[bundlePath lastPathComponent] UTF8String]);
+		NSLog(@"\n == Test bundle '%@' could not be found ==\n", [bundlePath lastPathComponent]);
 		return nil; 
 	}
 
     if ([[bundlePath pathExtension] isEqual: @"bundle"] == NO)
     {
- 		printf("\n == Directory '%s' is not a test bundle ==\n\n", [[bundlePath lastPathComponent] UTF8String]);
+ 		NSLog(@"\n == Directory '%@' is not a test bundle ==\n", [bundlePath lastPathComponent]);
     }
 
     NSError *error = nil;
@@ -100,8 +99,7 @@
 	if (![testBundle loadAndReturnError: &error])
 #endif
 	{
-		// XXX i18n as well as message improvements
-		printf("\n == Test bundle could not be loaded: %s ==\n\n", [[error description] UTF8String]);
+		NSLog(@"\n == Test bundle could not be loaded: %@ ==\n", [error description]);
 		return nil;            
 	}
 	return testBundle;
@@ -141,7 +139,7 @@
 		bundlePath = [bundlePath stringByStandardizingPath];
 	}
 
-	printf("Looking for bundle at path: %s\n", [bundlePath UTF8String]);
+	NSLog(@"Looking for bundle at path: %@", bundlePath);
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSBundle *testBundle = [self loadBundleAtPath: bundlePath];
@@ -163,13 +161,13 @@
      test class found. Otherwise
      */
 
-	printf("ukrun version 1.3 (Etoile)\n"); // XXX replace with a real auto version
+	NSLog(@"ukrun version 1.3 (Etoile)"); // XXX replace with a real auto version
 
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
     UKRunner *runner = [[UKRunner alloc] init];
 
-    //printf("cwd: %s\n", [cwd UTF8String]);
+    //NSLog(@"cwd: %@\n", cwd);
 
 	NSArray *bundleDicts = [runner parseArgumentsWithCurrentDirectory: cwd];
 
@@ -251,8 +249,8 @@
     int testsFailed = [[UKTestHandler handler] testsFailed];
 	int exceptionsReported = [[UKTestHandler handler] exceptionsReported];
     
-    // TODO: XXX i18n and may be extract in -testResultSummary
-    printf("Result: %i classes, %i methods, %i tests, %i failed, %i exceptions\n", 
+    // TODO: May be be extract in -testResultSummary
+    NSLog(@"Result: %i classes, %i methods, %i tests, %i failed, %i exceptions",
 		testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
 
 #ifndef GNUSTEP
