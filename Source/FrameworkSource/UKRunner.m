@@ -28,11 +28,6 @@
 #import "UKTest.h"
 #import "UKTestHandler.h"
 
-/* For GNUstep, but we should check if it is really needed */
-#import <Foundation/NSException.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSArray.h>
-#import <Foundation/NSTimer.h>
 /* For -pathForImageResource: */
 #import <AppKit/AppKit.h>
 
