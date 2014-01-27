@@ -25,20 +25,20 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-/*
- Exercise the various values that can be fed through each of the macros. In
- this test class, we are only concerned about the pass or fail status. We have
- other classes to test whether or not the line numbers and filenames make it 
- through.
- 
- Because this class deals with the very heart of the test mechanism, a few of
- the tests also contain NSAssert statements so that if things go very wrong
- there will be something to indicate what's going on.
+/**
+ * Exercise the various values that can be fed through each of the macros. In
+ * this test class, we are only concerned about the pass or fail status. We have
+ * other classes to test whether or not the line numbers and filenames make it
+ * through.
+ *
+ * Because this class deals with the very heart of the test mechanism, a few of
+ * the tests also contain NSAssert statements so that if things go very wrong
+ * there will be something to indicate what's going on.
  */
-
-@interface UKTestMacros : NSObject <UKTest> {
-    UKTestHandler *handler;
-    BOOL reportedStatus;
+@interface UKTestMacros : NSObject <UKTest>
+{
+	UKTestHandler *handler;
+	BOOL reportedStatus;
 }
 
 @end

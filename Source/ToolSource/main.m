@@ -25,13 +25,13 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UKRunner.h>
 
-int main(int argc, const char *argv[])
+int main (int argc, const char *argv[])
 {
-    int retval;
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	int retval;
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    retval = [UKRunner runTests];
-    
-     [pool release];
-    return retval;
+	retval = [UKRunner runTests];
+
+	[pool release];
+	return retval;
 }

@@ -24,27 +24,26 @@
 
 #import "TestTwo.h"
 
-
 @implementation TestTwo
 
-+ (void) testClass
++ (void)testClass
 {
-    UKPass();
+	UKPass();
 }
 
-- (void) testOne
+- (void)testOne
 {
-    UKPass();
+	UKPass();
 }
 
-- (void) testTwo
+- (void)testTwo
 {
-    UKPass();
+	UKPass();
 }
 
-- (void) testThree
+- (void)testThree
 {
-    UKPass();
+	UKPass();
 }
 
 @end

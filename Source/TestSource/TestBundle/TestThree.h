@@ -25,7 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-@interface TestThree : NSObject <UKTest> {
+@interface TestThree : NSObject <UKTest>
+{
 
 }
 

@@ -27,11 +27,11 @@
 
 @implementation UKTestFramework
 
-- (void) testClass 
+- (void)testClass
 {
-    TestClass *instance = [[TestClass alloc] init];
-    UKIntsEqual([instance testMethod], 42);
-    [instance release];
+	TestClass *instance = [[TestClass alloc] init];
+	UKIntsEqual([instance testMethod], 42);
+	[instance release];
 }
 
 @end

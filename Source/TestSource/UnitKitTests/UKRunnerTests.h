@@ -25,19 +25,19 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-/*
- Testing a test runner is a bit of a funky proposition. After all, it's a
- snake eating its tail kind of affair. However, it's done here by testing out
- the most critical functionality of the class--finding the test classes in a
- bundle and the test methods in a class--as well as running a test bundle
- from the outside and examining its output. Even though this isn't as fine
- grained a testing strategy as one might like, it will catch everything we
- need to catch. And hey, if the runner isn't working, then these tests won't
- even be run, right??? :)
+/**
+ * Testing a test runner is a bit of a funky proposition. After all, it's a
+ * snake eating its tail kind of affair. However, it's done here by testing out
+ * the most critical functionality of the class--finding the test classes in a
+ * bundle and the test methods in a class--as well as running a test bundle
+ * from the outside and examining its output. Even though this isn't as fine
+ * grained a testing strategy as one might like, it will catch everything we
+ * need to catch. And hey, if the runner isn't working, then these tests won't
+ * even be run, right??? :)
  */
-
-@interface UKRunnerTests : NSObject <UKTest> {
-    NSBundle *testBundle;
+@interface UKRunnerTests : NSObject <UKTest>
+{
+	NSBundle *testBundle;
 }
 
 @end

@@ -24,17 +24,16 @@
 
 #import "TestOne.h"
 
-
 @implementation TestOne
 
-- (void) testOne
+- (void)testOne
 {
-    UKPass();
+	UKPass();
 }
 
-- (void) testTwo
+- (void)testTwo
 {
-    UKFail();
+	UKFail();
 }
 
 @end

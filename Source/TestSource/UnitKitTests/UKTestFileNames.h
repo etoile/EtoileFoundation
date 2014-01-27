@@ -25,22 +25,21 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-/*
- Tests to make sure that the file names reported by the various macros make
- it through the macro and through the test handler methods in UKTestHandler. 
- This is done by setting this class to be the UKTestHandler's delegate, 
- performing a test, and then setting the UKTestHandler's delegeate to nil so
- that the normal reporting mechanism is back in place.
-
- Because the code paths in the various test methods are conditional, both
- positive and negative tests are performed on each macro.
+/**
+ * Tests to make sure that the file names reported by the various macros make
+ * it through the macro and through the test handler methods in UKTestHandler.
+ * This is done by setting this class to be the UKTestHandler's delegate,
+ * performing a test, and then setting the UKTestHandler's delegeate to nil so
+ * that the normal reporting mechanism is back in place.
+ *
+ * Because the code paths in the various test methods are conditional, both
+ * positive and negative tests are performed on each macro.
  */
-
-
-@interface UKTestFileNames : NSObject <UKTest> {
-    UKTestHandler *handler;
-    NSString *reportedFilename;
-    NSString *actualFilename;
+@interface UKTestFileNames : NSObject <UKTest>
+{
+	UKTestHandler *handler;
+	NSString *reportedFilename;
+	NSString *actualFilename;
 }
 
 @end

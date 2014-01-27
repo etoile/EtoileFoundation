@@ -25,9 +25,10 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-@interface UKTestMessages : NSObject <UKTest> {
-    UKTestHandler *handler;
-    NSString *reportedMessage;
+@interface UKTestMessages : NSObject <UKTest>
+{
+	UKTestHandler *handler;
+	NSString *reportedMessage;
 }
 
 @end

@@ -25,12 +25,12 @@
 #import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-/*
- This class is not marked <UKTest> so that it won't be picked up by UKRunner
- on a search through. This is on purpose.
+/**
+ * This class is not marked <UKTest> so that it won't be picked up by UKRunner
+ * on a search through. This is on purpose.
  */
-
-@interface TestOne : NSObject {
+@interface TestOne : NSObject
+{
 
 }
 

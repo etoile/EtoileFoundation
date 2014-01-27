@@ -25,22 +25,22 @@
 
 @implementation UKTestMacros
 
-- (id) init
+- (id)init
 {
-    self = [super init];
-    handler = [UKTestHandler handler];
-    [handler setDelegate:self];
-    return self;
+	self = [super init];
+	handler = [UKTestHandler handler];
+	[handler setDelegate: self];
+	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-    [super dealloc];
+	[super dealloc];
 }
 
-- (void) reportStatus:(BOOL)cond inFile:(char *)filename line:(int)line message:(NSString *)msg
+- (void)reportStatus: (BOOL)cond inFile: (char *)filename line: (int)line message: (NSString *)msg
 {
-    reportedStatus = cond;
+	reportedStatus = cond;
 }
 
 /* 
@@ -69,465 +69,465 @@
 }
 */
 
-- (void) testUKPass
+- (void)testUKPass
 {
-    UKPass(); 
-    [handler setDelegate:nil];
-    NSAssert(reportedStatus, @"Failsafe check on UKPass");
-    UKTrue(reportedStatus);
+	UKPass();
+	[handler setDelegate: nil];
+	NSAssert(reportedStatus, @"Failsafe check on UKPass");
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKPassWithMessage
+- (void)testUKPassWithMessage
 {
-    UKPass();
-    [handler setDelegate:nil];
-    NSAssert(reportedStatus, @"Failsafe check on UKPass");
+	UKPass();
+	[handler setDelegate: nil];
+	NSAssert(reportedStatus, @"Failsafe check on UKPass");
 }
 
-- (void) testUKFail
+- (void)testUKFail
 {
-    UKFail();
-    [handler setDelegate:nil];
-    NSAssert(!reportedStatus, @"Failsafe check on UKFail");
-    UKFalse(reportedStatus);
+	UKFail();
+	[handler setDelegate: nil];
+	NSAssert(!reportedStatus, @"Failsafe check on UKFail");
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKTrue_Simple
+- (void)testUKTrue_Simple
 {
-    UKTrue(YES);
-    [handler setDelegate:nil];
-    NSAssert(reportedStatus, @"Failsafe check on UKTrue");
-    UKTrue(reportedStatus);
+	UKTrue(YES);
+	[handler setDelegate: nil];
+	NSAssert(reportedStatus, @"Failsafe check on UKTrue");
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKTrue_Simple_Negative
+- (void)testUKTrue_Simple_Negative
 {
-    UKTrue(NO);
-    [handler setDelegate:nil];
-    NSAssert(!reportedStatus, @"Failsafe check on UKTrue");
-    UKFalse(reportedStatus);
+	UKTrue(NO);
+	[handler setDelegate: nil];
+	NSAssert(!reportedStatus, @"Failsafe check on UKTrue");
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_GreaterThan
+- (void)testUKTrue_Conditional_GreaterThan
 {
-    UKTrue(42 > 41);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKTrue(42 > 41);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_GreaterThan_Negative
+- (void)testUKTrue_Conditional_GreaterThan_Negative
 {
-    UKTrue(41 > 42);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKTrue(41 > 42);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_LessThan
+- (void)testUKTrue_Conditional_LessThan
 {
-    UKTrue(41 < 42);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKTrue(41 < 42);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_LessThan_Negative
+- (void)testUKTrue_Conditional_LessThan_Negative
 {
-    UKTrue(41 < 40);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKTrue(41 < 40);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_Equal
+- (void)testUKTrue_Conditional_Equal
 {
-    UKTrue(42 == 42);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKTrue(42 == 42);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_Equal_Negative
+- (void)testUKTrue_Conditional_Equal_Negative
 {
-    UKTrue(42 == 41);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKTrue(42 == 41);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_NotEqual
+- (void)testUKTrue_Conditional_NotEqual
 {
-    UKTrue(42 != 41);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKTrue(42 != 41);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKTrue_Conditional_NotEqual_Negative
+- (void)testUKTrue_Conditional_NotEqual_Negative
 {
-    UKTrue(42 != 42);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKTrue(42 != 42);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKTrue_Message
+- (void)testUKTrue_Message
 {
-    UKTrue([@"foofart" hasPrefix:@"foo"]);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKTrue([@"foofart" hasPrefix: @"foo"]);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKTrue_Message_Negative
+- (void)testUKTrue_Message_Negative
 {
-    UKTrue([@"foofart" hasPrefix:@"fart"]);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKTrue([@"foofart" hasPrefix: @"fart"]);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKFalse
+- (void)testUKFalse
 {
-    UKFalse(NO);
-    [handler setDelegate:nil];
-    NSAssert(reportedStatus, @"Failsafe check on UKFalse");
-    UKTrue(reportedStatus);
+	UKFalse(NO);
+	[handler setDelegate: nil];
+	NSAssert(reportedStatus, @"Failsafe check on UKFalse");
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKFalse_Negative
+- (void)testUKFalse_Negative
 {
-    UKFalse(YES);
-    [handler setDelegate:nil];
-    NSAssert(!reportedStatus, @"Failsafe check on UKFalse");
-    UKFalse(reportedStatus);
+	UKFalse(YES);
+	[handler setDelegate: nil];
+	NSAssert(!reportedStatus, @"Failsafe check on UKFalse");
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKFalse_Message
+- (void)testUKFalse_Message
 {
-    UKTrue([@"foofart" hasPrefix:@"fart"]);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKTrue([@"foofart" hasPrefix: @"fart"]);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKFalse_Message_Negative
+- (void)testUKFalse_Message_Negative
 {
-    UKTrue([@"foofart" hasPrefix:@"foo"]);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKTrue([@"foofart" hasPrefix: @"foo"]);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKNil_withNil
+- (void)testUKNil_withNil
 {
-    UKNil(nil);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKNil(nil);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKNil_withNull
+- (void)testUKNil_withNull
 {
-    UKNil(NULL);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKNil(NULL);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKNil_with0
+- (void)testUKNil_with0
 {
-    // since zero is zero *and* the value of the nil pointer...
-    UKNil(0);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	// since zero is zero *and* the value of the nil pointer...
+	UKNil(0);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKNil_with
+- (void)testUKNil_with
 {
-    // XXX
+	// XXX
 }
 
-- (void) testUKNil_NegativeWithObject
+- (void)testUKNil_NegativeWithObject
 {
-    UKNil(@"");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKNil(@"");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKNil_NegativeWithPointer
+- (void)testUKNil_NegativeWithPointer
 {
-    // XXX
+	// XXX
 }
 
-- (void) testUKNotNil
+- (void)testUKNotNil
 {
-    UKNotNil(@"");
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKNotNil(@"");
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKNotNil_NegativeWithNil
+- (void)testUKNotNil_NegativeWithNil
 {
-    UKNotNil(nil);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKNotNil(nil);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKNotNil_NegativeWithNull
+- (void)testUKNotNil_NegativeWithNull
 {
-    UKNotNil(NULL);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKNotNil(NULL);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKNotNil_NegativeWith0
+- (void)testUKNotNil_NegativeWith0
 {
-    UKNotNil(0);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKNotNil(0);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKIntsEqual
+- (void)testUKIntsEqual
 {
-    UKIntsEqual(42, 42);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKIntsEqual(42, 42);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKIntsEqual_Negative
+- (void)testUKIntsEqual_Negative
 {
-    UKIntsEqual(42, 41);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKIntsEqual(42, 41);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKFloatsEqual1
+- (void)testUKFloatsEqual1
 {
-    UKFloatsEqual(42.100, 42.100, 0.01);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKFloatsEqual(42.100, 42.100, 0.01);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKFloatsEqual2
+- (void)testUKFloatsEqual2
 {
-    UKFloatsEqual(42.100, 42.200, 0.2);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKFloatsEqual(42.100, 42.200, 0.2);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKFloatsEqual3
+- (void)testUKFloatsEqual3
 {
-    UKFloatsEqual(1.0, 1.0, 0.0);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKFloatsEqual(1.0, 1.0, 0.0);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKFloatsEqual4
+- (void)testUKFloatsEqual4
 {
-    UKFloatsEqual(1.0, 1.0, 0.01);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKFloatsEqual(1.0, 1.0, 0.01);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKFloatsEqual_Negative1
+- (void)testUKFloatsEqual_Negative1
 {
-    UKFloatsEqual(42.100, 43.100, 0.01);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKFloatsEqual(42.100, 43.100, 0.01);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKFloatsEqual_Negative2
+- (void)testUKFloatsEqual_Negative2
 {
-    UKFloatsEqual(42.100, 42.200, 0.08);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
-}
-
-
-- (void) testUKFloatsNotEqual
-{
-    UKFloatsNotEqual(42.100, 43.100, 0.01);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKFloatsEqual_Negative
-{
-    UKFloatsNotEqual(42.1000, 42.1000, 0.01);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
-}
-
-- (void) testUKObjectsEqual1
-{
-    UKObjectsEqual(self, self);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKObjectsEqual2
-{
-    NSString *string = @"";
-	UKObjectsEqual(string, [NSString stringWithString:string]);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKObjectsEqual_Negative
-{
-    UKObjectsEqual(@"", @"123");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus); 
-}
-
-- (void) testUKStringsEqual1
-{
-    UKStringsEqual(@"abc", @"abc");
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKStringsEqual2
-{
-    NSString *string = @"abc";
-    UKStringsEqual(string, [NSString stringWithString:string]);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKStringsEqual3
-{
-    NSString *string = [NSString stringWithCString:"abc" encoding:NSUTF8StringEncoding];
-    UKStringsEqual(@"abc", string);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKStringsEqual_Negative
-{
-    UKStringsEqual(@"abc", @"bea");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
-}
-
-- (void) testUKStringsNotEqual
-{
-    UKStringsNotEqual(@"abc", @"bea");
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
-}
-
-- (void) testUKStringsNotEqual_Negative1
-{
-    UKStringsNotEqual(@"abc", @"abc");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);    
-}
-
-- (void) testUKStringsNotEqual_Negative2
-{
-    NSString *string = @"abc";
-    UKStringsNotEqual(string, [NSString stringWithString:string]);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);    
-}
-
-- (void) testUKStringsNotEqual_Negative3
-{
-    NSString *string = [NSString stringWithCString:"abc" encoding:NSUTF8StringEncoding];
-    UKStringsNotEqual(@"abc", string);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);    
+	UKFloatsEqual(42.100, 42.200, 0.08);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
 
-- (void) testUKStringContains
+- (void)testUKFloatsNotEqual
 {
-    UKStringContains(@"Now is the time", @"the time");
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKFloatsNotEqual(42.100, 43.100, 0.01);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKStringContains_Negative
+- (void)testUKFloatsEqual_Negative
 {
-    UKStringContains(@"asdf", @"zzzzz");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKFloatsNotEqual(42.1000, 42.1000, 0.01);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKStringDoesNotContain
+- (void)testUKObjectsEqual1
 {
-    UKStringDoesNotContain(@"asdf", @"zzzzz");
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKObjectsEqual(self, self);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKStringDoesNotContain_Negative
+- (void)testUKObjectsEqual2
 {
-    UKStringDoesNotContain(@"Now is the time", @"the time");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	NSString *string = @"";
+	UKObjectsEqual(string, [NSString stringWithString: string]);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) raiseException:(id)objectToRaise
+- (void)testUKObjectsEqual_Negative
 {
-    @throw objectToRaise;
+	UKObjectsEqual(@"", @"123");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) doNotRaiseException
+- (void)testUKStringsEqual1
 {
-    // this is fun... do nothing
+	UKStringsEqual(@"abc", @"abc");
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKRaisesException
+- (void)testUKStringsEqual2
 {
-    UKRaisesException([self raiseException:@"Hi"]);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	NSString *string = @"abc";
+	UKStringsEqual(string, [NSString stringWithString: string]);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKRaisesException_Negative
+- (void)testUKStringsEqual3
 {
-    UKRaisesException([self doNotRaiseException]);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	NSString *string = [NSString stringWithCString: "abc" encoding: NSUTF8StringEncoding];
+	UKStringsEqual(@"abc", string);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKDoesNotRaisesException
+- (void)testUKStringsEqual_Negative
 {
-    UKDoesNotRaiseException([self doNotRaiseException]);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKStringsEqual(@"abc", @"bea");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKDoesNotRaisesException_Negative
+- (void)testUKStringsNotEqual
 {
-    UKDoesNotRaiseException([self raiseException:@"Hi"]);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
-    }
- 
-- (void) testUKRaisesExceptionNamed
-{
-    UKRaisesExceptionNamed([self raiseException:[NSException exceptionWithName:@"Test" reason:@"For testing" userInfo:nil]], @"Test");
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	UKStringsNotEqual(@"abc", @"bea");
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
 }
 
-- (void) testUKRaisesExceptionNamed_WrongNSException
+- (void)testUKStringsNotEqual_Negative1
 {
-    UKRaisesExceptionNamed([self raiseException:[NSException exceptionWithName:@"Test" reason:@"For testing" userInfo:nil]], @"Wrong");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKStringsNotEqual(@"abc", @"abc");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKRaisesExceptionNamed_WrongClass
+- (void)testUKStringsNotEqual_Negative2
 {
-    UKRaisesExceptionNamed([self raiseException:@"Not an NSException"], @"Wrong");
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	NSString *string = @"abc";
+	UKStringsNotEqual(string, [NSString stringWithString: string]);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
-- (void) testUKRaisesExceptionClass
+- (void)testUKStringsNotEqual_Negative3
 {
-    UKRaisesExceptionClass([self raiseException:@"aSTring"], NSString);
-    [handler setDelegate:nil];
-    UKTrue(reportedStatus);
+	NSString *string = [NSString stringWithCString: "abc" encoding: NSUTF8StringEncoding];
+	UKStringsNotEqual(@"abc", string);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
- 
-- (void) testUKRaisesClass_Wrong
+
+
+- (void)testUKStringContains
 {
-    UKRaisesExceptionClass([self raiseException:@"aSTring"], NSException);
-    [handler setDelegate:nil];
-    UKFalse(reportedStatus);
+	UKStringContains(@"Now is the time", @"the time");
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
+}
+
+- (void)testUKStringContains_Negative
+{
+	UKStringContains(@"asdf", @"zzzzz");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
+}
+
+- (void)testUKStringDoesNotContain
+{
+	UKStringDoesNotContain(@"asdf", @"zzzzz");
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
+}
+
+- (void)testUKStringDoesNotContain_Negative
+{
+	UKStringDoesNotContain(@"Now is the time", @"the time");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
+}
+
+- (void)raiseException: (id)objectToRaise
+{
+	@throw objectToRaise;
+}
+
+- (void)doNotRaiseException
+{
+	// this is fun... do nothing
+}
+
+- (void)testUKRaisesException
+{
+	UKRaisesException([self raiseException: @"Hi"]);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
+}
+
+- (void)testUKRaisesException_Negative
+{
+	UKRaisesException([self doNotRaiseException]);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
+}
+
+- (void)testUKDoesNotRaisesException
+{
+	UKDoesNotRaiseException([self doNotRaiseException]);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
+}
+
+- (void)testUKDoesNotRaisesException_Negative
+{
+	UKDoesNotRaiseException([self raiseException: @"Hi"]);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
+}
+
+- (void)testUKRaisesExceptionNamed
+{
+	UKRaisesExceptionNamed([self raiseException: [NSException exceptionWithName: @"Test" reason: @"For testing" userInfo: nil]], @"Test");
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
+}
+
+- (void)testUKRaisesExceptionNamed_WrongNSException
+{
+	UKRaisesExceptionNamed([self raiseException: [NSException exceptionWithName: @"Test" reason: @"For testing" userInfo: nil]], @"Wrong");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
+}
+
+- (void)testUKRaisesExceptionNamed_WrongClass
+{
+	UKRaisesExceptionNamed([self raiseException: @"Not an NSException"], @"Wrong");
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
+}
+
+- (void)testUKRaisesExceptionClass
+{
+	UKRaisesExceptionClass([self raiseException: @"aSTring"], NSString);
+	[handler setDelegate: nil];
+	UKTrue(reportedStatus);
+}
+
+- (void)testUKRaisesClass_Wrong
+{
+	UKRaisesExceptionClass([self raiseException: @"aSTring"], NSException);
+	[handler setDelegate: nil];
+	UKFalse(reportedStatus);
 }
 
 

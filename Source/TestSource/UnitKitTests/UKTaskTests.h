@@ -28,8 +28,9 @@
 
 @class UKTask;
 
-@interface UKTaskTests : NSObject <UKTest> {
-    UKTask *task;
+@interface UKTaskTests : NSObject <UKTest>
+{
+	UKTask *task;
 }
 
 @end

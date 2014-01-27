@@ -8,12 +8,11 @@
 
 #import "TestClass.h"
 
-
 @implementation TestClass
 
--(int) testMethod
+- (int)testMethod
 {
-    return 42;
+	return 42;
 }
 
 @end

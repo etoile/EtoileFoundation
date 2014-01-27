@@ -26,35 +26,36 @@
 
 @implementation UKRunnerTests
 
-- (id) init
+- (id)init
 {
-    self = [super init];
-    NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:@"UKTestBundleOne.bundle"];
-    testBundle = [[NSBundle alloc] initWithPath:testBundlePath];
-    [testBundle load];
-    return self;
+	self = [super init];
+	NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath]
+		stringByAppendingPathComponent: @"UKTestBundleOne.bundle"];
+	testBundle = [[NSBundle alloc] initWithPath: testBundlePath];
+	[testBundle load];
+	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-    [testBundle release];
-    [super dealloc];
+	[testBundle release];
+	[super dealloc];
 }
 
-- (void) testRunLoopAddition
+- (void)testRunLoopAddition
 {
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    [runLoop performSelector:@selector(runLoopTrigger) 
-                      target:self 
-                    argument:nil 
-                       order:0 
-                       modes:[NSArray arrayWithObject:NSDefaultRunLoopMode]]; 
+	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+	[runLoop performSelector: @selector(runLoopTrigger)
+	                  target: self
+	                argument: nil
+	                   order: 0
+	                   modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
 }
 
-- (void) runLoopTrigger
+- (void)runLoopTrigger
 {
-    NSThread *thread = [NSThread currentThread];
-    [[thread threadDictionary] setObject:@"YES" forKey:@"UKLoopTriggerRan"];
+	NSThread *thread = [NSThread currentThread];
+	[[thread threadDictionary] setObject: @"YES" forKey: @"UKLoopTriggerRan"];
 }
 
 /*

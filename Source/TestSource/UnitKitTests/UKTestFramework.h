@@ -21,11 +21,12 @@
  The use of the Apache License does not indicate that this project is
  affiliated with the Apache Software Foundation.
  */
- 
-#import <Cocoa/Cocoa.h>
+
+#import <Foundation/Foundation.h>
 #import <UnitKit/UnitKit.h>
 
-@interface UKTestFramework : NSObject <UKTest>  {
+@interface UKTestFramework : NSObject <UKTest>
+{
 
 }
 

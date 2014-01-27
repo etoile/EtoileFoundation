@@ -23,212 +23,215 @@
  */
 #import "UKTestFileNames.h"
 
-
 @implementation UKTestFileNames
 
-- (id) init
+- (id)init
 {
-    self = [super init];
-    handler = [UKTestHandler handler];
-    [handler setDelegate:self];
-    actualFilename = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
-    return self;
+	self = [super init];
+	handler = [UKTestHandler handler];
+	[handler setDelegate: self];
+	actualFilename = [[NSString alloc] initWithCString: __FILE__
+	                                          encoding: NSUTF8StringEncoding];
+	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-    [actualFilename release];
-    [reportedFilename release];
-    [super dealloc];
+	[actualFilename release];
+	[reportedFilename release];
+	[super dealloc];
 }
 
-- (void) reportStatus:(BOOL)cond inFile:(char *)filename line:(int)line message:(NSString *)msg
+- (void)reportStatus: (BOOL)cond
+              inFile: (char *)filename
+                line: (int)line
+             message: (NSString *)msg
 {
-    reportedFilename = [[NSString alloc] initWithCString:filename encoding:NSUTF8StringEncoding];
+	reportedFilename = [[NSString alloc] initWithCString: filename
+	                                            encoding: NSUTF8StringEncoding];
 }
 
-- (void) testUKPass
+- (void)testUKPass
 {
-    UKPass();
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKPass();
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFail
+- (void)testUKFail
 {
-    UKFail();
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFail();
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKTrue
+- (void)testUKTrue
 {
-    UKTrue(YES);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKTrue(YES);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKTrue_Negative
+- (void)testUKTrue_Negative
 {
-    UKTrue(NO);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKTrue(NO);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFalse
+- (void)testUKFalse
 {
-    UKFalse(NO);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFalse(NO);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFalse_Negative
+- (void)testUKFalse_Negative
 {
-    UKFalse(YES);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFalse(YES);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKNil
+- (void)testUKNil
 {
-    UKNil(nil);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKNil(nil);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKNil_Negative
+- (void)testUKNil_Negative
 {
-    UKNil(@"");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKNil(@"");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKNotNil
+- (void)testUKNotNil
 {
-    UKNotNil(@"");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKNotNil(@"");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKNotNil_Negative
+- (void)testUKNotNil_Negative
 {
-    UKNotNil(nil);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKNotNil(nil);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKIntsEqual
+- (void)testUKIntsEqual
 {
-    UKIntsEqual(1, 1);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKIntsEqual(1, 1);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKIntsEqual_Negative
+- (void)testUKIntsEqual_Negative
 {
-    UKIntsEqual(1, 2);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKIntsEqual(1, 2);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFloatsEqual
+- (void)testUKFloatsEqual
 {
-    UKFloatsEqual(1.0, 1.0, 0.1);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFloatsEqual(1.0, 1.0, 0.1);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFloatsEqual_Negative
+- (void)testUKFloatsEqual_Negative
 {
-    UKFloatsEqual(1.0, 2.0, 0.1);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFloatsEqual(1.0, 2.0, 0.1);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFloatsNotEqual
+- (void)testUKFloatsNotEqual
 {
-    UKFloatsNotEqual(1.0, 2.0, 0.1);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFloatsNotEqual(1.0, 2.0, 0.1);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKFloatsNotEqual_Negative
+- (void)testUKFloatsNotEqual_Negative
 {
-    UKFloatsNotEqual(1.0, 1.0, 0.1);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKFloatsNotEqual(1.0, 1.0, 0.1);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKObjectsEqual
+- (void)testUKObjectsEqual
 {
-    UKObjectsEqual(self, self);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKObjectsEqual(self, self);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKObjectsEqual_Negative
+- (void)testUKObjectsEqual_Negative
 {
-    UKObjectsEqual(self, @"asdf");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKObjectsEqual(self, @"asdf");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKObjectsSame
+- (void)testUKObjectsSame
 {
-    UKObjectsSame(self, self);
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKObjectsSame(self, self);
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKObjectsSame_Negative
+- (void)testUKObjectsSame_Negative
 {
-    UKObjectsSame(self, @"asdf");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKObjectsSame(self, @"asdf");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKStringsEqual
+- (void)testUKStringsEqual
 {
-    UKStringsEqual(@"a", @"a");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKStringsEqual(@"a", @"a");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKStringsEqual_Negative
+- (void)testUKStringsEqual_Negative
 {
-    UKStringsEqual(@"a", @"b");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKStringsEqual(@"a", @"b");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKStringContains
+- (void)testUKStringContains
 {
-    UKStringContains(@"Now is the time", @"the time");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKStringContains(@"Now is the time", @"the time");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKStringContains_Negative
+- (void)testUKStringContains_Negative
 {
-    UKStringContains(@"asdf", @"zzzzz");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKStringContains(@"asdf", @"zzzzz");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKStringDoesNotContain
+- (void)testUKStringDoesNotContain
 {
-    UKStringDoesNotContain(@"asdf", @"zzzzz");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKStringDoesNotContain(@"asdf", @"zzzzz");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
 
-- (void) testUKStringDoesNotContain_Negative
+- (void)testUKStringDoesNotContain_Negative
 {
-    UKStringDoesNotContain(@"Now is the time", @"the time");
-    [handler setDelegate:nil];
-    UKStringsEqual(actualFilename, reportedFilename);
+	UKStringDoesNotContain(@"Now is the time", @"the time");
+	[handler setDelegate: nil];
+	UKStringsEqual(actualFilename, reportedFilename);
 }
-
 
 
 @end

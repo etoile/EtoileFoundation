@@ -22,79 +22,81 @@
  affiliated with the Apache Software Foundation.
  */
 
-#import <UnitKit/UKTask.h>
 #import "UKTaskTests.h"
+#import <UnitKit/UKTask.h>
 
 @implementation UKTaskTests
 
-- (id) init
+- (id)init
 {
-    self = [super init];
-    task = [[UKTask alloc] init];
-    return self;
+	self = [super init];
+	task = [[UKTask alloc] init];
+	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-    [task release];
-    [super dealloc];
+	[task release];
+	[super dealloc];
 }
 
-/*
- Yes, for the most part unit tests should focus on one thing at a time. However
- to test UKTask, these two things are pretty much intertwined in any test. So
- here they are combined as is.
- */
-
-- (void) testSetLaunchPathAndGetStandardOut
+- (void)testSetLaunchPathAndGetStandardOut
 {
-    [task setLaunchPath:@"/bin/pwd"];
-    [task run];
-    NSString *pwd = [[NSFileManager defaultManager] currentDirectoryPath];
-    NSString *expected = [pwd stringByAppendingString:@"\n"];
-    UKStringsEqual(expected, [task standardOutput]);
+	[task setLaunchPath: @"/bin/pwd"];
+	[task run];
+
+	NSString *pwd = [[NSFileManager defaultManager] currentDirectoryPath];
+	NSString *expected = [pwd stringByAppendingString: @"\n"];
+
+	UKStringsEqual(expected, [task standardOutput]);
 }
 
-- (void) testSetArguments
+- (void)testSetArguments
 {
-    [task setLaunchPath:@"/bin/echo"];
-    [task setArguments:[NSArray arrayWithObjects:@"one", @"two", nil]];
-    [task run];
-    UKStringsEqual(@"one two\n", [task standardOutput]);
+	[task setLaunchPath: @"/bin/echo"];
+	[task setArguments: [NSArray arrayWithObjects: @"one", @"two", nil]];
+	[task run];
+
+	UKStringsEqual(@"one two\n", [task standardOutput]);
 }
 
-- (void) testSetWorkingDirectoryPath
+- (void)testSetWorkingDirectoryPath
 {
-    [task setLaunchPath:@"/bin/pwd"];
-    [task setWorkingDirectoryPath:@"/private/tmp"];
-    [task run];
-    UKStringsEqual(@"/private/tmp\n", [task standardOutput]);
+	[task setLaunchPath: @"/bin/pwd"];
+	[task setWorkingDirectoryPath: @"/private/tmp"];
+	[task run];
+
+	UKStringsEqual(@"/private/tmp\n", [task standardOutput]);
 }
 
-- (void) testSetEnvironment
+- (void)testSetEnvironment
 {
-    [task setLaunchPath:@"/usr/bin/env"];
-    [task setEnvironmentValue:@"bar" forKey:@"FOO"];
-    [task run];
-    UKStringContains([task standardOutput], @"FOO=bar");
+	[task setLaunchPath: @"/usr/bin/env"];
+	[task setEnvironmentValue: @"bar" forKey: @"FOO"];
+	[task run];
+
+	UKStringContains([task standardOutput], @"FOO=bar");
 }
 
-- (void) testSetStandardInput
+- (void)testSetStandardInput
 {
-    [task setLaunchPath:@"/bin/cat"];
-    [task setStandardInput:@"Now is the time"];
-    [task run];
-    UKStringsEqual(@"Now is the time", [task standardOutput]);
+	[task setLaunchPath: @"/bin/cat"];
+	[task setStandardInput: @"Now is the time"];
+	[task run];
+
+	UKStringsEqual(@"Now is the time", [task standardOutput]);
 }
 
-- (void) testStandardInputAndOutputWithData
+- (void)testStandardInputAndOutputWithData
 {
-    NSString *ukrunPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
-    NSData *binaryData = [NSData dataWithContentsOfFile:ukrunPath];
-    [task setLaunchPath:@"/bin/cat"];
-    [task setStandardInputWithData:binaryData];
-    [task run];
-    UKObjectsEqual(binaryData, [task standardOutputAsData]);
+	NSString *ukrunPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex: 0];
+	NSData *binaryData = [NSData dataWithContentsOfFile: ukrunPath];
+
+	[task setLaunchPath: @"/bin/cat"];
+	[task setStandardInputWithData: binaryData];
+	[task run];
+
+	UKObjectsEqual(binaryData, [task standardOutputAsData]);
 }
 
 @end
