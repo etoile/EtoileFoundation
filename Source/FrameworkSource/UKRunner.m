@@ -173,9 +173,9 @@
 	{
 		return -1;
 	}
-	// If no bundles are specified, then just run every bundle in this folder
-	else if ([bundleDicts count] == 0)
+	else if ([bundleDicts count] == 0) // If no bundles are specified, then just run every bundle in this folder
 	{
+    	NSLog(@"Will run every bundle");
 		NSArray *bundlePathsInCWD = [runner bundlePathsInCurrentDirectory: cwd];
 		for (NSString *bundlePath in bundlePathsInCWD)
 		{
@@ -308,13 +308,8 @@
 	NSDictionary* testParameters = [timer userInfo];
 	SEL testSel = NSSelectorFromString([testParameters objectForKey: @"TestSelector"]);
 	id testObject = [testParameters objectForKey: @"TestObject"]; 
-	Class testClass = [testParameters objectForKey: @"TestClass"];
-        @try {
-		[testObject performSelector: testSel];
-        }
-        @catch (id exc) {
-                [[UKTestHandler handler] reportException: exc inClass: testClass hint: @"errExceptionInTestMethod"];
-        }
+
+    [testObject performSelector: testSel];
 }
 - (void) runTest: (SEL)testSelector onObject: (id)testObject class: (Class)testClass
 {
@@ -450,7 +445,7 @@
             {
                 [[UKTestHandler handler] reportException: exception
 				                                 inClass: testClass
-				                                    hint: @"errExceptionInTestMethod"];
+				                                    hint: testMethodName];
             }
 
             // Release the object

@@ -13,6 +13,8 @@
 		600CE53309F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		600CE53409F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
 		600CE53509F2474F008BA30D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600CE53109F2474F008BA30D /* AppKit.framework */; };
+		6065B7F61896B608002B07D6 /* TestObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6065B7F41896B602002B07D6 /* TestObject.h */; };
+		6065B7F71896B608002B07D6 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6065B7F51896B604002B07D6 /* TestObject.m */; };
 		60B98EF1180560BA00D1FFFF /* class.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF680680B539008CA594 /* class.h */; };
 		60B98EF2180560BA00D1FFFF /* class.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF690680B539008CA594 /* class.m */; };
 		60B98EF3180560BA00D1FFFF /* TemplateInfo.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */; };
@@ -160,6 +162,8 @@
 		03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Fail.tiff"; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		600CE53109F2474F008BA30D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		6065B7F41896B602002B07D6 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestObject.h; path = UnitKitTests/TestObject.h; sourceTree = "<group>"; };
+		6065B7F51896B604002B07D6 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestObject.m; path = UnitKitTests/TestObject.m; sourceTree = "<group>"; };
 		60B98EE318055DD000D1FFFF /* Objective-C UnitKit test case class.xctemplate */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Objective-C UnitKit test case class.xctemplate"; path = "XcodeIntegration/File Templates/Cocoa/Objective-C UnitKit test case class.xctemplate"; sourceTree = "<group>"; };
 		60B98EE418055E0500D1FFFF /* UnitKit Testing Bundle.xctemplate */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "UnitKit Testing Bundle.xctemplate"; path = "XcodeIntegration/Project Templates/Mac/Other/UnitKit Testing Bundle.xctemplate"; sourceTree = "<group>"; };
 		60FBE0B709FAEA9700F734E1 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../ChangeLog; sourceTree = SOURCE_ROOT; };
@@ -400,6 +404,8 @@
 			isa = PBXGroup;
 			children = (
 				AE923B3705C3B1DF00549058 /* Info.plist */,
+				6065B7F41896B602002B07D6 /* TestObject.h */,
+				6065B7F51896B604002B07D6 /* TestObject.m */,
 				AE702CC905FED1060049C79F /* UKRunnerTests.h */,
 				AE702CCA05FED1060049C79F /* UKRunnerTests.m */,
 				AEBEF4B605FAF2910020FB35 /* UKTestMacros.h */,
@@ -482,6 +488,7 @@
 				AE702C3905FEC7920049C79F /* UKTestMessages.h in Headers */,
 				AE702CCB05FED1060049C79F /* UKRunnerTests.h in Headers */,
 				AEBED0E106B0589C00451E26 /* UKTestFramework.h in Headers */,
+				6065B7F61896B608002B07D6 /* TestObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,7 +712,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\n\"$TARGET_BUILD_DIR/ukrun\" -q \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"";
+			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\ncd $TARGET_BUILD_DIR\n$TARGET_BUILD_DIR/ukrun -q \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -747,6 +754,7 @@
 				AE702C3A05FEC7920049C79F /* UKTestMessages.m in Sources */,
 				AE702CCC05FED1060049C79F /* UKRunnerTests.m in Sources */,
 				AEBED0E306B058A100451E26 /* UKTestFramework.m in Sources */,
+				6065B7F71896B608002B07D6 /* TestObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

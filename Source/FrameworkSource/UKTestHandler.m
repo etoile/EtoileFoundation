@@ -136,14 +136,14 @@
 
 - (void) reportException:(NSException *)exception inClass: (Class)testClass hint: (NSString *)hint
 {
-	exceptionsReported++;
-
-    if (delegate != nil && [delegate respondsToSelector: @selector(reportWarning:)]) 
+    if (delegate != nil && [delegate respondsToSelector: @selector(reportException:inClass:hint:)])
 	{
         [delegate reportException: exception inClass: testClass hint: hint];
     }
 	else
 	{
+        exceptionsReported++;
+
 		NSString *excstring = [[self class] displayStringForException: exception];
 		NSString *msg = nil;
 

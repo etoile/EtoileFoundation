@@ -23,6 +23,7 @@
  */
 
 #import "UKRunnerTests.h"
+#import "TestObject.h"
 
 @interface RandomObject : NSObject
 @end
@@ -38,16 +39,16 @@ static BOOL randomObjectInitialized = NO;
 
 @end
 
-@interface TestObject : NSObject <UKTest>
+@interface TestedObject : NSObject <UKTest>
 @end
 
-@implementation TestObject
+@implementation TestedObject
 
-static BOOL testObjectInitialized = NO;
+static BOOL testedObjectInitialized = NO;
 
 + (void)initialize
 {
-	testObjectInitialized = YES;
+	testedObjectInitialized = YES;
 }
 
 @end
@@ -59,6 +60,8 @@ static BOOL testObjectInitialized = NO;
 	self = [super init];
     if (self == nil)
     	return nil;
+
+	handler = [UKTestHandler handler];
 
 	NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath]
 		stringByAppendingPathComponent: @"TestBundle.bundle"];
@@ -73,7 +76,22 @@ static BOOL testObjectInitialized = NO;
 - (void)dealloc
 {
 	[testBundle release];
+    [reportedException release];
+    [reportedTestClass release];
+    [reportedMethodName release];
 	[super dealloc];
+}
+
+- (void)reportException: (NSException *)exception
+                inClass: (Class)testClass
+                   hint: (NSString *)hint
+{
+    [reportedException autorelease];
+    [reportedTestClass autorelease];
+    [reportedMethodName autorelease];
+    reportedException = [exception retain];
+    reportedTestClass = [testClass retain];
+    reportedMethodName = [hint retain];
 }
 
 - (void)testRunLoopAddition
@@ -118,10 +136,10 @@ static BOOL testObjectInitialized = NO;
     UKTrue([testClasses containsObject: @"TestThree"]);
 
     // FIXME: UKFalse(randomObjectInitialized);
-    UKTrue(testObjectInitialized);
+    UKTrue(testedObjectInitialized);
 }
 
-- (void) testMethodNamesFromClass
+- (void)testMethodNamesFromClass
 {
     NSArray *testMethods = UKTestMethodNamesFromClass(NSClassFromString(@"TestTwo"));
 
@@ -131,7 +149,56 @@ static BOOL testObjectInitialized = NO;
     UKTrue([testMethods containsObject: @"testThree"]);
 }
 
-// XXX need to test the various exception handling mechanisms
+- (void)testReportInitException
+{
+	UKRunner *runner = [[UKRunner alloc] init];
+	[handler setDelegate: self];
+
+	UKDoesNotRaiseException([runner runTests: [NSArray arrayWithObject: @"testEmpty"]
+                                  onInstance: YES
+                                     ofClass: [TestObjectInit class]]);
+
+	UKStringsEqual(@"For exception in init", [reportedException reason]);
+	UKObjectsEqual([TestObjectInit class], reportedTestClass);
+    UKStringsEqual(@"errExceptionOnInit", reportedMethodName);
+
+    [handler setDelegate: nil];
+    [runner release];
+}
+
+- (void)testReportDeallocException
+{
+	UKRunner *runner = [[UKRunner alloc] init];
+	[handler setDelegate: self];
+
+	UKDoesNotRaiseException([runner runTests: [NSArray arrayWithObject: @"testEmpty"]
+                                  onInstance: YES
+                                     ofClass: [TestObjectDealloc class]]);
+
+	UKStringsEqual(@"For exception in dealloc", [reportedException reason]);
+	UKObjectsEqual([TestObjectDealloc class], reportedTestClass);
+    UKStringsEqual(@"errExceptionOnRelease", reportedMethodName);
+
+    [handler setDelegate: nil];
+    [runner release];
+}
+
+- (void)testReportTestMethodException
+{
+	UKRunner *runner = [[UKRunner alloc] init];
+	[handler setDelegate: self];
+
+	UKDoesNotRaiseException([runner runTests: [NSArray arrayWithObject: @"testRaisesException"]
+                                  onInstance: YES
+                                     ofClass: [TestObjectTestMethod class]]);
+
+	UKStringsEqual(@"For exception in test method", [reportedException reason]);
+	UKObjectsEqual([TestObjectTestMethod class], reportedTestClass);
+    UKStringsEqual(@"testRaisesException", reportedMethodName);
+
+    [handler setDelegate: nil];
+    [runner release];
+}
 
 /*
 - (void) testBundleInOutsideExecution

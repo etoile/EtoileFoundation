@@ -38,6 +38,10 @@
 @interface UKRunnerTests : NSObject <UKTest>
 {
 	NSBundle *testBundle;
+    UKTestHandler *handler;
+    NSException *reportedException;
+    Class reportedTestClass;
+    NSString *reportedMethodName;
 }
 
 @end
