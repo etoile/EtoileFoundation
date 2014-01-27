@@ -388,7 +388,8 @@
 
 - (void)testUKStringsEqual3
 {
-	NSString *string = [NSString stringWithCString: "abc" encoding: NSUTF8StringEncoding];
+	NSString *string = [NSString stringWithCString: "abc"
+                                          encoding: NSUTF8StringEncoding];
 	UKStringsEqual(@"abc", string);
 	[handler setDelegate: nil];
 	UKTrue(reportedStatus);
@@ -425,7 +426,8 @@
 
 - (void)testUKStringsNotEqual_Negative3
 {
-	NSString *string = [NSString stringWithCString: "abc" encoding: NSUTF8StringEncoding];
+	NSString *string = [NSString stringWithCString: "abc"
+                                          encoding: NSUTF8StringEncoding];
 	UKStringsNotEqual(@"abc", string);
 	[handler setDelegate: nil];
 	UKFalse(reportedStatus);
@@ -500,14 +502,22 @@
 
 - (void)testUKRaisesExceptionNamed
 {
-	UKRaisesExceptionNamed([self raiseException: [NSException exceptionWithName: @"Test" reason: @"For testing" userInfo: nil]], @"Test");
+	NSException *e = [NSException exceptionWithName: @"Test"
+                                             reason: @"For testing"
+                                           userInfo: nil];
+
+	UKRaisesExceptionNamed([self raiseException: e], @"Test");
 	[handler setDelegate: nil];
 	UKTrue(reportedStatus);
 }
 
 - (void)testUKRaisesExceptionNamed_WrongNSException
 {
-	UKRaisesExceptionNamed([self raiseException: [NSException exceptionWithName: @"Test" reason: @"For testing" userInfo: nil]], @"Wrong");
+	NSException *e = [NSException exceptionWithName: @"Test"
+                                             reason: @"For testing"
+                                           userInfo: nil];
+
+	UKRaisesExceptionNamed([self raiseException: e], @"Wrong");
 	[handler setDelegate: nil];
 	UKFalse(reportedStatus);
 }
