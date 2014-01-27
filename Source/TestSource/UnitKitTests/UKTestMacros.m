@@ -28,6 +28,9 @@
 - (id)init
 {
 	self = [super init];
+    if (self == nil)
+    	return nil;
+
 	handler = [UKTestHandler handler];
 	[handler setDelegate: self];
 	return self;

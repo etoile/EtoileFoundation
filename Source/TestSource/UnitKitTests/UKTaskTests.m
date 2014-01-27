@@ -29,7 +29,10 @@
 
 - (id)init
 {
-	self = [super init];
+    self = [super init];
+    if (self == nil)
+    	return nil;
+
 	task = [[UKTask alloc] init];
 	return self;
 }

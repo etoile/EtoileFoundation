@@ -29,10 +29,14 @@
 - (id)init
 {
 	self = [super init];
+    if (self == nil)
+    	return nil;
+
 	NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath]
 		stringByAppendingPathComponent: @"UKTestBundleOne.bundle"];
 	testBundle = [[NSBundle alloc] initWithPath: testBundlePath];
 	[testBundle load];
+
 	return self;
 }
 
