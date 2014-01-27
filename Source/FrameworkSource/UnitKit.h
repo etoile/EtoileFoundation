@@ -22,5 +22,6 @@
  affiliated with the Apache Software Foundation.
  */
 
+#import <UnitKit/UKRunner.h>
 #import <UnitKit/UKTest.h>
 #import <UnitKit/UKTestHandler.h>

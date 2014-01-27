@@ -24,6 +24,34 @@
 
 #import "UKRunnerTests.h"
 
+@interface RandomObject : NSObject
+@end
+
+@implementation RandomObject
+
+static BOOL randomObjectInitialized = NO;
+
++ (void)initialize
+{
+	randomObjectInitialized = YES;
+}
+
+@end
+
+@interface TestObject : NSObject <UKTest>
+@end
+
+@implementation TestObject
+
+static BOOL testObjectInitialized = NO;
+
++ (void)initialize
+{
+	testObjectInitialized = YES;
+}
+
+@end
+
 @implementation UKRunnerTests
 
 - (id)init
@@ -33,8 +61,10 @@
     	return nil;
 
 	NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath]
-		stringByAppendingPathComponent: @"UKTestBundleOne.bundle"];
+		stringByAppendingPathComponent: @"TestBundle.bundle"];
+
 	testBundle = [[NSBundle alloc] initWithPath: testBundlePath];
+    NSAssert1(testBundle != nil, @"Found not test bundle at %@", testBundlePath);
 	[testBundle load];
 
 	return self;
@@ -62,40 +92,45 @@
 	[[thread threadDictionary] setObject: @"YES" forKey: @"UKLoopTriggerRan"];
 }
 
-/*
-- (void) testRunLoopAdditionExecuted
+- (void)testRunLoopAdditionExecuted
 {
     NSThread *thread = [NSThread currentThread];
-    NSString *result = [[thread threadDictionary] 
-                        objectForKey:@"UKLoopTriggerRan"];
+    NSString *result = [[thread threadDictionary] objectForKey: @"UKLoopTriggerRan"];
+
     UKStringsEqual(result, @"YES");
+
     [[thread threadDictionary] removeObjectForKey:@"UKLoopTriggerRan"];
 }
 
-- (void) testRunLoopMode
+- (void)testRunLoopMode
 {
     NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
     UKStringsEqual([runLoop currentMode], NSDefaultRunLoopMode);
     
 }
 
-- (void) testClassesFromBundle
+- (void)testClassesFromBundle
 {
-    NSArray *testClasses = UKTestClassesFromBundle(testBundle);
+    NSArray *testClasses = UKTestClasseNamesFromBundle(testBundle);
+
     UKIntsEqual(2, [testClasses count]);
-    UKTrue([testClasses containsObject:NSClassFromString(@"TestTwo")]);
-    UKTrue([testClasses containsObject:NSClassFromString(@"TestThree")]);
+    UKTrue([testClasses containsObject: @"TestTwo"]);
+    UKTrue([testClasses containsObject: @"TestThree"]);
+
+    // FIXME: UKFalse(randomObjectInitialized);
+    UKTrue(testObjectInitialized);
 }
 
 - (void) testMethodNamesFromClass
 {
     NSArray *testMethods = UKTestMethodNamesFromClass(NSClassFromString(@"TestTwo"));
+
     UKIntsEqual(3, [testMethods count]);
-    UKTrue([testMethods containsObject:@"testOne"]);
-    UKTrue([testMethods containsObject:@"testTwo"]);
-    UKTrue([testMethods containsObject:@"testThree"]);
+    UKTrue([testMethods containsObject: @"testOne"]);
+    UKTrue([testMethods containsObject: @"testTwo"]);
+    UKTrue([testMethods containsObject: @"testThree"]);
 }
-*/
+
 // XXX need to test the various exception handling mechanisms
 
 /*
@@ -104,7 +139,7 @@
     NSString *ukrunPath = [[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:@"ukrun"];
     UKTask *task = [[UKTask alloc] init];
     [task setLaunchPath:ukrunPath];
-    [task setArguments:[NSArray arrayWithObjects:[[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:@"UKTestBundleOne.bundle"], nil]];
+    [task setArguments:[NSArray arrayWithObjects:[[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:@"TestBundle.bundle"], nil]];
     [task run];
     
     // task run should fail...
