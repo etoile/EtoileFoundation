@@ -156,7 +156,7 @@
 	float a = 1.0;
 	UKFloatsEqual(a, a, 0.1);
 	NSString *expected = [NSString stringWithFormat:
-		self localizedString: @"msgUKFloatsEqual.pass"], a, a];
+		[self localizedString: @"msgUKFloatsEqual.pass"], a, a];
 	UKStringsEqual(expected, reportedMessage);
 }
 
