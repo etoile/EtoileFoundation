@@ -89,10 +89,20 @@
 
 #pragma mark - Controlling Test Result Reporting
 
+- (id)delegate
+{
+	return delegate;
+}
+
 - (void)setDelegate: (id)aDelegate
 {
 	[delegate autorelease];
 	delegate = [aDelegate retain];
+}
+
+- (BOOL)isQuiet
+{
+	return quiet;
 }
 
 - (void)setQuiet: (BOOL)isQuiet

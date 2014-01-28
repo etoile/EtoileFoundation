@@ -26,8 +26,24 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * @abstract UKTestHandler implements the test assertions built into UnitKit
+ * and the support to report the results
+ *
+ * For each test assertion invoked on the test handler, the handler collects
+ * the result and reports it or not based on the reporting settings.
+ *
+ * At any time, you can query the current test results using -testsPassed,
+ * -testsFailed and -exceptionsReported, for all the test assertions invoked
+ * since the test handler has been created.
+ *
+ * A single test handler exists for all UKRunner instances. For multiple run
+ * test requests against UKRunner instances, so all test results are reported
+ * together.
+*/
 @interface UKTestHandler : NSObject
 {
+	@private
 	id delegate;
 	int testsPassed;
 	int testsFailed;
@@ -39,13 +55,43 @@
 /** @taskunit Initialization */
 
 
+/**
+ * Returns the shared test handler.
+ */
 + (UKTestHandler *)handler;
 
 
 /** @taskunit Controlling Test Result Reporting */
 
 
+/**
+ * Returns a delegate that can implement the same reporting methods than
+ * UKTestHandler.
+ *
+ * By default, returns nil.
+ *
+ * For more details, see -setDelegate:.
+ */
+- (id)delegate;
+/**
+ * Sets a delegate that can implement the same reporting methods than
+ * UKTestHandler.
+ *
+ * If the delegate implements a reporting method, it takes priority over
+ * UKTestHandler.
+ * As a result, what was previously reported by UKTestHandler is not going to
+ * be automatically logged in the console unless the delegate does it.
+ */
 - (void)setDelegate: (id)aDelegate;
+/**
+ * Returns whether the handler to report just the test failures and uncaught
+ * exceptions, and nothing on test successes.
+ */
+- (BOOL)isQuiet;
+/**
+ * Tells the handler to report just the test failures and uncaught exceptions,
+ * and nothing on test successes.
+ */
 - (void)setQuiet: (BOOL)isQuiet;
 /**
  * If we have a delegate, then by all means use it. If we don't, then check to
@@ -57,7 +103,15 @@
              message: (NSString *)msg;
 /**
  * Reports an uncaught exception and a hint that represents the context in
- * which the exception arised (e.g. -init on a test object).
+ * which the exception was raised.
+ *
+ * To indicate the context, three hints are supported:
+ *
+ * <deflist>
+ * <item>errExceptionOnInit</item><desc>inside -init on a test object</desc>
+ * <item>errExceptionOnRelease</item><desc>inside -dealloc on a test object</desc>
+ * <item>a test method name</item><desc>inside a test method</desc>
+ * </deflist>
  *
  * By default, forwards the message to the delegate if there is one, otherwise
  * uses -reportWarning: to print the exception reason.
@@ -65,13 +119,32 @@
 - (void)reportException: (NSException *)exception
                 inClass: (Class)testClass
                    hint: (NSString *)hint;
+/**
+ * Reports a warning message.
+ *
+ * By default, forwards the message to the delegate if there is one, otherwise
+ * uses NSLog() to print the message.
+ *
+ * This method is used by -reportStatus:inFile:line:message: and
+ * -reportException:inClass:hint: to report test failures and uncaught exceptions.
+ */
 - (void)reportWarning: (NSString *)message;
 
 
 /** @taskunit Test Results */
 
 
+/**
+ * Returns the current number of test successes.
+ *
+ * See -reportStatus:inFile:line:message:.
+ */
 - (int)testsPassed;
+/**
+ * Returns the current number of test failures.
+ *
+ * See -reportStatus:inFile:line:message:.
+ */
 - (int)testsFailed;
 /**
  * Returns the current number of exceptions caught by UKRunner and reported to
