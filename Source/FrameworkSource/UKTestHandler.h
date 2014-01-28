@@ -82,53 +82,117 @@
 - (int)exceptionsReported;
 
 
-/** @taskunit Test Assertions */
+/** @taskunit Basic Test Assertions */
 
 
-- (void)passInFile: (const char *)filename line: (int)line;
+- (void)passInFile: (const char *)filename
+              line: (int)line;
+- (void)failInFile: (const char *)filename
+              line: (int)line;
 
-- (void)failInFile: (const char *)filename line: (int)line;
 
-- (void)testTrue: (BOOL)cond inFile: (const char *)filename line: (int)line;
+/** @taskunit Primitive Test Assertions */
 
-- (void)testFalse: (BOOL)cond inFile: (const char *)filename line: (int)line;
 
-- (void)testNil: (void *)ref inFile: (const char *)filename line: (int)line;
+- (void)testTrue: (BOOL)cond
+          inFile: (const char *)filename
+            line: (int)line;
+- (void)testFalse: (BOOL)cond
+           inFile: (const char *)filename
+             line: (int)line;
+- (void)testNil: (void *)ref
+         inFile: (const char *)filename
+           line: (int)line;
+- (void)testNotNil: (void *)ref
+            inFile: (const char *)filename
+              line: (int)line;
 
-- (void)testNotNil: (void *)ref inFile: (const char *)filename line: (int)line;
 
-- (void)testInt: (int)a equalTo: (int)b inFile: (const char *)filename line: (int)line;
+/** @taskunit Number Primitive Test Assertions */
 
-- (void)testInt: (int)a notEqualTo: (int)b inFile: (const char *)filename line: (int)line;
 
-- (void)testFloat: (float)a equalTo: (float)b delta: (float)delta inFile: (const char *)filename line: (int)line;
+- (void)testInt: (int)a
+        equalTo: (int)b
+         inFile: (const char *)filename
+           line: (int)line;
+- (void)testInt: (int)a
+     notEqualTo: (int)b
+         inFile: (const char *)filename
+           line: (int)line;
+- (void)testFloat: (float)a
+          equalTo: (float)b
+            delta: (float)delta
+           inFile: (const char *)filename
+             line: (int)line;
+- (void)testFloat: (float)a
+       notEqualTo: (float)b
+            delta: (float)delta
+           inFile: (const char *)filename
+             line: (int)line;
 
-- (void)testFloat: (float)a notEqualTo: (float)b delta: (float)delta inFile: (const char *)filename line: (int)line;
 
-- (void)testObject: (id)a kindOf: (id)b inFile: (const char *)filename line: (int)line;
+/** @taskunit Object Test Assertions */
 
-- (void)testObject: (id)a equalTo: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void)testObject: (id)a notEqualTo: (id)b inFile: (const char *)filename line: (int)line;
+- (void)testObject: (id)a
+            kindOf: (id)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testObject: (id)a
+           equalTo: (id)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testObject: (id)a
+        notEqualTo: (id)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testObject: (id)a
+            sameAs: (id)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testObject: (id)a
+         notSameAs: (id)b
+            inFile: (const char *)filename
+              line: (int)line;
 
-- (void)testObject: (id)a sameAs: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void)testObject: (id)a notSameAs: (id)b inFile: (const char *)filename line: (int)line;
+/** @taskunit String Test Assertions */
 
-- (void)testString: (NSString *)a equalTo: (NSString *)b inFile: (const char *)filename line: (int)line;
 
-- (void)testString: (NSString *)a notEqualTo: (NSString *)b inFile: (const char *)filename line: (int)line;
+- (void)testString: (NSString *)a
+           equalTo: (NSString *)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testString: (NSString *)a
+        notEqualTo: (NSString *)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testString: (NSString *)a
+          contains: (NSString *)b
+            inFile: (const char *)filename
+              line: (int)line;
+- (void)testString: (NSString *)a
+    doesNotContain: (NSString *)b
+            inFile: (const char *)filename
+              line: (int)line;
 
-- (void)testString: (NSString *)a contains: (NSString *)b inFile: (const char *)filename line: (int)line;
 
-- (void)testString: (NSString *)a doesNotContain: (NSString *)b inFile: (const char *)filename line: (int)line;
+/** @taskunit Exception Test Assertions */
 
-- (void)raisesException: (NSException *)exception inFile: (const char *)filename line: (int)line;
 
-- (void)doesNotRaisesException: (NSException *)exception inFile: (const char *)filename line: (int)line;
-
-- (void)raisesException: (NSException *)exception named: (NSString *)expected inFile: (const char *)filename line: (int)line;
-
-- (void)raisesException: (id)raisedObject class: (Class)expectedClass inFile: (const char *)filename line: (int)line;
+- (void)raisesException: (NSException *)exception
+                 inFile: (const char *)filename
+                   line: (int)line;
+- (void)doesNotRaisesException: (NSException *)exception
+                        inFile: (const char *)filename
+                          line: (int)line;
+- (void)raisesException: (NSException *)exception
+                  named: (NSString *)expected
+                 inFile: (const char *)filename
+                   line: (int)line;
+- (void)raisesException: (id)raisedObject
+                  class: (Class)expectedClass
+                 inFile: (const char *)filename
+                   line: (int)line;
 
 @end
