@@ -26,84 +26,109 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UKTestHandler : NSObject {
-    id delegate;
-    int testsPassed;
-    int testsFailed;
+@interface UKTestHandler : NSObject
+{
+	id delegate;
+	int testsPassed;
+	int testsFailed;
 	int exceptionsReported;
-    BOOL quiet;
+	BOOL quiet;
 }
+
+
+/** @taskunit Initialization */
+
 
 + (UKTestHandler *)handler;
 
-- (void) setDelegate:(id)aDelegate;
-- (void) setQuiet:(BOOL)isQuiet;
 
-- (void) reportStatus:(BOOL)cond inFile:(const char *)filename line:(int)line message:(NSString *)msg;
-/** Reports an uncaught exception and a hint that represents the context in 
-which the exception arised (e.g. -init on a test object).
+/** @taskunit Controlling Test Result Reporting */
 
-By default, forwards the message to the delegate if there is one, otherwise uses 
--reportWarning: to print the exception reason. */
-- (void) reportException:(NSException *)exception inClass: (Class)testClass hint: (NSString *)hint ;
 
-- (void) reportWarning:(NSString *)message;
+- (void)setDelegate: (id)aDelegate;
+- (void)setQuiet: (BOOL)isQuiet;
+/**
+ * If we have a delegate, then by all means use it. If we don't, then check to
+ * see if we have any errors which should be reported off to std out.
+ */
+- (void)reportStatus: (BOOL)cond
+              inFile: (const char *)filename
+                line: (int)line
+             message: (NSString *)msg;
+/**
+ * Reports an uncaught exception and a hint that represents the context in
+ * which the exception arised (e.g. -init on a test object).
+ *
+ * By default, forwards the message to the delegate if there is one, otherwise
+ * uses -reportWarning: to print the exception reason.
+ */
+- (void)reportException: (NSException *)exception
+                inClass: (Class)testClass
+                   hint: (NSString *)hint;
+- (void)reportWarning: (NSString *)message;
 
-- (int) testsPassed;
 
-- (int) testsFailed;
-/** Returns the current number of exceptions caught by UKRunner and reported to 
-the test handler.
+/** @taskunit Test Results */
 
-See -reportException:inClass:hint:. */
-- (int) exceptionsReported;
 
-- (void) passInFile:(const char *)filename line:(int)line;
+- (int)testsPassed;
+- (int)testsFailed;
+/**
+ * Returns the current number of exceptions caught by UKRunner and reported to
+ * the test handler.
+ *
+ * See -reportException:inClass:hint:.
+ */
+- (int)exceptionsReported;
 
-- (void) failInFile:(const char *)filename line:(int)line;
 
-- (void) testTrue:(BOOL)cond inFile:(const char *)filename line:(int)line;
+/** @taskunit Test Assertions */
 
-- (void) testFalse:(BOOL)cond inFile:(const char *)filename line:(int)line;
 
-- (void) testNil:(void *)ref inFile:(const char *)filename line:(int)line;
+- (void)passInFile: (const char *)filename line: (int)line;
 
-- (void) testNotNil:(void *)ref inFile:(const char *)filename line:(int)line;
+- (void)failInFile: (const char *)filename line: (int)line;
 
-- (void) testInt:(int)a equalTo:(int)b inFile:(const char *)filename line:(int)line;
+- (void)testTrue: (BOOL)cond inFile: (const char *)filename line: (int)line;
 
-- (void) testInt:(int)a notEqualTo:(int)b inFile:(const char *)filename line:(int)line;
+- (void)testFalse: (BOOL)cond inFile: (const char *)filename line: (int)line;
 
-- (void) testFloat:(float)a equalTo:(float)b delta:(float)delta inFile:(const char *)filename line:(int)line;
+- (void)testNil: (void *)ref inFile: (const char *)filename line: (int)line;
 
-- (void) testFloat:(float)a notEqualTo:(float)b delta:(float)delta inFile:(const char *)filename line:(int)line;
+- (void)testNotNil: (void *)ref inFile: (const char *)filename line: (int)line;
 
-- (void) testObject:(id)a kindOf:(id)b inFile:(const char *)filename line:(int)line;
+- (void)testInt: (int)a equalTo: (int)b inFile: (const char *)filename line: (int)line;
 
-- (void) testObject:(id)a equalTo:(id)b inFile:(const char *)filename line:(int)line;
+- (void)testInt: (int)a notEqualTo: (int)b inFile: (const char *)filename line: (int)line;
 
-- (void) testObject:(id)a notEqualTo:(id)b inFile:(const char *)filename line:(int)line;
+- (void)testFloat: (float)a equalTo: (float)b delta: (float)delta inFile: (const char *)filename line: (int)line;
 
-- (void) testObject:(id)a sameAs:(id)b inFile:(const char *)filename line:(int)line;
+- (void)testFloat: (float)a notEqualTo: (float)b delta: (float)delta inFile: (const char *)filename line: (int)line;
 
-- (void) testObject:(id)a notSameAs:(id)b inFile:(const char *)filename line:(int)line;
+- (void)testObject: (id)a kindOf: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void) testString:(NSString *)a equalTo:(NSString *)b inFile:(const char *)filename line:(int)line;
+- (void)testObject: (id)a equalTo: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void) testString:(NSString *)a notEqualTo:(NSString *)b inFile:(const char *)filename line:(int)line;
+- (void)testObject: (id)a notEqualTo: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void) testString:(NSString *)a contains:(NSString *)b inFile:(const char *)filename line:(int)line;
+- (void)testObject: (id)a sameAs: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void) testString:(NSString *)a doesNotContain:(NSString *)b inFile:(const char *)filename line:(int)line;
+- (void)testObject: (id)a notSameAs: (id)b inFile: (const char *)filename line: (int)line;
 
-- (void) raisesException:(NSException*)exception inFile:(const char *)filename line:(int)line;
+- (void)testString: (NSString *)a equalTo: (NSString *)b inFile: (const char *)filename line: (int)line;
 
-- (void) doesNotRaisesException:(NSException*)exception inFile:(const char *)filename line:(int)line;
+- (void)testString: (NSString *)a notEqualTo: (NSString *)b inFile: (const char *)filename line: (int)line;
 
-- (void) raisesException:(NSException*)exception named:(NSString*)expected inFile:(const char *)filename line:(int)line;
+- (void)testString: (NSString *)a contains: (NSString *)b inFile: (const char *)filename line: (int)line;
 
-- (void) raisesException:(id)raisedObject class:(Class)expectedClass inFile:(const char *)filename line:(int)line;
+- (void)testString: (NSString *)a doesNotContain: (NSString *)b inFile: (const char *)filename line: (int)line;
 
+- (void)raisesException: (NSException *)exception inFile: (const char *)filename line: (int)line;
+
+- (void)doesNotRaisesException: (NSException *)exception inFile: (const char *)filename line: (int)line;
+
+- (void)raisesException: (NSException *)exception named: (NSString *)expected inFile: (const char *)filename line: (int)line;
+
+- (void)raisesException: (id)raisedObject class: (Class)expectedClass inFile: (const char *)filename line: (int)line;
 
 @end
-

@@ -25,36 +25,33 @@
  */
 
 #import "UKTestHandler.h"
-#import <stdarg.h>
-#import <math.h>
 
 @implementation UKTestHandler
 
 + (UKTestHandler *)handler
 {
-    static UKTestHandler *handler;
-    if (handler == nil) {
-        handler = [[self alloc] init];
-    }
-    return handler;
+	static UKTestHandler *handler = nil;
+
+	if (handler == nil)
+	{
+		handler = [[self alloc] init];
+	}
+	return handler;
 }
 
-+ (NSString *) localizedString:(NSString *)key
++ (NSString *)localizedString: (NSString *)key
 {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    return NSLocalizedStringFromTableInBundle(key, 
-                                              @"UKTestHandler", 
-                                              bundle, 
-                                              @"");
+	NSBundle *bundle = [NSBundle bundleForClass: [self class]];
+	return NSLocalizedStringFromTableInBundle(key, @"UKTestHandler", bundle, @"");
 }
 
-+ (NSString *) displayStringForObject:(id) obj
++ (NSString *)displayStringForObject: (id)obj
 {
-    NSString *description = [obj description];
-    // TODO: It might be nice to abbreviate the descriptions if the test passes and
-    // print the whole description if the test fails. For now, always print the
-    // whole description since it's very annoying to see failed tests with an
-    // useless truncated description
+	NSString *description = [obj description];
+	// TODO: It might be nice to abbreviate the descriptions if the test passes and
+	// print the whole description if the test fails. For now, always print the
+	// whole description since it's very annoying to see failed tests with an
+	// useless truncated description
 #if 0
     if ([description hasPrefix:@"<"] && [description hasSuffix:@">"]) {
         // assume it's <Classname 0x2394920> and return
@@ -70,79 +67,88 @@
         description = [description stringByAppendingString:@"..."];
     } 
 #endif
-    return [NSString stringWithFormat:@"\"%@\"", description];
+	return [NSString stringWithFormat: @"\"%@\"", description];
 }
 
-+ (NSString *) displayStringForException:(id)exc
++ (NSString *)displayStringForException: (id)exc
 {
-    if ([exc isKindOfClass:[NSException class]]) {
-        return [NSString stringWithFormat:@"NSException: %@ %@", [exc name],
-            [exc reason]];
-    } else {
-        return NSStringFromClass([exc class]);
-    }
-}
-
-- (int) testsPassed
-{
-    return testsPassed;
-}
-
-- (int) testsFailed
-{
-    return testsFailed;
-}
-
-- (int) exceptionsReported
-{
-    return exceptionsReported;
-}
-
-- (void) setDelegate:(id)aDelegate
-{
-    [delegate autorelease];
-    delegate = [aDelegate retain];
-}
-
-- (void) setQuiet:(BOOL)isQuiet
-{
-    quiet = isQuiet;
-}
-
-// XXX we need to test these report messages as best as possible. Especially
-// with the delegate set or not and responding to selector
-
-- (void) reportStatus:(BOOL)cond inFile:(const char *)filename line:(int)line message:(NSString *)msg
-{
-    /*
-     If we have a delegate, then by all means use it. If we don't, then check
-     to see if we have any errors which should be reported off to std out.
-     */
-    if (delegate && 
-        [delegate respondsToSelector:@selector(reportStatus:inFile:line:message:)]) 
-    {
-        [delegate reportStatus:cond inFile:filename line:line message:msg];
-        return;
-    } else if (cond) {
-        testsPassed++;
-        if (!quiet) {
-            NSLog(@"%s:%i %s\n", filename, line, [msg UTF8String]);
-        }
-    } else {
-        testsFailed++;
-        NSLog(@"%s:%i: warning: %s\n", filename, line, [msg UTF8String]);
-    }
-}
-
-- (void) reportException:(NSException *)exception inClass: (Class)testClass hint: (NSString *)hint
-{
-    if (delegate != nil && [delegate respondsToSelector: @selector(reportException:inClass:hint:)])
+	if ([exc isKindOfClass: [NSException class]])
 	{
-        [delegate reportException: exception inClass: testClass hint: hint];
-    }
+		return [NSString stringWithFormat: @"NSException: %@ %@",
+		                                   [exc name], [exc reason]];
+	}
 	else
 	{
-        exceptionsReported++;
+		return NSStringFromClass([exc class]);
+	}
+}
+
+- (int)testsPassed
+{
+	return testsPassed;
+}
+
+- (int)testsFailed
+{
+	return testsFailed;
+}
+
+- (int)exceptionsReported
+{
+	return exceptionsReported;
+}
+
+- (void)setDelegate: (id)aDelegate
+{
+	[delegate autorelease];
+	delegate = [aDelegate retain];
+}
+
+- (void)setQuiet: (BOOL)isQuiet
+{
+	quiet = isQuiet;
+}
+
+- (void)reportStatus: (BOOL)cond
+              inFile: (const char *)filename
+                line: (int)line
+             message: (NSString *)msg
+{
+	if (delegate != nil
+	  && [delegate respondsToSelector: @selector(reportStatus:inFile:line:message:)])
+	{
+		[delegate reportStatus: cond inFile: filename line: line message: msg];
+		return;
+	}
+	else if (cond)
+	{
+		testsPassed++;
+
+		if (!quiet)
+		{
+			NSLog(@"%s:%i %s\n", filename, line, [msg UTF8String]);
+		}
+	}
+	else
+	{
+		testsFailed++;
+
+		NSLog(@"%s:%i: warning: %s\n", filename, line, [msg UTF8String]);
+	}
+}
+
+- (void)reportException: (NSException *)exception
+                inClass: (Class)testClass
+                   hint: (NSString *)hint
+{
+	if (delegate != nil
+	  && [delegate respondsToSelector: @selector(reportException:inClass:hint:)])
+	{
+		[delegate reportException: exception inClass: testClass hint: hint];
+	}
+	else
+	{
+		exceptionsReported++;
 
 		NSString *excstring = [[self class] displayStringForException: exception];
 		NSString *msg = nil;
@@ -158,372 +164,438 @@
 
 			msg = [[self class] localizedString: @"errExceptionInTestMethod"];
 			msg = [NSString stringWithFormat: msg, NSStringFromClass(testClass),
-                testMethodName, excstring];	
+			                                  testMethodName, excstring];
 		}
 
-        [self reportWarning: msg];
-    }
+		[self reportWarning: msg];
+	}
 }
 
-- (void) reportWarning:(NSString *)msg
+- (void)reportWarning: (NSString *)msg
 {
-    /*
-     Use a delegate if there. If not, then check
-     */
-    if (delegate && [delegate respondsToSelector:@selector(reportWarning:)]) {
-        [delegate reportWarning:msg];
-    } else {
-        NSLog(@":: warning: %s\n", [msg UTF8String]);
-    }
+	if (delegate != nil && [delegate respondsToSelector: @selector(reportWarning:)])
+	{
+		[delegate reportWarning: msg];
+	}
+	else
+	{
+		NSLog(@":: warning: %s\n", [msg UTF8String]);
+	}
 }
 
-- (void) passInFile:(const char *)filename line:(int)line
+- (void)passInFile: (const char *)filename line: (int)line
 {
-    NSString *msg = [UKTestHandler localizedString:@"msgUKPass"];
-    [self reportStatus:YES inFile:filename line:line message:msg];
+	NSString *msg = [UKTestHandler localizedString: @"msgUKPass"];
+	[self reportStatus: YES inFile: filename line: line message: msg];
 }
 
-- (void) failInFile:(const char *)filename line:(int)line
+- (void)failInFile: (const char *)filename line: (int)line
 {
-    NSString *msg = [UKTestHandler localizedString:@"msgUKFail"];
-    [self reportStatus:NO inFile:filename line:line message:msg];
+	NSString *msg = [UKTestHandler localizedString: @"msgUKFail"];
+	[self reportStatus: NO inFile: filename line: line message: msg];
 }
 
-- (void) testTrue:(BOOL)cond inFile:(const char *)filename line:(int)line
+- (void)testTrue: (BOOL)cond inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    if (cond) {
-        msg = [UKTestHandler localizedString:@"msgUKTrue.pass"];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKTrue.fail"];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	if (cond)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKTrue.pass"];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKTrue.fail"];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testFalse:(BOOL)cond inFile:(const char *)filename line:(int)line
+- (void)testFalse: (BOOL)cond inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    if (!cond) {
-        msg = [UKTestHandler localizedString:@"msgUKFalse.pass"];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKFalse.fail"];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	if (!cond)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKFalse.pass"];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKFalse.fail"];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testNil:(void *)ref inFile:(const char *)filename line:(int)line
+- (void)testNil: (void *)ref inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    if (!ref) {
-        msg = [UKTestHandler localizedString:@"msgUKNil.pass"];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKNil.fail"];
-        // XXX we are *so* assuming that this pointer is an object...
-        NSString *s = [UKTestHandler displayStringForObject:ref];
-        msg = [NSString stringWithFormat:msg, s]; 
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	if (!ref)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKNil.pass"];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKNil.fail"];
+		// XXX we are *so* assuming that this pointer is an object...
+		NSString *s = [UKTestHandler displayStringForObject: ref];
+		msg = [NSString stringWithFormat: msg, s];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testNotNil:(void *)ref inFile:(const char *)filename line:(int)line
+- (void)testNotNil: (void *)ref inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    if (ref) {
-        msg = [UKTestHandler localizedString:@"msgUKNotNil.pass"];        
-        // XXX we are *so* assuming that this pointer is an object...
-        NSString *s = [UKTestHandler displayStringForObject:ref];
-        msg = [NSString stringWithFormat:msg, s]; 
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKNotNil.fail"];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }    
+	NSString *msg;
+	if (ref)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKNotNil.pass"];
+		// XXX we are *so* assuming that this pointer is an object...
+		NSString *s = [UKTestHandler displayStringForObject: ref];
+		msg = [NSString stringWithFormat: msg, s];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKNotNil.fail"];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testInt:(int)a equalTo:(int)b inFile:(const char *)filename line:(int)line
+- (void)testInt: (int)a equalTo: (int)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    if (a == b) {
-        msg = [UKTestHandler localizedString:@"msgUKIntsEqual.pass"];
-        msg = [NSString stringWithFormat:msg, a, b];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKIntsEqual.fail"];
-        msg = [NSString stringWithFormat:msg, a, b];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	if (a == b)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKIntsEqual.pass"];
+		msg = [NSString stringWithFormat: msg, a, b];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKIntsEqual.fail"];
+		msg = [NSString stringWithFormat: msg, a, b];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testInt:(int)a notEqualTo:(int)b inFile:(const char *)filename line:(int)line
+- (void)testInt: (int)a notEqualTo: (int)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    if (a != b) {
-        msg = [UKTestHandler localizedString:@"msgUKIntsNotEqual.pass"];
-        msg = [NSString stringWithFormat:msg, a, b];        
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKIntsNotEqual.fail"];
-        msg = [NSString stringWithFormat:msg, a, b];        
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	if (a != b)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKIntsNotEqual.pass"];
+		msg = [NSString stringWithFormat: msg, a, b];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKIntsNotEqual.fail"];
+		msg = [NSString stringWithFormat: msg, a, b];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testFloat:(float)a equalTo:(float)b delta:(float)delta inFile:(const char *)filename line:(int)line
+- (void)testFloat: (float)a equalTo: (float)b delta: (float)delta inFile: (const char *)filename line: (int)line
 {
-    // XXX need to figure out how to report the numbers in such a way that
-    // they are shortened to the degree of precision...
-    
-    NSString *msg;
-    float c = fabs(a - b);
-    if (c <= delta) {
-        msg = [UKTestHandler localizedString:@"msgUKFloatsEqual.pass"];
-        msg = [NSString stringWithFormat:msg, a - delta, a + delta, b];  
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKFloatsEqual.fail"];
-        msg = [NSString stringWithFormat:msg, a - delta, a + delta, b];  
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	// XXX need to figure out how to report the numbers in such a way that
+	// they are shortened to the degree of precision...
+
+	NSString *msg;
+	float c = fabs(a - b);
+	if (c <= delta)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKFloatsEqual.pass"];
+		msg = [NSString stringWithFormat: msg, a - delta, a + delta, b];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKFloatsEqual.fail"];
+		msg = [NSString stringWithFormat: msg, a - delta, a + delta, b];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testFloat:(float)a notEqualTo:(float)b delta:(float)delta inFile:(const char *)filename line:(int)line
+- (void)testFloat: (float)a notEqualTo: (float)b delta: (float)delta inFile: (const char *)filename line: (int)line
 {
-    // XXX need to figure out how to report the numbers in such a way that
-    // they are shortened to the degree of precision...
-    
-    NSString *msg;
-    float c = fabs(a - b);
-    if (c > delta) {
-        msg = [UKTestHandler localizedString:@"msgUKFloatsNotEqual.pass"];
-        msg = [NSString stringWithFormat:msg, a - delta, a + delta, b];  
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKFloatsNotEqual.fail"];
-        msg = [NSString stringWithFormat:msg, a - delta, a + delta, b];  
-        [self reportStatus:NO inFile:filename line:line message:msg];    }
+	// XXX need to figure out how to report the numbers in such a way that
+	// they are shortened to the degree of precision...
+
+	NSString *msg;
+	float c = fabs(a - b);
+	if (c > delta)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKFloatsNotEqual.pass"];
+		msg = [NSString stringWithFormat: msg, a - delta, a + delta, b];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKFloatsNotEqual.fail"];
+		msg = [NSString stringWithFormat: msg, a - delta, a + delta, b];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testObject:(id)a kindOf:(id)b inFile:(const char *)filename line:(int)line
+- (void)testObject: (id)a kindOf: (id)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA = [UKTestHandler displayStringForObject:[a class]];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-	if ([a isKindOfClass: b]) {
-        msg = [UKTestHandler localizedString:@"msgUKObjectKindOf.pass"];
-        msg = [NSString stringWithFormat:msg, dispB, dispA];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKObjectKindOf.fail"];
-        msg = [NSString stringWithFormat:msg, dispB, dispA];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: [a class]];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	if ([a isKindOfClass: b])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectKindOf.pass"];
+		msg = [NSString stringWithFormat: msg, dispB, dispA];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectKindOf.fail"];
+		msg = [NSString stringWithFormat: msg, dispB, dispA];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testObject:(id)a equalTo:(id)b inFile:(const char *)filename line:(int)line
+- (void)testObject: (id)a equalTo: (id)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
 
-    if ([a isEqual:b]) {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsEqual.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsEqual.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	if ([a isEqual: b])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsEqual.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsEqual.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testObject:(id)a notEqualTo:(id)b inFile:(const char *)filename line:(int)line
+- (void)testObject: (id)a notEqualTo: (id)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    if (![a isEqual:b]) {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsNotEqual.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsNotEqual.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	if (![a isEqual: b])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsNotEqual.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsNotEqual.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testObject:(id)a sameAs:(id)b inFile:(const char *)filename line:(int)line
+- (void)testObject: (id)a sameAs: (id)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    if (a == b) {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsSame.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsSame.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	if (a == b)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsSame.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsSame.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testObject:(id)a notSameAs:(id)b inFile:(const char *)filename line:(int)line
+- (void)testObject: (id)a notSameAs: (id)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    if (a != b) {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsNotSame.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKObjectsNotSame.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	if (a != b)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsNotSame.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKObjectsNotSame.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testString:(NSString *)a equalTo:(NSString *)b inFile:(const char *)filename line:(int)line
+- (void)testString: (NSString *)a equalTo: (NSString *)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    if ([a isEqualToString:b]) {
-        msg = [UKTestHandler localizedString:@"msgUKStringsEqual.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKStringsEqual.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	if ([a isEqualToString: b])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKStringsEqual.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKStringsEqual.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testString:(NSString *)a notEqualTo:(NSString *)b inFile:(const char *)filename line:(int)line
+- (void)testString: (NSString *)a notEqualTo: (NSString *)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    if (![a isEqualToString:b]) {
-        msg = [UKTestHandler localizedString:@"msgUKStringsNotEqual.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKStringsNotEqual.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	if (![a isEqualToString: b])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKStringsNotEqual.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKStringsNotEqual.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testString:(NSString *)a contains:(NSString *)b inFile:(const char *)filename line:(int)line
+- (void)testString: (NSString *)a contains: (NSString *)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    NSRange r = [a rangeOfString:b];
-    if (r.location != NSNotFound) {
-        msg = [UKTestHandler localizedString:@"msgUKStringContains.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKStringContains.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
+
+	NSRange r = [a rangeOfString: b];
+	if (r.location != NSNotFound)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKStringContains.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKStringContains.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) testString:(NSString *)a doesNotContain:(NSString *)b inFile:(const char *)filename line:(int)line
+- (void)testString: (NSString *)a doesNotContain: (NSString *)b inFile: (const char *)filename line: (int)line
 {
-    NSString *msg;
-    NSString *dispA =[UKTestHandler displayStringForObject:a];
-    NSString *dispB = [UKTestHandler displayStringForObject:b];
-    
-    NSRange r = [a rangeOfString:b];
-    if (r.location == NSNotFound) {
-        msg = 
-            [UKTestHandler localizedString:@"msgUKStringDoesNotContain.pass"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = 
-            [UKTestHandler localizedString:@"msgUKStringDoesNotContain.fail"];
-        msg = [NSString stringWithFormat:msg, dispA, dispB];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }   
-}
+	NSString *msg;
+	NSString *dispA = [UKTestHandler displayStringForObject: a];
+	NSString *dispB = [UKTestHandler displayStringForObject: b];
 
-
-- (void) raisesException:(NSException*)exception inFile:(const char *)filename line:(int)line
-{
-    NSString    *msg;
-    
-    if(exception != nil)  {
-        msg = [UKTestHandler localizedString:@"msgUKExceptionRaised.pass"];
-        msg = [NSString stringWithFormat:msg, [[exception class] description]];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKExecptionRaised.fail"];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSRange r = [a rangeOfString: b];
+	if (r.location == NSNotFound)
+	{
+		msg =
+		  [UKTestHandler localizedString: @"msgUKStringDoesNotContain.pass"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg =
+		  [UKTestHandler localizedString: @"msgUKStringDoesNotContain.fail"];
+		msg = [NSString stringWithFormat: msg, dispA, dispB];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
 
-- (void) doesNotRaisesException:(NSException*)exception inFile:(const char *)filename line:(int)line
+- (void)raisesException: (NSException *)exception inFile: (const char *)filename line: (int)line
 {
-    NSString    *msg;
-    
-    if(exception == nil) {
-        msg = [UKTestHandler localizedString:@"msgUKExceptionNotRaised.pass"];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKExceptionNotRaised.fail"];
-        msg = [NSString stringWithFormat:msg, [[exception class] description]];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+
+	if (exception != nil)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKExceptionRaised.pass"];
+		msg = [NSString stringWithFormat: msg, [[exception class] description]];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKExecptionRaised.fail"];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) raisesException:(NSException*)exception named:(NSString*)expected inFile:(const char *)filename line:(int)line;
+
+- (void)doesNotRaisesException: (NSException *)exception inFile: (const char *)filename line: (int)line
 {
-    NSString    *msg;
-    
-    if(![exception isKindOfClass:[NSException class]]) {
-        msg = [UKTestHandler localizedString:@"msgUKSpecificNSExceptionRaised.failNotNSException"];
-        msg = [NSString stringWithFormat:msg, [exception description]];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    } else if([[exception name] isEqualToString:expected]) {
-        msg = [UKTestHandler localizedString:@"msgUKSpecificNSExceptionRaised.pass"];
-        msg = [NSString stringWithFormat:msg, expected];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKSpecificNSExceptionRaised.fail"];
-        msg = [NSString stringWithFormat:msg, expected, [exception name]];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+
+	if (exception == nil)
+	{
+		msg = [UKTestHandler localizedString: @"msgUKExceptionNotRaised.pass"];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKExceptionNotRaised.fail"];
+		msg = [NSString stringWithFormat: msg, [[exception class] description]];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
-- (void) raisesException:(id)raisedObject class:(Class)expectedClass inFile:(const char *)filename line:(int)line
+- (void)raisesException: (NSException *)exception named: (NSString *)expected inFile: (const char *)filename line: (int)line;
 {
-    NSString    *msg;
-    if([raisedObject isKindOfClass:expectedClass]) {
-        msg = [UKTestHandler localizedString:@"msgUKRaisesSpecificClass.pass"];
-        msg = [NSString stringWithFormat:msg, [expectedClass description]];
-        [self reportStatus:YES inFile:filename line:line message:msg];
-    } else {
-        msg = [UKTestHandler localizedString:@"msgUKRaisesSpecificClass.fail"];
-        msg = [NSString stringWithFormat:msg, [expectedClass description], [[raisedObject class] description]];
-        [self reportStatus:NO inFile:filename line:line message:msg];
-    }
+	NSString *msg;
+
+	if (![exception isKindOfClass: [NSException class]])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKSpecificNSExceptionRaised.failNotNSException"];
+		msg = [NSString stringWithFormat: msg, [exception description]];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
+	else if ([[exception name] isEqualToString: expected])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKSpecificNSExceptionRaised.pass"];
+		msg = [NSString stringWithFormat: msg, expected];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKSpecificNSExceptionRaised.fail"];
+		msg = [NSString stringWithFormat: msg, expected, [exception name]];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
+}
+
+- (void)raisesException: (id)raisedObject class: (Class)expectedClass inFile: (const char *)filename line: (int)line
+{
+	NSString *msg;
+	if ([raisedObject isKindOfClass: expectedClass])
+	{
+		msg = [UKTestHandler localizedString: @"msgUKRaisesSpecificClass.pass"];
+		msg = [NSString stringWithFormat: msg, [expectedClass description]];
+		[self reportStatus: YES inFile: filename line: line message: msg];
+	}
+	else
+	{
+		msg = [UKTestHandler localizedString: @"msgUKRaisesSpecificClass.fail"];
+		msg = [NSString stringWithFormat: msg, [expectedClass description], [[raisedObject class] description]];
+		[self reportStatus: NO inFile: filename line: line message: msg];
+	}
 }
 
 @end
