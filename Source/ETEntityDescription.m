@@ -179,23 +179,40 @@
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
 }
 
-static void CollectAllPropertyDescriptionsRecursive(ETEntityDescription *entity, NSMutableDictionary *dest)
+static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, NSMutableDictionary *allPropertyDescriptions)
 {
 	if (entity->_parent != nil)
 	{
-		CollectAllPropertyDescriptionsRecursive(entity->_parent, dest);
+		CacheAllPropertyDescriptionsRecursive(entity->_parent, allPropertyDescriptions);
 	}
+
 	// N.B. This automatically makes child properties replace parent properties
-	[dest addEntriesFromDictionary: entity->_propertyDescriptions];
+	[allPropertyDescriptions addEntriesFromDictionary: entity->_propertyDescriptions];
+
+	ASSIGN(entity->_cachedAllPropertyDescriptions, [allPropertyDescriptions allValues]);
+}
+
+static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *subentity)
+{
+	ETEntityDescription *entity = subentity;
+	BOOL isValid = NO;
+
+	do
+	{
+		isValid = (entity->_cachedAllPropertyDescriptions != nil);
+		entity = entity->_parent;
+	}
+	while (isValid && entity != nil);
+
+	return (isValid == NO);
 }
 
 - (NSArray *) allPropertyDescriptions
 {
-	if (_cachedAllPropertyDescriptions == nil)
+	if (NeedsRecacheAllPropertyDescriptions(self))
 	{
-		NSMutableDictionary *allPropertyDescriptionsDict = [NSMutableDictionary dictionary];
-		CollectAllPropertyDescriptionsRecursive(self, allPropertyDescriptionsDict);
-		ASSIGN(_cachedAllPropertyDescriptions, [allPropertyDescriptionsDict allValues]);
+		NSMutableDictionary *allPropertyDescriptions = [NSMutableDictionary dictionary];
+		CacheAllPropertyDescriptionsRecursive(self, allPropertyDescriptions);
 	}
 	return _cachedAllPropertyDescriptions;
 }
@@ -214,6 +231,7 @@ static void CollectAllPropertyDescriptionsRecursive(ETEntityDescription *entity,
 
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
+	DESTROY(_cachedAllPropertyDescriptions);
 	ASSIGN(_parent, parentDescription);
 }
 
