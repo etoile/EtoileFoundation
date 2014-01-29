@@ -85,7 +85,9 @@ See also -[ETPropertyDescription isPrimitive]. */
 - (BOOL) isRoot;
 /** The parent entity of this entity. (Superclass or prototype) */
 - (ETEntityDescription *) parent;
-/** The parent entity of this entity. (Superclass or prototype) */
+/** The parent entity of this entity. (Superclass or prototype)
+
+The parent is retained, because the parent doesn't track its subentities. */
 - (void) setParent: (ETEntityDescription *)parentDescription;
 /** Returns whether the given entity is a subentity of the receiver. */
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc;

@@ -57,6 +57,7 @@
 {
 	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_propertyDescriptions);
+	DESTROY(_parent);
 	DESTROY(_localizedDescription);
 	DESTROY(_UIBuilderPropertyNames);
 	[super dealloc];
@@ -213,17 +214,7 @@ static void CollectAllPropertyDescriptionsRecursive(ETEntityDescription *entity,
 
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
-	// FIXME: This is terrible
-	if ([parentDescription isKindOfClass: [NSString class]])
-	{
-		[parentDescription retain];
-	}
-	if ([_parent isKindOfClass: [NSString class]])
-	{
-		[_parent release];
-	}
-	
-	_parent = parentDescription;
+	ASSIGN(_parent, parentDescription);
 }
 
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc
