@@ -28,7 +28,7 @@
 
 /**
  * @abstract UKTestHandler implements the test assertions built into UnitKit
- * and the support to report the results
+ * and support to report the results
  *
  * For each test assertion invoked on the test handler, the handler collects
  * the result and reports it or not based on the reporting settings.
@@ -38,7 +38,7 @@
  * since the test handler has been created.
  *
  * A single test handler exists for all UKRunner instances. For multiple run
- * test requests against UKRunner instances, so all test results are reported
+ * test requests against UKRunner instances, all test results are reported
  * together.
 */
 @interface UKTestHandler : NSObject
