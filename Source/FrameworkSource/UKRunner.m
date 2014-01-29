@@ -41,6 +41,8 @@
 
 @implementation UKRunner
 
+#pragma mark - Localization Support
+
 + (NSString *) localizedString:(NSString *)key
 {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
@@ -58,6 +60,8 @@
     }
 }
 
+#pragma mark - Initialization
+
 - (id) init
 {
 	self = [super init];
@@ -73,6 +77,8 @@
 	[setUpClasses release];
 	[super dealloc];
 }
+
+#pragma mark - Loading Test Bundles
 
 - (id) loadBundleAtPath: (NSString *)bundlePath
 {
@@ -127,29 +133,7 @@
 	return bundlePaths;
 }
 
-- (void) runTests: (NSArray*)testClasses 
-   inBundleAtPath: (NSString *)bundlePath 
- currentDirectory: (NSString *)cwd
-{
-	bundlePath = [bundlePath stringByExpandingTildeInPath];
-
-	if (![bundlePath isAbsolutePath])
-	{
-		bundlePath = [cwd stringByAppendingPathComponent: bundlePath];
-		bundlePath = [bundlePath stringByStandardizingPath];
-	}
-
-	NSLog(@"Looking for bundle at path: %@", bundlePath);
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSBundle *testBundle = [self loadBundleAtPath: bundlePath];
-
-	if (testBundle != nil)
-	{
-		[self runTests: testClasses inBundle: testBundle principalClass: [testBundle principalClass]];
-	}
-	[pool release];
-}
+#pragma mark - Tool Support
 
 + (NSString *)ukrunVersion
 {
@@ -175,7 +159,6 @@
 	}
 	else if ([bundleDicts count] == 0) // If no bundles are specified, then just run every bundle in this folder
 	{
-    	NSLog(@"Will run every bundle");
 		NSArray *bundlePathsInCWD = [runner bundlePathsInCurrentDirectory: cwd];
 		for (NSString *bundlePath in bundlePathsInCWD)
 		{
@@ -186,7 +169,7 @@
 
 	for (NSDictionary *bundleDict in bundleDicts)
 	{
-		NSString *testBundle =[bundleDict objectForKey: @"Bundle"];
+		NSString *testBundle = [bundleDict objectForKey: @"Bundle"];
     		NSArray *testClasses = [bundleDict objectForKey: @"Classes"];	
 		[runner runTests: testClasses
 		  inBundleAtPath: testBundle 
@@ -201,7 +184,7 @@
 	return result;
 }
 
-- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd 
+- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd
 {
     NSArray *args = [[NSProcessInfo processInfo] arguments];
 	NSMutableArray *bundlePaths = [NSMutableArray array];
@@ -211,7 +194,7 @@
 		return bundlePaths;
 
 	NSMutableDictionary *testBundleDict = nil;
-        
+
 	for (int i = 1; i < [args count]; i++)
 	{
 		NSString *arg = [args objectAtIndex: i];
@@ -240,68 +223,31 @@
 	return bundlePaths;
 }
 
-- (int) reportTestResults
+- (void) runTests: (NSArray*)testClasses
+   inBundleAtPath: (NSString *)bundlePath
+ currentDirectory: (NSString *)cwd
 {
-    int testsPassed = [[UKTestHandler handler] testsPassed];
-    int testsFailed = [[UKTestHandler handler] testsFailed];
-	int exceptionsReported = [[UKTestHandler handler] exceptionsReported];
-    
-    // TODO: May be be extract in -testResultSummary
-    NSLog(@"Result: %i classes, %i methods, %i tests, %i failed, %i exceptions",
-		testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
+	bundlePath = [bundlePath stringByExpandingTildeInPath];
 
-#ifndef GNUSTEP
-    [[self class] performGrowlNotification: testsPassed :testsFailed :exceptionsReported :testClassesRun :testMethodsRun];
-#endif
+	if (![bundlePath isAbsolutePath])
+	{
+		bundlePath = [cwd stringByAppendingPathComponent: bundlePath];
+		bundlePath = [bundlePath stringByStandardizingPath];
+	}
 
-    return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
+	NSLog(@"Looking for bundle at path: %@", bundlePath);
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSBundle *testBundle = [self loadBundleAtPath: bundlePath];
+
+	if (testBundle != nil)
+	{
+		[self runTests: testClasses inBundle: testBundle principalClass: [testBundle principalClass]];
+	}
+	[pool release];
 }
 
-#ifndef GNUSTEP
-+ (void) performGrowlNotification
-:(int) testsPassed 
-:(int) testsFailed
-:(int) exceptionsReported
-:(int) testClassesRun
-:(int) testMethodsRun
-{
-    NSString *title;
-    
-    if (testsFailed == 0 && exceptionsReported == 0) {
-        title = @"UnitKit Test Run Passed";
-    } else {
-        title = @"UnitKit Test Run Failed";
-    }
-    
-    NSString *msg = [NSString stringWithFormat:
-					 @"%i test classes, %i methods\n%i assertions passed, %i failed, %i exceptions",
-					 testClassesRun, testMethodsRun,  testsPassed, testsFailed, exceptionsReported];
-	
-    NSMutableDictionary *notiInfo = [NSMutableDictionary dictionary];
-    [notiInfo setObject:@"UnitKit Notification" forKey:@"NotificationName"];
-    [notiInfo setObject:@"UnitKit" forKey:@"ApplicationName"];
-    [notiInfo setObject:title forKey:@"NotificationTitle"];
-    [notiInfo setObject:msg forKey:@"NotificationDescription"];
-    
-    NSString *iconPath;
-    
-    if (testsFailed == 0) {
-        iconPath = [[NSBundle bundleForClass:[self class]]
-					pathForImageResource:@"Icon-Pass"];
-    } else {
-        iconPath = [[NSBundle bundleForClass:[self class]]
-					pathForImageResource:@"Icon-Fail"];
-    }
-    
-    NSData *icon = [NSData dataWithContentsOfFile:iconPath];
-    
-    [notiInfo setObject:icon forKey:@"NotificationIcon"];
-    
-    [[NSDistributedNotificationCenter defaultCenter]
-	 postNotificationName:@"GrowlNotification" 
-	 object:nil userInfo:notiInfo];    
-}
-#endif
+#pragma mark - Running Tests
 
 - (void) internalRunTest: (NSTimer*)timer
 {
@@ -522,6 +468,27 @@
     }
 }
 
+#pragma mark - Reporting Test Results
+
+- (int) reportTestResults
+{
+    int testsPassed = [[UKTestHandler handler] testsPassed];
+    int testsFailed = [[UKTestHandler handler] testsFailed];
+	int exceptionsReported = [[UKTestHandler handler] exceptionsReported];
+
+    // TODO: May be be extract in -testResultSummary
+    NSLog(@"Result: %i classes, %i methods, %i tests, %i failed, %i exceptions",
+		testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
+
+#ifndef GNUSTEP
+    [[self class] performGrowlNotification: testsPassed :testsFailed :exceptionsReported :testClassesRun :testMethodsRun];
+#endif
+
+    return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
+}
+
+#pragma mark - Application Testing Support
+
 /* GNUstep doesn't take care of calling -[NSApp sharedApplication] if your code 
    doesn't. Unlike Cocoa, it just raises an exception if you try to create a 
    window. 
@@ -565,6 +532,54 @@
 	}
 	return NO;
 }
+
+#pragma mark - User Notifications
+
+#ifndef GNUSTEP
++ (void) performGrowlNotification
+:(int) testsPassed
+:(int) testsFailed
+:(int) exceptionsReported
+:(int) testClassesRun
+:(int) testMethodsRun
+{
+    NSString *title;
+
+    if (testsFailed == 0 && exceptionsReported == 0) {
+        title = @"UnitKit Test Run Passed";
+    } else {
+        title = @"UnitKit Test Run Failed";
+    }
+
+    NSString *msg = [NSString stringWithFormat:
+					 @"%i test classes, %i methods\n%i assertions passed, %i failed, %i exceptions",
+					 testClassesRun, testMethodsRun,  testsPassed, testsFailed, exceptionsReported];
+
+    NSMutableDictionary *notiInfo = [NSMutableDictionary dictionary];
+    [notiInfo setObject:@"UnitKit Notification" forKey:@"NotificationName"];
+    [notiInfo setObject:@"UnitKit" forKey:@"ApplicationName"];
+    [notiInfo setObject:title forKey:@"NotificationTitle"];
+    [notiInfo setObject:msg forKey:@"NotificationDescription"];
+
+    NSString *iconPath;
+
+    if (testsFailed == 0) {
+        iconPath = [[NSBundle bundleForClass:[self class]]
+					pathForImageResource:@"Icon-Pass"];
+    } else {
+        iconPath = [[NSBundle bundleForClass:[self class]]
+					pathForImageResource:@"Icon-Fail"];
+    }
+
+    NSData *icon = [NSData dataWithContentsOfFile:iconPath];
+
+    [notiInfo setObject:icon forKey:@"NotificationIcon"];
+
+    [[NSDistributedNotificationCenter defaultCenter]
+	 postNotificationName:@"GrowlNotification"
+	 object:nil userInfo:notiInfo];
+}
+#endif
 
 @end
 
