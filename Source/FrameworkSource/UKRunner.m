@@ -456,10 +456,15 @@
 	}
 
     NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
-
+    NSString *classRegex = [[NSUserDefaults standardUserDefaults] valueForKey: @"classRegex"];
+    
 	for (NSString *testClassName in testClasses)
 	{
-		[self runTestsInClass: NSClassFromString(testClassName)];
+        if (classRegex == nil
+            || [testClassName rangeOfString: classRegex options: NSRegularExpressionSearch].location != NSNotFound)
+        {
+            [self runTestsInClass: NSClassFromString(testClassName)];
+        }
 	}
 
     if ([principalClass respondsToSelector: @selector(didRunTestSuite)])
