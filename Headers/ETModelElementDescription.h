@@ -59,6 +59,7 @@ as a constraint). */
 	NSString *_displayName;
 	NSString *_itemIdentifier;
 	BOOL _isMetaMetamodel;
+	@protected
 	BOOL _isFrozen;
 }
 

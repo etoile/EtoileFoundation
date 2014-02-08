@@ -407,6 +407,21 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 	[self removePropertyDescription: object];
 }
 
+- (void)makeFrozen
+{
+	if (_isFrozen)
+		return;
+	
+	_isFrozen = YES;
+	
+	[[self parent] makeFrozen];
+	
+	for (ETPropertyDescription *propDesc in [_propertyDescriptions allValues])
+	{
+		[propDesc makeFrozen];
+	}
+}
+
 @end
 
 

@@ -341,6 +341,18 @@
 	}
 }
 
+- (void)makeFrozen
+{
+	if (_isFrozen)
+		return;
+
+	_isFrozen = YES;
+	
+	[[self opposite] makeFrozen];
+	[[self owner] makeFrozen];
+}
+
+
 @end
 
 

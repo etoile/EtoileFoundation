@@ -205,4 +205,21 @@
 	[self removeEntityDescription: object];
 }
 
+- (void)makeFrozen
+{
+	if (_isFrozen)
+		return;
+	
+	_isFrozen = YES;
+	
+	for (ETEntityDescription *desc in _entityDescriptions)
+	{
+		[desc makeFrozen];
+	}
+	for (ETPropertyDescription *desc in _propertyDescriptions)
+	{
+		[desc makeFrozen];
+	}
+}
+
 @end

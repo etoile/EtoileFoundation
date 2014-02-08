@@ -232,8 +232,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 
 - (void) makeFrozen
 {
-	[self checkNotFrozen];
-	_isFrozen = YES;
+	ETAssertUnreachable();
 }
 
 @end
