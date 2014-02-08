@@ -114,6 +114,7 @@
 
 - (void) setAbstract: (BOOL)isAbstract
 {
+	[self checkNotFrozen];
 	_abstract = isAbstract;
 }
 
@@ -140,6 +141,7 @@
 
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions
 {
+	[self checkNotFrozen];
 	DESTROY(_cachedAllPropertyDescriptions);
 	
 	FOREACH([self propertyDescriptions], oldProperty, ETPropertyDescription *)
@@ -158,6 +160,7 @@
 
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	[self checkNotFrozen];
 	DESTROY(_cachedAllPropertyDescriptions);
 	
 	ETEntityDescription *owner = [propertyDescription owner];
@@ -173,6 +176,7 @@
 
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	[self checkNotFrozen];
 	DESTROY(_cachedAllPropertyDescriptions);
 	
 	[propertyDescription setOwner: nil];
@@ -231,6 +235,7 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
+	[self checkNotFrozen];
 	DESTROY(_cachedAllPropertyDescriptions);
 	ASSIGN(_parent, parentDescription);
 }
@@ -256,6 +261,7 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 
 - (void) setOwner: (ETPackageDescription *)owner
 {
+	[self checkNotFrozen];
 	_owner = owner;
 }
 

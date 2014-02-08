@@ -133,6 +133,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 
 - (void) setName: (NSString *)name
 {
+	[self checkNotFrozen];
 	ASSIGN(_name, name);
 }
 
@@ -160,6 +161,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 
 - (void) setIsMetaMetamodel: (BOOL)isMeta
 {
+	[self checkNotFrozen];
 	_isMetaMetamodel = isMeta;
 }
 
@@ -170,6 +172,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 
 - (void) setItemIdentifier: (NSString *)anIdentifier
 {
+	[self checkNotFrozen];
 	ASSIGN(_itemIdentifier, anIdentifier);
 }
 
@@ -214,6 +217,23 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 
 	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 		[[repo entityDescriptionForClass: [self class]] allPropertyDescriptionNames]]; 
+}
+
+/** @taskunit Internal */
+
+- (void) checkNotFrozen
+{
+	if (_isFrozen)
+	{
+		[NSException raise: NSGenericException
+					format: @"Illegal mutation of %@ after it has been frozen (marked as immutable)", self];
+	}
+}
+
+- (void) makeFrozen
+{
+	[self checkNotFrozen];
+	_isFrozen = YES;
 }
 
 @end

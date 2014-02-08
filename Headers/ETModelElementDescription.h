@@ -59,6 +59,7 @@ as a constraint). */
 	NSString *_displayName;
 	NSString *_itemIdentifier;
 	BOOL _isMetaMetamodel;
+	BOOL _isFrozen;
 }
 
 /** <override-subclass />
@@ -186,5 +187,18 @@ It must be derived from the class name. e.g. <em>Package</em> for ETPackageDescr
 
 By default, returns <em>Element</em>. */
 - (NSString *) typeDescription;
+
+/** @taskunit Internal */
+
+/**
+ * Throws an exception if the frozen flag is YES. This should be called in ETModelElementDescription
+ * and subclasses before every mutation.
+ */
+- (void) checkNotFrozen;
+/**
+ * Marks the receiver as frozen. From this point, the receiver is immutable and any
+ * attempt to mutate it will cause an exception to be thrown.
+ */
+- (void) makeFrozen;
 
 @end

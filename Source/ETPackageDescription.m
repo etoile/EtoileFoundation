@@ -85,6 +85,7 @@
 
 - (void) addEntityDescription: (ETEntityDescription *)anEntityDescription
 {
+	[self checkNotFrozen];
 	ETPackageDescription *owner = [anEntityDescription owner];
 
 	if (nil != owner)
@@ -101,12 +102,14 @@
 
 - (void) removeEntityDescription: (ETEntityDescription *)anEntityDescription
 {
+	[self checkNotFrozen];
 	[anEntityDescription setOwner: nil];
 	[_entityDescriptions removeObject: anEntityDescription];
 }
 
 - (void) setEntityDescriptions: (NSSet *)entityDescriptions
 {
+	[self checkNotFrozen];
 	FOREACH([NSSet setWithSet: _entityDescriptions], oldEntityDesc, ETEntityDescription *)
 	{
 		[self removeEntityDescription: oldEntityDesc];
@@ -124,6 +127,7 @@
 
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	[self checkNotFrozen];
 	INVALIDARG_EXCEPTION_TEST(propertyDescription, nil != propertyDescription);
 	INVALIDARG_EXCEPTION_TEST(propertyDescription,
 		NO == [_entityDescriptions containsObject: [propertyDescription owner]]);
@@ -140,12 +144,14 @@
 
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
+	[self checkNotFrozen];
 	[propertyDescription setPackage: nil];
 	[_propertyDescriptions removeObject: propertyDescription];
 }
 
 - (void) setPropertyDescriptions: (NSSet *)propertyDescriptions
 {
+	[self checkNotFrozen];
 	FOREACH([NSSet setWithSet: _propertyDescriptions], oldPropertyDesc, ETPropertyDescription *)
 	{
 		[self removePropertyDescription: oldPropertyDesc];
@@ -181,11 +187,13 @@
 
 - (void) addObject: (id)object
 {
+	[self checkNotFrozen];
 	[self addEntityDescription: object];
 }
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
+	[self checkNotFrozen];
 	[self addEntityDescription: object];
 	[_entityDescriptions removeObject: object];
 	[_entityDescriptions insertObject: object atIndex: index];
@@ -193,6 +201,7 @@
 
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
+	[self checkNotFrozen];
 	[self removeEntityDescription: object];
 }
 

@@ -161,6 +161,7 @@
 
 - (void) setDerived: (BOOL)isDerived
 {
+	[self checkNotFrozen];
 	_derived = isDerived;
 	[self setReadOnly: YES];
 }
@@ -172,6 +173,7 @@
 
 - (void) setMultivalued: (BOOL)isMultivalued
 {
+	[self checkNotFrozen];
 	_multivalued = isMultivalued;
 }
 
@@ -182,6 +184,7 @@
 
 - (void) setOrdered: (BOOL)isOrdered
 {
+	[self checkNotFrozen];
 	_ordered = isOrdered;
 }
 
@@ -192,6 +195,7 @@
 
 - (void) setOpposite: (ETPropertyDescription *)opposite
 {
+	[self checkNotFrozen];
 	if ([_opposite isString])
 	{
 		DESTROY(_opposite);
@@ -226,6 +230,7 @@
 
 - (void) setOwner: (ETEntityDescription *)owner
 {
+	[self checkNotFrozen];
 	NSParameterAssert((_owner != nil && owner == nil) || (_owner == nil && owner != nil));
 	_owner = owner;
 	if ([self opposite] != nil && [[self opposite] isString] == NO)
@@ -241,6 +246,7 @@
 
 - (void) setPackage: (ETPackageDescription *)aPackage
 {
+	[self checkNotFrozen];
 	_package = aPackage;
 }
 
@@ -251,6 +257,7 @@
 
 - (void) setType: (ETEntityDescription *)anEntityDescription
 {
+	[self checkNotFrozen];
 	ASSIGN(_type, anEntityDescription);
 }
 
@@ -272,6 +279,7 @@
 
 - (void) setRole: (ETRoleDescription *)role
 {
+	[self checkNotFrozen];
 	ASSIGN(_role, role);
 }
 
@@ -365,6 +373,7 @@
 
 - (void) setMandatory: (BOOL)isMandatory
 {
+	[[self parent] checkNotFrozen];
 	_isMandatory = isMandatory;
 }
 
@@ -375,6 +384,7 @@
 
 - (void) setDeletionRule: (NSString *)deletionRule
 {
+	[[self parent] checkNotFrozen];
 	ASSIGN(_deletionRule, deletionRule);
 }
 
@@ -417,6 +427,7 @@
 
 - (void)setMinimum: (int)min
 {
+	[[self parent] checkNotFrozen];
 	_min = min;
 }
 
@@ -427,6 +438,7 @@
 
 - (void)setMaximum: (int)max
 {
+	[[self parent] checkNotFrozen];
 	_max = max;
 }
 
