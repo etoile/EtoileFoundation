@@ -254,6 +254,11 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 	return NO;
 }
 
+- (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc
+{
+	return [anEntityDesc isKindOfEntity: self];
+}
+
 - (ETPackageDescription *) owner
 {
 	return _owner;
@@ -449,6 +454,67 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 - (NSString *) typeDescription
 {
 	return @"C Primitive Entity";
+}
+
+- (NSSet *) validNumberEntityNames
+{
+	return S(@"BOOL", @"NSInteger", @"NSUInteger", @"CGFloat", @"double");
+}
+
+- (const char *) objCType
+{
+	if ([[self name] isEqualToString: @"NSPoint"])
+	{
+		return @encode(NSPoint);
+	}
+	else if ([[self name] isEqualToString: @"NSSize"])
+	{
+		return @encode(NSSize);
+	}
+	else if ([[self name] isEqualToString: @"NSRect"])
+	{
+		return @encode(NSRect);
+	}
+	else if ([[self name] isEqualToString: @"NSRange"])
+	{
+		return @encode(NSRange);
+	}
+	else if ([[self name] isEqualToString: @"SEL"])
+	{
+		return @encode(SEL);
+	}
+	return "";
+}
+
+- (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc
+{
+	if ([super isValidValue: aValue type: anEntityDesc])
+		return YES;
+
+	if ([aValue isKindOfClass: [NSNumber class]])
+	{
+		/* We don't check [aValue objCType] vs [self objCType] are equal, since 
+		   type conversions are common for numbers. We accept the value  even in 
+		   case it doesn't match exactly, because the mismatch is usually due to 
+		   a type conversion in the code. For example, we use KVC to set a
+		   NSInteger property in this way:
+
+		   [someObject setValue: [NSNumber numberWithUnsignedInteger: number]
+		                 forKey: @"integerValue"];
+		   
+		   If someObject implementation calls -isValidValue:type:, checking 
+		   the -objCType equality would prevent the number object to be accepted.
+		   
+		   In addition, Apple documentation states the following: "If you ask 
+		   a number for its objCType, the returned type does not necessarily 
+		   match the method the receiver was created with." */
+		return [[self validNumberEntityNames] containsObject: [self name]];
+	}
+	else if ([aValue isKindOfClass: [NSValue class]])
+	{
+		return (strcmp([aValue objCType], [self objCType]) == 0);
+	}
+	return NO;
 }
 
 @end

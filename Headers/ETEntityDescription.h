@@ -91,6 +91,7 @@ The parent is retained, because the parent doesn't track its subentities. */
 - (void) setParent: (ETEntityDescription *)parentDescription;
 /** Returns whether the given entity is a subentity of the receiver. */
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc;
+- (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc;
 /** The package to which this entity belongs to. */
 - (ETPackageDescription *) owner;
 /** The package to which this entity belongs to. */
