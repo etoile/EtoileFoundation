@@ -30,6 +30,7 @@ A description of an entity, which can either be a class or a prototype. */
 	NSArray *_UIBuilderPropertyNames;
 	NSString *_diffAlgorithm;
 }
+
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 /** The name of the entity description that should end the parent chain of 
@@ -48,14 +49,14 @@ Will be used by -checkConstraints:. */
  *
  * By default, returns the entity name that is not localized.
  */ 
-@property (nonatomic, retain) NSString *localizedDescription;
+@property (nonatomic, copy) NSString *localizedDescription;
 
 /** @taskunit Querying Type */
 
 /** Returns YES. */
-- (BOOL) isEntityDescription;
+@property (nonatomic, readonly) BOOL isEntityDescription;
 /**  Returns <em>Entity</em>. */
-- (NSString *) typeDescription;
+@property (nonatomic, readonly) NSString *typeDescription;
 /** Whether or not this entity is a primitive (i.e. describes attributes and 
 not relationships).
 
@@ -63,66 +64,61 @@ Primitives include both object and C primitives. e.g. NSString, NSDate,
 NSInteger, float, etc.
 
 See also -[ETPropertyDescription isRelationship]. */
-- (BOOL) isPrimitive;
+@property (nonatomic, readonly) BOOL isPrimitive;
 /** Whether or not this entity is a C primitive (i.e. describes attributes whose 
 values are not objects). e.g. NSInteger, float, etc.
 
 If YES is returned, -isPrimitive returns the same.
 
 See also -[ETPropertyDescription isPrimitive]. */
-- (BOOL) isCPrimitive;
+@property (nonatomic, readonly) BOOL isCPrimitive;
 
 /** @taskunit Model Specification */
 
 /** Whether or not this entity is abstract (i.e. can't be instantiated). */
-- (BOOL) isAbstract;
-/** Whether or not this entity is abstract (i.e. can't be instantiated). */
-- (void) setAbstract: (BOOL)isAbstract;
+@property (nonatomic, assign, getter=isAbstract) BOOL abstract;
 
 /** @taskunit Inheritance and Owning Package */
 
 /** Whether this is a root entity (has no parent entity). */
-- (BOOL) isRoot;
-/** The parent entity of this entity. (Superclass or prototype) */
-- (ETEntityDescription *) parent;
+@property (nonatomic, readonly) BOOL isRoot;
 /** The parent entity of this entity. (Superclass or prototype)
 
 The parent is retained, because the parent doesn't track its subentities. */
-- (void) setParent: (ETEntityDescription *)parentDescription;
+@property (nonatomic, retain) ETEntityDescription *parent;
 /** Returns whether the given entity is a subentity of the receiver. */
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc;
 - (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc;
 /** The package to which this entity belongs to. */
-- (ETPackageDescription *) owner;
-/** The package to which this entity belongs to. */
-- (void) setOwner: (ETPackageDescription *)owner;
+@property (nonatomic, readwrite, retain) ETPackageDescription *owner;
 
 /** @taskunit Property Descriptions */
 
 /** Names of the property descriptions (not including those declared in parent 
 entities). */
-- (NSArray *) propertyDescriptionNames;
+@property (nonatomic, readonly) NSArray *propertyDescriptionNames;
 /** Names of all property descriptions including those declared in parent 
 entities. */
-- (NSArray *) allPropertyDescriptionNames;
+@property (nonatomic, readonly) NSArray *allPropertyDescriptionNames;
 /** Descriptions of the properties declared on this entity (not including those
-declared in parent entities). */
-- (NSArray *) propertyDescriptions;
-/** Descriptions of the properties declared on this entity (not including those 
-declared in parent entities). */
-- (void) setPropertyDescriptions: (NSArray *)propertyDescriptions;
-/** Adds the given property description to this entity. */
+declared in parent entities).
+
+For each property added or removed, the behavior described in
+-addPropertyDescription: and -removePropertyDescription: applies. */
+@property (nonatomic, retain) NSArray *propertyDescriptions;
+/** Adds the given property description to this entity, the entity becomes its
+owner. */
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription;
 /** Removes the given property description from this entity. */
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription;
 /** Descriptions of the entity's properties, including those declared in parent 
 entities. */
-- (NSArray *) allPropertyDescriptions;
+@property (nonatomic, readonly) NSArray *allPropertyDescriptions;
 /** Descriptions of the entity's persistent properties, including those declared 
 in parent entities.
 
 See -[ETPropertyDescription isPersistent]. */
-- (NSArray *) allPersistentPropertyDescriptions;
+@property (nonatomic, readonly) NSArray *allPersistentPropertyDescriptions;
 /** Returns the property description which matches the given name.
 
 See also -propertyDescriptionsForNames: and -[ETModelElementDescription name] 
@@ -165,7 +161,7 @@ This class is used internally. You can possibly use it to support new
 primitives. */
 @interface ETPrimitiveEntityDescription : ETEntityDescription
 /** Returns YES. */
-- (BOOL) isPrimitive;
+@property (nonatomic, readonly) BOOL isPrimitive;
 @end
 
 /** @group Model and Metamodel
@@ -177,7 +173,7 @@ This class is used internally. You can possibly use it to support new
 primitives. */
 @interface ETCPrimitiveEntityDescription : ETPrimitiveEntityDescription
 /** Returns YES. */
-- (BOOL) isCPrimitive;
+@property (nonatomic, readonly) BOOL isCPrimitive;
 @end
 
 /** @group Model and Metamodel

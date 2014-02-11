@@ -41,9 +41,9 @@ specify a data model.  */
 /** @taskunit Querying Type */
 
 /** Returns YES. */
-- (BOOL) isPackageDescription;
+@property (nonatomic, readonly) BOOL isPackageDescription;
 /** Returns <em>Package</em>. */
-- (NSString *) typeDescription;
+@property (nonatomic, readonly) NSString *typeDescription;
 
 /** @taskunit Packaged Entity Descriptions */
 
@@ -54,12 +54,13 @@ previously added with -addPropertyDescription: or -setPropertyDescriptions:. */
 - (void) addEntityDescription: (ETEntityDescription *)anEntityDescription;
 /** Removes the given entity from the package. */
 - (void) removeEntityDescription: (ETEntityDescription *)anEntityDescription;
-/** Replaces the entities in the package with the given ones. */
-- (void) setEntityDescriptions: (NSSet *)entityDescriptions;
-/** Returns the entities that belong to the package.
+/** The entities that belong to the package.
+
+For each entity added or removed, the behavior described in
+-addEntityDescription: and -removeEntityDescription: applies.
 
 The returned collection is an autoreleased copy. */
-- (NSSet *) entityDescriptions;
+@property (nonatomic, retain) NSSet *entityDescriptions;
 
 /** @taskunit Packaged Entity Extensions */
 
@@ -71,12 +72,13 @@ belongs to the package. */
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription;
 /** Removes the given entity extension from the package. */
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription;
-/** Replaces the entity extensions in the package by the given ones. */
-- (void) setPropertyDescriptions: (NSSet *)propertyDescriptions;
-/** Returns the entity extensions that belong to the package.
+/** The entity extensions that belong to the package.
+
+For each entity extensions added or removed, the behavior described in
+-addPropertyDescription: and -removePropertyDescription: applies.
 
 The returned collection is an autoreleased copy. */
-- (NSSet *) propertyDescriptions;
+@property (nonatomic, retain) NSSet *propertyDescriptions;
 
 /** @taskunit Runtime Consistency Check */
 

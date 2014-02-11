@@ -23,8 +23,10 @@
 
 @implementation ETEntityDescription
 
-@synthesize localizedDescription = _localizedDescription,
-	UIBuilderPropertyNames = _UIBuilderPropertyNames;
+@synthesize abstract = _abstract, parent = _parent, owner = _owner;
+@synthesize localizedDescription = _localizedDescription;
+@synthesize UIBuilderPropertyNames = _UIBuilderPropertyNames;
+@synthesize diffAlgorithm = _diffAlgorithm;
 
 + (void) initialize
 {
@@ -48,7 +50,7 @@
 	_abstract = NO;
 	_propertyDescriptions = [[NSMutableDictionary alloc] init];
 	_parent = nil;
-	ASSIGN(_localizedDescription, name);
+	ASSIGNCOPY(_localizedDescription, name);
 	_UIBuilderPropertyNames = [NSArray new];
 	return self;
 }
@@ -105,11 +107,6 @@
 - (NSString *) typeDescription;
 {
 	return @"Entity";
-}
-
-- (BOOL) isAbstract
-{
-	return _abstract;
 }
 
 - (void) setAbstract: (BOOL)isAbstract
@@ -228,11 +225,6 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 	return propertyDescs;
 }
 
-- (ETEntityDescription *) parent
-{
-	return _parent;
-}
-
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
 	[self checkNotFrozen];
@@ -257,11 +249,6 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 - (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc
 {
 	return [anEntityDesc isKindOfEntity: self];
-}
-
-- (ETPackageDescription *) owner
-{
-	return _owner;
 }
 
 - (void) setOwner: (ETPackageDescription *)owner
@@ -311,8 +298,6 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 			arrayByAddingObjectsFromArray: [self UIBuilderPropertyNames]];
 	}
 }
-
-@synthesize diffAlgorithm = _diffAlgorithm;
 
 - (BOOL) isPrimitive
 {
