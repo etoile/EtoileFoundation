@@ -92,18 +92,16 @@ is <em>Untitled</em>. */
 /** @taskunit Querying Type */
 
 /** Returns whether the receiver describes a property. */
-- (BOOL) isPropertyDescription;
+@property (nonatomic, readonly) BOOL isPropertyDescription;
 /** Returns whether the receiver describes an entity. */
-- (BOOL) isEntityDescription;
+@property (nonatomic, readonly) BOOL isEntityDescription;
 /** Returns whether the receiver describes a package. */
-- (BOOL) isPackageDescription;
+@property (nonatomic, readonly) BOOL isPackageDescription;
 
 /** @taskunit Basic Model Specification */
 
-/** Returns the name of the entity, property or package. */
-- (NSString *) name;
-/** Sets the name of the entity, property or package. */
-- (void) setName: (NSString *)name;
+/** The name of the entity, property or package. */
+@property (nonatomic, copy) NSString *name;
 /** Returns the name that uniquely identify the receiver.
 
 The name is a key path built by joining every names in the owner chain up to 
@@ -117,7 +115,7 @@ Given a class <em>Movie</em> and its property <em>director</em>. The full names 
 <item>Movie for the class</item>
 <item>Movie.director for the property</item>
 </list> */
-- (NSString *) fullName;
+@property (nonatomic, readonly) NSString *fullName;
 /** Returns the element that owns the receiver.
 
 For a property, the owner is the entity it belongs to.<br />
@@ -125,31 +123,22 @@ For an entity, there is no owner, unless the entity belongs to a package.<br />
 For a package, there is no owner.
 
 By default, returns nil. */
-- (id) owner;
-/** Returns whether the receiver describes an object that belongs to the 
-metamodel. */
-- (BOOL) isMetaMetamodel;
-/** Sets whether the receiver describes an object that belongs to the 
-metamodel. */
-- (void) setIsMetaMetamodel: (BOOL)isMeta;
+@property (nonatomic, readonly) id owner;
+/** Wether the receiver describes an object that belongs to the metamodel. */
+@property (nonatomic, assign) BOOL isMetaMetamodel;
 
 /* @taskunit UI */
 
-/** Returns a hint that precises how the receiver should be rendered. 
-e.g. at UI level.
+/** The hint that precises how the receiver should be rendered e.g. at UI level.
 
-By default, returns nil.
-
-See also -setItemIdentifier:. */
-- (NSString *) itemIdentifier;
-/** Sets a hint that precises how the receiver should be rendered.
-
-You can use this hint to identify which object to ouput, every time a new 
+You can use this hint to identify which object to ouput, every time a new
 representation has to be generated based on the description.
 
-ETModelDescriptionRenderer in EtoileUI uses it to look up a template item that  
-will represent the property at the UI level. */
-- (void) setItemIdentifier: (NSString *)anIdentifier;
+ETModelDescriptionRenderer in EtoileUI uses it to look up a template item that
+will represent the property at the UI level.
+
+By default, returns nil. */
+@property (nonatomic, copy) NSString *itemIdentifier;
 
 /** @taskunit Runtime Consistency Check */
 
@@ -170,8 +159,8 @@ See -checkConstraints:. */
 /**
  * A short and human-readable name e.g. Person, Music Track, Anchor Point.
  *
- * This is used to present the entity, property or package localized name to the 
- * user in the UI.
+ * This is used to present the entity, property or package localized name to
+ * the user in the UI.
  *
  * By default, returns -name that is not localized, but in a capitalized and 
  * spaced version. For an ETEntityDescription, the type prefix is removed (if 
@@ -180,25 +169,26 @@ See -checkConstraints:. */
  *
  * You can override this built-in display name by setting a custom one.
  */ 
-@property (nonatomic, retain) NSString *displayName;
+@property (nonatomic, copy) NSString *displayName;
 /** <override-subclass />
 Returns a short and human-readable description of the receiver type.
 
-It must be derived from the class name. e.g. <em>Package</em> for ETPackageDescription.
+It must be derived from the class name. e.g. <em>Package</em> for
+ETPackageDescription.
 
 By default, returns <em>Element</em>. */
-- (NSString *) typeDescription;
+@property (nonatomic, readonly) NSString *typeDescription;
 
 /** @taskunit Internal */
 
 /**
- * Throws an exception if the frozen flag is YES. This should be called in ETModelElementDescription
- * and subclasses before every mutation.
+ * Throws an exception if the frozen flag is YES. This should be called in
+ * ETModelElementDescription and subclasses before every mutation.
  */
 - (void) checkNotFrozen;
 /**
- * Marks the receiver as frozen. From this point, the receiver is immutable and any
- * attempt to mutate it will cause an exception to be thrown.
+ * Marks the receiver as frozen. From this point, the receiver is immutable
+ * and any attempt to mutate it will cause an exception to be thrown.
  */
 - (void) makeFrozen;
 

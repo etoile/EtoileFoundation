@@ -19,7 +19,8 @@
 
 @implementation ETModelElementDescription
 
-@synthesize displayName = _displayName;
+@synthesize name = _name,displayName = _displayName;
+@synthesize itemIdentifier = _itemIdentifier, isMetaMetamodel = _isMetaMetamodel;
 
 /** Returns ET. */
 + (NSString *) typePrefix
@@ -89,7 +90,7 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	// TODO: Check the name is not in use once we have a repository.
 
 	SUPERINIT;
-	ASSIGN(_name, name);
+	ASSIGNCOPY(_name, name);
 	return self;
 }
 
@@ -126,15 +127,10 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	return [NSString stringWithFormat: @"%@ %@", [super description], [self fullName]];
 }
 
-- (NSString *) name
-{
-	return _name;
-}
-
 - (void) setName: (NSString *)name
 {
 	[self checkNotFrozen];
-	ASSIGN(_name, name);
+	ASSIGNCOPY(_name, name);
 }
 
 - (NSString *) fullName
@@ -154,26 +150,16 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	return nil;
 }
 
-- (BOOL) isMetaMetamodel
-{
-	return _isMetaMetamodel;
-}
-
 - (void) setIsMetaMetamodel: (BOOL)isMeta
 {
 	[self checkNotFrozen];
 	_isMetaMetamodel = isMeta;
 }
 
-- (NSString *) itemIdentifier
-{
-	return _itemIdentifier;
-}
-
 - (void) setItemIdentifier: (NSString *)anIdentifier
 {
 	[self checkNotFrozen];
-	ASSIGN(_itemIdentifier, anIdentifier);
+	ASSIGNCOPY(_itemIdentifier, anIdentifier);
 }
 
 - (void) checkConstraints: (NSMutableArray *)warnings
@@ -218,8 +204,6 @@ the subclass returned descriptions belongs to the meta-metamodel. */
 	return [[super propertyNames] arrayByAddingObjectsFromArray: 
 		[[repo entityDescriptionForClass: [self class]] allPropertyDescriptionNames]]; 
 }
-
-/** @taskunit Internal */
 
 - (void) checkNotFrozen
 {
