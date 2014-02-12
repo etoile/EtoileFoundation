@@ -59,12 +59,12 @@ is raised. */
 /** @taskunit Querying Type */
 
 /** Returns YES. */
-- (BOOL) isPropertyDescription;
+@property (nonatomic, readonly) BOOL isPropertyDescription;
 /** Returns 'Property (type of the value)'.
 
 If -type returns a valid entity description, the parenthesis contains the 
 entity name in the returned string. */
-- (NSString *) typeDescription;
+@property (nonatomic, readonly) NSString *typeDescription;
 
 /** @taskunit Model Specification */
 
@@ -76,7 +76,7 @@ entity name in the returned string. */
  *
  * See also -isContainer.
  */
-- (BOOL) isComposite;
+@property (nonatomic, readonly) BOOL isComposite;
 /**
  * If YES, this property's value is the parent of the entity this property
  * belongs to. 
@@ -92,45 +92,35 @@ entity name in the returned string. */
  * isContainer is derived, it is automatically YES when for a one-to-many
  * relationship.
  */
-- (BOOL) isContainer;
-- (BOOL) isDerived;
-- (void) setDerived: (BOOL)isDerived;
-- (BOOL) isMultivalued;
-- (void) setMultivalued: (BOOL)isMultivalued;
-- (BOOL) isOrdered;
-- (void) setOrdered: (BOOL)isOrdered;
-@property (assign, nonatomic, getter=isKeyed) BOOL keyed;
-@property (assign, nonatomic, getter=isPersistent) BOOL persistent;
-@property (assign, nonatomic, getter=isReadOnly) BOOL readOnly;
+@property (nonatomic, readonly) BOOL isContainer;
+@property (nonatomic, assign, getter=isDerived) BOOL derived;
+@property (nonatomic, assign, getter=isMultivalued) BOOL multivalued;
+@property (nonatomic, assign, getter=isOrdered) BOOL ordered;
+@property (nonatomic, assign, getter=isKeyed) BOOL keyed;
+@property (nonatomic, assign, getter=isPersistent) BOOL persistent;
+@property (nonatomic, assign, getter=isReadOnly) BOOL readOnly;
 @property (nonatomic, retain) id commitDescriptor;
 @property (nonatomic, assign) BOOL showsItemDetails;
 @property (nonatomic, copy) NSArray *detailedPropertyNames;
 
-@property (nonatomic, readwrite, assign, getter=isIndexed) BOOL indexed;
+@property (nonatomic, assign, getter=isIndexed) BOOL indexed;
 
 /** Can be self, if the relationship is reflexive. For example, a "spouse" 
 property or a "cousins" property that belong to a "person" entity.<br />
 For reflexive relationships, one-to-one or many-to-many are the only valid 
 cardinality. */
-- (ETPropertyDescription *) opposite;
-- (void) setOpposite: (ETPropertyDescription *)opposite;
-- (ETEntityDescription *) owner;
-- (void) setOwner: (ETEntityDescription *)owner;
-- (ETPackageDescription *) package;
-- (void) setPackage: (ETPackageDescription *)aPackage;
-/** Returns the entity that describes the property's value.
+@property (nonatomic, assign) ETPropertyDescription *opposite;
+@property (nonatomic, assign) ETEntityDescription *owner;
+@property (nonatomic, assign) ETPackageDescription *package;
+/** The entity that describes the property's value.
 
 This is the type of the attribute or destination entity.<br />
 Whether the property is a relationship or an attribute depends on the returned 
 entity. See -isRelationship. */
-- (ETEntityDescription *) type;
-/** Sets the entity that describes the property's value.
+@property (nonatomic, retain) ETEntityDescription *type;
 
-See -type. */
-- (void) setType: (ETEntityDescription *)anEntityDescription;
-
-@property (nonatomic, readwrite, retain) NSString *valueTransformerName;
-@property (nonatomic, readwrite, retain) ETEntityDescription *persistentType;
+@property (nonatomic, copy) NSString *valueTransformerName;
+@property (nonatomic, retain) ETEntityDescription *persistentType;
 
 /** Returns YES when this property is a relationship to the destination entity
 returned by -type, otherwise returns NO when the property is an attribute.
@@ -139,17 +129,16 @@ When the destination entity is a primitive, then the property is an attribute
 unless the role is explicitly set to ETRelationshipRole.
 
 isRelationship is derived from type.isPrimitive and role. */
-- (BOOL) isRelationship;
+@property (nonatomic, readonly) BOOL isRelationship;
 /** Returns YES when the property is an attribute and NO when it is a 
 relationship.
 
 isAttribute is derived from isRelationship.
 
 See -isRelationship. */
-- (BOOL) isAttribute;
+@property (nonatomic, readonly) BOOL isAttribute;
 
-- (id) role;
-- (void) setRole: (ETRoleDescription *)role;
+@property (nonatomic, retain) id role;
 
 /** @taskunit Validation */
 
@@ -172,7 +161,8 @@ These allow a pluggable, more precise property description. */
 {
 }
 
-- (ETPropertyDescription *) parent;
+@property (nonatomic, readonly) ETPropertyDescription *parent;
+
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
 
 @end
@@ -180,20 +170,20 @@ These allow a pluggable, more precise property description. */
 /** @group Model and Metamodel */
 @interface ETRelationshipRole : ETRoleDescription
 {
-	BOOL _isMandatory;
+	@private
+	BOOL _mandatory;
 	NSString *_deletionRule;
 }
 
-- (BOOL) isMandatory;
-- (void) setMandatory: (BOOL)isMandatory;
-- (NSString *) deletionRule;
-- (void) setDeletionRule: (NSString *)deletionRule;
+@property (nonatomic, assign, getter=isMandatory) BOOL mandatory;
+@property (nonatomic, copy) NSString *deletionRule;
 
 @end
 
 /** @group Model and Metamodel */
 @interface ETMultiOptionsRole : ETRoleDescription
 {
+	@private
 	NSArray *_allowedOptions;
 }
 
@@ -210,11 +200,12 @@ You can use a localized string as the pair key to present the options in the UI.
 /** @group Model and Metamodel */
 @interface ETNumberRole : ETRoleDescription
 {
-	int _min;
-	int _max;
+	@private
+	NSInteger _minimum;
+	NSInteger _maximum;
 }
-- (int)minimum;
-- (void)setMinimum: (int)min;
-- (int)maximum;
-- (void)setMaximum: (int)max;
+
+@property (nonatomic, assign) NSInteger minimum;
+@property (nonatomic, assign) NSInteger maximum;
+
 @end

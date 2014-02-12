@@ -27,9 +27,11 @@
 
 @implementation ETPropertyDescription
 
-@synthesize keyed = _keyed, persistent = _persistent, readOnly = _readOnly,
-	showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames,
-	commitDescriptor = _commitDescriptor, indexed = _indexed,
+@synthesize derived = _derived, multivalued = _multivalued, ordered = _ordered, keyed = _keyed;
+@synthesize persistent = _persistent, readOnly = _readOnly;
+@synthesize opposite = _opposite, owner = _owner, package = _package, type = _type, role = _role;
+@synthesize showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames;
+@synthesize commitDescriptor = _commitDescriptor, indexed = _indexed,
 	valueTransformerName = _valueTransformerName, persistentType = _persistentType;
 
 + (ETEntityDescription *) newEntityDescription
@@ -154,21 +156,11 @@
 	return NO;
 }
 
-- (BOOL) isDerived
-{
-	return _derived;
-}
-
 - (void) setDerived: (BOOL)isDerived
 {
 	[self checkNotFrozen];
 	_derived = isDerived;
 	[self setReadOnly: YES];
-}
-
-- (BOOL) isMultivalued
-{
-	return _multivalued;
 }
 
 - (void) setMultivalued: (BOOL)isMultivalued
@@ -177,20 +169,52 @@
 	_multivalued = isMultivalued;
 }
 
-- (BOOL) isOrdered
-{
-	return _ordered;
-}
-
 - (void) setOrdered: (BOOL)isOrdered
 {
 	[self checkNotFrozen];
 	_ordered = isOrdered;
 }
 
-- (ETPropertyDescription *) opposite
+- (void) setKeyed: (BOOL)isKeyed
 {
-	return _opposite;
+	[self checkNotFrozen];
+	_keyed = isKeyed;
+}
+
+- (void) setPersistent: (BOOL)isPersistent
+{
+	[self checkNotFrozen];
+	_persistent = isPersistent;
+}
+
+- (void) setReadOnly: (BOOL)isReadOnly
+{
+	[self checkNotFrozen];
+	_readOnly = isReadOnly;
+}
+
+- (void) setCommitDescriptor: (id)aCommitDescriptor
+{
+	[self checkNotFrozen];
+	ASSIGN(_commitDescriptor, aCommitDescriptor);
+}
+
+- (void) setShowsItemDetails: (BOOL)showsItemDetails
+{
+	[self checkNotFrozen];
+	_showsItemDetails = showsItemDetails;
+}
+
+- (void)setDetailedPropertyNames: (NSArray *)detailedPropertyNames
+{
+	[self checkNotFrozen];
+	ASSIGNCOPY(_detailedPropertyNames, detailedPropertyNames);
+}
+
+- (void) setIndexed: (BOOL)isIndexed
+{
+	[self checkNotFrozen];
+	_indexed = isIndexed;
 }
 
 - (void) setOpposite: (ETPropertyDescription *)opposite
@@ -223,11 +247,6 @@
 	_isSettingOpposite = NO;
 }
 
-- (ETEntityDescription *) owner
-{
-	return _owner;
-}
-
 - (void) setOwner: (ETEntityDescription *)owner
 {
 	[self checkNotFrozen];
@@ -239,26 +258,28 @@
 	}
 }
 
-- (ETPackageDescription *) package
-{
-	return _package;
-}
-
 - (void) setPackage: (ETPackageDescription *)aPackage
 {
 	[self checkNotFrozen];
 	_package = aPackage;
 }
 
-- (ETEntityDescription *) type
-{
-	return _type;
-}
-
 - (void) setType: (ETEntityDescription *)anEntityDescription
 {
 	[self checkNotFrozen];
 	ASSIGN(_type, anEntityDescription);
+}
+
+- (void)setValueTransformerName: (NSString *)aTransformerName
+{
+	[self checkNotFrozen];
+	ASSIGNCOPY(_valueTransformerName, aTransformerName);
+}
+
+- (void) setPersistentType: (ETEntityDescription *)anEntityDescription
+{
+	[self checkNotFrozen];
+	ASSIGN(_persistentType, anEntityDescription);
 }
 
 - (BOOL) isRelationship
@@ -270,11 +291,6 @@
 - (BOOL) isAttribute
 {
 	return ([self isRelationship] == NO);
-}
-
-- (id) role
-{
-	return _role;
 }
 
 - (void) setRole: (ETRoleDescription *)role
@@ -352,7 +368,6 @@
 	[[self owner] makeFrozen];
 }
 
-
 @end
 
 
@@ -378,26 +393,24 @@
 
 @implementation ETRelationshipRole
 
-- (BOOL) isMandatory
+@synthesize mandatory = _mandatory, deletionRule = _deletionRule;
+
+- (void) dealloc
 {
-	return _isMandatory;
+	DESTROY(_deletionRule);
+	[super dealloc];
 }
 
 - (void) setMandatory: (BOOL)isMandatory
 {
 	[[self parent] checkNotFrozen];
-	_isMandatory = isMandatory;
-}
-
-- (NSString *) deletionRule
-{
-	return _deletionRule;
+	_mandatory = isMandatory;
 }
 
 - (void) setDeletionRule: (NSString *)deletionRule
 {
 	[[self parent] checkNotFrozen];
-	ASSIGN(_deletionRule, deletionRule);
+	ASSIGNCOPY(_deletionRule, deletionRule);
 }
 
 @end
@@ -412,6 +425,13 @@
 	DESTROY(_allowedOptions);
 	[super dealloc];
 }
+
+- (void) setAllowedOptions: (NSArray *)options
+{
+	[[self parent] checkNotFrozen];
+	ASSIGNCOPY(_allowedOptions, options);
+}
+
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
@@ -432,38 +452,34 @@
 
 @implementation ETNumberRole
 
-- (int)minimum
-{
-	return _min;
-}
+@synthesize  minimum = _minimum, maximum = _maximum;
 
-- (void)setMinimum: (int)min
+- (void)setMinimum: (NSInteger)min
 {
 	[[self parent] checkNotFrozen];
-	_min = min;
+	_minimum = min;
 }
 
-- (int)maximum
-{
-	return _max;
-}
-
-- (void)setMaximum: (int)max
+- (void)setMaximum: (NSInteger)max
 {
 	[[self parent] checkNotFrozen];
-	_max = max;
+	_maximum = max;
 }
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	int intValue = [value intValue];
-	if (intValue <= _max && intValue >= _min)
+	NSInteger intValue = [value integerValue];
+
+	if (intValue <= _maximum && intValue >= _minimum)
 	{
 		return [ETValidationResult validResult: value];
 	}
 	else
 	{
-		return [ETValidationResult validationResultWithValue: [NSNumber numberWithInt: MAX(_min, MIN(_max, intValue))]
+		NSNumber *invalidValue =
+			[NSNumber numberWithInt: MAX(_minimum, MIN(_maximum, intValue))];
+
+		return [ETValidationResult validationResultWithValue: invalidValue
 													 isValid: NO
 													   error: @"Value outside the allowable range"];
 	}
