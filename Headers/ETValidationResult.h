@@ -19,7 +19,7 @@
 @interface ETValidationResult : NSObject
 {
 	@private
-	id _object;
+	id _value;
 	NSString *_error;
 	BOOL _isValid;
 }
@@ -31,8 +31,9 @@
 - (id) initWithValue: (id)value
              isValid: (BOOL)isValid
                error: (NSString *)error;
-- (id) value;
-- (BOOL) isValid;
-- (NSString *) error;
+
+@property (nonatomic, readonly) id value;
+@property (nonatomic, readonly) BOOL isValid;
+@property (nonatomic, readonly) NSString *error;
 
 @end

@@ -15,6 +15,9 @@
 
 
 @implementation ETValidationResult
+
+@synthesize value = _value, isValid = _isValid, error = _error;
+
 + (id) validResult: (id)value
 {
 	return [[[ETValidationResult alloc] initWithValue: value
@@ -40,28 +43,16 @@
                error: (NSString *)error
 {
 	SUPERINIT;
-	ASSIGN(_object, value);
+	ASSIGN(_value, value);
 	_isValid = isValid;
-	ASSIGN(_error, error);
+	ASSIGNCOPY(_error, error);
 	return self;
 }
 - (void) dealloc
 {
-	DESTROY(_object);
+	DESTROY(_value);
 	DESTROY(_error);
 	[super dealloc];
-}
-- (id) value
-{
-	return _object;
-}
-- (BOOL) isValid
-{
-	return _isValid;
-}
-- (NSString *) error
-{
-	return _error;
 }
 
 @end

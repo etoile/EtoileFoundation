@@ -73,7 +73,7 @@ e.g. NSObject will have the returned package as its owner when its entity
 description is automatically registered in the main repository.
 
 See also -addDescription:. */
-- (ETPackageDescription *) anonymousPackageDescription;
+@property (nonatomic, readonly) ETPackageDescription *anonymousPackageDescription;
 
 /** Adds the given package, entity or property description to the repository.
 
@@ -112,20 +112,20 @@ the full name 'Anonymous.MyEntityName'. */
 /** Returns the packages registered in the repository.
 
 The returned collection is an autoreleased copy. */
-- (NSArray *) packageDescriptions;
+@property (nonatomic, readonly) NSArray *packageDescriptions;
 /** Returns the entity descriptions registered in the repository.
 
 The returned collection is an autoreleased copy. */
-- (NSArray *) entityDescriptions;
+@property (nonatomic, readonly) NSArray *entityDescriptions;
 /** Returns the property description registered in the repository.
 
 The returned collection is an autoreleased copy. */
-- (NSArray *) propertyDescriptions;
+@property (nonatomic, readonly) NSArray *propertyDescriptions;
 /** Returns all the package, entity and property descriptions registered in the 
 repository.
 
 The returned collection is an autoreleased copy. */
-- (NSArray *) allDescriptions;
+@property (nonatomic, readonly) NSArray *allDescriptions;
 /** Returns a package, entity or property description registered for the given 
 full name.<br />
 e.g. <em>Anonymous.NSObject<em> for NSObject entity.
