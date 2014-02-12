@@ -1,14 +1,9 @@
-/*
- ETPropertyDescription.h
- 
- A model description framework inspired by FAME 
- (http://scg.unibe.ch/wiki/projects/fame)
- 
- Copyright (C) 2009 Eric Wasylishen
- 
- Author:  Eric Wasylishen <ewasylishen@gmail.com>
- Date:  July 2009
- License:  Modified BSD (see COPYING)
+/**
+	Copyright (C) 2009 Eric Wasylishen
+
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  July 2009
+	License:  Modified BSD (see COPYING)
  */
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
@@ -20,8 +15,7 @@
 
 /**
  * @group Model and Metamodel
- *
- * Description of an entity's property.
+ * @abstract Description of an entity's property.
  */
 @interface ETPropertyDescription : ETModelElementDescription
 {
@@ -47,7 +41,16 @@
 	ETEntityDescription *_persistentType;
 }
 
+
+/** @taskunit Metamodel Description */
+
+
+/** Self-description (aka meta-metamodel). */
++ (ETEntityDescription *) newEntityDescription;
+
+
 /** @taskunit Initialization */
+
 
 /** Returns an autoreleased property description.
 
@@ -56,17 +59,43 @@ is raised. */
 + (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
                                            type: (ETEntityDescription *)aType;
 
-/** @taskunit Querying Type */
+
+/** @taskunit Querying Type and Role */
+
 
 /** Returns YES. */
 @property (nonatomic, readonly) BOOL isPropertyDescription;
+/** The entity that describes the property's value.
+
+This is the type of the attribute or destination entity.<br />
+Whether the property is a relationship or an attribute depends on the returned
+entity. See -isRelationship. */
+@property (nonatomic, retain) ETEntityDescription *type;
 /** Returns 'Property (type of the value)'.
 
 If -type returns a valid entity description, the parenthesis contains the 
 entity name in the returned string. */
 @property (nonatomic, readonly) NSString *typeDescription;
+@property (nonatomic, retain) id role;
+/** Returns YES when this property is a relationship to the destination entity
+returned by -type, otherwise returns NO when the property is an attribute.
+
+When the destination entity is a primitive, then the property is an attribute
+unless the role is explicitly set to ETRelationshipRole.
+
+isRelationship is derived from type.isPrimitive and role. */
+@property (nonatomic, readonly) BOOL isRelationship;
+/** Returns YES when the property is an attribute and NO when it is a
+relationship.
+
+isAttribute is derived from isRelationship.
+
+See -isRelationship. */
+@property (nonatomic, readonly) BOOL isAttribute;
+
 
 /** @taskunit Model Specification */
+
 
 /**
  * If YES, this property's value/values are the child/children of the entity
@@ -97,50 +126,40 @@ entity name in the returned string. */
 @property (nonatomic, assign, getter=isMultivalued) BOOL multivalued;
 @property (nonatomic, assign, getter=isOrdered) BOOL ordered;
 @property (nonatomic, assign, getter=isKeyed) BOOL keyed;
-@property (nonatomic, assign, getter=isPersistent) BOOL persistent;
 @property (nonatomic, assign, getter=isReadOnly) BOOL readOnly;
-@property (nonatomic, retain) id commitDescriptor;
-@property (nonatomic, assign) BOOL showsItemDetails;
-@property (nonatomic, copy) NSArray *detailedPropertyNames;
-
-@property (nonatomic, assign, getter=isIndexed) BOOL indexed;
-
 /** Can be self, if the relationship is reflexive. For example, a "spouse" 
 property or a "cousins" property that belong to a "person" entity.<br />
 For reflexive relationships, one-to-one or many-to-many are the only valid 
 cardinality. */
 @property (nonatomic, assign) ETPropertyDescription *opposite;
+
+
+/** @taskunit Owning Entity and Package */
+
+
 @property (nonatomic, assign) ETEntityDescription *owner;
 @property (nonatomic, assign) ETPackageDescription *package;
-/** The entity that describes the property's value.
 
-This is the type of the attribute or destination entity.<br />
-Whether the property is a relationship or an attribute depends on the returned 
-entity. See -isRelationship. */
-@property (nonatomic, retain) ETEntityDescription *type;
 
+/** @taskunit Persistency */
+
+
+@property (nonatomic, assign, getter=isPersistent) BOOL persistent;
+@property (nonatomic, assign, getter=isIndexed) BOOL indexed;
 @property (nonatomic, copy) NSString *valueTransformerName;
 @property (nonatomic, retain) ETEntityDescription *persistentType;
+@property (nonatomic, retain) id commitDescriptor;
 
-/** Returns YES when this property is a relationship to the destination entity
-returned by -type, otherwise returns NO when the property is an attribute.
 
-When the destination entity is a primitive, then the property is an attribute 
-unless the role is explicitly set to ETRelationshipRole.
+/** @taskunit Model Presentation */
 
-isRelationship is derived from type.isPrimitive and role. */
-@property (nonatomic, readonly) BOOL isRelationship;
-/** Returns YES when the property is an attribute and NO when it is a 
-relationship.
 
-isAttribute is derived from isRelationship.
+@property (nonatomic, assign) BOOL showsItemDetails;
+@property (nonatomic, copy) NSArray *detailedPropertyNames;
 
-See -isRelationship. */
-@property (nonatomic, readonly) BOOL isAttribute;
-
-@property (nonatomic, retain) id role;
 
 /** @taskunit Validation */
+
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
 /**
@@ -167,6 +186,7 @@ These allow a pluggable, more precise property description. */
 
 @end
 
+
 /** @group Model and Metamodel */
 @interface ETRelationshipRole : ETRoleDescription
 {
@@ -179,6 +199,7 @@ These allow a pluggable, more precise property description. */
 @property (nonatomic, copy) NSString *deletionRule;
 
 @end
+
 
 /** @group Model and Metamodel */
 @interface ETMultiOptionsRole : ETRoleDescription
@@ -196,6 +217,7 @@ You can use a localized string as the pair key to present the options in the UI.
 @property (nonatomic, copy) NSArray *allowedOptions;
 
 @end
+
 
 /** @group Model and Metamodel */
 @interface ETNumberRole : ETRoleDescription
