@@ -1,7 +1,4 @@
 /**
-	<abstract>A model description framework inspired by FAME 
-	(http://scg.unibe.ch/wiki/projects/fame)</abstract>
- 
 	Copyright (C) 2010 Quentin Mathe
 
 	Author:  Quentin Mathe <quentin.mathe@gmail.com>
@@ -16,8 +13,7 @@
 @class ETEntityDescription, ETPropertyDescription;
 
 /** @group Model and Metamodel
-
-Collection of related entity descriptions, usually equivalent to a data model.
+@abstract Collection of related entity descriptions, usually equivalent to a data model.
 
 A package can also include extensions to other entity descriptions. An extension 
 is a property description whose owner doesn't belong to the package it gets 
@@ -35,17 +31,25 @@ specify a data model.  */
 	NSMutableSet *_propertyDescriptions;
 }
 
+
+/** @taskunit Metamodel Description */
+
+
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 
+
 /** @taskunit Querying Type */
+
 
 /** Returns YES. */
 @property (nonatomic, readonly) BOOL isPackageDescription;
 /** Returns <em>Package</em>. */
 @property (nonatomic, readonly) NSString *typeDescription;
 
+
 /** @taskunit Packaged Entity Descriptions */
+
 
 /** Adds the given entity to the package, the package becomes its owner.
 
@@ -62,7 +66,9 @@ For each entity added or removed, the behavior described in
 The returned collection is an autoreleased copy. */
 @property (nonatomic, retain) NSSet *entityDescriptions;
 
+
 /** @taskunit Packaged Entity Extensions */
+
 
 /** Adds the given entity extension to the package.
 
@@ -80,7 +86,9 @@ For each entity extensions added or removed, the behavior described in
 The returned collection is an autoreleased copy. */
 @property (nonatomic, retain) NSSet *propertyDescriptions;
 
+
 /** @taskunit Runtime Consistency Check */
+
 
 /** Checks the receiver conforms to the FM3 constraint spec and adds a short 
 warning to the given array for each failure. */

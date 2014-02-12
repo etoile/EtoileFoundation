@@ -1,7 +1,4 @@
 /**
-	<abstract>A model description framework inspired by FAME
-	(http://scg.unibe.ch/wiki/projects/fame)</abstract>
-
 	Copyright (C) 2009 Eric Wasylishen
 
 	Author:  Eric Wasylishen <ewasylishen@gmail.com>
@@ -16,8 +13,7 @@
 @class ETPackageDescription, ETPropertyDescription, ETValidationResult, ETUTI;
 
 /** @group Model and Metamodel
-
-A description of an entity, which can either be a class or a prototype. */
+@abstract A description of an entity, which can either be a class or a prototype. */
 @interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
 	@private
@@ -31,6 +27,10 @@ A description of an entity, which can either be a class or a prototype. */
 	NSString *_diffAlgorithm;
 }
 
+
+/** @taskunit Metamodel Description */
+
+
 /** Self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 /** The name of the entity description that should end the parent chain of 
@@ -42,16 +42,9 @@ ETModelDescriptionRepository.
 Will be used by -checkConstraints:. */
 + (NSString *) rootEntityDescriptionName;
 
-/**
- * A short and human-readable description e.g. Person, Music Track.
- *
- * This is used to present the entity type to the user in the UI.
- *
- * By default, returns the entity name that is not localized.
- */ 
-@property (nonatomic, copy) NSString *localizedDescription;
 
 /** @taskunit Querying Type */
+
 
 /** Returns YES. */
 @property (nonatomic, readonly) BOOL isEntityDescription;
@@ -73,12 +66,16 @@ If YES is returned, -isPrimitive returns the same.
 See also -[ETPropertyDescription isPrimitive]. */
 @property (nonatomic, readonly) BOOL isCPrimitive;
 
+
 /** @taskunit Model Specification */
+
 
 /** Whether or not this entity is abstract (i.e. can't be instantiated). */
 @property (nonatomic, assign, getter=isAbstract) BOOL abstract;
 
+
 /** @taskunit Inheritance and Owning Package */
+
 
 /** Whether this is a root entity (has no parent entity). */
 @property (nonatomic, readonly) BOOL isRoot;
@@ -88,11 +85,12 @@ The parent is retained, because the parent doesn't track its subentities. */
 @property (nonatomic, retain) ETEntityDescription *parent;
 /** Returns whether the given entity is a subentity of the receiver. */
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc;
-- (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc;
 /** The package to which this entity belongs to. */
-@property (nonatomic, readwrite, retain) ETPackageDescription *owner;
+@property (nonatomic, assign) ETPackageDescription *owner;
+
 
 /** @taskunit Property Descriptions */
+
 
 /** Names of the property descriptions (not including those declared in parent 
 entities). */
@@ -130,27 +128,62 @@ See also -propertyDescriptionForName: and -[ETModelElementDescription name]
 which is inherited by ETPropertyDescription. */
 - (NSArray *)propertyDescriptionsForNames: (NSArray *)names;
 
-/** @taskunit Validation */
+
+/** @taskunit Model Presentation */
+
+
+/**
+ * A short and human-readable description e.g. Person, Music Track.
+ *
+ * This is used to present the entity type to the user in the UI.
+ *
+ * By default, returns the entity name that is not localized.
+ */
+@property (nonatomic, copy) NSString *localizedDescription;
+
+
+/** @taskunit UI Builder Support */
+
+
+/**
+ * The names of the entity properties visible in a IDE / UI builder inspector
+ * (not including those declared in parent entities).
+ */
+@property (nonatomic, copy) NSArray *UIBuilderPropertyNames;
+/**
+ * The names of the entity properties visible in a UIDE / UI builder inspector,
+ * including those declared in the parent entities.
+ */
+@property (nonatomic, readonly) NSArray *allUIBuilderPropertyNames;
+
+
+/** @taskunit Diff/Merge */
+
+
+/**
+ * Diff algorithm name.
+ *
+ * Normally nil, in which case the default diff/merge algorithm is used.
+ */
+@property (nonatomic, copy) NSString *diffAlgorithm;
+
+
+/** @taskunit Validation and Runtime Consistency Check */
+
 
 /** Tries to validate the value that corresponds to the given property name, 
 by delegating the validation to the right property description, and returns a 
 validation result object. */
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key;
+/** Checks the given value and its type against the receiver type, and returns
+whether the value type is a subtype of the receiver.
 
-/** @taskunit UI Builder Support */
-
-@property (nonatomic, copy) NSArray *UIBuilderPropertyNames;
-@property (nonatomic, readonly) NSArray *allUIBuilderPropertyNames;
-
-/** @taskunit Diff/Merge */
-
-/**
- * Diff algorithm name. Normally nil, in which case the default diff/merge
- * algorithm is used
- */
-@property (nonatomic, copy) NSString *diffAlgorithm;
+This method doesn't execute any model validation as -validateValue:forKey:
+does. */
+- (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc;
 
 @end
+
 
 /** @group Model and Metamodel
 
@@ -160,9 +193,14 @@ etc. See -[ETEntityDescription isPrimitive].
 This class is used internally. You can possibly use it to support new 
 primitives. */
 @interface ETPrimitiveEntityDescription : ETEntityDescription
+
+/** @taskunit Type Querying */
+
 /** Returns YES. */
 @property (nonatomic, readonly) BOOL isPrimitive;
+
 @end
+
 
 /** @group Model and Metamodel
 
@@ -172,9 +210,13 @@ See -[ETEntityDescription isCPrimitive].
 This class is used internally. You can possibly use it to support new 
 primitives. */
 @interface ETCPrimitiveEntityDescription : ETPrimitiveEntityDescription
+
+/** @taskunit Type Querying */
+
 /** Returns YES. */
 @property (nonatomic, readonly) BOOL isCPrimitive;
 @end
+
 
 /** @group Model and Metamodel
 

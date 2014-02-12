@@ -1,7 +1,4 @@
 /**
-	<abstract>A model description framework inspired by FAME 
-	(http://scg.unibe.ch/wiki/projects/fame)</abstract>
- 
 	Copyright (C) 2009 Eric Wasylishen
 
 	Author:  Eric Wasylishen <ewasylishen@gmail.com>
@@ -14,12 +11,15 @@
 @class ETEntityDescription, ETUTI;
 
 /** @group Model and Metamodel
-
-Abstract base class used by Model Description core classes. 
+@abstract Abstract base class used by Model Description core classes.
 
 Also implements NestedElement and NamedElement protocols that exist in FAME/EMOF.
 
-@section FAME Teminology Change Summary
+@section Conceptual Model
+
+Etoile Model Description framework inspired by [FAME](http://scg.unibe.ch/wiki/projects/fame).
+
+@section FAME Terminology Change Summary
 
 Those changes were made to further simplify the FAME terminology which can get 
 obscure since it overlaps with the host language object model, prevent any 
@@ -63,11 +63,17 @@ as a constraint). */
 	BOOL _isFrozen;
 }
 
+
+/** @taskunit Metamodel Description */
+
+
 /** <override-subclass />
 Returns a new self-description (aka meta-metamodel). */
 + (ETEntityDescription *) newEntityDescription;
 
+
 /** @taskunit Initialization */
+
 
 /** Returns an autoreleased entity, property or package description.
 
@@ -89,7 +95,9 @@ Raises an NSInvalidArgumentException when the name is nil or already in use. */
 is <em>Untitled</em>. */
 - (id) init;
 
+
 /** @taskunit Querying Type */
+
 
 /** Returns whether the receiver describes a property. */
 @property (nonatomic, readonly) BOOL isPropertyDescription;
@@ -98,7 +106,9 @@ is <em>Untitled</em>. */
 /** Returns whether the receiver describes a package. */
 @property (nonatomic, readonly) BOOL isPackageDescription;
 
+
 /** @taskunit Basic Model Specification */
+
 
 /** The name of the entity, property or package. */
 @property (nonatomic, copy) NSString *name;
@@ -127,34 +137,9 @@ By default, returns nil. */
 /** Wether the receiver describes an object that belongs to the metamodel. */
 @property (nonatomic, assign) BOOL isMetaMetamodel;
 
-/* @taskunit UI */
-
-/** The hint that precises how the receiver should be rendered e.g. at UI level.
-
-You can use this hint to identify which object to ouput, every time a new
-representation has to be generated based on the description.
-
-ETModelDescriptionRenderer in EtoileUI uses it to look up a template item that
-will represent the property at the UI level.
-
-By default, returns nil. */
-@property (nonatomic, copy) NSString *itemIdentifier;
-
-/** @taskunit Runtime Consistency Check */
-
-/** <override-dummy />
-Checks the receiver conforms to the FM3 constraint spec and adds a short warning
-to the given array for each failure. 
-
-A warning must be a NSString instance that describes the issue. Every warning 
-should be created with -warningWithMessage:. */
-- (void) checkConstraints: (NSMutableArray *)warnings;
-/** Returns an autoreleased warning built with the given explanation. 
-
-See -checkConstraints:. */
-- (NSString *) warningWithMessage: (NSString *)msg;
 
 /** @taskunit Model Presentation */
+
 
 /**
  * A short and human-readable name e.g. Person, Music Track, Anchor Point.
@@ -178,15 +163,45 @@ ETPackageDescription.
 
 By default, returns <em>Element</em>. */
 @property (nonatomic, readonly) NSString *typeDescription;
+/** The hint that precises how the receiver should be rendered e.g. at UI level.
+
+You can use this hint to identify which object to ouput, every time a new
+representation has to be generated based on the description.
+
+ETModelDescriptionRenderer in EtoileUI uses it to look up a template item that
+will represent the property at the UI level.
+
+By default, returns nil. */
+@property (nonatomic, copy) NSString *itemIdentifier;
+
+
+/** @taskunit Runtime Consistency Check */
+
+
+/** <override-dummy />
+Checks the receiver conforms to the FM3 constraint spec and adds a short warning
+to the given array for each failure.
+
+A warning must be a NSString instance that describes the issue. Every warning
+should be created with -warningWithMessage:. */
+- (void) checkConstraints: (NSMutableArray *)warnings;
+/** Returns an autoreleased warning built with the given explanation.
+
+See -checkConstraints:. */
+- (NSString *) warningWithMessage: (NSString *)msg;
+
 
 /** @taskunit Internal */
 
+
 /**
+ * <override-never />
  * Throws an exception if the frozen flag is YES. This should be called in
  * ETModelElementDescription and subclasses before every mutation.
  */
 - (void) checkNotFrozen;
 /**
+ * <override-subclass />
  * Marks the receiver as frozen. From this point, the receiver is immutable
  * and any attempt to mutate it will cause an exception to be thrown.
  */
