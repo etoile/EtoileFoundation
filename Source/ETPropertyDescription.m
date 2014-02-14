@@ -30,6 +30,8 @@
 @synthesize derived = _derived, multivalued = _multivalued, ordered = _ordered, keyed = _keyed;
 @synthesize persistent = _persistent, readOnly = _readOnly;
 @synthesize opposite = _opposite, owner = _owner, package = _package, type = _type, role = _role;
+@synthesize oppositeName = _oppositeName, ownerName = _ownerName, packageName = _packageName;
+@synthesize typeName = _typeName, persistentTypeName = _persistentTypeName;
 @synthesize showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames;
 @synthesize commitDescriptor = _commitDescriptor, indexed = _indexed,
 	valueTransformerName = _valueTransformerName, persistentType = _persistentType;
@@ -112,6 +114,11 @@
 	DESTROY(_valueTransformerName);
 	DESTROY(_persistentType);
 	DESTROY(_role);
+	DESTROY(_oppositeName);
+	DESTROY(_ownerName);
+	DESTROY(_packageName);
+	DESTROY(_typeName);
+	DESTROY(_persistentTypeName);
 	[super dealloc];
 }
 
@@ -146,7 +153,7 @@
 
 - (BOOL) isContainer
 {
-	if (_opposite != nil && [_opposite isString] == NO)
+	if (_opposite != nil)
 	{
 		if (_derived && !_multivalued)
 		{
@@ -220,13 +227,10 @@
 - (void) setOpposite: (ETPropertyDescription *)opposite
 {
 	[self checkNotFrozen];
-	if ([_opposite isString])
-	{
-		DESTROY(_opposite);
-	}
+	// TODO: Remove once all code used -setOppositeName:
 	if ([opposite isString])
 	{
-		_opposite = RETAIN(opposite);
+		[self setOppositeName: (id)opposite];
 		return;
 	}
 
@@ -250,9 +254,18 @@
 - (void) setOwner: (ETEntityDescription *)owner
 {
 	[self checkNotFrozen];
+	// TODO: Remove once all code used -setOwnerName:
+	if ([owner isString])
+	{
+		[self setOwnerName: (id)owner];
+		return;
+	}
+
 	NSParameterAssert((_owner != nil && owner == nil) || (_owner == nil && owner != nil));
+
 	_owner = owner;
-	if ([self opposite] != nil && [[self opposite] isString] == NO)
+
+	if ([self opposite] != nil)
 	{
 		[[self opposite] setType: owner];
 	}
@@ -261,12 +274,26 @@
 - (void) setPackage: (ETPackageDescription *)aPackage
 {
 	[self checkNotFrozen];
+	// TODO: Remove once all code used -setPackageName:
+	if ([aPackage isString])
+	{
+		[self setPackageName: (id)aPackage];
+		return;
+	}
+
 	_package = aPackage;
 }
 
 - (void) setType: (ETEntityDescription *)anEntityDescription
 {
 	[self checkNotFrozen];
+	// TODO: Remove once all code used -setTypeName:
+	if ([anEntityDescription isString])
+	{
+		[self setTypeName: (id)anEntityDescription];
+		return;
+	}
+
 	ASSIGN(_type, anEntityDescription);
 }
 
@@ -279,6 +306,13 @@
 - (void) setPersistentType: (ETEntityDescription *)anEntityDescription
 {
 	[self checkNotFrozen];
+	// TODO: Remove once all code used -setPersistentTypeName:
+	if ([anEntityDescription isString])
+	{
+		[self setPersistentTypeName: (id)anEntityDescription];
+		return;
+	}
+
 	ASSIGN(_persistentType, anEntityDescription);
 }
 
@@ -317,7 +351,7 @@
 		[warnings addObject: [self warningWithMessage: 
 			@"Container must refer to a single object"]];
 	}
-	if ([[self opposite] isString]) 
+	if ([self oppositeName] != nil)
 	{
 		[warnings addObject: [self warningWithMessage: @"Failed to resolve opposite"]];
 	}
@@ -326,7 +360,7 @@
 		[warnings addObject: [self warningWithMessage: 
 			@"Opposites must refer to each other"]];
 	}
-	if ([[self type] isString])
+	if ([self typeName] != nil)
 	{
 		[warnings addObject: [self warningWithMessage: @"Failed to resolve type"]];
 	}
@@ -334,7 +368,11 @@
 	{
 		[warnings addObject: [self warningWithMessage: @"Miss a type"]];
 	}
-	if ([[self owner] isString])
+	if ([self persistentTypeName] != nil)
+	{
+		[warnings addObject: [self warningWithMessage: @"Failed to resolve type"]];
+	}
+	if ([self ownerName] != nil)
 	{
 		[warnings addObject: [self warningWithMessage: @"Failed to resolve owner"]];
 	}
@@ -347,7 +385,7 @@
 		[warnings addObject: [self warningWithMessage: 
 			@"Owner must be an entity description"]];
 	}
-	if ([[self package] isString])
+	if ([self packageName] != nil)
 	{
 		[warnings addObject: [self warningWithMessage: @"Failed to resolve package"]];
 	}

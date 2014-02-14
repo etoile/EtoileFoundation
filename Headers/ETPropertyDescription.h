@@ -39,6 +39,11 @@
 	BOOL _indexed;
 	NSString *_valueTransformerName;
 	ETEntityDescription *_persistentType;
+	NSString *_oppositeName;
+	NSString *_ownerName;
+	NSString *_packageName;
+	NSString *_typeName;
+	NSString *_persistentTypeName;
 }
 
 
@@ -149,6 +154,68 @@ cardinality. */
 @property (nonatomic, copy) NSString *valueTransformerName;
 @property (nonatomic, retain) ETEntityDescription *persistentType;
 @property (nonatomic, retain) id commitDescriptor;
+
+
+/** @taskunit Late-bound References */
+
+
+/** 
+ * The full name of the relationship opposite property (the package name as a 
+ * prefix is optional for the anonymous package).
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets -opposite 
+ * based on the opposite name. Once resolved, -oppositeName returns nil.
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription].
+ */
+@property (nonatomic, copy) NSString *oppositeName;
+/** 
+ * The name of the package to which this entity belongs to.
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets -owner 
+ * based on the owner name. Once resolved, -ownerName returns nil.
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription]. 
+ */
+@property (nonatomic, copy) NSString *ownerName;
+/** 
+ * The name of the package to which this property belongs to (as an extension).
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets -package   
+ * based on the package name. Once resolved, -packageName returns nil.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription].
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ */
+@property (nonatomic, copy) NSString *packageName;
+/** 
+ * The name of the entity that describes the property's value.
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets -type  
+ * based on the type name. Once resolved, -typeName returns nil.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription].
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ */
+@property (nonatomic, copy) NSString *typeName;
+/** 
+ * The name of the entity that describes the property's persistent value.
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets 
+ * -persistentType based on the persistent type name. Once resolved, 
+ * -persistentTypeName returns nil.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription].
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ */
+@property (nonatomic, copy) NSString *persistentTypeName;
 
 
 /** @taskunit Model Presentation */

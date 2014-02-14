@@ -350,7 +350,8 @@ same name). */
           forDescription: (ETModelElementDescription *)desc
             isPackageRef: (BOOL)isPackageRef
 {
-	id value = [desc valueForKey: aProperty];
+	NSString *placeholderProperty = [aProperty stringByAppendingString: @"Name"];
+	id value = [desc valueForKey: placeholderProperty];
 
 	if ([value isString] == NO) return;
 
@@ -365,6 +366,7 @@ same name). */
 	if (nil != realValue)
 	{
 		[desc setValue: realValue forKey: aProperty];
+		[desc setValue: nil forKey: placeholderProperty];
 	}
 	else
 	{

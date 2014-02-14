@@ -22,6 +22,8 @@
 	NSArray *_cachedAllPropertyDescriptions;
 	ETEntityDescription *_parent;
 	ETPackageDescription *_owner;
+	NSString *_parentName;
+	NSString *_ownerName;
 	NSString *_localizedDescription;
 	NSArray *_UIBuilderPropertyNames;
 	NSString *_diffAlgorithm;
@@ -127,6 +129,35 @@ which is inherited by ETPropertyDescription. */
 See also -propertyDescriptionForName: and -[ETModelElementDescription name]
 which is inherited by ETPropertyDescription. */
 - (NSArray *)propertyDescriptionsForNames: (NSArray *)names;
+
+
+/** @taskunit Late-bound References */
+
+
+/** 
+ * The name of the parent entity.
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets -parent  
+ * based on the parent name. Once resolved, -parentName returns nil.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription].
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ *
+ * See also -parent. 
+ */
+@property (nonatomic, copy) NSString *parentName;
+/** 
+ * The name of the package to which this entity belongs to.
+ *
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] sets -owner 
+ * based on the owner name. Once resolved, -ownerName returns nil.
+ *
+ * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
+ *
+ * You should use this setter inside +[NSObject newEntityDescription]. 
+ */
+@property (nonatomic, copy) NSString *ownerName;
 
 
 /** @taskunit Model Presentation */

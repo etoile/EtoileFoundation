@@ -24,6 +24,7 @@
 @implementation ETEntityDescription
 
 @synthesize abstract = _abstract, parent = _parent, owner = _owner;
+@synthesize parentName = _parentName, ownerName = _ownerName;
 @synthesize localizedDescription = _localizedDescription;
 @synthesize UIBuilderPropertyNames = _UIBuilderPropertyNames;
 @synthesize diffAlgorithm = _diffAlgorithm;
@@ -60,6 +61,8 @@
 	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_propertyDescriptions);
 	DESTROY(_parent);
+	DESTROY(_parentName);
+	DESTROY(_ownerName);
 	DESTROY(_localizedDescription);
 	DESTROY(_UIBuilderPropertyNames);
 	[super dealloc];
@@ -228,6 +231,13 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 - (void) setParent: (ETEntityDescription *)parentDescription
 {
 	[self checkNotFrozen];
+	// TODO: Remove once all code used -setParentName:
+	if ([parentDescription isString])
+	{
+		[self setParentName: (id)parentDescription];
+		return;
+	}
+
 	DESTROY(_cachedAllPropertyDescriptions);
 	ASSIGN(_parent, parentDescription);
 }
@@ -254,6 +264,13 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 - (void) setOwner: (ETPackageDescription *)owner
 {
 	[self checkNotFrozen];
+	// TODO: Remove once all code used -setOwnerName:
+	if ([owner isString])
+	{
+		[self setOwnerName: (id)owner];
+		return;
+	}
+
 	_owner = owner;
 }
 
@@ -326,7 +343,7 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 	}
 
 	/* Primitives belongs to a package unlike FAME */
-	if ([[self owner] isString])
+	if ([self ownerName] != nil)
 	{
 		[warnings addObject: [self warningWithMessage:
 			@"Failed to resolve owner (a package)"]];
@@ -338,7 +355,7 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 
 	if ([[self name] isEqual: [[self class] rootEntityDescriptionName]] == NO)
 	{
-		if ([[self parent] isString])
+		if ([self parentName] != nil)
 		{
 			[warnings addObject: [self warningWithMessage:
 				@"Failed to resolve parent"]];
