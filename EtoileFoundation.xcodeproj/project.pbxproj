@@ -69,7 +69,6 @@
 		603647E70E4092EA003377E0 /* NSObject+DoubleDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C70E4092EA003377E0 /* NSObject+DoubleDispatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E80E4092EA003377E0 /* ETUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C80E4092EA003377E0 /* ETUUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E90E4092EA003377E0 /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C90E4092EA003377E0 /* Macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		603647EB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647EC0E4092EA003377E0 /* NSFileManager+TempFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CC0E4092EA003377E0 /* NSFileManager+TempFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647ED0E4092EA003377E0 /* NSIndexPath+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CD0E4092EA003377E0 /* NSIndexPath+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647EE0E4092EA003377E0 /* NSIndexSet+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CE0E4092EA003377E0 /* NSIndexSet+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,7 +76,6 @@
 		603647F00E4092EA003377E0 /* NSObject+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D00E4092EA003377E0 /* NSObject+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647F20E4092EA003377E0 /* NSObject+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D20E4092EA003377E0 /* NSObject+Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647F30E4092EA003377E0 /* NSString+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D30E4092EA003377E0 /* NSString+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		603647F40E4092EA003377E0 /* NSURL+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D40E4092EA003377E0 /* NSURL+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647F80E4092EA003377E0 /* ETPlugInRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D80E4092EA003377E0 /* ETPlugInRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603648190E40931E003377E0 /* ETCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FC0E40931E003377E0 /* ETCollection.m */; };
 		6036481C0E40931E003377E0 /* ETGetOptionsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FF0E40931E003377E0 /* ETGetOptionsDictionary.m */; };
@@ -85,7 +83,6 @@
 		603648210E40931E003377E0 /* NSObject+DoubleDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */; };
 		603648220E40931E003377E0 /* ETUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648050E40931E003377E0 /* ETUUID.m */; };
 		603648230E40931E003377E0 /* GNUstep.h in Headers */ = {isa = PBXBuildFile; fileRef = 603648060E40931E003377E0 /* GNUstep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		603648250E40931E003377E0 /* NSFileManager+NameForTempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */; };
 		603648260E40931E003377E0 /* NSFileManager+TempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648090E40931E003377E0 /* NSFileManager+TempFile.m */; };
 		603648270E40931E003377E0 /* NSIndexPath+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480A0E40931E003377E0 /* NSIndexPath+Etoile.m */; };
 		603648280E40931E003377E0 /* NSIndexSet+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */; };
@@ -93,7 +90,6 @@
 		6036482A0E40931E003377E0 /* NSObject+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480D0E40931E003377E0 /* NSObject+Etoile.m */; };
 		6036482C0E40931E003377E0 /* NSObject+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480F0E40931E003377E0 /* NSObject+Model.m */; };
 		6036482D0E40931E003377E0 /* NSString+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648100E40931E003377E0 /* NSString+Etoile.m */; };
-		6036482E0E40931E003377E0 /* NSURL+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648110E40931E003377E0 /* NSURL+Etoile.m */; };
 		603648320E40931E003377E0 /* ETPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648150E40931E003377E0 /* ETPlugInRegistry.m */; };
 		603649740E409488003377E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		603812731021C51B00C221A2 /* TestString.m in Sources */ = {isa = PBXBuildFile; fileRef = 603812721021C51B00C221A2 /* TestString.m */; };
@@ -137,7 +133,6 @@
 		609B67D60FEE81740007F842 /* NSObject+DoubleDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */; };
 		609B67D70FEE81740007F842 /* ETUTI.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50D0F21FA4C00DF23D9 /* ETUTI.m */; };
 		609B67D80FEE81740007F842 /* ETUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648050E40931E003377E0 /* ETUUID.m */; };
-		609B67DA0FEE81740007F842 /* NSFileManager+NameForTempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */; };
 		609B67DB0FEE81740007F842 /* NSFileManager+TempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648090E40931E003377E0 /* NSFileManager+TempFile.m */; };
 		609B67DC0FEE81740007F842 /* NSIndexPath+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480A0E40931E003377E0 /* NSIndexPath+Etoile.m */; };
 		609B67DD0FEE81740007F842 /* NSIndexSet+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */; };
@@ -145,7 +140,6 @@
 		609B67DF0FEE81740007F842 /* NSObject+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480D0E40931E003377E0 /* NSObject+Etoile.m */; };
 		609B67E10FEE81740007F842 /* NSObject+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480F0E40931E003377E0 /* NSObject+Model.m */; };
 		609B67E30FEE81740007F842 /* NSString+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648100E40931E003377E0 /* NSString+Etoile.m */; };
-		609B67E40FEE81740007F842 /* NSURL+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648110E40931E003377E0 /* NSURL+Etoile.m */; };
 		609B67E50FEE81740007F842 /* ETPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648150E40931E003377E0 /* ETPlugInRegistry.m */; };
 		60A221EC0FEFF8EF00952E11 /* NSObject+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A221EB0FEFF8EF00952E11 /* NSObject+HOM.m */; };
 		60A221ED0FEFF8EF00952E11 /* NSObject+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A221EB0FEFF8EF00952E11 /* NSObject+HOM.m */; };
@@ -312,7 +306,6 @@
 		603647C70E4092EA003377E0 /* NSObject+DoubleDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DoubleDispatch.h"; path = "Headers/NSObject+DoubleDispatch.h"; sourceTree = "<group>"; };
 		603647C80E4092EA003377E0 /* ETUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETUUID.h; path = Headers/ETUUID.h; sourceTree = "<group>"; };
 		603647C90E4092EA003377E0 /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Macros.h; path = Headers/Macros.h; sourceTree = "<group>"; };
-		603647CB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+NameForTempFile.h"; path = "Headers/NSFileManager+NameForTempFile.h"; sourceTree = "<group>"; };
 		603647CC0E4092EA003377E0 /* NSFileManager+TempFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+TempFile.h"; path = "Headers/NSFileManager+TempFile.h"; sourceTree = "<group>"; };
 		603647CD0E4092EA003377E0 /* NSIndexPath+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSIndexPath+Etoile.h"; path = "Headers/NSIndexPath+Etoile.h"; sourceTree = "<group>"; };
 		603647CE0E4092EA003377E0 /* NSIndexSet+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSIndexSet+Etoile.h"; path = "Headers/NSIndexSet+Etoile.h"; sourceTree = "<group>"; };
@@ -321,7 +314,6 @@
 		603647D10E4092EA003377E0 /* NSObject+Trait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Trait.h"; path = "Headers/NSObject+Trait.h"; sourceTree = "<group>"; };
 		603647D20E4092EA003377E0 /* NSObject+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Model.h"; path = "Headers/NSObject+Model.h"; sourceTree = "<group>"; };
 		603647D30E4092EA003377E0 /* NSString+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Etoile.h"; path = "Headers/NSString+Etoile.h"; sourceTree = "<group>"; };
-		603647D40E4092EA003377E0 /* NSURL+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+Etoile.h"; path = "Headers/NSURL+Etoile.h"; sourceTree = "<group>"; };
 		603647D80E4092EA003377E0 /* ETPlugInRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETPlugInRegistry.h; path = Headers/ETPlugInRegistry.h; sourceTree = "<group>"; };
 		603647FB0E40931E003377E0 /* ETCArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ETCArray.c; path = Source/ETCArray.c; sourceTree = "<group>"; };
 		603647FC0E40931E003377E0 /* ETCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCollection.m; path = Source/ETCollection.m; sourceTree = "<group>"; };
@@ -331,7 +323,6 @@
 		603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DoubleDispatch.m"; path = "Source/NSObject+DoubleDispatch.m"; sourceTree = "<group>"; };
 		603648050E40931E003377E0 /* ETUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETUUID.m; path = Source/ETUUID.m; sourceTree = "<group>"; };
 		603648060E40931E003377E0 /* GNUstep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNUstep.h; path = Source/GNUstep.h; sourceTree = "<group>"; };
-		603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+NameForTempFile.m"; path = "Source/NSFileManager+NameForTempFile.m"; sourceTree = "<group>"; };
 		603648090E40931E003377E0 /* NSFileManager+TempFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+TempFile.m"; path = "Source/NSFileManager+TempFile.m"; sourceTree = "<group>"; };
 		6036480A0E40931E003377E0 /* NSIndexPath+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSIndexPath+Etoile.m"; path = "Source/NSIndexPath+Etoile.m"; sourceTree = "<group>"; };
 		6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSIndexSet+Etoile.m"; path = "Source/NSIndexSet+Etoile.m"; sourceTree = "<group>"; };
@@ -340,7 +331,6 @@
 		6036480E0E40931E003377E0 /* NSObject+Trait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Trait.m"; path = "Source/NSObject+Trait.m"; sourceTree = "<group>"; };
 		6036480F0E40931E003377E0 /* NSObject+Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Model.m"; path = "Source/NSObject+Model.m"; sourceTree = "<group>"; };
 		603648100E40931E003377E0 /* NSString+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Etoile.m"; path = "Source/NSString+Etoile.m"; sourceTree = "<group>"; };
-		603648110E40931E003377E0 /* NSURL+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+Etoile.m"; path = "Source/NSURL+Etoile.m"; sourceTree = "<group>"; };
 		603648130E40931E003377E0 /* TestUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUUID.m; path = Tests/TestUUID.m; sourceTree = "<group>"; };
 		603648150E40931E003377E0 /* ETPlugInRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPlugInRegistry.m; path = Source/ETPlugInRegistry.m; sourceTree = "<group>"; };
 		603649810E4095F0003377E0 /* EtoileFoundation-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EtoileFoundation-Info.plist"; sourceTree = "<group>"; };
@@ -790,14 +780,10 @@
 				66C3AF8F10181D110046D74A /* NSData+Hash.m */,
 				603647CF0E4092EA003377E0 /* NSInvocation+Etoile.h */,
 				6036480C0E40931E003377E0 /* NSInvocation+Etoile.m */,
-				603647CB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h */,
-				603648080E40931E003377E0 /* NSFileManager+NameForTempFile.m */,
 				603647CC0E4092EA003377E0 /* NSFileManager+TempFile.h */,
 				603648090E40931E003377E0 /* NSFileManager+TempFile.m */,
 				603647D30E4092EA003377E0 /* NSString+Etoile.h */,
 				603648100E40931E003377E0 /* NSString+Etoile.m */,
-				603647D40E4092EA003377E0 /* NSURL+Etoile.h */,
-				603648110E40931E003377E0 /* NSURL+Etoile.m */,
 				603647CD0E4092EA003377E0 /* NSIndexPath+Etoile.h */,
 				6036480A0E40931E003377E0 /* NSIndexPath+Etoile.m */,
 			);
@@ -886,7 +872,6 @@
 				603647E90E4092EA003377E0 /* Macros.h in Headers */,
 				66C3AF8D10181CFA0046D74A /* NSData+Hash.h in Headers */,
 				60F6EEEE101471FC003F4508 /* NSFileHandle+Socket.h in Headers */,
-				603647EB0E4092EA003377E0 /* NSFileManager+NameForTempFile.h in Headers */,
 				603647EC0E4092EA003377E0 /* NSFileManager+TempFile.h in Headers */,
 				603647ED0E4092EA003377E0 /* NSIndexPath+Etoile.h in Headers */,
 				603647EE0E4092EA003377E0 /* NSIndexSet+Etoile.h in Headers */,
@@ -897,7 +882,6 @@
 				603647F20E4092EA003377E0 /* NSObject+Model.h in Headers */,
 				601909DC13A61AC300A0F639 /* NSObject+Trait.h in Headers */,
 				603647F30E4092EA003377E0 /* NSString+Etoile.h in Headers */,
-				603647F40E4092EA003377E0 /* NSURL+Etoile.h in Headers */,
 				792BF98E124FBD0B0040BF68 /* runtime.h in Headers */,
 				60A549AC13CA133300261FDC /* NSMapTable+Etoile.h in Headers */,
 				6043D0AA174CD770002103CC /* ETCollectionViewpoint.h in Headers */,
@@ -1167,7 +1151,6 @@
 				662EA3FD101916310044F013 /* ETValidationResult.m in Sources */,
 				66C3AF9110181D110046D74A /* NSData+Hash.m in Sources */,
 				60F6EEF01014722D003F4508 /* NSFileHandle+Socket.m in Sources */,
-				603648250E40931E003377E0 /* NSFileManager+NameForTempFile.m in Sources */,
 				603648260E40931E003377E0 /* NSFileManager+TempFile.m in Sources */,
 				603648270E40931E003377E0 /* NSIndexPath+Etoile.m in Sources */,
 				603648280E40931E003377E0 /* NSIndexSet+Etoile.m in Sources */,
@@ -1179,7 +1162,6 @@
 				601909FD13A61C2C00A0F639 /* NSObject+Prototypes.m in Sources */,
 				601909E213A61AF100A0F639 /* NSObject+Trait.m in Sources */,
 				6036482D0E40931E003377E0 /* NSString+Etoile.m in Sources */,
-				6036482E0E40931E003377E0 /* NSURL+Etoile.m in Sources */,
 				60A549AE13CA134700261FDC /* NSMapTable+Etoile.m in Sources */,
 				60ADA96E1410E821003EACF1 /* NSBlocks.m in Sources */,
 				6043D0A9174CD76C002103CC /* ETCollectionViewpoint.m in Sources */,
@@ -1231,7 +1213,6 @@
 				60222DBC101CCB4800B2B1C1 /* ETValidationResult.m in Sources */,
 				60222DBD101CCB4800B2B1C1 /* NSData+Hash.m in Sources */,
 				60F6EEF11014722D003F4508 /* NSFileHandle+Socket.m in Sources */,
-				609B67DA0FEE81740007F842 /* NSFileManager+NameForTempFile.m in Sources */,
 				609B67DB0FEE81740007F842 /* NSFileManager+TempFile.m in Sources */,
 				609B67DC0FEE81740007F842 /* NSIndexPath+Etoile.m in Sources */,
 				609B67DD0FEE81740007F842 /* NSIndexSet+Etoile.m in Sources */,
@@ -1243,7 +1224,6 @@
 				6093353213A561300033378C /* NSObject+Prototypes.m in Sources */,
 				6093353113A561130033378C /* NSObject+Trait.m in Sources */,
 				609B67E30FEE81740007F842 /* NSString+Etoile.m in Sources */,
-				609B67E40FEE81740007F842 /* NSURL+Etoile.m in Sources */,
 				609B67CA0FEE81740007F842 /* TestBasicHOM.m in Sources */,
 				6093347E13A550B40033378C /* TestCollectionTrait.m in Sources */,
 				60222D91101CCAAC00B2B1C1 /* TestEntityDescription.m in Sources */,
