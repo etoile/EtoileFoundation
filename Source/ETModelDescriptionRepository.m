@@ -96,10 +96,20 @@ static ETModelDescriptionRepository *mainRepo = nil;
 {
 	if (nil == mainRepo)
 	{
+		NSMutableArray *warnings = [NSMutableArray array];
+
 		mainRepo = [[self alloc] init];
 		[mainRepo collectEntityDescriptionsFromClass: [NSObject class]
 		                             excludedClasses: nil
 		                                  resolveNow: YES];
+		[mainRepo checkConstraints: warnings];
+		
+		if ([warnings isEmpty] == NO)
+		{
+			[NSException raise: NSInternalInconsistencyException
+			            format: @"Failure on constraint check in repository %@:\n %@",
+			                    mainRepo, warnings];
+		}
 	}
 	return mainRepo;
 }

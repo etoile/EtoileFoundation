@@ -46,7 +46,10 @@ main repository data model.  */
 
 When this repository is created, existing entity descriptions are collected 
 by invoking +newEntityDescription on every NSObject subclass and bound to the 
-class that provided the description. See -setEntityDescription:forClass:. */
+class that provided the description. See -setEntityDescription:forClass:.
+
+After collecting the entity descriptions, -checkConstraints is called and must 
+return no warnings, otherwise a NSInternalInconsistencyException is raised. */
 + (id) mainRepository;
 
 /** Self-description (aka meta-metamodel). */
@@ -60,7 +63,7 @@ If resolve is YES, the named references that exists between the descriptions
 are resolved immediately with -resolveNamedObjectReferences. Otherwise they 
 are not and the repository remain in an invalid state until 
 -resolveNamedObjectReferences is called. */
-- (void) collectEntityDescriptionsFromClass: (Class)aClass 
+- (void) collectEntityDescriptionsFromClass: (Class)aClass
                             excludedClasses: (NSSet *)excludedClasses 
                                  resolveNow: (BOOL)resolve;
 
@@ -105,9 +108,19 @@ If the added entity description is equal to a previously registered entity
 
 If the given description is an entity description whose owner is nil, 
 -anonymousPackageDescription becomes its owner, and it gets registered under 
-the full name 'Anonymous.MyEntityName'. */
+the full name 'Anonymous.MyEntityName'.
+
+When you are done adding and removing descriptions, don't forget to call 
+-checkConstraints:. If the added or removed descriptions include any entity 
+descriptions, use also -setEntityDescription:forClass: to update the bindings
+between classes and entity descriptions..  */
 - (void) addDescription: (ETModelElementDescription *)aDescription;
-/** Removes the given package, entity or property description from the repository. */
+/** Removes the given package, entity or property description from the repository.
+
+When you are done adding and removing descriptions, don't forget to call 
+-checkConstraints:. If the added or removed descriptions include any entity 
+descriptions, use also -setEntityDescription:forClass: to update the bindings
+between classes and entity descriptions. */
 - (void) removeDescription: (ETModelElementDescription *)aDescription;
 /** Returns the packages registered in the repository.
 
