@@ -14,7 +14,10 @@
 /** @group String Manipulation and Formatting
 
 ETByteSizeFormatter supports to format NSNumber objects up the terabyte 
-unit as detailed in -stringForObjectValue:. */
+unit as detailed in -stringForObjectValue:.
+
+ETByteSizeFormatter is now deprecated in favor of NSByteCountFormatter, we 
+still support it on Mac OS X for backward compatibility with 10.6 and 10.7. */
 @interface ETByteSizeFormatter : NSFormatter
 
 - (NSString *) stringForObjectValue: (id)anObject;

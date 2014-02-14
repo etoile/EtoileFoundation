@@ -3,6 +3,17 @@ EtoileFoundation NEWS
 
 See also EtoileXML/NEWS and EtoileThread/NEWS.
 
+0.6 (Etoile 0.4.3)
+------------------
+
+- Introduced iOS 5 and higher support
+- Introduced Viewpoints, a collection API to create dynamic views on other collections
+- Improved Metamodel for CoreObject and EtoileUI needs
+- Added NSMapTable+Etoile
+- Removed NSFileManager+NameForTempFile and NSURL+Etoile
+- Deprecated ETByteSizeFormatter
+- Wrote more missing API documentation
+
 0.5 (Etoile 0.4.2)
 ------------------
 

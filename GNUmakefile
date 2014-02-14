@@ -110,7 +110,6 @@ EtoileFoundation_HEADER_FILES = \
 	NSObject+Model.h \
 	NSObject+Trait.h \
 	NSString+Etoile.h \
-	NSURL+Etoile.h \
 	ETUTI.h \
 	ETReflection.h \
 	ETEntityDescription.h \
@@ -125,9 +124,6 @@ EtoileFoundation_HEADER_FILES = \
 EtoileFoundation_RESOURCE_FILES = \
 	UTIDefinitions.plist \
 	UTIClassBindings.plist
-
-# Deprecated
-EtoileFoundation_HEADER_FILES += NSFileManager+NameForTempFile.h
 
 EtoileFoundation_OBJC_FILES = \
 	Source/NSFileManager+TempFile.m\
@@ -169,7 +165,6 @@ EtoileFoundation_OBJC_FILES = \
 	Source/NSObject+Model.m \
 	Source/NSObject+Trait.m \
 	Source/NSString+Etoile.m \
-	Source/NSURL+Etoile.m \
 	Source/ETReflection.m \
 	Source/ETEntityDescription.m \
 	Source/ETModelDescriptionRepository.m \
@@ -179,9 +174,6 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETValidationResult.m
 
 EtoileFoundation_C_FILES = Source/ETCArray.c
-
-# Deprecated
-EtoileFoundation_OBJC_FILES += Source/NSFileManager+NameForTempFile.m
 
 ifeq ($(test), yes)
 EtoileFoundation_OBJC_FILES += \

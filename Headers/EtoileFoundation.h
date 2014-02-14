@@ -51,7 +51,6 @@
 #import <EtoileFoundation/EtoileCompatibility.h>
 #import <EtoileFoundation/Macros.h>
 #import <EtoileFoundation/NSData+Hash.h>
-#import <EtoileFoundation/NSFileManager+NameForTempFile.h>
 #import <EtoileFoundation/NSFileManager+TempFile.h>
 #import <EtoileFoundation/NSFileHandle+Socket.h>
 #import <EtoileFoundation/NSIndexPath+Etoile.h>
@@ -64,7 +63,6 @@
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSObject+Trait.h>
 #import <EtoileFoundation/NSString+Etoile.h>
-#import <EtoileFoundation/NSURL+Etoile.h>
 
 /* Model Description */
 
