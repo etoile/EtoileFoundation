@@ -393,6 +393,45 @@
 	{
 		[warnings addObject: [self warningWithMessage: @"Derived implies read only"]];
 	}
+	if ([self isDerived] && [self isPersistent])
+	{
+		[warnings addObject: [self warningWithMessage: @"Derived implies not persistent"]];
+	}
+
+	// TODO: The constraints that follow are CoreObject related, and shouldn't
+	// be intermingled with the core metamodel constraints.
+
+	if ([[self opposite] isPersistent] && [self isContainer] && [self isDerived] == NO)
+	{
+		[warnings addObject: [self warningWithMessage:
+			@"If opposite is persistent, container implies derived in CoreObject"]];
+	}
+	if ([self isPersistent] && [self opposite] != nil && [[self opposite] isPersistent])
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Persistent implies non persistent opposite in CoreObject"]];
+	}
+	if ([self isPersistent] && [self opposite] != nil && [[self opposite] isDerived] == NO)
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Persistent implies derived opposite in CoreObject"]];
+	}
+	if ([[self opposite] isPersistent] && [self isOrdered])
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"If opposite is persistent, derived implies not ordered in CoreObject"]];
+	}
+	if ([self isPersistent] && [self isKeyed] && [self opposite] != nil)
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"Persistent keyed implies no opposite in CoreObject"]];
+	}
+	if ([[self opposite] isPersistent]
+		&& ETGetInstanceVariableValueForKey(self, NULL, [self name]))
+	{
+		[warnings addObject: [self warningWithMessage: 
+			@"If opposite is persistent, name must match no ivar in CoreObject"]];
+	}
 }
 
 - (void)makeFrozen
