@@ -13,11 +13,36 @@
 /** @group Model and Metamodel
 @abstract Abstract base class used by Model Description core classes.
 
-Also implements NestedElement and NamedElement protocols that exist in FAME/EMOF.
+The Model Description classes implement a Metamodel framework inspired by 
+[FAME](http://scg.unibe.ch/wiki/projects/fame).
+
+Within this Metamodel, ETModelElementDescription provide basic abilities:
+
+<list>
+<item>Unique Naming per element in a ETModelDescriptionRepository, see -fullName</item>
+<item>Ownership per element in a ETPackageDescription, see -owner</item>
+<item>Constraint Checking, see -checkConstraints:</item>
+<item>Freezing to prevent changes to a Metamodel (useful to support immutable 
+versioned metamodels, e.g. a Persistency Schema), see -makeFrozen</item>
+</list>
+
+ETEntityDescription, ETPropertyDescription and ETPackageDescription all inherit 
+from ETModelElementDescription, can be registered inside a model description 
+repository using -[ETModelDescriptionRepository addDescription:].
 
 @section Conceptual Model
 
-Etoile Model Description framework inspired by [FAME](http://scg.unibe.ch/wiki/projects/fame).
+This metamodel is based on the [FM3 specification](http://scg.unibe.ch/wiki/projects/fame/fm3?_s=9kxX0-G_UX5qTgS-&_k=YF5o6u-c&_n&18).
+
+For a good introduction, read the paper [FAME — A Polyglot Library
+for Metamodeling at Runtime](http://www.iam.unibe.ch/~akuhn/d/Kuhn-2008-MRT-Fame.pdf)
+
+We support the entire FM3 specification with some minor adjustements, however 
+the tower (model, metamodel, meta-metamodel) is not explicitly modeled in the 
+API unlike in FAME.
+
+The MSE serialization format is also unsupported. In the future, we will provide 
+our own exchange format based on JSON.
 
 @section FAME Terminology Change Summary
 
@@ -35,15 +60,46 @@ We list the FAME term first, then its equivalent name in EtoileFoundation:
 <term>attributes (in Class)</term><desc>propertyDescriptions (in ETEntityDescription)</desc>
 <term>allAttributes (in Class)</term><desc>allPropertyDescriptions (in ETEntityDescription)</desc>
 <term>superclass (in Class)</term><desc>parent (in ETEntityDescription)</desc>
+<term>package (in Class)</term><desc>owner (in ETEntityDescription)</desc>
 <term>class (in Property)</term><desc>owner (in ETPropertyDescription)</desc>
 </deflist>
 
-For the last point class vs owner, we can consider they have been merged into 
-a single property in EtoileFoundation since they were redundant.
+For the last two points, we can consider FM3.Property.class and 
+FM3.Class.package have been merged into a single FM3.Element.owner property in 
+EtoileFoundation since they were redundant.
+
+@section Changes to FAME
+
+In EtoileFoundation, there is a -owner property that represents either:
+
+<list>
+<item>a owning entity in ETPropertyDescription</item>
+<item>an owning package in ETEntityDescription</item>
+<item>no owner (-owner returns nil) in ETPackageDescription</item>
+</list>
+
+While in FAME, owner is a derived property and these various owner kinds are 
+each modeled using a distinct property (class in FM3.Property and package in 
+FM3.Class).
+
+In FAME, container implies not multivalued. In EtoileFoundation, multivalued 
+now controls whether a property is a container or not, and -isContainer is now 
+derived.
+
+Unlike FAME, EtoileFoundation does support overriding property descriptions. 
+This is mainly useful, for read-only properties overriden as read-write in 
+subclasses/subentities.
 
 @section Additions to FAME
 
-itemIdentifier has been added as a mean to get precise control over the UI 
+-isPersistent has been added to control the persistency, how the interpret the 
+metamodel and its constraints for the framework providing the persistent support 
+is up to this framework. For now, some CoreObject constraints are harcoded in 
+the metamodel.
+
+-isReadOnly has been added to support set-once properties.
+
+-itemIdentifier has been added as a mean to get precise control over the UI 
 generation with EtoileUI.
 
 @section Removals to FAME/EMOF
@@ -51,7 +107,63 @@ generation with EtoileUI.
 NamedElement and NestedElement protocols don't exist explicitly.
 
 Property description names can be in upper case (FAME was imposing lower case 
-as a constraint). */
+as a constraint).
+
+@section Metamodel Constraint Summary
+
+Metamodel constraints are checked in -checkConstraints:, while model constraints 
+are validated in -[ETPropertyDescription validateValue:forKey:]. 
+
+Note: In the future, -checkConstraints: should probably be delegated to 
+-[ETPropertyDescription validateValue:forKey:] in the meta-metamodel.
+
+If we sum up the changes to the FAME conceptual model, for the new 
+ETPropertyDescription, the metamodel constraints are:
+
+<list>
+<item>composite is derived from opposite.container</item>
+<item>derived and not multivalued implies container</item>
+<item>derived implies not persistent</item>
+<item>if set, opposite.opposite must be self (i.e. opposite properties must 
+refer to each other)</item>
+<item>if set, opposite.owner must be type</item>
+<item>owner must not be nil</item>
+<item>type must not be nil</item>
+</list>
+
+At the model level, the semantics are:
+
+<list>
+<item>container property chains may not include cycles (could be turned into a 
+model constraint)</item>
+<item>any multivalued property defaults to empty</item>
+<item>boolean properties default to false</item>
+<item>non primitive properties default to nil</item>
+<item>string and number properties do not have a default value (could be changed 
+later)</item>
+</list>
+
+Since the metamodel is the model of the meta-metamodel, the model semantics 
+apply to the metamodel too. For model constraints that apply to the metamodel, 
+the validation would be done at the meta-metamodel level with 
+-[ETPropertyDescription validateValue:forKey:], rather than at the metamodel 
+level with -checkConstraints:.
+
+For the new Entity Description, the metamodel constraints are:
+
+<list>
+<item>parent is not nil</item>
+<item>parent must not be a primitive, unless self is a primitive</item>
+<item>parent chain may not include cycles (could be removed, this comes from 
+'container property chains may not include cycles' in the model semantics of 
+ETPropertyDescription)</item>
+<item>package must not be nil</item>
+<item>allPropertyDescriptions is derived as union of propertyDescription and 
+parent.allPropertyDescriptions</item>
+<item>propertyDescriptions replaces parent.propertyDescriptions in 
+allPropertyDescriptions</item>
+<item>allPropertyDescriptions must have unique names</item>
+</list> */
 @interface ETModelElementDescription : NSObject
 {
 	@private
@@ -126,7 +238,8 @@ Given a class <em>Movie</em> and its property <em>director</em>. The full names 
 <item>Movie.director for the property</item>
 </list> */
 @property (nonatomic, readonly) NSString *fullName;
-/** Returns the element that owns the receiver.
+/** <override-dummy />
+Returns the element that owns the receiver.
 
 For a property, the owner is the entity it belongs to.<br />
 For an entity, there is no owner, unless the entity belongs to a package.<br />
