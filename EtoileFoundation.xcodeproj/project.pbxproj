@@ -46,7 +46,6 @@
 		60222DB5101CCB4800B2B1C1 /* ETInstanceVariableMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA832101BC8610044F013 /* ETInstanceVariableMirror.m */; };
 		60222DB6101CCB4800B2B1C1 /* ETMethodMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA833101BC8610044F013 /* ETMethodMirror.m */; };
 		60222DB7101CCB4800B2B1C1 /* ETObjectMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA834101BC8610044F013 /* ETObjectMirror.m */; };
-		60222DB8101CCB4800B2B1C1 /* ETPropertyDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA3F9101916310044F013 /* ETPropertyDescription.m */; };
 		60222DB9101CCB4800B2B1C1 /* ETProtocolMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA835101BC8610044F013 /* ETProtocolMirror.m */; };
 		60222DBA101CCB4800B2B1C1 /* ETReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680CED8101257C800CAF439 /* ETReflection.m */; };
 		60222DBB101CCB4800B2B1C1 /* ETSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8E10181D110046D74A /* ETSocket.m */; };
@@ -117,6 +116,13 @@
 		6093347F13A550B40033378C /* TestTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6093347D13A550B40033378C /* TestTrait.m */; };
 		6093353113A561130033378C /* NSObject+Trait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480E0E40931E003377E0 /* NSObject+Trait.m */; };
 		6093353213A561300033378C /* NSObject+Prototypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50E0F21FA4C00DF23D9 /* NSObject+Prototypes.m */; };
+		60966F7818B376F800CFEE38 /* ETRoleDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 60966F7718B376F700CFEE38 /* ETRoleDescription.m */; };
+		60966F7918B376F800CFEE38 /* ETRoleDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 60966F7718B376F700CFEE38 /* ETRoleDescription.m */; };
+		60966F8018B3770200CFEE38 /* ETRoleDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 60966F7F18B3770200CFEE38 /* ETRoleDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60966F8218B3770800CFEE38 /* ETPropertyDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA3F9101916310044F013 /* ETPropertyDescription.m */; };
+		60966F8418B378B800CFEE38 /* ETAdaptiveModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 60966F8318B378B800CFEE38 /* ETAdaptiveModelObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60966F8618B378C300CFEE38 /* ETAdaptiveModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 60966F8518B378C300CFEE38 /* ETAdaptiveModelObject.m */; };
+		60966F8818B378CC00CFEE38 /* ETAdaptiveModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 60966F8518B378C300CFEE38 /* ETAdaptiveModelObject.m */; };
 		609726031766244F00562F3D /* ETIndexValuePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 609726021766244F00562F3D /* ETIndexValuePair.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6097260B1766246800562F3D /* ETIndexValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 6097260A1766246800562F3D /* ETIndexValuePair.m */; };
 		6097260C1766246800562F3D /* ETIndexValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 6097260A1766246800562F3D /* ETIndexValuePair.m */; };
@@ -354,6 +360,10 @@
 		60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETModelDescriptionRepository.h; path = Headers/ETModelDescriptionRepository.h; sourceTree = "<group>"; };
 		6093347C13A550B40033378C /* TestCollectionTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestCollectionTrait.m; path = Tests/TestCollectionTrait.m; sourceTree = "<group>"; };
 		6093347D13A550B40033378C /* TestTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestTrait.m; path = Tests/TestTrait.m; sourceTree = "<group>"; };
+		60966F7718B376F700CFEE38 /* ETRoleDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETRoleDescription.m; path = Source/ETRoleDescription.m; sourceTree = "<group>"; };
+		60966F7F18B3770200CFEE38 /* ETRoleDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETRoleDescription.h; path = Headers/ETRoleDescription.h; sourceTree = "<group>"; };
+		60966F8318B378B800CFEE38 /* ETAdaptiveModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETAdaptiveModelObject.h; path = Headers/ETAdaptiveModelObject.h; sourceTree = "<group>"; };
+		60966F8518B378C300CFEE38 /* ETAdaptiveModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETAdaptiveModelObject.m; path = Source/ETAdaptiveModelObject.m; sourceTree = "<group>"; };
 		609726021766244F00562F3D /* ETIndexValuePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETIndexValuePair.h; path = Headers/ETIndexValuePair.h; sourceTree = "<group>"; };
 		6097260A1766246800562F3D /* ETIndexValuePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETIndexValuePair.m; path = Source/ETIndexValuePair.m; sourceTree = "<group>"; };
 		6097260D17689DC100562F3D /* ETViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETViewpoint.m; path = Source/ETViewpoint.m; sourceTree = "<group>"; };
@@ -654,6 +664,8 @@
 		792BF95C124FBBE60040BF68 /* Model Description */ = {
 			isa = PBXGroup;
 			children = (
+				60966F8318B378B800CFEE38 /* ETAdaptiveModelObject.h */,
+				60966F8518B378C300CFEE38 /* ETAdaptiveModelObject.m */,
 				60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */,
 				6062DE10114BDD320008B771 /* ETModelDescriptionRepository.m */,
 				6010E6C11143DF12003203B2 /* ETPackageDescription.h */,
@@ -664,6 +676,8 @@
 				662EA3F8101916310044F013 /* ETEntityDescription.m */,
 				662EA3F31019161B0044F013 /* ETPropertyDescription.h */,
 				662EA3F9101916310044F013 /* ETPropertyDescription.m */,
+				60966F7F18B3770200CFEE38 /* ETRoleDescription.h */,
+				60966F7718B376F700CFEE38 /* ETRoleDescription.m */,
 				662EA3F41019161B0044F013 /* ETValidationResult.h */,
 				662EA3FA101916310044F013 /* ETValidationResult.m */,
 			);
@@ -888,6 +902,8 @@
 				6043D29117523AF2002103CC /* ETMutableObjectViewpoint.h in Headers */,
 				6043D3A91753AED7002103CC /* ETUnionViewpoint.h in Headers */,
 				609726031766244F00562F3D /* ETIndexValuePair.h in Headers */,
+				60966F8018B3770200CFEE38 /* ETRoleDescription.h in Headers */,
+				60966F8418B378B800CFEE38 /* ETAdaptiveModelObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1170,6 +1186,8 @@
 				6097260B1766246800562F3D /* ETIndexValuePair.m in Sources */,
 				6097260E17689DC200562F3D /* ETViewpoint.m in Sources */,
 				60B9B69A185B589500ABDEA1 /* EtoileCompatibility.m in Sources */,
+				60966F7818B376F800CFEE38 /* ETRoleDescription.m in Sources */,
+				60966F8618B378C300CFEE38 /* ETAdaptiveModelObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,7 +1219,6 @@
 				60222DB7101CCB4800B2B1C1 /* ETObjectMirror.m in Sources */,
 				6010E6CA1144623C003203B2 /* ETPackageDescription.m in Sources */,
 				609B67E50FEE81740007F842 /* ETPlugInRegistry.m in Sources */,
-				60222DB8101CCB4800B2B1C1 /* ETPropertyDescription.m in Sources */,
 				609B67D40FEE81740007F842 /* ETPropertyValueCoding.m in Sources */,
 				60222DB9101CCB4800B2B1C1 /* ETProtocolMirror.m in Sources */,
 				60222DBA101CCB4800B2B1C1 /* ETReflection.m in Sources */,
@@ -1245,6 +1262,9 @@
 				6097260F17689DC200562F3D /* ETViewpoint.m in Sources */,
 				60C42A22184DFCC20020A004 /* TestETCollectionHOM.m in Sources */,
 				60B9B69B185B589500ABDEA1 /* EtoileCompatibility.m in Sources */,
+				60966F7918B376F800CFEE38 /* ETRoleDescription.m in Sources */,
+				60966F8218B3770800CFEE38 /* ETPropertyDescription.m in Sources */,
+				60966F8818B378CC00CFEE38 /* ETAdaptiveModelObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

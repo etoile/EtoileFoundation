@@ -66,11 +66,13 @@
 
 /* Model Description */
 
+#import <EtoileFoundation/ETAdaptiveModelObject.h>
 #import <EtoileFoundation/ETModelDescriptionRepository.h>
 #import <EtoileFoundation/ETModelElementDescription.h>
 #import <EtoileFoundation/ETEntityDescription.h>
 #import <EtoileFoundation/ETPackageDescription.h>
 #import <EtoileFoundation/ETPropertyDescription.h>
+#import <EtoileFoundation/ETRoleDescription.h>
 #import <EtoileFoundation/ETValidationResult.h>
 
 /* Viewpoints */
