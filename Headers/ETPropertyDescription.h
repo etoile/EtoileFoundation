@@ -16,6 +16,90 @@
 /**
  * @group Model and Metamodel
  * @abstract Description of an entity's property.
+ *
+ * A property description represents either an attribute or a relationship 
+ * that belongs to an entity. Whether a property represents an attribute or 
+ * relationships depends on the -type (the entity description for the propery 
+ * value).
+ *
+ * For a primitive type (see -[ETEntityDescription isPrimitive]), the property 
+ * is an attribute. For a non-primitive type, it is a relationship. For more 
+ * explanations, -isAttribute and -isRelationship.
+ *
+ * @section Conceptual Model
+ *
+ * For a Metamodel overview, see ETModelElementDescription.
+ *
+ * @section Model Description
+ *
+ * ETPropertyDescription provides a large number of properties to describe 
+ * the model, these properties can be split into three categories:
+ *
+ * <deflist>
+ * <term>Model Specification</term><desc>Properties to describe new and existing 
+ * model and metamodel (the FAME-based metamodel)</desc>
+ * <term>Persistency Specification</term>Properties to describe persistent model
+ * and persistency rules (can be leveraged or not by a Persistency framework e.g. 
+ * CoreObject)</term>
+ * <term>Model Presentation Specification</term><desc>Properties to describe 
+ * model presentation in the UI, and model-driven generation (can be leveraged 
+ * or not by a UI or Model Generation framework)</desc>
+ * </deflist>
+ *
+ * The Model Specification properties must be edited to get working metamodel.
+ *
+ * Both Persistency and Model Presentation Specifications are optional. These 
+ * additional specifications are usually generic enough to be reused by 
+ * Persistency and UI frameworks other than CoreObject and EtoileUI.
+ *
+ * Warning: For now, CoreObject validation rules are hardcoded into 
+ * -[ETPropertyDescription checkConstraints:], and this limits the possibility 
+ * to reuse the Persistency Specification without CoreObject.
+ *
+ * Additional properties or specification can be added by subclassing 
+ * ETPropertyDescription. In the future, we will probably support extending 
+ * the metamodel dynamically at run-time too.
+ *
+ * @section Role and Validation
+ *
+ * A role can be set to provide validation rules that describe attribute or 
+ * relationship constraints in a particular metamodel. The role must be 
+ * compatible with the current -type. For example, when -isRelationship is NO, 
+ * setting a ETRelationshipRole will cause a warning in -checkConstraints. 
+ *
+ * The validation is delegated to the role by -validateValue:forKey:.
+ *
+ * @section Multivalues
+ * 
+ * Both attributes and relationships can be univalued or multivalued. A 
+ * multivalued relationship is a too-many relationship, while a univalued 
+ * relationship is a to-one relationship. A multivalued attribute is a 
+ * value object collection (multivalued relationships are entity object 
+ * collections).
+ *
+ * @section Late-Bound References
+ *
+ * For easily creating property descriptions that refer to each other or 
+ * entity descriptions, without worrying about the dependencies accross all 
+ * the model element descriptions, ETPropertyDescriptions includes properties 
+ * such as -setOppositeName: or -setTypeName: that can be used to refer to 
+ * other ETModelElementDescription objects by their -name or -fullName.  
+ *
+ * When all these related descriptions are added to a repository with 
+ * -[ETModelDescriptionRepository addUnresolvedDescription:], 
+ * -[ETModelDescriptionRepository resolveNamedObjectReferences] can be called 
+ * to resolve the name references to their real objects. 
+ *
+ * For example, the -opposite is set based on the ETPropertyDescription object 
+ * returned by -[ETModelDescriptionRepository descriptionForName:] for 
+ * -oppositeName.
+ *
+ * For properties descriptions added to entity descriptions returned by 
+ * +[NSObject newEntityDescription], all these model element descriptions are 
+ * collected and resolved in the main repository. For other repositories or 
+ * entity descriptions created outside of +[NSObject newEntityDescription], 
+ * you must call -[ETModelDescriptionRepository resolveNamedObjectReferences]  
+ * manually.
  */
 @interface ETPropertyDescription : ETModelElementDescription
 {
@@ -116,6 +200,7 @@ See -isRelationship. */
  * belongs to. 
  *
  * isContainer/isComposite describes an aggregate relationship where:
+ *
  * <deflist>
  * <term>isContainer</term><desc>is a child property and the to-one relationship 
  * to the parent</desc>
@@ -125,12 +210,64 @@ See -isRelationship. */
  *
  * isContainer is derived, it is automatically YES when for a one-to-many
  * relationship.
+ *
+ * For CoreObject, a container property is derived, so it must not be set as persistent. 
  */
 @property (nonatomic, readonly) BOOL isContainer;
+/**
+ * A derived property can be read-only or not. For example, a setter can exist 
+ * without any associated state, that converts the given value and calls another 
+ * setter bound to a non-derived property.
+ */
 @property (nonatomic, assign, getter=isDerived) BOOL derived;
+/**
+ * Whether this property represents a multivalue or not.
+ *
+ * A multivalue can be either a collection containing value objects (if -type 
+ * returns a primitive entity) or a to-many relationship (unidirectional or 
+ * bidirectional).
+ *
+ * If set to NO, the property represents either an attribute or a to-one 
+ * relationship (unidirectional or bidirectional).
+ *
+ * See also -opposite, -isRelationship, isAttribute, isOrdered and -isKeyed.
+ */
 @property (nonatomic, assign, getter=isMultivalued) BOOL multivalued;
+/**
+ * Whether this property represents an ordered multivalue or not.
+ *
+ * An ordered multivalue can be either an ordered collection containing value 
+ * objects (if -type returns a primitive entity) or an ordered relationship 
+ * (unidirectional or bidirectional).
+ *
+ * See also -isMultivalued and -isKeyed.
+ */
 @property (nonatomic, assign, getter=isOrdered) BOOL ordered;
+/**
+ * Whether this property represents a keyed multivalue or not.
+ *
+ * A keyed multivalue can be either a keyed collection containing value objects 
+ * (if -type returns a primitive entity) or a keyed relationship.
+ *
+ * If keyed is set to YES, multivalued must be set to YES too.
+ *
+ * Keyed multivalues can be ordered or not, although in Objective-C, the 
+ * built-in keyed collections such NSDictionary are unordered.
+ *
+ * For CoreObject, -opposite must be nil since keyed bidirectional relationships 
+ * are not supported.
+ *
+ * See also -isMultivalued and -isOrdered.
+ */
 @property (nonatomic, assign, getter=isKeyed) BOOL keyed;
+
+/**
+ * Read-only properties can be persistent, for set-once properties. Useful for 
+ * properties of immutable objects, for which the value is set initially by 
+ * passing it to the initializer.
+ *
+ * See -isDerived.
+ */
 @property (nonatomic, assign, getter=isReadOnly) BOOL readOnly;
 /** Can be self, if the relationship is reflexive. For example, a "spouse" 
 property or a "cousins" property that belong to a "person" entity.<br />
@@ -142,17 +279,62 @@ cardinality. */
 /** @taskunit Owning Entity and Package */
 
 
+/**
+ * The entity to which the property belongs to.
+ */
 @property (nonatomic, assign) ETEntityDescription *owner;
+/**
+ * The package to which the property belongs to.
+ *
+ * Take note that a property can belong to another package than its owning 
+ * entity. This means the property is an extension (e.g. a property declared in 
+ * an Objective-C category).
+ */
 @property (nonatomic, assign) ETPackageDescription *package;
 
 
 /** @taskunit Persistency */
 
 
+/**
+ * Whether this property is persistent or transient.
+ *
+ * Interpreting this property is up to a Persistency framework.
+ */
 @property (nonatomic, assign, getter=isPersistent) BOOL persistent;
+/**
+ * Whether this property value should be indexed in a search index.
+ *
+ * Interpreting this property is up to an Search framework.
+ */
 @property (nonatomic, assign, getter=isIndexed) BOOL indexed;
+/**
+ * The serialization transformer to convert the property value from -type to 
+ * -persistentType.
+ *
+ * A Persistency framework can use the returned name to look up a serialization 
+ * transformer and convert the property value into a new value whose type is 
+ * supported by the serialization format (known as -persistenType).
+ */
 @property (nonatomic, copy) NSString *valueTransformerName;
+/**
+ * The type used in the persistent storage to represent the property value.
+ *
+ * For a property value handed to a serialization transformer, this is the type 
+ * of the returned value.
+ */
 @property (nonatomic, retain) ETEntityDescription *persistentType;
+/**
+ * An object providing the commit metadata to be saved each time the property 
+ * value is updated (usually in response to the user editing).
+ *
+ * The metamodel doesn't define a type for this object, this is the 
+ * responsability of the Persistency framework. For example, CoreObject provides 
+ * a COCommitDescriptor class to fullfil this role.
+ *
+ * The Persistency framework can look up the metamodel to retrieve this 
+ * descriptor on every save that concerns the given property.
+ */
 @property (nonatomic, retain) id commitDescriptor;
 
 
