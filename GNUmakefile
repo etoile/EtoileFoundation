@@ -112,11 +112,13 @@ EtoileFoundation_HEADER_FILES = \
 	NSString+Etoile.h \
 	ETUTI.h \
 	ETReflection.h \
+	ETAdaptiveModelObject.h \
 	ETEntityDescription.h \
 	ETModelDescriptionRepository.h \
 	ETModelElementDescription.h \
 	ETPackageDescription.h \
 	ETPropertyDescription.h \
+	ETRoleDescription.h \
 	ETValidationResult.h \
 	runtime.h \
 	glibc_hack_unistd.h
@@ -127,7 +129,7 @@ EtoileFoundation_RESOURCE_FILES = \
 
 EtoileFoundation_OBJC_FILES = \
 	Source/NSFileManager+TempFile.m\
-	Source/NSFileHandle+Socket.m\
+	Source/NSFileHandle+Socket.m \
 	Source/ETByteSizeFormatter.m \
 	Source/ETClassMirror.m \
 	Source/ETCollection.m \
@@ -166,11 +168,13 @@ EtoileFoundation_OBJC_FILES = \
 	Source/NSObject+Trait.m \
 	Source/NSString+Etoile.m \
 	Source/ETReflection.m \
+	Source/ETAdaptiveModelObject.m \
 	Source/ETEntityDescription.m \
 	Source/ETModelDescriptionRepository.m \
 	Source/ETModelElementDescription.m \
 	Source/ETPackageDescription.m \
 	Source/ETPropertyDescription.m \
+	Source/ETRoleDescription.m \
 	Source/ETValidationResult.m
 
 EtoileFoundation_C_FILES = Source/ETCArray.c
