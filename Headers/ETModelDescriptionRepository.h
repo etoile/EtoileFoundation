@@ -1,8 +1,4 @@
-/** <title>ETModelDescriptionRepository</title>
-
-	<abstract>A model description framework inspired by FAME 
-	(http://scg.unibe.ch/wiki/projects/fame)</abstract>
- 
+/**
 	Copyright (C) 2010 Quentin Mathe
 
 	Author:  Quentin Mathe <quentin.mathe@gmail.com>
@@ -19,20 +15,95 @@
 	ETPropertyDescription, NSMapTable;
 
 /** @group Model and Metamodel
-
-Repository used to store the entity descriptions at runtime.
+@abstract Repository used to store the entity descriptions at runtime.
 
 Each repository manages a closed model description graph. Model element 
 descriptions present in a repository must only reference objects that belong to 
 the same repository.
 
-The repository resolves references to other element descriptions and checks the 
-model description graph consistency, every time entity or package descriptions 
-are added to it.
+The repository contains three type of element descriptions:
 
-A main repository is created in every tool or application at launch time. 
+<list>
+<item>ETPackageDescription</item>
+<item>ETEntityDescription</item>
+<item>ETPropertyDescription</item>
+</list>
+
+@section Main and Additional Repositories
+
+A main repository is created in every tool or application at launch time.  
+The +mainRepository is a special repository that automatically contains the 
+entity descriptions provided through +[NSObject newEntityDescription], that got 
+collected in the NSObject class hierarchy when the repository is created.
+
 Additional repositories can be created. For example, to store variations on the 
-main repository data model.  */
+main repository data model. 
+
+You can collect entity descriptions provided through +[NSObject newEntityDescription]
+in additional repositories with 
+-collectEntityDescriptionsFromClass:excludedClasses:resolvedNow:. Don't forget 
+to call -checkConstraints: before using the repository.
+
+@section Registering Model Description
+
+To register an entity description, you must register the entity and its property 
+descriptions, and do the same for the parent entity in case it is not registered 
+yet.
+
+<example>
+[repo addDescription: entityDesc];
+[repo addDescriptions: [entityDesc propertyDescriptions]];
+
+[repo addDescription: [entityDesc parentEntity]];
+[repo addDescriptions: [[entityDesc parentEntity] propertyDescriptions]];
+
+// and so on
+</example>
+
+You must also register at the same time any entity description used as 
+-[ETPropertyDescription type] or -[ETPropertyDescription persistentType], 
+and any property description referred to by -[ETPropertyDescription opposite]. 
+If this last property description itself belongs to an unregisted entity, you 
+must register this entity description as described previously and so on.
+
+To register a package description, you must register the entities (and all the 
+property and entity descriptions they refer to) and the property extensions in 
+a way similar to the previous example.
+
+If your model element descriptions contains named references (rather than 
+explicit ones to the real objects) e.g. -[ETProprertyDescription oppositeName], 
+these descriptions must be added with -addUnresolvedDescription:, and 
+-resolveNamedObjectReferences must be called once you don't need to call 
+-addDescription: and -addUnresolvedDescription: anymore.
+
+Note: If the entity describes a class, once registered, you usually bind it to 
+its class as described in the next section.
+
+@section Entity and Class Description Binding
+
+By default, a repository can contain entity descriptions that apply to:
+
+<list>
+<item>a prototype or a similar object (a free-standing entity is usually used 
+with ETAdaptiveModelObject)</item>
+<item>a class</item>
+</list>
+
+For entity descriptions describing a class, the two-way binding is established 
+with -setEntityDescription:forClass:.
+
+If no bound entity description or class can be found, -entityDescriptionForClass: 
+and -classForEntityDescription both attempt to return a parent entity or 
+superclass.
+
+@section Consistency Checking
+
+Every time entity or package descriptions are added to the repository, you must 
+check the model description graph consistency with -checkConstraints:.
+
+It is up to you to do it, because the repository has no way to know when you are 
+done adding descriptions and the repository content is in a coherent state that 
+won't raise warnings.  */
 @interface ETModelDescriptionRepository : NSObject <ETCollection, ETCollectionMutation>
 {
 	@private
@@ -41,6 +112,17 @@ main repository data model.  */
 	NSMapTable *_entityDescriptionsByClass;
 	NSMapTable *_classesByEntityDescription;
 }
+
+
+/** @taskunit Metamodel Description */
+
+
+/** Self-description (aka meta-metamodel). */
++ (ETEntityDescription *) newEntityDescription;
+
+
+/** @taskunit Initialization */
+
 
 /** Returns the initial repository that exists in each process.
 
@@ -51,9 +133,16 @@ class that provided the description. See -setEntityDescription:forClass:.
 After collecting the entity descriptions, -checkConstraints is called and must 
 return no warnings, otherwise a NSInternalInconsistencyException is raised. */
 + (id) mainRepository;
+/** <init />
+Returns a new repository that just contains the core metamodel (Object, Number, 
+Boolean, String, Date, Value) and additional primitive entity descriptions (e.g. 
+NSInteger, NSPoint etc.). */
+- (id) init;
 
-/** Self-description (aka meta-metamodel). */
-+ (ETEntityDescription *) newEntityDescription;
+
+/** @taskunit Collecting Entity Descriptions in Class Hierarchy */
+
+
 /** Traverses the class hierarchy downwards to collect the entity descriptions 
 by invoking +newEntityDescription on each class (including the given class) and 
 bind each entity description to the class that provided it. 
@@ -67,30 +156,36 @@ are not and the repository remain in an invalid state until
                             excludedClasses: (NSSet *)excludedClasses 
                                  resolveNow: (BOOL)resolve;
 
+
 /** @taskunit Registering and Enumerating Descriptions */
+
 
 /** Returns the default package to which entity descriptions are added when 
 they have none and they get put in the repository.
 
-e.g. NSObject will have the returned package as its owner when its entity 
-description is automatically registered in the main repository.
+e.g. NSObject is owned by the anonymous package when its entity description is 
+automatically registered in the main repository.
 
 See also -addDescription:. */
 @property (nonatomic, readonly) ETPackageDescription *anonymousPackageDescription;
-
 /** Adds the given package, entity or property description to the repository.
 
-Full names are allowed as late-bound descriptions references in the description 
-properties listed below:
+Full names can be set as late-bound references to other 
+ETModelElementDescription objects, in all the following properties:
+
 <list>
-<item>owner</item>
-<item>package</item>
-<item>parent</item>
-<item>opposite</item>
-<item>type</item>
+<item>ownerName (ETPropertyDescription and ETEntityDescription) -> owner</item>
+<item>packageName (ETPropertyDescription and ETEntityDescription) -> package</item>
+<item>parentName (ETEntityDescription) -> parent</item>
+<item>oppositeName (ETPropertyDescription) -> opposite</item>
+<item>typeName (ETPropertyDescription) -> type</item>
+<item>persistentTypeName (ETPropertyDescription) -> persistentType</item>
 </list>
-For example, [anEntityDesc setParent: @"MyPackage.MySuperEntity"] or 
-[aPropertyDesc setOpposite: @"MyPackage.MyEntity.whatever"].
+
+Note: the name that follows the arrow is the property to be set.
+
+For example, <code>[anEntityDesc setParentName: @"MyPackage.MySuperEntity"]</code> 
+or <code>[aPropertyDesc setOppositeName: @"MyPackage.MyEntity.whatever"]</code>.
  
 For entity descriptions that belong to the anonymous package, the 
 <em>Anonymous</em> prefix can be ommitted. For example, <em>@"NSDate"</em> is 
@@ -113,7 +208,7 @@ the full name 'Anonymous.MyEntityName'.
 When you are done adding and removing descriptions, don't forget to call 
 -checkConstraints:. If the added or removed descriptions include any entity 
 descriptions, use also -setEntityDescription:forClass: to update the bindings
-between classes and entity descriptions..  */
+between classes and entity descriptions.  */
 - (void) addDescription: (ETModelElementDescription *)aDescription;
 /** Removes the given package, entity or property description from the repository.
 
@@ -140,7 +235,8 @@ repository.
 The returned collection is an autoreleased copy. */
 @property (nonatomic, readonly) NSArray *allDescriptions;
 /** Returns a package, entity or property description registered for the given 
-full name.<br />
+full name.
+
 e.g. <em>Anonymous.NSObject<em> for NSObject entity.
  
 For model element descriptions that belong to the anonymous package, the 
@@ -152,19 +248,54 @@ For model element descriptions that belong to the anonymous package, the
 
 /** @taskunit Binding Descriptions to Class Instances and Prototypes */
 
+
+/** Returns the class bound to the given entity description.
+
+If no class is explicitly bound, returns the first bound class in the parent 
+entity chain (by checking recursively until reaching the root entity whether the 
+parent entity is bound to a class).
+
+See -entityDescriptionForClass: and -setEntityDescription:forClass:. */
 - (Class) classForEntityDescription: (ETEntityDescription*)anEntityDescription;
+/** Returns the entity description bound to the given class.
+
+If no entity description is explicitly bound, returns the first bound entity in 
+the superclass chain (by checking recursively until reaching the root class 
+whether the superclass is bound to an entity).
+
+See -classForEntityDescription: and -setEntityDescription:forClass:. */
 - (ETEntityDescription *) entityDescriptionForClass: (Class)aClass;
+/** Creates a two-way binding between the given entity description and class.
+
+For entity descriptions not created in +[NSObject newEntityDescription] and not 
+registered in the +mainRepository, this method must be invoked explicitly. 
+
+See -entityDescriptionForClass: and -classForEntityDescription:. */
 - (void) setEntityDescription: (ETEntityDescription *)anEntityDescription
                      forClass: (Class)aClass;
 
+
 /** @taskunit Resolving References Between Entity Descriptions */
 
+
+/** Resolves named references for all the description properties listed in 
+-addUnresolvedDescription:.
+
+For more details, you should also read Named References section in 
+ETPropertyDescription class description.
+
+When you are done resolving references, don't forget to call -checkConstraints:. 
+If the added or removed descriptions include any entity descriptions, use also 
+-setEntityDescription:forClass: to update the bindings between classes and 
+entity descriptions. */
 - (void) resolveNamedObjectReferences;
+
 
 /** @taskunit Runtime Consistency Check */
 
-/** Checks the receiver content conforms to the FM3 constraint spec and adds a short 
-warning to the given array for each failure. */
+
+/** Checks the receiver content conforms to the FM3 constraint spec and adds a 
+short warning to the given array for each failure. */
 - (void) checkConstraints: (NSMutableArray *)warnings;
 
 @end
