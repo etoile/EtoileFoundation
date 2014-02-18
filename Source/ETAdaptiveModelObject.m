@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "ETAdaptiveModelObject.h"
+#import "ETCollection+HOM.h"
 #import "ETEntityDescription.h"
+#import "ETPropertyDescription.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 

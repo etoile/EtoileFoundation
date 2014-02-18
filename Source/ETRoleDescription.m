@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ETRoleDescription.h"
 #import "ETCollection+HOM.h"
+#import "ETKeyValuePair.h"
 #import "ETValidationResult.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
@@ -72,7 +73,7 @@
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	if ([(id)[[_allowedOptions mappedCollection] value] containsObject: value])
+	if ([(id)[(ETKeyValuePair *)[_allowedOptions mappedCollection] value] containsObject: value])
 	{
 		return [ETValidationResult validResult: value];
 	}

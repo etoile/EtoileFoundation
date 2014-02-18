@@ -831,7 +831,7 @@ See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 		[self addEntriesFromDictionary: [hints dictionaryRepresentation]];
 		
 		// TODO; Perhaps turn into a debug assertion
-		ETAssert([[NSSet setWithArray : (id)[[hints mappedCollection] value]]
+		ETAssert([[NSSet setWithArray : (id)[(ETKeyValuePair *)[hints mappedCollection] value]]
 			isSubsetOfSet: [NSSet setWithArray: objects]]);
 	}
 	else

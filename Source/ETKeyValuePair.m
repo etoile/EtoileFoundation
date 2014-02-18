@@ -68,7 +68,7 @@ Initializes and returns a new pair with the given key and value. */
 	if ([object isKindOfClass: [ETKeyValuePair class]] == NO)
 		return NO;
 
-	return ([[self key] isEqualToString: [object key]] && [[self value] isEqual: [object value]]);
+	return ([[self key] isEqualToString: [object key]] && [[self value] isEqual: [(ETKeyValuePair *)object value]]);
 }
 
 - (NSUInteger)hash

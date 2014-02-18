@@ -71,7 +71,7 @@ given index in a collection. */
 	if ([object isKindOfClass: [ETIndexValuePair class]] == NO)
 		return NO;
 	
-	return ([self index] == [object index] && [[self value] isEqual: [object value]]);
+	return ([self index] == [object index] && [[self value] isEqual: [(ETIndexValuePair *)object value]]);
 }
 
 - (NSUInteger)hash
