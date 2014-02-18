@@ -26,7 +26,7 @@ Steps to build:
 iOS support
 -----------
 
-For iOS, build the target named  **EtoileFoundation Library (iOS)** that belong to **EtoileFoundation-iOS.xcodeproj**.
+For iOS, build the target named  **EtoileFoundation Library (iOS)** that belong to **EtoileFoundation.xcodeproj**.
 
 To use the resulting library in your own project, the EtoileFoundation headers and library have to be made visible in the project search paths as explained below.
 

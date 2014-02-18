@@ -60,6 +60,112 @@
 		602DC5100F21FA4C00DF23D9 /* ETHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50C0F21FA4C00DF23D9 /* ETHistory.m */; };
 		602DC5110F21FA4C00DF23D9 /* ETUTI.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50D0F21FA4C00DF23D9 /* ETUTI.m */; };
 		602DC5420F21FD1500DF23D9 /* UTIDefinitions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 602DC5410F21FD1500DF23D9 /* UTIDefinitions.plist */; };
+		602E12B018B3A10E004F171B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 602E12AF18B3A10E004F171B /* Foundation.framework */; };
+		602E132C18B3A3B3004F171B /* EtoileFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C30E4092EA003377E0 /* EtoileFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E132D18B3A3B3004F171B /* EtoileCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C20E4092EA003377E0 /* EtoileCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E132E18B3A3B3004F171B /* GNUstep.h in Headers */ = {isa = PBXBuildFile; fileRef = 603648060E40931E003377E0 /* GNUstep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E132F18B3A3B3004F171B /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C90E4092EA003377E0 /* Macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133118B3A3B3004F171B /* runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = 792BF98D124FBD0B0040BF68 /* runtime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133218B3A3B3004F171B /* ETStackTraceRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 794B2B08123D728F008A4663 /* ETStackTraceRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133318B3A3B3004F171B /* ETPropertyValueCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C40E4092EA003377E0 /* ETPropertyValueCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133418B3A3B3004F171B /* NSObject+DoubleDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C70E4092EA003377E0 /* NSObject+DoubleDispatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133518B3A3B3004F171B /* NSObject+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D00E4092EA003377E0 /* NSObject+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133618B3A3B3004F171B /* NSObject+Trait.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D10E4092EA003377E0 /* NSObject+Trait.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133718B3A3B3004F171B /* NSObject+Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D20E4092EA003377E0 /* NSObject+Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133818B3A3B3004F171B /* NSObject+Prototypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5060F21FA2E00DF23D9 /* NSObject+Prototypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133918B3A3B3004F171B /* ETCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647BC0E4092EA003377E0 /* ETCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133A18B3A3B3004F171B /* ETKeyValuePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 60CED0A612CFCF3D00B5827C /* ETKeyValuePair.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133B18B3A3B3004F171B /* NSIndexSet+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CE0E4092EA003377E0 /* NSIndexSet+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133C18B3A3B3004F171B /* NSMapTable+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 60A549AB13CA133300261FDC /* NSMapTable+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133D18B3A3B3004F171B /* ETCollection+HOM.h in Headers */ = {isa = PBXBuildFile; fileRef = 60B27D8A0FF7B6180012BB42 /* ETCollection+HOM.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133E18B3A3B3004F171B /* NSObject+HOM.h in Headers */ = {isa = PBXBuildFile; fileRef = 609B660C0FEE75C00007F842 /* NSObject+HOM.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E133F18B3A3B3004F171B /* NSData+Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C3AF8B10181CFA0046D74A /* NSData+Hash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134018B3A3B3004F171B /* NSInvocation+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CF0E4092EA003377E0 /* NSInvocation+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134118B3A3B3004F171B /* NSFileManager+TempFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CC0E4092EA003377E0 /* NSFileManager+TempFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134218B3A3B3004F171B /* NSString+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D30E4092EA003377E0 /* NSString+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134318B3A3B3004F171B /* NSIndexPath+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647CD0E4092EA003377E0 /* NSIndexPath+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134418B3A3B3004F171B /* NSFileHandle+Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134518B3A3B3004F171B /* ETSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C3AF8A10181CFA0046D74A /* ETSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134618B3A3B3004F171B /* ETAdaptiveModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 60966F8318B378B800CFEE38 /* ETAdaptiveModelObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134718B3A3B3004F171B /* ETModelDescriptionRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134818B3A3B3004F171B /* ETPackageDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6010E6C11143DF12003203B2 /* ETPackageDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134918B3A3B3004F171B /* ETModelElementDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 606A9907113F176300CC89B9 /* ETModelElementDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134A18B3A3B3004F171B /* ETEntityDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F21019161B0044F013 /* ETEntityDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134B18B3A3B3004F171B /* ETPropertyDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F31019161B0044F013 /* ETPropertyDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134C18B3A3B3004F171B /* ETRoleDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 60966F7F18B3770200CFEE38 /* ETRoleDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134D18B3A3B3004F171B /* ETValidationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA3F41019161B0044F013 /* ETValidationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134E18B3A3B3004F171B /* ETCollectionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D0A7174CD763002103CC /* ETCollectionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E134F18B3A3B3004F171B /* ETIndexValuePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 609726021766244F00562F3D /* ETIndexValuePair.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E135018B3A3B3004F171B /* ETMutableObjectViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D29017523AF2002103CC /* ETMutableObjectViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E135118B3A3B3004F171B /* ETViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 603813A21022246300C221A2 /* ETViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E135218B3A3B3004F171B /* ETUnionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D3A81753AED7002103CC /* ETUnionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E135B18B3A3B3004F171B /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 60073EC510074D6A007272E6 /* Macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E135E18B3A3DB004F171B /* glibc_hack_unistd.h in Headers */ = {isa = PBXBuildFile; fileRef = 60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E135F18B3A41D004F171B /* ETInstanceVariableMirror.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA827101BC8310044F013 /* ETInstanceVariableMirror.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136018B3A41D004F171B /* ETInstanceVariableMirror.m in Headers */ = {isa = PBXBuildFile; fileRef = 662EA832101BC8610044F013 /* ETInstanceVariableMirror.m */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136118B3A41D004F171B /* ETMethodMirror.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA828101BC8310044F013 /* ETMethodMirror.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136218B3A41D004F171B /* ETMethodMirror.m in Headers */ = {isa = PBXBuildFile; fileRef = 662EA833101BC8610044F013 /* ETMethodMirror.m */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136318B3A41D004F171B /* ETObjectMirror.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA829101BC8320044F013 /* ETObjectMirror.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136418B3A41D004F171B /* ETObjectMirror.m in Headers */ = {isa = PBXBuildFile; fileRef = 662EA834101BC8610044F013 /* ETObjectMirror.m */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136518B3A41D004F171B /* ETProtocolMirror.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA82A101BC8320044F013 /* ETProtocolMirror.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136618B3A41D004F171B /* ETProtocolMirror.m in Headers */ = {isa = PBXBuildFile; fileRef = 662EA835101BC8610044F013 /* ETProtocolMirror.m */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136718B3A41D004F171B /* ETClassMirror.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA826101BC8310044F013 /* ETClassMirror.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136818B3A41D004F171B /* ETClassMirror.m in Headers */ = {isa = PBXBuildFile; fileRef = 662EA831101BC8610044F013 /* ETClassMirror.m */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136918B3A41D004F171B /* ETReflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6680CED6101257B200CAF439 /* ETReflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136A18B3A41D004F171B /* ETReflection.m in Headers */ = {isa = PBXBuildFile; fileRef = 6680CED8101257C800CAF439 /* ETReflection.m */; settings = {ATTRIBUTES = (Public, ); }; };
+		602E136B18B3A44C004F171B /* EtoileCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B9B699185B589500ABDEA1 /* EtoileCompatibility.m */; };
+		602E136C18B3A44C004F171B /* ETStackTraceRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */; };
+		602E136D18B3A44C004F171B /* ETPropertyValueCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648020E40931E003377E0 /* ETPropertyValueCoding.m */; };
+		602E136E18B3A44C004F171B /* NSObject+DoubleDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648040E40931E003377E0 /* NSObject+DoubleDispatch.m */; };
+		602E136F18B3A44C004F171B /* NSObject+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480D0E40931E003377E0 /* NSObject+Etoile.m */; };
+		602E137018B3A44C004F171B /* NSObject+Trait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480E0E40931E003377E0 /* NSObject+Trait.m */; };
+		602E137118B3A44C004F171B /* NSObject+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480F0E40931E003377E0 /* NSObject+Model.m */; };
+		602E137218B3A44C004F171B /* NSObject+Prototypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50E0F21FA4C00DF23D9 /* NSObject+Prototypes.m */; };
+		602E137318B3A44C004F171B /* ETCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FC0E40931E003377E0 /* ETCollection.m */; };
+		602E137418B3A44C004F171B /* ETKeyValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 60CED0A812CFCF6800B5827C /* ETKeyValuePair.m */; };
+		602E137518B3A44C004F171B /* NSIndexSet+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */; };
+		602E137618B3A44C004F171B /* NSMapTable+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */; };
+		602E137718B3A44C004F171B /* NSBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 60ADA96D1410E821003EACF1 /* NSBlocks.m */; };
+		602E137818B3A44C004F171B /* ETCollection+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B27D7C0FF7B56C0012BB42 /* ETCollection+HOM.m */; };
+		602E137B18B3A44C004F171B /* NSObject+HOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A221EB0FEFF8EF00952E11 /* NSObject+HOM.m */; };
+		602E137C18B3A44C004F171B /* NSData+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8F10181D110046D74A /* NSData+Hash.m */; };
+		602E137D18B3A44C004F171B /* NSInvocation+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480C0E40931E003377E0 /* NSInvocation+Etoile.m */; };
+		602E137E18B3A44C004F171B /* NSFileManager+TempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648090E40931E003377E0 /* NSFileManager+TempFile.m */; };
+		602E137F18B3A44C004F171B /* NSString+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648100E40931E003377E0 /* NSString+Etoile.m */; };
+		602E138018B3A44C004F171B /* NSIndexPath+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480A0E40931E003377E0 /* NSIndexPath+Etoile.m */; };
+		602E138118B3A44C004F171B /* ETGetOptionsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FF0E40931E003377E0 /* ETGetOptionsDictionary.m */; };
+		602E138218B3A44C004F171B /* ETTranscript.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50B0F21FA4C00DF23D9 /* ETTranscript.m */; };
+		602E138318B3A44C004F171B /* ETUTI.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50D0F21FA4C00DF23D9 /* ETUTI.m */; };
+		602E138418B3A44C004F171B /* ETUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648050E40931E003377E0 /* ETUUID.m */; };
+		602E138518B3A44C004F171B /* ETException.m in Sources */ = {isa = PBXBuildFile; fileRef = 603647FD0E40931E003377E0 /* ETException.m */; };
+		602E138618B3A44C004F171B /* ETHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 602DC50C0F21FA4C00DF23D9 /* ETHistory.m */; };
+		602E138718B3A44C004F171B /* ETByteSizeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */; };
+		602E138818B3A44C004F171B /* ETPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648150E40931E003377E0 /* ETPlugInRegistry.m */; };
+		602E138918B3A44C004F171B /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
+		602E138A18B3A44C004F171B /* ETSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8E10181D110046D74A /* ETSocket.m */; };
+		602E138B18B3A44C004F171B /* ETInstanceVariableMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA832101BC8610044F013 /* ETInstanceVariableMirror.m */; };
+		602E138C18B3A44C004F171B /* ETMethodMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA833101BC8610044F013 /* ETMethodMirror.m */; };
+		602E138D18B3A44C004F171B /* ETObjectMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA834101BC8610044F013 /* ETObjectMirror.m */; };
+		602E138E18B3A44C004F171B /* ETProtocolMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA835101BC8610044F013 /* ETProtocolMirror.m */; };
+		602E138F18B3A44C004F171B /* ETClassMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA831101BC8610044F013 /* ETClassMirror.m */; };
+		602E139018B3A44C004F171B /* ETReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680CED8101257C800CAF439 /* ETReflection.m */; };
+		602E139118B3A44C004F171B /* ETAdaptiveModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 60966F8518B378C300CFEE38 /* ETAdaptiveModelObject.m */; };
+		602E139218B3A44C004F171B /* ETModelDescriptionRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 6062DE10114BDD320008B771 /* ETModelDescriptionRepository.m */; };
+		602E139318B3A44C004F171B /* ETPackageDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6010E6C81144623C003203B2 /* ETPackageDescription.m */; };
+		602E139418B3A44C004F171B /* ETModelElementDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 606A990A113F178800CC89B9 /* ETModelElementDescription.m */; };
+		602E139518B3A44C004F171B /* ETEntityDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA3F8101916310044F013 /* ETEntityDescription.m */; };
+		602E139618B3A44C004F171B /* ETPropertyDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA3F9101916310044F013 /* ETPropertyDescription.m */; };
+		602E139718B3A44C004F171B /* ETRoleDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 60966F7718B376F700CFEE38 /* ETRoleDescription.m */; };
+		602E139818B3A44C004F171B /* ETValidationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA3FA101916310044F013 /* ETValidationResult.m */; };
+		602E139918B3A44C004F171B /* ETCollectionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */; };
+		602E139A18B3A44C004F171B /* ETIndexValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 6097260A1766246800562F3D /* ETIndexValuePair.m */; };
+		602E139B18B3A44C004F171B /* ETMutableObjectViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D28E17523AE6002103CC /* ETMutableObjectViewpoint.m */; };
+		602E139C18B3A44C004F171B /* ETViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6097260D17689DC100562F3D /* ETViewpoint.m */; };
+		602E139D18B3A44C004F171B /* ETUnionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D3A51753AEC6002103CC /* ETUnionViewpoint.m */; };
+		602E13A018B3A491004F171B /* ETCFMapTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 602E139E18B3A491004F171B /* ETCFMapTable.h */; };
+		602E13A118B3A491004F171B /* ETCFMapTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 602E139F18B3A491004F171B /* ETCFMapTable.m */; };
+		602E13AA18B3A836004F171B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 602E13A918B3A836004F171B /* CoreFoundation.framework */; };
+		602E13B518B3A8B7004F171B /* PlugInExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 6072CF701360E190003256C5 /* PlugInExample.m */; };
 		603647DC0E4092EA003377E0 /* ETCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647BC0E4092EA003377E0 /* ETCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647DF0E4092EA003377E0 /* ETGetOptionsDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647BF0E4092EA003377E0 /* ETGetOptionsDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E20E4092EA003377E0 /* EtoileCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C20E4092EA003377E0 /* EtoileCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -301,6 +407,16 @@
 		602DC50D0F21FA4C00DF23D9 /* ETUTI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETUTI.m; path = Source/ETUTI.m; sourceTree = "<group>"; };
 		602DC50E0F21FA4C00DF23D9 /* NSObject+Prototypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Prototypes.m"; path = "Source/NSObject+Prototypes.m"; sourceTree = "<group>"; };
 		602DC5410F21FD1500DF23D9 /* UTIDefinitions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UTIDefinitions.plist; sourceTree = "<group>"; };
+		602E12AE18B3A10E004F171B /* libEtoileFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEtoileFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		602E12AF18B3A10E004F171B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		602E139E18B3A491004F171B /* ETCFMapTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCFMapTable.h; path = iOSCompatibility/ETCFMapTable.h; sourceTree = "<group>"; };
+		602E139F18B3A491004F171B /* ETCFMapTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCFMapTable.m; path = iOSCompatibility/ETCFMapTable.m; sourceTree = "<group>"; };
+		602E13A818B3A836004F171B /* PlugInExample.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlugInExample.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		602E13A918B3A836004F171B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		602E13B618B3AAB1004F171B /* INSTALL */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL; sourceTree = "<group>"; };
+		602E13B718B3AAB2004F171B /* NEWS */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS; sourceTree = "<group>"; };
+		602E13B818B3AAB5004F171B /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		602E13B918B3AAB7004F171B /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		603647AC0E409244003377E0 /* EtoileFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EtoileFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		603647BB0E4092EA003377E0 /* ETCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCArray.h; path = Headers/ETCArray.h; sourceTree = "<group>"; };
 		603647BC0E4092EA003377E0 /* ETCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCollection.h; path = Headers/ETCollection.h; sourceTree = "<group>"; };
@@ -444,6 +560,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		602E12AB18B3A10E004F171B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602E12B018B3A10E004F171B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		602E13A518B3A835004F171B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602E13AA18B3A836004F171B /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		603647AA0E409244003377E0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,6 +637,8 @@
 				609B66D70FEE80CE0007F842 /* TestEtoileFoundation.bundle */,
 				60073EAD10074D26007272E6 /* EtoileXML.framework */,
 				6072CF691360E144003256C5 /* PlugInExample.plugin */,
+				602E12AE18B3A10E004F171B /* libEtoileFoundation.a */,
+				602E13A818B3A836004F171B /* PlugInExample.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -526,6 +660,8 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				602E12AF18B3A10E004F171B /* Foundation.framework */,
+				602E13A918B3A836004F171B /* CoreFoundation.framework */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -572,6 +708,15 @@
 			name = EtoileXML;
 			sourceTree = "<group>";
 		};
+		602E13A218B3A494004F171B /* iOS Support */ = {
+			isa = PBXGroup;
+			children = (
+				602E139E18B3A491004F171B /* ETCFMapTable.h */,
+				602E139F18B3A491004F171B /* ETCFMapTable.m */,
+			);
+			name = "iOS Support";
+			sourceTree = "<group>";
+		};
 		6043D28D175239D8002103CC /* Viewpoints */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +737,10 @@
 		605D6D4F0CE94218009ED244 /* EtoileFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				602E13B818B3AAB5004F171B /* README */,
+				602E13B618B3AAB1004F171B /* INSTALL */,
+				602E13B718B3AAB2004F171B /* NEWS */,
+				602E13B918B3AAB7004F171B /* TODO */,
 				603647C30E4092EA003377E0 /* EtoileFoundation.h */,
 				792BF9F5124FC1C60040BF68 /* Compatibility */,
 				60DA3AEE1359AF8500D8946F /* Debugging */,
@@ -818,6 +967,7 @@
 		792BF9F5124FC1C60040BF68 /* Compatibility */ = {
 			isa = PBXGroup;
 			children = (
+				602E13A218B3A494004F171B /* iOS Support */,
 				603647C20E4092EA003377E0 /* EtoileCompatibility.h */,
 				60B9B699185B589500ABDEA1 /* EtoileCompatibility.m */,
 				603648060E40931E003377E0 /* GNUstep.h */,
@@ -846,6 +996,66 @@
 				60073EDA10074D6A007272E6 /* Macros.h in Headers */,
 				60073EDB10074D6A007272E6 /* NSAttributedString+HTML.h in Headers */,
 				60073EDE10074D6A007272E6 /* TRXHTMLTest.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		602E12BB18B3A344004F171B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602E132C18B3A3B3004F171B /* EtoileFoundation.h in Headers */,
+				602E132D18B3A3B3004F171B /* EtoileCompatibility.h in Headers */,
+				602E135E18B3A3DB004F171B /* glibc_hack_unistd.h in Headers */,
+				602E132E18B3A3B3004F171B /* GNUstep.h in Headers */,
+				602E132F18B3A3B3004F171B /* Macros.h in Headers */,
+				602E133118B3A3B3004F171B /* runtime.h in Headers */,
+				602E133218B3A3B3004F171B /* ETStackTraceRecorder.h in Headers */,
+				602E133318B3A3B3004F171B /* ETPropertyValueCoding.h in Headers */,
+				602E133418B3A3B3004F171B /* NSObject+DoubleDispatch.h in Headers */,
+				602E133518B3A3B3004F171B /* NSObject+Etoile.h in Headers */,
+				602E133618B3A3B3004F171B /* NSObject+Trait.h in Headers */,
+				602E133718B3A3B3004F171B /* NSObject+Model.h in Headers */,
+				602E133818B3A3B3004F171B /* NSObject+Prototypes.h in Headers */,
+				602E133918B3A3B3004F171B /* ETCollection.h in Headers */,
+				602E133A18B3A3B3004F171B /* ETKeyValuePair.h in Headers */,
+				602E133B18B3A3B3004F171B /* NSIndexSet+Etoile.h in Headers */,
+				602E133C18B3A3B3004F171B /* NSMapTable+Etoile.h in Headers */,
+				602E133D18B3A3B3004F171B /* ETCollection+HOM.h in Headers */,
+				602E133E18B3A3B3004F171B /* NSObject+HOM.h in Headers */,
+				602E133F18B3A3B3004F171B /* NSData+Hash.h in Headers */,
+				602E134018B3A3B3004F171B /* NSInvocation+Etoile.h in Headers */,
+				602E134118B3A3B3004F171B /* NSFileManager+TempFile.h in Headers */,
+				602E134218B3A3B3004F171B /* NSString+Etoile.h in Headers */,
+				602E134318B3A3B3004F171B /* NSIndexPath+Etoile.h in Headers */,
+				602E134418B3A3B3004F171B /* NSFileHandle+Socket.h in Headers */,
+				602E134518B3A3B3004F171B /* ETSocket.h in Headers */,
+				602E135F18B3A41D004F171B /* ETInstanceVariableMirror.h in Headers */,
+				602E136018B3A41D004F171B /* ETInstanceVariableMirror.m in Headers */,
+				602E136118B3A41D004F171B /* ETMethodMirror.h in Headers */,
+				602E136218B3A41D004F171B /* ETMethodMirror.m in Headers */,
+				602E136318B3A41D004F171B /* ETObjectMirror.h in Headers */,
+				602E136418B3A41D004F171B /* ETObjectMirror.m in Headers */,
+				602E136518B3A41D004F171B /* ETProtocolMirror.h in Headers */,
+				602E136618B3A41D004F171B /* ETProtocolMirror.m in Headers */,
+				602E136718B3A41D004F171B /* ETClassMirror.h in Headers */,
+				602E136818B3A41D004F171B /* ETClassMirror.m in Headers */,
+				602E136918B3A41D004F171B /* ETReflection.h in Headers */,
+				602E136A18B3A41D004F171B /* ETReflection.m in Headers */,
+				602E134618B3A3B3004F171B /* ETAdaptiveModelObject.h in Headers */,
+				602E134718B3A3B3004F171B /* ETModelDescriptionRepository.h in Headers */,
+				602E134818B3A3B3004F171B /* ETPackageDescription.h in Headers */,
+				602E134918B3A3B3004F171B /* ETModelElementDescription.h in Headers */,
+				602E134A18B3A3B3004F171B /* ETEntityDescription.h in Headers */,
+				602E134B18B3A3B3004F171B /* ETPropertyDescription.h in Headers */,
+				602E134C18B3A3B3004F171B /* ETRoleDescription.h in Headers */,
+				602E134D18B3A3B3004F171B /* ETValidationResult.h in Headers */,
+				602E134E18B3A3B3004F171B /* ETCollectionViewpoint.h in Headers */,
+				602E134F18B3A3B3004F171B /* ETIndexValuePair.h in Headers */,
+				602E135018B3A3B3004F171B /* ETMutableObjectViewpoint.h in Headers */,
+				602E135118B3A3B3004F171B /* ETViewpoint.h in Headers */,
+				602E135218B3A3B3004F171B /* ETUnionViewpoint.h in Headers */,
+				602E135B18B3A3B3004F171B /* Macros.h in Headers */,
+				602E13A018B3A491004F171B /* ETCFMapTable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,6 +1145,41 @@
 			productReference = 60073EAD10074D26007272E6 /* EtoileXML.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		602E12AD18B3A10E004F171B /* EtoileFoundation (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 602E12B818B3A10F004F171B /* Build configuration list for PBXNativeTarget "EtoileFoundation (iOS)" */;
+			buildPhases = (
+				602E12BB18B3A344004F171B /* Headers */,
+				602E12AA18B3A10E004F171B /* Sources */,
+				602E12AB18B3A10E004F171B /* Frameworks */,
+				602E13A318B3A4F2004F171B /* Prepare Framework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "EtoileFoundation (iOS)";
+			productName = "EtoileFoundation (iOS)";
+			productReference = 602E12AE18B3A10E004F171B /* libEtoileFoundation.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		602E13A718B3A835004F171B /* PlugInExample (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 602E13B218B3A837004F171B /* Build configuration list for PBXNativeTarget "PlugInExample (iOS)" */;
+			buildPhases = (
+				602E13A418B3A835004F171B /* Sources */,
+				602E13A518B3A835004F171B /* Frameworks */,
+				602E13A618B3A835004F171B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PlugInExample (iOS)";
+			productName = "PlugInExample (iOS)";
+			productReference = 602E13A818B3A836004F171B /* PlugInExample.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		603647AB0E409244003377E0 /* EtoileFoundation */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 603647B00E409245003377E0 /* Build configuration list for PBXNativeTarget "EtoileFoundation" */;
@@ -1010,6 +1255,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* FlowAutolayoutExample */;
 			projectDirPath = "";
@@ -1025,6 +1271,8 @@
 				603647AB0E409244003377E0 /* EtoileFoundation */,
 				609B667C0FEE80CE0007F842 /* TestEtoileFoundation */,
 				6072CF681360E144003256C5 /* PlugInExample */,
+				602E12AD18B3A10E004F171B /* EtoileFoundation (iOS) */,
+				602E13A718B3A835004F171B /* PlugInExample (iOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -1075,6 +1323,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		602E13A618B3A835004F171B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		603647A80E409244003377E0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1103,6 +1358,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		602E13A318B3A4F2004F171B /* Prepare Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Prepare Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\ncp -a \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/${PRODUCT_NAME}\"";
+		};
 		609B66D30FEE80CE0007F842 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1133,6 +1402,71 @@
 				60073EDC10074D6A007272E6 /* NSAttributedString+HTML.m in Sources */,
 				60073EDD10074D6A007272E6 /* ParserTest.m in Sources */,
 				60073EDF10074D6A007272E6 /* TRXHTMLTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		602E12AA18B3A10E004F171B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602E136B18B3A44C004F171B /* EtoileCompatibility.m in Sources */,
+				602E136C18B3A44C004F171B /* ETStackTraceRecorder.m in Sources */,
+				602E136D18B3A44C004F171B /* ETPropertyValueCoding.m in Sources */,
+				602E136E18B3A44C004F171B /* NSObject+DoubleDispatch.m in Sources */,
+				602E136F18B3A44C004F171B /* NSObject+Etoile.m in Sources */,
+				602E137018B3A44C004F171B /* NSObject+Trait.m in Sources */,
+				602E137118B3A44C004F171B /* NSObject+Model.m in Sources */,
+				602E137218B3A44C004F171B /* NSObject+Prototypes.m in Sources */,
+				602E137318B3A44C004F171B /* ETCollection.m in Sources */,
+				602E137418B3A44C004F171B /* ETKeyValuePair.m in Sources */,
+				602E137518B3A44C004F171B /* NSIndexSet+Etoile.m in Sources */,
+				602E137618B3A44C004F171B /* NSMapTable+Etoile.m in Sources */,
+				602E137718B3A44C004F171B /* NSBlocks.m in Sources */,
+				602E137818B3A44C004F171B /* ETCollection+HOM.m in Sources */,
+				602E137B18B3A44C004F171B /* NSObject+HOM.m in Sources */,
+				602E137C18B3A44C004F171B /* NSData+Hash.m in Sources */,
+				602E137D18B3A44C004F171B /* NSInvocation+Etoile.m in Sources */,
+				602E137E18B3A44C004F171B /* NSFileManager+TempFile.m in Sources */,
+				602E137F18B3A44C004F171B /* NSString+Etoile.m in Sources */,
+				602E138018B3A44C004F171B /* NSIndexPath+Etoile.m in Sources */,
+				602E138118B3A44C004F171B /* ETGetOptionsDictionary.m in Sources */,
+				602E138218B3A44C004F171B /* ETTranscript.m in Sources */,
+				602E138318B3A44C004F171B /* ETUTI.m in Sources */,
+				602E138418B3A44C004F171B /* ETUUID.m in Sources */,
+				602E138518B3A44C004F171B /* ETException.m in Sources */,
+				602E138618B3A44C004F171B /* ETHistory.m in Sources */,
+				602E138718B3A44C004F171B /* ETByteSizeFormatter.m in Sources */,
+				602E138818B3A44C004F171B /* ETPlugInRegistry.m in Sources */,
+				602E138918B3A44C004F171B /* NSFileHandle+Socket.m in Sources */,
+				602E138A18B3A44C004F171B /* ETSocket.m in Sources */,
+				602E138B18B3A44C004F171B /* ETInstanceVariableMirror.m in Sources */,
+				602E138C18B3A44C004F171B /* ETMethodMirror.m in Sources */,
+				602E138D18B3A44C004F171B /* ETObjectMirror.m in Sources */,
+				602E138E18B3A44C004F171B /* ETProtocolMirror.m in Sources */,
+				602E138F18B3A44C004F171B /* ETClassMirror.m in Sources */,
+				602E139018B3A44C004F171B /* ETReflection.m in Sources */,
+				602E139118B3A44C004F171B /* ETAdaptiveModelObject.m in Sources */,
+				602E139218B3A44C004F171B /* ETModelDescriptionRepository.m in Sources */,
+				602E139318B3A44C004F171B /* ETPackageDescription.m in Sources */,
+				602E139418B3A44C004F171B /* ETModelElementDescription.m in Sources */,
+				602E139518B3A44C004F171B /* ETEntityDescription.m in Sources */,
+				602E139618B3A44C004F171B /* ETPropertyDescription.m in Sources */,
+				602E139718B3A44C004F171B /* ETRoleDescription.m in Sources */,
+				602E139818B3A44C004F171B /* ETValidationResult.m in Sources */,
+				602E139918B3A44C004F171B /* ETCollectionViewpoint.m in Sources */,
+				602E139A18B3A44C004F171B /* ETIndexValuePair.m in Sources */,
+				602E139B18B3A44C004F171B /* ETMutableObjectViewpoint.m in Sources */,
+				602E139C18B3A44C004F171B /* ETViewpoint.m in Sources */,
+				602E139D18B3A44C004F171B /* ETUnionViewpoint.m in Sources */,
+				602E13A118B3A491004F171B /* ETCFMapTable.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		602E13A418B3A835004F171B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602E13B518B3A8B7004F171B /* PlugInExample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1309,6 +1643,87 @@
 			};
 			name = Release;
 		};
+		602E12B918B3A10F004F171B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					Foundation,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					UIKit,
+				);
+				PRODUCT_NAME = EtoileFoundation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wunknown-pragmas",
+				);
+			};
+			name = Debug;
+		};
+		602E12BA18B3A10F004F171B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					Foundation,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					UIKit,
+				);
+				PRODUCT_NAME = EtoileFoundation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wunknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		602E13B318B3A837004F171B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				INFOPLIST_FILE = "Tests/PlugInExample/PlugInExample-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = PlugInExample;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Debug;
+		};
+		602E13B418B3A837004F171B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				INFOPLIST_FILE = "Tests/PlugInExample/PlugInExample-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = PlugInExample;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Release;
+		};
 		603647AE0E409245003377E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1381,6 +1796,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "ETDebugAssertionEnabled=1";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -1393,6 +1809,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
@@ -1408,6 +1825,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		602E12B818B3A10F004F171B /* Build configuration list for PBXNativeTarget "EtoileFoundation (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				602E12B918B3A10F004F171B /* Debug */,
+				602E12BA18B3A10F004F171B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		602E13B218B3A837004F171B /* Build configuration list for PBXNativeTarget "PlugInExample (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				602E13B318B3A837004F171B /* Debug */,
+				602E13B418B3A837004F171B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		603647B00E409245003377E0 /* Build configuration list for PBXNativeTarget "EtoileFoundation" */ = {
 			isa = XCConfigurationList;
