@@ -1,11 +1,9 @@
 /*
- ETValidationResult.m
- 
- Copyright (C) 2009 Eric Wasylishen
- 
- Author:  Eric Wasylishen <ewasylishen@gmail.com>
- Date:  July 2009
- License:  Modified BSD (see COPYING)
+	Copyright (C) 2009 Eric Wasylishen
+
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  July 2009
+	License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -24,12 +22,14 @@
 											  isValid: YES
 												error: nil] autorelease];
 }
+
 + (id) invalidResultWithError: (NSString *)error
 {
 	return [[[ETValidationResult alloc] initWithValue: nil
 											  isValid: NO
 												error: error] autorelease];
 }
+
 + (id) validationResultWithValue: (id)value
                          isValid: (BOOL)isValid
                            error: (NSString *)error
@@ -38,6 +38,7 @@
 											  isValid: isValid
 												error: error] autorelease];
 }
+
 - (id) initWithValue: (id)value
              isValid: (BOOL)isValid
                error: (NSString *)error
@@ -48,6 +49,7 @@
 	ASSIGNCOPY(_error, error);
 	return self;
 }
+
 - (void) dealloc
 {
 	DESTROY(_value);
