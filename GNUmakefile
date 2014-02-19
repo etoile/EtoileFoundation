@@ -202,6 +202,33 @@ ifeq ($(GNUSTEP_TARGET_CPU), ix86)
  ADDITIONAL_OBJCFLAGS += -march=i586
 endif
 
+EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
+	Source/ETCollection+HOMMethods.m \
+	Source/ETCollectionMutation+HOMMethods.m
+
+# We exclude some implementation files to prevent argument name mismatches 
+# (reported by autogsdoc) between implemented accessors and accessors generated 
+# from properties (by DocGenerator/objcrewriter.io).
+# For these files, there is no public documentation is in the implementation.
+EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
+	Source/ETAdaptiveModelObject.m \
+	Source/ETEntityDescription.m \
+	Source/ETModelDescriptionRepository.m \
+	Source/ETModelElementDescription.m \
+	Source/ETPackageDescription.m \
+	Source/ETPropertyDescription.m \
+	Source/ETRoleDescription.m \
+	Source/ETValidationResult.m \
+	Source/ETCollectionViewPoint.m \
+	Source/ETIndexValuePair.m \
+	Source/ETMutableObjectViewpoint.m \
+	Source/ETUnionViewpoint.m \
+	Source/ETViewpoint.m
+
+# FIXME: Don't exclude once DocGenerator supports parsing ObjC++
+EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
+	Headers/ObjCXXHelpers.h
+
 ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 else
