@@ -7,8 +7,13 @@ TODO EtoileFoundation
   + Mirages: Behavioral Intercession in a Mirror-based Architecture: soft.vub.ac.be/Publications/2007/vub-prog-tr-07-16.pdf 
   + Newspeak Mixin implementation: newspeaklanguage.org
 - Finish the mirror implementation and write a related test suite
+
 - Finish metamodel implementation (validation, role classes etc.) and extend the test suite
+
 - Get rid of glibc_hack_unistd.h if possible
+
+- Support CommonCrypto API for iOS and Mac OS X, in addition to openssl (this can be done with some preprocessor macros easily, see how CoreObject does it)
+
 
 Known Issues
 ------------
