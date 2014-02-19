@@ -219,7 +219,7 @@ EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
 	Source/ETPropertyDescription.m \
 	Source/ETRoleDescription.m \
 	Source/ETValidationResult.m \
-	Source/ETCollectionViewPoint.m \
+	Source/ETCollectionViewpoint.m \
 	Source/ETIndexValuePair.m \
 	Source/ETMutableObjectViewpoint.m \
 	Source/ETUnionViewpoint.m \

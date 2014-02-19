@@ -32,7 +32,7 @@ repository using -[ETModelDescriptionRepository addDescription:].
 
 @section Conceptual Model
 
-This metamodel is based on the [FM3 specification](http://scg.unibe.ch/wiki/projects/fame/fm3?_s=9kxX0-G_UX5qTgS-&_k=YF5o6u-c&_n&18).
+This metamodel is based on the [FM3 specification](http://scg.unibe.ch/wiki/projects/fame/fm3).
 
 For a good introduction, read the paper [FAME — A Polyglot Library
 for Metamodeling at Runtime](http://www.iam.unibe.ch/~akuhn/d/Kuhn-2008-MRT-Fame.pdf)

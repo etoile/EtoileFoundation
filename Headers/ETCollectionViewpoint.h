@@ -50,7 +50,7 @@ ETCollectionViewpoint never accesses the collection in another way. You must
 do the same in any ETCollectionViewpoint subclasses or categories.
  
 Can be overriden, but -content must be overriden too. */
-- (void) setContent: (id <ETCollection>)aContent;
+- (void) setContent: (id <ETCollection>)aCollection;
 /** Posts an ETSourceDidUpdateNotification which can be intercepted by all
 the objects that observes the represented object. */
 - (void) didUpdate;

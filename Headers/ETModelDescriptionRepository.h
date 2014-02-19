@@ -237,7 +237,7 @@ The returned collection is an autoreleased copy. */
 /** Returns a package, entity or property description registered for the given 
 full name.
 
-e.g. <em>Anonymous.NSObject<em> for NSObject entity.
+e.g. <em>Anonymous.NSObject</em> for NSObject entity.
  
 For model element descriptions that belong to the anonymous package, the 
 <em>Anonymous</em> prefix can be ommitted. For example, 

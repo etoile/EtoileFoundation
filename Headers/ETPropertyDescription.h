@@ -38,9 +38,9 @@
  * <deflist>
  * <term>Model Specification</term><desc>Properties to describe new and existing 
  * model and metamodel (the FAME-based metamodel)</desc>
- * <term>Persistency Specification</term>Properties to describe persistent model
- * and persistency rules (can be leveraged or not by a Persistency framework e.g. 
- * CoreObject)</term>
+ * <term>Persistency Specification</term><desc>Properties to describe persistent 
+ * model and persistency rules (can be leveraged or not by a Persistency 
+ * framework e.g. CoreObject)</desc>
  * <term>Model Presentation Specification</term><desc>Properties to describe 
  * model presentation in the UI, and model-driven generation (can be leveraged 
  * or not by a UI or Model Generation framework)</desc>

@@ -87,7 +87,7 @@
 - (void) addObserver: (id)anObserver;
 - (void) removeObserver: (id)anObserver;
 
-/** @taskunit Collection & Mutability */
+/** @taskunit Collection and Mutability */
 
 + (Class) mutableClass;
 
@@ -97,7 +97,7 @@
 - (BOOL) isPrimitiveCollection;
 - (BOOL) isGroup;
 
-- (id) insertionKeyForCollection: (id <ETKeyedCollection>)collection;
+- (id) insertionKeyForCollection: (id <ETKeyedCollection>)aCollection;
 
 @end
 

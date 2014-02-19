@@ -96,7 +96,7 @@
 	return viewpoints;
 }
 
-- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
+- (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	ETAssert([self isMutableCollection]);
 	ETAssert([[self content] conformsToProtocol: @protocol(NSMutableCopying)]);

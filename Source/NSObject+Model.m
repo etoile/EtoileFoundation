@@ -736,7 +736,7 @@ by -observableKeyPaths. */
 Returns a key for inserting the receiver into the given keyed collection.
 
 By default, returns a key built by incrementing the integer value in the 
-'Unknown <number>' pattern, until it provides a key not yet in use in the 
+'Unknown &lt;number&gt;' pattern, until it provides a key not yet in use in the 
 collection argument.
 
 This key is retrieved by a collection in reply to -insertObjects:atIndexes:hints: 
