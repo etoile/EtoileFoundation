@@ -184,10 +184,10 @@
 		03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Fail.tiff"; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		600CE53109F2474F008BA30D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		6048463418B61E4F006E4EDC /* NEWS.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = NEWS.md; path = ../NEWS.md; sourceTree = "<group>"; };
-		6048463C18B6373A006E4EDC /* INSTALL.Cocoa.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = INSTALL.Cocoa.md; path = ../INSTALL.Cocoa.md; sourceTree = "<group>"; };
-		6048463D18B6373A006E4EDC /* INSTALL.GNUstep.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = INSTALL.GNUstep.md; path = ../INSTALL.GNUstep.md; sourceTree = "<group>"; };
-		6048463E18B6373A006E4EDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		6048463418B61E4F006E4EDC /* NEWS.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS.md; sourceTree = "<group>"; };
+		6048463C18B6373A006E4EDC /* INSTALL.Cocoa.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.Cocoa.md; sourceTree = "<group>"; };
+		6048463D18B6373A006E4EDC /* INSTALL.GNUstep.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.GNUstep.md; sourceTree = "<group>"; };
+		6048463E18B6373A006E4EDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		6065B7F41896B602002B07D6 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestObject.h; path = UnitKitTests/TestObject.h; sourceTree = "<group>"; };
 		6065B7F51896B604002B07D6 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestObject.m; path = UnitKitTests/TestObject.m; sourceTree = "<group>"; };
 		60A71B4218B505DA0038CE05 /* libUnitKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnitKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,14 +234,14 @@
 		AEBED02806AFAE7800451E26 /* TestClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClass.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEBED04C06AFB1AB00451E26 /* UKTestFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFramework.h; path = UnitKitTests/UKTestFramework.h; sourceTree = "<group>"; usesTabs = 0; };
 		AEBED04D06AFB1AC00451E26 /* UKTestFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFramework.m; path = UnitKitTests/UKTestFramework.m; sourceTree = "<group>"; usesTabs = 0; };
-		AEBED16806B0603600451E26 /* NOTICE */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = NOTICE; path = ../NOTICE; sourceTree = "<group>"; };
+		AEBED16806B0603600451E26 /* NOTICE */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = NOTICE; sourceTree = "<group>"; };
 		AEBEF4B605FAF2910020FB35 /* UKTestMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestMacros.h; path = UnitKitTests/UKTestMacros.h; sourceTree = "<group>"; usesTabs = 0; };
 		AEBEF4B705FAF2910020FB35 /* UKTestMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMacros.m; path = UnitKitTests/UKTestMacros.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEBEF55A05FBEFD10020FB35 /* UKTestLineNumbers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestLineNumbers.h; path = UnitKitTests/UKTestLineNumbers.h; sourceTree = "<group>"; usesTabs = 0; };
 		AEBEF55B05FBEFD10020FB35 /* UKTestLineNumbers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestLineNumbers.m; path = UnitKitTests/UKTestLineNumbers.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEBEF56305FBF8010020FB35 /* UKTestFileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFileNames.h; path = UnitKitTests/UKTestFileNames.h; sourceTree = "<group>"; usesTabs = 0; };
 		AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFileNames.m; path = UnitKitTests/UKTestFileNames.m; sourceTree = "<group>"; usesTabs = 0; };
-		AEEB74D006B1BEFD00BE53E8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		AEEB74D006B1BEFD00BE53E8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AEFFFA67060140E50002576C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/UKTestHandler.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
