@@ -28,9 +28,6 @@
 #import "UKTest.h"
 #import "UKTestHandler.h"
 
-/* For -pathForImageResource: */
-#import <AppKit/AppKit.h>
-
 #include <objc/runtime.h>
 
 @interface NSObject (Application)
@@ -485,10 +482,6 @@
     NSLog(@"Result: %i classes, %i methods, %i tests, %i failed, %i exceptions",
 		testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
 
-#ifndef GNUSTEP
-    [[self class] performGrowlNotification: testsPassed :testsFailed :exceptionsReported :testClassesRun :testMethodsRun];
-#endif
-
     return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
 }
 
@@ -537,54 +530,6 @@
 	}
 	return NO;
 }
-
-#pragma mark - User Notifications
-
-#ifndef GNUSTEP
-+ (void) performGrowlNotification
-:(int) testsPassed
-:(int) testsFailed
-:(int) exceptionsReported
-:(int) testClassesRun
-:(int) testMethodsRun
-{
-    NSString *title;
-
-    if (testsFailed == 0 && exceptionsReported == 0) {
-        title = @"UnitKit Test Run Passed";
-    } else {
-        title = @"UnitKit Test Run Failed";
-    }
-
-    NSString *msg = [NSString stringWithFormat:
-					 @"%i test classes, %i methods\n%i assertions passed, %i failed, %i exceptions",
-					 testClassesRun, testMethodsRun,  testsPassed, testsFailed, exceptionsReported];
-
-    NSMutableDictionary *notiInfo = [NSMutableDictionary dictionary];
-    [notiInfo setObject:@"UnitKit Notification" forKey:@"NotificationName"];
-    [notiInfo setObject:@"UnitKit" forKey:@"ApplicationName"];
-    [notiInfo setObject:title forKey:@"NotificationTitle"];
-    [notiInfo setObject:msg forKey:@"NotificationDescription"];
-
-    NSString *iconPath;
-
-    if (testsFailed == 0) {
-        iconPath = [[NSBundle bundleForClass:[self class]]
-					pathForImageResource:@"Icon-Pass"];
-    } else {
-        iconPath = [[NSBundle bundleForClass:[self class]]
-					pathForImageResource:@"Icon-Fail"];
-    }
-
-    NSData *icon = [NSData dataWithContentsOfFile:iconPath];
-
-    [notiInfo setObject:icon forKey:@"NotificationIcon"];
-
-    [[NSDistributedNotificationCenter defaultCenter]
-	 postNotificationName:@"GrowlNotification"
-	 object:nil userInfo:notiInfo];
-}
-#endif
 
 @end
 
