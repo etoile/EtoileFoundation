@@ -50,6 +50,16 @@
 
 #define UKFloatsNotEqual(a, b, d) [[UKTestHandler handler] testFloat:(a) notEqualTo:(b) delta:(d) inFile:__FILE__ line:__LINE__]
 
+/**
+ * UKObjectKindOf(a, b) test macro that uses -isKindOfClass: behind the scene. 
+ *
+ * Most of the time UKObjectsEqual([a class], [b class]) would be similar, but 
+ * not always (i.e. NSCFArray/NSArray on Mac OS X). Example:
+ *
+ * <example>
+ * UKObjectKindOf(myObject, NSArray)
+ * </example>
+ */
 #define UKObjectKindOf(a, b) [[UKTestHandler handler] testObject:(a) kindOf:[b class] inFile:__FILE__ line:__LINE__]
 
 #define UKObjectsEqual(a, b) [[UKTestHandler handler] testObject:(a) equalTo:(b) inFile:__FILE__ line:__LINE__]

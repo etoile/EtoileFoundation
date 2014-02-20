@@ -1,14 +1,37 @@
-UnitKit (GNUstep)
-=================
+UnitKit
+=======
 
 :Maintainer: Quentin Mathe <qmathe@club-internet.fr>
 :Authors: James Duncan Davidson, Nicolas Roard, Quentin Mathe, David Chisnall, 
-Yen-Ju Chen
+Yen-Ju Chen, Christopher Armstrong, Eric Wasylishen
 :License: Apache License 2.0 (see LICENSE document)
-:Version: 1.3
+:Version: 1.5
 
-This is a fork of the UnitKit test framework for GNUstep.
+UnitKit is a minimalistic unit testing framework that supports Mac OS X, iOS and GNUstep. 
+
+The framework is less than 2000 loc, and built around two classes UKRunner and UKTestHandler, plus some test macros, and an empty protocol UKTest to mark test classes.
+
+The UnitKit core features are:
+
+- Test assertion macros
+	- easy to write and read
+	- without useless arguments
+	- not too many ones
+	- extensible (implement a UKTestHandler subclass or category)
+- No test case class, just adopt UKTest protocol
+- No special methods -setUp and -tearDown, just implement -init and and -dealloc 
+- Class test methods in addition to instance ones
+- Run loop integration for asynchronous testing
+- Uncaught exception reporting
+- Delegate methods to signal a test suite will start or just ended
+- Tested class choice based on a list or a regex
+- Verbose and quiet ouput
+- Optional ukrun tool to run test suites packaged in test bundles
+- Xcode 3 and higher test suite templates
+
 To know more about UnitKit: <http://www.etoile-project.org/dev/0.4/UnitKit>
+
+Note: This UnitKit version is a fork of the original UnitKit written by James Duncan Davidson. The original version is not available anymore, and its development has been halted for many years. The initial project web site unitkit.org is also no longer available.
 
 
 Build and Install
@@ -20,77 +43,7 @@ Read INSTALL document.
 Mac OS X support
 ----------------
 
-UnitKit development has been halted for few years on Mac OS X and the official 
-project web site unitkit.org is no longer available. So you can use UnitKit 
-(GNUstep) as a replacement. 
-Both Cocoa and Xcode 4 support are actively maintained and used by several 
-Etoile modules that can be built on Mac OS X. However Xcode 3 is not supported 
-anymore.
-
-
-Features
---------
-
-UnitKit (GNUstep) includes several new features over the original framework:
-
-* UKObjectKindOf(a, b) test macro that uses -isKindOfClass: behind the scene.
-  Most of the time UKObjectsEqual([a class], [b class]) would be similar, but 
-  not always (i.e. NSCFArray/NSArray on Mac OS X). Example:
-
-  UKObjectKindOf(myObject, NSArray)
-
-* Class test methods in addition to instance-only test methods. For example 
-  +testBirdFamily and -testBird are two tests methods that will be run if they 
-  belong to class that conforms UKTest.
-
-* Lazy instantiation of the application class. By decreasing order of priority, 
-  this method tries to create an application object by sending
-  -sharedApplication to:
-      * The principal class of the test bundle (declared in the bundle property list)
-      * ETApplication (from EtoileUI)
-      * NSApplication
-
-* -initForTest and -releaseForTest messages that allows to handle fixtures for 
-  test methods implemented in a class which is not a test class, and already 
-  has -init and -dealloc implemented.
-  -initForTest (or -init) and -releaseForTest (or -dealloc) plays the same role 
-  than set up and tear down methods in other unit testing framework. If these 
-  methods belong to a class that conforms to UKTest, then the test case object 
-  will be instantiated by calling -initForTest rather than -init and released by 
-  calling -releaseForTest a single time (instead of -release). For each test 
-  method that is run, a new test instance is created and these methods are 
-  called if implemented. 
-  Take note that you must return self for -initForTest and call [super release] 
-  in -releaseForTest.
-  Typically this allows to declare test methods in a category of an existing 
-  class and test the class from the inside like that:
-
-  @interface NSArray (VariousTestMethods) <UKTest>
-  @end
-
-  @implemented NSArray (VariousTestMethods)
-
-  - (id) initForTest
-  {
-     self = [self init];
-     // some additional set up.
-     return self;
-  }
-
-  - (void) testEmptyness
-  {
-    UKIntsEqual(0, [self count]);
-  }
-
-  - (id) releaseForTest
-  {
-     // tear down what has been set up in -initForTest
-     [super release];
-  }
-
-  @end
-
-* Grow notifications on Mac OS X borrowed from UnitKit 2.0 development version
+Both Cocoa and Xcode 4 support are actively maintained and used by several Etoile modules that can be built on Mac OS X. However Xcode 3 is not maintained anymore.
 
 
 How to use UnitKit with GNUstep-make
