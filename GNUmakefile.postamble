@@ -1,6 +1,6 @@
 before-all::
-	rm -f $(CURDIR)/Source/UnitKit
-	$(LN_S) $(CURDIR)/Source/FrameworkSource $(CURDIR)/Source/UnitKit
+	rm -f $(CURDIR)/UnitKit
+	$(LN_S) $(CURDIR)/FrameworkSource $(CURDIR)/UnitKit
 
 after-clean::
-	rm -f $(CURDIR)/Source/UnitKit
+	rm -f $(CURDIR)/UnitKit

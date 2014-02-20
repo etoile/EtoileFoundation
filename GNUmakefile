@@ -1,6 +1,6 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
-SUBPROJECTS = Source/FrameworkSource Source/ToolSource
+SUBPROJECTS = FrameworkSource ToolSource
 
 ifneq (,$(filter clean distclean,$(MAKECMDGOALS)))
 	testsource ?= yes
@@ -12,9 +12,9 @@ endif
 
 ifeq ($(testsource), yes)
 SUBPROJECTS += \
-	Source/TestSource/TestFramework \
-	Source/TestSource/TestBundle \
-	Source/TestSource/UnitKitTests
+	TestSource/TestFramework \
+	TestSource/TestBundle \
+	TestSource/UnitKitTests
 endif
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
