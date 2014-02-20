@@ -239,8 +239,6 @@
 		AEBEF56305FBF8010020FB35 /* UKTestFileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFileNames.h; path = UnitKitTests/UKTestFileNames.h; sourceTree = "<group>"; usesTabs = 0; };
 		AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFileNames.m; path = UnitKitTests/UKTestFileNames.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEEB74D006B1BEFD00BE53E8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		AEF570CD05F6E94700FB3F0B /* UKTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTask.h; sourceTree = "<group>"; usesTabs = 0; };
-		AEF570CE05F6E94700FB3F0B /* UKTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKTask.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEFFFA67060140E50002576C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/UKTestHandler.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -454,8 +452,6 @@
 				AEFFFA70060140EB0002576C /* UKTestHandler.strings */,
 				AE923D8905C3B9EC00549058 /* UKRunner.h */,
 				AE923D8A05C3B9EC00549058 /* UKRunner.m */,
-				AEF570CD05F6E94700FB3F0B /* UKTask.h */,
-				AEF570CE05F6E94700FB3F0B /* UKTask.m */,
 				32DBCF5E0370ADEE00C91783 /* Info.plist */,
 				AE923B6F05C3B62B00549058 /* InfoPlist.strings */,
 			);
@@ -1292,6 +1288,7 @@
 				60E23C2218B5134100CE38D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

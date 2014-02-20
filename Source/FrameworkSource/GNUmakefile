@@ -8,9 +8,9 @@ UnitKit_VERSION = 1.3
 UnitKit_OBJCFLAGS = -std=c99 
 UnitKit_LIBRARIES_DEPEND_UPON = $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
 
-UnitKit_HEADER_FILES = UKRunner.h UKTest.h UKTestHandler.h UKTask.h UnitKit.h
+UnitKit_HEADER_FILES = UKRunner.h UKTest.h UKTestHandler.h UnitKit.h
 
-UnitKit_OBJC_FILES = UKRunner.m UKTestHandler.m UKTask.m
+UnitKit_OBJC_FILES = UKRunner.m UKTestHandler.m
 
 UnitKit_LOCALIZED_RESOURCE_FILES = UKTestHandler.strings
 UnitKit_LANGUAGES = English
