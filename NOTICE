@@ -1,4 +1,4 @@
-UnitKit was created and is maintained by James Duncan Davidson. You can find out more about UnitKit at http://unitkit.org/
+UnitKit was created by James Duncan Davidson and is now maintained by Quentin Mathe in the Etoile project. You can find out more about UnitKit at http://www.etoile-project.org/
 
 Many people have given ideas, suggestions, and feedback to UnitKit. In particular Mike Clark, Joseph Heck, Glenn Vanderburg, and Daniel Steinberg provided feedback during the early development of UnitKit that materially shaped the current product. 
 
@@ -12,4 +12,10 @@ David Steinbrunner suggested many changes to both this manual and the example co
 
 Mark Dalrymple contributed quiet mode and fixed a bug with multiple test bundles not being executed correctly. 
 
-Nicolas Roard contributed patches allowing for UnitKit to run under GNUStep.
+Nicolas Roard contributed patches allowing for UnitKit to run under GNUstep.
+
+Christopther Armstrong contributed run loop improvements, exception logging, test class and method names printing in the test suite output, and an option to specify the classes to be tested.
+
+Eric Wasylishen contributed run loop improvements, better exception support, abstract test cases and an option to filter the classes to be tested based on a regex.
+
+Lundberg Johannes contributed new templates for Xcode 4 and higher.

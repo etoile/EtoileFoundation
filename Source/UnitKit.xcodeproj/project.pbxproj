@@ -197,8 +197,6 @@
 		60E23C3718B52C0600CE38D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60FBE0B709FAEA9700F734E1 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../ChangeLog; sourceTree = SOURCE_ROOT; };
 		8DC2EF5B0486A6940098B216 /* UnitKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnitKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE39C80605FBFF7F0011F066 /* UKTaskTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTaskTests.h; path = UnitKitTests/UKTaskTests.h; sourceTree = "<group>"; usesTabs = 0; };
-		AE39C80705FBFF7F0011F066 /* UKTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTaskTests.m; path = UnitKitTests/UKTaskTests.m; sourceTree = "<group>"; usesTabs = 0; };
 		AE55498A06C5ACDC005FF2F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		AE613E6705F181AE009B020F /* UKTestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTestHandler.h; sourceTree = "<group>"; usesTabs = 0; };
 		AE613E6805F181AE009B020F /* UKTestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKTestHandler.m; sourceTree = "<group>"; usesTabs = 0; };
@@ -477,8 +475,6 @@
 				AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */,
 				AE702C3705FEC7920049C79F /* UKTestMessages.h */,
 				AE702C3805FEC7920049C79F /* UKTestMessages.m */,
-				AE39C80605FBFF7F0011F066 /* UKTaskTests.h */,
-				AE39C80705FBFF7F0011F066 /* UKTaskTests.m */,
 				AEBED04C06AFB1AB00451E26 /* UKTestFramework.h */,
 				AEBED04D06AFB1AC00451E26 /* UKTestFramework.m */,
 			);

@@ -1,7 +1,6 @@
 /*
 	Copyright (C) 2014 Quentin Mathe
 
-	Date:  February 2014
 	License:  Apache License, Version 2.0  (see LICENSE)
  
 	Licensed under the Apache License, Version 2.0 (the "License");
