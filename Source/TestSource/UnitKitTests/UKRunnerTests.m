@@ -63,12 +63,14 @@ static BOOL testedObjectInitialized = NO;
 
 	handler = [UKTestHandler handler];
 
+#if !(TARGET_OS_IPHONE)
 	NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath]
 		stringByAppendingPathComponent: @"TestBundle.bundle"];
 
 	testBundle = [[NSBundle alloc] initWithPath: testBundlePath];
     NSAssert1(testBundle != nil, @"Found not test bundle at %@", testBundlePath);
 	[testBundle load];
+#endif
 
 	return self;
 }
@@ -127,6 +129,7 @@ static BOOL testedObjectInitialized = NO;
     
 }
 
+#if !(TARGET_OS_IPHONE)
 - (void)testClassesFromBundle
 {
     NSArray *testClasses = UKTestClasseNamesFromBundle(testBundle);
@@ -138,6 +141,7 @@ static BOOL testedObjectInitialized = NO;
     // FIXME: UKFalse(randomObjectInitialized);
     UKTrue(testedObjectInitialized);
 }
+#endif
 
 - (void)testMethodNamesFromClass
 {

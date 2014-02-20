@@ -28,7 +28,7 @@
 
 + (void)testClass
 {
-	UKFail();
+	UKPass();
 }
 
 + (void)testClass1
@@ -43,7 +43,7 @@
 
 - (void)testTwo
 {
-	UKFail();
+	UKPass();
 }
 
 - (void)testThree

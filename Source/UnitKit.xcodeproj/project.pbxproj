@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		03BC00BE0DEE32AD009AFC82 /* Icon-Pass.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 03BC00BC0DEE32AD009AFC82 /* Icon-Pass.tiff */; };
 		03BC00BF0DEE32AD009AFC82 /* Icon-Fail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */; };
+		6048463118B61187006E4EDC /* TestOne.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B66505F71D5500D56367 /* TestOne.m */; };
+		6048463218B61187006E4EDC /* TestTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B72405F73A1F00D56367 /* TestTwo.m */; };
+		6048463318B61187006E4EDC /* TestThree.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B72A05F73A3F00D56367 /* TestThree.m */; };
 		6065B7F61896B608002B07D6 /* TestObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6065B7F41896B602002B07D6 /* TestObject.h */; };
 		6065B7F71896B608002B07D6 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6065B7F51896B604002B07D6 /* TestObject.m */; };
 		60A71B6A18B506D60038CE05 /* UKTestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE613E6805F181AE009B020F /* UKTestHandler.m */; };
@@ -872,6 +875,9 @@
 				60E23C2618B514A900CE38D0 /* UKTestLineNumbers.m in Sources */,
 				60E23C2718B514A900CE38D0 /* UKTestFileNames.m in Sources */,
 				60E23C2818B514A900CE38D0 /* UKTestMessages.m in Sources */,
+				6048463118B61187006E4EDC /* TestOne.m in Sources */,
+				6048463218B61187006E4EDC /* TestTwo.m in Sources */,
+				6048463318B61187006E4EDC /* TestThree.m in Sources */,
 				60E23C3418B529EE00CE38D0 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
