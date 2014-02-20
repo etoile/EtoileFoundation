@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D01CFAC1646B2E500917AC8 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D01CFA01646B2BE00917AC8 /* UnitKit.framework */; };
 		60073ECB10074D6A007272E6 /* ETXMLDeclaration.h in Headers */ = {isa = PBXBuildFile; fileRef = 60073EB610074D6A007272E6 /* ETXMLDeclaration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60073ECC10074D6A007272E6 /* ETXMLDeclaration.m in Sources */ = {isa = PBXBuildFile; fileRef = 60073EB710074D6A007272E6 /* ETXMLDeclaration.m */; };
 		60073ECD10074D6A007272E6 /* ETXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 60073EB810074D6A007272E6 /* ETXMLNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -209,6 +208,7 @@
 		6043D3A91753AED7002103CC /* ETUnionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D3A81753AED7002103CC /* ETUnionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6043D3AA1753C20A002103CC /* ETUnionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D3A51753AEC6002103CC /* ETUnionViewpoint.m */; };
 		60455B5F1356FBDA006A7642 /* TestPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 60455B5E1356FBDA006A7642 /* TestPlugInRegistry.m */; };
+		6048467A18B6C0E9006E4EDC /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6048466D18B6C05D006E4EDC /* UnitKit.framework */; };
 		605816D810B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
 		605816D910B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
 		6062DE11114BDD320008B771 /* ETModelDescriptionRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 6062DE10114BDD320008B771 /* ETModelDescriptionRepository.m */; };
@@ -313,47 +313,61 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3D01CF9F1646B2BE00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = UnitKit;
-		};
-		3D01CFA11646B2BE00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AE923B2C05C3B1CE00549058;
-			remoteInfo = ukrun;
-		};
-		3D01CFA31646B2BE00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AE923B3605C3B1DF00549058;
-			remoteInfo = UnitKitTests;
-		};
-		3D01CFA51646B2BE00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AE70B65405F7100400D56367;
-			remoteInfo = TestBundle;
-		};
-		3D01CFA71646B2BE00917AC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AEBED01906AFADB000451E26;
-			remoteInfo = TestFramework;
-		};
 		60235C541360F35B0048DDEB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6072CF681360E144003256C5;
 			remoteInfo = PlugInExample;
+		};
+		6048466C18B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = UnitKit;
+		};
+		6048466E18B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE923B2C05C3B1CE00549058;
+			remoteInfo = ukrun;
+		};
+		6048467018B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE923B3605C3B1DF00549058;
+			remoteInfo = UnitKitTests;
+		};
+		6048467218B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE70B65405F7100400D56367;
+			remoteInfo = TestBundle;
+		};
+		6048467418B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEBED01906AFADB000451E26;
+			remoteInfo = TestFramework;
+		};
+		6048467618B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 60A71B4218B505DA0038CE05;
+			remoteInfo = "UnitKit (iOS)";
+		};
+		6048467818B6C05D006E4EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 60E23C0818B5134100CE38D0;
+			remoteInfo = "TestUnitKit (iOS)";
 		};
 		60D7812310C04D71005F3F75 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -369,7 +383,7 @@
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UnitKit.xcodeproj; path = ../UnitKit/Source/UnitKit.xcodeproj; sourceTree = "<group>"; };
+		3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UnitKit.xcodeproj; path = ../UnitKit/UnitKit.xcodeproj; sourceTree = "<group>"; };
 		60073EAD10074D26007272E6 /* EtoileXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EtoileXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60073EB610074D6A007272E6 /* ETXMLDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETXMLDeclaration.h; path = ../EtoileFoundation/EtoileXML/ETXMLDeclaration.h; sourceTree = SOURCE_ROOT; };
 		60073EB710074D6A007272E6 /* ETXMLDeclaration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETXMLDeclaration.m; path = ../EtoileFoundation/EtoileXML/ETXMLDeclaration.m; sourceTree = SOURCE_ROOT; };
@@ -598,7 +612,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D01CFAC1646B2E500917AC8 /* UnitKit.framework in Frameworks */,
+				6048467A18B6C0E9006E4EDC /* UnitKit.framework in Frameworks */,
 				60190A4313A6232400A0F639 /* Foundation.framework in Frameworks */,
 				60222DC7101CCB9000B2B1C1 /* libssl.dylib in Frameworks */,
 				60222DC6101CCB8D00B2B1C1 /* libcrypto.dylib in Frameworks */,
@@ -667,18 +681,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3D01CF931646B2BE00917AC8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3D01CFA01646B2BE00917AC8 /* UnitKit.framework */,
-				3D01CFA21646B2BE00917AC8 /* ukrun */,
-				3D01CFA41646B2BE00917AC8 /* UnitKitTests.bundle */,
-				3D01CFA61646B2BE00917AC8 /* TestBundle.bundle */,
-				3D01CFA81646B2BE00917AC8 /* TestFramework.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		60073EA310074CF3007272E6 /* EtoileXML */ = {
 			isa = PBXGroup;
 			children = (
@@ -732,6 +734,20 @@
 				6043D3A51753AEC6002103CC /* ETUnionViewpoint.m */,
 			);
 			name = Viewpoints;
+			sourceTree = "<group>";
+		};
+		6048466318B6C05D006E4EDC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6048466D18B6C05D006E4EDC /* UnitKit.framework */,
+				6048466F18B6C05D006E4EDC /* ukrun */,
+				6048467118B6C05D006E4EDC /* UnitKitTests.bundle */,
+				6048467318B6C05D006E4EDC /* TestBundle.bundle */,
+				6048467518B6C05D006E4EDC /* TestFramework.framework */,
+				6048467718B6C05D006E4EDC /* libUnitKit.a */,
+				6048467918B6C05D006E4EDC /* TestUnitKit.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		605D6D4F0CE94218009ED244 /* EtoileFoundation */ = {
@@ -1261,7 +1277,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 3D01CF931646B2BE00917AC8 /* Products */;
+					ProductGroup = 6048466318B6C05D006E4EDC /* Products */;
 					ProjectRef = 3D01CF921646B2BE00917AC8 /* UnitKit.xcodeproj */;
 				},
 			);
@@ -1278,39 +1294,53 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3D01CFA01646B2BE00917AC8 /* UnitKit.framework */ = {
+		6048466D18B6C05D006E4EDC /* UnitKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = UnitKit.framework;
-			remoteRef = 3D01CF9F1646B2BE00917AC8 /* PBXContainerItemProxy */;
+			remoteRef = 6048466C18B6C05D006E4EDC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3D01CFA21646B2BE00917AC8 /* ukrun */ = {
+		6048466F18B6C05D006E4EDC /* ukrun */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = ukrun;
-			remoteRef = 3D01CFA11646B2BE00917AC8 /* PBXContainerItemProxy */;
+			remoteRef = 6048466E18B6C05D006E4EDC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3D01CFA41646B2BE00917AC8 /* UnitKitTests.bundle */ = {
+		6048467118B6C05D006E4EDC /* UnitKitTests.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = UnitKitTests.bundle;
-			remoteRef = 3D01CFA31646B2BE00917AC8 /* PBXContainerItemProxy */;
+			remoteRef = 6048467018B6C05D006E4EDC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3D01CFA61646B2BE00917AC8 /* TestBundle.bundle */ = {
+		6048467318B6C05D006E4EDC /* TestBundle.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = TestBundle.bundle;
-			remoteRef = 3D01CFA51646B2BE00917AC8 /* PBXContainerItemProxy */;
+			remoteRef = 6048467218B6C05D006E4EDC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3D01CFA81646B2BE00917AC8 /* TestFramework.framework */ = {
+		6048467518B6C05D006E4EDC /* TestFramework.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = TestFramework.framework;
-			remoteRef = 3D01CFA71646B2BE00917AC8 /* PBXContainerItemProxy */;
+			remoteRef = 6048467418B6C05D006E4EDC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6048467718B6C05D006E4EDC /* libUnitKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libUnitKit.a;
+			remoteRef = 6048467618B6C05D006E4EDC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6048467918B6C05D006E4EDC /* TestUnitKit.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestUnitKit.app;
+			remoteRef = 6048467818B6C05D006E4EDC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1833,6 +1863,7 @@
 				602E12BA18B3A10F004F171B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		602E13B218B3A837004F171B /* Build configuration list for PBXNativeTarget "PlugInExample (iOS)" */ = {
 			isa = XCConfigurationList;
@@ -1841,6 +1872,7 @@
 				602E13B418B3A837004F171B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		603647B00E409245003377E0 /* Build configuration list for PBXNativeTarget "EtoileFoundation" */ = {
 			isa = XCConfigurationList;
