@@ -7,9 +7,9 @@ Required software
 You need to have the GNUstep core libraries installed in order to
 compile and use UnitKit. The core packages are, at a minimum:
 
-   * gnustep-make
+   * gnustep-make (recent release no older than a year)
 
-   * gnustep-base
+   * gnustep-base (recent release no older than a year)
 
 See <http://www.gnustep.org/> for further information.
 
@@ -24,6 +24,18 @@ Square brackets "[ ]" are used to indicate optional parameters.
    * make
 
    * [sudo [-E]] make install
+
+
+Test suite
+----------
+
+Square brackets "[ ]" are used to indicate optional parameters.
+
+To produce a test bundle and run the test suite:
+
+	make test=yes 
+	
+	ukrun [-q] Source/TestSource/UnitKitTests/UnitKitTestBundle.bundle
 
 
 Trouble
