@@ -26,8 +26,8 @@ Square brackets "[ ]" are used to indicate optional parameters.
    * [sudo [-E]] make install
 
 
-Test suite
-----------
+Test suite (to test UnitKit with itself)
+----------------------------------------
 
 Square brackets "[ ]" are used to indicate optional parameters.
 

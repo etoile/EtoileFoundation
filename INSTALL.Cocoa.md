@@ -21,8 +21,8 @@ To install in /Library/Frameworks, do the build in the shell:
 	sudo xcodebuild -target ukrun -configuration Release clean install
 
 
-Test suite
-----------
+Test suite (to test UnitKit with itself)
+----------------------------------------
 
 For runnings the tests that comes with UnitKit, open UnitKit.xcodeproj and 
 choose TestUnitKit or TestUnitKit (iOS) in the Scheme menu.

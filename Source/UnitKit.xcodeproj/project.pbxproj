@@ -184,6 +184,10 @@
 		03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Icon-Fail.tiff"; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		600CE53109F2474F008BA30D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		6048463418B61E4F006E4EDC /* NEWS.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = NEWS.md; path = ../NEWS.md; sourceTree = "<group>"; };
+		6048463C18B6373A006E4EDC /* INSTALL.Cocoa.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = INSTALL.Cocoa.md; path = ../INSTALL.Cocoa.md; sourceTree = "<group>"; };
+		6048463D18B6373A006E4EDC /* INSTALL.GNUstep.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = INSTALL.GNUstep.md; path = ../INSTALL.GNUstep.md; sourceTree = "<group>"; };
+		6048463E18B6373A006E4EDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		6065B7F41896B602002B07D6 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestObject.h; path = UnitKitTests/TestObject.h; sourceTree = "<group>"; };
 		6065B7F51896B604002B07D6 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestObject.m; path = UnitKitTests/TestObject.m; sourceTree = "<group>"; };
 		60A71B4218B505DA0038CE05 /* libUnitKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnitKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,7 +199,6 @@
 		60E23C0C18B5134100CE38D0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		60E23C3318B529EE00CE38D0 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		60E23C3718B52C0600CE38D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		60FBE0B709FAEA9700F734E1 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ChangeLog; path = ../ChangeLog; sourceTree = SOURCE_ROOT; };
 		8DC2EF5B0486A6940098B216 /* UnitKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnitKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE55498A06C5ACDC005FF2F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		AE613E6705F181AE009B020F /* UKTestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTestHandler.h; sourceTree = "<group>"; usesTabs = 0; };
@@ -225,7 +228,6 @@
 		AE923D8505C3B90100549058 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 0; };
 		AE923D8905C3B9EC00549058 /* UKRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKRunner.h; sourceTree = "<group>"; usesTabs = 0; };
 		AE923D8A05C3B9EC00549058 /* UKRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKRunner.m; sourceTree = "<group>"; usesTabs = 0; };
-		AEA6373D06D16EAE004DF854 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
 		AEBED01906AFADB000451E26 /* TestFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEBED01A06AFADB000451E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestSource/TestFramework/Info.plist; sourceTree = SOURCE_ROOT; };
 		AEBED02706AFAE7800451E26 /* TestClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClass.h; sourceTree = "<group>"; usesTabs = 0; };
@@ -326,8 +328,10 @@
 		0867D691FE84028FC02AAC07 /* UnitKit */ = {
 			isa = PBXGroup;
 			children = (
-				60FBE0B709FAEA9700F734E1 /* ChangeLog */,
-				AEA6373D06D16EAE004DF854 /* README.txt */,
+				6048463E18B6373A006E4EDC /* README.md */,
+				6048463C18B6373A006E4EDC /* INSTALL.Cocoa.md */,
+				6048463D18B6373A006E4EDC /* INSTALL.GNUstep.md */,
+				6048463418B61E4F006E4EDC /* NEWS.md */,
 				AEEB74D006B1BEFD00BE53E8 /* LICENSE */,
 				AEBED16806B0603600451E26 /* NOTICE */,
 				AE923B6D05C3B57600549058 /* UnitKit.h */,
