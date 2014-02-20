@@ -1,5 +1,5 @@
-UnitKit (GNUstep) INSTALL
-=========================
+UnitKit
+=======
 
 Required software
 -----------------
@@ -10,10 +10,6 @@ compile and use UnitKit. The core packages are, at a minimum:
    * gnustep-make
 
    * gnustep-base
-   
-   * gnustep-back (optional)
-   
-   * gnustep-gui (ditto)
 
 See <http://www.gnustep.org/> for further information.
 
