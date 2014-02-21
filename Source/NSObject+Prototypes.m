@@ -47,6 +47,9 @@
 {
 	return object_getPrototype_np(self);
 }
+// FIXME: This alters the behavior for all NSObject subclasses and cause silent 
+// failures in classes such as NSDictionary when an exception is expected.
+#if 0
 - (void)setValue: (id)aValue forUndefinedKey: (NSString*)aKey
 {
 	SEL sel = NSSelectorFromString(aKey);
@@ -73,6 +76,7 @@
 		}
 	}
 }
+#endif
 - (id) slotValueForKey:(NSString *)aKey
 {
 	return objc_getAssociatedObject(self, (void*)sel_getName(NSSelectorFromString(aKey)));
