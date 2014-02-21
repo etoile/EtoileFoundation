@@ -25,5 +25,5 @@ UnitKitDoc_INSTALL_FILES = ../../INSTALL.Cocoa.md ../../INSTALL.GNUstep.md
 UnitKitDoc_NEWS_FILE = ../../NEWS.md
 
 include $(GNUSTEP_MAKEFILES)/framework.make
--include ../../../../etoile.make
--include ../../../../documentation.make
+-include ../../../etoile.make
+-include ../../../documentation.make
