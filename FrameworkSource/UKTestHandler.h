@@ -103,9 +103,9 @@
  * To indicate the context, three hints are supported:
  *
  * <deflist>
- * <item>errExceptionOnInit</item><desc>inside -init on a test object</desc>
- * <item>errExceptionOnRelease</item><desc>inside -dealloc on a test object</desc>
- * <item>a test method name</item><desc>inside a test method</desc>
+ * <term>errExceptionOnInit</term><desc>inside -init on a test object</desc>
+ * <term>errExceptionOnRelease</term><desc>inside -dealloc on a test object</desc>
+ * <term>a test method name</term><desc>inside a test method</desc>
  * </deflist>
  *
  * By default, forwards the message to the delegate if there is one, otherwise
