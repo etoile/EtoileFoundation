@@ -71,7 +71,7 @@
 #define UKIntsNotEqual(a, b) [[UKTestHandler handler] testInt:(a) notEqualTo:(b) inFile:__FILE__ line:__LINE__]
 /**
  * Tests that two primitive floats are equal or almost, this evaluates whether 
- * <code>fabs(a - b) <= d</code> is true.
+ * <code>fabs(a - b) &lt;= d</code> is true.
  *
  * d is the error margin.
  *
@@ -80,7 +80,7 @@
 #define UKFloatsEqual(a, b, d) [[UKTestHandler handler] testFloat:(a) equalTo:(b) delta:(d) inFile:__FILE__ line:__LINE__]
 /**
  * Tests that two primitive floats are not equal, this evaluates whether 
- * <code>fabs(a - b) > d</code> is true. 
+ * <code>fabs(a - b) &gt; d</code> is true. 
  *
  * d is the error margin.
  *
