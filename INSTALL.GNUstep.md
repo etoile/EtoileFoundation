@@ -19,11 +19,11 @@ Build and Install
 
 Square brackets "[ ]" are used to indicate optional parameters.
 
-   Steps to build:
+Steps to build:
 
-   * make
+	make
 
-   * [sudo [-E]] make install
+	[sudo [-E]] make install
 
 
 Test suite (to test UnitKit with itself)

@@ -88,8 +88,8 @@
  */
 #define UKFloatsNotEqual(a, b, d) [[UKTestHandler handler] testFloat:(a) notEqualTo:(b) delta:(d) inFile:__FILE__ line:__LINE__]
 /**
- * Tests macro that a is a subclass of b, this uses -isKindOfClass: behind the 
- * scene. 
+ * Tests macro that a is a subclass of b, this uses -[NSObject isKindOfClass:] 
+ * behind the scene. 
  *
  * Most of the time <code>UKObjectsEqual([a class], [b class])</code> would be 
  * similar, but not always (i.e. NSCFArray/NSArray on Mac OS X). Example:

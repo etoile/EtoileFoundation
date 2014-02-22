@@ -21,6 +21,16 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * For each marked class and each test method in this class (this also includes 
+ * all the inherited test methods up to the superclass that conforms to UKTest), 
+ * UKRunner will create an instance and invoke the test method, then release 
+ * the instance, then create a new instance for the next test method, and so on. 
+ *
+ * The test methods are executed in their alphabetical order.
+ *
+ * A test method is a method prefi with <em>test</em>
+ */
 @interface UKRunner : NSObject
 {
 	@private

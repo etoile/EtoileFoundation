@@ -1,11 +1,14 @@
 UnitKit
 =======
 
-:Maintainer: Quentin Mathe <qmathe@club-internet.fr>
-:Authors: James Duncan Davidson, Nicolas Roard, Quentin Mathe, David Chisnall, 
-Yen-Ju Chen, Christopher Armstrong, Eric Wasylishen
-:License: Apache License 2.0 (see LICENSE document)
-:Version: 1.5
+Maintainer
+: Quentin Mathe <qmathe@club-internet.fr>
+Authors
+: James Duncan Davidson, Nicolas Roard, Quentin Mathe, David Chisnall, Yen-Ju Chen, Christopher Armstrong, Eric Wasylishen
+License
+: Apache License 2.0 (see LICENSE document)
+Version
+: 1.5
 
 UnitKit is a minimalistic unit testing framework that supports Mac OS X, iOS and 
 GNUstep. 
@@ -121,7 +124,7 @@ You need to compile your sources as a bundle. Here is a GNUmakefile example:
 
     BUNDLE_NAME = Test
     Test_OBJC_FILES = # your sources and test classes...
-    Test_OBJC_LIBS = -lUnitKit # you can a tested library or framework
+    Test_OBJC_LIBS = -lUnitKit # you can link a tested library or framework
 
     include $(GNUSTEP_MAKEFILES)/bundle.make
 
