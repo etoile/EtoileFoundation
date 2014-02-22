@@ -146,8 +146,6 @@
 	UKStringsEqual(expected, reportedMessage);
 }
 
-// test ukintsnotequal?
-
 - (void)testUKFloatsEqual
 {
 	float a = 1.0;
@@ -167,93 +165,121 @@
 		[self localizedString: @"msgUKFloatsEqual.fail"], a - 0.1, a + 0.1, b];
 	UKStringsEqual(expected, reportedMessage);
 }
-/*
-- (void) testUKFloatsNotEqual
+
+- (void)testUKFloatsNotEqual
 {
-    UKFloatsNotEqual(1.0, 2.0, 0.1);
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKFloatsNotEqual", reportedMessage);
+    float a = 1.0;
+    float b = 2.0;
+    UKFloatsNotEqual(a, b, 0.1);
+    [handler setDelegate: nil];
+    NSString *expected = [NSString stringWithFormat:
+        [self localizedString: @"msgUKFloatsNotEqual.pass"], a - 0.1, a + 0.1, b];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKFloatsNotEqual_Negative
+- (void)testUKFloatsNotEqual_Negative
 {
     float a = 1.0;
     float b = 1.0;
     UKFloatsNotEqual(a, b, 0.1);
-    [handler setDelegate:nil];
-    NSString *expectedMessage = [NSString stringWithFormat:@"UKFloatsNotEqual failed, %f == %f", a, b];
-    UKStringsEqual(expectedMessage, reportedMessage);
+    [handler setDelegate: nil];
+    NSString *expected = [NSString stringWithFormat:
+        [self localizedString: @"msgUKFloatsNotEqual.fail"], a - 0.1, a + 0.1, b];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKObjectsEqual
+- (void)testUKObjectsEqual
 {
     UKObjectsEqual(self, self);
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKObjectsEqual", reportedMessage);
+    [handler setDelegate: nil];
+    NSString *objDescription = [NSString stringWithFormat: @"\"%@\"", self];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKObjectsEqual.pass"], objDescription, objDescription];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKObjectsEqual_Negative
+- (void)testUKObjectsEqual_Negative
 {
     UKObjectsEqual(self, @"asdf");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKObjectsEqual failed", reportedMessage);
+    [handler setDelegate: nil];
+    NSString *objDescription = [NSString stringWithFormat: @"\"%@\"", self];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKObjectsEqual.fail"], objDescription, @"\"asdf\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKObjectsSame
+- (void)testUKObjectsSame
 {
     UKObjectsSame(self, self);
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKObjectsSame", reportedMessage);
+    [handler setDelegate: nil];
+    NSString *objDescription = [NSString stringWithFormat: @"\"%@\"", self];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKObjectsSame.pass"], objDescription, objDescription];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKObjectsSame_Negative
+- (void)testUKObjectsSame_Negative
 {
     UKObjectsSame(self, @"asdf");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKObjectsSame failed", reportedMessage);
+    [handler setDelegate: nil];
+    NSString *objDescription = [NSString stringWithFormat: @"\"%@\"", self];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKObjectsSame.fail"], objDescription, @"\"asdf\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKStringsEqual
+- (void)testUKStringsEqual
 {
     UKStringsEqual(@"a", @"a");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKStringsEqual", reportedMessage);
+    [handler setDelegate: nil];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKStringsEqual.pass"], @"\"a\"", @"\"a\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKStringsEqual_Negative
+- (void)testUKStringsEqual_Negative
 {
     UKStringsEqual(@"a", @"b");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKStringsEqual failed", reportedMessage);
+    [handler setDelegate: nil];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKStringsEqual.fail"], @"\"a\"", @"\"b\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKStringContains
+- (void)testUKStringContains
 {
     UKStringContains(@"Now is the time", @"the time");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKStringContains", reportedMessage);
+    [handler setDelegate: nil];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKStringContains.pass"], @"\"Now is the time\"", @"\"the time\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKStringContains_Negative
+- (void)testUKStringContains_Negative
 {
     UKStringContains(@"asdf", @"zzzzz");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKStringContains failed", reportedMessage);
+    [handler setDelegate: nil];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKStringContains.fail"], @"\"asdf\"", @"\"zzzzz\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKStringDoesNotContain
+- (void)testUKStringDoesNotContain
 {
     UKStringDoesNotContain(@"asdf", @"zzzzz");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKStringDoesNotContain", reportedMessage);
+    [handler setDelegate: nil];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKStringDoesNotContain.pass"], @"\"asdf\"", @"\"zzzzz\""];
+    UKStringsEqual(expected, reportedMessage);
 }
 
-- (void) testUKStringDoesNotContain_Negative
+- (void)testUKStringDoesNotContain_Negative
 {
     UKStringDoesNotContain(@"Now is the time", @"the time");
-    [handler setDelegate:nil];
-    UKStringsEqual(@"UKStringDoesNotContain failed", reportedMessage);
+    [handler setDelegate: nil];
+	NSString *expected = [NSString stringWithFormat:
+		[self localizedString: @"msgUKStringDoesNotContain.fail"], @"\"Now is the time\"", @"\"the time\""];
+    UKStringsEqual(expected, reportedMessage);
 }
-*/
 
 @end
