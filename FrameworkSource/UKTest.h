@@ -31,7 +31,6 @@
  * prevent the a test class to be picked up.
  */
 @protocol UKTest
-
 @end
 
 /**
@@ -150,31 +149,31 @@
  * Tests that b is not a substring of a, this uses -[NSString rangeOfString:].
  */
 #define UKStringDoesNotContain(a, b) [[UKTestHandler handler] testString:(a) doesNotContain:(b) inFile:__FILE__ line:__LINE__]
+/** Tests that the code piece raises an exception.
 
-/*
- Exception testing macros contributed by Michael Milvich
- 
- The exception testing macros get a bit more involved than all the other ones
- we have here because of the need for embedding the try-catch in the generated
- code. In addition, the statements are wrapped in a do{...}while(NO) block so
- that the generated code is sane even if the macro appears in a context like:
- 
+The exception testing macros get a bit more involved than all the other ones 
+we have here because of the need for embedding the try-catch in the generated 
+code. In addition, the statements are wrapped in a do{...}while(NO) block so 
+that the generated code is sane even if the macro appears in a context like: 
+
+<example>
  if (someFlag)
     UKRaisesException(someExpression)
  else
     UKRaisesException(someOtherExpression)
- 
- I would have never guessed this as I don't write if/else blocks without 
- braces, but Michael had the 411 on this when he wrote them.
-
- */
-
+</example> */
 #define UKRaisesException(a) do{id p_exp = nil; @try { a; } @catch(id exp) { p_exp = exp; } [[UKTestHandler handler] raisesException:p_exp inFile:__FILE__ line:__LINE__]; } while(NO)
+/** Tests that the code piece raises no exception.
 
+See also UKRaisesException(). */
 #define UKDoesNotRaiseException(a) do{id p_exp = nil; @try { a; } @catch(id exp) { p_exp = exp; } [[UKTestHandler handler] doesNotRaisesException:p_exp inFile:__FILE__ line:__LINE__]; } while(NO)
+/** Tests that the code piece raises an exception of the name b.
 
+See also -[NSException name]. */
 #define UKRaisesExceptionNamed(a, b) do{ id p_exp = nil; @try{ a; } @catch(id exp) { p_exp = exp;}[[UKTestHandler handler] raisesException:p_exp named:b inFile:__FILE__ line:__LINE__]; } while(NO)
+/** Tests that the code piece raises an exception of the class name b.
 
+See NSException. */
 #define UKRaisesExceptionClass(a, b) do{ id p_exp = nil; @try{ a; } @catch(id exp) { p_exp = exp;}[[UKTestHandler handler] raisesException:p_exp class:[b class] inFile:__FILE__ line:__LINE__]; } while(NO)
 
 /** Informal protocol for initializing and releasing objects that conform to 
