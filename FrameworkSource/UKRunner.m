@@ -285,14 +285,7 @@
 
 	@try
 	{
-		if ([object respondsToSelector: @selector(initForTest)])
-		{
-			object = [object initForTest];
-		}
-		else if ([object respondsToSelector: @selector(init)])
-		{
-			object = [object init];
-		}
+		object = [object init];
 	}
 	@catch (NSException *exception)
 	{
@@ -309,14 +302,7 @@
 {
 	@try
 	{
-		if ([object respondsToSelector: @selector(releaseForTest)])
-		{
-			[object releaseForTest];
-		}
-		else if ([object respondsToSelector: @selector(release)])
-		{
-			[object release];
-		}
+		[object release];
 		object = nil;
 	}
 	@catch (NSException *exception)

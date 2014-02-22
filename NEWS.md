@@ -15,6 +15,7 @@ UnitKit NEWS
 - Updated Xcode support
 - Added new Xcode file and project templates for Xcode 4 and higher
 - Removed dependency on AppKit and Growl notification support (nobody used it)
+- Removed -initForTest and -releasedForTest (proved to be a bad idea)
 
 1.3 (Etoile 0.4)
 ----------------
