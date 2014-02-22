@@ -26,8 +26,8 @@
 #include <objc/runtime.h>
 
 @interface NSObject (Application)
-+ (id) sharedApplication;
-- (void) setUp;
++ (id)sharedApplication;
+- (void)setUp;
 @end
 
 
@@ -35,26 +35,28 @@
 
 #pragma mark - Localization Support
 
-+ (NSString *) localizedString:(NSString *)key
++ (NSString *)localizedString: (NSString *)key
 {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    return NSLocalizedStringFromTableInBundle(key, @"UKRunner", 
-                                              bundle, @"");
+	NSBundle *bundle = [NSBundle bundleForClass: [self class]];
+	return NSLocalizedStringFromTableInBundle(key, @"UKRunner", bundle, @"");
 }
 
-+ (NSString *) displayStringForException:(id)exc
++ (NSString *)displayStringForException: (id)exc
 {
-    if ([exc isKindOfClass:[NSException class]]) {
-        return [NSString stringWithFormat:@"NSException: %@ %@", [exc name],
-            [exc reason]];
-    } else {
-        return NSStringFromClass([exc class]);
-    }
+	if ([exc isKindOfClass: [NSException class]])
+	{
+		return [NSString stringWithFormat: @"NSException: %@ %@",
+		                                   [exc name], [exc reason]];
+	}
+	else
+	{
+		return NSStringFromClass([exc class]);
+	}
 }
 
 #pragma mark - Initialization
 
-- (id) init
+- (id)init
 {
 	self = [super init];
 	if (self == nil)
@@ -64,7 +66,7 @@
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[setUpClasses release];
 	[super dealloc];
@@ -72,25 +74,25 @@
 
 #pragma mark - Loading Test Bundles
 
-- (id) loadBundleAtPath: (NSString *)bundlePath
+- (id)loadBundleAtPath: (NSString *)bundlePath
 {
-    NSBundle *testBundle = [NSBundle bundleWithPath: bundlePath];
-	
+	NSBundle *testBundle = [NSBundle bundleWithPath: bundlePath];
+
 	if (testBundle == nil)
 	{
 		NSLog(@"\n == Test bundle '%@' could not be found ==\n", [bundlePath lastPathComponent]);
-		return nil; 
+		return nil;
 	}
 
-    if ([[bundlePath pathExtension] isEqual: @"bundle"] == NO)
-    {
- 		NSLog(@"\n == Directory '%@' is not a test bundle ==\n", [bundlePath lastPathComponent]);
-    }
+	if (![[bundlePath pathExtension] isEqual: @"bundle"])
+	{
+		NSLog(@"\n == Directory '%@' is not a test bundle ==\n", [bundlePath lastPathComponent]);
+	}
 
-    NSError *error = nil;
+	NSError *error = nil;
 
-    /* For Mac OS X (10.8), the test bundle info.plist must declare a principal 
-       class, to prevent +load from instantiating NSApp (see -setUpAppObjectIfNeededForBundle:). */
+	/* For Mac OS X (10.8), the test bundle info.plist must declare a principal
+	   class, to prevent +load from instantiating NSApp (see -setUpAppObjectIfNeededForBundle:). */
 #ifdef GNUSTEP
     if (![testBundle load])
 #else
@@ -98,25 +100,26 @@
 #endif
 	{
 		NSLog(@"\n == Test bundle could not be loaded: %@ ==\n", [error description]);
-		return nil;            
+		return nil;
 	}
 	return testBundle;
 }
 
-- (NSArray *) bundlePathsInCurrentDirectory: (NSString *)cwd
+- (NSArray *)bundlePathsInCurrentDirectory: (NSString *)cwd
 {
 	NSMutableArray *bundlePaths = [NSMutableArray array];
-	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: cwd error: NULL];
+	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: cwd
+	                                                                     error: NULL];
 
 	for (NSString *file in files)
 	{
 		BOOL isDir = NO;
-		if ([[NSFileManager defaultManager] fileExistsAtPath: file isDirectory: &isDir] && isDir)
+		if ([[NSFileManager defaultManager] fileExistsAtPath: file
+		                                         isDirectory: &isDir] && isDir)
 		{
 			int len = [file length];
-	
-			if (len > 8 
-			 && [[file substringFromIndex: (len - 6)] isEqualToString: @"bundle"])
+
+			if (len > 8 && [[file substringFromIndex: (len - 6)] isEqualToString: @"bundle"])
 			{
 				[bundlePaths addObject: file];
 			}
@@ -132,15 +135,15 @@
 	return @"1.3";
 }
 
-+ (int) runTests
++ (int)runTests
 {
 	NSLog(@"ukrun version %@ (Etoile)", [self ukrunVersion]);
 
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
-    UKRunner *runner = [[UKRunner alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
+	UKRunner *runner = [[UKRunner alloc] init];
 
-    //NSLog(@"cwd: %@\n", cwd);
+	//NSLog(@"cwd: %@\n", cwd);
 
 	NSArray *bundleDicts = [runner parseArgumentsWithCurrentDirectory: cwd];
 
@@ -152,9 +155,10 @@
 	else if ([bundleDicts count] == 0) // If no bundles are specified, then just run every bundle in this folder
 	{
 		NSArray *bundlePathsInCWD = [runner bundlePathsInCurrentDirectory: cwd];
+
 		for (NSString *bundlePath in bundlePathsInCWD)
 		{
-			[(NSMutableArray*)bundleDicts addObject: 
+			[(NSMutableArray *) bundleDicts addObject:
 				[NSDictionary dictionaryWithObject: bundlePath forKey: @"Bundle"]];
 		}
 	}
@@ -162,23 +166,24 @@
 	for (NSDictionary *bundleDict in bundleDicts)
 	{
 		NSString *testBundle = [bundleDict objectForKey: @"Bundle"];
-    		NSArray *testClasses = [bundleDict objectForKey: @"Classes"];	
+		NSArray *testClasses = [bundleDict objectForKey: @"Classes"];
+
 		[runner runTests: testClasses
-		  inBundleAtPath: testBundle 
+		  inBundleAtPath: testBundle
 		currentDirectory: cwd];
 	}
-	
+
 	int result = [runner reportTestResults];
 
-    [runner release];
-    [pool release];
+	[runner release];
+	[pool release];
 
 	return result;
 }
 
-- (NSArray *) parseArgumentsWithCurrentDirectory: (NSString *)cwd
+- (NSArray *)parseArgumentsWithCurrentDirectory: (NSString *)cwd
 {
-    NSArray *args = [[NSProcessInfo processInfo] arguments];
+	NSArray *args = [[NSProcessInfo processInfo] arguments];
 	NSMutableArray *bundlePaths = [NSMutableArray array];
 	BOOL noOptions = ([args count] <= 1);
 
@@ -190,6 +195,7 @@
 	for (int i = 1; i < [args count]; i++)
 	{
 		NSString *arg = [args objectAtIndex: i];
+
 		if ([arg isEqualToString: @"-q"])
 		{
 			[[UKTestHandler handler] setQuiet: YES];
@@ -202,6 +208,7 @@
 				return nil;
 			}
 			arg = [args objectAtIndex: i];
+
 			NSArray *testClasses = [arg componentsSeparatedByString: @","];
 			[testBundleDict setObject: testClasses forKey: @"Classes"];
 		}
@@ -215,9 +222,9 @@
 	return bundlePaths;
 }
 
-- (void) runTests: (NSArray*)testClasses
-   inBundleAtPath: (NSString *)bundlePath
- currentDirectory: (NSString *)cwd
+- (void)runTests: (NSArray *)testClasses
+  inBundleAtPath: (NSString *)bundlePath
+currentDirectory: (NSString *)cwd
 {
 	bundlePath = [bundlePath stringByExpandingTildeInPath];
 
@@ -234,38 +241,42 @@
 
 	if (testBundle != nil)
 	{
-		[self runTests: testClasses inBundle: testBundle principalClass: [testBundle principalClass]];
+		[self runTests: testClasses
+		      inBundle: testBundle
+		principalClass: [testBundle principalClass]];
 	}
 	[pool release];
 }
 
 #pragma mark - Running Tests
 
-- (void) internalRunTest: (NSTimer*)timer
+- (void)internalRunTest: (NSTimer *)timer
 {
-	NSDictionary* testParameters = [timer userInfo];
+	NSDictionary *testParameters = [timer userInfo];
 	SEL testSel = NSSelectorFromString([testParameters objectForKey: @"TestSelector"]);
-	id testObject = [testParameters objectForKey: @"TestObject"]; 
+	id testObject = [testParameters objectForKey: @"TestObject"];
 
-    [testObject performSelector: testSel];
+	[testObject performSelector: testSel];
 }
-- (void) runTest: (SEL)testSelector onObject: (id)testObject class: (Class)testClass
+
+- (void)runTest: (SEL)testSelector onObject: (id)testObject class: (Class)testClass
 {
 	NSLog(@"=== [%@ %@] ===", [testObject class], NSStringFromSelector(testSelector));
 
 	NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-	NSDictionary *testParams = [NSDictionary dictionaryWithObjectsAndKeys: testObject, @"TestObject", 
+	NSDictionary *testParams = [NSDictionary dictionaryWithObjectsAndKeys:
+		testObject, @"TestObject",
 		NSStringFromSelector(testSelector), @"TestSelector",
-		testClass, @"TestClass", nil];
-	NSTimer *runTimer = [NSTimer
-		scheduledTimerWithTimeInterval: 0
-		                        target: self
-		                      selector: @selector(internalRunTest:)
-		                      userInfo: testParams
-		                       repeats: NO];
+	 	testClass, @"TestClass", nil];
+	NSTimer *runTimer = [NSTimer scheduledTimerWithTimeInterval: 0
+	                                                     target: self
+	                                                   selector: @selector(internalRunTest:)
+	                                                   userInfo: testParams
+	                                                    repeats: NO];
 
 	[runTimer retain];
-	while ([runTimer isValid] == YES)
+
+	while ([runTimer isValid])
 	{
 		// NOTE: nil, [NSDate date], time intervals such as 0, 0.0000001 or
 		// LDBL_EPSILON don't work on GNUstep
@@ -276,6 +287,7 @@
 #endif
 		[runLoop runUntilDate: [NSDate dateWithTimeIntervalSinceNow: interval]];
 	}
+
 	[runTimer release];
 }
 
@@ -291,7 +303,7 @@
 	{
 		[[UKTestHandler handler] reportException: exception
 		                                 inClass: testClass
-		                                    hint: @"errExceptionOnInit"];
+			                                hint: @"errExceptionOnInit"];
 		return nil;
 	}
 
@@ -309,7 +321,7 @@
 	{
 		[[UKTestHandler handler] reportException: exception
 		                                 inClass: [object class]
-		                                    hint: @"errExceptionOnRelease"];
+			                                hint: @"errExceptionOnRelease"];
 	}
 }
 
@@ -321,97 +333,100 @@
  @abstract Runs a set of tests on the given object (either an instance or a class)
  @discussion This method takes an object and a list of methods that should be executed on it. For each method in the list, the test object will be initialized by -initForTest when implemented or -init as a fallback and the method called on it. If there is a problem with the initialization, or in the release of that object instance, an error will be reported and all test execution on the object will end. If there is an error while running the test method, an error will be reported and execution will move on to the next method.
  */
-- (void) runTests:(NSArray *)testMethods onInstance: (BOOL)instance ofClass:(Class)testClass
+- (void)runTests: (NSArray *)testMethods onInstance: (BOOL)instance ofClass: (Class)testClass
 {
-    for (NSString *testMethodName in testMethods)
-    {
-        testMethodsRun++;
+	for (NSString *testMethodName in testMethods)
+	{
+		testMethodsRun++;
 
-        @autoreleasepool
-        {
-            id object = nil;
-            
-            // Create the object to test
-            
-            if (instance)
-            {
+		@autoreleasepool
+		{
+			id object = nil;
+
+			// Create the object to test
+
+			if (instance)
+			{
 				object = [self newTestObjectOfClass: testClass];
 
 				// N.B.: If -init throws an exception or returns nil, we don't attempt to run any
 				// more methods on this class
 				if (object == nil)
 					return;
-            }
-            else
-            {
-                object = testClass;
-            }
+			}
+			else
+			{
+				object = testClass;
+			}
 
-            // Run the test method
-            
-            @try
-            {
-                SEL testSel = NSSelectorFromString(testMethodName);
-                
-                /* This pool makes easier to separate autorelease issues between:
-                 - test method
-                 - test object configuration due to -init and -dealloc
-                 
-                 For testing CoreObject, this also ensures all autoreleased
-                 objects in relation to a db are deallocated before closing the
-                 db connection in -dealloc (see TestCommon.h in CoreObject for details) */
-                @autoreleasepool
-                {
-                    [self runTest: testSel onObject: object class: testClass];
-                }
-            }
-            @catch (NSException *exception)
-            {
-                [[UKTestHandler handler] reportException: exception
+			// Run the test method
+
+			@try
+			{
+				SEL testSel = NSSelectorFromString(testMethodName);
+
+				/* This pool makes easier to separate autorelease issues between:
+				 - test method
+				 - test object configuration due to -init and -dealloc
+
+				 For testing CoreObject, this also ensures all autoreleased
+				 objects in relation to a db are deallocated before closing the
+				 db connection in -dealloc (see TestCommon.h in CoreObject for details) */
+				@autoreleasepool
+				{
+					[self runTest: testSel onObject: object class: testClass];
+				}
+			}
+			@catch (NSException *exception)
+			{
+				[[UKTestHandler handler] reportException: exception
 				                                 inClass: testClass
-				                                    hint: testMethodName];
-            }
+					                                hint: testMethodName];
+			}
 
-            // Release the object
+			// Release the object
 
-            if (instance)
-            {
+			if (instance)
+			{
 				[self releaseTestObject: object];
-            }
-        }
-    }
+			}
+		}
+	}
 }
 
-- (void) runTestsInClass:(Class)testClass
+- (void)runTestsInClass: (Class)testClass
 {
-    testClassesRun++;
+	testClassesRun++;
 
-    NSArray *testMethods = nil;
+	NSArray *testMethods = nil;
 
-    /* Test class methods */
+	/* Test class methods */
 
 	if (testClass != nil)
+	{
 		testMethods = UKTestMethodNamesFromClass(objc_getMetaClass(class_getName(testClass)));
-    
-    [self runTests:testMethods onInstance: NO ofClass: testClass];
-    /* Test instance methods */
-    testMethods = UKTestMethodNamesFromClass(testClass);
-    [self runTests:testMethods onInstance: YES ofClass: testClass];
+	}
+	[self runTests: testMethods onInstance: NO ofClass: testClass];
+
+	/* Test instance methods */
+
+	testMethods = UKTestMethodNamesFromClass(testClass);
+	[self runTests: testMethods onInstance: YES ofClass: testClass];
 }
 
-- (void) runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
+- (void)runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
 {
-    [self runTests: nil inBundle: bundle principalClass: principalClass];
+	[self runTests: nil inBundle: bundle principalClass: principalClass];
 }
 
-- (void) runTests: (NSArray*)testedClasses
-         inBundle: (NSBundle*)bundle
-   principalClass: (Class)principalClass
+- (void)runTests: (NSArray *)testedClasses
+        inBundle: (NSBundle *)bundle
+  principalClass: (Class)principalClass
 {
-    if ([principalClass respondsToSelector: @selector(willRunTestSuite)])
-    {
-        [principalClass willRunTestSuite];
-    }
+	if ([principalClass respondsToSelector: @selector(willRunTestSuite)])
+	{
+		[principalClass willRunTestSuite];
+	}
 
 	// NOTE: First we must create the app object, because on Mac OS X in
 	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes
@@ -419,51 +434,51 @@
 	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication.
 	// When no app object is available yet, an NSApplication instance will be
 	// created rather than the subclass instance we might want.
-    BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
+	BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
 
 	/* In addition, -setUp is also sent to the principal class */
 	Class setUpClass = (principalClass != nil ? principalClass : [bundle principalClass]);
-	BOOL setUpCalled = (setUpCalledOnAppObject 
+	BOOL setUpCalled = (setUpCalledOnAppObject
 		&& [principalClass isKindOfClass: NSClassFromString(@"NSApplication")]
-		&& [setUpClasses containsObject: setUpClass] == NO );
+		&& ![setUpClasses containsObject: setUpClass]);
 
-	if (setUpCalled == NO && [setUpClass respondsToSelector: @selector(setUp)])
+	if (!setUpCalled && [setUpClass respondsToSelector: @selector(setUp)])
 	{
 		[setUpClass setUp];
 		[setUpClasses addObject: setUpClass];
 	}
 
-    NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
-    NSString *classRegex = [[NSUserDefaults standardUserDefaults] valueForKey: @"classRegex"];
-    
+	NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
+	NSString *classRegex = [[NSUserDefaults standardUserDefaults] valueForKey: @"classRegex"];
+
 	for (NSString *testClassName in testClasses)
 	{
-        if (classRegex == nil
-            || [testClassName rangeOfString: classRegex options: NSRegularExpressionSearch].location != NSNotFound)
-        {
-            [self runTestsInClass: NSClassFromString(testClassName)];
-        }
+		if (classRegex == nil
+		  || [testClassName rangeOfString: classRegex options: NSRegularExpressionSearch].location != NSNotFound)
+		{
+			[self runTestsInClass: NSClassFromString(testClassName)];
+		}
 	}
 
-    if ([principalClass respondsToSelector: @selector(didRunTestSuite)])
-    {
-        [principalClass didRunTestSuite];
-    }
+	if ([principalClass respondsToSelector: @selector(didRunTestSuite)])
+	{
+		[principalClass didRunTestSuite];
+	}
 }
 
 #pragma mark - Reporting Test Results
 
-- (int) reportTestResults
+- (int)reportTestResults
 {
-    int testsPassed = [[UKTestHandler handler] testsPassed];
-    int testsFailed = [[UKTestHandler handler] testsFailed];
+	int testsPassed = [[UKTestHandler handler] testsPassed];
+	int testsFailed = [[UKTestHandler handler] testsFailed];
 	int exceptionsReported = [[UKTestHandler handler] exceptionsReported];
 
-    // TODO: May be be extract in -testResultSummary
-    NSLog(@"Result: %i classes, %i methods, %i tests, %i failed, %i exceptions",
-		testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
+	// TODO: May be be extract in -testResultSummary
+	NSLog(@"Result: %i classes, %i methods, %i tests, %i failed, %i exceptions",
+	  testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
 
-    return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
+	return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
 }
 
 #pragma mark - Application Testing Support
@@ -477,7 +492,7 @@
    - ETApplication 
    - NSApplication
 */
-- (BOOL) setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
+- (BOOL)setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
 {
 	Class appClass = NSClassFromString(@"NSApplication");
 	Class etAppClass = NSClassFromString(@"ETApplication");
@@ -495,15 +510,17 @@
 
 	/* Use NSApplication subclass if declared as the bundle principal class */
 	if ([principalClass isKindOfClass: appClass])
+	{
 		appClass = principalClass;
+	}
 
 	id app = [appClass sharedApplication];
-    NSAssert([app isKindOfClass: appClass], @"+sharedApplication returns an app "
-        "object of the wrong kind, this usually means +sharedApplication has "
-        "been sent before. For Mac OS X, the test bundle info.plist must declare "
-        "a principal class to ensure loading the bundle won't instantiate NSApp.");
+	NSAssert([app isKindOfClass: appClass], @"+sharedApplication returns an app "
+	 	"object of the wrong kind, this usually means +sharedApplication has "
+		"been sent before. For Mac OS X, the test bundle info.plist must declare "
+		"a principal class to ensure loading the bundle won't instantiate NSApp.");
 
-	if ([app respondsToSelector: @selector(setUp)] && [setUpClasses containsObject: appClass] == NO)
+	if ([app respondsToSelector: @selector(setUp)] && ![setUpClasses containsObject: appClass])
 	{
 		[app setUp];
 		[setUpClasses addObject: appClass];
@@ -519,7 +536,7 @@ BOOL UKTestClassConformsToProtocol(Class aClass)
 	Class class = aClass;
 	BOOL isTestClass = NO;
 
-	while (class != Nil && isTestClass == NO)
+	while (class != Nil && !isTestClass)
 	{
 		isTestClass = class_conformsToProtocol(class, @protocol(UKTest));
 		class = class_getSuperclass(class);
@@ -560,28 +577,27 @@ NSArray *UKTestClasseNamesFromBundle(NSBundle *bundle)
 
 NSArray *UKTestMethodNamesFromClass(Class sourceClass)
 {
-    NSMutableArray *testMethods = [NSMutableArray array];
-    
-    for (Class c = sourceClass; c != Nil; c = class_getSuperclass(c))
-    {
-        unsigned int methodCount = 0;
-        Method *methodList = class_copyMethodList(c, &methodCount);
-        Method method = NULL;
+	NSMutableArray *testMethods = [NSMutableArray array];
 
-        for (int i = 0; i < methodCount; i++)
-        {
-            method = methodList[i];
-            SEL sel = method_getName(method);
-            NSString *methodName = NSStringFromSelector(sel);
-        
-            if ([methodName hasPrefix: @"test"])
-            {
-                [testMethods addObject: methodName];
-            }
-        }
-        free(methodList);
-    }
-    
-    return [testMethods 
-        sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	for (Class c = sourceClass; c != Nil; c = class_getSuperclass(c))
+	{
+		unsigned int methodCount = 0;
+		Method *methodList = class_copyMethodList(c, &methodCount);
+		Method method = NULL;
+
+		for (int i = 0; i < methodCount; i++)
+		{
+			method = methodList[i];
+			SEL sel = method_getName(method);
+			NSString *methodName = NSStringFromSelector(sel);
+
+			if ([methodName hasPrefix: @"test"])
+			{
+				[testMethods addObject: methodName];
+			}
+		}
+		free(methodList);
+	}
+
+	return [testMethods sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
 }
