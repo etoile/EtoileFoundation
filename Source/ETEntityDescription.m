@@ -68,6 +68,12 @@
 	[super dealloc];
 }
 
+- (void) clearCaches
+{
+	DESTROY(_cachedAllPropertyDescriptions);
+	DESTROY(_cachedAllPropertyDescriptionNames);
+}
+
 + (ETEntityDescription *) newEntityDescription
 {
 	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
@@ -120,7 +126,7 @@
 
 - (BOOL) isRoot
 {
-	return [self parent] == nil;
+	return _parent == nil;
 }
 
 - (NSArray *) propertyDescriptionNames
@@ -131,7 +137,12 @@
 - (NSArray *) allPropertyDescriptionNames
 {
 	//NSLog(@"Called -allPropertyDescriptionNames %@ on %@", (id)[[[self allPropertyDescriptions] mappedCollection] name], self);
-	return (id)[[[self allPropertyDescriptions] mappedCollection] name];
+
+	if (_cachedAllPropertyDescriptionNames == nil)
+	{
+		ASSIGN(_cachedAllPropertyDescriptionNames, (id)[[[self allPropertyDescriptions] mappedCollection] name]);
+	}
+	return _cachedAllPropertyDescriptionNames;
 }
 
 - (NSArray *) propertyDescriptions
@@ -142,7 +153,7 @@
 - (void) setPropertyDescriptions: (NSArray *)propertyDescriptions
 {
 	[self checkNotFrozen];
-	DESTROY(_cachedAllPropertyDescriptions);
+	[self clearCaches];
 	
 	FOREACH([self propertyDescriptions], oldProperty, ETPropertyDescription *)
 	{
@@ -161,7 +172,7 @@
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
 	[self checkNotFrozen];
-	DESTROY(_cachedAllPropertyDescriptions);
+	[self clearCaches];
 	
 	ETEntityDescription *owner = [propertyDescription owner];
 
@@ -177,7 +188,7 @@
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
 	[self checkNotFrozen];
-	DESTROY(_cachedAllPropertyDescriptions);
+	[self clearCaches];
 	
 	[propertyDescription setOwner: nil];
 	[_propertyDescriptions removeObjectForKey: [propertyDescription name]];
@@ -203,6 +214,12 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 
 	do
 	{
+		// FIXME: This is wrong. Will fail if parent is modified, recached, and
+		// then the child cache is accessed.
+		//
+		// When we modify a property description,
+		// we actually need to search the editing contexts for all descendents
+		// and clear their caches.
 		isValid = (entity->_cachedAllPropertyDescriptions != nil);
 		entity = entity->_parent;
 	}
@@ -238,7 +255,7 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 		return;
 	}
 
-	DESTROY(_cachedAllPropertyDescriptions);
+	[self clearCaches];
 	ASSIGN(_parent, parentDescription);
 }
 

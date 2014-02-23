@@ -19,7 +19,6 @@
 	@private
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;
-	NSArray *_cachedAllPropertyDescriptions;
 	ETEntityDescription *_parent;
 	ETPackageDescription *_owner;
 	NSString *_parentName;
@@ -27,6 +26,9 @@
 	NSString *_localizedDescription;
 	NSArray *_UIBuilderPropertyNames;
 	NSString *_diffAlgorithm;
+	
+	NSArray *_cachedAllPropertyDescriptions;
+	NSArray *_cachedAllPropertyDescriptionNames;	
 }
 
 
