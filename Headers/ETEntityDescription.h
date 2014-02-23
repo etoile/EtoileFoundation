@@ -20,6 +20,7 @@
 	BOOL _abstract;
 	NSMutableDictionary *_propertyDescriptions;
 	ETEntityDescription *_parent;
+	NSPointerArray *_children;
 	ETPackageDescription *_owner;
 	NSString *_parentName;
 	NSString *_ownerName;

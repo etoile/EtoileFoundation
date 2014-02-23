@@ -51,16 +51,43 @@
 	_abstract = NO;
 	_propertyDescriptions = [[NSMutableDictionary alloc] init];
 	_parent = nil;
+	_children = [[NSPointerArray alloc] initWithOptions: NSPointerFunctionsObjectPointerPersonality | NSPointerFunctionsOpaqueMemory];
 	ASSIGNCOPY(_localizedDescription, name);
 	_UIBuilderPropertyNames = [NSArray new];
 	return self;
 }
 
+- (void) removeFromParentChildrenArray
+{
+	if (_parent != nil)
+	{
+		const NSUInteger count = [_parent->_children count];
+		for (NSUInteger i = 0; i < count; i++)
+		{
+			if ([_parent->_children pointerAtIndex: i] == self)
+			{
+				[_parent->_children removePointerAtIndex: i];
+				break;
+			}
+		}
+	}
+}
+
+- (void) addToParentChildrenArray
+{
+	if (_parent != nil)
+	{
+		[_parent->_children addPointer: self];
+	}
+}
+
 - (void) dealloc
 {
+	[self removeFromParentChildrenArray];
 	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_propertyDescriptions);
 	DESTROY(_parent);
+	DESTROY(_children);
 	DESTROY(_parentName);
 	DESTROY(_ownerName);
 	DESTROY(_localizedDescription);
@@ -72,6 +99,11 @@
 {
 	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_cachedAllPropertyDescriptionNames);
+	
+	for (ETEntityDescription *child in _children)
+	{
+		[child clearCaches];
+	}
 }
 
 + (ETEntityDescription *) newEntityDescription
@@ -207,30 +239,9 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 	ASSIGN(entity->_cachedAllPropertyDescriptions, [allPropertyDescriptions allValues]);
 }
 
-static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *subentity)
-{
-	ETEntityDescription *entity = subentity;
-	BOOL isValid = NO;
-
-	do
-	{
-		// FIXME: This is wrong. Will fail if parent is modified, recached, and
-		// then the child cache is accessed.
-		//
-		// When we modify a property description,
-		// we actually need to search the editing contexts for all descendents
-		// and clear their caches.
-		isValid = (entity->_cachedAllPropertyDescriptions != nil);
-		entity = entity->_parent;
-	}
-	while (isValid && entity != nil);
-
-	return (isValid == NO);
-}
-
 - (NSArray *) allPropertyDescriptions
 {
-	if (NeedsRecacheAllPropertyDescriptions(self))
+	if (_cachedAllPropertyDescriptions == nil)
 	{
 		NSMutableDictionary *allPropertyDescriptions = [NSMutableDictionary dictionary];
 		CacheAllPropertyDescriptionsRecursive(self, allPropertyDescriptions);
@@ -256,7 +267,9 @@ static inline BOOL NeedsRecacheAllPropertyDescriptions(ETEntityDescription *sube
 	}
 
 	[self clearCaches];
+	[self removeFromParentChildrenArray];
 	ASSIGN(_parent, parentDescription);
+	[self addToParentChildrenArray];
 }
 
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc

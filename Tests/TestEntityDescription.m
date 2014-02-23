@@ -299,11 +299,17 @@
 	UKObjectsEqual(S(title, authors), SA([book allPropertyDescriptions]));
 
 	ETEntityDescription *root = [ETEntityDescription descriptionWithName: @"root"];
-	ETPropertyDescription *identity = [ETPropertyDescription descriptionWithName: @"identity"];
-	[root addPropertyDescription: identity];
-
 	[other setParent: root];
 
+	UKObjectsEqual(S(), SA([root allPropertyDescriptions]));
+	UKObjectsEqual(S(title), SA([other allPropertyDescriptions]));
+	UKObjectsEqual(S(title, authors), SA([book allPropertyDescriptions]));
+	
+	ETPropertyDescription *identity = [ETPropertyDescription descriptionWithName: @"identity"];
+	[root addPropertyDescription: identity];
+	
+	UKObjectsEqual(S(identity), SA([root allPropertyDescriptions]));
+	UKObjectsEqual(S(identity, title), SA([other allPropertyDescriptions]));
 	UKObjectsEqual(S(identity, title, authors), SA([book allPropertyDescriptions]));
 }
 
