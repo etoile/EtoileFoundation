@@ -10,6 +10,8 @@ License
 Version
 : 0.5
 
+[![Build Status](https://travis-ci.org/etoile/EtoileFoundation.png?branch=master)](https://travis-ci.org/etoile/EtoileFoundation)
+
 EtoileFoundation is the core framework for all Etoile projects, providing numerous convenience methods on top of the OpenStep foundation and significantly better support for reflection. Here is a summary of some the interesting features:
 
 - mirror-based reflection

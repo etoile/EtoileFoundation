@@ -429,7 +429,7 @@
 		602E13A918B3A836004F171B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		602E13B618B3AAB1004F171B /* INSTALL */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL; sourceTree = "<group>"; };
 		602E13B718B3AAB2004F171B /* NEWS */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS; sourceTree = "<group>"; };
-		602E13B818B3AAB5004F171B /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		602E13B818B3AAB5004F171B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		602E13B918B3AAB7004F171B /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		603647AC0E409244003377E0 /* EtoileFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EtoileFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		603647BB0E4092EA003377E0 /* ETCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCArray.h; path = Headers/ETCArray.h; sourceTree = "<group>"; };
@@ -753,7 +753,7 @@
 		605D6D4F0CE94218009ED244 /* EtoileFoundation */ = {
 			isa = PBXGroup;
 			children = (
-				602E13B818B3AAB5004F171B /* README */,
+				602E13B818B3AAB5004F171B /* README.md */,
 				602E13B618B3AAB1004F171B /* INSTALL */,
 				602E13B718B3AAB2004F171B /* NEWS */,
 				602E13B918B3AAB7004F171B /* TODO */,
