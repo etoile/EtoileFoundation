@@ -1413,7 +1413,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#export DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\n#export DYLD_LIBRARY_PATH=$LIBRARY_SEARCH_PATHS\n#\"$TARGET_BUILD_DIR/ukrun\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
+			shellScript = "# Derived from: https://github.com/gh-unit/gh-unit/blob/master/Scripts/RunTests.sh\n\n# If we aren't running from the command line, then exit\nif [ \"$TEST_AUTORUN\" = \"\" ]; then\nexit 0\nfi\n\nexport DYLD_FRAMEWORK_PATH=\"$CONFIGURATION_BUILD_DIR\"\ncd $TARGET_BUILD_DIR\nukrun\nRETVAL=$?\n\nexit $RETVAL";
 		};
 /* End PBXShellScriptBuildPhase section */
 
