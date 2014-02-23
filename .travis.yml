@@ -1,0 +1,6 @@
+notifications:
+  email:
+    recipients:
+      - etoile-testbuild@gna.org
+language: objective-c
+script: ./travis-ci-checkout-deps-and-run-tests.sh
