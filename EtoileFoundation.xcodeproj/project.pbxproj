@@ -208,7 +208,6 @@
 		6043D3A91753AED7002103CC /* ETUnionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D3A81753AED7002103CC /* ETUnionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6043D3AA1753C20A002103CC /* ETUnionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D3A51753AEC6002103CC /* ETUnionViewpoint.m */; };
 		60455B5F1356FBDA006A7642 /* TestPlugInRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 60455B5E1356FBDA006A7642 /* TestPlugInRegistry.m */; };
-		6048467A18B6C0E9006E4EDC /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6048466D18B6C05D006E4EDC /* UnitKit.framework */; };
 		605816D810B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
 		605816D910B2BC8C00DF6624 /* UTIClassBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
 		6062DE11114BDD320008B771 /* ETModelDescriptionRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 6062DE10114BDD320008B771 /* ETModelDescriptionRepository.m */; };
@@ -301,6 +300,7 @@
 		662EA83A101BC8610044F013 /* ETProtocolMirror.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA835101BC8610044F013 /* ETProtocolMirror.m */; };
 		6680CED7101257B200CAF439 /* ETReflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6680CED6101257B200CAF439 /* ETReflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6680CED9101257C800CAF439 /* ETReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6680CED8101257C800CAF439 /* ETReflection.m */; };
+		66B3530A18BAB57B0023C08C /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60ADA9141410D8A7003EACF1 /* UnitKit.framework */; };
 		66C3AF8C10181CFA0046D74A /* ETSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C3AF8A10181CFA0046D74A /* ETSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66C3AF8D10181CFA0046D74A /* NSData+Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C3AF8B10181CFA0046D74A /* NSData+Hash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66C3AF9010181D110046D74A /* ETSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8E10181D110046D74A /* ETSocket.m */; };
@@ -612,7 +612,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6048467A18B6C0E9006E4EDC /* UnitKit.framework in Frameworks */,
+				66B3530A18BAB57B0023C08C /* UnitKit.framework in Frameworks */,
 				60190A4313A6232400A0F639 /* Foundation.framework in Frameworks */,
 				60222DC7101CCB9000B2B1C1 /* libssl.dylib in Frameworks */,
 				60222DC6101CCB8D00B2B1C1 /* libcrypto.dylib in Frameworks */,
@@ -1804,6 +1804,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = TestEtoileFoundation;
 			};
 			name = Debug;
@@ -1812,6 +1816,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = TestEtoileFoundation;
 			};
 			name = Release;
