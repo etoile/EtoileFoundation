@@ -25,6 +25,22 @@
 
 #include <objc/runtime.h>
 
+// NOTE: From EtoileFoundation/Macros.h
+#define INVALIDARG_EXCEPTION_TEST(arg, condition) do { \
+	if (NO == (condition)) \
+	{ \
+		[NSException raise: NSInvalidArgumentException format: @"For %@, %s " \
+			"must respect %s", NSStringFromSelector(_cmd), #arg , #condition]; \
+	} \
+} while (0);
+#define NILARG_EXCEPTION_TEST(arg) do { \
+	if (nil == arg) \
+	{ \
+		[NSException raise: NSInvalidArgumentException format: @"For %@, " \
+			"%s must not be nil", NSStringFromSelector(_cmd), #arg]; \
+	} \
+} while (0);
+
 
 @implementation UKRunner
 
@@ -49,22 +65,53 @@
 	}
 }
 
-#pragma mark - Initialization
+/**
+ * For now, we still support -classRegex as an alias to -c.
+ *
+ * This options read with NSUserDefaults is overwritten by 
+ * -parseArgumentsWithCurrentDirectory:. This NSUserDefaults use should probably 
+ * be removed at some point.
+ */
+- (NSString *)classRegexFromArgumentDomain
+{
+	NSDictionary *argumentDomain = [[NSUserDefaults standardUserDefaults] 
+    	volatileDomainForName: NSArgumentDomain];
+	NSString *regex = [argumentDomain objectForKey: @"c"];
+
+    if (regex != nil)
+    	return regex;
+
+    return [argumentDomain objectForKey: @"classRegex"];
+}
 
 - (id)init
 {
 	self = [super init];
 	if (self == nil)
-		return nil;
+    	return nil;
 
-	setUpClasses = [[NSMutableSet alloc] init];
-	return self;
+   	classRegex = [[self classRegexFromArgumentDomain] copy];
+    return self;
 }
+
 
 - (void)dealloc
 {
-	[setUpClasses release];
-	[super dealloc];
+	[classRegex release];
+    [super dealloc];
+}
+
+#pragma mark - Settings
+
+- (NSString *)classRegex
+{
+	return classRegex;
+}
+
+- (void)setClassRegex: (NSString *)aRegex
+{
+	[classRegex autorelease];
+    classRegex = [aRegex copy];
 }
 
 #pragma mark - Loading Test Bundles
@@ -79,7 +126,7 @@
 		return nil;
 	}
 
-	if (![[bundlePath pathExtension] isEqual: @"bundle"])
+	if (![[bundlePath pathExtension] isEqual: [self testBundleExtension]])
 	{
 		NSLog(@"\n == Directory '%@' is not a test bundle ==\n", [bundlePath lastPathComponent]);
 	}
@@ -87,7 +134,7 @@
 	NSError *error = nil;
 
 	/* For Mac OS X (10.8), the test bundle info.plist must declare a principal
-	   class, to prevent +load from instantiating NSApp (see -setUpAppObjectIfNeededForBundle:). */
+	   class, to prevent +load from instantiating NSApp. */
 #ifdef GNUSTEP
     if (![testBundle load])
 #else
@@ -100,27 +147,33 @@
 	return testBundle;
 }
 
+- (NSString *) testBundleExtension
+{
+	return @"bundle";
+}
+
 - (NSArray *)bundlePathsInCurrentDirectory: (NSString *)cwd
 {
-	NSMutableArray *bundlePaths = [NSMutableArray array];
+	NSError *error = nil;
 	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: cwd
-	                                                                     error: NULL];
+	                                                                     error: &error];
+	NSAssert(error == nil, [error description]);
 
-	for (NSString *file in files)
-	{
-		BOOL isDir = NO;
-		if ([[NSFileManager defaultManager] fileExistsAtPath: file
-		                                         isDirectory: &isDir] && isDir)
-		{
-			NSUInteger len = [file length];
+	return [files filteredArrayUsingPredicate:
+    	[NSPredicate predicateWithFormat: @"pathExtension == %@", [self testBundleExtension]]];
+}
 
-			if (len > 8 && [[file substringFromIndex: (len - 6)] isEqualToString: @"bundle"])
-			{
-				[bundlePaths addObject: file];
-			}
-		}
-	}
-	return bundlePaths;
+- (NSArray *)bundlePathsFromArgumentsAndCurrentDirectory: (NSString *)cwd
+{
+	NSArray *bundlePaths = [self parseArgumentsWithCurrentDirectory: cwd];
+	NSAssert(bundlePaths != nil, @"");
+	BOOL hadBundleInArgument = ([bundlePaths count] > 0);
+
+	if (hadBundleInArgument)
+    	return bundlePaths;
+
+	/* If no bundles is specified, then just collect every bundle in this folder */
+	return [self bundlePathsInCurrentDirectory: cwd];
 }
 
 #pragma mark - Tool Support
@@ -135,37 +188,14 @@
 	NSLog(@"ukrun version %@ (Etoile)", [self ukrunVersion]);
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
 	UKRunner *runner = [[UKRunner alloc] init];
 
-	//NSLog(@"cwd: %@\n", cwd);
+	NSString *cwd = [[NSFileManager defaultManager] currentDirectoryPath];
 
-	NSArray *bundleDicts = [runner parseArgumentsWithCurrentDirectory: cwd];
-
-	// Return an error if an error occurs
-	if (nil == bundleDicts)
+	for (NSString *bundlePath in [runner bundlePathsFromArgumentsAndCurrentDirectory: cwd])
 	{
-		return -1;
-	}
-	else if ([bundleDicts count] == 0) // If no bundles are specified, then just run every bundle in this folder
-	{
-		NSArray *bundlePathsInCWD = [runner bundlePathsInCurrentDirectory: cwd];
-
-		for (NSString *bundlePath in bundlePathsInCWD)
-		{
-			[(NSMutableArray *) bundleDicts addObject:
-				[NSDictionary dictionaryWithObject: bundlePath forKey: @"Bundle"]];
-		}
-	}
-
-	for (NSDictionary *bundleDict in bundleDicts)
-	{
-		NSString *testBundle = [bundleDict objectForKey: @"Bundle"];
-		NSArray *testClasses = [bundleDict objectForKey: @"Classes"];
-
-		[runner runTests: testClasses
-		  inBundleAtPath: testBundle
-		currentDirectory: cwd];
+		[runner runTestsInBundleAtPath: bundlePath
+		              currentDirectory: cwd];
 	}
 
 	int result = [runner reportTestResults];
@@ -176,6 +206,14 @@
 	return result;
 }
 
+/**
+ * Don't try to parse options without value e.g. -q with NSUserDefaults, 
+ * otherwise the option will be ignored or its value set to the next argument. 
+ * For example, the NSArgumentDomain dictionary would be:
+ *
+ * 'ukrun -q' => { }
+ * 'ukrun -q TestBundle.bundle' => { -q = TestBundle.bundle }
+ */
 - (NSArray *)parseArgumentsWithCurrentDirectory: (NSString *)cwd
 {
 	NSArray *args = [[NSProcessInfo processInfo] arguments];
@@ -184,42 +222,39 @@
 
 	if (noOptions)
 		return bundlePaths;
-
-	NSMutableDictionary *testBundleDict = nil;
-
+	
 	for (int i = 1; i < [args count]; i++)
 	{
 		NSString *arg = [args objectAtIndex: i];
 
+		/* We parse all supported options to skip them and process the test 
+           bundle list at the end */
 		if ([arg isEqualToString: @"-q"])
 		{
 			[[UKTestHandler handler] setQuiet: YES];
 		}
-		else if ([arg isEqualToString: @"-c"])
+		else if ([arg isEqualToString: @"-c"] || [arg isEqualToString: @"-classRegex"])
 		{
-			if (++i >= [args count])
-			{
-				NSLog(@"-c argument must be followed by list of test classes");
-				return nil;
-			}
-			arg = [args objectAtIndex: i];
+            i++;
 
-			NSArray *testClasses = [arg componentsSeparatedByString: @","];
-			[testBundleDict setObject: testClasses forKey: @"Classes"];
+            if (i >= [args count] || [[args objectAtIndex: i] hasPrefix: @"-"])
+			{
+				NSLog(@"-c argument must be followed by a test class regex");
+				exit(-1);
+			}
+
+			[self setClassRegex: [args objectAtIndex: i]];
 		}
 		else
 		{
-			testBundleDict = [NSMutableDictionary dictionary];
-			[testBundleDict setObject: [args objectAtIndex: i] forKey: @"Bundle"];
-			[bundlePaths addObject: testBundleDict];
+			[bundlePaths addObject: [args objectAtIndex: i]];
 		}
 	}
 	return bundlePaths;
 }
 
-- (void)runTests: (NSArray *)testClasses
-  inBundleAtPath: (NSString *)bundlePath
-currentDirectory: (NSString *)cwd
+- (void)runTestsInBundleAtPath: (NSString *)bundlePath
+              currentDirectory: (NSString *)cwd
 {
 	bundlePath = [bundlePath stringByExpandingTildeInPath];
 
@@ -236,14 +271,13 @@ currentDirectory: (NSString *)cwd
 
 	if (testBundle != nil)
 	{
-		[self runTests: testClasses
-		      inBundle: testBundle
-		principalClass: [testBundle principalClass]];
+		[self runTestsInBundle: testBundle
+		        principalClass: [testBundle principalClass]];
 	}
 	[pool release];
 }
 
-#pragma mark - Running Tests
+#pragma mark - Running Test Method
 
 - (void)internalRunTest: (NSTimer *)timer
 {
@@ -286,6 +320,8 @@ currentDirectory: (NSString *)cwd
 	[runTimer release];
 }
 
+#pragma mark - Creating Test Object
+
 - (id)newTestObjectOfClass: (Class)testClass
 {
 	id object = [testClass alloc];
@@ -319,6 +355,9 @@ currentDirectory: (NSString *)cwd
 			                                hint: @"errExceptionOnRelease"];
 	}
 }
+
+
+#pragma mark - Running Tests
 
 /*!
  @method runTests:onInstance:ofClass:
@@ -409,12 +448,43 @@ currentDirectory: (NSString *)cwd
 	[self runTests: testMethods onInstance: YES ofClass: testClass];
 }
 
+- (NSArray *)filterTestClassNames: (NSArray *)testClassNames
+{
+	NSMutableArray *filteredClassNames = [NSMutableArray array];
+
+	for (NSString *className in testClassNames)
+	{
+		if (classRegex == nil  || [className rangeOfString: [self classRegex]
+                                                   options: NSRegularExpressionSearch].location != NSNotFound)
+		{
+			[filteredClassNames addObject: className];
+		}
+	}
+
+	return filteredClassNames;
+}
+
 - (void)runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
 {
+	NILARG_EXCEPTION_TEST(bundle);
+
 	[self runTests: nil inBundle: bundle principalClass: principalClass];
 }
 
-- (void)runTests: (NSArray *)testedClasses
+/**
+ * We must call UKTestClasseNamesFromBundle() after +willRunTestSuite, otherwise 
+ * the wrong app object can be created in a UI related test suite on Mac OS X...
+ * 
+ * On Mac OS X, we have -bundleForClass: that invokes class_respondsToSelector() 
+ * which results in +initialize being called, and +[NSWindowBinder initialize] 
+ * has the bad idea to use +sharedApplication. 
+ * When no app object is available yet, an NSApplication instance will be 
+ * created rather than the subclass instance we might want.
+ *
+ * This is why we don't call UKTestClasseNamesFromBundle() in
+ * -runTestsInBundle:principalClass:. 
+ */
+- (void)runTests: (NSArray *)testClassNames
         inBundle: (NSBundle *)bundle
   principalClass: (Class)principalClass
 {
@@ -423,16 +493,12 @@ currentDirectory: (NSString *)cwd
 		[principalClass willRunTestSuite];
 	}
 
-	NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
-	NSString *classRegex = [[NSUserDefaults standardUserDefaults] valueForKey: @"classRegex"];
+    NSArray *classNames =
+    	(testClassNames != nil ? testClassNames : UKTestClasseNamesFromBundle(bundle));
 
-	for (NSString *testClassName in testClasses)
+	for (NSString *className in [self filterTestClassNames: classNames])
 	{
-		if (classRegex == nil
-		  || [testClassName rangeOfString: classRegex options: NSRegularExpressionSearch].location != NSNotFound)
-		{
-			[self runTestsInClass: NSClassFromString(testClassName)];
-		}
+        [self runTestsInClass: NSClassFromString(className)];
 	}
 
 	if ([principalClass respondsToSelector: @selector(didRunTestSuite)])

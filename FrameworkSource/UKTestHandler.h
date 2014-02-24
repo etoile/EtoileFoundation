@@ -81,6 +81,11 @@
 /**
  * Returns whether the handler to report just the test failures and uncaught
  * exceptions, and nothing on test successes.
+ *
+ * By default, returns NO.
+ *
+ * -isQuiet is initialized to YES if the argument '-q' is present in the 
+ * 'ukrun' arguments.
  */
 - (BOOL)isQuiet;
 /**

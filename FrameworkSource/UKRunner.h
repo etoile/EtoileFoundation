@@ -34,10 +34,35 @@
 @interface UKRunner : NSObject
 {
 	@private
-	NSMutableSet *setUpClasses;
+    NSString *classRegex;
 	int testClassesRun;
 	int testMethodsRun;
 }
+
+
+/** @taskunit Settings */
+
+
+/**
+ * Returns the regex string used to match classes to be tested (among the 
+ * classes that conforms to UKTest).
+ *
+ * This is useful to run a test suite subset.
+ *
+ * -classRegex is initialized to the value of the argument '-c' present in the 
+ * 'ukrun' arguments.
+ *
+ * See also -setClassRegex:.
+ */
+- (NSString *)classRegex;
+/**
+ * Sets the regex string used to match classes to be tested (among the 
+ * classes that conforms to UKTest).
+ *
+ * See also -classRegex.
+ */
+- (void)setClassRegex: (NSString *)aRegex;
+
 
 /** @taskunit Tool Support */
 
@@ -61,9 +86,8 @@
  * bundles to load in the given directory (the current directory, when +runTests
  * is used).
  */
-- (void)runTests: (NSArray *)testClasses
-  inBundleAtPath: (NSString *)bundlePath
-currentDirectory: (NSString *)cwd;
+- (void)runTestsInBundleAtPath: (NSString *)bundlePath
+              currentDirectory: (NSString *)cwd;
 /**
  * Runs all the tests in the given test bundle.
  *
