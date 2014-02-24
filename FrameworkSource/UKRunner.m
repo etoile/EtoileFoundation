@@ -25,11 +25,6 @@
 
 #include <objc/runtime.h>
 
-@interface NSObject (Application)
-+ (id)sharedApplication;
-- (void)setUp;
-@end
-
 
 @implementation UKRunner
 
@@ -117,7 +112,7 @@
 		if ([[NSFileManager defaultManager] fileExistsAtPath: file
 		                                         isDirectory: &isDir] && isDir)
 		{
-			int len = [file length];
+			NSUInteger len = [file length];
 
 			if (len > 8 && [[file substringFromIndex: (len - 6)] isEqualToString: @"bundle"])
 			{
@@ -428,26 +423,6 @@ currentDirectory: (NSString *)cwd
 		[principalClass willRunTestSuite];
 	}
 
-	// NOTE: First we must create the app object, because on Mac OS X in
-	// UKTestClasseNamesFromBundle(), we have -bundleForClass: that invokes
-	// class_respondsToSelector() which results in +initialize being called and
-	// +[NSWindowBinder initialize] has the bad idea to use +sharedApplication.
-	// When no app object is available yet, an NSApplication instance will be
-	// created rather than the subclass instance we might want.
-	BOOL setUpCalledOnAppObject = [self setUpAppObjectIfNeededForBundle: bundle];
-
-	/* In addition, -setUp is also sent to the principal class */
-	Class setUpClass = (principalClass != nil ? principalClass : [bundle principalClass]);
-	BOOL setUpCalled = (setUpCalledOnAppObject
-		&& [principalClass isKindOfClass: NSClassFromString(@"NSApplication")]
-		&& ![setUpClasses containsObject: setUpClass]);
-
-	if (!setUpCalled && [setUpClass respondsToSelector: @selector(setUp)])
-	{
-		[setUpClass setUp];
-		[setUpClasses addObject: setUpClass];
-	}
-
 	NSArray *testClasses = (testedClasses == nil ? UKTestClasseNamesFromBundle(bundle) : testedClasses);
 	NSString *classRegex = [[NSUserDefaults standardUserDefaults] valueForKey: @"classRegex"];
 
@@ -479,54 +454,6 @@ currentDirectory: (NSString *)cwd
 	  testClassesRun, testMethodsRun, (testsPassed + testsFailed), testsFailed, exceptionsReported);
 
 	return (testsFailed == 0 && exceptionsReported == 0 ? 0 : -1);
-}
-
-#pragma mark - Application Testing Support
-
-/* GNUstep doesn't take care of calling -[NSApp sharedApplication] if your code 
-   doesn't. Unlike Cocoa, it just raises an exception if you try to create a 
-   window. 
-   By decreasing order of priority, this method tries to create an app
-   instance by sending -sharedApplication to:
-   - The principal class of the test bundle (declared in the bundle property list)
-   - ETApplication 
-   - NSApplication
-*/
-- (BOOL)setUpAppObjectIfNeededForBundle: (NSBundle *)testBundle
-{
-	Class appClass = NSClassFromString(@"NSApplication");
-	Class etAppClass = NSClassFromString(@"ETApplication");
-
-	if (appClass == Nil) /* AppKit and EtoileUI not loaded */
-	{
-		return NO;
-	}
-	else if (etAppClass != Nil) /* EtoileUI loaded */
-	{
-		appClass = etAppClass;
-	}
-
-	Class principalClass = [testBundle principalClass];
-
-	/* Use NSApplication subclass if declared as the bundle principal class */
-	if ([principalClass isKindOfClass: appClass])
-	{
-		appClass = principalClass;
-	}
-
-	id app = [appClass sharedApplication];
-	NSAssert([app isKindOfClass: appClass], @"+sharedApplication returns an app "
-	 	"object of the wrong kind, this usually means +sharedApplication has "
-		"been sent before. For Mac OS X, the test bundle info.plist must declare "
-		"a principal class to ensure loading the bundle won't instantiate NSApp.");
-
-	if ([app respondsToSelector: @selector(setUp)] && ![setUpClasses containsObject: appClass])
-	{
-		[app setUp];
-		[setUpClasses addObject: appClass];
-		return YES;
-	}
-	return NO;
 }
 
 @end
