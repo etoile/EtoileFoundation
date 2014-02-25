@@ -1,6 +1,0 @@
-/* Localized versions of Info.plist keys */
-
-CFBundleName = "UnitKit";
-CFBundleShortVersionString = "1.5";
-CFBundleGetInfoString = "UnitKit version 1.5, Copyright (c)2004 James Duncan Davidson.";
-NSHumanReadableCopyright = "Copyright (c)2004 James Duncan Davidson.";

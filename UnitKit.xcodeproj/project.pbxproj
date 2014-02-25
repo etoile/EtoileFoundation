@@ -35,7 +35,6 @@
 		60A71B7218B5072E0038CE05 /* Icon-Pass.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 03BC00BC0DEE32AD009AFC82 /* Icon-Pass.tiff */; };
 		60A71B7318B5072E0038CE05 /* Icon-Fail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 03BC00BD0DEE32AD009AFC82 /* Icon-Fail.tiff */; };
 		60A71B7418B5072E0038CE05 /* UKTestHandler.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEFFFA70060140EB0002576C /* UKTestHandler.strings */; };
-		60A71B7618B5072E0038CE05 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE923B6F05C3B62B00549058 /* InfoPlist.strings */; };
 		60A71B7718B507910038CE05 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = AEEB74D006B1BEFD00BE53E8 /* LICENSE */; };
 		60B98EF1180560BA00D1FFFF /* class.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF680680B539008CA594 /* class.h */; };
 		60B98EF2180560BA00D1FFFF /* class.m in CopyFiles */ = {isa = PBXBuildFile; fileRef = AE8CCF690680B539008CA594 /* class.m */; };
@@ -67,7 +66,6 @@
 		AE923B6405C3B44600549058 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
 		AE923B6505C3B44C00549058 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
 		AE923B6E05C3B57600549058 /* UnitKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AE923B6D05C3B57600549058 /* UnitKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE923B7105C3B62B00549058 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE923B6F05C3B62B00549058 /* InfoPlist.strings */; };
 		AE923D8605C3B90100549058 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE923D8505C3B90100549058 /* main.m */; };
 		AE923D8B05C3B9EC00549058 /* UKRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = AE923D8905C3B9EC00549058 /* UKRunner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE923D8C05C3B9EC00549058 /* UKRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE923D8A05C3B9EC00549058 /* UKRunner.m */; };
@@ -227,7 +225,6 @@
 		AE923B2C05C3B1CE00549058 /* ukrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ukrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B3605C3B1DF00549058 /* TestUnitKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestUnitKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B6D05C3B57600549058 /* UnitKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitKit.h; path = FrameworkSource/UnitKit.h; sourceTree = "<group>"; };
-		AE923B7005C3B62B00549058 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE923D8505C3B90100549058 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 0; };
 		AE923D8905C3B9EC00549058 /* UKRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKRunner.h; sourceTree = "<group>"; usesTabs = 0; };
 		AE923D8A05C3B9EC00549058 /* UKRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKRunner.m; sourceTree = "<group>"; usesTabs = 0; };
@@ -453,7 +450,6 @@
 				AE923D8905C3B9EC00549058 /* UKRunner.h */,
 				AE923D8A05C3B9EC00549058 /* UKRunner.m */,
 				32DBCF5E0370ADEE00C91783 /* Info.plist */,
-				AE923B6F05C3B62B00549058 /* InfoPlist.strings */,
 			);
 			path = FrameworkSource;
 			sourceTree = "<group>";
@@ -742,7 +738,6 @@
 				60A71B7218B5072E0038CE05 /* Icon-Pass.tiff in Resources */,
 				60A71B7318B5072E0038CE05 /* Icon-Fail.tiff in Resources */,
 				60A71B7418B5072E0038CE05 /* UKTestHandler.strings in Resources */,
-				60A71B7618B5072E0038CE05 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,7 +752,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE923B7105C3B62B00549058 /* InfoPlist.strings in Resources */,
 				AEFFFA71060140EB0002576C /* UKTestHandler.strings in Resources */,
 				AEEB74D106B1BEFD00BE53E8 /* LICENSE in Resources */,
 				03BC00BE0DEE32AD009AFC82 /* Icon-Pass.tiff in Resources */,
@@ -961,14 +955,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AE923B6F05C3B62B00549058 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AE923B7005C3B62B00549058 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		AEFFFA70060140EB0002576C /* UKTestHandler.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1071,6 +1057,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_MARKETING_VERSION = 1.5;
 				DSTROOT = /;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1086,6 +1073,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_MARKETING_VERSION = 1.5;
 				DSTROOT = /;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;

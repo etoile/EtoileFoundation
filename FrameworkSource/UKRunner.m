@@ -178,14 +178,12 @@
 
 #pragma mark - Tool Support
 
-+ (NSString *)ukrunVersion
-{
-	return @"1.3";
-}
-
 + (int)runTests
 {
-	NSLog(@"ukrun version %@ (Etoile)", [self ukrunVersion]);
+	NSString *version = [[[NSBundle bundleForClass: self] infoDictionary]
+    	objectForKey: @"CFBundleShortVersionString"];
+
+	NSLog(@"UnitKit version %@ (Etoile)", version);
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	UKRunner *runner = [[UKRunner alloc] init];
