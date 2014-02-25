@@ -22,14 +22,41 @@
 #import <Foundation/Foundation.h>
 
 /**
- * For each marked class and each test method in this class (this also includes 
- * all the inherited test methods up to the superclass that conforms to UKTest), 
- * UKRunner will create an instance and invoke the test method, then release 
- * the instance, then create a new instance for the next test method, and so on. 
+ * @abstract UKTestRunner runs the test suite(s) and reports the results. 
+ *
+ * Usually you are not expected to use UKRunner directly to run a test suite, 
+ * but to use 'ukrun' that will ask UKRunner to do it with +runTests.
+ *
+ * @section Test Bundle Loading and Argument Parsing
+ *
+ * UKRunner will parse arguments from the command-line bound to 
+ * -[UKTestHandler isQuiet] and -[UKRunner classRegex], and can load one or 
+ * multiple test bundles, either passed among the arguments or to 
+ * -runTestsInBundle:principalClass: (when you use the API directly and bypass 
+ * 'ukrun').
+ *
+ * @section Collecting Test Classes
+ *
+ * For each test bundle, UKRunner collects test classes marked with UKTest. 
+ * If you don't use a test bundle, test classes can be passed explicitly with 
+ * -runTestsWithClassNames:principalClass:.
+ *
+ * If -classRegex is set, not all the test classes passed to UKRunner API will 
+ * be run, but just the subset whose name matches the regex.
+ *
+ * @section Executing Test Methods
+ *
+ * A test method is a method prefixed with <em>test</em> e.g. -testSometing.
+ *
+ * For each class marked with UKTest and each test method in this class (this 
+ * also includes all the inherited test methods up to the superclass that 
+ * conforms to UKTest), UKRunner will create an instance and invoke the test 
+ * method, then release the instance, then create a new instance for the next 
+ * test method, and so on. For details, see -runTests:onInstance:ofClass:.
+ *
+ * UKRunner also supports test class methods e.g. +testSomething.
  *
  * The test methods are executed in their alphabetical order.
- *
- * A test method is a method prefi with <em>test</em>
  */
 @interface UKRunner : NSObject
 {
@@ -47,7 +74,9 @@
  * Returns the regex string used to match classes to be tested (among the 
  * classes that conforms to UKTest).
  *
- * This is useful to run a test suite subset.
+ * This is useful to run a test suite subset. For example, just a single class 
+ * <code>TestB</code>, a class list <code>TestA|TestB|TestN</code> or a 
+ * pattern-based list <code>Test*Persistency</code>.
  *
  * -classRegex is initialized to the value of the argument '-c' present in the 
  * 'ukrun' arguments.
@@ -65,6 +94,7 @@
 
 
 /** @taskunit Tool Support */
+
 
 /**
  * Creates a new runner and uses it to run the tests based on the command-line
@@ -88,6 +118,11 @@
  */
 - (void)runTestsInBundleAtPath: (NSString *)bundlePath
               currentDirectory: (NSString *)cwd;
+
+
+/** @taskunit Running Tests */
+
+
 /**
  * Runs all the tests in the given test bundle.
  *
@@ -108,15 +143,28 @@
  * If testedClasses is nil, then it is the same than passing all the test
  * classes present in the bundle.
  */
-- (void)runTests: (NSArray *)testedClasses
-        inBundle: (NSBundle *)bundle
-  principalClass: (Class)principalClass;
-
-
-/** @taskunit Running Tests */
-
-
-- (void)runTestsInClass: (Class)testClass;
+- (void)runTestsWithClassNames: (NSArray *)testClasses
+                principalClass: (Class)principalClass;
+/**
+ * Runs the test methods against a test instance or class object. 
+ *
+ * testMethods contains the method names to execute on the test object or class 
+ * object. If instance is YES, testMethods must contain instance methods, 
+ * otherwise it must contain class methods (to be called directly on the test 
+ * class).
+ * 
+ * For each method in the list, the test object will be initialized with -init,
+ * and the test method called on it, then the test object will be released (and 
+ * usually deallocated).
+ *
+ * If there is a problem with the test object initialization or release (once 
+ * the test method returns the control), an uncaught exception will be reported 
+ * and the test execution on this test object will end (other test methods 
+ * are skipped). 
+ *
+ * If there is an exception while running a test method, an uncaught exception 
+ * will be reported and execution will move on to the next test method.
+ */
 - (void)runTests: (NSArray *)testMethods
       onInstance: (BOOL)instance
 		 ofClass: (Class)testClass;
@@ -142,7 +190,28 @@
 @end
 
 @interface NSObject (UKPrincipalClassNotifications)
+/**
+ * Tells the principal class that the test suite is about to start.
+ * 
+ * The principal class comes from the test bundle Info.plist, 
+ * -runTestsInBundle:principalClass: or -runTestsWithClassNames:principalClass: 
+ * (if these last two methods are called directly without using 'ukrun').
+ *
+ * You can implement this method to set up some global state (e.g. create a  
+ * NSApp object with +[NSApplication sharedApplication]) or test configuration.
+ *
+ * See also +didRunTestSuite.
+ */
 + (void)willRunTestSuite;
+/**
+ * Tells the principal class that the test suite is about to end.
+ *
+ * You can implement this method to reset some global state or test 
+ * configuration, previously adjusted in +willRunTestSuite, and also to report 
+ * additional test results (e.g. benchmark results).
+ * 
+ * See also +willRunTestSuite.
+ */
 + (void)didRunTestSuite;
 @end
 

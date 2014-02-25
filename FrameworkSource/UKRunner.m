@@ -356,17 +356,8 @@
 	}
 }
 
-
 #pragma mark - Running Tests
 
-/*!
- @method runTests:onInstance:ofClass:
- @param testMethods An array containing the list of method names to execute on the test object.
- @param instance YES if testMethods contains instance method names that should be run on an instantiated testClass. NO if testMethods contains class method names that should be run directly on testClass
- @param testClass The instance or the class object on which to perform the test methods on
- @abstract Runs a set of tests on the given object (either an instance or a class)
- @discussion This method takes an object and a list of methods that should be executed on it. For each method in the list, the test object will be initialized by -initForTest when implemented or -init as a fallback and the method called on it. If there is a problem with the initialization, or in the release of that object instance, an error will be reported and all test execution on the object will end. If there is an error while running the test method, an error will be reported and execution will move on to the next method.
- */
 - (void)runTests: (NSArray *)testMethods onInstance: (BOOL)instance ofClass: (Class)testClass
 {
 	for (NSString *testMethodName in testMethods)
@@ -383,8 +374,8 @@
 			{
 				object = [self newTestObjectOfClass: testClass];
 
-				// N.B.: If -init throws an exception or returns nil, we don't attempt to run any
-				// more methods on this class
+				// N.B.: If -init throws an exception or returns nil, we don't
+                // attempt to run any more methods on this class
 				if (object == nil)
 					return;
 			}
@@ -400,12 +391,13 @@
 				SEL testSel = NSSelectorFromString(testMethodName);
 
 				/* This pool makes easier to separate autorelease issues between:
-				 - test method
-				 - test object configuration due to -init and -dealloc
+				   - test method
+				   - test object configuration due to -init and -dealloc
 
-				 For testing CoreObject, this also ensures all autoreleased
-				 objects in relation to a db are deallocated before closing the
-				 db connection in -dealloc (see TestCommon.h in CoreObject for details) */
+				   For testing CoreObject, this also ensures all autoreleased
+				   objects in relation to a db are deallocated before closing 
+                   the db connection in -dealloc (see TestCommon.h in CoreObject 
+                   for details) */
 				@autoreleasepool
 				{
 					[self runTest: testSel onObject: object class: testClass];
@@ -468,7 +460,19 @@
 {
 	NILARG_EXCEPTION_TEST(bundle);
 
-	[self runTests: nil inBundle: bundle principalClass: principalClass];
+	[self runTestsWithClassNames: nil
+                        inBundle: bundle
+                  principalClass: principalClass];
+}
+
+- (void)runTestsWithClassNames: (NSArray *)testClassNames
+                principalClass: (Class)principalClass
+{
+	NILARG_EXCEPTION_TEST(testClassNames);
+
+	[self runTestsWithClassNames: testClassNames
+                        inBundle: nil
+                  principalClass: principalClass];
 }
 
 /**
@@ -484,9 +488,9 @@
  * This is why we don't call UKTestClasseNamesFromBundle() in
  * -runTestsInBundle:principalClass:. 
  */
-- (void)runTests: (NSArray *)testClassNames
-        inBundle: (NSBundle *)bundle
-  principalClass: (Class)principalClass
+- (void)runTestsWithClassNames: (NSArray *)testClassNames
+                      inBundle: (NSBundle *)bundle
+                principalClass: (Class)principalClass
 {
 	if ([principalClass respondsToSelector: @selector(willRunTestSuite)])
 	{
