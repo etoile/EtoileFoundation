@@ -14,7 +14,7 @@ ifeq ($(testsource), yes)
 SUBPROJECTS += \
 	TestSource/TestFramework \
 	TestSource/TestBundle \
-	TestSource/UnitKitTests
+	TestSource/TestUnitKit
 endif
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make

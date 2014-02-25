@@ -12,8 +12,13 @@
 		6048463118B61187006E4EDC /* TestOne.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B66505F71D5500D56367 /* TestOne.m */; };
 		6048463218B61187006E4EDC /* TestTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B72405F73A1F00D56367 /* TestTwo.m */; };
 		6048463318B61187006E4EDC /* TestThree.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B72A05F73A3F00D56367 /* TestThree.m */; };
-		6065B7F61896B608002B07D6 /* TestObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6065B7F41896B602002B07D6 /* TestObject.h */; };
-		6065B7F71896B608002B07D6 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6065B7F51896B604002B07D6 /* TestObject.m */; };
+		6048471418BCA25B006E4EDC /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470518BCA25B006E4EDC /* TestObject.m */; };
+		6048471618BCA25B006E4EDC /* UKRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470718BCA25B006E4EDC /* UKRunnerTests.m */; };
+		6048471818BCA25B006E4EDC /* UKTestFileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470918BCA25B006E4EDC /* UKTestFileNames.m */; };
+		6048471A18BCA25B006E4EDC /* UKTestFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470B18BCA25B006E4EDC /* UKTestFramework.m */; };
+		6048471C18BCA25B006E4EDC /* UKTestLineNumbers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470D18BCA25B006E4EDC /* UKTestLineNumbers.m */; };
+		6048471E18BCA25B006E4EDC /* UKTestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470F18BCA25B006E4EDC /* UKTestMacros.m */; };
+		6048472018BCA25B006E4EDC /* UKTestMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048471118BCA25B006E4EDC /* UKTestMessages.m */; };
 		60A71B6A18B506D60038CE05 /* UKTestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE613E6805F181AE009B020F /* UKTestHandler.m */; };
 		60A71B6B18B506D60038CE05 /* UKRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE923D8A05C3B9EC00549058 /* UKRunner.m */; };
 		60A71B6D18B507090038CE05 /* UKTest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE73F21F05F1573200CAFD4D /* UKTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -34,12 +39,6 @@
 		60E23C0B18B5134100CE38D0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A71B4418B505DA0038CE05 /* Foundation.framework */; };
 		60E23C0D18B5134100CE38D0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E23C0C18B5134100CE38D0 /* CoreGraphics.framework */; };
 		60E23C2318B5135F00CE38D0 /* libUnitKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A71B4218B505DA0038CE05 /* libUnitKit.a */; };
-		60E23C2418B514A900CE38D0 /* UKRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE702CCA05FED1060049C79F /* UKRunnerTests.m */; };
-		60E23C2518B514A900CE38D0 /* UKTestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBEF4B705FAF2910020FB35 /* UKTestMacros.m */; };
-		60E23C2618B514A900CE38D0 /* UKTestLineNumbers.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBEF55B05FBEFD10020FB35 /* UKTestLineNumbers.m */; };
-		60E23C2718B514A900CE38D0 /* UKTestFileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */; };
-		60E23C2818B514A900CE38D0 /* UKTestMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = AE702C3805FEC7920049C79F /* UKTestMessages.m */; };
-		60E23C2B18B514AD00CE38D0 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6065B7F51896B604002B07D6 /* TestObject.m */; };
 		60E23C3418B529EE00CE38D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E23C3318B529EE00CE38D0 /* main.m */; };
 		AE390EF10724F2530036A22B /* TestFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBED01906AFADB000451E26 /* TestFramework.framework */; };
 		AE55498B06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
@@ -49,10 +48,6 @@
 		AE55498F06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
 		AE613E6905F181AE009B020F /* UKTestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = AE613E6705F181AE009B020F /* UKTestHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE613E6A05F181AE009B020F /* UKTestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE613E6805F181AE009B020F /* UKTestHandler.m */; };
-		AE702C3905FEC7920049C79F /* UKTestMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = AE702C3705FEC7920049C79F /* UKTestMessages.h */; };
-		AE702C3A05FEC7920049C79F /* UKTestMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = AE702C3805FEC7920049C79F /* UKTestMessages.m */; };
-		AE702CCB05FED1060049C79F /* UKRunnerTests.h in Headers */ = {isa = PBXBuildFile; fileRef = AE702CC905FED1060049C79F /* UKRunnerTests.h */; };
-		AE702CCC05FED1060049C79F /* UKRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE702CCA05FED1060049C79F /* UKRunnerTests.m */; };
 		AE70B66605F71D5500D56367 /* TestOne.h in Headers */ = {isa = PBXBuildFile; fileRef = AE70B66405F71D5500D56367 /* TestOne.h */; };
 		AE70B66705F71D5500D56367 /* TestOne.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B66505F71D5500D56367 /* TestOne.m */; };
 		AE70B66B05F71D8B00D56367 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
@@ -70,14 +65,6 @@
 		AE923D8C05C3B9EC00549058 /* UKRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE923D8A05C3B9EC00549058 /* UKRunner.m */; };
 		AEBED02906AFAE7800451E26 /* TestClass.h in Headers */ = {isa = PBXBuildFile; fileRef = AEBED02706AFAE7800451E26 /* TestClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEBED02A06AFAE7800451E26 /* TestClass.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBED02806AFAE7800451E26 /* TestClass.m */; };
-		AEBED0E106B0589C00451E26 /* UKTestFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = AEBED04C06AFB1AB00451E26 /* UKTestFramework.h */; };
-		AEBED0E306B058A100451E26 /* UKTestFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBED04D06AFB1AC00451E26 /* UKTestFramework.m */; };
-		AEBEF4B805FAF2910020FB35 /* UKTestMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = AEBEF4B605FAF2910020FB35 /* UKTestMacros.h */; };
-		AEBEF4B905FAF2910020FB35 /* UKTestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBEF4B705FAF2910020FB35 /* UKTestMacros.m */; };
-		AEBEF55C05FBEFD10020FB35 /* UKTestLineNumbers.h in Headers */ = {isa = PBXBuildFile; fileRef = AEBEF55A05FBEFD10020FB35 /* UKTestLineNumbers.h */; };
-		AEBEF55D05FBEFD10020FB35 /* UKTestLineNumbers.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBEF55B05FBEFD10020FB35 /* UKTestLineNumbers.m */; };
-		AEBEF56505FBF8010020FB35 /* UKTestFileNames.h in Headers */ = {isa = PBXBuildFile; fileRef = AEBEF56305FBF8010020FB35 /* UKTestFileNames.h */; };
-		AEBEF56605FBF8010020FB35 /* UKTestFileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */; };
 		AEEB74D106B1BEFD00BE53E8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = AEEB74D006B1BEFD00BE53E8 /* LICENSE */; };
 		AEFFFA71060140EB0002576C /* UKTestHandler.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEFFFA70060140EB0002576C /* UKTestHandler.strings */; };
 /* End PBXBuildFile section */
@@ -188,8 +175,21 @@
 		6048463C18B6373A006E4EDC /* INSTALL.Cocoa.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.Cocoa.md; sourceTree = "<group>"; };
 		6048463D18B6373A006E4EDC /* INSTALL.GNUstep.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.GNUstep.md; sourceTree = "<group>"; };
 		6048463E18B6373A006E4EDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		6065B7F41896B602002B07D6 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestObject.h; path = UnitKitTests/TestObject.h; sourceTree = "<group>"; };
-		6065B7F51896B604002B07D6 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestObject.m; path = UnitKitTests/TestObject.m; sourceTree = "<group>"; };
+		6048470318BCA25B006E4EDC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestUnitKit/Info.plist; sourceTree = "<group>"; };
+		6048470418BCA25B006E4EDC /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestObject.h; path = TestUnitKit/TestObject.h; sourceTree = "<group>"; };
+		6048470518BCA25B006E4EDC /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestObject.m; path = TestUnitKit/TestObject.m; sourceTree = "<group>"; };
+		6048470618BCA25B006E4EDC /* UKRunnerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKRunnerTests.h; path = TestUnitKit/UKRunnerTests.h; sourceTree = "<group>"; };
+		6048470718BCA25B006E4EDC /* UKRunnerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKRunnerTests.m; path = TestUnitKit/UKRunnerTests.m; sourceTree = "<group>"; };
+		6048470818BCA25B006E4EDC /* UKTestFileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFileNames.h; path = TestUnitKit/UKTestFileNames.h; sourceTree = "<group>"; };
+		6048470918BCA25B006E4EDC /* UKTestFileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFileNames.m; path = TestUnitKit/UKTestFileNames.m; sourceTree = "<group>"; };
+		6048470A18BCA25B006E4EDC /* UKTestFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFramework.h; path = TestUnitKit/UKTestFramework.h; sourceTree = "<group>"; };
+		6048470B18BCA25B006E4EDC /* UKTestFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFramework.m; path = TestUnitKit/UKTestFramework.m; sourceTree = "<group>"; };
+		6048470C18BCA25B006E4EDC /* UKTestLineNumbers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestLineNumbers.h; path = TestUnitKit/UKTestLineNumbers.h; sourceTree = "<group>"; };
+		6048470D18BCA25B006E4EDC /* UKTestLineNumbers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestLineNumbers.m; path = TestUnitKit/UKTestLineNumbers.m; sourceTree = "<group>"; };
+		6048470E18BCA25B006E4EDC /* UKTestMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestMacros.h; path = TestUnitKit/UKTestMacros.h; sourceTree = "<group>"; };
+		6048470F18BCA25B006E4EDC /* UKTestMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMacros.m; path = TestUnitKit/UKTestMacros.m; sourceTree = "<group>"; };
+		6048471018BCA25B006E4EDC /* UKTestMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestMessages.h; path = TestUnitKit/UKTestMessages.h; sourceTree = "<group>"; };
+		6048471118BCA25B006E4EDC /* UKTestMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMessages.m; path = TestUnitKit/UKTestMessages.m; sourceTree = "<group>"; };
 		60A71B4218B505DA0038CE05 /* libUnitKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnitKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A71B4418B505DA0038CE05 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		60B98EE318055DD000D1FFFF /* Objective-C UnitKit test case class.xctemplate */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Objective-C UnitKit test case class.xctemplate"; path = "XcodeIntegration/File Templates/Cocoa/Objective-C UnitKit test case class.xctemplate"; sourceTree = "<group>"; };
@@ -203,10 +203,6 @@
 		AE55498A06C5ACDC005FF2F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		AE613E6705F181AE009B020F /* UKTestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKTestHandler.h; sourceTree = "<group>"; usesTabs = 0; };
 		AE613E6805F181AE009B020F /* UKTestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKTestHandler.m; sourceTree = "<group>"; usesTabs = 0; };
-		AE702C3705FEC7920049C79F /* UKTestMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestMessages.h; path = UnitKitTests/UKTestMessages.h; sourceTree = "<group>"; usesTabs = 0; };
-		AE702C3805FEC7920049C79F /* UKTestMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMessages.m; path = UnitKitTests/UKTestMessages.m; sourceTree = "<group>"; usesTabs = 0; };
-		AE702CC905FED1060049C79F /* UKRunnerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKRunnerTests.h; path = UnitKitTests/UKRunnerTests.h; sourceTree = "<group>"; usesTabs = 0; };
-		AE702CCA05FED1060049C79F /* UKRunnerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKRunnerTests.m; path = UnitKitTests/UKRunnerTests.m; sourceTree = "<group>"; usesTabs = 0; };
 		AE70B65405F7100400D56367 /* TestBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE70B65505F7100400D56367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE70B66405F71D5500D56367 /* TestOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestOne.h; sourceTree = "<group>"; usesTabs = 0; };
@@ -221,8 +217,7 @@
 		AE8CCF6A0680B539008CA594 /* TemplateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = TemplateInfo.plist; path = Xcode3Integration/FileTemplates/TemplateInfo.plist; sourceTree = "<group>"; };
 		AE8CCF780680B56F008CA594 /* UnitKitBundle.trgttmpl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = UnitKitBundle.trgttmpl; path = Xcode3Integration/TargetTemplates/UnitKitBundle.trgttmpl; sourceTree = "<group>"; };
 		AE923B2C05C3B1CE00549058 /* ukrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ukrun; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitKitTests.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE923B3705C3B1DF00549058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UnitKitTests/Info.plist; sourceTree = "<group>"; };
+		AE923B3605C3B1DF00549058 /* TestUnitKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestUnitKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE923B6D05C3B57600549058 /* UnitKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitKit.h; path = FrameworkSource/UnitKit.h; sourceTree = "<group>"; };
 		AE923B7005C3B62B00549058 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE923D8505C3B90100549058 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; usesTabs = 0; };
@@ -232,15 +227,7 @@
 		AEBED01A06AFADB000451E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestSource/TestFramework/Info.plist; sourceTree = SOURCE_ROOT; };
 		AEBED02706AFAE7800451E26 /* TestClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClass.h; sourceTree = "<group>"; usesTabs = 0; };
 		AEBED02806AFAE7800451E26 /* TestClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestClass.m; sourceTree = "<group>"; usesTabs = 0; };
-		AEBED04C06AFB1AB00451E26 /* UKTestFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFramework.h; path = UnitKitTests/UKTestFramework.h; sourceTree = "<group>"; usesTabs = 0; };
-		AEBED04D06AFB1AC00451E26 /* UKTestFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFramework.m; path = UnitKitTests/UKTestFramework.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEBED16806B0603600451E26 /* NOTICE */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = NOTICE; sourceTree = "<group>"; };
-		AEBEF4B605FAF2910020FB35 /* UKTestMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestMacros.h; path = UnitKitTests/UKTestMacros.h; sourceTree = "<group>"; usesTabs = 0; };
-		AEBEF4B705FAF2910020FB35 /* UKTestMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMacros.m; path = UnitKitTests/UKTestMacros.m; sourceTree = "<group>"; usesTabs = 0; };
-		AEBEF55A05FBEFD10020FB35 /* UKTestLineNumbers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestLineNumbers.h; path = UnitKitTests/UKTestLineNumbers.h; sourceTree = "<group>"; usesTabs = 0; };
-		AEBEF55B05FBEFD10020FB35 /* UKTestLineNumbers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestLineNumbers.m; path = UnitKitTests/UKTestLineNumbers.m; sourceTree = "<group>"; usesTabs = 0; };
-		AEBEF56305FBF8010020FB35 /* UKTestFileNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestFileNames.h; path = UnitKitTests/UKTestFileNames.h; sourceTree = "<group>"; usesTabs = 0; };
-		AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestFileNames.m; path = UnitKitTests/UKTestFileNames.m; sourceTree = "<group>"; usesTabs = 0; };
 		AEEB74D006B1BEFD00BE53E8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AEFFFA67060140E50002576C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/UKTestHandler.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -316,7 +303,7 @@
 			children = (
 				8DC2EF5B0486A6940098B216 /* UnitKit.framework */,
 				AE923B2C05C3B1CE00549058 /* ukrun */,
-				AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */,
+				AE923B3605C3B1DF00549058 /* TestUnitKit.bundle */,
 				AE70B65405F7100400D56367 /* TestBundle.bundle */,
 				AEBED01906AFADB000451E26 /* TestFramework.framework */,
 				60A71B4218B505DA0038CE05 /* libUnitKit.a */,
@@ -466,21 +453,21 @@
 		AE923B4E05C3B33400549058 /* TestSource */ = {
 			isa = PBXGroup;
 			children = (
-				AE923B3705C3B1DF00549058 /* Info.plist */,
-				6065B7F41896B602002B07D6 /* TestObject.h */,
-				6065B7F51896B604002B07D6 /* TestObject.m */,
-				AE702CC905FED1060049C79F /* UKRunnerTests.h */,
-				AE702CCA05FED1060049C79F /* UKRunnerTests.m */,
-				AEBEF4B605FAF2910020FB35 /* UKTestMacros.h */,
-				AEBEF4B705FAF2910020FB35 /* UKTestMacros.m */,
-				AEBEF55A05FBEFD10020FB35 /* UKTestLineNumbers.h */,
-				AEBEF55B05FBEFD10020FB35 /* UKTestLineNumbers.m */,
-				AEBEF56305FBF8010020FB35 /* UKTestFileNames.h */,
-				AEBEF56405FBF8010020FB35 /* UKTestFileNames.m */,
-				AE702C3705FEC7920049C79F /* UKTestMessages.h */,
-				AE702C3805FEC7920049C79F /* UKTestMessages.m */,
-				AEBED04C06AFB1AB00451E26 /* UKTestFramework.h */,
-				AEBED04D06AFB1AC00451E26 /* UKTestFramework.m */,
+				6048470318BCA25B006E4EDC /* Info.plist */,
+				6048470418BCA25B006E4EDC /* TestObject.h */,
+				6048470518BCA25B006E4EDC /* TestObject.m */,
+				6048470618BCA25B006E4EDC /* UKRunnerTests.h */,
+				6048470718BCA25B006E4EDC /* UKRunnerTests.m */,
+				6048470818BCA25B006E4EDC /* UKTestFileNames.h */,
+				6048470918BCA25B006E4EDC /* UKTestFileNames.m */,
+				6048470A18BCA25B006E4EDC /* UKTestFramework.h */,
+				6048470B18BCA25B006E4EDC /* UKTestFramework.m */,
+				6048470C18BCA25B006E4EDC /* UKTestLineNumbers.h */,
+				6048470D18BCA25B006E4EDC /* UKTestLineNumbers.m */,
+				6048470E18BCA25B006E4EDC /* UKTestMacros.h */,
+				6048470F18BCA25B006E4EDC /* UKTestMacros.m */,
+				6048471018BCA25B006E4EDC /* UKTestMessages.h */,
+				6048471118BCA25B006E4EDC /* UKTestMessages.m */,
 			);
 			path = TestSource;
 			sourceTree = "<group>";
@@ -549,13 +536,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEBEF4B805FAF2910020FB35 /* UKTestMacros.h in Headers */,
-				AEBEF55C05FBEFD10020FB35 /* UKTestLineNumbers.h in Headers */,
-				AEBEF56505FBF8010020FB35 /* UKTestFileNames.h in Headers */,
-				AE702C3905FEC7920049C79F /* UKTestMessages.h in Headers */,
-				AE702CCB05FED1060049C79F /* UKRunnerTests.h in Headers */,
-				AEBED0E106B0589C00451E26 /* UKTestFramework.h in Headers */,
-				6065B7F61896B608002B07D6 /* TestObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,7 +595,6 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
-				8DC2EF580486A6940098B216 /* Rez */,
 			);
 			buildRules = (
 			);
@@ -654,6 +633,7 @@
 				AE923B2805C3B1CE00549058 /* Headers */,
 				AE923B2905C3B1CE00549058 /* Sources */,
 				AE923B2A05C3B1CE00549058 /* Frameworks */,
+				6048470218BC9FC7006E4EDC /* Report Test Suite Results in Xcode Warnings (to debug the test suite, use TestUnitKit) */,
 				60B98EEF1805609900D1FFFF /* CopyFiles */,
 				60B98EF4180560E300D1FFFF /* CopyFiles */,
 				60B98EF61805611700D1FFFF /* CopyFiles */,
@@ -669,14 +649,13 @@
 			productReference = AE923B2C05C3B1CE00549058 /* ukrun */;
 			productType = "com.apple.product-type.tool";
 		};
-		AE923B3505C3B1DF00549058 /* UnitKitTests */ = {
+		AE923B3505C3B1DF00549058 /* TestUnitKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 600CE50809F24490008BA30D /* Build configuration list for PBXNativeTarget "UnitKitTests" */;
+			buildConfigurationList = 600CE50809F24490008BA30D /* Build configuration list for PBXNativeTarget "TestUnitKit" */;
 			buildPhases = (
 				AE923B3005C3B1DF00549058 /* Headers */,
 				AE923B3105C3B1DF00549058 /* Resources */,
 				AE923B3205C3B1DF00549058 /* Sources */,
-				AE923B3305C3B1DF00549058 /* Rez */,
 				AE923B3405C3B1DF00549058 /* Frameworks */,
 				AE43DAFC05C4DC7C00B9DFA5 /* ShellScript */,
 			);
@@ -688,9 +667,9 @@
 				AE70B65D05F7101600D56367 /* PBXTargetDependency */,
 				AEBED02C06AFAE9E00451E26 /* PBXTargetDependency */,
 			);
-			name = UnitKitTests;
+			name = TestUnitKit;
 			productName = UnitKitTests;
-			productReference = AE923B3605C3B1DF00549058 /* UnitKitTests.bundle */;
+			productReference = AE923B3605C3B1DF00549058 /* TestUnitKit.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		AEBED01806AFADB000451E26 /* TestFramework */ = {
@@ -737,7 +716,7 @@
 			targets = (
 				8DC2EF4F0486A6940098B216 /* UnitKit */,
 				AE923B2B05C3B1CE00549058 /* ukrun */,
-				AE923B3505C3B1DF00549058 /* UnitKitTests */,
+				AE923B3505C3B1DF00549058 /* TestUnitKit */,
 				AE70B65305F7100400D56367 /* TestBundle */,
 				AEBED01806AFADB000451E26 /* TestFramework */,
 				60A71B4118B505DA0038CE05 /* UnitKit (iOS) */,
@@ -802,21 +781,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
-		8DC2EF580486A6940098B216 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		AE70B65105F7100400D56367 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AE923B3305C3B1DF00549058 /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -826,6 +791,20 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6048470218BC9FC7006E4EDC /* Report Test Suite Results in Xcode Warnings (to debug the test suite, use TestUnitKit) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Report Test Suite Results in Xcode Warnings (to debug the test suite, use TestUnitKit)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\ncd $TARGET_BUILD_DIR\n$TARGET_BUILD_DIR/ukrun -q \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n";
+		};
 		60A71B6918B506BD0038CE05 /* Prepare Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -851,7 +830,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\ncd $TARGET_BUILD_DIR\n$TARGET_BUILD_DIR/ukrun -q \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n\nKEYWORDS=\"TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"";
+			shellScript = "KEYWORDS=\"TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -869,12 +848,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60E23C2B18B514AD00CE38D0 /* TestObject.m in Sources */,
-				60E23C2418B514A900CE38D0 /* UKRunnerTests.m in Sources */,
-				60E23C2518B514A900CE38D0 /* UKTestMacros.m in Sources */,
-				60E23C2618B514A900CE38D0 /* UKTestLineNumbers.m in Sources */,
-				60E23C2718B514A900CE38D0 /* UKTestFileNames.m in Sources */,
-				60E23C2818B514A900CE38D0 /* UKTestMessages.m in Sources */,
 				6048463118B61187006E4EDC /* TestOne.m in Sources */,
 				6048463218B61187006E4EDC /* TestTwo.m in Sources */,
 				6048463318B61187006E4EDC /* TestThree.m in Sources */,
@@ -913,13 +886,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEBEF4B905FAF2910020FB35 /* UKTestMacros.m in Sources */,
-				AEBEF55D05FBEFD10020FB35 /* UKTestLineNumbers.m in Sources */,
-				AEBEF56605FBF8010020FB35 /* UKTestFileNames.m in Sources */,
-				AE702C3A05FEC7920049C79F /* UKTestMessages.m in Sources */,
-				AE702CCC05FED1060049C79F /* UKRunnerTests.m in Sources */,
-				AEBED0E306B058A100451E26 /* UKTestFramework.m in Sources */,
-				6065B7F71896B608002B07D6 /* TestObject.m in Sources */,
+				6048471418BCA25B006E4EDC /* TestObject.m in Sources */,
+				6048471618BCA25B006E4EDC /* UKRunnerTests.m in Sources */,
+				6048471818BCA25B006E4EDC /* UKTestFileNames.m in Sources */,
+				6048471A18BCA25B006E4EDC /* UKTestFramework.m in Sources */,
+				6048471C18BCA25B006E4EDC /* UKTestLineNumbers.m in Sources */,
+				6048471E18BCA25B006E4EDC /* UKTestMacros.m in Sources */,
+				6048472018BCA25B006E4EDC /* UKTestMessages.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1104,12 +1077,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = TestSource/UnitKitTests/Info.plist;
+				INFOPLIST_FILE = TestSource/TestUnitKit/Info.plist;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
 				);
-				PRODUCT_NAME = UnitKitTests;
+				PRODUCT_NAME = TestUnitKit;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -1119,12 +1092,12 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = NO;
-				INFOPLIST_FILE = TestSource/UnitKitTests/Info.plist;
+				INFOPLIST_FILE = TestSource/TestUnitKit/Info.plist;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
 				);
-				PRODUCT_NAME = UnitKitTests;
+				PRODUCT_NAME = TestUnitKit;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -1260,7 +1233,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		600CE50809F24490008BA30D /* Build configuration list for PBXNativeTarget "UnitKitTests" */ = {
+		600CE50809F24490008BA30D /* Build configuration list for PBXNativeTarget "TestUnitKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				600CE50909F24490008BA30D /* Debug */,

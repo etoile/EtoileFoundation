@@ -69,9 +69,14 @@ For running the test suite, click Run in the toolbar. The scheme must
 have the tool set to 'ukrun' in the Run section, and the arguments to:
 
 - -q 
-- $TARGET_BUILD_DIR/$WRAPPER_NAME
+- $TARGET_BUILD_DIR/<product_name>.bundle
 
-If you use the template as described above, this is is normally set up 
+<product_name> must be the test suite target/scheme name. You cannot use 
+$TARGET_BUILD_DIR/$WRAPPER_NAME, because build settings variable are evaluated 
+based on 'ukrun' and not based on the test suite build settings ('ukrun' is set 
+as the executable in the Run section of the test suite scheme).
+
+If the UnitKit Testing Bundle template is used, this is is normally set up 
 transparently. However it can be useful to check the scheme is correctly set up 
 if the test suite doesn't run.
 
@@ -80,8 +85,8 @@ Inside this bundle, compile the test classes and any additional code needed.
 For testing a framework or library, the test bundle can just link the tested 
 product.
 
-**Note:** You can check UnitKitTests target and scheme to understand how to 
-create a test bundle manually (without using the UnitKit Testing template).
+**Note:** You can check TestUnitKit target and scheme to understand how to 
+create a test bundle manually (without using the UnitKit Testing Bundle template).
 
 
 How to use UnitKit with iOS

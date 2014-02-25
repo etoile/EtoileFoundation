@@ -147,7 +147,7 @@
 	return testBundle;
 }
 
-- (NSString *) testBundleExtension
+- (NSString *)testBundleExtension
 {
 	return @"bundle";
 }

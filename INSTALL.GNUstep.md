@@ -35,7 +35,7 @@ To produce a test bundle and run the test suite:
 
 	make test=yes 
 	
-	ukrun [-q] Source/TestSource/UnitKitTests/UnitKitTestBundle.bundle
+	ukrun [-q] Source/TestSource/UnitKitTests/TestUnitKit.bundle
 
 
 Trouble
