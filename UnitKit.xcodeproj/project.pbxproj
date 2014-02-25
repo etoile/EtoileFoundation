@@ -19,6 +19,14 @@
 		6048471C18BCA25B006E4EDC /* UKTestLineNumbers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470D18BCA25B006E4EDC /* UKTestLineNumbers.m */; };
 		6048471E18BCA25B006E4EDC /* UKTestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470F18BCA25B006E4EDC /* UKTestMacros.m */; };
 		6048472018BCA25B006E4EDC /* UKTestMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048471118BCA25B006E4EDC /* UKTestMessages.m */; };
+		6048472B18BCAFD4006E4EDC /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470518BCA25B006E4EDC /* TestObject.m */; };
+		6048472C18BCAFD4006E4EDC /* UKRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470718BCA25B006E4EDC /* UKRunnerTests.m */; };
+		6048472D18BCAFD4006E4EDC /* UKTestFileNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470918BCA25B006E4EDC /* UKTestFileNames.m */; };
+		6048472E18BCAFD4006E4EDC /* UKTestFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470B18BCA25B006E4EDC /* UKTestFramework.m */; };
+		6048472F18BCAFD4006E4EDC /* UKTestLineNumbers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470D18BCA25B006E4EDC /* UKTestLineNumbers.m */; };
+		6048473018BCAFD4006E4EDC /* UKTestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048470F18BCA25B006E4EDC /* UKTestMacros.m */; };
+		6048473118BCAFD4006E4EDC /* UKTestMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 6048471118BCA25B006E4EDC /* UKTestMessages.m */; };
+		6048473218BCAFE7006E4EDC /* TestClass.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBED02806AFAE7800451E26 /* TestClass.m */; };
 		60A71B6A18B506D60038CE05 /* UKTestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AE613E6805F181AE009B020F /* UKTestHandler.m */; };
 		60A71B6B18B506D60038CE05 /* UKRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE923D8A05C3B9EC00549058 /* UKRunner.m */; };
 		60A71B6D18B507090038CE05 /* UKTest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE73F21F05F1573200CAFD4D /* UKTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -852,6 +860,14 @@
 				6048463218B61187006E4EDC /* TestTwo.m in Sources */,
 				6048463318B61187006E4EDC /* TestThree.m in Sources */,
 				60E23C3418B529EE00CE38D0 /* main.m in Sources */,
+				6048472B18BCAFD4006E4EDC /* TestObject.m in Sources */,
+				6048472C18BCAFD4006E4EDC /* UKRunnerTests.m in Sources */,
+				6048472D18BCAFD4006E4EDC /* UKTestFileNames.m in Sources */,
+				6048472E18BCAFD4006E4EDC /* UKTestFramework.m in Sources */,
+				6048472F18BCAFD4006E4EDC /* UKTestLineNumbers.m in Sources */,
+				6048473018BCAFD4006E4EDC /* UKTestMacros.m in Sources */,
+				6048473118BCAFD4006E4EDC /* UKTestMessages.m in Sources */,
+				6048473218BCAFE7006E4EDC /* TestClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
