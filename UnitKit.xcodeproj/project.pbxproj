@@ -968,9 +968,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = FrameworkSource/Info.plist;
 				PRODUCT_NAME = UnitKit;
 			};
@@ -980,9 +977,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = FrameworkSource/Info.plist;
 				PRODUCT_NAME = UnitKit;
 			};
@@ -991,12 +985,6 @@
 		600CE4FD09F24490008BA30D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = ukrun;
 			};
 			name = Debug;
@@ -1004,12 +992,6 @@
 		600CE4FE09F24490008BA30D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = ukrun;
 			};
 			name = Release;
@@ -1019,10 +1001,6 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TestSource/TestBundle/Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
 				PRODUCT_NAME = TestBundle;
 			};
 			name = Debug;
@@ -1031,12 +1009,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = TestSource/TestBundle/Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
 				PRODUCT_NAME = TestBundle;
 			};
 			name = Release;
@@ -1045,14 +1018,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = TestSource/TestFramework/Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = TestFramework;
 			};
 			name = Debug;
@@ -1061,14 +1027,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = TestSource/TestFramework/Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = TestFramework;
 			};
 			name = Release;
@@ -1078,12 +1037,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TestSource/TestUnitKit/Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
 				PRODUCT_NAME = TestUnitKit;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -1091,14 +1045,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = TestSource/TestUnitKit/Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
 				PRODUCT_NAME = TestUnitKit;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
