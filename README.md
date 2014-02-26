@@ -30,7 +30,7 @@ The UnitKit core features are:
 - Run loop integration for asynchronous testing
 - Uncaught exception reporting
 - Delegate methods to signal a test suite will start or just ended
-- Tested class choice based on a list or a regex
+- Tested class choice based on a regex
 - Verbose and quiet ouput
 - Optional ukrun tool to run test suites packaged in test bundles
 - Xcode 3 and higher test suite templates

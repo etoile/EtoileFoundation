@@ -5,7 +5,7 @@ UnitKit NEWS
 ------------------
 
 - Added abstract test case support (test methods from superclasses are now run by UKRunner)
-- Added option to choose the tested classes (-c for a class list and -classRegex for list based on a pattern)
+- Added option to choose the tested classes (-c for a list based on a regex pattern)
 - Added uncaught exception reporting in the test results
 - Better reporting for uncaught exceptions in -init and -dealloc
 - Added class and method name printing in the test suite output
