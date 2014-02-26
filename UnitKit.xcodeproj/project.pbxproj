@@ -47,6 +47,7 @@
 		60E23C0D18B5134100CE38D0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E23C0C18B5134100CE38D0 /* CoreGraphics.framework */; };
 		60E23C2318B5135F00CE38D0 /* libUnitKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A71B4218B505DA0038CE05 /* libUnitKit.a */; };
 		60E23C3418B529EE00CE38D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E23C3318B529EE00CE38D0 /* main.m */; };
+		6642F86618BEAAAF00E30BFF /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
 		AE390EF10724F2530036A22B /* TestFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBED01906AFADB000451E26 /* TestFramework.framework */; };
 		AE55498B06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
 		AE55498C06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE55498A06C5ACDC005FF2F3 /* Foundation.framework */; };
@@ -64,7 +65,6 @@
 		AE70B72C05F73A3F00D56367 /* TestThree.m in Sources */ = {isa = PBXBuildFile; fileRef = AE70B72A05F73A3F00D56367 /* TestThree.m */; };
 		AE73F22105F1573200CAFD4D /* UKTest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE73F21F05F1573200CAFD4D /* UKTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE923B6405C3B44600549058 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
-		AE923B6505C3B44C00549058 /* UnitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* UnitKit.framework */; };
 		AE923B6E05C3B57600549058 /* UnitKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AE923B6D05C3B57600549058 /* UnitKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE923D8605C3B90100549058 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE923D8505C3B90100549058 /* main.m */; };
 		AE923D8B05C3B9EC00549058 /* UKRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = AE923D8905C3B9EC00549058 /* UKRunner.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -82,6 +82,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 60A71B4118B505DA0038CE05;
 			remoteInfo = "UnitKit (iOS)";
+		};
+		6642F86218BEAAA500E30BFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE923B2B05C3B1CE00549058;
+			remoteInfo = ukrun;
+		};
+		6642F86418BEAAA600E30BFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = UnitKit;
 		};
 		AE70B65605F7100E00D56367 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -103,20 +117,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = UnitKit;
-		};
-		AE923B3A05C3B1ED00549058 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = UnitKit;
-		};
-		AE923B3C05C3B1F300549058 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AE923B2B05C3B1CE00549058;
-			remoteInfo = ukrun;
 		};
 		AEBED02B06AFAE9E00451E26 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -287,7 +287,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE923B6505C3B44C00549058 /* UnitKit.framework in Frameworks */,
+				6642F86618BEAAAF00E30BFF /* UnitKit.framework in Frameworks */,
 				AE55498D06C5ACDC005FF2F3 /* Foundation.framework in Frameworks */,
 				AE390EF10724F2530036A22B /* TestFramework.framework in Frameworks */,
 			);
@@ -669,8 +669,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				AE923B3B05C3B1ED00549058 /* PBXTargetDependency */,
-				AE923B3D05C3B1F300549058 /* PBXTargetDependency */,
+				6642F86518BEAAA600E30BFF /* PBXTargetDependency */,
+				6642F86318BEAAA500E30BFF /* PBXTargetDependency */,
 				AE70B65D05F7101600D56367 /* PBXTargetDependency */,
 				AEBED02C06AFAE9E00451E26 /* PBXTargetDependency */,
 			);
@@ -939,6 +939,16 @@
 			target = 60A71B4118B505DA0038CE05 /* UnitKit (iOS) */;
 			targetProxy = 60E23C3018B529C400CE38D0 /* PBXContainerItemProxy */;
 		};
+		6642F86318BEAAA500E30BFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE923B2B05C3B1CE00549058 /* ukrun */;
+			targetProxy = 6642F86218BEAAA500E30BFF /* PBXContainerItemProxy */;
+		};
+		6642F86518BEAAA600E30BFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* UnitKit */;
+			targetProxy = 6642F86418BEAAA600E30BFF /* PBXContainerItemProxy */;
+		};
 		AE70B65705F7100E00D56367 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* UnitKit */;
@@ -953,16 +963,6 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* UnitKit */;
 			targetProxy = AE923B3805C3B1E900549058 /* PBXContainerItemProxy */;
-		};
-		AE923B3B05C3B1ED00549058 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* UnitKit */;
-			targetProxy = AE923B3A05C3B1ED00549058 /* PBXContainerItemProxy */;
-		};
-		AE923B3D05C3B1F300549058 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AE923B2B05C3B1CE00549058 /* ukrun */;
-			targetProxy = AE923B3C05C3B1F300549058 /* PBXContainerItemProxy */;
 		};
 		AEBED02C06AFAE9E00451E26 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
