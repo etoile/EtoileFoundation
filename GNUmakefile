@@ -204,7 +204,10 @@ endif
 
 EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
 	Source/ETCollection+HOMMethods.m \
-	Source/ETCollectionMutation+HOMMethods.m
+	Source/ETCollectionMutation+HOMMethods.m \
+	Source/NSBlocks.m \
+	Headers/EtoileCompatibility.h \
+	Source/EtoileCompatibility.m
 
 # We exclude some implementation files to prevent argument name mismatches 
 # (reported by autogsdoc) between implemented accessors and accessors generated 
