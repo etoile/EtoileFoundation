@@ -196,6 +196,7 @@
 		6048470F18BCA25B006E4EDC /* UKTestMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMacros.m; path = TestUnitKit/UKTestMacros.m; sourceTree = "<group>"; };
 		6048471018BCA25B006E4EDC /* UKTestMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKTestMessages.h; path = TestUnitKit/UKTestMessages.h; sourceTree = "<group>"; };
 		6048471118BCA25B006E4EDC /* UKTestMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKTestMessages.m; path = TestUnitKit/UKTestMessages.m; sourceTree = "<group>"; };
+		6048476018BDEF37006E4EDC /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.md; sourceTree = "<group>"; };
 		60A71B4218B505DA0038CE05 /* libUnitKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnitKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		60A71B4418B505DA0038CE05 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		60B98EE318055DD000D1FFFF /* Objective-C UnitKit test case class.xctemplate */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Objective-C UnitKit test case class.xctemplate"; path = "XcodeIntegration/File Templates/Cocoa/Objective-C UnitKit test case class.xctemplate"; sourceTree = "<group>"; };
@@ -324,6 +325,7 @@
 				6048463C18B6373A006E4EDC /* INSTALL.Cocoa.md */,
 				6048463D18B6373A006E4EDC /* INSTALL.GNUstep.md */,
 				6048463418B61E4F006E4EDC /* NEWS.md */,
+				6048476018BDEF37006E4EDC /* TODO.md */,
 				AEEB74D006B1BEFD00BE53E8 /* LICENSE */,
 				AEBED16806B0603600451E26 /* NOTICE */,
 				AE923B6D05C3B57600549058 /* UnitKit.h */,
