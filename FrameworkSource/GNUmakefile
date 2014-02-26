@@ -17,12 +17,12 @@ UnitKit_LANGUAGES = English
 
 UnitKitDoc_DOC_FILES = UKTest.h UKTestHandler.h UKRunner.h
 
-UnitKitDoc_DOCUMENTATION_DIR = ../../Documentation
-UnitKitDoc_MENU_TEMPLATE_FILE = ../../Documentation/Templates/menu.html
+UnitKitDoc_DOCUMENTATION_DIR = ../Documentation
+UnitKitDoc_MENU_TEMPLATE_FILE = ../Documentation/Templates/menu.html
 
-UnitKitDoc_README_FILE = ../../README.md
-UnitKitDoc_INSTALL_FILES = ../../INSTALL.Cocoa.md ../../INSTALL.GNUstep.md
-UnitKitDoc_NEWS_FILE = ../../NEWS.md
+UnitKitDoc_README_FILE = ../README.md
+UnitKitDoc_INSTALL_FILES = ../INSTALL.Cocoa.md ../INSTALL.GNUstep.md
+UnitKitDoc_NEWS_FILE = ../NEWS.md
 
 include $(GNUSTEP_MAKEFILES)/framework.make
 -include ../../../etoile.make
