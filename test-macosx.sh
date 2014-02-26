@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# install ukrun first
+sudo xcodebuild -target ukrun -configuration Release clean install
+
 # This is used in the "Run Script" phase of each of the targets we build,
 # if it is set to 1, the resulting binary is run as part of the xcodebuild
 export TEST_AUTORUN=1 
