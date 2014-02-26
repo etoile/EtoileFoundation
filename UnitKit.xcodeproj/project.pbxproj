@@ -663,7 +663,8 @@
 				AE923B3105C3B1DF00549058 /* Resources */,
 				AE923B3205C3B1DF00549058 /* Sources */,
 				AE923B3405C3B1DF00549058 /* Frameworks */,
-				AE43DAFC05C4DC7C00B9DFA5 /* ShellScript */,
+				AE43DAFC05C4DC7C00B9DFA5 /* Report TODOs and FIXMEs */,
+				6048476818BE9DFD006E4EDC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -809,6 +810,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# export the build dir as the framework path and point\n# at the currently built ukrun so that we test out just\n# what's being built here and not an already installed\n# copy\nexport DYLD_FRAMEWORK_PATH=$LIBRARY_SEARCH_PATHS:$TARGET_BUILD_DIR\ncd $TARGET_BUILD_DIR\n$TARGET_BUILD_DIR/ukrun -q \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n";
 		};
+		6048476818BE9DFD006E4EDC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Derived from: https://github.com/gh-unit/gh-unit/blob/master/Scripts/RunTests.sh\n\n# If we aren't running from the command line, then exit\nif [ \"$TEST_AUTORUN\" = \"\" ]; then\nexit 0\nfi\n\nexport DYLD_FRAMEWORK_PATH=\"$CONFIGURATION_BUILD_DIR\"\ncd $TARGET_BUILD_DIR\nukrun\nRETVAL=$?\n\nexit $RETVAL";
+		};
 		60A71B6918B506BD0038CE05 /* Prepare Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -823,13 +837,14 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\ncp -a \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/${PRODUCT_NAME}\"";
 		};
-		AE43DAFC05C4DC7C00B9DFA5 /* ShellScript */ = {
+		AE43DAFC05C4DC7C00B9DFA5 /* Report TODOs and FIXMEs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Report TODOs and FIXMEs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
