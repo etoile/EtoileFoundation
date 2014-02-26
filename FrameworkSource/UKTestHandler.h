@@ -23,7 +23,7 @@
 
 /**
  * @abstract UKTestHandler implements the test assertions built into UnitKit
- * and support to report the results
+ * and track the test results
  *
  * For each test assertion invoked on the test handler, the handler collects
  * the result and reports it or not based on the reporting settings.
@@ -79,18 +79,18 @@
  */
 - (void)setDelegate: (id)aDelegate;
 /**
- * Returns whether the handler to report just the test failures and uncaught
- * exceptions, and nothing on test successes.
+ * Returns whether the handler should report just the test failures and 
+ * uncaught exceptions, but nothing on test successes.
  *
  * By default, returns NO.
  *
- * -isQuiet is initialized to YES if the argument '-q' is present in the 
- * 'ukrun' arguments.
+ * -isQuiet is initialized to YES if the argument <em>-q</em> is present in the 
+ * <em>ukrun</em> arguments.
  */
 - (BOOL)isQuiet;
 /**
  * Tells the handler to report just the test failures and uncaught exceptions,
- * and nothing on test successes.
+ * but nothing on test successes.
  */
 - (void)setQuiet: (BOOL)isQuiet;
 /**

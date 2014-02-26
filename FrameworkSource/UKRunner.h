@@ -25,15 +25,15 @@
  * @abstract UKTestRunner runs the test suite(s) and reports the results. 
  *
  * Usually you are not expected to use UKRunner directly to run a test suite, 
- * but to use 'ukrun' that will ask UKRunner to do it with +runTests.
+ * but to use <em>ukrun</em> that will ask UKRunner to do it with +runTests.
  *
  * @section Test Bundle Loading and Argument Parsing
  *
  * UKRunner will parse arguments from the command-line bound to 
  * -[UKTestHandler isQuiet] and -[UKRunner classRegex], and can load one or 
  * multiple test bundles, either passed among the arguments or to 
- * -runTestsInBundle:principalClass: (when you use the API directly and bypass 
- * 'ukrun').
+ * -runTestsInBundle:principalClass: (if you use the API directly instead of 
+ * <em>ukrun</em>).
  *
  * @section Collecting Test Classes
  *
@@ -57,11 +57,20 @@
  * UKRunner also supports test class methods e.g. +testSomething.
  *
  * The test methods are executed in their alphabetical order.
+ *
+ * @section Notifications
+ *
+ * Each time methods -runTestsWithClassNames:principalClass: and 
+ * -runTestsInBundle:principalClass: are invoked, the runner calls 
+ * +willRunTestSuite and +didRunTestSuite on the principal class, and runs the 
+ * test suite between them.
+ *
+ * For common use cases, see +[NSObject willRunTestSuite]. 
  */
 @interface UKRunner : NSObject
 {
 	@private
-    NSString *classRegex;
+   	NSString *classRegex;
 	int testClassesRun;
 	int testMethodsRun;
 }
@@ -78,8 +87,8 @@
  * <code>TestB</code>, a class list <code>TestA|TestB|TestN</code> or a 
  * pattern-based list <code>Test*Persistency</code>.
  *
- * -classRegex is initialized to the value of the argument '-c' present in the 
- * 'ukrun' arguments.
+ * -classRegex is initialized to the value of the argument <em>-c</em> present 
+ * in the <em>ukrun</em> arguments.
  *
  * See also -setClassRegex:.
  */
@@ -101,7 +110,7 @@
  * arguments.
  *
  * For all the test bundles collected (or provided as arguments), this method
- * uses -runTests:inBundleAtPath:currrentDirectory: to run the tests contained
+ * uses -runTestsInBundleAtPath:currrentDirectory: to run the tests contained 
  * in each one. When all test bundles have been run, -reportTestResults is
  * called to output the combined results.
  *
@@ -126,22 +135,20 @@
 /**
  * Runs all the tests in the given test bundle.
  *
- * If the bundle is nil, a principal class can still be provided in argument.
- *
- * For a valid bundle, the principal class argument is ignored.
- *
- * For test related configuration, +willRunTestSuite and +didRunTestSuite
- * are sent to the principal class (see UKPrincipalClassNotifications).
+ * This method behaves the same than -runTestsWithClassNames:principalClass:, 
+ * with the test bundle principal class as the test suite principal class.
  */
-- (void)runTestsInBundle: (NSBundle *)bundle
-          principalClass: (Class)principalClass;
+- (void)runTestsInBundle: (NSBundle *)bundle;
 /**
  * Runs all the tests in the tested classes in the given test bundle.
  *
- * This method behaves the same than -runTestsInBundle:principalClass:.
+ * For test related configuration, +willRunTestSuite and +didRunTestSuite
+ * are sent to the principal class, see NSObject(UKPrincipalClassNotifications).
  *
  * If testedClasses is nil, then it is the same than passing all the test
  * classes present in the bundle.
+ *
+ * This method and -runTestsInBundle: represents a test suite invocation.
  */
 - (void)runTestsWithClassNames: (NSArray *)testClasses
                 principalClass: (Class)principalClass;
@@ -167,7 +174,7 @@
  */
 - (void)runTests: (NSArray *)testMethods
       onInstance: (BOOL)instance
-		 ofClass: (Class)testClass;
+         ofClass: (Class)testClass;
 
 
 /** @taskunit Test Reporting */
@@ -189,13 +196,19 @@
 
 @end
 
+/**
+ * @abstract Test suite related notifications.
+ *
+ * These delegate methods can be implemented in the principal class. See the 
+ * Notifications section in UKRunner class description. 
+ */
 @interface NSObject (UKPrincipalClassNotifications)
 /**
  * Tells the principal class that the test suite is about to start.
  * 
  * The principal class comes from the test bundle Info.plist, 
  * -runTestsInBundle:principalClass: or -runTestsWithClassNames:principalClass: 
- * (if these last two methods are called directly without using 'ukrun').
+ * (if these last two methods are called directly without using <em>ukrun</em>).
  *
  * You can implement this method to set up some global state (e.g. create a  
  * NSApp object with +[NSApplication sharedApplication]) or test configuration.
@@ -218,7 +231,7 @@
 /**
  * Returns all the test classes present in the given bundle, and sorted by name.
  *
- * To be a test class, a class (or its superclass) must conform to UKTest
+ * To be a test class, a class (or its superclass) must conform to UKTest 
  * protocol.
  */
 NSArray *UKTestClasseNamesFromBundle (NSBundle *bundle);

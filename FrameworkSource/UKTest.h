@@ -27,8 +27,8 @@
  * All classes that conforms to UKTest, including their subclasses, are picked 
  * up by UKRunner.
  *
- * If a filtering option such as -c is passed to <em>ukrun</em>, this can 
- * prevent the a test class to be picked up.
+ * If a filtering option such as <em>-c</em> is passed to <em>ukrun</em>, this 
+ * can prevent the a test class to be picked up.
  */
 @protocol UKTest
 @end

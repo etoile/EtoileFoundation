@@ -226,7 +226,7 @@
 		NSString *arg = [args objectAtIndex: i];
 
 		/* We parse all supported options to skip them and process the test 
-           bundle list at the end */
+		   bundle list at the end */
 		if ([arg isEqualToString: @"-q"])
 		{
 			[[UKTestHandler handler] setQuiet: YES];
@@ -269,8 +269,7 @@
 
 	if (testBundle != nil)
 	{
-		[self runTestsInBundle: testBundle
-		        principalClass: [testBundle principalClass]];
+		[self runTestsInBundle: testBundle];
 	}
 	[pool release];
 }
@@ -373,7 +372,7 @@
 				object = [self newTestObjectOfClass: testClass];
 
 				// N.B.: If -init throws an exception or returns nil, we don't
-                // attempt to run any more methods on this class
+				// attempt to run any more methods on this class
 				if (object == nil)
 					return;
 			}
@@ -394,8 +393,8 @@
 
 				   For testing CoreObject, this also ensures all autoreleased
 				   objects in relation to a db are deallocated before closing 
-                   the db connection in -dealloc (see TestCommon.h in CoreObject 
-                   for details) */
+				   the db connection in -dealloc (see TestCommon.h in CoreObject 
+				   for details) */
 				@autoreleasepool
 				{
 					[self runTest: testSel onObject: object class: testClass];
@@ -454,13 +453,13 @@
 	return filteredClassNames;
 }
 
-- (void)runTestsInBundle: (NSBundle *)bundle principalClass: (Class)principalClass
+- (void)runTestsInBundle: (NSBundle *)bundle
 {
 	NILARG_EXCEPTION_TEST(bundle);
 
 	[self runTestsWithClassNames: nil
                         inBundle: bundle
-                  principalClass: principalClass];
+                  principalClass: [bundle principalClass]];
 }
 
 - (void)runTestsWithClassNames: (NSArray *)testClassNames
@@ -495,8 +494,8 @@
 		[principalClass willRunTestSuite];
 	}
 
-    NSArray *classNames =
-    	(testClassNames != nil ? testClassNames : UKTestClasseNamesFromBundle(bundle));
+	NSArray *classNames =
+    		(testClassNames != nil ? testClassNames : UKTestClasseNamesFromBundle(bundle));
 
 	for (NSString *className in [self filterTestClassNames: classNames])
 	{
