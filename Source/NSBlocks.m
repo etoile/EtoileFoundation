@@ -12,7 +12,7 @@
 #define __has_feature(x) 0
 #endif
 
-@interface ETBlock
+NS_ROOT_CLASS @interface ETBlock
 {
 	id isa;
 }
