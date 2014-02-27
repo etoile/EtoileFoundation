@@ -140,13 +140,13 @@
  */
 - (void)runTestsInBundle: (NSBundle *)bundle;
 /**
- * Runs all the tests in the tested classes in the given test bundle.
+ * Runs all the tests in the tested classes.
  *
  * For test related configuration, +willRunTestSuite and +didRunTestSuite
  * are sent to the principal class, see NSObject(UKPrincipalClassNotifications).
  *
  * If testedClasses is nil, then it is the same than passing all the test
- * classes present in the bundle.
+ * classes present in the main bundle.
  *
  * This method and -runTestsInBundle: represents a test suite invocation.
  */

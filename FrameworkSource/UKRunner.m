@@ -465,10 +465,8 @@
 - (void)runTestsWithClassNames: (NSArray *)testClassNames
                 principalClass: (Class)principalClass
 {
-	NILARG_EXCEPTION_TEST(testClassNames);
-
 	[self runTestsWithClassNames: testClassNames
-                        inBundle: nil
+                        inBundle: [NSBundle mainBundle]
                   principalClass: principalClass];
 }
 
