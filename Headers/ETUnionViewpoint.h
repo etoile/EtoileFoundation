@@ -11,11 +11,11 @@
 
 /** @group Viewpoints
 @abstract A proxy giving access to a model property as a mutable collection.
- 
+
 ETCollectionViewpoint turns a collection property belonging to a represented 
 object into a immutable or mutable collection proxy that implements the 
 collection protocols.
- 
+
 Using it as an immutable collection proxy doesn't bring a lot of benefits. 
 However ETCollectionViewpoint can use Key-Value-Coding accessors to support 
 mutating the collection without implementing ETCollection and ETCollectionMutation 

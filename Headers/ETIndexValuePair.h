@@ -12,8 +12,11 @@
 @protocol ETCollection;
 
 /** @group Viewpoints
- 
-ETIndexValuePair doesn't support subclassing. */
+@abstract An index/value association.
+
+ETIndexValuePair doesn't support subclassing.
+
+Note: this class is deprecated and will be removed in a next release. */
 @interface ETIndexValuePair : NSObject <ETViewpoint>
 {
 	@private
@@ -48,9 +51,8 @@ ETIndexValuePair doesn't support subclassing. */
 
 @end
 
-/** @group Viewpoint Additions
- 
-EIndexValuePair-related extensions to NSObject. */
+/** @group Viewpoints
+@abstract ETIndexValuePair-related extensions to NSObject. */
 @interface NSObject (ETIndexValuePair)
 /** Returns whether the receiver is an index-value pair.
  

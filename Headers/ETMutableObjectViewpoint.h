@@ -11,14 +11,14 @@
 
 /** @group Viewpoints
 @abstract A proxy giving access to a model property as a mutable object.
- 
+
 ETMutableObjectViewpoint turns an attribute or to-one relationship property 
 belonging to a represented object, into a mutable object proxy that updates the 
 model property with a new immutable object in reaction to -setValue:forProperty:.
- 
+
 ETMutableObjectViewpoint doesn't work as a mutable collection proxy for a 
 to-many relationship property, you must use ETCollectionViewpoint instead.
- 
+
 Using a mutable object as ETMutableObjectViewpoint value doesn't bring a lot of 
 benefits, but is well supported and works transparently.
 
@@ -26,7 +26,7 @@ For supporting editing a mutable object class, ETMutableObjectViewpoint must be
 subclassed. For example, for editing NSSortDescriptor, you must implement a 
 new subclass such as ETMutableSortDescriptorViewpoint (this one is provided by 
 EtoileUI though).
- 
+
 This viewpoint uses Key-Value-Observing to detect any property changes on the 
 represented object. */
 @interface ETMutableObjectViewpoint : NSObject <ETPropertyViewpoint>

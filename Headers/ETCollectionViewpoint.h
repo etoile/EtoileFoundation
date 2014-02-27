@@ -12,11 +12,11 @@
 
 /** @group Viewpoints
 @abstract A proxy giving access to a model property as a mutable collection.
- 
+
 ETCollectionViewpoint turns a collection property belonging to a represented 
 object into a immutable or mutable collection proxy that implements the 
 collection protocols.
- 
+
 Using it as an immutable collection proxy doesn't bring a lot of benefits. 
 However ETCollectionViewpoint can use Key-Value-Coding accessors to support 
 mutating the collection without implementing ETCollection and ETCollectionMutation 
@@ -36,7 +36,7 @@ usually exposed. */
 /** @taskunit Controlling Represented Object Access */
 
 /** Returns the represented property collection.
- 
+
 This is the primitive method to access the underlying collection. 
 ETCollectionViewpoint never accesses the collection in another way. You must
 do the same in any ETCollectionViewpoint subclasses or categories.
@@ -44,11 +44,11 @@ do the same in any ETCollectionViewpoint subclasses or categories.
 Can be overriden, but -setContent: must be overriden too. */
 - (id <ETCollection>) content;
 /** Sets the represented property collection.
- 
+
 This is is the primitive method to access the underlying collection.
 ETCollectionViewpoint never accesses the collection in another way. You must
 do the same in any ETCollectionViewpoint subclasses or categories.
- 
+
 Can be overriden, but -content must be overriden too. */
 - (void) setContent: (id <ETCollection>)aCollection;
 /** Posts an ETSourceDidUpdateNotification which can be intercepted by all

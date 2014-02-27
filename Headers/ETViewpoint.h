@@ -11,7 +11,7 @@
 
 /** @group Viewpoints
 @abstract The base viewpoint protocol.
- 
+
 A viewpoint is an adaptor that exposes a value derived from a represented object 
 and handles reading and writing the properties of this value through 
 -valueForProperty: and -setValue:forProperty:.
@@ -40,7 +40,7 @@ The derived value object can be read and write through -value and -setValue:. */
 
 /** @group Viewpoints
 @abstract A viewpoint protocol to represent an object property.
- 
+
 A property viewpoint is an adaptor that represents an object property and 
 handles reading and writing the property value through -value and -setValue. */
 @protocol ETPropertyViewpoint <ETViewpoint> 
@@ -52,7 +52,12 @@ identified by the given name in object. */
 @end
 
 /** @group Viewpoints
- 
+@abstract Protocol to provide a viewpoint that simulates mutability for 
+immutable objects.
+
+For each immutable object class, a distinct ETMutableObjectViewpoint subclass 
+must exist. 
+
 Immutable object class that wants to support editing or mutation through a 
 ETMutableObjectViewpoint must implement this protocol. */
 @protocol ETViewpointMutation
