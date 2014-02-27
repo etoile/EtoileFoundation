@@ -100,7 +100,7 @@
 	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_cachedAllPropertyDescriptionNames);
 	
-	for (ETEntityDescription *child in _children)
+	for (ETEntityDescription *child in [_children allObjects])
 	{
 		[child clearCaches];
 	}
