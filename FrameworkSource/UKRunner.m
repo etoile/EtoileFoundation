@@ -487,6 +487,8 @@
                       inBundle: (NSBundle *)bundle
                 principalClass: (Class)principalClass
 {
+    NSDate *startDate = [NSDate date];
+
 	if ([principalClass respondsToSelector: @selector(willRunTestSuite)])
 	{
 		[principalClass willRunTestSuite];
@@ -504,6 +506,8 @@
 	{
 		[principalClass didRunTestSuite];
 	}
+    
+    NSLog(@"Took %d ms\n", (int)([[NSDate date] timeIntervalSinceDate: startDate] * 1000));
 }
 
 #pragma mark - Reporting Test Results
