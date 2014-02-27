@@ -12,7 +12,9 @@
 #define __has_feature(x) 0
 #endif
 
-NS_ROOT_CLASS @interface ETBlock
+#pragma clang diagnostic ignored "-Wobjc-root-class"
+
+@interface ETBlock
 {
 	id isa;
 }
