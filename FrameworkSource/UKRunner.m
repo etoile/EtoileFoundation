@@ -305,9 +305,13 @@
 	while ([runTimer isValid])
 	{
 		// NOTE: nil, [NSDate date], time intervals such as 0, 0.0000001 or
-		// LDBL_EPSILON don't work on GNUstep
+		// LDBL_EPSILON don't work on GNUstep.
+		//
+		// 0.000001 was working on GNUstep, but it resulted in freezing
+		// when debugging with Valgrind! Using 0.001 fixed that,
+		// but it suggests that gnustep-base might be broken
 #ifdef GNUSTEP
-		NSTimeInterval interval = 0.000001;
+		NSTimeInterval interval = 0.001;
 #else
 		NSTimeInterval interval = 0;
 #endif
