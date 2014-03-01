@@ -24,17 +24,15 @@
 
 int main(int argc, char *argv[])
 {
-	int status = -1;
+	int status = EXIT_FAILURE;
 
 	@autoreleasepool
 	{
 		UKRunner *runner = [UKRunner new];
-		UKTestHandler *handler = [UKTestHandler handler];
 
-		[handler setQuiet: YES];
+		[[UKTestHandler handler] setQuiet: YES];
 
-		[runner runTestsInBundle: [NSBundle mainBundle]
-		          principalClass: Nil];
+		[runner runTestsInBundle: [NSBundle mainBundle]];
 		status = [runner reportTestResults];
 	}
 
