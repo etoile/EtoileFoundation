@@ -279,10 +279,24 @@
 - (void)internalRunTest: (NSTimer *)timer
 {
 	NSDictionary *testParameters = [timer userInfo];
-	SEL testSel = NSSelectorFromString([testParameters objectForKey: @"TestSelector"]);
+	NSString *testMethodName = [testParameters objectForKey: @"TestSelector"];
+	SEL testSel = NSSelectorFromString(testMethodName);
 	id testObject = [testParameters objectForKey: @"TestObject"];
+	Class testClass = [testParameters objectForKey: @"TestClass"];
 
-	[testObject performSelector: testSel];
+	// N.B.: On GNUstep, NSTimer ignores exceptions
+	// so they wouldn't reach the @catch block in -runTests:onInstance:ofClass:,
+	// so we need this @try/@catch block here
+	@try
+	{
+		[testObject performSelector: testSel];
+	}
+	@catch (NSException *exception)
+	{
+		[[UKTestHandler handler] reportException: exception
+		                                 inClass: testClass
+						    hint: testMethodName];
+	}
 }
 
 - (void)runTest: (SEL)testSelector onObject: (id)testObject class: (Class)testClass
