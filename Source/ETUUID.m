@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #import "Macros.h"
-
+#import <objc/runtime.h>
 
 #define TIME_LOW(uuid) (*(uint32_t*)(uuid))
 #define TIME_MID(uuid) (*(uint16_t*)(&(uuid)[4]))
@@ -43,6 +43,16 @@ static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 
 
 @implementation ETUUID
+
+static Class ETUUIDClass;
+
++ (void) initialize
+{
+	if (self == [ETUUID class])
+	{
+		ETUUIDClass = self;
+	}
+}
 
 + (id) UUID
 {
@@ -145,12 +155,27 @@ static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 
 - (BOOL) isEqual: (id)anObject
 {
-	if (![anObject isKindOfClass: [self class]])
+	const unsigned char *other_uuid;
+	
+	if (anObject == self)
 	{
-		return NO;
+		return YES;
 	}
-	const unsigned char *other_uuid = [anObject UUIDValue];
-	for (unsigned i=0 ; i<16 ; i++)
+	else if (object_getClass(anObject) == ETUUIDClass)
+	{
+		other_uuid = ((ETUUID *)anObject)->uuid;
+	}
+	else
+	{
+		// Slow path
+		if (![anObject isKindOfClass: [self class]])
+		{
+			return NO;
+		}
+		other_uuid = [anObject UUIDValue];
+	}
+		
+	for (unsigned i=0; i<16; i++)
 	{
 		if (uuid[i] != other_uuid[i])
 		{
