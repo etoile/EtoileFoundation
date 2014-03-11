@@ -50,8 +50,14 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 		/* EtoileFoundation Bundle */
 
 		NSBundle *etoileFoundationBundle = [NSBundle bundleForClass: [ETUTI class]];
+#ifdef TARGET_OS_IPHONE
+		NSString *etoileFoundationResources = @"EtoileFoundation";
+#else
+		NSString *etoileFoundationResources = nil;
+#endif
 
-		[self registerTypesFromBundle: etoileFoundationBundle];
+		[self registerTypesFromBundle: etoileFoundationBundle
+		                  inDirectory: etoileFoundationResources];
 
 		/* Loaded Framework Bundles */
 
@@ -142,12 +148,21 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 + (void) registerTypesFromBundle: (NSBundle *)aBundle
 {
+	[self registerTypesFromBundle: aBundle inDirectory: nil];
+}
+
++ (void) registerTypesFromBundle: (NSBundle *)aBundle inDirectory: (NSString *)aDirectory
+{
+	NILARG_EXCEPTION_TEST(aBundle);
+
 	NSString *path = [aBundle pathForResource: @"UTIDefinitions" 
-	                                   ofType: @"plist"];
+	                                   ofType: @"plist"
+	                              inDirectory: aDirectory];
 	[ETUTI registerUTIDefinitions: [ETUTI propertyListWithPath: path]];
 	
 	path = [aBundle pathForResource: @"UTIClassBindings" 
-	                         ofType: @"plist"];
+	                         ofType: @"plist"
+	                    inDirectory: aDirectory];
 	[ETUTI registerClassBindings: [ETUTI propertyListWithPath: path]];
 }
 

@@ -28,6 +28,12 @@
 #define pointValue CGPointValue
 #define sizeValue CGSizeValue
 #define rectValue CGRectValue
+#define NSMakePoint CGPointMake
+#define NSMakeSize CGSizeMake
+#define NSMakeRect CGRectMake
+#define NSEqualPoints CGPointEqualToPoint
+#define NSEqualSizes CGSizeEqualToSize
+#define NSEqualRects CGRectEqualToRect
 #endif
 
 /* Logging Hacks */

@@ -196,10 +196,10 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 /* -class is defined on both NSObject and NSProxy */
 - (void)testClassAsArgumentMessage
 {
-	NSSet *inputSet = S([NSAffineTransform transform], [NSAffineTransform transform], [NSNull null]);
+	NSSet *inputSet = S(AUTORELEASE([NSOperation new]), AUTORELEASE([NSOperation new]), [NSNull null]);
 	NSSet *mappedSet = (NSSet *)[[inputSet mappedCollection] class];
 
-	UKTrue([mappedSet containsObject: [NSAffineTransform class]]);
+	UKTrue([mappedSet containsObject: [NSOperation class]]);
 	UKTrue([mappedSet containsObject: [NSNull class]]);
 }
 

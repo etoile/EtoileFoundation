@@ -110,8 +110,8 @@
 @interface TestCollectionViewpoint : NSObject <UKTest>
 {
 	Person *person;
-	id emails;
-	id groupNames;
+	ETCollectionViewpoint *emails;
+	ETCollectionViewpoint *groupNames;
 }
 
 @end

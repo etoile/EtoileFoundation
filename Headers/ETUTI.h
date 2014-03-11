@@ -32,6 +32,15 @@
  * UTIDefinitions.plist and ClassBindings.plist present in the main bundle and 
  * loaded frameworks, and merges the content into its runtime UTI database. You 
  * cannot redefine a UTI built into EtoileFoundation UTIDefinitions.plist.
+ *
+ * @section iOS Support
+ *
+ * EtoileFoundation UTIDefinitions.plist and UTIClassBindings.plist must be 
+ * referenced by your application project, and bundled in the application with a 
+ * Copy Files build phase where the subpath is a 'EtoileFoundation' subdirectory. 
+ *
+ * A Copy Bundle Resources phase can follow to copy the additional 
+ * UTIDefinitions.plist and UTIClassBindings.plist specific to your application.
  */
 @interface ETUTI : NSObject <NSCopying>
 {

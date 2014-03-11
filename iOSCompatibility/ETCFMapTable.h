@@ -29,6 +29,11 @@
 - (void)setObject: (id)anObject forKey: (id)aKey;
 - (void)removeObjectForKey: (id)aKey;
 
+/** @taskunit Enumeration */
+
+- (NSEnumerator *)keyEnumerator;
+- (NSEnumerator *)objectEnumerator;
+
 /** @taskunit Etoile Additions */
 
 - (NSArray *)allKeys;
