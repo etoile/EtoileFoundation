@@ -50,7 +50,7 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 		/* EtoileFoundation Bundle */
 
 		NSBundle *etoileFoundationBundle = [NSBundle bundleForClass: [ETUTI class]];
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
 		NSString *etoileFoundationResources = @"EtoileFoundation";
 #else
 		NSString *etoileFoundationResources = nil;
