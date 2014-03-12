@@ -131,7 +131,10 @@ by invoking +newEntityDescription on every NSObject subclass and bound to the
 class that provided the description. See -setEntityDescription:forClass:.
 
 After collecting the entity descriptions, -checkConstraints is called and must 
-return no warnings, otherwise a NSInternalInconsistencyException is raised. */
+return no warnings, otherwise a NSInternalInconsistencyException is raised.
+
+For an application, the UIApplication or NSApplication object must exist at the 
+time this method is called. */
 + (id) mainRepository;
 /** <init />
 Returns a new repository that just contains the core metamodel (Object, Number, 

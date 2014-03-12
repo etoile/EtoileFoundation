@@ -98,17 +98,6 @@ static ETModelDescriptionRepository *mainRepo = nil;
 	{
 		NSMutableArray *warnings = [NSMutableArray array];
 
-#ifdef GNUSTEP
-		// HACK: We are about to initialize every loaded class. Make
-		// sure NSApplication is created first or various other gui classes
-		// on GNUstep will throw exceptions.
-		Class nsappClass = NSClassFromString(@"NSApplication");
-		if (nsappClass != Nil)
-		{
-			[nsappClass performSelector: @selector(sharedApplication)];
-		}
-#endif
-
 		mainRepo = [[self alloc] init];
 		[mainRepo collectEntityDescriptionsFromClass: [NSObject class]
 		                             excludedClasses: nil

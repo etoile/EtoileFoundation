@@ -16,17 +16,6 @@ TODO EtoileFoundation
 
 - Add NSFastEnumeration support to NSPointerArray on GNUstep (see ETEntityDescription)
 
-- Support additional UTIDefinitions.plist and UTIClassBindings.plist per application on iOS
-
-	- EtoileFoundation is a static library on iOS, so the EtoileFoundation resources (UTIDefinitions.plist and UTIClassBindings.plist) are copied into the application project, and in the .app bundle, these EtoileFoundation resources appear in root directory. Both EtoileFoundation bundle and the app bundle are one and the same on iOS.
-
-- Remove AppKit dependency
-
-- Don't call +[NSApplication sharedApplication] in +[ETModelDescriptionRepository mainRepository]
-
-	- this can break EtoileUI and applications that subclass NSApplication	(if +mainRepository is called before the app object is created)
-	- +sharedApplication can just be called in +willRunTestSuite as EtoileUI test suite does it
-
 - Split Collection protocols and categories into multiple files
 
 - Add some useful HOM methods such as -flattenedCollection, -deepFlattenedCollection, -flatMappedCollection etc. and their block equivalent methods.
