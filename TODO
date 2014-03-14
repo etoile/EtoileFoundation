@@ -20,6 +20,8 @@ TODO EtoileFoundation
 
 - Add some useful HOM methods such as -flattenedCollection, -deepFlattenedCollection, -flatMappedCollection etc. and their block equivalent methods.
 
+- Rename ETSourceDidUpdateNotification to ETCollectionDidUpdateNotification
+
 
 Known Issues
 ------------
