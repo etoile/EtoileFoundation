@@ -13,7 +13,9 @@
 @class ETPackageDescription, ETPropertyDescription, ETValidationResult, ETUTI;
 
 /** @group Model and Metamodel
-@abstract A description of an entity, which can either be a class or a prototype. */
+@abstract A description of an entity, which can either be a class or a prototype.
+
+For an introduction, see ETModelElementDescription. */
 @interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
 	@private

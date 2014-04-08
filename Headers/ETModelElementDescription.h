@@ -27,8 +27,8 @@ versioned metamodels, e.g. a Persistency Schema), see -makeFrozen</item>
 </list>
 
 ETEntityDescription, ETPropertyDescription and ETPackageDescription all inherit 
-from ETModelElementDescription, can be registered inside a model description 
-repository using -[ETModelDescriptionRepository addDescription:].
+from ETModelElementDescription. A model element description can be registered 
+inside a model description repository using -[ETModelDescriptionRepository addDescription:].
 
 @section Conceptual Model
 
@@ -115,7 +115,7 @@ Metamodel constraints are checked in -checkConstraints:, while model constraints
 are validated in -[ETPropertyDescription validateValue:forKey:]. 
 
 Note: In the future, -checkConstraints: should probably be delegated to 
--[ETPropertyDescription validateValue:forKey:] in the meta-metamodel.
+-[ETPropertyDescription validateValue:forKey:] in the meta-metamodel
 
 If we sum up the changes to the FAME conceptual model, for the new 
 ETPropertyDescription, the metamodel constraints are:
@@ -134,8 +134,8 @@ refer to each other)</item>
 At the model level, the semantics are:
 
 <list>
-<item>container property chains may not include cycles (could be turned into a 
-model constraint)</item>
+<item>container property chains may not include cycles</item>
+<item>opposite properties must refer to each other</item>
 <item>any multivalued property defaults to empty</item>
 <item>boolean properties default to false</item>
 <item>non primitive properties default to nil</item>
@@ -143,13 +143,13 @@ model constraint)</item>
 later)</item>
 </list>
 
-Since the metamodel is the model of the meta-metamodel, the model semantics 
-apply to the metamodel too. For model constraints that apply to the metamodel, 
-the validation would be done at the meta-metamodel level with 
--[ETPropertyDescription validateValue:forKey:], rather than at the metamodel 
-level with -checkConstraints:.
+Note: The two first points are model constraints, but 
+-[ETPropertyDescription validateValue:forKey:] doesn't check them.
 
-For the new Entity Description, the metamodel constraints are:
+Since the metamodel is the model of the meta-metamodel, the model semantics 
+apply to the metamodel too.
+
+For the new ETEntityDescription, the metamodel constraints are:
 
 <list>
 <item>parent is not nil</item>
@@ -160,9 +160,17 @@ ETPropertyDescription)</item>
 <item>package must not be nil</item>
 <item>allPropertyDescriptions is derived as union of propertyDescription and 
 parent.allPropertyDescriptions</item>
-<item>propertyDescriptions replaces parent.propertyDescriptions in 
-allPropertyDescriptions</item>
+<item>elements in propertyDescriptions override identically named elements from  
+parent.propertyDescriptions in allPropertyDescriptions</item>
 <item>allPropertyDescriptions must have unique names</item>
+</list>
+
+For the new ETPackageDescription, the metamodel constraints are:
+
+<list>
+<item>owner is not nil</item>
+<item>entityDescriptions must have unique names</item>
+<item>for each element in extensions, its owner is not in entityDescriptions</item>
 </list> */
 @interface ETModelElementDescription : NSObject
 {
