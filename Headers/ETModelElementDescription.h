@@ -181,11 +181,11 @@ To recap the relationship types from UML:
 <term>association</term>
 <desc>a relationship between two objects with no additional constraints.</desc>
 <term>aggregation</term>
-<desc>a type of association representing a whole-part relationship, with the 
-constraint that all of the pointers between objects that belong to aggregation
-relationships form a DAG, and descendent objects in this DAG can be considered 
-a “part of” all of their ancestors (this doesn’t preclude the
-relationship being many:many).</desc>
+<desc>a type of association, with the constraint that all of the pointers 
+in an object graph belonging to aggregation relationships form a DAG (this
+doesn’t preclude the relationship being many:many). Aggregation represents a
+whole-part relationship, and descendent objects in this DAG can be considered
+a “part of” all of their ancestors .</desc>
 <term>composition</term>
 <desc>a type of aggregation, with the additional constraint that an object can 
 only have one composite pointer to it at a time (across all incoming 
