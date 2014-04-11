@@ -173,7 +173,7 @@ For the new ETPackageDescription, the metamodel constraints are:
 <item>for each element in extensions, its owner is not in entityDescriptions</item>
 </list> 
  
-@section Discussion of Composite & Aggregate Terminology
+@section Discussion of Composite & Aggregate Terminology in UML
  
 To recap the relationship types from UML:
 
@@ -218,7 +218,20 @@ cardinality determines object graph constraints (association, aggregation,
 composition). For example, in CoreObject it’s impossible to model associations 
 that are one:one or one:many, but are not aggregations (so you want to allow 
 cycles). It’s also strange that a relationship in CoreObject can only be 
-aggregation if it’s also bidirectional, this should probably be changed. */
+aggregation if it’s also bidirectional, this should probably be changed.
+However, I'm not sure about these points; any changes need to be carefully
+considered, especially with respect to COCopier.
+ 
+@section Composite & Aggregate in FAME
+ 
+FAME lacks the aggregation/composition distinction, it only has composition. 
+Composition in FAME is almost the same as UML (no cycles in the pointers making 
+up composite relationships between objects, plus every object can only have a 
+single incoming composite pointer). For the second condition, FAME is slightly 
+stricter in that a Class can only have a single incoming composite 
+relationship, whereas UML permits multiple incoming composite relationships as 
+long as only one of them is non-NULL at a time (roughly speaking, UML puts the 
+constraint at runtime, FAME puts the constraint at compile time). */
 @interface ETModelElementDescription : NSObject
 {
 	@private
