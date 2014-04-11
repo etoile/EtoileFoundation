@@ -171,7 +171,54 @@ For the new ETPackageDescription, the metamodel constraints are:
 <item>owner is not nil</item>
 <item>entityDescriptions must have unique names</item>
 <item>for each element in extensions, its owner is not in entityDescriptions</item>
-</list> */
+</list> 
+ 
+@section Discussion of Composite & Aggregate Terminology
+ 
+To recap the relationship types from UML:
+
+<deflist>
+<term>association</term>
+<desc>a relationship between two objects with no additional constraints.</desc>
+<term>aggregation</term>
+<desc>a type of association representing a whole-part relationship, with the 
+constraint that all of the pointers between objects that belong to aggregation
+relationships form a DAG, and descendent objects in this DAG can be considered 
+a “part of” all of their ancestors (this doesn’t preclude the
+relationship being many:many).</desc>
+<term>composition</term>
+<desc>a type of aggregation, with the additional constraint that an object can 
+only have one composite pointer to it at a time (across all incoming 
+relationships).</desc>
+</deflist>
+
+I think these definitions are complete, but for more info, see "association",
+"aggregate", and "composite" in “The Unified Modeling Language Reference
+Manual”. Note that aggregation and composite are just restrictions on the 
+object graph, and they are orthogonal to relationship cardinality (one:one, 
+one:many, many:many), although composite relationships can’t be many:many as a 
+consequence of the definition of composite.
+ 
+CoreObject implements a subset of the UML design with some of our own 
+restrictions: If a relationship is many:many, we add no additional constraints 
+(it’s a UML association). If a relationship is one:many or one:one, and 
+bidirectional, we treat it as a UML aggregation. Note that CoreObject doesn’t 
+support UML the composition constraint described above. Unfortunately the 
+CoreObject source code uses the term “composite” a lot in ways that don’t match 
+UML.
+ 
+Also note that an UML aggregation relationship with a one:one/many constraint 
+is similar to UML composition; the only difference is that UML composition adds 
+the additional constraint that the object can have only one incoming composite 
+reference across all of its relationships.
+ 
+It could be worth supporting the full UML model, or supporting FAME’s model, 
+because CoreObject’s current model is a bit weird in that relationship 
+cardinality determines object graph constraints (association, aggregation, 
+composition). For example, in CoreObject it’s impossible to model associations 
+that are one:one or one:many, but are not aggregations (so you want to allow 
+cycles). It’s also strange that a relationship in CoreObject can only be 
+aggregation if it’s also bidirectional, this should probably be changed. */
 @interface ETModelElementDescription : NSObject
 {
 	@private
