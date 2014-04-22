@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+/** @group Language Extensions */
 @interface NSInvocation (Etoile)
 + (id) invocationWithTarget: (id)target
                    selector: (SEL)selector

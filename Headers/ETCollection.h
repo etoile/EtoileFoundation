@@ -105,6 +105,7 @@ See NSFastEnumeration protocol.  */
 - (NSArray *) viewpointArray;
 @end
 
+/** @group Collection Protocols */
 @protocol ETKeyedCollection <ETCollection>
 /** Returns an ETKeyValuePair array where every entry present in the keyed 
 collection is turned into a pair object.
@@ -218,6 +219,7 @@ typedef enum
 	ETCollectionMutationKindReplacement
 } ETCollectionMutationKind;
 
+/** @group Collection Protocols */
 @interface NSObject (ETCollectionMutationKVOSupport)
 - (void) willChangeValueForKey: (NSString *)key
                      atIndexes: (NSIndexSet *)indexes
@@ -378,8 +380,8 @@ For a use case example, see ETCollectionTrait. */
 - (NSArray *) viewpointArray;
 @end
 
-/** @group Collection Protocols */
 #ifndef GNUSTEP
+/** @group Collection Protocols */
 @interface NSOrderedSet (ETCollection) <ETCollection>
 @end
 #endif
@@ -403,7 +405,7 @@ For a use case example, see ETCollectionTrait. */
 - (NSArray *) viewpointArray;
 @end
 
-/**  @group Collection Protocols
+/** @group Collection Protocols
 
 NSCountedSet is a NSMutableSet subclass and thereby inherits the collection 
 protocol methods implemented in NSSet(ETCollection). */
@@ -427,6 +429,7 @@ is ETUndeterminedIndex. */
 @end
 
 #ifndef GNUSTEP
+/** @group Collection Protocols */
 @interface NSMutableOrderedSet (ETCollectionMutation) <ETCollectionMutation>
 @end
 #endif

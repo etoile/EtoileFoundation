@@ -68,6 +68,9 @@ Must not return Nil. */
 + (Class) mutableViewpointClass;
 @end
 
+/**
+ * @group Viewpoints
+ */
 @interface ETViewpointTrait : NSObject <ETViewpoint>
 {
 	
@@ -84,6 +87,7 @@ Must not return Nil. */
 
 @end
 
+/** @group Viewpoints */
 @interface NSObject (ETViewpointAdditions)
 /** Returns NO. */
 - (BOOL) isViewpoint;

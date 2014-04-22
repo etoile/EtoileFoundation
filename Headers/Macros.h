@@ -6,6 +6,7 @@
  */
 
 #import <Foundation/NSAutoreleasePool.h>
+#import <Foundation/NSLock.h>
 #import <EtoileFoundation/EtoileCompatibility.h>
 
 /**
@@ -22,10 +23,6 @@
  * Macro for creating dealloc methods.
  */
 #define DEALLOC(x) - (void) dealloc { x ; [super dealloc]; }
-
-@protocol MakeReleaseSelectorNotFoundErrorGoAway
-- (void) release;
-@end
 
 /**
  * Cleanup function used for stack-scoped objects.
@@ -52,11 +49,6 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
 #	define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
 		__attribute__((unused))
 #endif
-
-@interface NSLocking
-- (void)lock;
-- (void)unlock;
-@end
 
 /**
  * Cleanup function that releases a lock.
