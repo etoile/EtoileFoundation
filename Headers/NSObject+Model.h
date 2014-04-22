@@ -40,7 +40,7 @@
 @protocol ETKeyedCollection;
 
 /** @group Model Additions */
-@interface NSObject (ETModelAdditions) <ETPropertyValueCoding>
+@interface NSObject (ETModelAdditions)
 
 + (ETEntityDescription *) newEntityDescription;
 + (ETEntityDescription *) newBasicEntityDescription;
@@ -57,20 +57,6 @@
 - (BOOL) isNumber;
 
 - (NSString *) typeForKey: (NSString *)key;
-
-/** @taskunit Property Value Coding */
-
-- (BOOL) requiresKeyValueCodingForAccessingProperties;
-- (NSArray *) propertyNames;
-- (id) valueForProperty: (NSString *)key;
-- (BOOL) setValue: (id)value forProperty: (NSString *)key;
-- (id) valueForPropertyPath: (NSString *)aPropertyPath;
-- (BOOL) setValue: (id)aValue forPropertyPath: (NSString *)aPropertyPath;
-
-/** @taskunit Key Value Coding */
-
-- (id) basicValueForKey: (NSString *)key;
-- (void) setBasicValue: (id)value forKey: (NSString *)key;
 
 /** @taskunit Basic Properties */
 

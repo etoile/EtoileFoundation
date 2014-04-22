@@ -12,7 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
-/** @group Metamodel
+/** @group Model Additions
 
 Property-Value Coding allows to access properties of objects in a uniform manner, 
 while still supporting Key-Value Coding.
@@ -35,7 +35,7 @@ The basic behavior of the Property-Value-Coding is implemented in
 NSObject(ETModelAdditions), but few classes such as ETMutableObjectViewpoint and 
 ETLayoutItem in EtoileUI overrides the NSObject semantic for -valueForProperty: 
 and -setValue:forProperty:. */
-@protocol ETPropertyValueCoding
+@interface NSObject (ETPropertyValueCoding)
 /** Can be overriden to return YES in order to support exposing properties, in 
 case -valueForProperty: and -setValue:forProperty: access another object and 
 not the receiver.
@@ -55,7 +55,26 @@ ETPropertyViewpoint protocol. */
 -valueForProperty: and -setValue:forProperty:, or -valueForKey: and 
 -setValue:forKey: if -requiresKeyValueCodingForAccessingProperties returns YES.
  
-See also -[NSObject propertyNames]. */
+Returns both the property names bound to the object entity description and 
+the basic property names.
+ 
++[ETModelDescriptionRepository mainRepository] is used to look up the entity 
+description.
+
+To be exposed through Property Value Coding, the receiver properties must be 
+listed among the returned properties.
+ 
+Can be overriden to return property names bound to entity descriptions that 
+don't belong to the main repository, or filter some properties out. In the 
+overriden method, you should usually return -basicPropertyNames along the 
+property description names.
+ 
+For a NSObject subclass not bound to an entity description, the property names 
+related to the closest superclass bound to an entity description are returned 
+through a recursive lookup in -entityDescriptionForClass:.
+ 
+See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:.
+See also -[ETPropertyValueCoding propertyNames]. */
 - (NSArray *) propertyNames;
 /** Returns the value of the property.
  
@@ -78,17 +97,19 @@ protocol.
 See also -[NSObject setValue:forProperty:] and 
 -[ETPropertyViewpoint setValue:forProperty:]. */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
+- (id) valueForPropertyPath: (NSString *)aPropertyPath;
+- (BOOL) setValue: (id)aValue forPropertyPath: (NSString *)aPropertyPath;
 @end
 
 
-/** @group Metamodel */
+/** @group Model Additions */
 @interface NSDictionary (ETPropertyValueCoding)
 - (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end
 
-/** @group Metamodel */
+/** @group Model Additions */
 @interface NSMutableDictionary (ETMutablePropertyValueCoding)
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end
