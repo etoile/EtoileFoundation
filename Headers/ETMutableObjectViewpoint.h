@@ -48,7 +48,7 @@ represented object. */
 /** @taskunit Represented Property */
 
 /** The property name of the original object value in the represented object.
- 
+
 The object value bound to the property can be a collection. For customizing 
 the collection interaction through the viewpoint, see ETCollectionViewpoint. */
 @property (nonatomic, readonly) NSString *name;
@@ -72,7 +72,7 @@ the collection interaction through the viewpoint, see ETCollectionViewpoint. */
 - (id) valueForProperty: (NSString *)key;
 /** Returns a value bound to a property of the object -value.
  
- This method accesses properties of the represented property. */
+This method accesses properties of the represented property. */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 
 /** @taskunit Subclassing */
