@@ -173,7 +173,7 @@ For the new ETPackageDescription, the metamodel constraints are:
 <item>for each element in extensions, its owner is not in entityDescriptions</item>
 </list> 
  
-@section Discussion of Composite & Aggregate Terminology in UML
+@section Discussion of Composite and Aggregate Terminology in UML
  
 To recap the relationship types from UML:
 
@@ -198,7 +198,7 @@ Manual”. Note that aggregation and composite are just restrictions on the
 object graph, and they are orthogonal to relationship cardinality (one:one, 
 one:many, many:many), although composite relationships can’t be many:many as a 
 consequence of the definition of composite.
- 
+
 CoreObject implements a subset of the UML design with some of our own 
 restrictions: If a relationship is many:many, we add no additional constraints 
 (it’s a UML association). If a relationship is one:many or one:one, and 
@@ -206,12 +206,12 @@ bidirectional, we treat it as a UML aggregation. Note that CoreObject doesn’t
 support UML the composition constraint described above. Unfortunately the 
 CoreObject source code uses the term “composite” a lot in ways that don’t match 
 UML.
- 
+
 Also note that an UML aggregation relationship with a one:one/many constraint 
 is similar to UML composition; the only difference is that UML composition adds 
 the additional constraint that the object can have only one incoming composite 
 reference across all of its relationships.
- 
+
 It could be worth supporting the full UML model, or supporting FAME’s model, 
 because CoreObject’s current model is a bit weird in that relationship 
 cardinality determines object graph constraints (association, aggregation, 
@@ -221,9 +221,9 @@ cycles). It’s also strange that a relationship in CoreObject can only be
 aggregation if it’s also bidirectional, this should probably be changed.
 However, I'm not sure about these points; any changes need to be carefully
 considered, especially with respect to COCopier.
- 
-@section Composite & Aggregate in FAME
- 
+
+@section Composite and Aggregate in FAME
+
 FAME lacks the aggregation/composition distinction, it only has composition. 
 Composition in FAME is almost the same as UML (no cycles in the pointers making 
 up composite relationships between objects, plus every object can only have a 
