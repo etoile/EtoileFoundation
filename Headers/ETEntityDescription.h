@@ -12,7 +12,7 @@
 
 @class ETPackageDescription, ETPropertyDescription, ETValidationResult, ETUTI;
 
-/** @group Model and Metamodel
+/** @group Metamodel
 @abstract A description of an entity, which can either be a class or a prototype.
 
 For an introduction, see ETModelElementDescription. */
@@ -221,7 +221,7 @@ does. */
 @end
 
 
-/** @group Model and Metamodel
+/** @group Metamodel
 
 Used to describe Model description primitives: object, string, boolean 
 etc. See -[ETEntityDescription isPrimitive].
@@ -238,7 +238,7 @@ primitives. */
 @end
 
 
-/** @group Model and Metamodel
+/** @group Metamodel
 
 Used to describe Model description C primitives: float, BOOL, etc.
 See -[ETEntityDescription isCPrimitive].

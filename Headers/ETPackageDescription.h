@@ -12,7 +12,7 @@
 
 @class ETEntityDescription, ETPropertyDescription;
 
-/** @group Model and Metamodel
+/** @group Metamodel
 @abstract Collection of related entity descriptions, usually equivalent to a data model.
 
 A package can also include extensions to other entity descriptions. An extension 

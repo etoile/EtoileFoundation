@@ -12,7 +12,7 @@
 
 @class ETValidationResult;
 
-/** @group Model and Metamodel
+/** @group Metamodel
 
 Property Role Description classes.
  
@@ -28,7 +28,7 @@ These allow a pluggable, more precise property description. */
 @end
 
 
-/** @group Model and Metamodel */
+/** @group Metamodel */
 @interface ETRelationshipRole : ETRoleDescription
 {
 	@private
@@ -42,7 +42,7 @@ These allow a pluggable, more precise property description. */
 @end
 
 
-/** @group Model and Metamodel */
+/** @group Metamodel */
 @interface ETMultiOptionsRole : ETRoleDescription
 {
 	@private
@@ -60,7 +60,7 @@ You can use a localized string as the pair key to present the options in the UI.
 @end
 
 
-/** @group Model and Metamodel */
+/** @group Metamodel */
 @interface ETNumberRole : ETRoleDescription
 {
 	@private

@@ -10,7 +10,7 @@
 
 @class ETEntityDescription;
 
-/** @group Model and Metamodel
+/** @group Metamodel
 
 WARNING: This class is under development and must be ignored.
 

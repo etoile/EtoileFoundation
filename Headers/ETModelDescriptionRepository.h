@@ -14,7 +14,7 @@
 @class ETModelElementDescription, ETEntityDescription, ETPackageDescription, 
 	ETPropertyDescription, NSMapTable;
 
-/** @group Model and Metamodel
+/** @group Metamodel
 @abstract Repository used to store the entity descriptions at runtime.
 
 Each repository manages a closed model description graph. Model element 

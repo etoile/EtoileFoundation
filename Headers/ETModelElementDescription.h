@@ -10,7 +10,7 @@
 
 @class ETEntityDescription, ETUTI;
 
-/** @group Model and Metamodel
+/** @group Metamodel
 @abstract Abstract base class used by Model Description core classes.
 
 The Model Description classes implement a Metamodel framework inspired by 

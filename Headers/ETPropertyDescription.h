@@ -14,7 +14,7 @@
 @class ETRoleDescription;
 
 /**
- * @group Model and Metamodel
+ * @group Metamodel
  * @abstract Description of an entity's property.
  *
  * A property description represents either an attribute or a relationship 

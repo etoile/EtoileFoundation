@@ -39,7 +39,7 @@
 @class ETEntityDescription;
 @protocol ETKeyedCollection;
 
-/** @group Model and Metamodel */
+/** @group Model Additions */
 @interface NSObject (ETModelAdditions) <ETPropertyValueCoding>
 
 + (ETEntityDescription *) newEntityDescription;
@@ -141,17 +141,17 @@ extern NSString * const ETCollectionDidUpdateNotification;
 
 /* Basic Common Value Classes */
 
-/** @group Model and Metamodel */
+/** @group Model Additions */
 @interface NSString (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end
 
-/** @group Model and Metamodel */
+/** @group Model Additions */
 @interface NSNumber (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end
 
-/** @group Model and Metamodel */
+/** @group Model Additions */
 @interface NSDate (ETModelAdditions)
 - (BOOL) isCommonObjectValue;
 @end

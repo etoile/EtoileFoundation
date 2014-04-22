@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @group Model and Metamodel
+ * @group Metamodel
  * @abstract A model validation result returned by the metamodel.
  *
  * Helper class used as the return value of a validation, rather than passing

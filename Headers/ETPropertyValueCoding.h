@@ -12,7 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
-/** @group Model and Metamodel
+/** @group Metamodel
 
 Property-Value Coding allows to access properties of objects in a uniform manner, 
 while still supporting Key-Value Coding.
@@ -81,14 +81,14 @@ See also -[NSObject setValue:forProperty:] and
 @end
 
 
-/** @group Model and Metamodel */
+/** @group Metamodel */
 @interface NSDictionary (ETPropertyValueCoding)
 - (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end
 
-/** @group Model and Metamodel */
+/** @group Metamodel */
 @interface NSMutableDictionary (ETMutablePropertyValueCoding)
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end
