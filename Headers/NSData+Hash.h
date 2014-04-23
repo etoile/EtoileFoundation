@@ -4,6 +4,7 @@
 
 /**
  * @group Hashing and Encoding
+ * @abstract Hash and Base64 additions to NSData.
  *
  * This NSData category provides methods for base 64 encoding and decoding the
  * value of an NSData object and computing hashes.  Uses the OpenSSL base 64
@@ -32,6 +33,7 @@
 
 /**
  * @group Hashing and Encoding
+ * @abstract Base64 additions to NSString.
  */
 @interface NSString (Base64)
 /**

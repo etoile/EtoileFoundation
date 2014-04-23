@@ -68,9 +68,15 @@ Must not return Nil. */
 + (Class) mutableViewpointClass;
 @end
 
-/**
- * @group Viewpoints
- */
+/** @group Viewpoints
+@abstract A basic and reusable ETViewpoint protocol implementation.
+
+If you implement a class that conforms to ETViewpoint, the core implementation 
+of the protocol is usually the same. You can adopt this trait to get all the 
+basic viewpoint behavior without writing code, and just implement or 
+reimplement the parts that matter.
+
+For example, ETMutableObjectViewpoint uses this trait. */
 @interface ETViewpointTrait : NSObject <ETViewpoint>
 {
 	
@@ -87,7 +93,11 @@ Must not return Nil. */
 
 @end
 
-/** @group Viewpoints */
+/** @group Viewpoints
+@abstract A mechanism to access a represented collection when a viewpoint 
+content is another viewpoint.
+
+This is an unstable API (will probably be removed or changed later). */
 @interface NSObject (ETViewpointAdditions)
 /** Returns NO. */
 - (BOOL) isViewpoint;
