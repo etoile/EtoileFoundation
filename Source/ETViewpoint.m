@@ -1,5 +1,4 @@
-/**
-
+/*
 	Copyright (C) 2013 Quentin Mathe
 
 	Author:  Quentin Mathe <quentin.mathe@gmail.com>

@@ -1,14 +1,9 @@
 /*
- ETPropertyDescription.m
- 
- Property description in a model description framework inspired by FAME 
- (http://scg.unibe.ch/wiki/projects/fame)
- 
- Copyright (C) 2009 Eric Wasylishen
- 
- Author:  Eric Wasylishen <ewasylishen@gmail.com>
- Date:  July 2009
- License:  Modified BSD (see COPYING)
+	Copyright (C) 2009 Eric Wasylishen
+
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  July 2009
+	License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>

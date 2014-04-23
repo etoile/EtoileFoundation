@@ -1,6 +1,4 @@
 /**
-	<abstract>A key/value association.</abstract>
-
 	Copyright (C) 2010 Quentin Mathe
 
 	Author:  Quentin Mathe <quentin.mathe@gmail.com>
@@ -12,6 +10,7 @@
 #import <EtoileFoundation/ETViewpoint.h>
 
 /** @group Collection Additions
+@abstract A key/value association.
 
 Key value pairs are used by EtoileUI to present and interact with keyed data 
 structures.
@@ -64,15 +63,13 @@ For now, ETKeyValuePair doesn't support subclassing. */
 @end
 
 /** @group Collection Additions
-
-ETKeyValuePair-related extensions to NSArray. */
+@abstract ETKeyValuePair-related extensions to NSArray. */
 @interface NSArray (ETKeyValuePairRepresentation)
 - (NSDictionary *) dictionaryRepresentation;
 @end
 
 /** @group Collection Additions
-
-ETKeyValuePair-related extensions to NSObject. */
+@abstract ETKeyValuePair-related extensions to NSObject. */
 @interface NSObject (ETKeyValuePair)
 - (BOOL) isKeyValuePair;
 @end

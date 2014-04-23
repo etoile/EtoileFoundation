@@ -13,8 +13,7 @@
 @class ETValidationResult;
 
 /** @group Metamodel
-
-Property Role Description classes.
+@abstract Description of a property's role.
  
 These allow a pluggable, more precise property description. */
 @interface ETRoleDescription : NSObject
@@ -28,7 +27,8 @@ These allow a pluggable, more precise property description. */
 @end
 
 
-/** @group Metamodel */
+/** @group Metamodel
+@abstract Description of a relationship's role.  */
 @interface ETRelationshipRole : ETRoleDescription
 {
 	@private
@@ -42,7 +42,9 @@ These allow a pluggable, more precise property description. */
 @end
 
 
-/** @group Metamodel */
+/** @group Metamodel
+@abstract Description of a property's role, whose value is restricted to a 
+predetermined set. */
 @interface ETMultiOptionsRole : ETRoleDescription
 {
 	@private
@@ -60,7 +62,8 @@ You can use a localized string as the pair key to present the options in the UI.
 @end
 
 
-/** @group Metamodel */
+/** @group Metamodel
+@abstract Description of a property's role, whose value is a number. */
 @interface ETNumberRole : ETRoleDescription
 {
 	@private

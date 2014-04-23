@@ -11,6 +11,7 @@
 @class ETEntityDescription;
 
 /** @group Metamodel
+@abstract Model object under the metamodel control.
 
 WARNING: This class is under development and must be ignored.
 

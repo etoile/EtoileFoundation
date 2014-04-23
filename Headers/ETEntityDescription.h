@@ -222,9 +222,11 @@ does. */
 
 
 /** @group Metamodel
+@abstract A description of an entity bound to attributes in the metamodel, and 
+value objects in the model.
 
-Used to describe Model description primitives: object, string, boolean 
-etc. See -[ETEntityDescription isPrimitive].
+Used to describe the (meta)model primitives: object, string, boolean etc. 
+See -[ETEntityDescription isPrimitive].
 
 This class is used internally. You can possibly use it to support new 
 primitives. */
@@ -239,8 +241,10 @@ primitives. */
 
 
 /** @group Metamodel
+@abstract A description of an entity bound to C attributes in the metamodel, and 
+C values in the model.
 
-Used to describe Model description C primitives: float, BOOL, etc.
+Used to describe the (meta)model C primitives: float, BOOL, etc. 
 See -[ETEntityDescription isCPrimitive].
 
 This class is used internally. You can possibly use it to support new 
