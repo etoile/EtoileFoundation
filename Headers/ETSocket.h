@@ -3,9 +3,10 @@
 
 /**
  * @group Network and Communication
+ * @abstract The ETSocket class provides a simple wrapper around a socket.
  *
- * The ETSocket class provides a simple wrapper around a socket.  The socket is
- * opened when the object is created, and closed when it is destroyed.
+ * The socket is opened when the object is created, and closed when it is 
+ * destroyed.
  */
 @interface ETSocket : NSObject
 {
@@ -45,7 +46,10 @@
 - (void)sendData: (NSData*)data;
 @end
 
-/** @group Network and Communication */
+/** 
+ * @group Network and Communication
+ * @abstract A server socket that accepts incoming connections.
+ */
 @interface ETListenSocket: ETSocket
 {
 	/**
@@ -85,8 +89,7 @@
 
 /**
  * @group Network and Communication
- *
- * Informal protocol for socket delegates.
+ * @abstract Informal protocol for socket delegates.
  */
 @interface NSObject (ETSocketDelegate)
 /**
@@ -97,8 +100,7 @@
 
 /**
  * @group Network and Communication
- *
- * Informal protocol for delegates to listening sockets.
+ * @abstract Informal protocol for delegates to listening sockets.
  */
 @interface NSObject (ETListenSocketDelegate)
 /**
@@ -110,10 +112,10 @@
 
 /**
  * @group Network and Communication
+ * @abstract Protocol for socket data filters.  
  *
- * Protocol for socket data filters.  Data sent or received by an ETSocket
- * instance will be pushed through a chain of filters conforming to this
- * protocol.
+ * Data sent or received by an ETSocket instance will be pushed through a chain 
+ * of filters conforming to this protocol.
  */
 @protocol ETSocketFilter
 /**
