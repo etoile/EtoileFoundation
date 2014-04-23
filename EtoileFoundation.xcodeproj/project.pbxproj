@@ -295,6 +295,16 @@
 		60DA3AE51359AEAB00D8946F /* TestStackTraceRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 60DA3AE41359AEAB00D8946F /* TestStackTraceRecorder.m */; };
 		60DA3AF11359AFB600D8946F /* ETStackTraceRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */; };
 		60DEB05B1156445E00744298 /* TestModelDescriptionRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 60DEB05A1156445E00744298 /* TestModelDescriptionRepository.m */; };
+		60E2E590190826BD00618AC1 /* NSArray+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E2E58E190826BD00618AC1 /* NSArray+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60E2E591190826BD00618AC1 /* NSDictionary+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E2E58F190826BD00618AC1 /* NSDictionary+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60E2E59A190826C900618AC1 /* NSDictionary+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E2E58F190826BD00618AC1 /* NSDictionary+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60E2E59B190826D300618AC1 /* NSArray+Etoile.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E2E58E190826BD00618AC1 /* NSArray+Etoile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60E2E59E190826E800618AC1 /* NSArray+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59C190826E800618AC1 /* NSArray+Etoile.m */; };
+		60E2E59F190826E800618AC1 /* NSDictionary+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */; };
+		60E2E5A0190826F200618AC1 /* NSDictionary+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */; };
+		60E2E5A1190826FE00618AC1 /* NSDictionary+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */; };
+		60E2E5A21908270300618AC1 /* NSArray+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59C190826E800618AC1 /* NSArray+Etoile.m */; };
+		60E2E5A31908270400618AC1 /* NSArray+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59C190826E800618AC1 /* NSArray+Etoile.m */; };
 		60F6EEEE101471FC003F4508 /* NSFileHandle+Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60F6EEF01014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
 		60F6EEF11014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
@@ -560,6 +570,10 @@
 		60CED0A812CFCF6800B5827C /* ETKeyValuePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETKeyValuePair.m; path = Source/ETKeyValuePair.m; sourceTree = "<group>"; };
 		60DA3AE41359AEAB00D8946F /* TestStackTraceRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStackTraceRecorder.m; path = Tests/TestStackTraceRecorder.m; sourceTree = "<group>"; };
 		60DEB05A1156445E00744298 /* TestModelDescriptionRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModelDescriptionRepository.m; path = Tests/TestModelDescriptionRepository.m; sourceTree = "<group>"; };
+		60E2E58E190826BD00618AC1 /* NSArray+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Etoile.h"; path = "Headers/NSArray+Etoile.h"; sourceTree = "<group>"; };
+		60E2E58F190826BD00618AC1 /* NSDictionary+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Etoile.h"; path = "Headers/NSDictionary+Etoile.h"; sourceTree = "<group>"; };
+		60E2E59C190826E800618AC1 /* NSArray+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Etoile.m"; path = "Source/NSArray+Etoile.m"; sourceTree = "<group>"; };
+		60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Etoile.m"; path = "Source/NSDictionary+Etoile.m"; sourceTree = "<group>"; };
 		60F494FB15076CDA008F1E99 /* EtoileXML-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "EtoileXML-Info.plist"; path = "EtoileXML/EtoileXML-Info.plist"; sourceTree = "<group>"; };
 		60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileHandle+Socket.h"; path = "Headers/NSFileHandle+Socket.h"; sourceTree = "<group>"; };
 		60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileHandle+Socket.m"; path = "Source/NSFileHandle+Socket.m"; sourceTree = "<group>"; };
@@ -977,6 +991,10 @@
 				603647FC0E40931E003377E0 /* ETCollection.m */,
 				60CED0A612CFCF3D00B5827C /* ETKeyValuePair.h */,
 				60CED0A812CFCF6800B5827C /* ETKeyValuePair.m */,
+				60E2E58E190826BD00618AC1 /* NSArray+Etoile.h */,
+				60E2E59C190826E800618AC1 /* NSArray+Etoile.m */,
+				60E2E58F190826BD00618AC1 /* NSDictionary+Etoile.h */,
+				60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */,
 				603647CE0E4092EA003377E0 /* NSIndexSet+Etoile.h */,
 				6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */,
 				60A549AB13CA133300261FDC /* NSMapTable+Etoile.h */,
@@ -1124,6 +1142,8 @@
 				602E135218B3A3B3004F171B /* ETUnionViewpoint.h in Headers */,
 				602E135B18B3A3B3004F171B /* Macros.h in Headers */,
 				602E13A018B3A491004F171B /* ETCFMapTable.h in Headers */,
+				60E2E59A190826C900618AC1 /* NSDictionary+Etoile.h in Headers */,
+				60E2E59B190826D300618AC1 /* NSArray+Etoile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1182,6 +1202,8 @@
 				609726031766244F00562F3D /* ETIndexValuePair.h in Headers */,
 				60966F8018B3770200CFEE38 /* ETRoleDescription.h in Headers */,
 				60966F8418B378B800CFEE38 /* ETAdaptiveModelObject.h in Headers */,
+				60E2E590190826BD00618AC1 /* NSArray+Etoile.h in Headers */,
+				60E2E591190826BD00618AC1 /* NSDictionary+Etoile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1535,6 +1557,8 @@
 				602E139C18B3A44C004F171B /* ETViewpoint.m in Sources */,
 				602E139D18B3A44C004F171B /* ETUnionViewpoint.m in Sources */,
 				602E13A118B3A491004F171B /* ETCFMapTable.m in Sources */,
+				60E2E5A0190826F200618AC1 /* NSDictionary+Etoile.m in Sources */,
+				60E2E5A31908270400618AC1 /* NSArray+Etoile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1590,6 +1614,8 @@
 				60B9B69A185B589500ABDEA1 /* EtoileCompatibility.m in Sources */,
 				60966F7818B376F800CFEE38 /* ETRoleDescription.m in Sources */,
 				60966F8618B378C300CFEE38 /* ETAdaptiveModelObject.m in Sources */,
+				60E2E59E190826E800618AC1 /* NSArray+Etoile.m in Sources */,
+				60E2E59F190826E800618AC1 /* NSDictionary+Etoile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1686,6 +1712,8 @@
 				60966F7918B376F800CFEE38 /* ETRoleDescription.m in Sources */,
 				60966F8218B3770800CFEE38 /* ETPropertyDescription.m in Sources */,
 				60966F8818B378CC00CFEE38 /* ETAdaptiveModelObject.m in Sources */,
+				60E2E5A1190826FE00618AC1 /* NSDictionary+Etoile.m in Sources */,
+				60E2E5A21908270300618AC1 /* NSArray+Etoile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
