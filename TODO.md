@@ -22,6 +22,8 @@ TODO EtoileFoundation
 
 - Rename ETSourceDidUpdateNotification to ETCollectionDidUpdateNotification
 
+- Fix doc generation issues (links, emphasis etc.) in ETStackTraceRecorder class description
+
 
 Known Issues
 ------------
