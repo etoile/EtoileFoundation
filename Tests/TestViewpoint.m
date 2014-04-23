@@ -15,6 +15,7 @@
 #import "ETMutableObjectViewpoint.h"
 #import "ETKeyValuePair.h"
 #import "ETUnionViewpoint.h"
+#import "NSArray+Etoile.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 

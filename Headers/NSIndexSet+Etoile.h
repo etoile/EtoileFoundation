@@ -1,6 +1,4 @@
-/**	
-	<abstract>Additions to index set classes.</abstract>
-
+/**
 	Copyright (C) 2007 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -10,14 +8,16 @@
  
 #import <Foundation/Foundation.h>
 
-/** @group Collection Additions */
+/** @group Collection Additions
+@abstract Additions to NSIndexSet. */
 @interface NSIndexSet (Etoile)
 
 - (NSArray *) indexPaths;
 
 @end
 
-/** @group Collection Additions */
+/** @group Collection Additions
+@abstract Additions to NSMutableIndexSet. */
 @interface NSMutableIndexSet (Etoile)
 
 - (void) invertIndex: (unsigned int)index;

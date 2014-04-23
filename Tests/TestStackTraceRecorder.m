@@ -10,6 +10,7 @@
 #import <UnitKit/UnitKit.h>
 #import "ETStackTraceRecorder.h"
 #import "ETCollection.h"
+#import "NSArray+Etoile.h"
 #import "EtoileCompatibility.h"
 
 @interface TestStackTraceRecorder : NSObject <UKTest>

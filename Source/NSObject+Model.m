@@ -9,6 +9,7 @@
 #import <Foundation/NSKeyValueObserving.h>
 #import "NSObject+Model.h"
 #import "Macros.h"
+#import "NSArray+Etoile.h"
 #import "NSObject+Etoile.h"
 #import "ETCollection.h"
 #import "ETEntityDescription.h"

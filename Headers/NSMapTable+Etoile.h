@@ -1,6 +1,4 @@
-/**	
-	<abstract>Additions to map table class</abstract>
-
+/**
 	Copyright (C) 2011 Quentin Mathe
 
 	Author:  Quentin Mathe <quentin.mathe@gmail.com>
@@ -12,6 +10,7 @@
 #if !(TARGET_OS_IPHONE)
 
 /** @group Collection Additions
+@abstract Additions to NSMapTable.
 
 For now, this category is limited to NSDictionary-compatibility methods. */
 @interface NSMapTable (Etoile)

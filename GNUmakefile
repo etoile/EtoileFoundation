@@ -98,7 +98,9 @@ EtoileFoundation_HEADER_FILES = \
 	ETUnionViewpoint.h \
 	ETUUID.h \
 	ETViewpoint.h \
+	NSArray+Etoile.h \
 	NSData+Hash.h\
+	NSDictionary+Etoile.h \
 	NSIndexPath+Etoile.h \
 	NSIndexSet+Etoile.h \
 	NSInvocation+Etoile.h \
@@ -155,7 +157,9 @@ EtoileFoundation_OBJC_FILES = \
 	Source/ETUTI.m \
 	Source/ETViewpoint.m \
 	Source/NSBlocks.m\
+	Source/NSArray+Etoile.m \
 	Source/NSData+Hash.m\
+	Source/NSDictionary+Etoile.m \
 	Source/NSIndexPath+Etoile.m \
 	Source/NSIndexSet+Etoile.m \
 	Source/NSInvocation+Etoile.m \

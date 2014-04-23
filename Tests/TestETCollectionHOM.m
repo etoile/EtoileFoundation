@@ -38,6 +38,7 @@
 #import "Macros.h"
 #import "ETCollection.h"
 #import "ETCollection+HOM.h"
+#import "NSArray+Etoile.h"
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 
