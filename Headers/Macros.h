@@ -1,9 +1,12 @@
-/*
- *  Macros.h
- *
- *  Created by David Chisnall on 02/08/2005.
- *
- */
+/**
+	Copyright (C) 2005 David Chisnall
+ 
+	Author:  David Chisnall <csdavec@swan.ac.uk>,
+	         Quentin Mathe <quentin.mathe@gmail.com>,
+			 Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  August 2005
+	License:  Modified BSD (see COPYING)
+  */
 
 #import <Foundation/NSAutoreleasePool.h>
 #import <Foundation/NSLock.h>

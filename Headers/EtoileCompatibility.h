@@ -1,6 +1,4 @@
 /*
-	Etoile declarations to be compatible with other projects
-
 	Copyright (C) 2005 Quentin Mathe
 
 	Author:  Quentin Mathe <quentin.mathe@gmail.com>

@@ -1,3 +1,12 @@
+/*
+	Copyright (C) 2009 Eric Wasylishen
+
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>,
+	         Quentin Mathe <quentin.mathe@gmail.com>
+	Date:  July 2009
+	License:  Modified BSD (see COPYING)
+ */
+
 #import <UnitKit/UnitKit.h>
 #import <EtoileFoundation/EtoileFoundation.h>
 
