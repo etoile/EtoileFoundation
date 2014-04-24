@@ -15,21 +15,19 @@
 @abstract NSObject additions providing basic management of model objects. */
 @interface NSObject (ETModelAdditions)
 
+/** @taskunit Providing the Metamodel */
+
 + (ETEntityDescription *) newEntityDescription;
 + (ETEntityDescription *) newBasicEntityDescription;
 
-+ (id) objectWithObjectValue: (id)object;
-+ (id) objectWithStringValue: (NSString *)string;
+/** @taskunit Common Representations */
 
 - (id) objectValue;
 - (NSString *) stringValue;
-- (NSString *) stringValueWithOptions: (NSDictionary *)outputOptions;
 
 - (BOOL) isCommonObjectValue;
 - (BOOL) isString;
 - (BOOL) isNumber;
-
-- (NSString *) typeForKey: (NSString *)key;
 
 /** @taskunit Basic Properties */
 

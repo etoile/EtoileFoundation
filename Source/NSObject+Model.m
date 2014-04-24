@@ -101,37 +101,6 @@ See also -newEntityDescription. */
 }
 #endif
 
-+ (id) objectWithObjectValue: (id)object
-{
-	if ([object isString])
-	{
-		return [self objectWithStringValue: object];
-	}
-	else if ([object isCommonObjectValue])
-	{
-		return object;
-	}
-	else if ([object isKindOfClass: [NSValue class]])
-	{
-		return nil;
-	}
-	
-	return nil;
-}
-
-+ (id) objectWithStringValue: (NSString *)string
-{
-	id object = nil;
-	Class class = NSClassFromString(string);
-	
-	if (class != nil)
-		object = AUTORELEASE([[class alloc] init]);
-		
-	return object;
-}
-
-	// returning the value
-	// as is if it is declared as a common object value or
 - (id) objectValue
 {
 	if ([self isCommonObjectValue])
@@ -154,25 +123,6 @@ instantiate another object by passing it to +objectWithStringValue:. */
 - (NSString *) stringValue
 {
 	return [self description];
-}
-
-/** Returns -stringValue by default.
-
-Subclasses can override this method to return a custom string representation  
-based on the given rendering options. Like -stringValue, it should encode some 
-basic infos about the receiver but the method is typically used to introduce 
-variations in the output format. For example to handle pretty printing and 
-special formatting rules. 
-
-Not all output options have to be handled, you can safely ignore options which 
-you aren't interested in.
-
-The resulting string representation must remain editable, validatable by 
--validateValue:forKey:error: and usable to instantiate another object by 
-passing it to +objectWithStringValue:. */
-- (NSString *) stringValueWithOptions: (NSDictionary *)outputOptions
-{
-	return [self stringValue];
 }
 
 /** Returns YES if the receiver is an NSString instance, otherwise returns NO. */
@@ -273,17 +223,6 @@ protocol, would return NO. */
 	//NSString *type = [self typeForKey: key];
 	
 	return validated;
-}
-
-- (NSString *) typeForKey: (NSString *)key
-{
-/*	NSMethodSignature *sig = [self methodSignatureForSelector: NSSelectorFromString(key)];
-	
-	if (sig == nil)
-		sig [self methodSignatureForSelector: NSSelectorFromString()];
-		
-	[*/
-	return nil;
 }
 
 /* Basic Properties */
