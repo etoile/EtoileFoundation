@@ -6,6 +6,7 @@ TODO EtoileFoundation
   + Proxies: Design Principles for Robust Object-oriented Intercession: soft.vub.ac.be/~tvcutsem/proxies/assets/proxies.pdf
   + Mirages: Behavioral Intercession in a Mirror-based Architecture: soft.vub.ac.be/Publications/2007/vub-prog-tr-07-16.pdf 
   + Newspeak Mixin implementation: newspeaklanguage.org
+
 - Finish the mirror implementation and write a related test suite
 
 - Finish metamodel implementation (validation, role classes etc.) and extend the test suite
@@ -23,6 +24,23 @@ TODO EtoileFoundation
 - Rename ETSourceDidUpdateNotification to ETCollectionDidUpdateNotification
 
 - Fix doc generation issues (links, emphasis etc.) in ETStackTraceRecorder class description
+
+- Fix broken method aliasing with trait in +[ETKeyValuePair initialize]
+
+- Relax metamodel freezing for:
+
+	- Model presentation attributes
+	- Transient property addition/removal
+
+- Remove -[NSDictionary identifierAtIndex:] (used in HOM but flawed by design)
+
+- Don't add both both simple and batch mutation methods with ETMutableCollectionTrait (we do this for compatibility with legacy code mostly in EtoileUI and few other projects that depend on it)
+
+- Add ETIndexedCollection protocol or similar (for NSArray-like collections)
+
+- Remove ETCollectionHOMIntegrationInformalProtocol in favor of @optional in ETCollectionHOMMapIntegration
+
+- Turn GSDoc link in ETUUID abstract into a Markdown link
 
 
 Known Issues
