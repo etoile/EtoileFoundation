@@ -1,6 +1,17 @@
+/**
+	Copyright (C) 2008 David Chisnall
+ 
+	Author:  David Chisnall <csdavec@swan.ac.uk>
+	Date:  December 2008
+	License:  Modified BSD (see COPYING)
+  */
+
 #import <Foundation/NSObject.h>
 
-/** @group Language Extensions */
+/** 
+ * @group Language Extensions
+ * @abstract Objective-C prototype support. 
+ */
 @interface NSObject (Prototypes)
 /**
  * Adds an instance method to the class, using the specified block.  The types

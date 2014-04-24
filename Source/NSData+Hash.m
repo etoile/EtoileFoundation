@@ -1,10 +1,10 @@
-//
-//  NSString+Base64.m
-//  Jabber
-//
-//  Created by David Chisnall on 10/11/2006.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
-//
+/*
+	Copyright (C) 2006 David Chisnall
+ 
+	Author:  David Chisnall <csdavec@swan.ac.uk>
+	Date:  November 2006
+	License:  Modified BSD (see COPYING)
+  */
 
 #import "NSData+Hash.h"
 #if !(TARGET_OS_IPHONE)

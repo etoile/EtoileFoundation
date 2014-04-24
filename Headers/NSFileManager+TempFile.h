@@ -1,9 +1,16 @@
+/**
+	Copyright (C) 2008 David Chisnall
+ 
+	Author:  David Chisnall <csdavec@swan.ac.uk>
+	Date:  March 2008
+	License:  Modified BSD (see COPYING)
+  */
+
 #import <Foundation/Foundation.h>
 
 /**
  * @group File Management
- *
- * Extensions to NSFileManager for creating temporary files and directories.
+ * @abstract NSFileManager additions for creating temporary files and directories.
  */
 @interface NSFileManager (TempFile)
 /**

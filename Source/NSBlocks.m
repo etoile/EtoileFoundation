@@ -1,3 +1,11 @@
+/*
+	Copyright (C) 2008 David Chisnall
+
+	Author:  David Chisnall <csdavec@swan.ac.uk>
+	Date:  May 2009
+	License:  Modified BSD (see COPYING)
+  */
+
 #import <Foundation/NSObject.h>
 #ifdef GNUSTEP
 #import "objc/blocks_runtime.h"

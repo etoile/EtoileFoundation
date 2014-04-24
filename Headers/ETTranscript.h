@@ -1,8 +1,6 @@
 /**
-	<abstract>A Smalltalk-80 like Transcript implementation</abstract>
- 
-	Copyright (C) 2007 Günther Noack
- 
+	Copyright (C) 2008 Günther Noack
+
 	Author:  Günther Noack <guenther@unix-ag.uni-kl.de>
 	Date:  November 2008
 	License:  Modified BSD (see COPYING)
@@ -19,6 +17,7 @@ EMIT_STRING(kTranscriptDelegate);
 
 /**
  * @group Logging
+ * @abstract A Smalltalk-80 like Transcript implementation.
  *
  * Protocol for transcript delegates.  Store an object implementing the methods
  * in this protocol in the thread's dictionary with the kTranscriptDelegate key

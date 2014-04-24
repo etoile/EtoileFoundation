@@ -11,7 +11,7 @@
 #import "NSString+Etoile.h"
 
 
-@implementation NSObject (DoubleDispatch)
+@implementation NSObject (ETDoubleDispatch)
 
 - (NSString *) doubleDispatchPrefix
 {

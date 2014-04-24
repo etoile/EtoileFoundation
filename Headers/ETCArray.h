@@ -1,11 +1,11 @@
-/*
- *  ETCArray.h
- *
- *  Simple array opaque data type and manipulation functions
- *
- *  Created by David Chisnall on 01/10/2005.
- *
- */
+/**
+	Copyright (C) 2005 David Chisnall
+
+	Author:  David Chisnall <csdavec@swan.ac.uk>
+	Date:  October 2005
+	License:  Modified BSD (see COPYING)
+  */
+
 #ifndef __ET_C_ARRAY_INCLUDED__
 #define __ET_C_ARRAY_INCLUDED__
 

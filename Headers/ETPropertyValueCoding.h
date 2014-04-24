@@ -1,8 +1,4 @@
 /**
-	<abstract>Property Value Coding protocol used by CoreObject and 
-	EtoileUI provides a unified API to implement access, mutation, 
-	delegation and late-binding of properties.</abstract>
-
 	Copyright (C) 2007 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -13,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 /** @group Model Additions
-
+@abstract Protocol to read and write properties.
+	
 Property-Value Coding allows to access properties of objects in a uniform manner, 
 while still supporting Key-Value Coding.
  
@@ -102,14 +99,16 @@ See also -[NSObject setValue:forProperty:] and
 @end
 
 
-/** @group Model Additions */
+/** @group Model Additions
+@abstract Property reading support for NSDictionary. */
 @interface NSDictionary (ETPropertyValueCoding)
 - (NSArray *) propertyNames;
 - (id) valueForProperty: (NSString *)key;
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end
 
-/** @group Model Additions */
+/** @group Model Additions
+@abstract Property writing support for NSMutableDictionary. */
 @interface NSMutableDictionary (ETMutablePropertyValueCoding)
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
 @end

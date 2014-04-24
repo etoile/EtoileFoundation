@@ -1,3 +1,11 @@
+/*
+	Copyright (C) 2009 David Chisnall
+
+	Author:  David Chisnall <csdavec@swan.ac.uk>
+	Date:  July 2009
+	License:  Modified BSD (see COPYING)
+  */
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>

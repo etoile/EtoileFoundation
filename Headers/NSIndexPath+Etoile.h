@@ -1,6 +1,4 @@
 /**
-	<abstract>Additions to NSIndexPath.</abstract>
-
 	Copyright (C) 2007 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -10,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-/** @group Collection Additions */
+/** @group Collection Additions
+@abstract Additions to NSIndexPath. */
 @interface NSIndexPath (Etoile)
 + (NSIndexPath *) indexPath;
 + (NSIndexPath *) indexPathWithString: (NSString *)aPath;

@@ -1,11 +1,8 @@
 /**
-	<abstract>Mirror class that represents an Objective-C instance 
-	variable.</abstract>
-
 	Copyright (C) 2009 Eric Wasylishen
  
-	Author:  Eric Wasylishen <ewasylishen@gmail.com>
-	Author:  Quentin Mathe <quentin.mathe@gmail.com>
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>,
+	         Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  June 2009
 	License: Modified BSD (see COPYING)
  */
@@ -15,6 +12,7 @@
 #import <EtoileFoundation/runtime.h>
 
 /** @group Reflection
+@abstract Mirror class that represents an Objective-C instance variable.
 
 ETInstanceVariableMirror implements the collection protocol to allow ivar 
 content to be recursively traversed when ivars are presented in a UI inspector. 

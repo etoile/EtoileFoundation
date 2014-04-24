@@ -1,8 +1,8 @@
 /*
-        Copyright (C) 2009 Eric Wasylishen
+	Copyright (C) 2009 Eric Wasylishen
 
-        Author:  Eric Wasylishen <ewasylishen@gmail.com>
-        Date:  January 2009
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  January 2009
 	License:  Modified BSD (see COPYING)
  */
 

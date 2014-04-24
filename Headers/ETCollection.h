@@ -1,7 +1,4 @@
 /**
-	<abstract>NSObject and collection class additions like a collection 
-	protocol.</abstract>
-
 	Copyright (C) 2007 Quentin Mathe
  
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -22,6 +19,7 @@ extern const NSUInteger ETUndeterminedIndex;
 /* Collection Access and Mutation Protocols */
 
 /** @group Collection Protocols
+@abstract Unified protocol to interact with collections.
 
 Basic collection protocol that all collections must support. EtoileFoundation 
 extends Foundation classes such as NSArray, NSDictionary, NSSet and NSIndexSet 
@@ -105,7 +103,8 @@ See NSFastEnumeration protocol.  */
 - (NSArray *) viewpointArray;
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract Unified protocol to interact with collections composed of key-value pairs. */
 @protocol ETKeyedCollection <ETCollection>
 /** Returns an ETKeyValuePair array where every entry present in the keyed 
 collection is turned into a pair object.
@@ -115,6 +114,7 @@ The returned array is autoreleased. */
 @end
 
 /** @group Collection Protocols 
+@abstract Unified protocol to mutate collections.
 
 Additional collection protocol that all mutable collections must support. 
 EtoileFoundation extends Foundation classes such as NSMutableArray, 
@@ -219,7 +219,12 @@ typedef enum
 	ETCollectionMutationKindReplacement
 } ETCollectionMutationKind;
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@asbtract Unified protocol to post key-value observing change notifications 
+for any collections that conform to ETCollection.
+
+This lets you easily change the collection type, without rewriting all the 
+mutation notifications.  */
 @interface NSObject (ETCollectionMutationKVOSupport)
 - (void) willChangeValueForKey: (NSString *)key
                      atIndexes: (NSIndexSet *)indexes
@@ -232,6 +237,7 @@ typedef enum
 @end
 
 /** @group Collection Protocols
+@abstract Optional batch mutation protocol methods for ETCollectionMutation.
 
 Any mutable collection can also implement the optional methods listed below.
 
@@ -282,6 +288,7 @@ You should only implement this method when the collection is ordered. */
 @end
 
 /** @group Collection Protocols
+@abstract A basic and reusable ETCollection implementation.
 
 This trait implements all ETCollection protocol methods, except -content and 
 -contentArray, for which concrete implementations must be provided by the 
@@ -357,6 +364,7 @@ so.
 @end
 
 /** @group Collection Protocols
+@abstract A basic and reusable ETCollectionMutation implementation.
 
 This trait implements all ETCollectionMutation protocol methods, except 
 -insertObject:atIndex:hint: and -removeObject:atIndex:hint:, for which concrete 
@@ -371,7 +379,8 @@ For a use case example, see ETCollectionTrait. */
 
 /* Adopted by the following Foundation classes  */
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollection support for NSArray. */
 @interface NSArray (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (BOOL) isOrdered;
@@ -381,12 +390,14 @@ For a use case example, see ETCollectionTrait. */
 @end
 
 #ifndef GNUSTEP
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollection support for NSOrderedSet. */
 @interface NSOrderedSet (ETCollection) <ETCollection>
 @end
 #endif
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollection and ETKeyedCollection support for NSDictionary. */
 @interface NSDictionary (ETCollection) <ETKeyedCollection>
 + (Class) mutableClass;
 - (BOOL) isKeyed;
@@ -397,7 +408,8 @@ For a use case example, see ETCollectionTrait. */
 - (NSString *) identifierAtIndex: (NSUInteger)index;
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollection support for NSSet. */
 @interface NSSet (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (id) content;
@@ -406,6 +418,7 @@ For a use case example, see ETCollectionTrait. */
 @end
 
 /** @group Collection Protocols
+@abstract ETCollection support for NSCountedSet.
 
 NSCountedSet is a NSMutableSet subclass and thereby inherits the collection 
 protocol methods implemented in NSSet(ETCollection). */
@@ -413,7 +426,8 @@ protocol methods implemented in NSSet(ETCollection). */
 + (Class) mutableClass;
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollection support for NSIndexSet. */
 @interface NSIndexSet (ETCollection) <ETCollection>
 + (Class) mutableClass;
 - (id) content;
@@ -422,6 +436,7 @@ protocol methods implemented in NSSet(ETCollection). */
 @end
 
 /** @group Collection Protocols
+@abstract ETCollectionMutation support for NSMutableArray.
 
 For NSMutableArray, -insertObject:atIndex: raises an exception when the index 
 is ETUndeterminedIndex. */
@@ -429,21 +444,25 @@ is ETUndeterminedIndex. */
 @end
 
 #ifndef GNUSTEP
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollectionMutation support for NSMutableOrderedSet. */
 @interface NSMutableOrderedSet (ETCollectionMutation) <ETCollectionMutation>
 @end
 #endif
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollectionMutation support for NSMutableDictionary. */
 @interface NSMutableDictionary (ETCollectionMutation) <ETCollectionMutation>
 @end
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollectionMutation support for NSMutableSet. */
 @interface NSMutableSet (ETCollectionMutation) <ETCollectionMutation>
 @end
 
 
-/** @group Collection Protocols */
+/** @group Collection Protocols
+@abstract ETCollectionMutation support for NSMutableIndexSet. */
 @interface NSMutableIndexSet (ETCollectionMutation) <ETCollectionMutation>
 @end
 

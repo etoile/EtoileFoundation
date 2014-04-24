@@ -1,9 +1,8 @@
 /*
-	Mirror-based reflection API for Etoile.
- 
 	Copyright (C) 2009 Eric Wasylishen
  
-	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>,
+	         Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  June 2009
 	License: Modified BSD (see COPYING)
  */

@@ -12,7 +12,8 @@
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/runtime.h>
 
-/** @group Reflection */
+/** @group Reflection
+@abstract Mirror class that represents an Objective-C protocol. */
 @interface ETProtocolMirror : NSObject <ETProtocolMirror>
 {
 	@private

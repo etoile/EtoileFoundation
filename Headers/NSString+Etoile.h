@@ -1,6 +1,4 @@
 /**
-	<abstract>NSString additions.</abstract>
-
 	Copyright (C) 2007 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -10,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-/** @group String Manipulation and Formatting */
+/** @group String Manipulation and Formatting
+@abstract NSString additions. */
 @interface NSString (Etoile)
 
 - (NSString *) substringFromIndex: (NSUInteger)startIndex toIndex: (NSUInteger)endIndex;

@@ -1,8 +1,4 @@
-/**	<title>NSObject HOM Category</title>
-
-	<abstract>A category which extends NSObject with various High Order 
-	Messages.</abstract>
-
+/**
 	Copyright (C) 2009 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -13,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "NSObject+HOM.h"
 
-/** @group High Order Messaging and Blocks */
+/** @group High Order Messaging and Blocks
+@abstract High-order messaging additions to NSObject. */
 @interface NSObject (HOM)
 
 /** Returns the receiver itself when it can respond to the next message that 

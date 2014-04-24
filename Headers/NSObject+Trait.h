@@ -1,6 +1,4 @@
 /**
-	<abstract>Objective-C Trait</abstract>
-
 	Copyright (C) 2007 David Chisnall
 
 	Author:  David Chisnall,
@@ -13,6 +11,7 @@
 #import <EtoileFoundation/Macros.h>
 
 /** @group Language Extensions
+@abstract Objective-C trait support.
 
 Adds traits to Objective-C, to support class composition, in addition to 
 inheritance. Traits allow methods to be added to another class.

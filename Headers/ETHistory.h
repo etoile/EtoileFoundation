@@ -1,7 +1,4 @@
 /**
-	<abstract>A generic history class which can contain arbitary entries located 
-	in the past or the future.</abstract>
-
 	Copyright (C) 2008 Truls Becken
 
 	Author:  Truls Becken <truls.becken@gmail.com>
@@ -14,6 +11,8 @@
 
 /**
  * @group Collection Additions
+ * @abstract A generic history class which can contain arbitary entries located 
+ * in the past or the future.
  *
  * ETHistory keeps a history of objects of some kind. After going back
  * in time, it can go forward again towards the most recent object. Adding an

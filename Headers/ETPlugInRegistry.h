@@ -1,7 +1,4 @@
 /**
-	<abstract>Plug-in manager class used to register new plug-ins and obtain 
-	already registered plug-ins</abstract>
- 
 	Copyright (C) 2004 Uli Kusterer
  
 	Author:  Uli Kusterer
@@ -13,6 +10,8 @@
 #import <Foundation/Foundation.h>
 
 /** @group Plug-Ins
+@abstract Plug-in manager class used to register new plug-ins and obtain already 
+registered plug-ins.
 
 Each plug-in is represented by an NSMutableDictionary to which you can add your
 own entries as needed. The keys ETPlugInRegistry adds to this dictionary are:

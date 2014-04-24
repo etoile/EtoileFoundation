@@ -1,6 +1,4 @@
 /**
-	<abstract>Mirror-based reflection API for Etoile</abstract>
- 
 	Copyright (C) 2009 Eric Wasylishen
  
 	Author:  Eric Wasylishen <ewasylishen@gmail.com>
@@ -12,7 +10,8 @@
 #import <EtoileFoundation/ETReflection.h>
 #import <EtoileFoundation/runtime.h>
 
-/** @group Reflection */
+/** @group Reflection 
+@abstract Mirror class that represents an Objective-C method.*/
 @interface ETMethodMirror : NSObject <ETMethodMirror>
 {
 	@private

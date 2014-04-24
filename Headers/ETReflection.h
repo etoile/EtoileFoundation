@@ -1,6 +1,4 @@
 /**
-	<abstract>Mirror-based reflection for Etoile</abstract>
- 
 	Copyright (C) 2009 Eric Wasylishen
  
 	Author:  Eric Wasylishen <ewasylishen@gmail.com>
@@ -13,14 +11,21 @@
 
 @class ETUTI;
 
-/** @group Reflection */
+/** 
+ * @group Reflection
+ * @abstract Base protocol for all mirror classes that represent introspected 
+ * language constructs. 
+ */
 @protocol ETMirror <NSObject>
 - (NSString *) name;
 - (ETUTI *) type;
 @end
 
 
-/** @group Reflection */
+/** 
+ * @group Reflection 
+ * @abstract Protocol for a mirror that represents a class. 
+ */
 @protocol ETClassMirror <ETMirror, ETCollection>
 - (id <ETClassMirror>) superclassMirror;
 - (NSArray *) subclassMirrors;
@@ -44,7 +49,10 @@
 @end
 
 
-/** @group Reflection */
+/** 
+ * @group Reflection 
+ * @abstract Protocol for a mirror that represents an object.
+ */
 @protocol ETObjectMirror <ETMirror, ETCollection>
 - (id) representedObject;
 - (id <ETClassMirror>) classMirror;
@@ -60,7 +68,10 @@
 @end
 
 
-/** @group Reflection */
+/** 
+ * @group Reflection 
+ * @abstract Protocol for a mirror that represents a protocol.
+ */
 @protocol ETProtocolMirror <ETMirror, ETCollection>
 - (NSArray *) ancestorProtocolMirrors;
 - (NSArray *) allAncestorProtocolMirrors;
@@ -69,18 +80,27 @@
 @end
 
 
-/** @group Reflection */
+/** 
+ * @group Reflection 
+ * @abstract Protocol for a mirror that represents a method.
+ */
 @protocol ETMethodMirror <ETMirror>
 - (BOOL) isClassMethod;
 @end
 
 
-/** @group Reflection */
+/** 
+ * @group Reflection 
+ * @abstract Protocol for a mirror that represents an instance variable.
+ */
 @protocol ETInstanceVariableMirror <ETMirror>
 @end
 
 
-/** @group Reflection */
+/** 
+ * @group Reflection
+ * @abstract Mirror-based reflection for Etoile.
+ */
 @interface ETReflection : NSObject
 {
 }

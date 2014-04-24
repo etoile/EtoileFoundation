@@ -1,6 +1,4 @@
 /**
-	<abstract>Double dispatch facility</abstract>
-
 	Copyright (C) 2007 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -11,6 +9,7 @@
 #import <Foundation/NSObject.h>
 
 /** @group Language Extensions
+@abstract Objective-C double dispatch support.
 
 This category provides a visitor which supports double-dispatch on all
 visited objects without implementing extra methods (such as 
@@ -68,7 +67,7 @@ Here is a visitor example:
 
 @end
 </example> */
-@interface NSObject (DoubleDispatch)
+@interface NSObject (ETDoubleDispatch)
 
 /** <override-dummy />
 Returns the method name prefix used to build the method name to be invoked 

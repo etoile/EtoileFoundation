@@ -1,18 +1,17 @@
 /**
-        <abstract>A type class to represent data types and aggregate various type 
-	representations into a common type model (Uniform Type Identifier)</abstract>
+	Copyright (C) 2009 Eric Wasylishen
 
-        Copyright (C) 2009 Eric Wasylishen
-
-        Author:  Eric Wasylishen <ewasylishen@gmail.com>
-        Date:  January 2009
+	Author:  Eric Wasylishen <ewasylishen@gmail.com>
+	Date:  January 2009
 	License:  Modified BSD (see COPYING)
-*/
+ */
 
 #import <Foundation/Foundation.h>
 
 /**
  * @group Uniform Type Identifier
+ * @abstract A type class to represent data types and aggregate various type 
+ * representations into a common type model (Uniform Type Identifier).
  *
  * ETUTI objects represent Uniform Type Identifiers (UTIs), strings written
  * in reverse-DNS notation (e.g. <em>org.etoile.group</em>) which are used to

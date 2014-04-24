@@ -6,7 +6,6 @@
 	License:  Modified BSD (see COPYING)
  */
 
-
 #import "ETPropertyValueCoding.h"
 #import "ETEntityDescription.h"
 #import "ETModelDescriptionRepository.h"

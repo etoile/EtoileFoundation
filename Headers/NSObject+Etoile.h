@@ -1,6 +1,4 @@
-/**	
-	<abstract>NSObject basic reflection additions.</abstract>
- 
+/**
 	Copyright (C) 2007 Quentin Mathe
  
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -13,6 +11,7 @@
 @class ETUTI;
 
 /** @group Reflection
+@abstract NSObject basic reflection additions.
 
 This category extends NSObject reflection API in a minimal way.
 

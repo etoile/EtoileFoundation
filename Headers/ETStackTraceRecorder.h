@@ -1,7 +1,4 @@
 /**
-	<abstract>A debug utility to record stack traces in relation to an 
-	instance.</abstract>
-
 	Copyright (C) 2010 Quentin Mathe
 
 	Author:  Quentin Mathe <qmathe@club-internet.fr>
@@ -16,6 +13,7 @@
 #if defined(GNUSTEP) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6 && !(TARGET_OS_IPHONE)
 
 /** @group Debugging
+@abstract A debug utility to record stack traces in relation to an instance.
 
 A stack trace recorder allows to snapshot the call stack symbols and 
 inspect these snapshots later on.

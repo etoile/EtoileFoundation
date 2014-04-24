@@ -1,10 +1,12 @@
-/*
-   Copyright (C) 2007 Yen-Ju Chen <yjchenx gmail>
-
-   This application is free software; you can redistribute it and/or 
-   modify it under the terms of the MIT license. See COPYING.
-
-*/
+/**
+	Copyright (C) 2007 David Chisnall
+ 
+	Author:  David Chisnall <csdavec@swan.ac.uk>,
+	         Quentin Mathe <quentin.mathe@gmail.com>,
+	         Eric Wasylishen <ewasylishen@gmail.com> 
+	Date:  July 2007
+	License:  Modified BSD (see COPYING)
+  */
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
