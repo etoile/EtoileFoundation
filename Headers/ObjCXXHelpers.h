@@ -1,3 +1,10 @@
+/**
+	Copyright (C) 2012 David Chisnall
+ 
+	Date:  January 2012
+	License:  Modified BSD (see COPYING)
+ */
+
 #ifdef __cplusplus
 #import <Foundation/NSEnumerator.h>
 

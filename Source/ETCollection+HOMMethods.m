@@ -1,7 +1,6 @@
 /*
 	Copyright (C) 2009 Niels Grewe
 
-	Author:  Niels Grewe <niels.grewe@halbordnung.de>
 	Date:  June 2009
 	License:  Modified BSD (see COPYING)
  */

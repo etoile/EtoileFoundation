@@ -1,7 +1,6 @@
 /**
 	Copyright (C) 2009 Eric Wasylishen
 
-	Author:  Eric Wasylishen <ewasylishen@gmail.com>
 	Date:  January 2009
 	License:  Modified BSD (see COPYING)
  */
@@ -84,7 +83,7 @@
  * Objective-C classes in UTIDefinitons.plist; ETUTI objects 
  * for ObjC classes are created dynamically, but UTIDefinitions.plist
  * can be used to add supplemental supertypes.
-  */
+ */
 + (ETUTI *) typeWithClass: (Class)aClass;
 /**
  * Registers a UTI in the UTI database. UTIs registered with this method

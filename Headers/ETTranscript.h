@@ -1,7 +1,6 @@
 /**
 	Copyright (C) 2008 Günther Noack
 
-	Author:  Günther Noack <guenther@unix-ag.uni-kl.de>
 	Date:  November 2008
 	License:  Modified BSD (see COPYING)
  */

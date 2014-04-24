@@ -1,7 +1,6 @@
 /*
 	Copyright (C) 2005 Quentin Mathe
 
-	Author:  Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  2005
 	
 	This file may be used under the terms of either GNU Lesser General Public 

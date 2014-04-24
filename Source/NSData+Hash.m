@@ -1,10 +1,9 @@
 /*
 	Copyright (C) 2006 David Chisnall
  
-	Author:  David Chisnall <csdavec@swan.ac.uk>
 	Date:  November 2006
 	License:  Modified BSD (see COPYING)
-  */
+ */
 
 #import "NSData+Hash.h"
 #if !(TARGET_OS_IPHONE)

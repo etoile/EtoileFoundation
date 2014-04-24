@@ -1,8 +1,6 @@
 /*
-	Copyright (C) 2004 Uli Kusterer
+	Copyright (C) 2004 Uli Kusterer, Quentin Mathe
  
-	Author:  Uli Kusterer
-             Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  August 2004
 	License:  Modified BSD (see COPYING)
  */

@@ -1,7 +1,6 @@
 /*
 	Copyright (C) 2007 David Chisnall
 
-	Author:  David Chisnall <csdavec@swan.ac.uk>
 	Date:  September 2007
 	License:  Modified BSD (see COPYING)
  */

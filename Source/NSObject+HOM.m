@@ -1,7 +1,6 @@
 /*
 	Copyright (C) 2009 Quentin Mathe
 
-	Author:  Quentin Mathe <qmathe@club-internet.fr>
 	Date:  June 2009
 	License: Modified BSD (see COPYING)
  */

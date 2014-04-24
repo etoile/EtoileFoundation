@@ -1,3 +1,10 @@
+/*
+	Copyright (C) 2011 David Chisnall
+ 
+	Date:  October 2011
+	License:  Modified BSD (see COPYING)
+ */
+
 #import <objc/runtime.h>
 // Prototypes are only supported with the GNUstep runtime currently.
 #ifdef __GNUSTEP_RUNTIME__

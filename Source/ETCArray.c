@@ -4,7 +4,7 @@
 	Author:  David Chisnall <csdavec@swan.ac.uk>
 	Date:  October 2005
 	License:  Modified BSD (see COPYING)
-  */
+ */
 
 #include <stdlib.h>
 #include <string.h>

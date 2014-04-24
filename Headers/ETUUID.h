@@ -1,12 +1,9 @@
 /**
-	Copyright (C) 2007 David Chisnall
+	Copyright (C) 2007 David Chisnall, Quentin Mathe, Eric Wasylishen
  
-	Author:  David Chisnall <csdavec@swan.ac.uk>,
-	         Quentin Mathe <quentin.mathe@gmail.com>,
-	         Eric Wasylishen <ewasylishen@gmail.com> 
 	Date:  July 2007
 	License:  Modified BSD (see COPYING)
-  */
+ */
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>

@@ -1,10 +1,9 @@
 /**
 	Copyright (C) 2007 Quentin Mathe
  
-	Author:  Quentin Mathe <qmathe@club-internet.fr>
 	Date:  December 2007
 	License:  Modified BSD (see COPYING)
-  */
+ */
 
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/ETPropertyValueCoding.h>

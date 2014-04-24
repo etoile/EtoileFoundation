@@ -1,7 +1,6 @@
 /**
 	Copyright (C) 2008 Truls Becken
 
-	Author:  Truls Becken <truls.becken@gmail.com>
 	Date:  December 2008
 	License: Modified BSD (see COPYING)
  */

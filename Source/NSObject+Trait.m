@@ -1,8 +1,6 @@
 /*
-	Copyright (C) 2007 David Chisnall
+	Copyright (C) 2007 David Chisnall, Quentin Mathe
 
-	Author:  David Chisnall,
-	         Quentin Mathe <quentin.mathe@gmail.com>
 	Date:  October 2007
 	License:  Modified BSD (see COPYING)
  */

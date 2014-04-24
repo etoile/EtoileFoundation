@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2008 Truls Becken <truls.becken@gmail.com>
+	Copyright (C) 2008 Truls Becken
 
 	Date:  December 2008
 	License: Modified BSD (see COPYING)

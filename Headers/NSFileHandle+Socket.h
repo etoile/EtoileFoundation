@@ -1,10 +1,9 @@
 /**
 	Copyright (C) 2009 David Chisnall
 
-	Author:  David Chisnall <csdavec@swan.ac.uk>
 	Date:  July 2009
 	License:  Modified BSD (see COPYING)
-  */
+ */
 
 #import <Foundation/Foundation.h>
 
