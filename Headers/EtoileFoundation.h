@@ -38,6 +38,7 @@
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSObject+Trait.h>
 #import <EtoileFoundation/NSString+Etoile.h>
+#import <EtoileFoundation/ObjCXXHelpers.h>
 
 /* Model Description */
 

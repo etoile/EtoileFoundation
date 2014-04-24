@@ -305,6 +305,8 @@
 		60E2E5A1190826FE00618AC1 /* NSDictionary+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */; };
 		60E2E5A21908270300618AC1 /* NSArray+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59C190826E800618AC1 /* NSArray+Etoile.m */; };
 		60E2E5A31908270400618AC1 /* NSArray+Etoile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E2E59C190826E800618AC1 /* NSArray+Etoile.m */; };
+		60E2E5B3190941F300618AC1 /* ObjCXXHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E2E5A819093FDA00618AC1 /* ObjCXXHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60E2E5B4190941F500618AC1 /* ObjCXXHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 60E2E5A819093FDA00618AC1 /* ObjCXXHelpers.h */; };
 		60F6EEEE101471FC003F4508 /* NSFileHandle+Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = 60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60F6EEF01014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
 		60F6EEF11014722D003F4508 /* NSFileHandle+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */; };
@@ -574,6 +576,8 @@
 		60E2E58F190826BD00618AC1 /* NSDictionary+Etoile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Etoile.h"; path = "Headers/NSDictionary+Etoile.h"; sourceTree = "<group>"; };
 		60E2E59C190826E800618AC1 /* NSArray+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Etoile.m"; path = "Source/NSArray+Etoile.m"; sourceTree = "<group>"; };
 		60E2E59D190826E800618AC1 /* NSDictionary+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Etoile.m"; path = "Source/NSDictionary+Etoile.m"; sourceTree = "<group>"; };
+		60E2E5A819093FDA00618AC1 /* ObjCXXHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjCXXHelpers.h; path = Headers/ObjCXXHelpers.h; sourceTree = "<group>"; };
+		60E2E5B01909409D00618AC1 /* TestPrototypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestPrototypes.m; path = Tests/TestPrototypes.m; sourceTree = "<group>"; };
 		60F494FB15076CDA008F1E99 /* EtoileXML-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "EtoileXML-Info.plist"; path = "EtoileXML/EtoileXML-Info.plist"; sourceTree = "<group>"; };
 		60F6EEED101471FC003F4508 /* NSFileHandle+Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileHandle+Socket.h"; path = "Headers/NSFileHandle+Socket.h"; sourceTree = "<group>"; };
 		60F6EEEF1014722D003F4508 /* NSFileHandle+Socket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileHandle+Socket.m"; path = "Source/NSFileHandle+Socket.m"; sourceTree = "<group>"; };
@@ -854,6 +858,7 @@
 				60B27D730FF7B51D0012BB42 /* TestETCollectionHOM.m */,
 				60222D90101CCAAC00B2B1C1 /* TestEntityDescription.m */,
 				60DEB05A1156445E00744298 /* TestModelDescriptionRepository.m */,
+				60E2E5B01909409D00618AC1 /* TestPrototypes.m */,
 				60222D8E101CCA9C00B2B1C1 /* TestReflection.m */,
 				603812721021C51B00C221A2 /* TestString.m */,
 				60B27D750FF7B54F0012BB42 /* TestUTI.m */,
@@ -999,6 +1004,7 @@
 				6036480B0E40931E003377E0 /* NSIndexSet+Etoile.m */,
 				60A549AB13CA133300261FDC /* NSMapTable+Etoile.h */,
 				60A549AD13CA134700261FDC /* NSMapTable+Etoile.m */,
+				60E2E5A819093FDA00618AC1 /* ObjCXXHelpers.h */,
 			);
 			name = Collection;
 			sourceTree = "<group>";
@@ -1204,6 +1210,7 @@
 				60966F8418B378B800CFEE38 /* ETAdaptiveModelObject.h in Headers */,
 				60E2E590190826BD00618AC1 /* NSArray+Etoile.h in Headers */,
 				60E2E591190826BD00618AC1 /* NSDictionary+Etoile.h in Headers */,
+				60E2E5B3190941F300618AC1 /* ObjCXXHelpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,6 +1218,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60E2E5B4190941F500618AC1 /* ObjCXXHelpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
