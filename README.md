@@ -2,7 +2,7 @@ UnitKit
 =======
 
 Maintainer
-: Quentin Mathe <qmathe@club-internet.fr>
+: Quentin Mathe <quentin.mathe@gmail.com>
 Authors
 : James Duncan Davidson, Nicolas Roard, Quentin Mathe, David Chisnall, Yen-Ju Chen, Christopher Armstrong, Eric Wasylishen
 License
@@ -35,7 +35,8 @@ The UnitKit core features are:
 - Optional ukrun tool to run test suites packaged in test bundles
 - Xcode 3 and higher test suite templates
 
-To know more about UnitKit: <http://www.etoile-project.org/dev/0.4/UnitKit>
+To know more about UnitKit: <http://www.etoile-project.org/dev/UnitKit>
+
 
 **Note:** This UnitKit version is a fork of the original UnitKit written by 
 James Duncan Davidson. The original version is not available anymore, and its 
@@ -138,12 +139,5 @@ Then, just type:
 	ukrun Test.bundle
 
 And you should have the list of the tests and their status. You can omit the
-'Test.bundle' argument, if you do so ukrun will try to run any bundles (with 
+'Test.bundle' argument, if you do so 'ukrun' will try to run any bundles (with 
 .bundle extension) located in the current directory.
-
-
-UnitTests Utility
------------------
-
-It is still in very rough state, but you can take a look at it in the repository 
-just here: /trunk/Etoile/Developer/Services/UnitTests
