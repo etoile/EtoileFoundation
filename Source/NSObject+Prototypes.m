@@ -14,7 +14,7 @@
 #ifdef OBJC_CAP_PROTOTYPES
 #import <Foundation/Foundation.h>
 
-@implementation NSObject (Prototypes)
+@implementation NSObject (ETPrototypes)
 + (BOOL)addInstanceMethod: (SEL)aSelector fromBlock: (id)aBlock
 {
 	IMP imp = imp_implementationWithBlock(aBlock);

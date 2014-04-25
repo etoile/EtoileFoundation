@@ -11,7 +11,7 @@
  * @group Language Extensions
  * @abstract Objective-C prototype support. 
  */
-@interface NSObject (Prototypes)
+@interface NSObject (ETPrototypes)
 /**
  * Adds an instance method to the class, using the specified block.  The types
  * for the method are inferred from the block.

@@ -68,7 +68,7 @@
 @end
 
 
-@implementation NSMutableDictionary (DictionaryOfLists)
+@implementation NSMutableDictionary (Etoile)
 
 - (void) addObject: anObject forKey: aKey
 {

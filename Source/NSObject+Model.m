@@ -20,7 +20,7 @@
 //#define DEBUG_PVC 1
 
 
-@implementation NSObject (ETModelAdditions)
+@implementation NSObject (ETModel)
 
 /** <override-dummy />
 Returns a new self-description (aka metamodel).
@@ -551,17 +551,17 @@ NSString * const ETCollectionDidUpdateNotification = @"ETCollectionDidUpdateNoti
 
 /* Basic Common Value Classes */
 
-@implementation NSString (ETModelAdditions)
+@implementation NSString (ETModel)
 /** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 
-@implementation NSNumber (ETModelAdditions)
+@implementation NSNumber (ETModel)
 /** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end
 
-@implementation NSDate (ETModelAdditions)
+@implementation NSDate (ETModel)
 /** Returns YES. */
 - (BOOL) isCommonObjectValue { return YES; }
 @end

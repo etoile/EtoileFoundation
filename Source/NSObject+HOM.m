@@ -81,7 +81,7 @@
 
 @end
 
-@implementation NSObject (HOM)
+@implementation NSObject (ETHOM)
 
 - (id) ifResponds
 {

@@ -10,7 +10,7 @@
 
 /** @group High Order Messaging and Blocks
 @abstract High-order messaging additions to NSObject. */
-@interface NSObject (HOM)
+@interface NSObject (ETHOM)
 
 /** Returns the receiver itself when it can respond to the next message that 
 follows -ifResponds, otherwise returns nil.

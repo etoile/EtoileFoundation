@@ -20,7 +20,7 @@
  * @abstract Extension to NSMutableDictionary for a common case where each key 
  * may map to several values.
  */
-@interface NSMutableDictionary (DictionaryOfLists)
+@interface NSMutableDictionary (Etoile)
 /**
  * Adds an object for the specific key.  If there is no value for this key, it
  * is added.  If there is an existing value and it is a mutable array, then

@@ -13,7 +13,7 @@
 
 /** @group Model Additions
 @abstract NSObject additions providing basic management of model objects. */
-@interface NSObject (ETModelAdditions)
+@interface NSObject (ETModel)
 
 /** @taskunit Providing the Metamodel */
 
@@ -99,16 +99,16 @@ extern NSString * const ETCollectionDidUpdateNotification;
 /* Basic Common Value Classes */
 
 /** @group Model Additions */
-@interface NSString (ETModelAdditions)
+@interface NSString (ETModel)
 - (BOOL) isCommonObjectValue;
 @end
 
 /** @group Model Additions */
-@interface NSNumber (ETModelAdditions)
+@interface NSNumber (ETModel)
 - (BOOL) isCommonObjectValue;
 @end
 
 /** @group Model Additions */
-@interface NSDate (ETModelAdditions)
+@interface NSDate (ETModel)
 - (BOOL) isCommonObjectValue;
 @end

@@ -11,7 +11,7 @@
  * @group File Management
  * @abstract NSFileManager additions for creating temporary files and directories.
  */
-@interface NSFileManager (TempFile)
+@interface NSFileManager (ETTempFile)
 /**
  * Safely returns a temporary file.
  */

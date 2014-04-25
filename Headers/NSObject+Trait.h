@@ -117,7 +117,7 @@ class can be replaced by methods from a trait.
 Trait applications are commutative, so the ordering in which you apply traits 
 doesn't matter… but when this mixin-style composition is used, traits are not 
 commutative and the ordering matters. That's why we'd rather discourage its use. */
-@interface NSObject (Trait)
+@interface NSObject (ETTrait)
 /**
  * Apply aClass to this class as a trait.
  *

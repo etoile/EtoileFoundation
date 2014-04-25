@@ -11,7 +11,7 @@
 #include "glibc_hack_unistd.h"
 #import <Foundation/Foundation.h>
 
-@implementation NSFileHandle (SocketAdditions)
+@implementation NSFileHandle (ETSocketAdditions)
 + (NSFileHandle*) fileHandleConnectedToRemoteHost: (NSString*)aHost
                                        forService: (NSString*)aService
 {

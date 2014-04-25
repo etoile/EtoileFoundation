@@ -16,7 +16,7 @@
 /* For BIO_flush(mem); on Mac OS X */
 #pragma GCC diagnostic ignored "-Wunused"
 
-@implementation NSData (Hash)
+@implementation NSData (ETHash)
 - (NSString*)base64String
 {
 	BIO * mem = BIO_new(BIO_s_mem());
@@ -109,7 +109,7 @@
 }
 @end
 
-@implementation NSString (Base64)
+@implementation NSString (ETBase64)
 - (NSData*)base64DecodedData
 {
     BIO * mem = BIO_new_mem_buf((void *) [self UTF8String], 

@@ -12,7 +12,7 @@
  * @abstract Category on NSFileHandle which adds support for creating 
  * protocol-agnostic sockets.
  */
-@interface  NSFileHandle (SocketAdditions)
+@interface  NSFileHandle (ETSocketAdditions)
 /**
  * Returns a new file handle object wrapping a connection-oriented stream
  * socket to the specified host on the named service.  

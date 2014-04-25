@@ -51,7 +51,7 @@ static char * makeTempPattern(void)
 	return strdup([patternString UTF8String]);
 }
 
-@implementation NSFileManager (TempFile)
+@implementation NSFileManager (ETTempFile)
 - (NSFileHandle*) tempFile
 {
 	char * pattern = makeTempPattern();

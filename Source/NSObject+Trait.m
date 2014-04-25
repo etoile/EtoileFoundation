@@ -484,7 +484,7 @@ static void checkTraitApplication(Class aClass, ETTraitApplication *aTraitApplic
 	}
 }
 
-@implementation NSObject (Trait)
+@implementation NSObject (ETTrait)
 
 static NSMapTable *traitApplicationsByClass = nil;
 static NSRecursiveLock *lock = nil;
