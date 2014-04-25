@@ -32,4 +32,4 @@ Trouble
 -------
 
 Give us feedback! Tell us what you like; tell us what you think
-could be better. Send bug reports and patches to <bug-etoile@gna.org>.
+could be better. Send bug reports and patches with <https://github.com/etoile/UnitKit>.
