@@ -84,9 +84,10 @@ ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke
 @end
 
 /** @group Debugging
+@abstract Conveniency methods that makes easier to work ETStackTraceRecorder.
 
-Some conveniency methods which makes easier to work with the shared stack 
-trace recorder instance.
+You can use these methods to record stack traces with 
++[ETStackTraceRecorder sharedInstance].
 
 For example, in GDB you can type [self recordStackTrace] to keep a trace of the 
 current call stack.<br />
@@ -99,8 +100,7 @@ And you can print all the stack traces recorded for the current object with
 
 
 /** @group Debugging
-
-Represents a stack trace built from an array of call stack symbols.
+@abstract Represents a stack trace built from an array of call stack symbols.
 
 You usually don't need to instantiate stack trace objects directly, 
 ETStackTraceRecorder does it. */

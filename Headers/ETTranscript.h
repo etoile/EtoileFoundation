@@ -31,8 +31,7 @@ EMIT_STRING(kTranscriptDelegate);
 
 /**
  * @group Logging
- *
- * A simple logging class designed for compatibility with
+ * @abstract A simple logging class designed for compatibility with
  * Smalltalkers' expectations.
  *
  * In the future, it may become possible to change the

@@ -13,7 +13,7 @@
 
 /** @group Metamodel
 @abstract Description of a property's role.
- 
+
 These allow a pluggable, more precise property description. */
 @interface ETRoleDescription : NSObject
 {

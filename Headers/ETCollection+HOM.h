@@ -10,7 +10,7 @@
 
 /** 
  * @group High Order Messaging and Blocks 
- * @abstract Extends ETCollection to support a -each higher-order message. 
+ * @abstract Extends ETCollection to support the 'each' higher-order message. 
  */
 @interface NSObject (ETEachHOM)
 /**
@@ -150,7 +150,12 @@
 #endif
 @end
 
-/** @group High Order Messaging and Blocks */
+/** 
+ * @group High Order Messaging and Blocks
+ * @abstract Higher-order messaging additions to ETCollectionMutation.
+ *
+ * These higher-order methods mutate the receiver collection in-place.
+ */
 @protocol ETCollectionMutationHOM
 /**
  * Returns a proxy object on which methods can be called. These methods will

@@ -23,8 +23,8 @@
 
 /**
  * @group Reflection 
- *
- * Used to mirror a method when we only know its name
+ * @abstract Mirror class that represents an Objective-C method, used to 
+ * mirror a method when we only know its name.
  */
 @interface ETMethodDescriptionMirror : NSObject <ETMethodMirror>
 {

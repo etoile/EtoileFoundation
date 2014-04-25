@@ -173,7 +173,7 @@ For the new ETPackageDescription, the metamodel constraints are:
 </list> 
  
 @section Discussion of Composite and Aggregate Terminology in UML
- 
+
 To recap the relationship types from UML:
 
 <deflist>

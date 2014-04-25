@@ -219,7 +219,7 @@ typedef enum
 } ETCollectionMutationKind;
 
 /** @group Collection Protocols
-@asbtract Unified protocol to post key-value observing change notifications 
+@abstract Unified protocol to post key-value observing change notifications 
 for any collections that conform to ETCollection.
 
 This lets you easily change the collection type, without rewriting all the 

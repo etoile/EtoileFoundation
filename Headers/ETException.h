@@ -21,7 +21,10 @@ ETExceptionType GLOBAL_EXCEPTION_STATE;
  */
 typedef ETExceptionType (*ETHandler)(NSException * userInfo);
 
-/** @group Language Extensions */
+/**
+ * @group Language Extensions 
+ * @abstract Objective-C resumable and restartable exception support.
+ */
 @interface NSException (ETException)
 /**
  * Enable resumable and restartable exception handling.  This only needs to be

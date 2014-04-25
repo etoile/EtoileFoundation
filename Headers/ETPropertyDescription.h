@@ -69,7 +69,7 @@
  * The validation is delegated to the role by -validateValue:forKey:.
  *
  * @section Multivalues
- * 
+ *
  * Both attributes and relationships can be univalued or multivalued. A 
  * multivalued relationship is a too-many relationship, while a univalued 
  * relationship is a to-one relationship. A multivalued attribute is a 
