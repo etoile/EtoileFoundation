@@ -42,6 +42,14 @@ TODO EtoileFoundation
 
 - Turn GSDoc link in ETUUID abstract into a Markdown link
 
+- Correct ETPropertyValueCoding documentation
+
+- Review collection protocol documentation 
+
+- Fix doc generation issue with 'To recap' appearing on the same line than '@section Discussion of Composite and Aggregate [snip]'
+
+- Probably hide categories that just adopt the collection protocols in the generated doc
+
 
 Known Issues
 ------------
