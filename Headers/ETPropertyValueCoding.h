@@ -9,10 +9,10 @@
 
 /** @group Model Additions
 @abstract Protocol to read and write properties.
-	
+
 Property-Value Coding allows to access properties of objects in a uniform manner, 
 while still supporting Key-Value Coding.
- 
+
 Key-Value Coding is similar but tends to be overriden in many subclasses. As a 
 result, <code>-[NSDictionary valueForKey: @"count"]</code> doesn't return the 
 count value, but attemps to look a value using 
@@ -26,7 +26,7 @@ the same code.
 
 ETPropertyValueCoding protocol is usually adopted by root object classes such as 
 NSObject and overriden in subclasses. See NSObject(Model).
- 
+
 The basic behavior of the Property-Value-Coding is implemented in 
 NSObject(ETModelAdditions), but few classes such as ETMutableObjectViewpoint and 
 ETLayoutItem in EtoileUI overrides the NSObject semantic for -valueForProperty: 
@@ -39,9 +39,9 @@ not the receiver.
 This method is used by ETMutableObjectViewpoint to determine whether the 
 receiver represented property can be accessed through -valueForProperty: or 
 -valueForKey:.
- 
+
 By default, returns NO.
- 
+
 If -valueForProperty: and -setValue:forProperty: don't access a represented 
 object, there is not need to override this method to return YES in subclasses. 
 You usually never need to override this method unless you adopt 
@@ -50,30 +50,30 @@ ETPropertyViewpoint protocol. */
 /** Returns the names of the properties exposed by the receiver through 
 -valueForProperty: and -setValue:forProperty:, or -valueForKey: and 
 -setValue:forKey: if -requiresKeyValueCodingForAccessingProperties returns YES.
- 
+
 Returns both the property names bound to the object entity description and 
 the basic property names.
- 
+
 +[ETModelDescriptionRepository mainRepository] is used to look up the entity 
 description.
 
 To be exposed through Property Value Coding, the receiver properties must be 
 listed among the returned properties.
- 
+
 Can be overriden to return property names bound to entity descriptions that 
 don't belong to the main repository, or filter some properties out. In the 
 overriden method, you should usually return -basicPropertyNames along the 
 property description names.
- 
+
 For a NSObject subclass not bound to an entity description, the property names 
 related to the closest superclass bound to an entity description are returned 
 through a recursive lookup in -entityDescriptionForClass:.
- 
+
 See -basicPropertyNames, -valueForProperty: and -setValue:forProperty:.
 See also -[ETPropertyValueCoding propertyNames]. */
 - (NSArray *) propertyNames;
 /** Returns the value of the property.
- 
+
 If the property doesn't exist, returns nil but must not raise an exception.
 
 The method precise semantic is under the control of the class implementing the 
@@ -89,7 +89,7 @@ If the property doesn't exist, returns NO but must not raise an exception.
 
 The method precise semantic is under the control of the class implementing the
 protocol.
- 
+
 See also -[NSObject setValue:forProperty:] and 
 -[ETPropertyViewpoint setValue:forProperty:]. */
 - (BOOL) setValue: (id)value forProperty: (NSString *)key;
