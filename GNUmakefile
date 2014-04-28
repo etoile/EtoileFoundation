@@ -237,6 +237,8 @@ EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
 EtoileFoundationDoc_EXCLUDED_DOC_FILES += \
 	Headers/ObjCXXHelpers.h
 
+EtoileFoundationDoc_MENU_TEMPLATE_FILE = Documentation/Templates/menu.html
+
 ifeq ($(test), yes)
 include $(GNUSTEP_MAKEFILES)/bundle.make
 else
