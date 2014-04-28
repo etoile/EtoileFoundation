@@ -61,11 +61,12 @@ static BOOL testedObjectInitialized = NO;
 	handler = [UKTestHandler handler];
 
 #if !(TARGET_OS_IPHONE)
-	NSString *testBundlePath = [[[NSFileManager defaultManager] currentDirectoryPath]
+	NSString *mainTestBundlePath = [[NSBundle bundleForClass: [self class]] bundlePath];
+	NSString *testBundlePath = [[mainTestBundlePath stringByDeletingLastPathComponent] 
 		stringByAppendingPathComponent: @"TestBundle.bundle"];
 
 	testBundle = [[NSBundle alloc] initWithPath: testBundlePath];
-    NSAssert1(testBundle != nil, @"Found not test bundle at %@", testBundlePath);
+	NSAssert1(testBundle != nil, @"Found not test bundle at %@", testBundlePath);
 	[testBundle load];
 #endif
 

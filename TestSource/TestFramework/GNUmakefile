@@ -1,5 +1,10 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
+# We reset PROJECT_DIR provided by etoile.make to match the subproject since 
+# etoile.make doesn't detect and handle such embedded project (this ensures 
+# the headers and framework get exported in the Build directory and can be 
+# found by TestBundle)
+PROJECT_DIR = $(CURDIR)
 PRINT_PROJECT_NAME = NO
 
 FRAMEWORK_NAME = TestFramework
