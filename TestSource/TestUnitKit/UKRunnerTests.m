@@ -135,8 +135,12 @@ static BOOL testedObjectInitialized = NO;
     UKTrue([testClasses containsObject: @"TestTwo"]);
     UKTrue([testClasses containsObject: @"TestThree"]);
 
-    // FIXME: UKFalse(randomObjectInitialized);
-    UKTrue(testedObjectInitialized);
+    UKFalse(randomObjectInitialized);
+#ifdef GNUSTEP
+    UKFalse(testedObjectInitialized);
+#else
+	UKTrue(testedObjectInitialized);
+#endif
 }
 #endif
 
