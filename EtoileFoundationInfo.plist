@@ -14,9 +14,7 @@
 	<string>FMWK</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>${DYLIB_COMPATIBILITY_VERSION}.${DYLIB_CURRENT_VERSION}</string>
 	<key>CFBundleShortVersionString</key>
-	<string>${DYLIB_COMPATIBILITY_VERSION}.${DYLIB_CURRENT_VERSION}</string>
+	<string>0.6</string>
 </dict>
 </plist>

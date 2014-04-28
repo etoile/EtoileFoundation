@@ -518,7 +518,7 @@
 		603648100E40931E003377E0 /* NSString+Etoile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Etoile.m"; path = "Source/NSString+Etoile.m"; sourceTree = "<group>"; };
 		603648130E40931E003377E0 /* TestUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestUUID.m; path = Tests/TestUUID.m; sourceTree = "<group>"; };
 		603648150E40931E003377E0 /* ETPlugInRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETPlugInRegistry.m; path = Source/ETPlugInRegistry.m; sourceTree = "<group>"; };
-		603649810E4095F0003377E0 /* EtoileFoundation-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "EtoileFoundation-Info.plist"; sourceTree = "<group>"; };
+		603649810E4095F0003377E0 /* EtoileFoundationInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EtoileFoundationInfo.plist; sourceTree = "<group>"; };
 		603812721021C51B00C221A2 /* TestString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestString.m; path = Tests/TestString.m; sourceTree = "<group>"; };
 		603813A21022246300C221A2 /* ETViewpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETViewpoint.h; path = Headers/ETViewpoint.h; sourceTree = "<group>"; };
 		6043D0A5174CD74E002103CC /* ETCollectionViewpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCollectionViewpoint.m; path = Source/ETCollectionViewpoint.m; sourceTree = "<group>"; };
@@ -967,7 +967,7 @@
 		792BF9A8124FBD9B0040BF68 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				603649810E4095F0003377E0 /* EtoileFoundation-Info.plist */,
+				603649810E4095F0003377E0 /* EtoileFoundationInfo.plist */,
 				6072CF6C1360E144003256C5 /* PlugInExample-Info.plist */,
 				602DC5410F21FD1500DF23D9 /* UTIDefinitions.plist */,
 				605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */,
@@ -1776,6 +1776,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEAD_CODE_STRIPPING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 6;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1804,6 +1806,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEAD_CODE_STRIPPING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 6;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1832,7 +1836,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 0;
-				DYLIB_CURRENT_VERSION = 5;
+				DYLIB_CURRENT_VERSION = 6;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				INSTALL_PATH = "@rpath";
@@ -1845,7 +1849,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 0;
-				DYLIB_CURRENT_VERSION = 5;
+				DYLIB_CURRENT_VERSION = 6;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				INSTALL_PATH = "@rpath";

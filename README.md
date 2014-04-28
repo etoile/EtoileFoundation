@@ -8,7 +8,7 @@ Authors
 License
 : Modified BSD License
 Version
-: 0.5
+: 0.6
 
 [![Build Status](https://travis-ci.org/etoile/EtoileFoundation.png?branch=master)](https://travis-ci.org/etoile/EtoileFoundation)
 
