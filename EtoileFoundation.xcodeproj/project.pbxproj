@@ -1777,7 +1777,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
-				INFOPLIST_FILE = "EtoileFoundation-Info.plist";
+				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1805,7 +1805,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
-				INFOPLIST_FILE = "EtoileFoundation-Info.plist";
+				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1834,7 +1834,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 0;
 				DYLIB_CURRENT_VERSION = 5;
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "../EtoileFoundation/EtoileFoundation-Info.plist";
+				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = EtoileFoundation;
 			};
@@ -1847,7 +1847,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 0;
 				DYLIB_CURRENT_VERSION = 5;
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "../EtoileFoundation/EtoileFoundation-Info.plist";
+				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = EtoileFoundation;
 			};
