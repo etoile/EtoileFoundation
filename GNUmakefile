@@ -3,14 +3,10 @@ include $(GNUSTEP_MAKEFILES)/common.make
 SUBPROJECTS = ToolSource
 
 ifneq (,$(filter clean distclean,$(MAKECMDGOALS)))
-  testsource ?= yes
+  test ?= yes
 endif
 
 ifeq ($(test), yes)
-  testsource ?= yes
-endif
-
-ifeq ($(testsource), yes)
   SUBPROJECTS += \
 	TestSource/TestFramework \
 	TestSource/TestBundle \
@@ -46,6 +42,7 @@ UnitKitDoc_MENU_TEMPLATE_FILE = Documentation/Templates/menu.html
 
 include $(GNUSTEP_MAKEFILES)/framework.make
 -include ../../etoile.make
+-include etoile.make
 -include ../../documentation.make
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 
