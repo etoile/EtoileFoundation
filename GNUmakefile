@@ -44,10 +44,6 @@ UnitKitDoc_DOC_FILES = \
 
 UnitKitDoc_MENU_TEMPLATE_FILE = Documentation/Templates/menu.html
 
-UnitKitDoc_README_FILE = README.md
-UnitKitDoc_INSTALL_FILES = INSTALL.Cocoa.md INSTALL.GNUstep.md
-UnitKitDoc_NEWS_FILE = NEWS.md
-
 include $(GNUSTEP_MAKEFILES)/framework.make
 -include ../../etoile.make
 -include ../../documentation.make
