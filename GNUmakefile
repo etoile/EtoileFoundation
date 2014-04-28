@@ -39,6 +39,7 @@ else
 FRAMEWORK_NAME = EtoileFoundation
 endif
 
+# ABI version (the API version is in CFBundleShortVersionString of EtoileFoundationInfo.plist)
 VERSION = 0.5
 
 # libssl and libcrypto are packaged together
