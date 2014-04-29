@@ -209,6 +209,11 @@ priority must be given to the index to locate the objects to remove. */
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint;
 - (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints;
 - (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints;
+@optional
+- (void) validateMutationForObjects: (NSArray *)objects
+                          atIndexes: (NSIndexSet *)indexes
+                              hints: (NSArray *)hints
+                          isRemoval: (BOOL)isRemoval;
 @end
 
 typedef enum

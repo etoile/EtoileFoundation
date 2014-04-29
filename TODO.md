@@ -46,6 +46,10 @@ TODO EtoileFoundation
 
 - Review collection protocol documentation 
 
+- Remove -insertObjects:atIndexes:hints: and -removeObjects:atIndexes:hints: implementations in ETMutableCollectionTrait  
+
+	- was added for backward compatibility, but once all EtoileUI projects have been updated, should be removed
+
 - Fix doc generation issue with 'To recap' appearing on the same line than '@section Discussion of Composite and Aggregate [snip]'
 
 - Probably hide categories that just adopt the collection protocols in the generated doc

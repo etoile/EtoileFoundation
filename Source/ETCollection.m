@@ -186,7 +186,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) insertObject
 
 	[self insertObjects: (object != nil ? A(object) : [NSArray array])
 	          atIndexes: indexes
-	              hints: (hint != nil ? A(hint) : nil)];
+	              hints: (hint != nil ? A(hint) : [NSArray array])];
 }
 
 /** Does nothing.
@@ -200,7 +200,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 	
 	[self removeObjects: (object != nil ? A(object) : [NSArray array])
 	          atIndexes: indexes
-	              hints: (hint != nil ? A(hint) : nil)];
+	              hints: (hint != nil ? A(hint) : [NSArray array])];
 }
 
 - (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
@@ -225,6 +225,41 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 		[self removeObject: [objects objectAtIndex: i] atIndex: i hint: (hints != nil ? [hints objectAtIndex: i] : nil)];
 	}
 #endif
+}
+
+- (void) validateMutationForObjects: (NSArray *)objects
+                          atIndexes: (NSIndexSet *)indexes
+                              hints: (NSArray *)hints
+                          isRemoval: (BOOL)isRemoval
+{
+	NILARG_EXCEPTION_TEST(objects);
+	NILARG_EXCEPTION_TEST(indexes);
+	if (hints == nil)
+	{
+		NILARG_EXCEPTION_TEST(hints);
+	}
+	BOOL isIndexBasedRemoval = ([objects isEmpty] && isRemoval);
+
+	if ([indexes isEmpty] == NO && [objects count] != [indexes count] && isIndexBasedRemoval == NO)
+	{
+		[NSException raise: NSInvalidArgumentException
+		            format: @"Mismatched mutation objects and indexes"];
+	}
+
+	if ([hints isEmpty] == NO)
+	{
+		if ([objects isEmpty] == NO && [hints count] != [objects count])
+		{
+			[NSException raise: NSInvalidArgumentException
+		                format: @"Mismatched mutation objects and hints"];
+		}
+
+		if ([indexes isEmpty] == NO && [hints count] != [indexes count])
+		{
+			[NSException raise: NSInvalidArgumentException
+		                format: @"Mismatched mutation indexes and hints"];
+		}
+	}
 }
 
 @end
@@ -705,21 +740,15 @@ If the index is ETUndeterminedIndex, the object is added.
 See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 - (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: NO];
 
 	if ([objects count] == [indexes count])
 	{
 		[self insertObjects: objects atIndexes: indexes];
 	}
-	else if ([indexes isEmpty])
-	{
-		[self addObjectsFromArray: objects];
-	}
 	else
 	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
+		[self addObjectsFromArray: objects];
 	}
 }
 
@@ -732,21 +761,15 @@ When a valid index is provided, the object can be nil.
 See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 - (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: YES];
 
-	if ([objects count] == [indexes count])
+	if ([objects isEmpty] || [objects count] == [indexes count])
 	{
 		[self removeObjectsAtIndexes: indexes];
 	}
-	else if ([indexes isEmpty])
-	{
-		[self removeObjectsInArray: objects];
-	}
 	else
 	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
+		[self removeObjectsInArray: objects];
 	}
 }
 
@@ -818,14 +841,7 @@ However the hint value and key must not be nil.
 See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 - (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
-
-	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
-	}
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: NO];
 
 	if ([[hints firstObject] isKeyValuePair])
 	{
@@ -858,14 +874,7 @@ However the hint key must not be nil.
 See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 - (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
-
-	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
-	}
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: YES];
 
 	if ([[hints firstObject] isKeyValuePair])
 	{
@@ -903,15 +912,7 @@ The index is ignored in all case.
 See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 - (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
-
-	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
-	}
-
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: NO];
 	[self addObjectsFromArray: objects];
 }
 
@@ -922,15 +923,7 @@ The index is ignored in all cases.
 See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 - (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
-
-	if ([objects count] != [indexes count] && [indexes isEmpty] == NO)
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
-	}
-
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: YES];
 	[self minusSet: [NSSet setWithArray: objects]];
 }
 
@@ -971,34 +964,11 @@ See also -[ETCollectionMutation insertObject:atIndex:hint:]. */
 
 - (void) insertObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: NO];
 
-	if ([objects count] == [indexes count])
+	for (id number in objects)
 	{
-		NSUInteger currentIndex = [indexes firstIndex];
-		NSUInteger count = [indexes count];
-	 
-		for (NSUInteger i = 0; i < count; i++)
-		{
-			// TODO: Pass the hint
-			[self insertObject: [objects objectAtIndex: i]
-			           atIndex: currentIndex
-			              hint: nil];
-			currentIndex = [indexes indexGreaterThanIndex: currentIndex];
-		}
-	}
-	else if ([indexes isEmpty])
-	{
-		for (id number in objects)
-		{
-			[self insertObject:  number atIndex: ETUndeterminedIndex hint: nil];
-		}
-	}
-	else
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
+		[self insertObject:  number atIndex: ETUndeterminedIndex hint: nil];
 	}
 }
 
@@ -1025,34 +995,11 @@ See also -[ETCollectionMutation removeObject:atIndex:hint:]. */
 
 - (void) removeObjects: (NSArray *)objects atIndexes: (NSIndexSet *)indexes hints: (NSArray *)hints
 {
-	NILARG_EXCEPTION_TEST(objects);
-	NILARG_EXCEPTION_TEST(indexes);
+	[self validateMutationForObjects: objects atIndexes: indexes hints: hints isRemoval: YES];
 
-	if ([objects count] == [indexes count])
+	for (id number in objects)
 	{
-		NSUInteger currentIndex = [indexes firstIndex];
-		NSUInteger i, count = [indexes count];
-	 
-		for (i = 0; i < count; i++)
-		{
-			// TODO: Pass the hint
-			[self removeObject: [objects objectAtIndex: i]
-			           atIndex: currentIndex
-			              hint: nil];
-			currentIndex = [indexes indexGreaterThanIndex: currentIndex];
-		}
-	}
-	else if ([indexes isEmpty])
-	{
-		for (id number in objects)
-		{
-			[self removeObject:  number atIndex: ETUndeterminedIndex hint: nil];
-		}
-	}
-	else
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"Mismatched objects and insertion indexes"];
+		[self removeObject:  number atIndex: ETUndeterminedIndex hint: nil];
 	}
 }
 
