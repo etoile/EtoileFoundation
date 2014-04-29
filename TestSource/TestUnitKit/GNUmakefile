@@ -6,6 +6,7 @@ BUNDLE_NAME = TestUnitKit
 
 # For running the test suite without installing TestFramework
 $(BUNDLE_NAME)_LDFLAGS = -Wl,-rpath=$(BUILD_DIR)
+$(BUNDLE_NAME)_NEEDS_GUI = no
 
 $(BUNDLE_NAME)_BUNDLE_LIBS = -lUnitKit -lTestFramework $(FND_LIBS)
 
