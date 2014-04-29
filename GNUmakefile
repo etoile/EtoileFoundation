@@ -55,6 +55,7 @@ LIBRARIES_DEPEND_UPON += -lm $(SSL_LIBS) \
 
 ifeq ($(test), yes)
 EtoileFoundation_LDFLAGS += -lUnitKit $(SSL_LIBS)
+EtoileFoundation_NEEDS_GUI = no
 endif
 
 ifeq ($(USE_SSL_PKG), yes)
