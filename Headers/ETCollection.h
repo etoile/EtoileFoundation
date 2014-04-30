@@ -45,11 +45,6 @@ to ETCollection.
 Note: In future, we will provide a viewpoint mechanism to view or traverse 
 objects through their non-dominant to-many relationships. */ 
 @protocol ETCollection <NSObject>
-// HACK: Disable checking for implementation of this protocol because it is
-// causing warning spam in CoreObject. If there is a pragma to disable
-// checking of this specific protocl for classes that implement it using traits,
-// we should do that instead.
-@optional
 /** Returns whether the receiveir stores the elements in a sorted order or not. */
 - (BOOL) isOrdered;
 /** Returns whether the receiveir stores the elements by key.
@@ -313,6 +308,8 @@ so.
 
 @end
 
+// For preventing warnings about missing methods implemented in the trait but 
+// not in the target class.
 #pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation
