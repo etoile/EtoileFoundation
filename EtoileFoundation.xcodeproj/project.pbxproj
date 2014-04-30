@@ -233,6 +233,8 @@
 		6097260F17689DC200562F3D /* ETViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6097260D17689DC100562F3D /* ETViewpoint.m */; };
 		6097A72C18C6045200DEF51D /* UTIDefinitions.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 602DC5410F21FD1500DF23D9 /* UTIDefinitions.plist */; };
 		6097A72D18C6045200DEF51D /* UTIClassBindings.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 605816D710B2BC8C00DF6624 /* UTIClassBindings.plist */; };
+		6098D5D8190FB41F00890F16 /* TestViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D2971752465A002103CC /* TestViewpoint.m */; };
+		6098D5E0190FB42000890F16 /* TestViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D2971752465A002103CC /* TestViewpoint.m */; };
 		609A557A18C209FE0096927F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 602E12AF18B3A10E004F171B /* Foundation.framework */; };
 		609A559A18C20D700096927F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 609A559918C20D700096927F /* main.m */; };
 		609A55A418C20F5E0096927F /* TestCollectionTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6093347C13A550B40033378C /* TestCollectionTrait.m */; };
@@ -1651,6 +1653,7 @@
 				609A55AE18C20F5E0096927F /* TestString.m in Sources */,
 				60CB7DF718C5EA1400D6C4D0 /* TestUUID.m in Sources */,
 				60CB7DF818C5EA2900D6C4D0 /* TestUTI.m in Sources */,
+				6098D5E0190FB42000890F16 /* TestViewpoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1722,6 +1725,7 @@
 				60966F8818B378CC00CFEE38 /* ETAdaptiveModelObject.m in Sources */,
 				60E2E5A1190826FE00618AC1 /* NSDictionary+Etoile.m in Sources */,
 				60E2E5A21908270300618AC1 /* NSArray+Etoile.m in Sources */,
+				6098D5D8190FB41F00890F16 /* TestViewpoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
