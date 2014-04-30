@@ -37,7 +37,8 @@
 #import <EtoileFoundation/NSObject+Model.h>
 #import <EtoileFoundation/NSObject+Trait.h>
 #import <EtoileFoundation/NSString+Etoile.h>
-#import <EtoileFoundation/ObjCXXHelpers.h>
+// FIXME: Cannot be enabled because it breaks if imported multiple times.
+//#import <EtoileFoundation/ObjCXXHelpers.h>
 
 /* Model Description */
 
@@ -65,25 +66,4 @@
 #ifdef GNUSTEP
 #import <EtoileFoundation/ETCArray.h>
 #import <EtoileFoundation/NSObject+Prototypes.h>
-#endif
-
-/* EtoileFoundation subframeworks */
-
-#if 0
-#import <EtoileThread/ETThread.h>
-#import <EtoileThread/ETThreadedObject.h>
-#import <EtoileThread/ETThreadProxyReturn.h>
-#import <EtoileThread/NSObject+Futures.h>
-#import <EtoileThread/NSObject+Threaded.h>
-#endif
-
-#if defined(GNUSTEP) || !TARGET_OS_IPHONE
-#import <EtoileXML/ETXMLDeclaration.h>
-#import <EtoileXML/ETXMLNullHandler.h>
-#import <EtoileXML/ETXMLParserDelegate.h>
-#import <EtoileXML/ETXMLParser.h>
-#import <EtoileXML/ETXMLString.h>
-#import <EtoileXML/ETXMLWriter.h>
-#import <EtoileXML/ETXMLXHTML-IMParser.h>
-#import <EtoileXML/NSAttributedString+HTML.h>
 #endif
