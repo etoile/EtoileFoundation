@@ -478,7 +478,6 @@
 		602E139E18B3A491004F171B /* ETCFMapTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCFMapTable.h; path = iOSCompatibility/ETCFMapTable.h; sourceTree = "<group>"; };
 		602E139F18B3A491004F171B /* ETCFMapTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCFMapTable.m; path = iOSCompatibility/ETCFMapTable.m; sourceTree = "<group>"; };
 		602E13A918B3A836004F171B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		602E13B618B3AAB1004F171B /* INSTALL.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.md; sourceTree = "<group>"; };
 		602E13B718B3AAB2004F171B /* NEWS.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS.md; sourceTree = "<group>"; };
 		602E13B818B3AAB5004F171B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		602E13B918B3AAB7004F171B /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.md; sourceTree = "<group>"; };
@@ -539,6 +538,8 @@
 		6072CF6C1360E144003256C5 /* PlugInExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "PlugInExample-Info.plist"; path = "Tests/PlugInExample/PlugInExample-Info.plist"; sourceTree = "<group>"; };
 		6072CF701360E190003256C5 /* PlugInExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlugInExample.m; path = Tests/PlugInExample/PlugInExample.m; sourceTree = "<group>"; };
 		60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETModelDescriptionRepository.h; path = Headers/ETModelDescriptionRepository.h; sourceTree = "<group>"; };
+		6091D97519127F4E00AA84B5 /* INSTALL.Cocoa.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.Cocoa.md; sourceTree = "<group>"; };
+		6091D97619127F4E00AA84B5 /* INSTALL.GNUstep.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.GNUstep.md; sourceTree = "<group>"; };
 		6093347C13A550B40033378C /* TestCollectionTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestCollectionTrait.m; path = Tests/TestCollectionTrait.m; sourceTree = "<group>"; };
 		6093347D13A550B40033378C /* TestTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestTrait.m; path = Tests/TestTrait.m; sourceTree = "<group>"; };
 		60966F7718B376F700CFEE38 /* ETRoleDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETRoleDescription.m; path = Source/ETRoleDescription.m; sourceTree = "<group>"; };
@@ -826,7 +827,8 @@
 			isa = PBXGroup;
 			children = (
 				602E13B818B3AAB5004F171B /* README.md */,
-				602E13B618B3AAB1004F171B /* INSTALL.md */,
+				6091D97519127F4E00AA84B5 /* INSTALL.Cocoa.md */,
+				6091D97619127F4E00AA84B5 /* INSTALL.GNUstep.md */,
 				602E13B718B3AAB2004F171B /* NEWS.md */,
 				602E13B918B3AAB7004F171B /* TODO.md */,
 				603647C30E4092EA003377E0 /* EtoileFoundation.h */,
