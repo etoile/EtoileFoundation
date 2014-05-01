@@ -52,8 +52,8 @@ Test suite
 
 UnitKit is required, see <https://github.com/etoile/UnitKit>
 
-**Note:** If you have the entire Etoile repository, UnitKit is built together 
-with EtoileFoundation (as a workspace subproject).
+**Note:** If you have the entire (Etoile repository)[https://github.com/etoile/Etoile], 
+UnitKit is built together with EtoileFoundation (as a workspace subproject).
 
 To produce a test bundle and run the test suite, open EtoileFoundation.xcodeproj 
 and choose TestEtoileFoundation or TestEtoileFoundation (iOS) in the Scheme menu.

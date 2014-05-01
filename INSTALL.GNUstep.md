@@ -1,17 +1,14 @@
 EtoileFoundation GNUstep INSTALL
 ================================
 
-Required software
------------------
-
 You need to have the GNUstep core libraries installed in order to compile and 
-use EtoileFoundation, see <http://www.gnustep.org>. The core packages are, at a 
+use EtoileFoundation, see <http://www.gnustep.org/>. The core packages are, at a 
 minimum:
 
+  - clang 3.3 or higher
+  - libobjc2 trunk
   - gnustep-make 2.6.6 or higher
   - gnustep-base trunk
-  - gnustep-gui recent release
-  - gnustep-back recent release
 
 
 Build and Install
@@ -32,8 +29,9 @@ Test suite
 
 UnitKit is required, see <https://github.com/etoile/UnitKit>
 
-**Note:** If you have the entire Etoile repository, UnitKit is built together 
-with CoreObject, by running 'make' in Frameworks or any other parent directories.
+**Note:** If you have the entire (Etoile repository)[https://github.com/etoile/Etoile], 
+UnitKit is built together with CoreObject, by running 'make' in Frameworks or 
+any other parent directories.
 
 Square brackets "[ ]" are used to indicate optional parameters.
 
