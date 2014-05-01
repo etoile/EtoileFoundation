@@ -12,9 +12,11 @@ Version
 
 [![Build Status](https://travis-ci.org/etoile/EtoileFoundation.png?branch=master)](https://travis-ci.org/etoile/EtoileFoundation)
 
-EtoileFoundation is the core framework for all Etoile projects, providing numerous convenience methods on top of the OpenStep foundation and significantly better support for reflection. Here is a summary of some the interesting features:
+EtoileFoundation is the core framework for all Etoile projects, providing 
+numerous convenience methods on top of the OpenStep foundation and significantly 
+better support for reflection. Here is a summary of some the interesting features:
 
-- mirror-based reflection
+- mirror-based reflection (work-in-progress)
 - mixins and traits
 - prototypes
 - double-dispatch
@@ -28,51 +30,56 @@ EtoileFoundation is the core framework for all Etoile projects, providing numero
 - socket
 - stack trace recording
 
-**Note:** Restartable exceptions have been temporarily removed in the current version.
+**Note:** Restartable exceptions are not available in this release.
 
 Two sub-frameworks are bundled with it: 
 
 - *EtoileThread* which allows objects to transparently be run in a separate thread. 
-- *EtoileXML* which is a light-weight and tolerant XML parsing framework whose main ability is to handle truncated and not well-formed XML documents. For example, with XML streams used by the XMPP protocol, the XML is received in fragments.
+- *EtoileXML* which is a light-weight and tolerant XML parsing framework whose 
+main ability is to handle truncated and not well-formed XML documents. For 
+example, with XML streams used by the XMPP protocol, the XML is received in 
+fragments.
 
 **Warning:** EtoileThread is not available in this release.
-
-Be wary that the framework is really much work-in-progress for now, so some parts really need improvements and the API is still a moving target.
 
 
 Build and Install
 -----------------
 
-Read INSTALL document.
+Read INSTALL.Cocoa or INSTALL.GNUstep documents.
 
 
-Mac OS X support
-----------------
+Mac OS X and iOS support
+------------------------
 
-EtoileFoundation is supported on Mac OS X, minus the parts that only work with the GNU runtime (prototypes, restartable exceptions and some introspection stuff).
-An Xcode project is available to build both EtoileFoundation and EtoileXML on Mac OS X. EtoileThread is unsupported on Mac OS X presently.
+EtoileFoundation is supported on Mac OS X (10.6 or higher) and iOS (5 or higher), 
+minus the parts that only work with the GNUstep runtime (prototypes, restartable 
+exceptions and some introspection stuff).
+
+An Xcode project is bundled to build both EtoileFoundation and EtoileXML on 
+Mac OS X, and EtoileFoundation on iOS. 
+
+**Note:** EtoileXML is unsupported on iOS presently. For now, ETSocket and 
+NSData(ETHash) are also missing  on iOS, because the system doesn't include the 
+OpenSSL library.
 
 NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on Mac OS X.
 
-For EtoileFoundation compilation, many warnings about missing protocol method implementations are reported, because *#pragma GCC diagnostic ignored "-Wprotocol"* only works with LLVM 1.5 64 bits. By default, EtoileFoundation is compiled as a Universal 32/64 bits framework. Switch *Architectures* to Intel 64 bits to eliminate these issues at development time (supposing your machine is 64 bits compatible).
+ETSocket.m, ETStackTraceRecorder.m, NSData+Hash.m, NSObject+Prototypes.m, 
+NSBlocks.m and CArray.m are not compiled on iOS.
 
-**Warning:** Xcode 4 is required to build the project.
-
-iOS support
------------
-
-EtoileFoundation is supported on iOS, minus the parts only work with the GNU runtime (prototypes, restartable exceptions and some introspection stuff). For now, ETSocket and NSData(Hash) are also missing  on iOS, because it doesn't include the OpenSSL library.
-An Xcode project is available to build EtoileFoundation as a static library on iOS. Both EtoileXML and EtoileThread are unsupported on iOS presently.
-
-ETSocket.m, ETStackTraceRecorder.m, NSData+Hash.m, NSObject+Prototypes.m, NSBlocks.m and CArray.m are not compiled on iOS.
+**Warning:** Xcode 4.6 or higher is required to build these projects.
 
 
 Developer Notes
 ===============
 
-If you want to use classes from EtoileThread or EtoileXML, you can use import EtoileFoundation.h which is an umbrella header for all the EtoileFoundation, EtoileThread and EtoileXML classes. However linking requires that you link EtoileXML and EtoileThread by yourself since EtoileFoundation does not.
+If you want to use classes from EtoileThread or EtoileXML, their headers must be 
+imported explicitly and EtoileThread or EtoileXML must be linked explicitly. 
+EtoileFoundation doesn't link them.
 
-Unlike EtoileThread which has no dependency, EtoileXML depends on EtoileFoundation and links it.
+Unlike EtoileThread which has no dependency, EtoileXML depends on 
+EtoileFoundation and links it.
 
 
 EtoileThread (not available)
@@ -85,17 +92,3 @@ EtoileXML
 ---------
 
 See the README in the EtoileXML subdirectory.
-
-
-Tests suite
------------
-
-UnitKit (bundled with Etoile) is required.
-
-Steps to produce a test bundle and run tests suite:
-
-    * make test=yes 
-
-    * ukrun
-
-The test suite doesn't test the classes that belong to EtoileThread and EtoileXML. For these, tests are available in their respective subdirectories but they currently don't use UnitKit.

@@ -41,6 +41,10 @@ To produce a test bundle and run the test suite:
 	
 	ukrun [-q]
 
++**Note:** The test suite doesn't test the classes that belong to EtoileThread 
++and EtoileXML. For these, tests are available in their respective 
++subdirectories but they currently don't use UnitKit.
+
 
 Trouble
 -------

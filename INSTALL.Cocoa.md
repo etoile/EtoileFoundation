@@ -58,6 +58,10 @@ UnitKit is built together with EtoileFoundation (as a workspace subproject).
 To produce a test bundle and run the test suite, open EtoileFoundation.xcodeproj 
 and choose TestEtoileFoundation or TestEtoileFoundation (iOS) in the Scheme menu.
 
++**Note:** The test suite doesn't test the classes that belong to EtoileThread 
++and EtoileXML. For these, tests are available in their respective 
++subdirectories but they currently don't use UnitKit.
+
 
 Trouble
 -------
