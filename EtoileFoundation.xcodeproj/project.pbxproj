@@ -407,13 +407,6 @@
 			remoteGlobalIDString = 602E12AD18B3A10E004F171B;
 			remoteInfo = "EtoileFoundation (iOS)";
 		};
-		60D7812310C04D71005F3F75 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 60073EAC10074D26007272E6;
-			remoteInfo = EtoileXML;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1277,7 +1270,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				60D7812410C04D71005F3F75 /* PBXTargetDependency */,
 			);
 			name = EtoileFoundation;
 			productName = EtoileFoundation;
@@ -1743,11 +1735,6 @@
 			isa = PBXTargetDependency;
 			target = 602E12AD18B3A10E004F171B /* EtoileFoundation (iOS) */;
 			targetProxy = 609A55B818C210390096927F /* PBXContainerItemProxy */;
-		};
-		60D7812410C04D71005F3F75 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 60073EAC10074D26007272E6 /* EtoileXML */;
-			targetProxy = 60D7812310C04D71005F3F75 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
