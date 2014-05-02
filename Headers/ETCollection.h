@@ -6,6 +6,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <EtoileFoundation/NSObject+Trait.h>
 
 /** Marks an element which shouldn't be considered bound to a particular index 
 in an ordered collection or whose index isn't yet determined.<br /> 
@@ -45,6 +46,7 @@ to ETCollection.
 Note: In future, we will provide a viewpoint mechanism to view or traverse 
 objects through their non-dominant to-many relationships. */ 
 @protocol ETCollection <NSObject>
+TRAIT_PROTOCOL
 /** Returns whether the receiveir stores the elements in a sorted order or not. */
 - (BOOL) isOrdered;
 /** Returns whether the receiveir stores the elements by key.
@@ -131,6 +133,7 @@ turning user actions (e.g. drag an drop) into collection operations, when
 represented objects bound to ETLayoutItemGroup conform to ETCollectionMutation 
 in addition to ETCollection. */
 @protocol ETCollectionMutation
+TRAIT_PROTOCOL
 /** Adds the element to the collection. 
 
 A collection can raise an exception on a nil object.
@@ -307,10 +310,6 @@ so.
 }
 
 @end
-
-// For preventing warnings about missing methods implemented in the trait but 
-// not in the target class.
-#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation
 

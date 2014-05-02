@@ -13,7 +13,6 @@
 #import "NSString+Etoile.h"
 #import "EtoileCompatibility.h"
 
-#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation ETCollectionViewpoint
 

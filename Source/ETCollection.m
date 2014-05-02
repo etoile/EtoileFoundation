@@ -17,8 +17,6 @@
 
 const NSUInteger ETUndeterminedIndex = NSNotFound;
 
-#pragma GCC diagnostic ignored "-Wprotocol"
-
 // Number of classes and categories that must be loaded before 
 // ETApplyCollectionTraits() will work.
 // The count includes collection categories on NSArray, NSDictionary, NSSet, 

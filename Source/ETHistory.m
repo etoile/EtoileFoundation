@@ -11,8 +11,6 @@
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
-#pragma GCC diagnostic ignored "-Wprotocol"
-
 #define INCREMENT_HISTORY_INDEX\
 	if (max_size < 1 || index < max_size) { ++index; }\
 	else { [history removeObjectAtIndex: 0]; }

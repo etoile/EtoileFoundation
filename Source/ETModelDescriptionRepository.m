@@ -22,7 +22,6 @@
 #import "ETCFMapTable.h"
 #endif
 
-#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation ETModelDescriptionRepository
 

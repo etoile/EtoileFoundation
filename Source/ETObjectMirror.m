@@ -13,7 +13,6 @@
 #import "NSObject+Prototypes.h"
 #import "EtoileCompatibility.h"
 
-#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation ETObjectMirror
 

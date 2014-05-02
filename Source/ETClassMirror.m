@@ -15,7 +15,6 @@
 #import "NSObject+Model.h"
 #import "EtoileCompatibility.h"
 
-#pragma GCC diagnostic ignored "-Wprotocol"
 
 @implementation ETClassMirror
 

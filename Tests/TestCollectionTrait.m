@@ -12,8 +12,6 @@
 #import "Macros.h"
 #import "EtoileCompatibility.h"
 
-#pragma GCC diagnostic ignored "-Wprotocol"
-
 @interface AbstractTestCollection : NSObject <UKTest>
 {
 	NSMutableArray *collection;

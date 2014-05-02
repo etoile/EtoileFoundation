@@ -12,8 +12,6 @@
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
-#pragma GCC diagnostic ignored "-Wprotocol"
-
 @interface ETKeyValuePair (ETViewpointTraitAliasedMethods)
 - (NSArray *) viewpointTraitPropertyNames;
 @end

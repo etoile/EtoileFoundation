@@ -8,6 +8,18 @@
 #import <Foundation/Foundation.h>
 #import <EtoileFoundation/Macros.h>
 
+/** Macro to declare trait methods inside a protocol with an associated trait.
+
+In the protocol declaration, TRAIT_PROTOCOL must come before the methods 
+implemented in the associated trait. Other methods in the protocol (not 
+implemented by the trait) can be declared as either @required or @optional as 
+usual.
+
+Take note that TRAIT_PROTOCOL methods are all required methods, although not 
+implementing these methods in the class that adopts the protocol, won't cause
+compiler warnings. */
+#define TRAIT_PROTOCOL @optional
+
 /** @group Language Extensions
 @abstract Objective-C trait support.
 
