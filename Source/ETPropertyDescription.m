@@ -186,6 +186,13 @@
 - (void) setPersistent: (BOOL)isPersistent
 {
 	[self checkNotFrozen];
+	if ([_owner isFrozen] && !_isFrozen)
+	{
+		ETAssert(!_persistent);
+		[NSException raise: NSGenericException
+					format: @"A transient property %@ cannot become persistent "
+		                     "once its owner has been frozen (marked as immutable)", self];
+	}
 	_persistent = isPersistent;
 }
 
@@ -203,13 +210,11 @@
 
 - (void) setShowsItemDetails: (BOOL)showsItemDetails
 {
-	[self checkNotFrozen];
 	_showsItemDetails = showsItemDetails;
 }
 
 - (void)setDetailedPropertyNames: (NSArray *)detailedPropertyNames
 {
-	[self checkNotFrozen];
 	ASSIGNCOPY(_detailedPropertyNames, detailedPropertyNames);
 }
 
@@ -431,7 +436,7 @@
 
 - (void)makeFrozen
 {
-	if (_isFrozen)
+	if (_isFrozen || (!_persistent && ![[self opposite] isPersistent]))
 		return;
 
 	_isFrozen = YES;

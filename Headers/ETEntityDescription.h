@@ -11,10 +11,18 @@
 
 @class ETPackageDescription, ETPropertyDescription, ETValidationResult, ETUTI;
 
-/** @group Metamodel
-@abstract A description of an entity, which can either be a class or a prototype.
-
-For an introduction, see ETModelElementDescription. */
+/** 
+ * @group Metamodel
+ * @abstract A description of an entity, which can either be a class or a prototype.
+ *
+ * For an introduction, see ETModelElementDescription.
+ *
+ * @section Freezing
+ *
+ * If -isFrozen is YES, the entity description is largely immutable, you can 
+ * only add or remove transient property descriptions with 
+ * -addPropertyDescription: and -removePropertyDescription.
+ */
 @interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
 	@private
@@ -108,15 +116,25 @@ entities. */
 declared in parent entities).
 
 For each property added or removed, the behavior described in
--addPropertyDescription: and -removePropertyDescription: applies. */
+-addPropertyDescription: and -removePropertyDescription: applies.
+
+If -isFrozen returns YES, transient properties can still be added or removed 
+with -addPropertyDescription: and -removePropertyDescription, but not directly 
+with this setter. */
 @property (nonatomic, retain) NSArray *propertyDescriptions;
 /** Adds the given property description to this entity, the entity becomes its
-owner. */
+owner.
+
+If -isFrozen is YES, this method can still be used to add a transient property 
+description. */
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription;
 /** Removes the given property description from this entity. */
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription;
 /** Descriptions of the entity's properties, including those declared in parent 
-entities. */
+entities.
+
+If -isFrozen is YES, this method can still be used to remove a transient 
+property description. */
 @property (nonatomic, readonly) NSArray *allPropertyDescriptions;
 /** Descriptions of the entity's persistent properties, including those declared 
 in parent entities.
@@ -216,6 +234,18 @@ whether the value type is a subtype of the receiver.
 This method doesn't execute any model validation as -validateValue:forKey:
 does. */
 - (BOOL) isValidValue: (id)aValue type: (ETEntityDescription *)anEntityDesc;
+
+
+/** @taskunit Internal */
+
+
+/**
+ * Returns whether the entity description has become immutable.
+ *
+ * For details, see Freezing section.
+ */
+@property (nonatomic, readonly) BOOL isFrozen;
+
 
 @end
 

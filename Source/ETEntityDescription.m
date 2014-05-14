@@ -201,7 +201,10 @@
 
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
-	[self checkNotFrozen];
+	if ([propertyDescription isPersistent])
+	{
+		[self checkNotFrozen];
+	}
 	[self clearCaches];
 	
 	ETEntityDescription *owner = [propertyDescription owner];
@@ -217,7 +220,10 @@
 
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
-	[self checkNotFrozen];
+	if ([propertyDescription isPersistent])
+	{
+		[self checkNotFrozen];
+	}
 	[self clearCaches];
 	
 	[propertyDescription setOwner: nil];
@@ -454,6 +460,11 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
 	[self removePropertyDescription: object];
+}
+
+- (BOOL) isFrozen
+{
+	return _isFrozen;
 }
 
 - (void)makeFrozen

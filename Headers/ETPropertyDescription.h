@@ -99,6 +99,17 @@
  * entity descriptions created outside of +[NSObject newEntityDescription], 
  * you must call -[ETModelDescriptionRepository resolveNamedObjectReferences]  
  * manually.
+ *
+ * @section Freezing
+ *
+ * If -isPersistent returns NO and the opposite is not persistent either, the 
+ * property description won't be frozen when the owner is, and mutating the 
+ * property description state will remain possible (except turning it into a 
+ * persistent property description).
+ *
+ * If -isFrozen is YES, the property description is largely immutable, only 
+ * the properties declared in Model Presentation remains mutable (to support 
+ * customizing the UI generation for persistent objects at run-time).
  */
 @interface ETPropertyDescription : ETModelElementDescription
 {
@@ -299,6 +310,8 @@ cardinality. */
  * Whether this property is persistent or transient.
  *
  * Interpreting this property is up to a Persistency framework.
+ *
+ * If the owner is frozen, any attempt to set this property raises an exception.
  */
 @property (nonatomic, assign, getter=isPersistent) BOOL persistent;
 /**
@@ -415,5 +428,17 @@ cardinality. */
  * and returns an ETValidationResult
  */
 //- (void) setValidationBlock: (id)aBlock;
+
+
+/** @taskunit Internal */
+
+
+/**
+ * <override-subclass />
+ * Marks the receiver as frozen. From this point, if -isPersistent returns YES 
+ * and the owner is frozen, the receiver is immutable and any attempt to mutate
+ * it will cause an exception to be thrown.
+ */
+- (void) makeFrozen;
 
 @end
