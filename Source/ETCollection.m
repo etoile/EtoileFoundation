@@ -326,13 +326,19 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 {
 	id value = [self valueForKey: key];
 
-	if ([value isKindOfClass: [NSArray class]])
+#ifdef GNUSTEP
+	if ([value isKindOfClass: [NSArray class]] || [value isKindOfClass: [NSPointerArray class]])
+#else
+	if ([value isKindOfClass: [NSArray class]] 
+	 || [value isKindOfClass: [NSOrderedSet class]] 
+	 || [value isKindOfClass: [NSPointerArray class]])
+#endif
 	{
 		[self willChange: [self keyValueChangeForMutationKind: mutationKind]
 		 valuesAtIndexes: indexes
 		          forKey: key];
 	}
-	else if ([value isKindOfClass: [NSSet class]])
+	else if ([value isKindOfClass: [NSSet class]] || [value isKindOfClass: [NSHashTable class]])
 	{
 		[self willChangeValueForKey: key
 		            withSetMutation: [self keyValueSetMutationKindForMutationKind: mutationKind]
@@ -351,13 +357,19 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
 {
 	id value = [self valueForKey: key];
 
-	if ([value isKindOfClass: [NSArray class]])
+#ifdef GNUSTEP
+	if ([value isKindOfClass: [NSArray class]] || [value isKindOfClass: [NSPointerArray class]])
+#else
+	if ([value isKindOfClass: [NSArray class]] 
+	 || [value isKindOfClass: [NSOrderedSet class]] 
+	 || [value isKindOfClass: [NSPointerArray class]])
+#endif
 	{
 		[self didChange: [self keyValueChangeForMutationKind: mutationKind]
 		valuesAtIndexes: indexes
 		         forKey: key];
 	}
-	else if ([value isKindOfClass: [NSSet class]])
+	else if ([value isKindOfClass: [NSSet class]] || [value isKindOfClass: [NSHashTable class]])
 	{
 		[self didChangeValueForKey: key
 		           withSetMutation: [self keyValueSetMutationKindForMutationKind: mutationKind]

@@ -226,12 +226,62 @@ typedef enum
 for any collections that conform to ETCollection.
 
 This lets you easily change the collection type, without rewriting all the 
-mutation notifications.  */
+mutation notifications. */
 @interface NSObject (ETCollectionMutationKVOSupport)
+/**
+ * Tells the receiver that the collection bound to the property is about to 
+ * change.
+ *
+ * By default, limited to calling:
+ *
+ * <deflist>
+ * <term>-willChangeValueForKey:</term><desc>NSDictionary, NSMapTable and 
+ * NSIndexSet</desc>
+ * <term>-willChange:valuesAtIndexes:forKey:</term><desc>NSArray, NSPointerArray 
+ * and NSOrderedSet</desc>
+ * <term>-willChangeValueForKey:withSetMutation:usingObjects:</term><desc>NSSet 
+ * and NSHashTable</desc>
+ * </deflist>
+ *
+ * For an ordered collection, the correct index must be passed for each 
+ * inserted or removed object, otherwise a NSInvalidArgumentException is 
+ * raised.
+ *
+ * For an unordered collection, the indexes should be empty.
+ *
+ * For nil arguments, raises a NSInvalidArgumentException.
+ *
+ * Can be overriden, but the superclass implementation must be called.
+ */
 - (void) willChangeValueForKey: (NSString *)key
                      atIndexes: (NSIndexSet *)indexes
                    withObjects: (NSArray *)objects
                   mutationKind: (ETCollectionMutationKind)mutationKind;
+/**
+ * Tells the receiver that the collection bound to the property is about to 
+ * change.
+ *
+ * By default, limited to calling:
+ *
+ * <deflist>
+ * <term>-didChangeValueForKey:</term><desc>NSDictionary, NSMapTable and 
+ * NSIndexSet</desc>
+ * <term>-didChange:valuesAtIndexes:forKey:</term><desc>NSArray, NSPointerArray 
+ * and NSOrderedSet</desc>
+ * <term>-didChangeValueForKey:withSetMutation:usingObjects:</term><desc>NSSet 
+ * and NSHashTable</desc>
+ * </deflist>
+ *
+ * For an ordered collection, the correct index must be passed for each 
+ * inserted or removed object, otherwise a NSInvalidArgumentException is 
+ * raised.
+ *
+ * For an unordered collection, the indexes should be empty.
+ *
+ * For nil arguments, raises a NSInvalidArgumentException.
+ *
+ * Can be overriden, but the superclass implementation must be called.
+ */
 - (void) didChangeValueForKey: (NSString *)key
                     atIndexes: (NSIndexSet *)indexes
                   withObjects: (NSArray *)objects
