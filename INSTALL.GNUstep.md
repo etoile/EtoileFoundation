@@ -29,7 +29,7 @@ Test suite
 
 UnitKit is required, see <https://github.com/etoile/UnitKit>
 
-**Note:** If you have the entire (Etoile repository)[https://github.com/etoile/Etoile], 
+**Note:** If you have the entire [Etoile repository](https://github.com/etoile/Etoile), 
 UnitKit is built together with CoreObject, by running 'make' in Frameworks or 
 any other parent directories.
 
@@ -41,9 +41,9 @@ To produce a test bundle and run the test suite:
 	
 	ukrun [-q]
 
-+**Note:** The test suite doesn't test the classes that belong to EtoileThread 
-+and EtoileXML. For these, tests are available in their respective 
-+subdirectories but they currently don't use UnitKit.
+**Note:** The test suite doesn't test the classes that belong to EtoileThread 
+and EtoileXML. For these, tests are available in their respective 
+subdirectories but they currently don't use UnitKit.
 
 
 Trouble
