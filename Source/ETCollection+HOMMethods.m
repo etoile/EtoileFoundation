@@ -37,16 +37,9 @@
 	                                                              autorelease];
 }
 
-/**
- * Helper method to create arrays from collections.
- */
 - (NSArray*)collectionArray
 {
-	if ([self respondsToSelector: @selector(contentsForArrayEquivalent)])
-	{
-		return [self contentsForArrayEquivalent];
-	}
-	return [self contentArray];
+	return [self collectionArrayAndInfo: NULL];
 }
 
 - (id)mappedCollectionWithBlock: (id)aBlock

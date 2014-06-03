@@ -239,24 +239,16 @@
  * receiver to control how the replacement object is placed in the target
  * collection (which might be identical to the receiver). Classes adopting
  * the ETCollectionHOMMapIntegration protocol can also implement the
- * <code>-mapInfo</code> to provide additional information (e.g. about the
- * original state of the collection, which will be passed as <var>mapInfo</var>
- * here.
+ * <code>-collectionArrayAndInfo:</code> to provide additional information (e.g.
+ * about the original state of the collection, which will be passed as 
+ * <var>mapInfo</var> here.
  */
 - (void)placeObject: (id)mappedObject
        inCollection: (id<ETCollectionMutation>*)aTarget
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo;
-// NOTE: For now, disabled because it only works with Clang and not GCC.
-//@optional
-/**
- * Adopting classes can implement his method to pass additional information
- * to the element-handling hook
- * -placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:mapInfo:
- */
-//- (id)mapInfo;
+               info: (id)info;
 @end
 
 /**
@@ -275,7 +267,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
             atIndex: (NSUInteger)index
        inCollection: (id<ETCollectionMutation>*)aTarget
       basedOnFilter: (BOOL)shallInclude
-       withSnapshot: (id)snapshot;
+               info: (id)info;
 @end
 
 /** 
@@ -285,13 +277,20 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @protocol ETCollectionHOMIntegration <ETCollectionHOMMapIntegration,ETCollectionHOMFilterIntegration>
 @end
 
-/** @group High Order Messaging and Blocks */
+/** @group High Order Messaging and Blocks
+@abstract Procotol to integrate high-order messaging with collections that 
+require special treatments of their elements. */
 @interface NSObject (ETCollectionHOMIntegrationInformalProtocol)
 /**
- * Implement this method if your collection class needs special treatment of its
- * elements for higher-order messaging.
+ * Returns the array representation used to evaluate high-order messages.
+ *
+ * If not implemented, -contentArray is used.
+ *
+ * If info is not NULL, you can return additional information to be passed to 
+ * the element-handling hook 
+ * -placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:info:.
  */
-- (id)mapInfo;
+ - (NSArray *)collectionArrayAndInfo: (id *)info;
 @end
 
 /** 
@@ -307,9 +306,13 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
  */
 @interface NSDictionary (ETCollectionHOM) <ETCollectionHOM,ETCollectionHOMIntegration>
 /**
- * Helper method for map-HOM integration. Returns the keys in the dictionary.
+ * Returns objects in the dictionary, and the keys as an array with the info 
+ * argument.
+ *
+ * Both objects and keys are returned in the same order (this ordering ensures 
+ * that each index corresponds to a key-value pair that exists in the dictionary).
  */
-- (NSArray*)mapInfo;
+- (NSArray*)collectionArrayAndInfo: (id *)info;
 @end
 
 /** 

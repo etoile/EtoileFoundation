@@ -455,7 +455,6 @@ For a use case example, see ETCollectionTrait. */
 - (NSArray *) contentArray;
 - (NSArray *) arrayRepresentation;
 - (NSArray *) viewpointArray;
-- (NSString *) identifierAtIndex: (NSUInteger)index;
 @end
 
 /** @group Collection Protocols

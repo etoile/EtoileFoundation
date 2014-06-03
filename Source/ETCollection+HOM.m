@@ -59,7 +59,6 @@
  */
 @interface NSObject (ETHOMArraysFromCollections)
 - (NSArray*)collectionArray;
-- (NSArray*)contentsForArrayEquivalent;
 @end
 
 
@@ -424,7 +423,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	}
 
 	SEL handlerSelector =
-	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:mapInfo:);
+	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:info:);
 	IMP elementHandler = NULL;
 	if ([theCollection respondsToSelector:handlerSelector]
 	  && (NO == isArrayTarget))
@@ -456,9 +455,10 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
  	 */
 	unsigned int objectIndex = 0;
 	NSNull *nullObject = [NSNull null];
-	NSArray *collectionArray = [(NSObject*)theCollection collectionArray];
-	NSMutableArray *alreadyMapped = nil;
 	id mapInfo = nil;
+	NSArray *collectionArray = [(NSObject*)theCollection collectionArrayAndInfo: &mapInfo];
+	NSMutableArray *alreadyMapped = nil;
+
 	if (modifiesSelf)
 	{
 		/*
@@ -468,10 +468,6 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 		 * It is only useful if a mutable collection is changed.
 		 */
 		alreadyMapped = [[NSMutableArray alloc] init];
-		if ([theCollection respondsToSelector:@selector(mapInfo)])
-		{
-			mapInfo = [(id)theCollection mapInfo];
-		}
 	}
 
 	// If we are using an invocation, fetch a table of the argument slots that
@@ -686,8 +682,6 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		eachedSlots = eachedArgumentsFromInvocation(blockOrInvocation);
 	}
 
-	NSArray* content = [[(NSObject*)theCollection collectionArray] retain];
-
 	/*
 	 * A snapshot of the object is needed at least for NSDictionary. It needs
 	 * to know about the key for which the original object was set in order to
@@ -696,29 +690,23 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 	 * want to bother with creating the snapshot if the collection does not
 	 * implement the -placeObject... method.
 	 */
-
-	id snapshot = nil;
+	id info = nil;
+	NSArray *content = nil;
+	NSEnumerator *originalEnum = nil;
+	if (original == nil)
+	{
+		content = [[(NSObject*)theCollection collectionArrayAndInfo: &info] retain];
+	}
+	else
+	{
+		content = [[(NSObject*)theCollection collectionArray] retain];
+		originalEnum = [[(NSObject*)*original collectionArrayAndInfo: &info] objectEnumerator];
+	}
 
 	SEL handlerSelector =
-	   @selector(placeObject:atIndex:inCollection:basedOnFilter:withSnapshot:);
+	   @selector(placeObject:atIndex:inCollection:basedOnFilter:info:);
 	IMP elementHandler = NULL;
-	if ([theCollection respondsToSelector: handlerSelector])
-	{
-		elementHandler = [(NSObject*)*original methodForSelector: handlerSelector];
-		if ((id)theCollection != (id)theTarget)
-		{
-			snapshot = *original;
-		}
-		else
-		{
-			if ([theCollection respondsToSelector: @selector(copyWithZone:)])
-			{
-				snapshot = [[(id<NSCopying>)*original copyWithZone: NULL] autorelease];
-			}
-		}
-	}
 	unsigned int objectIndex = 0;
-	NSEnumerator *originalEnum = [[(NSObject*)*original collectionArray] objectEnumerator];
 	FOREACHI(content, object)
 	{
 		id originalObject = [originalEnum nextObject];
@@ -757,7 +745,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		if (elementHandler != NULL)
 		{
 			elementHandler(*original, handlerSelector, originalObject,
-			               objectIndex, target, (BOOL)filterResult, snapshot);
+			               objectIndex, target, (BOOL)filterResult, info);
 		}
 		else
 		{
@@ -837,7 +825,8 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	BOOL modifiesSelf = ((void*)firstCollection == (void*)target);
 	NSInvocation *invocation = nil;
 	SEL selector = NULL;
-	NSArray *contentsFirst = [(NSObject*)*firstCollection collectionArray];
+	id mapInfo = nil;
+	NSArray *contentsFirst = [(NSObject*)*firstCollection collectionArrayAndInfo: &mapInfo];
 	NSArray *contentsSecond = [(NSObject*)*secondCollection collectionArray];
 	if (NO == useBlock)
 	{
@@ -846,9 +835,9 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	}
 
 	SEL handlerSelector =
-	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:mapInfo:);
+	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:info:);
 	IMP elementHandler = NULL;
-	id mapInfo = nil;
+
 	if ([*firstCollection respondsToSelector: handlerSelector])
 	{
 		elementHandler = [(NSObject*)*firstCollection methodForSelector: handlerSelector];
@@ -863,16 +852,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 		invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
 	}
 
-	NSMutableArray *alreadyMapped = nil;
-	if (modifiesSelf)
-	{
-		alreadyMapped = [[NSMutableArray alloc] init];
-		if ([*firstCollection respondsToSelector: @selector(mapInfo)])
-		{
-			mapInfo = [(id)*firstCollection mapInfo];
-		}
-	}
-
+	NSMutableArray *alreadyMapped = (modifiesSelf ? [[NSMutableArray alloc] init] : nil);
 	NSUInteger objectIndex = 0;
 	NSUInteger objectMax = MIN([contentsFirst count], [contentsSecond count]);
 	NSNull *nullObject = [NSNull null];
@@ -1387,12 +1367,30 @@ not -[super methodSignatureForSelector:]. */
 
 @implementation NSArray (ETCollectionHOM)
 #include "ETCollection+HOMMethods.m"
+
+- (NSArray *)collectionArrayAndInfo: (id *)info
+{
+	return [self contentArray];
+}
+
 @end
 
 @implementation NSDictionary (ETCollectionHOM)
-- (NSArray*)mapInfo
+
+- (NSArray*)collectionArrayAndInfo: (id *)info
 {
-	return [self allKeys];
+	NSUInteger count = [self count];
+	id objects[count];
+	id keys[count];
+
+	[self getObjects: objects andKeys: keys];
+
+	if (info != NULL)
+	{
+		*info = [[NSArray alloc] initWithObjects: keys count: count];
+	}
+
+	return [NSArray arrayWithObjects: objects count: count];
 }
 
 - (void)placeObject: (id)mappedObject
@@ -1400,19 +1398,18 @@ not -[super methodSignatureForSelector:]. */
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo
+               info: (id)info
 {
-	//FIXME: May break if -identifierAtIndex: does not return keys in order.
 	[(NSMutableDictionary*)*aTarget setObject: mappedObject
-	                                   forKey: [self identifierAtIndex: index]];
+	                                   forKey: [info objectAtIndex: index]];
 }
 - (void)placeObject: (id)anObject
             atIndex: (NSUInteger)index
        inCollection: (id<ETCollectionMutation>*)aTarget
       basedOnFilter: (BOOL)shallInclude
-       withSnapshot: (id)snapshot
+               info: (id)info
 {
-	NSString *key = [(NSDictionary*)snapshot identifierAtIndex: index];
+	NSString *key = [(NSArray*)info objectAtIndex: index];
 	if (((id)self == (id)*aTarget) && (NO == shallInclude))
 	{
 		[(NSMutableDictionary*)*aTarget removeObjectForKey: key];
@@ -1427,10 +1424,22 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 
 @implementation NSSet (ETCollectionHOM)
 #include "ETCollection+HOMMethods.m"
+
+- (NSArray *)collectionArrayAndInfo: (id *)info
+{
+	return [self contentArray];
+}
+
 @end
 
 @implementation NSIndexSet (ETCollectionHOM)
 #include "ETCollection+HOMMethods.m"
+
+- (NSArray *)collectionArrayAndInfo: (id *)info
+{
+	return [self contentArray];
+}
+
 @end
 
 @implementation NSMutableArray (ETCollectionHOM)
@@ -1439,7 +1448,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo
+               info: (id)info
 {
 	if ((id)self == (id)*aTarget)
 	{
@@ -1455,25 +1464,6 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @end
 
 @implementation NSMutableDictionary (ETCollectionHOM)
-- (void)placeObject: (id)mappedObject
-       inCollection: (id<ETCollectionMutation>*)aTarget
-    insteadOfObject: (id)originalObject
-            atIndex: (NSUInteger)index
-havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo
-{
-	id key = nil;
-	if (*aTarget == self)
-	{
-		key = [(NSArray*)mapInfo objectAtIndex: index];
-	}
-	else
-	{
-		key = [self identifierAtIndex: index];
-	}
-	[(NSMutableDictionary*)*aTarget setObject: mappedObject
-	                                   forKey: key];
-}
 #include "ETCollectionMutation+HOMMethods.m"
 @end
 
@@ -1483,7 +1473,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo
+               info: (id)info
 {
 	if (((id)self == (id)*aTarget)
 	 && (NO == [alreadyMapped containsObject: originalObject]))
@@ -1503,7 +1493,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 @end
 
 @implementation NSCountedSet (ETCOllectionMapHandler)
-- (NSArray*)contentsForArrayEquivalent
+- (NSArray *)collectionArrayAndInfo: (id *)info
 {
 	NSArray *distinctObjects = [self allObjects];
 	NSMutableArray *result = [NSMutableArray array];
@@ -1524,7 +1514,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo
+               info: (id)info
 {
 	if ((id)self == (id)*aTarget)
 	{
@@ -1541,7 +1531,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped
-            mapInfo: (id)mapInfo
+            info: (id)info
 {
 	if (((id)self == (id)*aTarget)
 	 && (NO == [alreadyMapped containsObject: originalObject]))

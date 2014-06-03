@@ -32,8 +32,6 @@ TODO EtoileFoundation
 	- Model presentation attributes
 	- Transient property addition/removal
 
-- Remove -[NSDictionary identifierAtIndex:] (used in HOM but flawed by design)
-
 - Don't add both both simple and batch mutation methods with ETMutableCollectionTrait (we do this for compatibility with legacy code mostly in EtoileUI and few other projects that depend on it)
 
 - Add ETIndexedCollection protocol or similar (for NSArray-like collections)
