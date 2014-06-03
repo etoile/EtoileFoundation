@@ -693,7 +693,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 	id info = nil;
 	NSArray *content = nil;
 	NSEnumerator *originalEnum = nil;
-	if (original == nil)
+	if (*original == nil)
 	{
 		content = [[(NSObject*)theCollection collectionArrayAndInfo: &info] retain];
 	}
@@ -1379,9 +1379,27 @@ not -[super methodSignatureForSelector:]. */
 
 - (NSArray*)collectionArrayAndInfo: (id *)info
 {
+	// FIXME: Accessing objects returned by -getObjects:forKeys: causes a crash 
+	// on GNUstep e.g. objects[i] in NSLog.
+#ifdef GNUSTEP
+	NSMutableArray *keys = [[NSMutableArray alloc] initWithCapacity: [self count]];
+	NSMutableArray *objects = [NSMutableArray arrayWithCapacity: [self count]];
+
+	[self enumerateKeysAndObjectsUsingBlock: ^(id key, id object, BOOL *stop)
+	{
+		[keys addObject: key];
+		[objects addObject: object];
+	}];
+
+	if (info != NULL)
+	{
+		*info = keys;
+	}
+	return objects;
+#else
 	NSUInteger count = [self count];
-	id objects[count];
-	id keys[count];
+	id __unsafe_unretained objects[count];
+	id __unsafe_unretained keys[count];
 
 	[self getObjects: objects andKeys: keys];
 
@@ -1390,7 +1408,12 @@ not -[super methodSignatureForSelector:]. */
 		*info = [[NSArray alloc] initWithObjects: keys count: count];
 	}
 
+	/*for (int i = 0; i < count; i++)
+	{
+		NSLog(@"Object: %@", objects[i]);
+	}*/
 	return [NSArray arrayWithObjects: objects count: count];
+#endif
 }
 
 - (void)placeObject: (id)mappedObject
