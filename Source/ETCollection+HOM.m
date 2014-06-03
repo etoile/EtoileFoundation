@@ -559,6 +559,10 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	{
 		[alreadyMapped release];
 	}
+	if (mapInfo != nil)
+	{
+		[mapInfo release];
+	}
 }
 
 static inline void ETHOMMapCollectionWithBlockOrInvocationToTarget(
@@ -761,6 +765,10 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		objectIndex++;
 	}
 	[content release];
+	if (info != nil)
+	{
+		[info release];
+	}
 }
 
 static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndInvert(
@@ -917,6 +925,10 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 	if (modifiesSelf)
 	{
 		[alreadyMapped release];
+	}
+	if (mapInfo != nil)
+	{
+		[mapInfo release];
 	}
 }
 
