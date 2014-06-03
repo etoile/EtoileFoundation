@@ -3,8 +3,8 @@ EtoileFoundation NEWS
 
 See also EtoileXML/NEWS and EtoileThread/NEWS.
 
-0.6 (Etoile 0.4.3)
-------------------
+0.6 (CoreObject 0.5)
+--------------------
 
 - Introduced iOS 5 and higher support
 - Introduced Viewpoints, a collection API to create dynamic views on other collections
