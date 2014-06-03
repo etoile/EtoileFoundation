@@ -1,8 +1,8 @@
 UnitKit NEWS
 ============
 
-1.5 (Etoile 0.4.3)
-------------------
+1.5 (CoreObject 0.5)
+--------------------
 
 - Added abstract test case support (test methods from superclasses are now run by UKRunner)
 - Added option to choose the tested classes (-c for a list based on a regex pattern)
