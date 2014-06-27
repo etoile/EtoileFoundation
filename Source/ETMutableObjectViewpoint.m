@@ -53,7 +53,12 @@ identified by the given name in object. */
 
 - (void) dealloc
 {
-	[self setRepresentedObject: nil]; /* Will end KVO observation */
+    if ([self observedKeyPath] != nil && [self isObservableObject: _representedObject])
+    {
+        [self stopObserveRepresentedObject: _representedObject
+                                forKeyPath: [self observedKeyPath]];
+    }
+    DESTROY(_representedObject);
 	DESTROY(_name);
 	[super dealloc];
 }
