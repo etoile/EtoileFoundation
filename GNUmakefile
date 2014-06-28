@@ -192,6 +192,7 @@ EtoileFoundation_OBJC_FILES += \
 	Tests/TestETCollectionHOM.m \
 	Tests/TestEntityDescription.m \
 	Tests/TestIndexPath.m \
+	Tests/TestModelAdditions.m \
 	Tests/TestModelDescriptionRepository.m \
 	Tests/TestTrait.m \
 	Tests/TestPlugInRegistry.m \

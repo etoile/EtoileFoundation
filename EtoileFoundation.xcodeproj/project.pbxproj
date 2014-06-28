@@ -289,6 +289,8 @@
 		60C021F010FA4ACB00A46E65 /* ETByteSizeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */; };
 		60C021F110FA4ACB00A46E65 /* ETByteSizeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */; };
 		60C42A22184DFCC20020A004 /* TestETCollectionHOM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B27D730FF7B51D0012BB42 /* TestETCollectionHOM.m */; };
+		60C81D2E195ED8AD00AEEC68 /* TestModelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C81D2D195ED8AD00AEEC68 /* TestModelAdditions.m */; };
+		60C81D2F195ED8AD00AEEC68 /* TestModelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C81D2D195ED8AD00AEEC68 /* TestModelAdditions.m */; };
 		60CB7DF718C5EA1400D6C4D0 /* TestUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 603648130E40931E003377E0 /* TestUUID.m */; };
 		60CB7DF818C5EA2900D6C4D0 /* TestUTI.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B27D750FF7B54F0012BB42 /* TestUTI.m */; };
 		60CED0A712CFCF3D00B5827C /* ETKeyValuePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 60CED0A612CFCF3D00B5827C /* ETKeyValuePair.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -564,6 +566,7 @@
 		60C0217110FA40E800A46E65 /* TestIndexPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestIndexPath.m; path = Tests/TestIndexPath.m; sourceTree = "<group>"; };
 		60C021ED10FA4AB800A46E65 /* ETByteSizeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETByteSizeFormatter.h; path = Headers/ETByteSizeFormatter.h; sourceTree = "<group>"; };
 		60C021EF10FA4ACB00A46E65 /* ETByteSizeFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETByteSizeFormatter.m; path = Source/ETByteSizeFormatter.m; sourceTree = "<group>"; };
+		60C81D2D195ED8AD00AEEC68 /* TestModelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestModelAdditions.m; path = Tests/TestModelAdditions.m; sourceTree = "<group>"; };
 		60CED0A612CFCF3D00B5827C /* ETKeyValuePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETKeyValuePair.h; path = Headers/ETKeyValuePair.h; sourceTree = "<group>"; };
 		60CED0A812CFCF6800B5827C /* ETKeyValuePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETKeyValuePair.m; path = Source/ETKeyValuePair.m; sourceTree = "<group>"; };
 		60DA3AE41359AEAB00D8946F /* TestStackTraceRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStackTraceRecorder.m; path = Tests/TestStackTraceRecorder.m; sourceTree = "<group>"; };
@@ -854,6 +857,7 @@
 				609B66120FEE7CD10007F842 /* TestBasicHOM.m */,
 				60B27D730FF7B51D0012BB42 /* TestETCollectionHOM.m */,
 				60222D90101CCAAC00B2B1C1 /* TestEntityDescription.m */,
+				60C81D2D195ED8AD00AEEC68 /* TestModelAdditions.m */,
 				60DEB05A1156445E00744298 /* TestModelDescriptionRepository.m */,
 				60E2E5B01909409D00618AC1 /* TestPrototypes.m */,
 				60222D8E101CCA9C00B2B1C1 /* TestReflection.m */,
@@ -1646,6 +1650,7 @@
 				609A55AD18C20F5E0096927F /* TestReflection.m in Sources */,
 				609A55AE18C20F5E0096927F /* TestString.m in Sources */,
 				60CB7DF718C5EA1400D6C4D0 /* TestUUID.m in Sources */,
+				60C81D2F195ED8AD00AEEC68 /* TestModelAdditions.m in Sources */,
 				60CB7DF818C5EA2900D6C4D0 /* TestUTI.m in Sources */,
 				6098D5E0190FB42000890F16 /* TestViewpoint.m in Sources */,
 			);
@@ -1704,6 +1709,7 @@
 				603812731021C51B00C221A2 /* TestString.m in Sources */,
 				6093347F13A550B40033378C /* TestTrait.m in Sources */,
 				60B27D760FF7B54F0012BB42 /* TestUTI.m in Sources */,
+				60C81D2E195ED8AD00AEEC68 /* TestModelAdditions.m in Sources */,
 				609B67CB0FEE81740007F842 /* TestUUID.m in Sources */,
 				60A549AF13CA134700261FDC /* NSMapTable+Etoile.m in Sources */,
 				60ADA96F1410E821003EACF1 /* NSBlocks.m in Sources */,

@@ -177,6 +177,11 @@ this method to declare your collection objects as mutable. */
 	return NO;
 }
 
++ (BOOL) isMutable
+{
+    return NO;
+}
+
 /** <override-never />
 Returns YES if the receiver is declared as a collection by conforming to 
 ETCollection protocol, otherwise returns NO.
@@ -188,6 +193,11 @@ to adopt ETCollection protocol. */
 	return [self conformsToProtocol: @protocol(ETCollection)];
 }
 
++ (BOOL) isCollection
+{
+    return NO;
+}
+
 /** <override-never />
 Returns YES if the receiver is declared as a collection by conforming to 
 ETCollectionMutation protocol, otherwise returns NO. 
@@ -197,6 +207,11 @@ to adopt ETCollectionMutation protocol. */
 - (BOOL) isMutableCollection
 {
 	return [self conformsToProtocol: @protocol(ETCollectionMutation)];
+}
+
++ (BOOL) isMutableCollection
+{
+    return NO;
 }
 
 /** <override-never />
