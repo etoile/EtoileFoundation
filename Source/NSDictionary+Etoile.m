@@ -14,10 +14,17 @@
 
 @implementation NSDictionary (Etoile)
 
-/** Returns whether the dictionary contains the given key among -allKeys. */
+
 - (BOOL) containsKey: (NSString *)aKey
 {
 	return ([self objectForKey: aKey] != nil);
+}
+
+- (NSDictionary *)dictionaryByAddingEntriesFromDictionary: (NSDictionary *)aDict
+{
+    NSMutableDictionary *combinedDict = [NSMutableDictionary dictionaryWithDictionary: self];
+    [combinedDict addEntriesFromDictionary: aDict];
+    return [NSDictionary dictionaryWithDictionary: combinedDict];
 }
 
 - (NSString *) descriptionWithOptions: (NSMutableDictionary *)options

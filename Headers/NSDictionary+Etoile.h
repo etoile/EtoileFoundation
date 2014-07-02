@@ -12,7 +12,18 @@
  * @abstract Additions to NSDictionary. 
  */
 @interface NSDictionary (Etoile)
+/** 
+ * Returns whether the dictionary contains the given key among -allKeys. 
+ */
 - (BOOL) containsKey: (NSString *)aKey;
+/**
+ * Returns an immutable dictionary that contains the entries of the given 
+ * dictionary merged with the receiver entries.
+ *
+ * If both dictionaries contains the same key, the value from the dictionary
+ * argument prevails.
+ */
+- (NSDictionary *)dictionaryByAddingEntriesFromDictionary: (NSDictionary *)aDict;
 @end
 
 /**
