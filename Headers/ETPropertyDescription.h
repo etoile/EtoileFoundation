@@ -337,8 +337,10 @@ cardinality. */
 /**
  * The type used in the persistent storage to represent the property value.
  *
- * For a property value handed to a serialization transformer, this is the type 
- * of the returned value.
+ * By default, returns -type.
+ *
+ * For a property value handed to a serialization transformer, this must be set 
+ * to the type of the returned value.
  */
 @property (nonatomic, retain) ETEntityDescription *persistentType;
 /**

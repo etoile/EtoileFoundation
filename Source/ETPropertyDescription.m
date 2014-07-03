@@ -29,7 +29,7 @@
 @synthesize typeName = _typeName, persistentTypeName = _persistentTypeName;
 @synthesize showsItemDetails = _showsItemDetails, detailedPropertyNames = _detailedPropertyNames;
 @synthesize commitDescriptor = _commitDescriptor, indexed = _indexed,
-	valueTransformerName = _valueTransformerName, persistentType = _persistentType;
+	valueTransformerName = _valueTransformerName;
 
 + (ETEntityDescription *) newEntityDescription
 {
@@ -311,6 +311,11 @@
 {
 	[self checkNotFrozen];
 	ASSIGNCOPY(_valueTransformerName, aTransformerName);
+}
+
+- (ETEntityDescription *) persistentType
+{
+    return (_persistentType != nil ? _persistentType : _type);
 }
 
 - (void) setPersistentType: (ETEntityDescription *)anEntityDescription
