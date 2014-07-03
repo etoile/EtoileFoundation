@@ -91,6 +91,16 @@
 	return desc;
 }
 
++ (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
+                                       typeName: (NSString *)aTypeName
+{
+	ETPropertyDescription *desc = AUTORELEASE([[self alloc] initWithName: aName]);
+	NILARG_EXCEPTION_TEST(aTypeName);
+	[desc setTypeName: aTypeName];
+	return desc;
+}
+
+
 - (id) initWithName: (NSString *)aName
 {
 	self = [super initWithName: aName];

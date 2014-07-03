@@ -157,7 +157,12 @@ The given name and type must not be nil, otherwise an NSInvalidArgumentException
 is raised. */
 + (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
                                            type: (ETEntityDescription *)aType;
+/** Returns an autoreleased property description.
 
+The given name and type name must not be nil, otherwise an 
+NSInvalidArgumentException is raised. */
++ (ETPropertyDescription *) descriptionWithName: (NSString *)aName 
+                                       typeName: (NSString *)aTypeName;
 
 /** @taskunit Querying Type and Role */
 
