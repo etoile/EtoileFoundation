@@ -98,7 +98,6 @@
 		602E135018B3A3B3004F171B /* ETMutableObjectViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D29017523AF2002103CC /* ETMutableObjectViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602E135118B3A3B3004F171B /* ETViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 603813A21022246300C221A2 /* ETViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602E135218B3A3B3004F171B /* ETUnionViewpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6043D3A81753AED7002103CC /* ETUnionViewpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		602E135B18B3A3B3004F171B /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 60073EC510074D6A007272E6 /* Macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602E135E18B3A3DB004F171B /* glibc_hack_unistd.h in Headers */ = {isa = PBXBuildFile; fileRef = 60FEF6151190AC6D00A4E225 /* glibc_hack_unistd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602E135F18B3A41D004F171B /* ETInstanceVariableMirror.h in Headers */ = {isa = PBXBuildFile; fileRef = 662EA827101BC8310044F013 /* ETInstanceVariableMirror.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602E136018B3A41D004F171B /* ETInstanceVariableMirror.m in Headers */ = {isa = PBXBuildFile; fileRef = 662EA832101BC8610044F013 /* ETInstanceVariableMirror.m */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -215,6 +214,13 @@
 		606A990C113F178800CC89B9 /* ETModelElementDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 606A990A113F178800CC89B9 /* ETModelElementDescription.m */; };
 		6072CF711360E190003256C5 /* PlugInExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 6072CF701360E190003256C5 /* PlugInExample.m */; };
 		60755B88114BDDAB00FAD90B /* ETModelDescriptionRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 60755B87114BDDAB00FAD90B /* ETModelDescriptionRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60832225197939A6008D9F9D /* ETUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C80E4092EA003377E0 /* ETUUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6083222619793A0C008D9F9D /* ETGetOptionsDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647BF0E4092EA003377E0 /* ETGetOptionsDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6083222719793A0F008D9F9D /* ETTranscript.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5040F21FA2E00DF23D9 /* ETTranscript.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6083222819793A12008D9F9D /* ETUTI.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5050F21FA2E00DF23D9 /* ETUTI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6083222919793A18008D9F9D /* ETHistory.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5030F21FA2E00DF23D9 /* ETHistory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6083222A19793A1C008D9F9D /* ETByteSizeFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 60C021ED10FA4AB800A46E65 /* ETByteSizeFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6083222B19793A23008D9F9D /* ETPlugInRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647D80E4092EA003377E0 /* ETPlugInRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6093347E13A550B40033378C /* TestCollectionTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6093347C13A550B40033378C /* TestCollectionTrait.m */; };
 		6093347F13A550B40033378C /* TestTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6093347D13A550B40033378C /* TestTrait.m */; };
 		6093353113A561130033378C /* NSObject+Trait.m in Sources */ = {isa = PBXBuildFile; fileRef = 6036480E0E40931E003377E0 /* NSObject+Trait.m */; };
@@ -1116,16 +1122,19 @@
 				602E133D18B3A3B3004F171B /* ETCollection+HOM.h in Headers */,
 				602E133E18B3A3B3004F171B /* NSObject+HOM.h in Headers */,
 				602E133F18B3A3B3004F171B /* NSData+Hash.h in Headers */,
+				6083222919793A18008D9F9D /* ETHistory.h in Headers */,
 				602E134018B3A3B3004F171B /* NSInvocation+Etoile.h in Headers */,
 				602E134118B3A3B3004F171B /* NSFileManager+TempFile.h in Headers */,
 				602E134218B3A3B3004F171B /* NSString+Etoile.h in Headers */,
 				602E134318B3A3B3004F171B /* NSIndexPath+Etoile.h in Headers */,
 				602E134418B3A3B3004F171B /* NSFileHandle+Socket.h in Headers */,
 				602E134518B3A3B3004F171B /* ETSocket.h in Headers */,
+				6083222619793A0C008D9F9D /* ETGetOptionsDictionary.h in Headers */,
 				602E135F18B3A41D004F171B /* ETInstanceVariableMirror.h in Headers */,
 				602E136018B3A41D004F171B /* ETInstanceVariableMirror.m in Headers */,
 				602E136118B3A41D004F171B /* ETMethodMirror.h in Headers */,
 				602E136218B3A41D004F171B /* ETMethodMirror.m in Headers */,
+				60832225197939A6008D9F9D /* ETUUID.h in Headers */,
 				602E136318B3A41D004F171B /* ETObjectMirror.h in Headers */,
 				602E136418B3A41D004F171B /* ETObjectMirror.m in Headers */,
 				602E136518B3A41D004F171B /* ETProtocolMirror.h in Headers */,
@@ -1138,17 +1147,20 @@
 				602E134718B3A3B3004F171B /* ETModelDescriptionRepository.h in Headers */,
 				602E134818B3A3B3004F171B /* ETPackageDescription.h in Headers */,
 				602E134918B3A3B3004F171B /* ETModelElementDescription.h in Headers */,
+				6083222A19793A1C008D9F9D /* ETByteSizeFormatter.h in Headers */,
 				602E134A18B3A3B3004F171B /* ETEntityDescription.h in Headers */,
 				602E134B18B3A3B3004F171B /* ETPropertyDescription.h in Headers */,
 				602E134C18B3A3B3004F171B /* ETRoleDescription.h in Headers */,
 				602E134D18B3A3B3004F171B /* ETValidationResult.h in Headers */,
 				602E134E18B3A3B3004F171B /* ETCollectionViewpoint.h in Headers */,
 				602E134F18B3A3B3004F171B /* ETIndexValuePair.h in Headers */,
+				6083222819793A12008D9F9D /* ETUTI.h in Headers */,
 				602E135018B3A3B3004F171B /* ETMutableObjectViewpoint.h in Headers */,
 				602E135118B3A3B3004F171B /* ETViewpoint.h in Headers */,
 				602E135218B3A3B3004F171B /* ETUnionViewpoint.h in Headers */,
-				602E135B18B3A3B3004F171B /* Macros.h in Headers */,
+				6083222B19793A23008D9F9D /* ETPlugInRegistry.h in Headers */,
 				602E13A018B3A491004F171B /* ETCFMapTable.h in Headers */,
+				6083222719793A0F008D9F9D /* ETTranscript.h in Headers */,
 				60E2E59A190826C900618AC1 /* NSDictionary+Etoile.h in Headers */,
 				60E2E59B190826D300618AC1 /* NSArray+Etoile.h in Headers */,
 			);
@@ -1476,7 +1488,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\ncp -a \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/${PRODUCT_NAME}\"";
+			shellScript = "# Based on https://github.com/jverkoey/iOS-Framework\n\nset -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\ncp -a \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/${PRODUCT_NAME}\"\n";
 		};
 		609B66D30FEE80CE0007F842 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
