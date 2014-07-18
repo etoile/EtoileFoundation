@@ -132,4 +132,32 @@
 }
 @end
 
+#else /* TARGET_OS_IPHONE */
+
+@implementation NSData (ETHash)
+
+- (NSString *)base64String
+{
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+	return [self base64EncodedStringWithOptions: 0];
+#else
+	return [self base64String];
+#endif
+}
+
+@end
+
+@implementation NSString (ETBase64)
+
+- (NSData*)base64DecodedData
+{
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+	return [[NSData alloc] initWithBase64EncodedString: base64String options: 0];
+#else
+	return [[NSData alloc] initWithBase64Encoding: self];
+#endif
+}
+
+@end
+
 #endif

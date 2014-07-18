@@ -7,7 +7,6 @@
 
 #import <Foundation/NSData.h>
 #import <Foundation/NSString.h>
-#if !(TARGET_OS_IPHONE)
 
 /**
  * @group Hashing and Encoding
@@ -24,6 +23,7 @@
  * the resulting string.
  */
 - (NSString*) base64String;
+#if !(TARGET_OS_IPHONE)
 /**
  * Returns a string containing the SHA1 hash of the data.
  */
@@ -36,6 +36,7 @@
  * Returns a string containing the MD5 hash of the data.
  */
 - (NSString*) md5;
+#endif
 @end
 
 /**
@@ -49,5 +50,3 @@
  */
 - (NSData*) base64DecodedData;
 @end
-
-#endif
