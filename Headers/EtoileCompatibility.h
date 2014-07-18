@@ -31,6 +31,15 @@
 #define NSEqualPoints CGPointEqualToPoint
 #define NSEqualSizes CGSizeEqualToSize
 #define NSEqualRects CGRectEqualToRect
+#define NSStringFromPoint NSStringFromCGPoint
+#define NSStringFromSize NSStringFromCGSize
+#define NSStringFromRect NSStringFromCGRect
+#define NSPointFromString CGPointFromString
+#define NSSizeFromString CGSizeFromString
+#define NSRectFromString CGRectFromString
+#define valueWithPoint valueWithCGPoint
+#define valueWithSize valueWithCGSize
+#define valueWithRect valueWithCGRect
 #endif
 
 /* Logging Hacks */
