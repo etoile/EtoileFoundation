@@ -141,7 +141,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
 	return [self base64EncodedStringWithOptions: 0];
 #else
-	return [self base64String];
+	return [self base64Encoding];
 #endif
 }
 
