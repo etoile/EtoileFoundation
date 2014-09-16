@@ -46,7 +46,7 @@
 	{
 		return nil;
 	}
-	[value release];
+	//[value release];
 	value = nil;
 	return self;
 }
@@ -56,8 +56,8 @@
 	if(value != nil)
 	{
 		id oldValue = value;
-		value = [unescapeXMLCData(value) retain];
-		[oldValue release];		
+		value = unescapeXMLCData(value);
+		//oldValue release];
 	}
 	[super notifyParent];
 }
@@ -66,12 +66,12 @@
 {
 	if(value == nil)
 	{
-		value = [aString retain];
+		value = aString;
 	}
 	else
 	{
-		id new = [[value stringByAppendingString:aString] retain];
-		[value release];
+		id new = [value stringByAppendingString:aString];
+		//[value release];
 		value = new;
 	}
 }

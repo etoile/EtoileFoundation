@@ -57,7 +57,7 @@
 
 int main(int argc, char ** argv)
 {
-	[NSAutoreleasePool new];
+	//[NSAutoreleasePool new];
 	ETXMLParser * parser = [ETXMLParser parserWithContentHandler:[ParserTest new]];
 	//Uncomment to test parser as an SGML parser.
 	//[parser setMode:sgml];

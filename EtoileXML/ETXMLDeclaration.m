@@ -39,7 +39,7 @@
 + (id) ETXMLDeclaration
 {
 	ETXMLDeclaration *decl = [[ETXMLDeclaration alloc] initWithType: @"" attributes: [NSDictionary dictionaryWithObjectsAndKeys: @"version", @"1.0", @"encoding", @"UTF-8", nil]];
-	return [decl autorelease];
+	return decl;
 }
 
 - (NSString *) stringValueWithIndent:(int)indent
@@ -102,10 +102,10 @@
 	/* We do nothing here */
 }
 
-- (void) dealloc
+/*- (void) dealloc
 {
 	[super dealloc];
-}
+}*/
 
 @end
 

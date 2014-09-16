@@ -40,10 +40,10 @@
                      key: (id)aKey
 {
 	SUPERINIT
-	value = [self retain];
+	value = self;
 	[aParser pushContentHandler: self];
 	[self setParser:aParser];
-	key = [aKey retain];
+	key = aKey;
 	return self;
 }
 
@@ -100,15 +100,15 @@
 		[parent addChild:value forKey:key];
 		//NSLog(@"Setting value: %@ for key: %@ in %@", value, key, parent);
 	}
-	[value release];
+	//[value release];
 	value = nil;
 }
 
-- (void) dealloc
+/*- (void) dealloc
 {
 	[key release];
 	[value release];
 	[super dealloc];
-}
+}*/
 
 @end

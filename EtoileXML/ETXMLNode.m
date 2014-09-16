@@ -50,7 +50,7 @@
 - (ETXMLNodeChildEnumerator *) initWithElements: (NSArray *)anArray
 {
 	SUPERINIT;
-	elements = [anArray retain];
+	elements = anArray;
 	return self;
 }
 
@@ -67,7 +67,7 @@
 	{
 		[elementsLeft addObject:nextObject];
 	}
-	return [elementsLeft autorelease];
+	return elementsLeft;
 }
 
 - (id) nextObject
@@ -98,12 +98,12 @@
 
 + (id) ETXMLNodeWithType: (NSString *)type
 {
-	return [[[ETXMLNode alloc] initWithType:type]autorelease];
+	return [[ETXMLNode alloc] initWithType:type];
 }
 
 + (id) ETXMLNodeWithType: (NSString *)type attributes: (NSDictionary *)_attributes
 {
-	return [[[ETXMLNode alloc] initWithType:type attributes:_attributes] autorelease];
+	return [[ETXMLNode alloc] initWithType:type attributes:_attributes];
 }
 
 - (id) initWithType: (NSString *)type
@@ -113,7 +113,7 @@
 
 - (id) initWithType: (NSString *)type attributes: (NSDictionary *)_attributes
 {
-	nodeType = [type retain];
+	nodeType = type;
 	attributes = [_attributes mutableCopy];
 	return [self init];
 }
@@ -354,7 +354,7 @@
 	{
 		id oldAttributes = attributes;
 		attributes = [attributes mutableCopy];
-		[oldAttributes release];
+		//[oldAttributes release];
 	}	
 	[attributes setObject:value forKey:attribute];
 }
@@ -366,7 +366,7 @@
 
 - (void) setCData: (NSString *)newCData
 {
-	[plainCDATA release];
+	//[plainCDATA release];
 	plainCDATA = [newCData mutableCopy];
 	for(unsigned int i=0 ; i < [elements count] ; i++)
 	{
@@ -381,12 +381,12 @@
 - (void) dealloc
 {
 	[elements removeAllObjects];
-	[elements release];
-	[attributes release];
-	[plainCDATA release];
-	[nodeType release];
-	[childrenByName release];
-	[super dealloc];
+	//[elements release];
+	//[attributes release];
+	//[plainCDATA release];
+	//[nodeType release];
+	//[childrenByName release];
+	//[super dealloc];
 }
 
 @end

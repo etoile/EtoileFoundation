@@ -283,7 +283,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 - (void) loadStyles: (id)unused
 {
 //	stylesForTags = [[NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"XHTML-IM HTML Styles"]] retain];
-	FONT_SIZES = [[NSDictionary dictionaryWithObjectsAndKeys:
+	FONT_SIZES = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithFloat:6.0f],@"xx-small",
 		[NSNumber numberWithFloat:8.0f],@"x-small",
 		[NSNumber numberWithFloat:10.0f],@"small",
@@ -291,7 +291,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		[NSNumber numberWithFloat:14.0f],@"large",
 		[NSNumber numberWithFloat:16.0f],@"x-large",
 		[NSNumber numberWithFloat:18.0f],@"xx-large",
-		nil] retain];
+		nil];
 	//	if(nil == stylesForTags)
 	{
 		stylesForTags = [[NSMutableDictionary alloc] init];
@@ -377,7 +377,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		NSAttributedString * newSection = [[NSAttributedString alloc] initWithString:text
 																	  attributes:currentAttributes];
 		[string appendAttributedString:newSection];
-		[newSection release];
+		//[newSection release];
 	}
 }
 
@@ -433,7 +433,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		{
 			currentAttributes = [self attributes: currentAttributes fromStyle: style];
 		}
-		[currentAttributes retain];
+	//	[currentAttributes retain];
 		//And some line breaks...
 		if([lineBreakBeforeTags containsObject:_Name])
 		{
@@ -441,7 +441,7 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 			{
 				NSAttributedString * newline = [[NSAttributedString alloc] initWithString:@"\n"];
 				[string appendAttributedString:newline];
-				[newline release];
+				//[newline release];
 			}
 		}
 		//Increment the depth counter.  This should always be equal to [attributeStack count] + 1, and it might be worth using this for validation
@@ -467,15 +467,15 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		{
 			NSAttributedString * newline = [[NSAttributedString alloc] initWithString:@"\n"];
 			[string appendAttributedString:newline];
-			[newline release];
+			//[newline release];
 		}
-		[currentAttributes release];
+		//[currentAttributes release];
 		currentAttributes = [attributeStack lastObject];
 		[attributeStack removeLastObject];
 	}
 }
 
-- (void) dealloc
+/*- (void) dealloc
 {
 	[currentAttributes release];
 	[attributeStack release];
@@ -485,6 +485,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 	[lineBreakAfterTags release];
 	[lineBreakBeforeTags release];
 	[super dealloc];
-}
+}*/
 
 @end
