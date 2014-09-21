@@ -48,7 +48,7 @@
 
 - (id) initWithContentHandler: (id <ETXMLWriting>)_contentHandler
 {
-	self = [self init]; //ASK for clear
+	self = [self init];
 	[self pushContentHandler: _contentHandler];
 	return self;
 }

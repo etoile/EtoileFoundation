@@ -84,7 +84,10 @@
 	SEL childSelector = NSSelectorFromString(childSelectorName);
 	if([self respondsToSelector:childSelector])
 	{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		[self performSelector:childSelector withObject:aChild];
+#pragma clang diagnostic pop
 	}
 	else
 	{
