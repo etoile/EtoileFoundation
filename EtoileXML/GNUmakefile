@@ -14,7 +14,7 @@ LIBRARIES_DEPEND_UPON += -lm -lEtoileFoundation $(FND_LIBS) $(OBJC_LIBS) $(SYSTE
 # subprojects are built. Hence libEtoileFoundation.so is not present in the  
 # Build directory at EtoileXML build time.
 $(FRAMEWORK_NAME)_LIB_DIRS += -L../EtoileFoundation.framework
-$(FRAMEWORK_NAME)_OBJCFLAGS += -std=c99
+$(FRAMEWORK_NAME)_OBJCFLAGS += -std=c99 -fobjc-arc
 
 $(FRAMEWORK_NAME)_OBJC_FILES = \
 	ETXMLNode.m \
