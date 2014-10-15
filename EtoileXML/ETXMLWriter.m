@@ -222,9 +222,6 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 }
 - (void)reset
 {
-	/*[buffer release];
-	[tagStack release];
-	[indentString release];*/
 	buffer = [NSMutableString new];
 	indentString = [@"\n" mutableCopy];
 	tagStack = [NSMutableArray new];
@@ -243,7 +240,6 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[buffer appendString: anXMLString];
 	if (0 == subwriterCount)
 	{
-		//[condition release];
 		condition = nil;
 	}
 }
@@ -256,14 +252,6 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	tagStack = [NSMutableArray new];
 	return self;
 }
-/*- (void)dealloc
-{
-	[buffer release];
-	[tagStack release];
-	[indentString release];
-	[condition release];
-	[super dealloc];
-}*/
 @end	
 @implementation ETXMLSocketWriter : ETXMLWriter 
 - (void)sendBuffer
@@ -289,7 +277,6 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 }
 - (void)setSocket: (ETSocket*)aSocket
 {
-	//ASSIGN(socket, aSocket);
     socket = aSocket;
 }
 - (void)appendSubtree: (NSString*)anXMLString
@@ -297,11 +284,6 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 	[super appendSubtree: anXMLString];
 	[self sendBuffer];
 }
-/*- (void)dealloc
-{
-	[socket release];
-	[super dealloc];
-}*/
 @end
 
 @implementation ETXMLSubtreeWriter
@@ -347,9 +329,6 @@ NSString *ETXMLMismatchedTagException = @"ETXMLMismatchedTagException";
 - (void)dealloc
 {
 	[self finishTransaction];
-	/*[parent release];
-	[parentCondition release];
-	[super dealloc];*/
 }
 
 - (void)finalize

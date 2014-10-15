@@ -59,9 +59,7 @@
 	[p setMode:PARSER_MODE_SGML];
 	[[ETXMLXHTML_IMParser alloc] initWithXMLParser:p key:@"html"];
 	[p parseFromSource:aString];
-	//[p release];
 	NSAttributedString * html = c->html;
-	//[c release];
 	return html;
 }
 

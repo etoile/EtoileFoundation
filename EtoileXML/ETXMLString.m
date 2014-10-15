@@ -46,7 +46,6 @@
 	{
 		return nil;
 	}
-	//[value release];
 	value = nil;
 	return self;
 }
@@ -55,9 +54,7 @@
 {
 	if(value != nil)
 	{
-		id oldValue = value;
 		value = unescapeXMLCData(value);
-		//oldValue release];
 	}
 	[super notifyParent];
 }
@@ -70,9 +67,7 @@
 	}
 	else
 	{
-		id new = [value stringByAppendingString:aString];
-		//[value release];
-		value = new;
+		value = [value stringByAppendingString:aString];//Remember to make is an NSMutableString
 	}
 }
 

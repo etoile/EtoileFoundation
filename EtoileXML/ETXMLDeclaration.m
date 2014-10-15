@@ -102,10 +102,5 @@
 	/* We do nothing here */
 }
 
-/*- (void) dealloc
-{
-	[super dealloc];
-}*/
-
 @end
 

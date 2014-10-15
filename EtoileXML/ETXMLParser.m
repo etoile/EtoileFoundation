@@ -48,20 +48,18 @@
 
 - (id) initWithContentHandler: (id <ETXMLWriting>)_contentHandler
 {
-	self = [self init];
-	[self pushContentHandler: _contentHandler];
+    SUPERINIT;
+    handlers = [NSMutableArray new];
+    buffer = [NSMutableString new]; //Investigate when can be lazily allocated
+    openTags = [[NSMutableArray alloc] init];
+    mode = PARSER_MODE_XML;
+    state = notag;
 	return self;
 }
 
 - (id) init
 {
-	SUPERINIT;
-	handlers = [NSMutableArray new];
-	buffer = [NSMutableString stringWithString:@""];
-	openTags = [[NSMutableArray alloc] init];
-	mode = PARSER_MODE_XML;
-	state = notag;
-	return self;
+    return [self initWithContentHandler:nil];
 }
 
 - (id) pushContentHandler: (id <ETXMLWriting>)aContentHandler
@@ -408,8 +406,6 @@
 						state = broken;
 						return NO;
 				}
-				/*[tagName release];
-				[tagAttributes release];*/
 				break;
 			}
 			case incdata:
@@ -422,7 +418,6 @@
 					//If cdata contains a > (close tag) then we are parsing nonsense, not XML.
 					if([cdata rangeOfString:@">"].location != NSNotFound)
 					{
-					//	[cdata release];
 						state = broken;
 						return NO;
 					}
@@ -489,10 +484,5 @@
 {
 	mode = aMode;
 }
-/*- (void)dealloc
-{
-	[buffer release];
-	[super dealloc];
-}*/
 
 @end

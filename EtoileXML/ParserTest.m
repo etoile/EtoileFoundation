@@ -57,13 +57,15 @@
 
 int main(int argc, char ** argv)
 {
-	//[NSAutoreleasePool new];
-	ETXMLParser * parser = [ETXMLParser parserWithContentHandler:[ParserTest new]];
-	//Uncomment to test parser as an SGML parser.
-	//[parser setMode:sgml];
-	for(unsigned int i=1 ; i<argc ; i++)
-	{
-		[parser parseFromSource: [NSString stringWithUTF8String: argv[i]]];
-	}
+    @autoreleasepool
+    {
+        ETXMLParser * parser = [ETXMLParser parserWithContentHandler:[ParserTest new]];
+        //Uncomment to test parser as an SGML parser.
+        //[parser setMode:sgml];
+        for(unsigned int i=1 ; i<argc ; i++)
+        {
+            [parser parseFromSource: [NSString stringWithUTF8String: argv[i]]];
+        }
+    }
 	return 0;
 }

@@ -103,15 +103,7 @@
 		[parent addChild:value forKey:key];
 		//NSLog(@"Setting value: %@ for key: %@ in %@", value, key, parent);
 	}
-	//[value release];
 	value = nil;
 }
-
-/*- (void) dealloc
-{
-	[key release];
-	[value release];
-	[super dealloc];
-}*/
 
 @end

@@ -352,9 +352,7 @@
 	//If we were passed an immutable object as the constructor, we need to make it mutable
 	if(![attributes isMemberOfClass:[NSMutableDictionary class]])
 	{
-		id oldAttributes = attributes;
 		attributes = [attributes mutableCopy];
-		//[oldAttributes release];
 	}	
 	[attributes setObject:value forKey:attribute];
 }
@@ -366,7 +364,6 @@
 
 - (void) setCData: (NSString *)newCData
 {
-	//[plainCDATA release];
 	plainCDATA = [newCData mutableCopy];
 	for(unsigned int i=0 ; i < [elements count] ; i++)
 	{
@@ -376,17 +373,6 @@
 		}
 	}
 	[elements addObject:newCData];
-}
-
-- (void) dealloc
-{
-	[elements removeAllObjects];
-	//[elements release];
-	//[attributes release];
-	//[plainCDATA release];
-	//[nodeType release];
-	//[childrenByName release];
-	//[super dealloc];
 }
 
 @end

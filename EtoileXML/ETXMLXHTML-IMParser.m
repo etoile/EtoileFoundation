@@ -377,7 +377,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		NSAttributedString * newSection = [[NSAttributedString alloc] initWithString:text
 																	  attributes:currentAttributes];
 		[string appendAttributedString:newSection];
-		//[newSection release];
 	}
 }
 
@@ -433,7 +432,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		{
 			currentAttributes = [self attributes: currentAttributes fromStyle: style];
 		}
-	//	[currentAttributes retain];
 		//And some line breaks...
 		if([lineBreakBeforeTags containsObject:_Name])
 		{
@@ -441,7 +439,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 			{
 				NSAttributedString * newline = [[NSAttributedString alloc] initWithString:@"\n"];
 				[string appendAttributedString:newline];
-				//[newline release];
 			}
 		}
 		//Increment the depth counter.  This should always be equal to [attributeStack count] + 1, and it might be worth using this for validation
@@ -469,22 +466,8 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 			[string appendAttributedString:newline];
 			//[newline release];
 		}
-		//[currentAttributes release];
-		currentAttributes = [attributeStack lastObject];
+    	currentAttributes = [attributeStack lastObject];
 		[attributeStack removeLastObject];
 	}
 }
-
-/*- (void) dealloc
-{
-	[currentAttributes release];
-	[attributeStack release];
-	[string release];
-	[FONT_SIZES release];
-	[stylesForTags release];
-	[lineBreakAfterTags release];
-	[lineBreakBeforeTags release];
-	[super dealloc];
-}*/
-
 @end
