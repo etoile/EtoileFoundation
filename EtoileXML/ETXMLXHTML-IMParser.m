@@ -464,7 +464,6 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		{
 			NSAttributedString * newline = [[NSAttributedString alloc] initWithString:@"\n"];
 			[string appendAttributedString:newline];
-			//[newline release];
 		}
     	currentAttributes = [attributeStack lastObject];
 		[attributeStack removeLastObject];
