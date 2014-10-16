@@ -90,10 +90,7 @@
 
 - (id) init
 {
-	elements = [[NSMutableArray alloc] init];
-	plainCDATA = [[NSMutableString alloc] init];
-	childrenByName = [[NSMutableDictionary alloc] init];
-	return [super init];
+    return [self initWithType:nil attributes:nil];
 }
 
 + (id) ETXMLNodeWithType: (NSString *)type
@@ -113,9 +110,13 @@
 
 - (id) initWithType: (NSString *)type attributes: (NSDictionary *)_attributes
 {
+    SUPERINIT;
+    elements = [[NSMutableArray alloc] init];
+    plainCDATA = [[NSMutableString alloc] init];
+    childrenByName = [[NSMutableDictionary alloc] init];
 	nodeType = type;
 	attributes = [_attributes mutableCopy];
-	return [self init];
+	return self; //[self init]
 }
 
 //Default implementation.  Returns parse control to parent at end of node.
