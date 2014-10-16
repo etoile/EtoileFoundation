@@ -54,6 +54,12 @@
     openTags = [[NSMutableArray alloc] init];
     mode = PARSER_MODE_XML;
     state = notag;
+    
+    if (_contentHandler != nil)
+    {
+        [self pushContentHandler: _contentHandler];
+    }
+    
 	return self;
 }
 
