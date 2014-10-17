@@ -43,7 +43,7 @@
 	[aParser pushContentHandler: self];
 	[self setParser:aParser];
 	key = aKey;
-    value = nil;
+           value = self;
 	return self;
 }
 
@@ -100,7 +100,7 @@
 	id parent = [parser parentHandler];
 	if(key != nil && [parent respondsToSelector:@selector(addChild:forKey:)])
 	{
-        [parent addChild:(value ? value : self) forKey:key];
+        [parent addChild:value forKey:key];
 		//NSLog(@"Setting value: %@ for key: %@ in %@", value, key, parent);
 	}
 	value = nil;
