@@ -43,7 +43,7 @@
 	[aParser pushContentHandler: self];
 	[self setParser:aParser];
 	key = aKey;
-           value = self;
+	value = self;
 	return self;
 }
 
