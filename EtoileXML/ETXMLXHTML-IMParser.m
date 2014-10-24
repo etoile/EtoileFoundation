@@ -469,4 +469,9 @@ static inline NSColor * colourFromCSSColourString(NSString *aColour)
 		[attributeStack removeLastObject];
 	}
 }
+
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end
