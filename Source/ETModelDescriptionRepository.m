@@ -428,7 +428,6 @@ same name). */
 
 - (void) addUnresolvedEntityDescriptionForTypeName: (NSString *)typeName
 						       existingEntityNames: (NSMutableSet *)entityNames
-                            unresolvedDescriptions: (NSMutableSet *)unresolvedEntityDescs
                             descriptionsToTraverse: (NSMutableSet *)entityDescsToTraverse
 {
 	NSString *partialTypeName = [self partialNameFromName: typeName];
@@ -443,20 +442,45 @@ same name). */
 
 	ETEntityDescription *type = [self addUnresolvedEntityDescriptionForClass: class];
 
-	[unresolvedEntityDescs addObject: type];
 	[entityDescsToTraverse addObject: type];
 	[entityNames addObject: [type name]];
 }
 
-- (void) collectUnknownTypesForEntityDescriptions: (NSMutableSet *)unresolvedEntityDescs
+- (NSMutableSet *)entityNamesIncludingEntityDescriptions: (NSSet *)additionalEntityDescs
 {
 	NSSet *entityDescs =
-		[unresolvedEntityDescs setByAddingObjectsFromArray: [self entityDescriptions]];
+		[additionalEntityDescs setByAddingObjectsFromArray: [self entityDescriptions]];
+
 	/* We try to resolve entity names into ObjC classes, so full names can be ignored */
+	return AUTORELEASE([(id)[[entityDescs mappedCollection] name] mutableCopy]);
+}
+
+- (void) collectUnknownTypes
+{
+	NSMutableSet *unresolvedEntityDescs = [NSMutableSet setWithSet: _unresolvedDescriptions];
+	NSMutableSet *unresolvedPropertyDescs = [NSMutableSet setWithSet: _unresolvedDescriptions];
+
+	[[unresolvedEntityDescs filter] isEntityDescription];
+	[[unresolvedPropertyDescs filter] isPropertyDescription];
+
 	NSMutableSet *entityNames =
-		AUTORELEASE([(id)[[entityDescs mappedCollection] name] mutableCopy]);
-	
+		[self entityNamesIncludingEntityDescriptions: unresolvedEntityDescs];
 	NSMutableSet *entityDescsToTraverse = [NSMutableSet setWithSet: unresolvedEntityDescs];
+
+	/* Collect types by traversing unresolved property descriptions (not owned by an entity) */
+
+	for (ETPropertyDescription *propertyDesc in unresolvedPropertyDescs)
+	{
+		[self addUnresolvedEntityDescriptionForTypeName: [propertyDesc typeName]
+		                            existingEntityNames: entityNames
+		                         descriptionsToTraverse: entityDescsToTraverse];
+
+		[self addUnresolvedEntityDescriptionForTypeName: [propertyDesc persistentTypeName]
+		                            existingEntityNames: entityNames
+		                         descriptionsToTraverse: entityDescsToTraverse];
+	}
+
+	/* Collect types by traversing unresolved entity descriptions */
 
 	while ([entityDescsToTraverse count] > 0)
 	{
@@ -465,19 +489,16 @@ same name). */
 
 		[self addUnresolvedEntityDescriptionForTypeName: [entityDesc parentName]
 		                            existingEntityNames: entityNames
-		                         unresolvedDescriptions: unresolvedEntityDescs
 		                         descriptionsToTraverse: entityDescsToTraverse];
 
 		for (ETPropertyDescription *propertyDesc in [entityDesc propertyDescriptions])
 		{
 			[self addUnresolvedEntityDescriptionForTypeName: [propertyDesc typeName]
 		                                existingEntityNames: entityNames
-		                             unresolvedDescriptions: unresolvedEntityDescs
 		                             descriptionsToTraverse: entityDescsToTraverse];
 
 			[self addUnresolvedEntityDescriptionForTypeName: [propertyDesc persistentTypeName]
 		                                existingEntityNames: entityNames
-		                             unresolvedDescriptions: unresolvedEntityDescs
 		                             descriptionsToTraverse: entityDescsToTraverse];
 		}
 	}
@@ -485,6 +506,8 @@ same name). */
 
 - (void) resolveNamedObjectReferences
 {
+	[self collectUnknownTypes];
+
 	NSMutableSet *unresolvedPackageDescs = [NSMutableSet setWithSet: _unresolvedDescriptions];
 	NSMutableSet *unresolvedEntityDescs = [NSMutableSet setWithSet: _unresolvedDescriptions];
 	NSMutableSet *unresolvedPropertyDescs = [NSMutableSet setWithSet: _unresolvedDescriptions];
@@ -492,8 +515,6 @@ same name). */
 	[[unresolvedPackageDescs filter] isPackageDescription];
 	[[unresolvedEntityDescs filter] isEntityDescription];
 	[[unresolvedPropertyDescs filter] isPropertyDescription];
-	
-	[self collectUnknownTypesForEntityDescriptions: unresolvedEntityDescs];
 
 	[self addDescriptions: [unresolvedPackageDescs allObjects]];
 	NSSet *collectedPropertyDescs =
