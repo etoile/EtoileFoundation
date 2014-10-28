@@ -30,18 +30,20 @@ The repository contains three type of element descriptions:
 
 @section Main and Additional Repositories
 
-A main repository is created in every tool or application at launch time.  
-The +mainRepository is a special repository that automatically contains the 
-entity descriptions provided through +[NSObject newEntityDescription], that got 
-collected in the NSObject class hierarchy when the repository is created.
+A +mainRepository is created in every tool or application at launch time. In 
+addition to the core metamodel (Object, String, Number etc.) present in all 
+repositories, it contains the meta-metamodel right from the start.
 
 Additional repositories can be created. For example, to store variations on the 
 main repository data model. 
 
-You can collect entity descriptions provided through +[NSObject newEntityDescription]
-in additional repositories with 
--collectEntityDescriptionsFromClass:excludedClasses:resolvedNow:. Don't forget 
-to call -checkConstraints: before using the repository.
+All repositories are mostly empty initially. You can collect entity descriptions
+provided through +[NSObject newEntityDescription] in additional repositories 
+with -collectEntityDescriptionsFromClass:excludedClasses:resolvedNow: or 
+-registerEntityDescriptionsForClasses:resolveNow:. Both methods will automatically 
+attempt to invoke +newEntityDescription on unknown property or parent types, 
+and register these additional entity descriptions. Don't forget to call
+-checkConstraints: before using the repository.
 
 @section Registering Model Description
 
@@ -125,15 +127,13 @@ won't raise warnings.  */
 
 /** Returns the initial repository that exists in each process.
 
-When this repository is created, existing entity descriptions are collected 
-by invoking +newEntityDescription on every NSObject subclass and bound to the 
-class that provided the description. See -setEntityDescription:forClass:.
+When this repository is created, entity descriptions that make up the 
+meta-metamodel are collected by invoking +newEntityDescription on every 
+ETModelElementDescription subclass and bound to the class that provided the 
+description. See -setEntityDescription:forClass:.
 
-After collecting the entity descriptions, -checkConstraints is called and must 
-return no warnings, otherwise a NSInternalInconsistencyException is raised.
-
-For an application, the UIApplication or NSApplication object must exist at the 
-time this method is called. */
+After collecting the entity descriptions, -checkConstraints: is called and must
+return no warnings, otherwise a NSInternalInconsistencyException is raised. */
 + (id) mainRepository;
 /** <init />
 Returns a new repository that just contains the core metamodel (Object, Number, 
@@ -153,11 +153,19 @@ See -setEntityDescription:forClass:.
 If resolve is YES, the named references that exists between the descriptions 
 are resolved immediately with -resolveNamedObjectReferences. Otherwise they 
 are not and the repository remain in an invalid state until 
--resolveNamedObjectReferences is called. */
+-resolveNamedObjectReferences is called.
+ 
+See also -registerEntityDescriptionsForClasses:resolveNow:. */
 - (void) collectEntityDescriptionsFromClass: (Class)aClass
                             excludedClasses: (NSSet *)excludedClasses 
                                  resolveNow: (BOOL)resolve;
-
+/** Collects the entity descriptions by invoking +newEntityDescription on each 
+given class and bind each entity description to the class that provided it.
+See -setEntityDescription:forClass:. 
+ 
+For resolveNow, see -collectEntityDescriptionsFromClass:excludedClasses:resolveNow:. */
+- (void) registerEntityDescriptionsForClasses: (NSSet *)classes
+								   resolveNow: (BOOL)resolve;
 
 /** @taskunit Registering and Enumerating Descriptions */
 

@@ -46,7 +46,7 @@
 	return selfDesc;
 }
 
-- (void) addUnresolvedEntityDescriptionForClass: (Class)aClass
+- (ETEntityDescription *) addUnresolvedEntityDescriptionForClass: (Class)aClass
 {
 	NSParameterAssert([_entityDescriptionsByClass objectForKey: aClass] == nil);
 	// NOTE: This assertion is a really big bottleneck at launch (on my machine
@@ -58,6 +58,7 @@
 	[self addUnresolvedDescription: entityDesc];
 	[self setEntityDescription: entityDesc forClass: aClass];
 	RELEASE(entityDesc);
+	return entityDesc;
 }
 
 - (void) collectEntityDescriptionsFromClass: (Class)aClass
@@ -88,26 +89,34 @@
 	}
 }
 
+- (void) registerEntityDescriptionsForClasses: (NSSet *)classes
+                                   resolveNow: (BOOL)resolve
+{
+	for (Class class in classes)
+	{
+		[self addUnresolvedEntityDescriptionForClass: class];
+	}
+	if (resolve)
+	{
+		[self resolveNamedObjectReferences];
+	}
+}
+
+- (void) registerMetaMetamodel
+{
+	[self collectEntityDescriptionsFromClass: [ETModelElementDescription class]
+	                         excludedClasses: nil
+	                              resolveNow: YES];
+}
+
 static ETModelDescriptionRepository *mainRepo = nil;
 
 + (id) mainRepository
 {
 	if (nil == mainRepo)
 	{
-		NSMutableArray *warnings = [NSMutableArray array];
-
-		mainRepo = [[self alloc] init];
-		[mainRepo collectEntityDescriptionsFromClass: [NSObject class]
-		                             excludedClasses: nil
-		                                  resolveNow: YES];
-		[mainRepo checkConstraints: warnings];
-		
-		if ([warnings isEmpty] == NO)
-		{
-			[NSException raise: NSInternalInconsistencyException
-			            format: @"Failure on constraint check in repository %@:\n %@",
-			                    mainRepo, warnings];
-		}
+		mainRepo = [self new];
+		[mainRepo registerMetaMetamodel];
 	}
 	return mainRepo;
 }
@@ -412,6 +421,68 @@ same name). */
 	}
 }
 
+- (NSString *) partialNameFromName: (NSString *)aName
+{
+	return [[aName componentsSeparatedByString: @"."] lastObject];
+}
+
+- (void) addUnresolvedEntityDescriptionForTypeName: (NSString *)typeName
+						       existingEntityNames: (NSMutableSet *)entityNames
+                            unresolvedDescriptions: (NSMutableSet *)unresolvedEntityDescs
+                            descriptionsToTraverse: (NSMutableSet *)entityDescsToTraverse
+{
+	NSString *partialTypeName = [self partialNameFromName: typeName];
+	
+	if ([entityNames containsObject: partialTypeName])
+		return;
+	
+	Class class = NSClassFromString(partialTypeName);
+	
+	if (class == Nil)
+		return;
+
+	ETEntityDescription *type = [self addUnresolvedEntityDescriptionForClass: class];
+
+	[unresolvedEntityDescs addObject: type];
+	[entityDescsToTraverse addObject: type];
+	[entityNames addObject: [type name]];
+}
+
+- (void) collectUnknownTypesForEntityDescriptions: (NSMutableSet *)unresolvedEntityDescs
+{
+	NSSet *entityDescs =
+		[unresolvedEntityDescs setByAddingObjectsFromArray: [self entityDescriptions]];
+	/* We try to resolve entity names into ObjC classes, so full names can be ignored */
+	NSMutableSet *entityNames =
+		AUTORELEASE([(id)[[entityDescs mappedCollection] name] mutableCopy]);
+	
+	NSMutableSet *entityDescsToTraverse = [NSMutableSet setWithSet: unresolvedEntityDescs];
+
+	while ([entityDescsToTraverse count] > 0)
+	{
+		ETEntityDescription *entityDesc = [entityDescsToTraverse anyObject];
+		[entityDescsToTraverse removeObject: entityDesc];
+
+		[self addUnresolvedEntityDescriptionForTypeName: [entityDesc parentName]
+		                            existingEntityNames: entityNames
+		                         unresolvedDescriptions: unresolvedEntityDescs
+		                         descriptionsToTraverse: entityDescsToTraverse];
+
+		for (ETPropertyDescription *propertyDesc in [entityDesc propertyDescriptions])
+		{
+			[self addUnresolvedEntityDescriptionForTypeName: [propertyDesc typeName]
+		                                existingEntityNames: entityNames
+		                             unresolvedDescriptions: unresolvedEntityDescs
+		                             descriptionsToTraverse: entityDescsToTraverse];
+
+			[self addUnresolvedEntityDescriptionForTypeName: [propertyDesc persistentTypeName]
+		                                existingEntityNames: entityNames
+		                             unresolvedDescriptions: unresolvedEntityDescs
+		                             descriptionsToTraverse: entityDescsToTraverse];
+		}
+	}
+}
+
 - (void) resolveNamedObjectReferences
 {
 	NSMutableSet *unresolvedPackageDescs = [NSMutableSet setWithSet: _unresolvedDescriptions];
@@ -421,6 +492,8 @@ same name). */
 	[[unresolvedPackageDescs filter] isPackageDescription];
 	[[unresolvedEntityDescs filter] isEntityDescription];
 	[[unresolvedPropertyDescs filter] isPropertyDescription];
+	
+	[self collectUnknownTypesForEntityDescriptions: unresolvedEntityDescs];
 
 	[self addDescriptions: [unresolvedPackageDescs allObjects]];
 	NSSet *collectedPropertyDescs =
