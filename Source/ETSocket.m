@@ -20,7 +20,6 @@
 #include <objc/runtime.h>
 
 NSString *ETSocketException = @"ETSocketException";
-
 /**
  * Private subclass handling sockets with SSL enabled.
  */
@@ -32,6 +31,9 @@ NSString *ETSocketException = @"ETSocketException";
 @end
 
 @implementation ETSocket
+
+@synthesize connectionIsBroken;
+
 + (void)initialize
 {
 	SSL_library_init();
@@ -49,16 +51,20 @@ NSString *ETSocketException = @"ETSocketException";
 {
 	NSFileHandle *theHandle = [NSFileHandle fileHandleConnectedToRemoteHost: aHost
 	                                                             forService: aService];
+    eofCounter = 0;
+    self.connectionIsBroken = NO;
+    
 	if (nil == theHandle)
 	{
 		return nil;
 	}
+    
 	return [self initWithFileHandle: theHandle];
 }
 + (id)socketConnectedToRemoteHost: (NSString*)aHost
 					   forService: (NSString*)aService
 {
-	return [[[self alloc] initConnectedToRemoteHost: aHost
+    return [[[self alloc] initConnectedToRemoteHost: aHost
 										 forService: aService] autorelease];
 }
 - (BOOL)negotiateSSL
@@ -100,6 +106,24 @@ NSString *ETSocketException = @"ETSocketException";
 - (void)receiveData: (NSNotification*)aNotification
 {
 	NSMutableData *data = [self readDataFromSocket];
+    if ([data length] == 0)
+    {
+        eofCounter += 1;
+        
+        if (eofCounter == 100)
+        {
+            eofCounter = 0;
+            self.connectionIsBroken = YES;
+            [delegate receivedData:nil fromSocket:nil];
+            return;
+        }
+    }
+    else
+    {
+        self.connectionIsBroken = NO;
+        eofCounter = 0;
+    }
+    
 	FOREACH(inFilters, filter, id<ETSocketFilter>)
 	{
 		data = [filter filterData: data];
@@ -150,11 +174,11 @@ NSString *ETSocketException = @"ETSocketException";
 }
 - (void)dealloc
 {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver: self name:NSFileHandleDataAvailableNotification object:handle];
 	[inFilters release];
 	[outFilters release];
 	[handle release];
-	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-	[center removeObserver: self];
 	[super dealloc];
 }
 @end
