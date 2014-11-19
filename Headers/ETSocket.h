@@ -31,7 +31,13 @@
 	NSMutableArray *outFilters;
 	/** Array of filters used for filtering the input. */
 	NSMutableArray *inFilters;
+    /** EOF Counter */
+    NSInteger eofCounter;
 }
+/**
+ * Returns YES if the connection is broken, NO otherwise
+ */
+@property BOOL connectionIsBroken;
 /**
  * Returns a new socket connected to the specified host, with the specified
  * service name on the first protocol to respond.
