@@ -112,7 +112,7 @@
 	                              resolveNow: YES];
 
 	ETPackageDescription *etoileFoundationPackage =
-		[repo descriptionForName: @"org.etoile-project.EtoileFoundation"];
+		[repo descriptionForName: @"TestEtoileFoundation"];
 	ETEntityDescription *element = [repo entityDescriptionForClass: [ETModelElementDescription class]];
 	ETEntityDescription *entity = [repo entityDescriptionForClass: [ETEntityDescription class]];
 	ETEntityDescription *property = [repo entityDescriptionForClass: [ETPropertyDescription class]];
