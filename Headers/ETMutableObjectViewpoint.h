@@ -27,7 +27,12 @@ new subclass such as ETMutableSortDescriptorViewpoint (this one is provided by
 EtoileUI though).
 
 This viewpoint uses Key-Value-Observing to detect any property changes on the 
-represented object. */
+represented object.
+
+The name is usually a property name, but can be a property path such as 
+<em>currentColor.redComponent</em>. For a property path, the viewpoint observes 
+just the first property (e.g. currentColor) that belongs to the represented object 
+and not subsequent properties (e.g. redComoponent) in other objects. */
 @interface ETMutableObjectViewpoint : NSObject <ETPropertyViewpoint>
 {
 	@private
@@ -46,7 +51,8 @@ represented object. */
 
 /** @taskunit Represented Property */
 
-/** The property name of the original object value in the represented object.
+/** The property name (or path) of the original object value in the represented 
+object.
 
 The object value bound to the property can be a collection. For customizing 
 the collection interaction through the viewpoint, see ETCollectionViewpoint. */

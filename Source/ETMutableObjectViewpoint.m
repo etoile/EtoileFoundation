@@ -98,7 +98,7 @@ identified by the given name in object. */
 	if (_isSettingValue)
 		return;
 	
-	ETLog(@"Will forward KVO property %@ change", keyPath);
+	//ETLog(@"Will forward KVO property %@ change", keyPath);
 
 	// NOTE: Invoking just -didChangeValueForKey: won't work
 	[self willChangeValueForKey: @"value"];
@@ -107,7 +107,11 @@ identified by the given name in object. */
 
 - (NSString *) observedKeyPath
 {
-	return ([[self name] isEqualToString: @"self"] ? nil : [self name]);
+	// TODO: We could support setting a custom observed key path, to control more precisely if we
+	// observe all the objects in the path or not.
+	NSString *observedProperty = [[[self name] componentsSeparatedByString: @"."] firstObject];
+
+	return ([observedProperty isEqualToString: @"self"] ? nil : observedProperty);
 }
 
 - (BOOL) isObservableObject: (id)anObject
@@ -215,11 +219,11 @@ See -usesKeyValueCodingForAccessingValueProperties. */
 {
 	if ([[self representedObject] requiresKeyValueCodingForAccessingProperties])
 	{
-		return [[self representedObject] valueForKey: [self name]];
+		return [[self representedObject] valueForKeyPath: [self name]];
 	}
 	else /* Use PVC by default */
 	{
-		return [[self representedObject] valueForProperty: [self name]];
+		return [[self representedObject] valueForPropertyPath: [self name]];
 	}
 }
 
@@ -229,12 +233,12 @@ See -usesKeyValueCodingForAccessingValueProperties. */
 	_isSettingValue = YES;
 	if ([[self representedObject] requiresKeyValueCodingForAccessingProperties])
 	{
-		[[self representedObject] setValue: objectValue forKey: [self name]];
+		[[self representedObject] setValue: objectValue forKeyPath: [self name]];
 	}
 	else /* Use PVC by default */
 	{
 		[self reportPropertyAccessFailure: [[self representedObject] setValue: objectValue
-		                                                          forProperty: [self name]]];
+		                                                      forPropertyPath: [self name]]];
 	}
 	_isSettingValue = NO;
 }
