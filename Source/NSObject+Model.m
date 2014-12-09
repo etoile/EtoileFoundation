@@ -70,19 +70,41 @@ ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self clas
 	return [self newBasicEntityDescription];
 }
 
++ (NSString *) packageName
+{
+	NSBundle *bundle = [NSBundle bundleForClass: self];
+	ETAssert(bundle != nil);
+	NSString *packageName = [bundle bundleIdentifier];
+
+	if (packageName == nil)
+	{
+		// NOTE: We return -executablePath since this gives a valid name even
+		// with tools, -bundlePath would the enclosing directory for a tool.
+		packageName = [[bundle executablePath] lastPathComponent];
+	}
+
+	return packageName;
+}
+
 /** <override-never />
 Returns a new minimal self-description without any property descriptions.
 
-This entity description uses the class name as its name and the parent is set 
-to the superclass name.<br />
-The parent will be resolved once when the description is added to the repository.
+This entity description uses the class name as its name and the parent name is
+set to the superclass name.
+ 
+The owner name is set to the bundle identifier (or executable path in last
+resort).
+
+The parent and owner will be resolved by
+-[ETModelDescriptionRepository resolveNamedObjectReferences].
 
 You must never use this method to retrieve an entity description, but only a 
 ETModelDescriptionRepository instance to do so.
 
 The returned object is not autoreleased.
 
-See also -newEntityDescription. */
+See also -newEntityDescription, -[ETEntityDescription parentName] and 
+-[ETEntityDescription ownerName]. */
 + (ETEntityDescription *) newBasicEntityDescription
 {
 	ETEntityDescription *desc = [[ETEntityDescription alloc] initWithName: [self className]];
@@ -91,6 +113,8 @@ See also -newEntityDescription. */
 	{
 		[desc setParent: (id)[[self superclass] className]];
 	}
+	[desc setOwnerName: [self packageName]];
+
 	return desc;
 }
 

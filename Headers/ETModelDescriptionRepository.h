@@ -71,14 +71,20 @@ To register a package description, you must register the entities (and all the
 property and entity descriptions they refer to) and the property extensions in 
 a way similar to the previous example.
 
+Note: If the entity describes a class, once registered, you usually bind it to
+its class as described in the section Entity and Class Description Binding.
+
+@section Resolving Named References
+
 If your model element descriptions contains named references (rather than 
 explicit ones to the real objects) e.g. -[ETProprertyDescription oppositeName], 
 these descriptions must be added with -addUnresolvedDescription:, and 
 -resolveNamedObjectReferences must be called once you don't need to call 
 -addDescription: and -addUnresolvedDescription: anymore.
 
-Note: If the entity describes a class, once registered, you usually bind it to 
-its class as described in the next section.
+For references pointing to a package name -[ETEntityDescription ownerName] and 
+-[ETPropertyDescription packageName], -resolveNamedObjectReferences will 
+automatically create and register the missing package descriptions.
 
 @section Entity and Class Description Binding
 
@@ -290,6 +296,11 @@ See -entityDescriptionForClass: and -classForEntityDescription:. */
 
 /** Resolves named references for all the description properties listed in 
 -addUnresolvedDescription:.
+ 
+The package descriptions missing in the repository are also created based on 
+-[ETEntityDescription ownerName] for the unresolved entity descriptions. By
+default, -[NSObject newBasicEntityDescription] sets the package name to the 
+bundle identifier owning the class returning the entity description.
 
 For more details, you should also read Named References section in 
 ETPropertyDescription class description.

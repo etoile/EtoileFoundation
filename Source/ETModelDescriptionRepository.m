@@ -212,7 +212,6 @@ static NSString *anonymousPackageName = @"Anonymous";
 	_descriptionsByName = [[NSMutableDictionary alloc] init];
 	ASSIGN(_entityDescriptionsByClass, [NSMapTable mapTableWithStrongToStrongObjects]);
 	ASSIGN(_classesByEntityDescription, [NSMapTable mapTableWithStrongToStrongObjects]);
-	[self addDescription: [ETPackageDescription descriptionWithName: anonymousPackageName]];
 	[self setUpWithCPrimitives: [self newCPrimitives]
 	          objectPrimitives: [self newObjectPrimitives]];
 
@@ -231,11 +230,6 @@ static NSString *anonymousPackageName = @"Anonymous";
 	[super dealloc];
 }
 
-- (ETPackageDescription *) anonymousPackageDescription
-{
-	return [self descriptionForName: anonymousPackageName];
-}
-
 - (void) addDescriptions: (NSArray *)descriptions
 {
 	FOREACH(descriptions, desc, ETModelElementDescription *)
@@ -244,11 +238,47 @@ static NSString *anonymousPackageName = @"Anonymous";
 	}
 }
 
+- (BOOL) supportsNamespaceForPropertyDescription: (ETPropertyDescription *)aDescription
+{
+	ETPackageDescription *package = [aDescription package];
+
+	/* For a property extension (extenting an entity in another package) */
+	if (package != nil && [package supportsNamespace] == NO)
+		return NO;
+
+	package = [[aDescription owner] owner];
+
+	return [package supportsNamespace];
+}
+
 - (void) addDescription: (ETModelElementDescription *)aDescription
 {
-	if ([aDescription isEntityDescription] && [aDescription owner] == nil)
+	/* For ETPropertyDescription and ETEntityDescription owned by a package 
+	   returning NO to -supportsNamespace, we register them twice, once under
+	   their package name, and another time prefixed by 'Anonymous':
+	 
+	   - Anonymous.ETModelElementDescription and org.etoile-project.EtoileFoundation.ETModelElementDescription
+	   - Anonynous.ETModelElementDescription.owner and org.etoile-project.EtoileFoundation.ETModelElementDescription.owner
+	 
+	   All element descriptions registered with 'Anonymous' as prefix supports
+	   being looked up without a package name. For example:
+
+	   [repo descriptionForName: @"ETModelElementDescription.owner"]. */
+	if ([aDescription isEntityDescription] && [[aDescription owner] supportsNamespace] == NO)
 	{
-		[[self anonymousPackageDescription] addEntityDescription: (ETEntityDescription *)aDescription];
+		NSString *fullName =
+			[self nameInAnonymousPackageForPartialName: [aDescription name]];
+	
+		[_descriptionsByName setObject: aDescription forKey: fullName];
+	}
+	else if ([aDescription isPropertyDescription]
+			 && [self supportsNamespaceForPropertyDescription: (ETPropertyDescription *)aDescription] == NO)
+	{
+		NSString *partialName =
+			[[[aDescription owner] name] stringByAppendingFormat: @".%@", [aDescription name]];
+		NSString *fullName = [self nameInAnonymousPackageForPartialName: partialName];
+		
+		[_descriptionsByName setObject: aDescription forKey: fullName];
 	}
 	[_descriptionsByName setObject: aDescription forKey: [aDescription fullName]];
 }
@@ -504,6 +534,46 @@ same name). */
 	}
 }
 
+- (void) createPackageDescriptionsWithNames: (NSSet *)packageNames
+{
+	for (NSString *name in packageNames)
+	{
+		if ([self descriptionForName: name] != nil)
+			continue;
+
+		[self addDescription: [ETPackageDescription descriptionWithName: name]];
+	}
+}
+
+/* Unresolved property descriptions are property extensions, which belong to a 
+custom package rather than the package owning their entity.
+ 
+For other property descriptions, they belong to the same package than their 
+entity, which means examining their entity is enough to collect the package names. */
+- (void) createPackageDescriptionsForEntityDescriptions: (NSSet *)unresolvedEntityDescs
+                                   propertyDescriptions: (NSSet *)unresolvedPropertyDescs
+{
+	NSMutableSet *packageNames = [NSMutableSet set];
+
+	for (ETPropertyDescription *description in unresolvedPropertyDescs)
+	{
+		if (description.packageName == nil)
+			continue;
+	
+		[packageNames addObject: description.packageName];
+	}
+	
+	for (ETEntityDescription *description in unresolvedEntityDescs)
+	{
+		if (description.ownerName == nil)
+			continue;
+
+		[packageNames addObject: description.ownerName];
+	}
+
+	[self createPackageDescriptionsWithNames: packageNames];
+}
+
 - (void) resolveNamedObjectReferences
 {
 	[self collectUnknownTypes];
@@ -517,6 +587,9 @@ same name). */
 	[[unresolvedPropertyDescs filter] isPropertyDescription];
 
 	[self addDescriptions: [unresolvedPackageDescs allObjects]];
+	[self createPackageDescriptionsForEntityDescriptions: unresolvedEntityDescs
+	                                propertyDescriptions: unresolvedPropertyDescs];
+
 	NSSet *collectedPropertyDescs =
 		[self resolveAndAddEntityDescriptions: unresolvedEntityDescs];
 	[unresolvedPropertyDescs unionSet: collectedPropertyDescs];

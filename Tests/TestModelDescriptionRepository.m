@@ -101,7 +101,6 @@
 	   explicitly and check class exclusion behavior. */
 	ASSIGN(repo, [[[ETModelDescriptionRepository alloc] init] autorelease]);
 
-	ETPackageDescription *anonymousPackage = [repo anonymousPackageDescription];
 	ETEntityDescription *root = [repo descriptionForName: @"Object"];
 	NSSet *primitiveDescClasses = 
 		S([ETPrimitiveEntityDescription class], [ETCPrimitiveEntityDescription class]);
@@ -112,6 +111,8 @@
 	                         excludedClasses: primitiveDescClasses
 	                              resolveNow: YES];
 
+	ETPackageDescription *etoileFoundationPackage =
+		[repo descriptionForName: @"org.etoile-project.EtoileFoundation"];
 	ETEntityDescription *element = [repo entityDescriptionForClass: [ETModelElementDescription class]];
 	ETEntityDescription *entity = [repo entityDescriptionForClass: [ETEntityDescription class]];
 	ETEntityDescription *property = [repo entityDescriptionForClass: [ETPropertyDescription class]];
@@ -130,10 +131,10 @@
 	UKObjectsEqual(property, [repo entityDescriptionForClass: [ETPropertyDescription class]]);
 	UKObjectsEqual(package, [repo entityDescriptionForClass: [ETPackageDescription class]]);
 
-	UKObjectsEqual(anonymousPackage, [element owner]);
-	UKObjectsEqual(anonymousPackage, [entity owner]);
-	UKObjectsEqual(anonymousPackage, [property owner]);
-	UKObjectsEqual(anonymousPackage, [package owner]);
+	UKObjectsEqual(etoileFoundationPackage, [element owner]);
+	UKObjectsEqual(etoileFoundationPackage, [entity owner]);
+	UKObjectsEqual(etoileFoundationPackage, [property owner]);
+	UKObjectsEqual(etoileFoundationPackage, [package owner]);
 
 	UKObjectsEqual(root, [element parent]);
 	UKObjectsEqual(element, [entity parent]);

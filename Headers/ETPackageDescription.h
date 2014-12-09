@@ -28,6 +28,8 @@ specify a data model.  */
 	@private
 	NSMutableSet *_entityDescriptions;
 	NSMutableSet *_propertyDescriptions;
+	NSUInteger _version;
+	BOOL _supportsNamespace;
 }
 
 
@@ -45,6 +47,18 @@ specify a data model.  */
 @property (nonatomic, readonly) BOOL isPackageDescription;
 /** Returns <em>Package</em>. */
 @property (nonatomic, readonly) NSString *typeDescription;
+
+
+/** @taskunit Schema Versioning */
+
+
+@property (nonatomic, assign) NSUInteger version;
+
+
+/** @taskunit Namespace Support */
+
+
+@property (nonatomic, assign) BOOL supportsNamespace;
 
 
 /** @taskunit Packaged Entity Descriptions */

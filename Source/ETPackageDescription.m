@@ -18,6 +18,8 @@
 
 @implementation ETPackageDescription
 
+@synthesize version = _version, supportsNamespace = _supportsNamespace;
+
 + (void) initialize
 {
 	if (self != [ETPackageDescription class])
@@ -79,6 +81,12 @@
 - (NSString *) typeDescription
 {
 	return @"Package";
+}
+
+- (void) setVersion: (NSUInteger)version
+{
+	[self checkNotFrozen];
+	_version = version;
 }
 
 - (void) addEntityDescription: (ETEntityDescription *)anEntityDescription
