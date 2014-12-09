@@ -67,7 +67,7 @@ ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke
 
 /** @taskunit Initialization */
 
-+ (id) sharedInstance;
++ (instancetype) sharedInstance;
 - (id) init;
 
 #ifdef GNUSTEP

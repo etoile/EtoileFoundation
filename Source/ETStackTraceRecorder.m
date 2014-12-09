@@ -35,7 +35,7 @@ static void ETDeallocateCallback(Class aClass, id self)
 @implementation ETStackTraceRecorder
 
 /** Returns the shared stack trace recorder. */
-+ (id) sharedInstance
++ (instancetype) sharedInstance
 {
 	if (nil == sharedInstance)
 	{
