@@ -308,6 +308,26 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 	_owner = owner;
 }
 
+- (NSArray *)allPackageDescriptions
+{
+	ETEntityDescription *entity = self;
+	ETPackageDescription *package = nil;
+	NSMutableArray *allPackages = [NSMutableArray array];
+
+	while (![entity isRoot])
+	{
+		ETPackageDescription *owner = entity.owner;
+
+		if (owner != nil && owner != package)
+		{
+			package = owner;
+			[allPackages addObject: package];
+		}
+		entity = entity.parent;
+	}
+	return allPackages;
+}
+
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name
 {
 	ETPropertyDescription *desc = [_propertyDescriptions objectForKey: name];

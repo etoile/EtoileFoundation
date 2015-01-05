@@ -101,6 +101,7 @@ The parent is retained, because the parent doesn't track its subentities. */
 - (BOOL) isKindOfEntity: (ETEntityDescription *)anEntityDesc;
 /** The package to which this entity belongs to. */
 @property (nonatomic, assign) ETPackageDescription *owner;
+@property (nonatomic, readonly) NSArray *allPackageDescriptions;
 
 
 /** @taskunit Property Descriptions */
