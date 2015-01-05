@@ -272,7 +272,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 		[_descriptionsByName setObject: aDescription forKey: fullName];
 	}
 	else if ([aDescription isPropertyDescription]
-			 && [self supportsNamespaceForPropertyDescription: (ETPropertyDescription *)aDescription] == NO)
+	      && [self supportsNamespaceForPropertyDescription: (ETPropertyDescription *)aDescription] == NO)
 	{
 		NSString *partialName =
 			[[[aDescription owner] name] stringByAppendingFormat: @".%@", [aDescription name]];
@@ -285,6 +285,22 @@ static NSString *anonymousPackageName = @"Anonymous";
 
 - (void) removeDescription: (ETModelElementDescription *)aDescription
 {
+	if ([aDescription isEntityDescription] && [[aDescription owner] supportsNamespace] == NO)
+	{
+		NSString *fullName =
+			[self nameInAnonymousPackageForPartialName: [aDescription name]];
+
+		[_descriptionsByName removeObjectForKey: fullName];
+	}
+	else if ([aDescription isPropertyDescription]
+	      && [self supportsNamespaceForPropertyDescription: (ETPropertyDescription *)aDescription] == NO)
+	{
+		NSString *partialName =
+			[[[aDescription owner] name] stringByAppendingFormat: @".%@", [aDescription name]];
+		NSString *fullName = [self nameInAnonymousPackageForPartialName: partialName];
+		
+		[_descriptionsByName removeObjectForKey: fullName];
+	}
 	[_descriptionsByName removeObjectForKey: [aDescription fullName]];
 	ETAssert([[_descriptionsByName allKeysForObject: aDescription] isEmpty]);
 }
