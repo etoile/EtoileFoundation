@@ -397,25 +397,49 @@ static NSString *anonymousPackageName = @"Anonymous";
 	[_unresolvedDescriptions addObject: aDescription];
 }
 
+- (NSString *) placeholderPropertyForProperty: (NSString *)aProperty
+{
+	return [aProperty stringByAppendingString: @"Name"];
+}
+
+#define NoValueToResolveMarker [NSNull null]
+
+- (id) resolvedValueForProperty: (NSString *)aProperty
+                  inDescription: (ETModelElementDescription *)desc
+                   isPackageRef: (BOOL)isPackageRef
+{
+	NSString *placeholderProperty = [self placeholderPropertyForProperty: aProperty];
+	id value = [desc valueForKey: placeholderProperty];
+	
+	if ([value isString] == NO)
+		return NoValueToResolveMarker;
+	
+	id realValue = [self descriptionForName: (NSString *)value];
+	BOOL lookUpInAnonymousPackage = (nil == realValue && NO == isPackageRef);
+	
+	if (lookUpInAnonymousPackage)
+	{
+		value = [self nameInAnonymousPackageForPartialName: value];
+		realValue = [self descriptionForName: (NSString *)value];
+	}
+	
+	return realValue;
+}
+
 /* 'isPackageRef' prevents to wrongly look up a package as an entity (with the
 same name). */
 - (void) resolveProperty: (NSString *)aProperty
           forDescription: (ETModelElementDescription *)desc
             isPackageRef: (BOOL)isPackageRef
 {
-	NSString *placeholderProperty = [aProperty stringByAppendingString: @"Name"];
-	id value = [desc valueForKey: placeholderProperty];
+	NSString *placeholderProperty = [self placeholderPropertyForProperty: aProperty];
+	id realValue = [self resolvedValueForProperty: aProperty
+	                                inDescription: desc
+	                                 isPackageRef: YES];
 
-	if ([value isString] == NO) return;
+	if ([realValue isEqual: NoValueToResolveMarker])
+		return;
 
-	id realValue = [self descriptionForName: (NSString *)value];
-	BOOL lookUpInAnonymousPackage = (nil == realValue && NO == isPackageRef);
-
-	if (lookUpInAnonymousPackage)
-	{
-		value = [self nameInAnonymousPackageForPartialName: value];
-		realValue = [self descriptionForName: (NSString *)value];
-	}
 	if (nil != realValue)
 	{
 		[desc setValue: realValue forKey: aProperty];
@@ -425,9 +449,11 @@ same name). */
 	{
 	        [NSException raise: NSInternalInconsistencyException
 			            format: @"Couldn't resolve property %@ value %@ for %@",
-			                    aProperty, value, desc];
+			                    aProperty, [desc valueForKey: placeholderProperty], desc];
 	}
 }
+
+
 
 - (NSSet *) resolveAndAddEntityDescriptions: (NSSet *)unresolvedEntityDescs
 {
@@ -435,7 +461,16 @@ same name). */
 
 	FOREACH(unresolvedEntityDescs, desc, ETEntityDescription *)
 	{
-		[self resolveProperty: @"owner" forDescription: desc isPackageRef: YES];
+		ETPackageDescription *package = [self resolvedValueForProperty: @"owner"
+		                                                 inDescription: desc
+		                                                  isPackageRef: YES];
+
+		if (![package isEqual: NoValueToResolveMarker])
+		{
+			[package addEntityDescription: desc];
+			[desc setOwnerName: nil];
+		}
+	
 		[propertyDescs addObjectsFromArray: [desc propertyDescriptions]];
 		[self addDescription: desc];
 	}
@@ -454,9 +489,28 @@ same name). */
 	{
 		[self resolveProperty: @"type" forDescription: desc isPackageRef: NO];
 		[self resolveProperty: @"persistentType" forDescription: desc isPackageRef: NO];
-		[self resolveProperty: @"owner" forDescription: desc isPackageRef: NO];
+		
+		ETPackageDescription *entity = [self resolvedValueForProperty: @"owner"
+		                                                inDescription: desc
+		                                                 isPackageRef: YES];
+
+		if (![entity isEqual: NoValueToResolveMarker])
+		{
+			[entity addPropertyDescription: desc];
+			[desc setOwnerName: nil];
+		}
+
 		/* A package is set when the property is an entity extension */
-		[self resolveProperty: @"package" forDescription: desc isPackageRef: YES];
+		ETPackageDescription *package = [self resolvedValueForProperty: @"package"
+		                                                 inDescription: desc
+		                                                  isPackageRef: YES];
+
+		if (![package isEqual: NoValueToResolveMarker])
+		{
+			[package addPropertyDescription: desc];
+			[desc setPackageName: nil];
+		}
+
 		 /* For property extension */
 		[self addDescription: desc];
 	}
