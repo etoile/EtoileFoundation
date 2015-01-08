@@ -59,6 +59,12 @@ Initializes and returns a new pair with the given key and value. */
 	[super dealloc];
 }
 
+- (id)copyWithZone: (NSZone *)aZone
+{
+	NSString *keyCopy = AUTORELEASE([_key copyWithZone: aZone]);
+	return [[[self class] allocWithZone: aZone] initWithKey: keyCopy  value: _value];
+}
+
 /** Returns YES when both key and value are equal, otherwise returns NO. */
 - (BOOL) isEqual: (id)object
 {

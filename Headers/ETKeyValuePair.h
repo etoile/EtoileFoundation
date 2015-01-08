@@ -18,7 +18,7 @@ If you put them in an array, the resulting data structure is roughly equivalent
 to an ordered dictionary or a multi-value collection.
 
 For now, ETKeyValuePair doesn't support subclassing. */
-@interface ETKeyValuePair : NSObject <ETViewpoint>
+@interface ETKeyValuePair : NSObject <NSCopying, ETViewpoint>
 {
 	@private
 	NSString *_key;
