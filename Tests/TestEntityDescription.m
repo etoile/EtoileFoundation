@@ -239,6 +239,11 @@
 	UKTrue([[package propertyDescriptions] isEmpty]);
 }
 
+- (void) testDefaultPackageVersion
+{
+	UKIntsEqual(0, package.version);
+}
+
 @end
 
 @implementation TestEntityDescription
