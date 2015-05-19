@@ -177,7 +177,7 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 	{ \
 		[__result addIndex: __indices[__indices_iterator]]; \
 	} \
-	[[[NSIndexSet alloc] initWithIndexSet: __result] autorelease]; \
+	AUTORELEASE([[NSIndexSet alloc] initWithIndexSet: __result]); \
 })
 
 #ifdef DEFINE_STRINGS

@@ -7,7 +7,7 @@
    This file is part of GNUstep.
 
    This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
+   modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
    
@@ -16,19 +16,58 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
    
-   You should have received a copy of the GNU Library General Public
+   You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free
-   Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-*/ 
+   Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.
+*/
 
 #ifndef __GNUSTEP_GNUSTEP_H_INCLUDED_
 #define __GNUSTEP_GNUSTEP_H_INCLUDED_
 
 #ifndef GNUSTEP
 
-#define	RETAIN(object)		[(id)object retain]
-#define	RELEASE(object)		[object release]
-#define	AUTORELEASE(object)	[(id)object autorelease]
+#ifndef __has_feature
+#  define __has_feature(x) 0
+#endif
+
+#if	__has_feature(objc_arc)
+
+#ifndef	RETAIN
+#define	RETAIN(object)		(object)
+#endif
+#ifndef	RELEASE
+#define	RELEASE(object)		
+#endif
+#ifndef	AUTORELEASE
+#define	AUTORELEASE(object)	(object)
+#endif
+
+#ifndef	TEST_RETAIN
+#define	TEST_RETAIN(object)	(object)
+#endif
+#ifndef	TEST_RELEASE
+#define	TEST_RELEASE(object)
+#endif
+#ifndef	TEST_AUTORELEASE
+#define	TEST_AUTORELEASE(object)	(object)
+#endif
+
+#ifndef	ASSIGN
+#define	ASSIGN(object,value)	object = (value)
+#endif
+#ifndef	ASSIGNCOPY
+#define	ASSIGNCOPY(object,value)	object = [(value) copy]
+#endif
+#ifndef	DESTROY
+#define	DESTROY(object) 	object = nil
+#endif
+
+#else
+
+#define	RETAIN(object)		[(id)(object) retain]
+#define	RELEASE(object)		[(object) release]
+#define	AUTORELEASE(object)	[(id)(object) autorelease]
 
 #define	TEST_RETAIN(object)	({\
 id __object = (id)(object); (__object != nil) ? [__object retain] : nil; })
@@ -56,6 +95,8 @@ id __object = (id)(object); (__object != nil) ? [__object autorelease] : nil; })
   object = nil; \
   [__o release]; \
 })
+
+#endif /* __has_feature(objc_arc) */
 
 #define CREATE_AUTORELEASE_POOL(X) \
   NSAutoreleasePool *(X) = [NSAutoreleasePool new]
