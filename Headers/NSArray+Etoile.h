@@ -14,6 +14,11 @@
 @interface NSArray (Etoile)
 
 - (id) firstObject;
+/** 
+ * Returns a new array containing the objects between the given index and the 
+ * end of the array. 
+ */
+- (NSArray *) subarrayFromIndex: (NSUInteger)anIndex;
 - (NSArray *) arrayByRemovingObject: (id)anObject;
 - (NSArray *) arrayByRemovingObjectsInArray: (NSArray *)anArray;
 - (NSArray *) filteredArrayUsingPredicate: (NSPredicate *)aPredicate

@@ -24,6 +24,11 @@ empty. */
 	return [self objectAtIndex: 0];
 }
 
+- (NSArray *)subarrayFromIndex: (NSUInteger)anIndex
+{
+    return [self subarrayWithRange: NSMakeRange(anIndex, [self count] - anIndex)];
+}
+
 /** Returns a new array by copying the receiver and removing the objects equal 
 to the given one. */
 - (NSArray *) arrayByRemovingObject: (id)anObject
