@@ -33,6 +33,8 @@
 	NSMutableArray *inFilters;
     /** EOF Counter */
     NSInteger eofCounter;
+	/** YES if the connection is broken, NO otherwise */
+	BOOL connectionIsBroken;
 }
 /**
  * Returns YES if the connection is broken, NO otherwise
