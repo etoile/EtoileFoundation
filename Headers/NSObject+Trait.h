@@ -17,8 +17,14 @@ usual.
 
 Take note that TRAIT_PROTOCOL methods are all required methods, although not 
 implementing these methods in the class that adopts the protocol, won't cause
-compiler warnings. */
+compiler warnings.
+
+In a Swift bridging header, when importing classes that adopt traits, redefine
+this macro to @required at the top of the bridging header. In this way, the 
+Swift compiler can know methods coming from adopted traits are not optional. */
+#ifndef TRAIT_PROTOCOL
 #define TRAIT_PROTOCOL @optional
+#endif
 
 /** @group Language Extensions
 @abstract Objective-C trait support.
