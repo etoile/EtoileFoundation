@@ -59,10 +59,6 @@
 #import <EtoileFoundation/ETUnionViewpoint.h>
 #import <EtoileFoundation/ETViewpoint.h>
 
-#if TARGET_OS_IPHONE
-#import <EtoileFoundation/ETCFMapTable.h>
-#endif
-
 #ifdef GNUSTEP
 #import <EtoileFoundation/ETCArray.h>
 #import <EtoileFoundation/NSObject+Prototypes.h>

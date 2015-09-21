@@ -18,10 +18,6 @@
 #import "NSObject+Model.h"
 #import "Macros.h"
 #import "EtoileCompatibility.h"
-#if TARGET_OS_IPHONE
-#import "ETCFMapTable.h"
-#endif
-
 
 @implementation ETModelDescriptionRepository
 

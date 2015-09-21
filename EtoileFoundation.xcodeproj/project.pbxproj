@@ -160,8 +160,6 @@
 		602E139B18B3A44C004F171B /* ETMutableObjectViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D28E17523AE6002103CC /* ETMutableObjectViewpoint.m */; };
 		602E139C18B3A44C004F171B /* ETViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6097260D17689DC100562F3D /* ETViewpoint.m */; };
 		602E139D18B3A44C004F171B /* ETUnionViewpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6043D3A51753AEC6002103CC /* ETUnionViewpoint.m */; };
-		602E13A018B3A491004F171B /* ETCFMapTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 602E139E18B3A491004F171B /* ETCFMapTable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		602E13A118B3A491004F171B /* ETCFMapTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 602E139F18B3A491004F171B /* ETCFMapTable.m */; };
 		603647DC0E4092EA003377E0 /* ETCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647BC0E4092EA003377E0 /* ETCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647DF0E4092EA003377E0 /* ETGetOptionsDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647BF0E4092EA003377E0 /* ETGetOptionsDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		603647E20E4092EA003377E0 /* EtoileCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 603647C20E4092EA003377E0 /* EtoileCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -476,8 +474,6 @@
 		602DC5410F21FD1500DF23D9 /* UTIDefinitions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UTIDefinitions.plist; sourceTree = "<group>"; };
 		602E12AE18B3A10E004F171B /* libEtoileFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEtoileFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		602E12AF18B3A10E004F171B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		602E139E18B3A491004F171B /* ETCFMapTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETCFMapTable.h; path = iOSCompatibility/ETCFMapTable.h; sourceTree = "<group>"; };
-		602E139F18B3A491004F171B /* ETCFMapTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETCFMapTable.m; path = iOSCompatibility/ETCFMapTable.m; sourceTree = "<group>"; };
 		602E13A918B3A836004F171B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		602E13B718B3AAB2004F171B /* NEWS.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS.md; sourceTree = "<group>"; };
 		602E13B818B3AAB5004F171B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -788,8 +784,6 @@
 			isa = PBXGroup;
 			children = (
 				609A559918C20D700096927F /* main.m */,
-				602E139E18B3A491004F171B /* ETCFMapTable.h */,
-				602E139F18B3A491004F171B /* ETCFMapTable.m */,
 			);
 			name = "iOS Support";
 			sourceTree = "<group>";
@@ -1159,7 +1153,6 @@
 				602E135118B3A3B3004F171B /* ETViewpoint.h in Headers */,
 				602E135218B3A3B3004F171B /* ETUnionViewpoint.h in Headers */,
 				6083222B19793A23008D9F9D /* ETPlugInRegistry.h in Headers */,
-				602E13A018B3A491004F171B /* ETCFMapTable.h in Headers */,
 				6083222719793A0F008D9F9D /* ETTranscript.h in Headers */,
 				60E2E59A190826C900618AC1 /* NSDictionary+Etoile.h in Headers */,
 				60E2E59B190826D300618AC1 /* NSArray+Etoile.h in Headers */,
@@ -1576,7 +1569,6 @@
 				602E139B18B3A44C004F171B /* ETMutableObjectViewpoint.m in Sources */,
 				602E139C18B3A44C004F171B /* ETViewpoint.m in Sources */,
 				602E139D18B3A44C004F171B /* ETUnionViewpoint.m in Sources */,
-				602E13A118B3A491004F171B /* ETCFMapTable.m in Sources */,
 				60E2E5A0190826F200618AC1 /* NSDictionary+Etoile.m in Sources */,
 				60E2E5A31908270400618AC1 /* NSArray+Etoile.m in Sources */,
 			);
