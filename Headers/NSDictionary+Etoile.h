@@ -15,7 +15,7 @@
 /** 
  * Returns whether the dictionary contains the given key among -allKeys. 
  */
-- (BOOL) containsKey: (NSString *)aKey;
+- (BOOL) containsKey: (id <NSCopying>)aKey;
 /**
  * Returns an immutable dictionary that contains the entries of the given 
  * dictionary merged with the receiver entries.
@@ -24,6 +24,17 @@
  * argument prevails.
  */
 - (NSDictionary *)dictionaryByAddingEntriesFromDictionary: (NSDictionary *)aDict;
+/**
+ * Returns an immutable dictionary that contains the subset of the receiver
+ * entries corresponding to the given keys.
+ *
+ * If the given keys are not a subset of the receiver keys, raises a 
+ * NSInvalidArgumentException.
+ *
+ * This method is not the same than -[NSObject dictionaryWithValuesForKeys:] 
+ * which requires keys to be NSString objects (at least on Mac OS X 10.10).
+ */
+- (NSDictionary *)subdictionaryForKeys: (NSArray *)keys;
 @end
 
 /**

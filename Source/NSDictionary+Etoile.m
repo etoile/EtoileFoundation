@@ -15,7 +15,7 @@
 @implementation NSDictionary (Etoile)
 
 
-- (BOOL) containsKey: (NSString *)aKey
+- (BOOL) containsKey: (id <NSCopying>)aKey
 {
 	return ([self objectForKey: aKey] != nil);
 }
@@ -25,6 +25,15 @@
     NSMutableDictionary *combinedDict = [NSMutableDictionary dictionaryWithDictionary: self];
     [combinedDict addEntriesFromDictionary: aDict];
     return [NSDictionary dictionaryWithDictionary: combinedDict];
+}
+
+- (NSDictionary *)subdictionaryForKeys: (NSArray *)keys
+{
+	INVALIDARG_EXCEPTION_TEST(keys,
+		[[NSSet setWithArray: keys] isSubsetOfSet: [NSSet setWithArray: [self allKeys]]]);
+	NSArray *values = [self objectsForKeys: keys notFoundMarker: [NSNull null]];
+	return [NSDictionary dictionaryWithObjects: values
+	                                   forKeys: keys];
 }
 
 - (NSString *) descriptionWithOptions: (NSMutableDictionary *)options
