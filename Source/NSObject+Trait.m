@@ -489,7 +489,11 @@ static NSRecursiveLock *lock = nil;
 + (void) load
 {
 	CREATE_AUTORELEASE_POOL(pool);
+#if TARGET_OS_IPHONE
+	ASSIGN(traitApplicationsByClass, [NSMapTable weakToStrongObjectsMapTable]);
+#else
 	ASSIGN(traitApplicationsByClass, [NSMapTable mapTableWithWeakToStrongObjects]);
+#endif
 	lock = [[NSRecursiveLock alloc] init];
 	DESTROY(pool);
 }

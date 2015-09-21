@@ -206,8 +206,13 @@ static NSString *anonymousPackageName = @"Anonymous";
 	SUPERINIT;
 	_unresolvedDescriptions = [[NSMutableSet alloc] init];
 	_descriptionsByName = [[NSMutableDictionary alloc] init];
+#if TARGET_OS_IPHONE
+	ASSIGN(_entityDescriptionsByClass, [NSMapTable strongToStrongObjectsMapTable]);
+	ASSIGN(_classesByEntityDescription, [NSMapTable strongToStrongObjectsMapTable]);
+#else
 	ASSIGN(_entityDescriptionsByClass, [NSMapTable mapTableWithStrongToStrongObjects]);
 	ASSIGN(_classesByEntityDescription, [NSMapTable mapTableWithStrongToStrongObjects]);
+#endif
 	[self setUpWithCPrimitives: [self newCPrimitives]
 	          objectPrimitives: [self newObjectPrimitives]];
 
