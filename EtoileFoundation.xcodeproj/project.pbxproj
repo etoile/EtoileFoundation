@@ -1795,6 +1795,7 @@
 				PRODUCT_NAME = EtoileFoundation;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "arm64 armv7";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wunknown-pragmas",
@@ -1823,6 +1824,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wunknown-pragmas",
