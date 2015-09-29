@@ -83,7 +83,7 @@
 
 @end
 
-
+#ifdef GNUSTEP
 @implementation NSMutableDictionary (Etoile)
 
 - (void) addObject: anObject forKey: aKey
@@ -109,4 +109,4 @@
 }
 
 @end
-
+#endif

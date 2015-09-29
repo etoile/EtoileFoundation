@@ -37,6 +37,7 @@
 - (NSDictionary *)subdictionaryForKeys: (NSArray *)keys;
 @end
 
+#ifdef GNUSTEP
 /**
  * @group Collection Additions
  * @abstract Extension to NSMutableDictionary for a common case where each key 
@@ -52,3 +53,4 @@
  */
 - (void)addObject: anObject forKey: aKey;
 @end
+#endif
