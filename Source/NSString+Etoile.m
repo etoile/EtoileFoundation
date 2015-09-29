@@ -179,6 +179,7 @@ See also -stringByCapitalizingFirstLetter. */
 	return nil;
 }
 
+#ifdef GNUSTEP
 - (BOOL)isEqualToString: (NSString*)aString
 {
 	NSUInteger length = [self length];
@@ -204,6 +205,7 @@ See also -stringByCapitalizingFirstLetter. */
 
 	return YES;
 }
+#endif
 
 @end
 
