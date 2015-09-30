@@ -7,16 +7,16 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.etoile-project.EtoileXML</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${DYLIB_COMPATIBILITY_VERSION}.${DYLIB_CURRENT_VERSION}</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>${DYLIB_COMPATIBILITY_VERSION}.${DYLIB_CURRENT_VERSION}</string>
-	<key>CFBundleShortVersionString</key>
 	<string>${DYLIB_COMPATIBILITY_VERSION}.${DYLIB_CURRENT_VERSION}</string>
 </dict>
 </plist>
