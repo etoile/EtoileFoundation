@@ -519,32 +519,6 @@ otherwise -removeObserver: will crash randomly. */
 	return [NSSet set];
 }
 
-/** Sets up the given object to observe each receiver key paths returned by 
--observableKeyPaths. 
-
-The observer will receive NSKeyValueObservingOptionOld and 
-NSKeyValueObservingOptionNew in the change dictionary. */
-- (void) addObserver: (id)anObserver
-{
-	FOREACH([self observableKeyPaths], keyPath, NSString *)
-	{
-		[self addObserver: anObserver
-		       forKeyPath: keyPath
-		          options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-		          context: NULL];
-	}
-}
-
-/** Removes the observer that was observing the receiver key paths returned 
-by -observableKeyPaths. */
-- (void) removeObserver: (id)anObserver
-{
-	FOREACH([self observableKeyPaths], keyPath, NSString *)
-	{
-		[self removeObserver: anObserver forKeyPath: keyPath];
-	}
-}
-
 /* Collection */
 
 /** <override-dummy /> 

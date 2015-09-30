@@ -41,8 +41,6 @@
 /** @taskunit KVO Syntactic Sugar (Unstable API) */
 
 - (NSSet *) observableKeyPaths;
-- (void) addObserver: (id)anObserver;
-- (void) removeObserver: (id)anObserver;
 
 /** @taskunit Collection and Mutability */
 
