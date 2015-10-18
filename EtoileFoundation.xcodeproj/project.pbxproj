@@ -1779,9 +1779,11 @@
 		602E12B918B3A10F004F171B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DYLIB_COMPATIBILITY_VERSION = 0;
 				DYLIB_CURRENT_VERSION = 6;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1798,6 +1800,7 @@
 				PRODUCT_NAME = EtoileFoundation;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 				VALID_ARCHS = "arm64 armv7";
 				WARNING_CFLAGS = (
 					"-Wall",
@@ -1809,9 +1812,11 @@
 		602E12BA18B3A10F004F171B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DYLIB_COMPATIBILITY_VERSION = 0;
 				DYLIB_CURRENT_VERSION = 6;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = $BUILT_PRODUCTS_DIR;
 				INFOPLIST_FILE = EtoileFoundationInfo.plist;
 				OTHER_LDFLAGS = (
@@ -1827,6 +1832,7 @@
 				PRODUCT_NAME = EtoileFoundation;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7";
 				WARNING_CFLAGS = (
@@ -1952,7 +1958,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -1965,7 +1970,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
-				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
