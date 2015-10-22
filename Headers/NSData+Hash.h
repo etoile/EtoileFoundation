@@ -23,7 +23,7 @@
  * the resulting string.
  */
 - (NSString*) base64String;
-#if !(TARGET_OS_IPHONE)
+#if !(TARGET_OS_IPHONE) && !(TARGET_OS_MAC)
 /**
  * Returns a string containing the SHA1 hash of the data.
  */

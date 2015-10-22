@@ -6,7 +6,7 @@
  */
 
 #import "NSData+Hash.h"
-#if !(TARGET_OS_IPHONE)
+#if !(TARGET_OS_IPHONE) && !(TARGET_OS_MAC)
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/sha.h>
@@ -132,13 +132,14 @@
 }
 @end
 
-#else /* TARGET_OS_IPHONE */
+#else /* TARGET_OS_IPHONE || TARGET_OS_MAC */
 
 @implementation NSData (ETHash)
 
 - (NSString *)base64String
 {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0)
+    || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_9)
 	return [self base64EncodedStringWithOptions: 0];
 #else
 	return [self base64Encoding];
@@ -151,7 +152,8 @@
 
 - (NSData*)base64DecodedData
 {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0)
+    || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_9)
 	return [[NSData alloc] initWithBase64EncodedString: base64String options: 0];
 #else
 	return [[NSData alloc] initWithBase64Encoding: self];

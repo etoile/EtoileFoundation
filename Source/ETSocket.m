@@ -6,7 +6,7 @@
  */
 
 #import "ETSocket.h"
-#if !(TARGET_OS_IPHONE)
+#if !(TARGET_OS_IPHONE) && !(TARGET_OS_MAC)
 #import "Macros.h"
 #import "NSFileHandle+Socket.h"
 #import "EtoileCompatibility.h"
