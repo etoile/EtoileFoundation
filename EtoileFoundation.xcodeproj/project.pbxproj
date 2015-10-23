@@ -1349,6 +1349,11 @@
 				BuildIndependentTargetsInParallel = NO;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Étoilé";
+				TargetAttributes = {
+					609A557618C209FE0096927F = {
+						DevelopmentTeam = WZ4X77MGB4;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "EtoileFoundation" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1895,12 +1900,15 @@
 		609A558F18C209FE0096927F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "iOSCompatibility/TestEtoileFoundation-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.etoile-project.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = TestEtoileFoundation;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -1910,11 +1918,14 @@
 		609A559018C209FE0096927F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "iOSCompatibility/TestEtoileFoundation-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.etoile-project.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = TestEtoileFoundation;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
