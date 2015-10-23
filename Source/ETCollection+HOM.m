@@ -18,6 +18,12 @@
 // 127 arguments.)
 #define MAX_ARGS 127
 
+typedef id (*Value1Function)(id, SEL, id);
+typedef id (*Value2Function)(id, SEL, id, id);
+typedef id (*ObjectAtIndexFunction)(id, SEL, NSUInteger);
+typedef void (*MapPlaceObjectFunction)(id, SEL, id, id<ETCollectionMutation> *, id, NSUInteger, NSArray *, id);
+typedef void (*FilterPlaceObjectFunction)(id, SEL, id, NSUInteger, id<ETCollectionMutation> *, BOOL, id);
+
 /*
  * Private protocols to collate verbose, often used protocol-combinations.
  */
@@ -81,7 +87,7 @@
 	NSArray *contents;
 	NSUInteger counter;
 	NSUInteger maxElements;
-	IMP objectAtIndex;
+	ObjectAtIndexFunction objectAtIndex;
 }
 - (id)nextObjectFromContents;
 @end
@@ -103,7 +109,7 @@ typedef struct
 	__unsafe_unretained id<ETCollectionMutation> target;
 	__unsafe_unretained NSMutableArray *alreadyMapped;
 	__unsafe_unretained id mapInfo;
-	IMP elementHandler;
+	MapPlaceObjectFunction elementHandler;
 	SEL handlerSelector;
 	__unsafe_unretained NSNull *theNull;
 	NSUInteger objIndex;
@@ -117,7 +123,7 @@ typedef struct
 	contents = [[(NSObject*)collection collectionArray] retain];
 	counter = 0;
 	maxElements = [contents count];
-	objectAtIndex = [contents methodForSelector: @selector(objectAtIndex:)];
+	objectAtIndex = (ObjectAtIndexFunction)[contents methodForSelector: @selector(objectAtIndex:)];
 	return self;
 }
 
@@ -392,6 +398,7 @@ static BOOL recursiveFilterWithInvocation(NSInvocation *inv, // The invocation, 
 	[inv setArgument: &eachProxy atIndex: slotID];
 	return result;
 }
+
 /*
  * The following functions will be used by both the ETCollectionHOM categories
  * and the corresponding proxies.
@@ -400,7 +407,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
                                 const id<ETCollectionObject> *aCollection,
                                                      id blockOrInvocation,
                                                             BOOL useBlock,
-            const id<NSObject,ETCollection,ETCollectionMutation> *aTarget,
+                             const id<ETMutableCollectionObject> *aTarget,
                                                        BOOL isArrayTarget)
 {
 	if ([*aCollection isEmpty])
@@ -409,8 +416,8 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 	}
 
 	BOOL modifiesSelf = ((void*)aCollection == (void*)aTarget);
-	id<NSObject,ETCollection> theCollection = *aCollection;
-	id<NSObject,ETCollection,ETCollectionMutation> theTarget = *aTarget;
+	id<ETCollectionObject> theCollection = *aCollection;
+	id<ETMutableCollectionObject> theTarget = *aTarget;
 	NSInvocation *anInvocation = nil;
 	SEL selector = NULL;
 
@@ -424,21 +431,21 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 
 	SEL handlerSelector =
 	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:info:);
-	IMP elementHandler = NULL;
+	MapPlaceObjectFunction elementHandler = NULL;
 	if ([theCollection respondsToSelector:handlerSelector]
 	  && (NO == isArrayTarget))
 	{
-		elementHandler = [(NSObject*)theCollection methodForSelector: handlerSelector];
+		elementHandler = (MapPlaceObjectFunction)[(NSObject *)theCollection methodForSelector: handlerSelector];
 	}
 
 	SEL valueSelector = @selector(value:);
-	IMP invokeBlock = NULL;
+	Value1Function invokeBlock = NULL;
 	BOOL invocationHasObjectReturnType = YES;
 	if (useBlock)
 	{
 		if ([blockOrInvocation respondsToSelector: valueSelector])
 		{
-			invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
+			invokeBlock = (Value1Function)[(NSObject *)blockOrInvocation methodForSelector: valueSelector];
 		}
 		//FIXME: Determine the return type of the block
 	}
@@ -536,7 +543,7 @@ static inline void ETHOMMapCollectionWithBlockOrInvocationToTargetAsArray(
 
 		if (elementHandler != NULL)
 		{
-			elementHandler(theCollection, handlerSelector, mapped, aTarget,
+			elementHandler(theCollection, handlerSelector, mapped, (id<ETCollectionMutation> *)aTarget,
 			               object, objectIndex, alreadyMapped, mapInfo);
 		}
 		else
@@ -601,12 +608,12 @@ static inline id ETHOMFoldCollectionWithBlockOrInvocationAndInitialValueAndInver
 	}
 
 	SEL valueSelector = @selector(value:value:);
-	IMP invokeBlock = NULL;
+	Value2Function invokeBlock = NULL;
 	if (useBlock)
 	{
 		NSCAssert([blockOrInvocation respondsToSelector: valueSelector],
-				@"Block does nto respond to the correct selector!");
-		invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
+				@"Block does not respond to the correct selector!");
+		invokeBlock = (Value2Function)[(NSObject *)blockOrInvocation methodForSelector: valueSelector];
 	}
 
 	/*
@@ -709,7 +716,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 
 	SEL handlerSelector =
 	   @selector(placeObject:atIndex:inCollection:basedOnFilter:info:);
-	IMP elementHandler = NULL;
+	FilterPlaceObjectFunction elementHandler = NULL;
 	unsigned int objectIndex = 0;
 	FOREACHI(content, object)
 	{
@@ -749,7 +756,7 @@ static inline void ETHOMFilterCollectionWithBlockOrInvocationAndTargetAndOrigina
 		if (elementHandler != NULL)
 		{
 			elementHandler(*original, handlerSelector, originalObject,
-			               objectIndex, target, (BOOL)filterResult, info);
+			               objectIndex, (id<ETCollectionMutation> *)target, (BOOL)filterResult, info);
 		}
 		else
 		{
@@ -819,11 +826,11 @@ static inline void ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(
 
 
 static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
-                    const id<NSObject,ETCollection> *firstCollection,
-                   const id<NSObject,ETCollection> *secondCollection,
+                    const id<ETCollectionObject> *firstCollection,
+                   const id<ETCollectionObject> *secondCollection,
                                                 id blockOrInvocation,
                                                        BOOL useBlock,
-        const id<NSObject,ETCollection,ETCollectionMutation> *target)
+        const id<ETMutableCollectionObject> *target)
 {
 	if ([*firstCollection isEmpty])
 	{
@@ -844,20 +851,20 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 
 	SEL handlerSelector =
 	 @selector(placeObject:inCollection:insteadOfObject:atIndex:havingAlreadyMapped:info:);
-	IMP elementHandler = NULL;
+	MapPlaceObjectFunction elementHandler = NULL;
 
 	if ([*firstCollection respondsToSelector: handlerSelector])
 	{
-		elementHandler = [(NSObject*)*firstCollection methodForSelector: handlerSelector];
+		elementHandler = (MapPlaceObjectFunction)[(NSObject *)*firstCollection methodForSelector: handlerSelector];
 	}
 
 	SEL valueSelector = @selector(value:value:);
-	IMP invokeBlock = NULL;
+	Value2Function invokeBlock = NULL;
 	if (useBlock)
 	{
 		NSCAssert([blockOrInvocation respondsToSelector: valueSelector],
 				@"Block does not respond to the correct selector!");
-		invokeBlock = [(NSObject*)blockOrInvocation methodForSelector: valueSelector];
+		invokeBlock = (Value2Function)[(NSObject *)blockOrInvocation methodForSelector: valueSelector];
 	}
 
 	NSMutableArray *alreadyMapped = (modifiesSelf ? [[NSMutableArray alloc] init] : nil);
@@ -904,7 +911,7 @@ static inline void ETHOMZipCollectionsWithBlockOrInvocationAndTarget(
 
 		if (elementHandler != NULL)
 		{
-			elementHandler(*firstCollection, handlerSelector, mapped, target,
+			elementHandler(*firstCollection, handlerSelector, mapped, (id<ETCollectionMutation> *)target,
 			               firstObject, objectIndex, alreadyMapped, mapInfo);
 		}
 		else
@@ -1479,7 +1486,7 @@ havingAlreadyMapped: (NSArray*)alreadyMapped
 
 @implementation NSMutableArray (ETCollectionHOM)
 - (void)placeObject: (id)mappedObject
-       inCollection: (id<ETCollectionMutation>*)aTarget
+       inCollection: (id<NSObject,ETCollection,ETCollectionMutation>*)aTarget
     insteadOfObject: (id)originalObject
             atIndex: (NSUInteger)index
 havingAlreadyMapped: (NSArray*)alreadyMapped

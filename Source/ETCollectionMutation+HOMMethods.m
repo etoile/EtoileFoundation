@@ -45,7 +45,7 @@
 - (void)zipWithCollection: (id<NSObject,ETCollection>)aCollection
                  andBlock: (id)aBlock
 {
-	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,&aCollection,
+	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,(id<ETCollectionObject> *)&aCollection,
 	                                                  aBlock,YES,
 	                                                  &self);
 }

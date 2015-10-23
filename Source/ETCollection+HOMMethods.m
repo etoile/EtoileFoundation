@@ -72,10 +72,10 @@
 {
 	id<NSObject,ETCollection,ETCollectionMutation> target = [[[[[(id)self class] mutableClass] alloc] init] autorelease];
 	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,
-	                                                  &aCollection,
+	                                                  (id<ETCollectionObject> *)&aCollection,
 	                                                  aBlock,
 	                                                  YES,
-	                                                  &target);
+	                                                  (id<ETMutableCollectionObject> *)&target);
 	return target;
 }
 
