@@ -111,8 +111,15 @@
 	                         excludedClasses: primitiveDescClasses
 	                              resolveNow: YES];
 
+#if TARGET_OS_IPHONE
+	// With iOS, the test suite is packaged as an application.
+	ETPackageDescription *etoileFoundationPackage =
+		[repo descriptionForName: @"org.etoile-project.TestEtoileFoundation"];
+#else
+	// On Mac, the test suite is packaged as a test bundle or tool.
 	ETPackageDescription *etoileFoundationPackage =
 		[repo descriptionForName: @"TestEtoileFoundation"];
+#endif
 	ETEntityDescription *element = [repo entityDescriptionForClass: [ETModelElementDescription class]];
 	ETEntityDescription *entity = [repo entityDescriptionForClass: [ETEntityDescription class]];
 	ETEntityDescription *property = [repo entityDescriptionForClass: [ETPropertyDescription class]];

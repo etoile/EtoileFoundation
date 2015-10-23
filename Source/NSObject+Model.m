@@ -79,7 +79,8 @@ ETEntityDescription *desc = [ETEntityDescription descriptionWithName: [self clas
 	if (packageName == nil)
 	{
 		// NOTE: We return -executablePath since this gives a valid name even
-		// with tools, -bundlePath would the enclosing directory for a tool.
+		// with test bundles and tools, -bundlePath would the enclosing
+		// directory for a tool.
 		packageName = [[bundle executablePath] lastPathComponent];
 	}
 
