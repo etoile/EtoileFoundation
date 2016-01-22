@@ -339,7 +339,7 @@ static NSString *anonymousPackageName = @"Anonymous";
 
 - (NSString *)nameInAnonymousPackageForPartialName: (NSString *)aName
 {
-	return [anonymousPackageName stringByAppendingFormat: @".%@", aName];
+	return [[anonymousPackageName stringByAppendingString: @"."] stringByAppendingString: aName];
 }
 
 - (id) descriptionForName: (NSString *)aFullName
