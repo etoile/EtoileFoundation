@@ -118,6 +118,7 @@ won't raise warnings.  */
 	NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */
 	NSMapTable *_entityDescriptionsByClass;
 	NSMapTable *_classesByEntityDescription;
+	BOOL _needsConstantStringLookupHack;
 }
 
 

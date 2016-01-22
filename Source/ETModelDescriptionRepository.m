@@ -215,6 +215,11 @@ static NSString *anonymousPackageName = @"Anonymous";
 #endif
 	[self setUpWithCPrimitives: [self newCPrimitives]
 	          objectPrimitives: [self newObjectPrimitives]];
+	
+	if (NSClassFromString( @"__NSCFConstantString") != Nil)
+	{
+		_needsConstantStringLookupHack = (NSClassFromString(@"__NSCFConstantString") != [@"" class]);
+	}
 
 	ETAssert([[ETEntityDescription rootEntityDescriptionName] isEqual:
 		[[self descriptionForName: @"Object"] name]]);
@@ -353,10 +358,20 @@ static NSString *anonymousPackageName = @"Anonymous";
 {
 	ETEntityDescription *entityDescription = [_entityDescriptionsByClass objectForKey: aClass];
 
-	/* Workaround multiple class objects for __NSCFConstantString on Mac OS X */
 	if (entityDescription == nil)
 	{
-		Class usedClass = NSClassFromString(NSStringFromClass(aClass));
+		Class usedClass = aClass;
+
+		/* Work around multiple class objects for __NSCFConstantString on old OS 
+		   X versions (probably 10.7, may be 10.8, and not needed anymore on 10.11).
+		 
+		   This hack is pretty slow, so we skip it when possible.
+		   
+		   See -testMultipleClassObjectsUsingSameName. */
+		if (_needsConstantStringLookupHack)
+		{
+			usedClass = NSClassFromString(NSStringFromClass(aClass));
+		}
 		entityDescription = [_entityDescriptionsByClass objectForKey: usedClass];
 	}
 
