@@ -97,6 +97,7 @@
 {
 	DESTROY(_cachedAllPropertyDescriptions);
 	DESTROY(_cachedAllPropertyDescriptionNames);
+	DESTROY(_cachedAllPersistentPropertyDescriptions);
 	
 	for (ETEntityDescription *child in [_children allObjects])
 	{
@@ -255,9 +256,13 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 
 - (NSArray *) allPersistentPropertyDescriptions
 {
-	NSMutableArray *propertyDescs = [NSMutableArray arrayWithArray: [self allPropertyDescriptions]];
-	[[propertyDescs filter] isPersistent];
-	return propertyDescs;
+	if (_cachedAllPersistentPropertyDescriptions == nil)
+	{
+		NSMutableArray *propertyDescs = [NSMutableArray arrayWithArray: self.allPropertyDescriptions];
+		[[propertyDescs filter] isPersistent];
+		ASSIGN(_cachedAllPersistentPropertyDescriptions, propertyDescs);
+	}
+	return _cachedAllPersistentPropertyDescriptions;
 }
 
 - (void) setParent: (ETEntityDescription *)parentDescription

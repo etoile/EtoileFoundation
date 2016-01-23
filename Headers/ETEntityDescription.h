@@ -38,7 +38,8 @@
 	NSString *_diffAlgorithm;
 	
 	NSArray *_cachedAllPropertyDescriptions;
-	NSArray *_cachedAllPropertyDescriptionNames;	
+	NSArray *_cachedAllPropertyDescriptionNames;
+	NSArray *_cachedAllPersistentPropertyDescriptions;
 }
 
 
