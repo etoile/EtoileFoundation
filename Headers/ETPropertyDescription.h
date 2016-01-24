@@ -417,6 +417,13 @@ cardinality. */
  * This property doesn't appear in the meta-metamodel, see +newEntityDescription.
  */
 @property (nonatomic, copy) NSString *persistentTypeName;
+/**
+ * Returns YES when the property is persistent and its persistent type is not 
+ * a primitive.
+ *
+ * See -isPersistent and -persistentType.
+ */
+@property (nonatomic, readonly) BOOL isPersistentRelationship;
 
 
 /** @taskunit Model Presentation */

@@ -331,6 +331,11 @@
 	ASSIGN(_persistentType, anEntityDescription);
 }
 
+- (BOOL)isPersistentRelationship
+{
+	return _persistent && !self.persistentType.isPrimitive;
+}
+
 - (BOOL) isRelationship
 {
 	return ([[self type] isPrimitive] == NO 
