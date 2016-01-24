@@ -83,6 +83,9 @@
 {
 	[self removeFromParentChildrenArray];
 	DESTROY(_cachedAllPropertyDescriptions);
+	DESTROY(_cachedAllPropertyDescriptionsByName);
+	DESTROY(_cachedAllPropertyDescriptionNames);
+	DESTROY(_cachedAllPersistentPropertyDescriptions);
 	DESTROY(_propertyDescriptions);
 	DESTROY(_parent);
 	DESTROY(_children);
@@ -96,6 +99,7 @@
 - (void) clearCaches
 {
 	DESTROY(_cachedAllPropertyDescriptions);
+	DESTROY(_cachedAllPropertyDescriptionsByName);
 	DESTROY(_cachedAllPropertyDescriptionNames);
 	DESTROY(_cachedAllPersistentPropertyDescriptions);
 	
@@ -241,6 +245,7 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 	// N.B. This automatically makes child properties replace parent properties
 	[allPropertyDescriptions addEntriesFromDictionary: entity->_propertyDescriptions];
 
+	ASSIGN(entity->_cachedAllPropertyDescriptionsByName, allPropertyDescriptions);
 	ASSIGN(entity->_cachedAllPropertyDescriptions, [allPropertyDescriptions allValues]);
 }
 
@@ -252,6 +257,16 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 		CacheAllPropertyDescriptionsRecursive(self, allPropertyDescriptions);
 	}
 	return _cachedAllPropertyDescriptions;
+}
+
+- (NSDictionary *) allPropertyDescriptionsByName
+{
+	if (_cachedAllPropertyDescriptionsByName == nil)
+	{
+		NSMutableDictionary *allPropertyDescriptions = [NSMutableDictionary dictionary];
+		CacheAllPropertyDescriptionsRecursive(self, allPropertyDescriptions);
+	}
+	return _cachedAllPropertyDescriptionsByName;
 }
 
 - (NSArray *) allPersistentPropertyDescriptions
@@ -335,26 +350,13 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 
 - (ETPropertyDescription *)propertyDescriptionForName: (NSString *)name
 {
-	ETPropertyDescription *desc = [_propertyDescriptions objectForKey: name];
-	if (desc == nil)
-	{
-		return [[self parent] propertyDescriptionForName: name];
-	}
-	else
-	{
-		return desc;
-	}
+	return [self allPropertyDescriptionsByName][name];
 }
 
 - (NSArray *)propertyDescriptionsForNames: (NSArray *)names
 {
-	NSMutableArray *descs = [NSMutableArray arrayWithCapacity: [names count]];
-
-	for (NSString *name in names)
-	{
-		[descs addObject: [self propertyDescriptionForName: name]];
-	}
-	return descs;
+	return [[self allPropertyDescriptionsByName] objectsForKeys: names
+	                                             notFoundMarker: [NSNull null]];
 }
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
