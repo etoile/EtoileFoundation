@@ -167,6 +167,19 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
     [NSSet setWithObjects: __objects \
 					count: (sizeof(__objects)/sizeof(id))]; \
 })
+/** Shortcut macro to create a NSSet. Same as S() but throws an exception if any arguments are equal to any others. */
+#define UNIQUESET(...) ({ \
+id __objects[] = {__VA_ARGS__}; \
+const NSUInteger __objects_count = (sizeof(__objects)/sizeof(id)); \
+NSSet *__result_set = [NSSet setWithObjects: __objects count: __objects_count]; \
+if ([__result_set count] != __objects_count) \
+{ \
+    NSArray *__objects_array = [NSArray arrayWithObjects: __objects count: __objects_count]; \
+    [NSException raise: NSInvalidArgumentException format: @"UNIQUESET() macro expects no duplicate arguments! Given: %@", __objects_array]; \
+} \
+__result_set; \
+})
+
 /** Shortcut macro to create a NSIndexSet. */
 #define INDEXSET(...) ({ \
 	NSMutableIndexSet *__result = [NSMutableIndexSet indexSet]; \

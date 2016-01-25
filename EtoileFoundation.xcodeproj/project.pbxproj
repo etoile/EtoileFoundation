@@ -344,6 +344,8 @@
 		66C3AF9110181D110046D74A /* NSData+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8F10181D110046D74A /* NSData+Hash.m */; };
 		66C3AF9A10181DDE0046D74A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AF9910181DDE0046D74A /* libssl.dylib */; };
 		66C3AFB610181ECD0046D74A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AFB510181ECD0046D74A /* libcrypto.dylib */; };
+		66CC694F1C56CCEE005028A1 /* TestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC694E1C56CCEE005028A1 /* TestMacros.m */; };
+		66CC69501C56CCEE005028A1 /* TestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC694E1C56CCEE005028A1 /* TestMacros.m */; };
 		792BF98E124FBD0B0040BF68 /* runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = 792BF98D124FBD0B0040BF68 /* runtime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		794B2B07123D727C008A4663 /* ETStackTraceRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */; };
 		794B2B09123D728F008A4663 /* ETStackTraceRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 794B2B08123D728F008A4663 /* ETStackTraceRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -621,6 +623,7 @@
 		66C3AF8F10181D110046D74A /* NSData+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Hash.m"; path = "Source/NSData+Hash.m"; sourceTree = "<group>"; };
 		66C3AF9910181DDE0046D74A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
 		66C3AFB510181ECD0046D74A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		66CC694E1C56CCEE005028A1 /* TestMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestMacros.m; path = Tests/TestMacros.m; sourceTree = "<group>"; };
 		792BF98D124FBD0B0040BF68 /* runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = runtime.h; path = Headers/runtime.h; sourceTree = "<group>"; };
 		794B2B05123D727C008A4663 /* ETStackTraceRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETStackTraceRecorder.m; path = Source/ETStackTraceRecorder.m; sourceTree = "<group>"; };
 		794B2B08123D728F008A4663 /* ETStackTraceRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETStackTraceRecorder.h; path = Headers/ETStackTraceRecorder.h; sourceTree = "<group>"; };
@@ -864,6 +867,7 @@
 				603812721021C51B00C221A2 /* TestString.m */,
 				60B27D750FF7B54F0012BB42 /* TestUTI.m */,
 				603648130E40931E003377E0 /* TestUUID.m */,
+				66CC694E1C56CCEE005028A1 /* TestMacros.m */,
 				6043D2971752465A002103CC /* TestViewpoint.m */,
 			);
 			name = Tests;
@@ -1659,6 +1663,7 @@
 				609A55AD18C20F5E0096927F /* TestReflection.m in Sources */,
 				609A55AE18C20F5E0096927F /* TestString.m in Sources */,
 				60CB7DF718C5EA1400D6C4D0 /* TestUUID.m in Sources */,
+				66CC69501C56CCEE005028A1 /* TestMacros.m in Sources */,
 				60C81D2F195ED8AD00AEEC68 /* TestModelAdditions.m in Sources */,
 				60CB7DF818C5EA2900D6C4D0 /* TestUTI.m in Sources */,
 				6098D5E0190FB42000890F16 /* TestViewpoint.m in Sources */,
@@ -1726,6 +1731,7 @@
 				6043D29217523AFB002103CC /* ETMutableObjectViewpoint.m in Sources */,
 				6043D3AA1753C20A002103CC /* ETUnionViewpoint.m in Sources */,
 				6097260C1766246800562F3D /* ETIndexValuePair.m in Sources */,
+				66CC694F1C56CCEE005028A1 /* TestMacros.m in Sources */,
 				6097260F17689DC200562F3D /* ETViewpoint.m in Sources */,
 				60C42A22184DFCC20020A004 /* TestETCollectionHOM.m in Sources */,
 				60B9B69B185B589500ABDEA1 /* EtoileCompatibility.m in Sources */,
