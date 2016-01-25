@@ -302,10 +302,10 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 
 	while (entity != nil)
 	{
-		if ([[entity name] isEqual: [anEntityDesc name]])
+		if ([entity.name isEqualToString: anEntityDesc.name])
 			return YES;
 
-		entity = [entity parent];
+		entity = entity->_parent;
 	}
 	return NO;
 }
