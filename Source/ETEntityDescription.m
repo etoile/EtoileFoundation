@@ -528,6 +528,16 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 
 @implementation ETCPrimitiveEntityDescription
 
+static NSSet *validNumberEntityNames = nil;
+
++ (void)initialize
+{
+	if (self != [ETCPrimitiveEntityDescription class])
+		return;
+	
+	ASSIGN(validNumberEntityNames, S(@"BOOL", @"NSInteger", @"NSUInteger", @"CGFloat", @"double"));
+}
+
 - (BOOL) isCPrimitive
 {
 	return YES;
@@ -536,11 +546,6 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 - (NSString *) typeDescription
 {
 	return @"C Primitive Entity";
-}
-
-- (NSSet *) validNumberEntityNames
-{
-	return S(@"BOOL", @"NSInteger", @"NSUInteger", @"CGFloat", @"double");
 }
 
 - (const char *) objCType
@@ -590,7 +595,7 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 		   In addition, Apple documentation states the following: "If you ask 
 		   a number for its objCType, the returned type does not necessarily 
 		   match the method the receiver was created with." */
-		return [[self validNumberEntityNames] containsObject: [self name]];
+		return [validNumberEntityNames containsObject: [self name]];
 	}
 	else if ([aValue isKindOfClass: [NSValue class]])
 	{
