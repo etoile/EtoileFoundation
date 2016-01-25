@@ -25,20 +25,8 @@
     UKRaisesException(S(nil));
     UKObjectsEqual([NSSet setWithObject: @"a"], S(@"a"));
     UKObjectsEqual([NSSet setWithArray: abArray], S(@"a", @"b"));
-    UKObjectsEqual([NSSet setWithObject: @"a"], S(@"a", @"a"));
+    UKRaisesException(S(@"a", @"a"));
 }
-
-- (void) testUNIQUESETMacro
-{
-    NSArray *abArray = [NSArray arrayWithObjects: @"a", @"b", nil];
-    
-    UKObjectsEqual([NSSet set], UNIQUESET());
-    UKRaisesException(UNIQUESET(nil));
-    UKObjectsEqual([NSSet setWithObject: @"a"], UNIQUESET(@"a"));
-    UKObjectsEqual([NSSet setWithArray: abArray], UNIQUESET(@"a", @"b"));
-    UKRaisesException(UNIQUESET(@"a", @"a"));
-}
-
 
 - (void) testAMacro
 {
