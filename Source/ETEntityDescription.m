@@ -245,7 +245,7 @@ static void CacheAllPropertyDescriptionsRecursive(ETEntityDescription *entity, N
 	// N.B. This automatically makes child properties replace parent properties
 	[allPropertyDescriptions addEntriesFromDictionary: entity->_propertyDescriptions];
 
-	ASSIGN(entity->_cachedAllPropertyDescriptionsByName, allPropertyDescriptions);
+	ASSIGNCOPY(entity->_cachedAllPropertyDescriptionsByName, allPropertyDescriptions);
 	ASSIGN(entity->_cachedAllPropertyDescriptions, [allPropertyDescriptions allValues]);
 }
 

@@ -325,6 +325,24 @@
 	UKObjectsEqual(S(identity, title, authors), SA([book allPropertyDescriptions]));
 }
 
+- (void)testOverridenPropertyDescription
+{
+	book.propertyDescriptions = A(title, authors);
+	
+	ETEntityDescription *other = [ETEntityDescription descriptionWithName: @"other"];
+	ETPropertyDescription *otherTitle =
+		[ETPropertyDescription descriptionWithName: @"title" typeName: @"NSString"];
+	
+	other.parent = book;
+	other.propertyDescriptions = A(otherTitle);
+	
+	UKObjectsSame(otherTitle, [other propertyDescriptionForName: @"title"]);
+	UKObjectsSame(title, [book propertyDescriptionForName: @"title"]);
+	
+	UKObjectsEqual(S(otherTitle, authors), SA(other.allPropertyDescriptions));
+	UKObjectsEqual(S(title, authors), SA(book.allPropertyDescriptions));
+}
+
 - (void) testBasic
 {
 	/*id book = [ETEntityDescription descriptionWithName: @"Book"];
