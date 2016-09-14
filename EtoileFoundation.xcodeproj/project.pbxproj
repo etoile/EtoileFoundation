@@ -50,8 +50,6 @@
 		60222DBB101CCB4800B2B1C1 /* ETSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8E10181D110046D74A /* ETSocket.m */; };
 		60222DBC101CCB4800B2B1C1 /* ETValidationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 662EA3FA101916310044F013 /* ETValidationResult.m */; };
 		60222DBD101CCB4800B2B1C1 /* NSData+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8F10181D110046D74A /* NSData+Hash.m */; };
-		60222DC6101CCB8D00B2B1C1 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AFB510181ECD0046D74A /* libcrypto.dylib */; };
-		60222DC7101CCB9000B2B1C1 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AF9910181DDE0046D74A /* libssl.dylib */; };
 		602DC5070F21FA2E00DF23D9 /* ETHistory.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5030F21FA2E00DF23D9 /* ETHistory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602DC5080F21FA2E00DF23D9 /* ETTranscript.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5040F21FA2E00DF23D9 /* ETTranscript.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602DC5090F21FA2E00DF23D9 /* ETUTI.h in Headers */ = {isa = PBXBuildFile; fileRef = 602DC5050F21FA2E00DF23D9 /* ETUTI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -342,8 +340,6 @@
 		66C3AF8D10181CFA0046D74A /* NSData+Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C3AF8B10181CFA0046D74A /* NSData+Hash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66C3AF9010181D110046D74A /* ETSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8E10181D110046D74A /* ETSocket.m */; };
 		66C3AF9110181D110046D74A /* NSData+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C3AF8F10181D110046D74A /* NSData+Hash.m */; };
-		66C3AF9A10181DDE0046D74A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AF9910181DDE0046D74A /* libssl.dylib */; };
-		66C3AFB610181ECD0046D74A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C3AFB510181ECD0046D74A /* libcrypto.dylib */; };
 		66CC694F1C56CCEE005028A1 /* TestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC694E1C56CCEE005028A1 /* TestMacros.m */; };
 		66CC69501C56CCEE005028A1 /* TestMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC694E1C56CCEE005028A1 /* TestMacros.m */; };
 		792BF98E124FBD0B0040BF68 /* runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = 792BF98D124FBD0B0040BF68 /* runtime.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -652,8 +648,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				603649740E409488003377E0 /* Foundation.framework in Frameworks */,
-				66C3AF9A10181DDE0046D74A /* libssl.dylib in Frameworks */,
-				66C3AFB610181ECD0046D74A /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,8 +677,6 @@
 			files = (
 				66B3530A18BAB57B0023C08C /* UnitKit.framework in Frameworks */,
 				60190A4313A6232400A0F639 /* Foundation.framework in Frameworks */,
-				60222DC7101CCB9000B2B1C1 /* libssl.dylib in Frameworks */,
-				60222DC6101CCB8D00B2B1C1 /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
