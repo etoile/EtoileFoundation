@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2005 David Chisnall, Quentin Mathe, Eric Wasylishen
+    Copyright (C) 2005 David Chisnall, Quentin Mathe, Eric Wasylishen
  
-	Date:  August 2005
-	License:  Modified BSD (see COPYING)
+    Date:  August 2005
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/NSAutoreleasePool.h>
@@ -30,7 +30,7 @@
 #if !__has_feature(objc_arc)
 __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
 {
-	[*(id*)object release];
+    [*(id*)object release];
 }
 #endif
 /**
@@ -44,10 +44,10 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  * </example>
  */
 #if defined(__OBJC_GC__)  || __has_feature(objc_arc)
-#	define STACK_SCOPED
+#   define STACK_SCOPED
 #else
-#	define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
-		__attribute__((unused))
+#   define STACK_SCOPED __attribute__((cleanup(ETStackAutoRelease))) \
+        __attribute__((unused))
 #endif
 
 /**
@@ -55,7 +55,7 @@ __attribute__((unused)) static inline void ETStackAutoRelease(void* object)
  */
 __attribute__((unused)) static inline void ETUnlockObject(void* object)
 {
-	[*(__unsafe_unretained id*)object unlock];
+    [*(__unsafe_unretained id*)object unlock];
 }
 /**
  * Macro that sends a -lock message to the argument immediately, and then an
@@ -63,7 +63,7 @@ __attribute__((unused)) static inline void ETUnlockObject(void* object)
  *  exception causes this stack frame to be unwound).
  */
 #define LOCK_FOR_SCOPE(x) __attribute__((cleanup(ETUnlockObject))) \
-		__attribute__((unused)) id __COUNTER__ ## _lock = x; [x lock]
+        __attribute__((unused)) id __COUNTER__ ## _lock = x; [x lock]
 
 #if !__has_feature(objc_arc)
 /**
@@ -71,15 +71,15 @@ __attribute__((unused)) static inline void ETUnlockObject(void* object)
  */
 __attribute__((unused)) static inline void ETDrainAutoreleasePool(void* object)
 {
-	[*(NSAutoreleasePool**)object drain];
+    [*(NSAutoreleasePool**)object drain];
 }
 
 /**
  * Create a temporary autorelease pool that is destroyed when the scope exits.
  */
 #define LOCAL_AUTORELEASE_POOL() \
-	__attribute__((cleanup(ETDrainAutoreleasePool))) \
-	NSAutoreleasePool *__COUNTER__ ## _pool = [NSAutoreleasePool new];
+    __attribute__((cleanup(ETDrainAutoreleasePool))) \
+    NSAutoreleasePool *__COUNTER__ ## _pool = [NSAutoreleasePool new];
 
 #endif
 
@@ -97,9 +97,9 @@ __attribute__((unused)) static inline void ETDrainAutoreleasePool(void* object)
  * @param type An element type such as 'NSString *' to typecheck the messages 
  * sent to the elements in the code block.
  */
-#	define FOREACH(collection,object,type) for (type object in [collection objectEnumerator])
+#   define FOREACH(collection,object,type) for (type object in [collection objectEnumerator])
 #else
-#	define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
+#   define FOREACH(collection,object,type) FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,object ## enumerator)
 #endif
 
 #define FOREACH_WITH_ENUMERATOR_NAME(collection,object,type,enumerator)\
@@ -116,16 +116,16 @@ FOREACHE(collection,object,type,enumerator)
  * @param enumerator A custom enumerator object to use to iterate over the 
  * collection.
  */
-#	define FOREACHE(collection,object,type,enumerator)\
-	for (type object in enumerator)
+#   define FOREACHE(collection,object,type,enumerator)\
+    for (type object in enumerator)
 #else
-#	define FOREACHE(collection,object,type,enumerator)\
+#   define FOREACHE(collection,object,type,enumerator)\
 type object;\
 IMP next ## object ## in ## enumerator = \
 [enumerator methodForSelector:@selector(nextObject)];\
 while(enumerator != nil && (object = next ## object ## in ## enumerator(\
-												   enumerator,\
-												   @selector(nextObject))))
+                                                   enumerator,\
+                                                   @selector(nextObject))))
 #endif
 
 /** Shortcut macro to create a NSDictionary. Same as +[NSDictionary dictionaryWithObjectsAndKeys:]. */
@@ -134,8 +134,8 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
     size_t __objects_and_keys_count = sizeof(__objects_and_keys) / sizeof(id); \
     if ((__objects_and_keys_count % 2) != 0) \
     { \
-	    [NSException raise: NSInvalidArgumentException \
-					format: @"D() macro expects an even number of arguments!"]; \
+        [NSException raise: NSInvalidArgumentException \
+                    format: @"D() macro expects an even number of arguments!"]; \
     } \
     size_t __objects_count = __objects_and_keys_count / 2; \
     id __objects[__objects_count]; \
@@ -152,20 +152,20 @@ while(enumerator != nil && (object = next ## object ## in ## enumerator(\
 #define A(...) ({ \
     id __objects[] = {__VA_ARGS__}; \
     [NSArray arrayWithObjects: __objects \
-						count: (sizeof(__objects)/sizeof(id))]; \
+                        count: (sizeof(__objects)/sizeof(id))]; \
 })
 #ifndef GNUSTEP
 #define ORDEREDSET(...) ({ \
-	id __objects[] = {__VA_ARGS__}; \
-	[NSOrderedSet orderedSetWithObjects: __objects \
-								  count: (sizeof(__objects)/sizeof(id))]; \
+    id __objects[] = {__VA_ARGS__}; \
+    [NSOrderedSet orderedSetWithObjects: __objects \
+                                  count: (sizeof(__objects)/sizeof(id))]; \
 })
 #endif
 /** Shortcut macro to create a NSSet. Same as +[NSSet setWithObjects:]. */
 #define S(...) ({ \
     id __objects[] = {__VA_ARGS__}; \
     [NSSet setWithObjects: __objects \
-					count: (sizeof(__objects)/sizeof(id))]; \
+                    count: (sizeof(__objects)/sizeof(id))]; \
 })
 /** Shortcut macro to create a NSSet. Same as S() but throws an exception if any arguments are equal to any others. */
 #define UNIQUESET(...) ({ \
@@ -182,15 +182,15 @@ __result_set; \
 
 /** Shortcut macro to create a NSIndexSet. */
 #define INDEXSET(...) ({ \
-	NSMutableIndexSet *__result = [NSMutableIndexSet indexSet]; \
-	const NSUInteger __indices[] = {__VA_ARGS__}; \
+    NSMutableIndexSet *__result = [NSMutableIndexSet indexSet]; \
+    const NSUInteger __indices[] = {__VA_ARGS__}; \
     const size_t __indices_count = sizeof(__indices) / sizeof(NSUInteger); \
-	size_t __indices_iterator; \
-	for (__indices_iterator = 0; __indices_iterator < __indices_count; __indices_iterator++) \
-	{ \
-		[__result addIndex: __indices[__indices_iterator]]; \
-	} \
-	AUTORELEASE([[NSIndexSet alloc] initWithIndexSet: __result]); \
+    size_t __indices_iterator; \
+    for (__indices_iterator = 0; __indices_iterator < __indices_count; __indices_iterator++) \
+    { \
+        [__result addIndex: __indices[__indices_iterator]]; \
+    } \
+    AUTORELEASE([[NSIndexSet alloc] initWithIndexSet: __result]); \
 })
 
 #ifdef DEFINE_STRINGS
@@ -202,8 +202,8 @@ __result_set; \
 
 /** Basic assertion macro that just reports the tested condition when it fails.
 It is similar to NSParameterAssert but not limited to checking the arguments. */
-#define ETAssert(condition)	\
-	NSAssert1(condition, @"Failed to satisfy %s", #condition)
+#define ETAssert(condition) \
+    NSAssert1(condition, @"Failed to satisfy %s", #condition)
 /** Same as ETAssert except it gets executed only if you define  
 ETDebugAssertionEnabled.
 
@@ -211,30 +211,30 @@ This macro can be used to do more expansive checks that cannot be kept turned
 on in a release version. */
 #ifdef ETDebugAssertionEnabled
 #define ETDebugAssert(condition) \
-	ETAssert(condition)
+    ETAssert(condition)
 #else
 #define ETDebugAssert(condition)
 #endif
 /** Assertion macro to mark code portion that should never be reached. e.g. the 
 default case in a switch statement. */
 #define ETAssertUnreachable() \
-	NSAssert(NO, @"Entered code portion which should never be reached")
+    NSAssert(NO, @"Entered code portion which should never be reached")
 
 /** Exception macro to check whether the given argument respects a condition.<br />
 When the condition evaluates to NO, an NSInvalidArgumentException is raised. */
 #define INVALIDARG_EXCEPTION_TEST(arg, condition) do { \
-	if (NO == (condition)) \
-	{ \
-		[NSException raise: NSInvalidArgumentException format: @"For %@, %s " \
-			"must respect %s", NSStringFromSelector(_cmd), #arg , #condition]; \
-	} \
+    if (NO == (condition)) \
+    { \
+        [NSException raise: NSInvalidArgumentException format: @"For %@, %s " \
+            "must respect %s", NSStringFromSelector(_cmd), #arg , #condition]; \
+    } \
 } while (0);
 /** Exception macro to check the given argument is not nil, otherwise an 
 NSInvalidArgumentException is raised. */
 #define NILARG_EXCEPTION_TEST(arg) do { \
-	if (nil == arg) \
-	{ \
-		[NSException raise: NSInvalidArgumentException format: @"For %@, " \
-			"%s must not be nil", NSStringFromSelector(_cmd), #arg]; \
-	} \
+    if (nil == arg) \
+    { \
+        [NSException raise: NSInvalidArgumentException format: @"For %@, " \
+            "%s must not be nil", NSStringFromSelector(_cmd), #arg]; \
+    } \
 } while(0);

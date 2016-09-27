@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2009 Quentin Mathe
+    Copyright (C) 2009 Quentin Mathe
 
-	Date:  June 2009
-	License: Modified BSD (see COPYING)
+    Date:  June 2009
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -12,7 +12,7 @@
 
 @interface ETIfRespondsProxy : NSProxy
 {
-	id object;
+    id object;
 }
 
 - (id) initWithObject: (id)anObject;
@@ -22,61 +22,61 @@
 @implementation ETIfRespondsProxy
 - (id) forwardingTargetForSelector: (SEL)aSelector
 {
-	if ([object respondsToSelector: aSelector])
-	{
-		return object;
-	}
-	return nil;
+    if ([object respondsToSelector: aSelector])
+    {
+        return object;
+    }
+    return nil;
 }
 - (id) initWithObject: (id)anObject
 {
-	ASSIGN(object, anObject);
-	return self;
+    ASSIGN(object, anObject);
+    return self;
 }
 
 - (void)dealloc
 {
-	[object release];
-	[super dealloc];
+    [object release];
+    [super dealloc];
 }
 
 - (BOOL) respondsToSelector: (SEL)aSelector
 {
-	return YES;
+    return YES;
 }
 
 - (NSMethodSignature*) methodSignatureForSelector: (SEL)aSelector
 {
-	NSMethodSignature *sig = nil;
+    NSMethodSignature *sig = nil;
 
-	if ([object respondsToSelector: aSelector])
-	{
-		sig = [object methodSignatureForSelector: aSelector];
-	}
+    if ([object respondsToSelector: aSelector])
+    {
+        sig = [object methodSignatureForSelector: aSelector];
+    }
 
-	/* To have the possibility to discard messages not implemented by 'object' 
-	   in -forwardInvocation:, we return a dummy method signature seeing that 
-	   returning nil would result in the immediate calling of -doesNotRecognizeSelector: */
-	if (nil == sig)
-	{
-		SEL dummySelector = @selector(class);
-		sig = [NSObject methodSignatureForSelector: dummySelector];
-	}
+    /* To have the possibility to discard messages not implemented by 'object' 
+       in -forwardInvocation:, we return a dummy method signature seeing that 
+       returning nil would result in the immediate calling of -doesNotRecognizeSelector: */
+    if (nil == sig)
+    {
+        SEL dummySelector = @selector(class);
+        sig = [NSObject methodSignatureForSelector: dummySelector];
+    }
 
-	return sig;
+    return sig;
 }
 
 - (void) forwardInvocation: (NSInvocation *)anInvocation
 {
-	if ([object respondsToSelector: [anInvocation selector]])
-	{
-		[anInvocation invokeWithTarget: object];
-	}
-	else /* Only required on GNUstep */
-	{
-		id result = nil;
-		[anInvocation setReturnValue: &result];
-	}
+    if ([object respondsToSelector: [anInvocation selector]])
+    {
+        [anInvocation invokeWithTarget: object];
+    }
+    else /* Only required on GNUstep */
+    {
+        id result = nil;
+        [anInvocation setReturnValue: &result];
+    }
 }
 
 @end
@@ -85,7 +85,7 @@
 
 - (id) ifResponds
 {
-	return AUTORELEASE([[ETIfRespondsProxy alloc] initWithObject: self]);
+    return AUTORELEASE([[ETIfRespondsProxy alloc] initWithObject: self]);
 }
 
 @end

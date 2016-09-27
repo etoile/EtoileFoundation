@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  January 2009
-	License:  Modified BSD (see COPYING)
+    Date:  January 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -42,11 +42,11 @@
  */
 @interface ETUTI : NSObject <NSCopying>
 {
-	@private	
-	NSString *string;
-	NSString *description;
-	NSArray *supertypes;	// array of ETUTUI instances
-	NSDictionary *typeTags;
+    @private    
+    NSString *string;
+    NSString *description;
+    NSArray *supertypes;    // array of ETUTUI instances
+    NSDictionary *typeTags;
 }
 
 /** @taskunit Initialization */
@@ -99,8 +99,8 @@
  *
  * <example>
  * [NSDictionary dictionaryWithObjectsAndKeys: 
- * 	[NSArray arrayWithObject: @"image/tiff"], kETUTITagClassMIMEType,
- * 	[NSArray arrayWithObjects: @"tif", @"tiff", nil], kETUTITagClassFileExtension, nil]
+ *  [NSArray arrayWithObject: @"image/tiff"], kETUTITagClassMIMEType,
+ *  [NSArray arrayWithObjects: @"tif", @"tiff", nil], kETUTITagClassFileExtension, nil]
  * </example>
  *
  * See also -fileExtensions and -MIMETypes.

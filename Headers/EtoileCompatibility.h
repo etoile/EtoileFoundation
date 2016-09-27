@@ -1,11 +1,11 @@
 /*
-	Copyright (C) 2005 Quentin Mathe
+    Copyright (C) 2005 Quentin Mathe
 
-	Date:  2005
-	
-	This file may be used under the terms of either GNU Lesser General Public 
-	License Version 2.1 (or later), GNU General Public License Version 2 (or
-	later), BSD modified license or Apache License Version 2.
+    Date:  2005
+    
+    This file may be used under the terms of either GNU Lesser General Public 
+    License Version 2.1 (or later), GNU General Public License Version 2 (or
+    later), BSD modified license or Apache License Version 2.
  */
 
 #define __ETOILE__
@@ -73,7 +73,7 @@
 /*  Compatibility with non-clang compilers */
 
 #ifndef __has_feature
-#	define __has_feature(x) 0
+#   define __has_feature(x) 0
 #endif
 
 /* ARC macros taken from Headers/GNUstepBase/Preface.h.in

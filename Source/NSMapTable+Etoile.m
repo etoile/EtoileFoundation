@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2011 Quentin Mathe
+    Copyright (C) 2011 Quentin Mathe
 
-	Date:  July 2011
-	License:  Modified BSD (see COPYING)
+    Date:  July 2011
+    License:  Modified BSD (see COPYING)
  */
  
 #import "NSMapTable+Etoile.h"
@@ -13,13 +13,13 @@
 /** Returns the keys used in the map table. */
 - (NSArray *) allKeys
 {
-	return NSAllMapTableKeys(self);
+    return NSAllMapTableKeys(self);
 }
 
 /** Returns the objects stored in the map table. */
 - (NSArray *) allValues
 {
-	return NSAllMapTableValues(self);
+    return NSAllMapTableValues(self);
 }
 
 @end

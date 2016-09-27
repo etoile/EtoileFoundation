@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -17,43 +17,43 @@
 
 + (id) validResult: (id)value
 {
-	return [[[ETValidationResult alloc] initWithValue: value
-											  isValid: YES
-												error: nil] autorelease];
+    return [[[ETValidationResult alloc] initWithValue: value
+                                              isValid: YES
+                                                error: nil] autorelease];
 }
 
 + (id) invalidResultWithError: (NSString *)error
 {
-	return [[[ETValidationResult alloc] initWithValue: nil
-											  isValid: NO
-												error: error] autorelease];
+    return [[[ETValidationResult alloc] initWithValue: nil
+                                              isValid: NO
+                                                error: error] autorelease];
 }
 
 + (id) validationResultWithValue: (id)value
                          isValid: (BOOL)isValid
                            error: (NSString *)error
 {
-	return [[[ETValidationResult alloc] initWithValue: value
-											  isValid: isValid
-												error: error] autorelease];
+    return [[[ETValidationResult alloc] initWithValue: value
+                                              isValid: isValid
+                                                error: error] autorelease];
 }
 
 - (id) initWithValue: (id)value
              isValid: (BOOL)isValid
                error: (NSString *)error
 {
-	SUPERINIT;
-	ASSIGN(_value, value);
-	_isValid = isValid;
-	ASSIGNCOPY(_error, error);
-	return self;
+    SUPERINIT;
+    ASSIGN(_value, value);
+    _isValid = isValid;
+    ASSIGNCOPY(_error, error);
+    return self;
 }
 
 - (void) dealloc
 {
-	DESTROY(_value);
-	DESTROY(_error);
-	[super dealloc];
+    DESTROY(_value);
+    DESTROY(_error);
+    [super dealloc];
 }
 
 @end

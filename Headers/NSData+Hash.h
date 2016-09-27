@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2006 David Chisnall
+    Copyright (C) 2006 David Chisnall
  
-	Date:  November 2006
-	License:  Modified BSD (see COPYING)
+    Date:  November 2006
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/NSData.h>

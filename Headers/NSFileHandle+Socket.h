@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 David Chisnall
+    Copyright (C) 2009 David Chisnall
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>

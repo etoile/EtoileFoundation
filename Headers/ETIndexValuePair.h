@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2013 Quentin Mathe
+    Copyright (C) 2013 Quentin Mathe
 
-	Date:  June 2013
-	License: Modified BSD (see COPYING)
+    Date:  June 2013
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -18,10 +18,10 @@ ETIndexValuePair doesn't support subclassing.
 Note: this class is deprecated and will be removed in a next release. */
 @interface ETIndexValuePair : NSObject <ETViewpoint>
 {
-	@private
-	id _representedObject;
-	NSUInteger _index;
-	id _value;
+    @private
+    id _representedObject;
+    NSUInteger _index;
+    id _value;
 }
 
 /** @taskunit Initialization */

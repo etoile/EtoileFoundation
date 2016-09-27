@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2008 Truls Becken
+    Copyright (C) 2008 Truls Becken
 
-	Date:  December 2008
-	License: Modified BSD (see COPYING)
+    Date:  December 2008
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -27,11 +27,11 @@
  **/
 @interface ETHistory : NSObject <ETCollection>
 {
-	@private
-	NSMutableArray *history;
-	NSEnumerator *future;
-	int max_size;
-	int index;
+    @private
+    NSMutableArray *history;
+    NSEnumerator *future;
+    int max_size;
+    int index;
 }
 
 /**

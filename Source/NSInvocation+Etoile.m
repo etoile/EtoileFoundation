@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2008 Quentin Mathe
+    Copyright (C) 2008 Quentin Mathe
 
-	Date:  April 2008
-	License: Modified BSD (see COPYING)
+    Date:  April 2008
+    License: Modified BSD (see COPYING)
  */
 
 #import "NSInvocation+Etoile.h"
@@ -26,19 +26,19 @@ argument. */
                    selector: (SEL)selector 
                   arguments: (NSArray *)args
 {
-	NSInvocation *inv = [NSInvocation invocationWithMethodSignature: 
-		[target methodSignatureForSelector: selector]];
-	int i = 2;
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature: 
+        [target methodSignatureForSelector: selector]];
+    int i = 2;
 
-	[inv setTarget: target];
-	[inv setSelector: selector];
-	FOREACHI(args, object)
-	{
-		[inv setArgument: (void*)&object atIndex: i];
-		i++;
-	}
+    [inv setTarget: target];
+    [inv setSelector: selector];
+    FOREACHI(args, object)
+    {
+        [inv setArgument: (void*)&object atIndex: i];
+        i++;
+    }
 
-	return inv;
+    return inv;
 }
 
 @end

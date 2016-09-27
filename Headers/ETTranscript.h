@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2008 Günther Noack
+    Copyright (C) 2008 Günther Noack
 
-	Date:  November 2008
-	License:  Modified BSD (see COPYING)
+    Date:  November 2008
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/NSObject.h>

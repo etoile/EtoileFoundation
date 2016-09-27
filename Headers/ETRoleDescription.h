@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
@@ -30,9 +30,9 @@ These allow a pluggable, more precise property description. */
 @abstract Description of a relationship's role.  */
 @interface ETRelationshipRole : ETRoleDescription
 {
-	@private
-	BOOL _mandatory;
-	NSString *_deletionRule;
+    @private
+    BOOL _mandatory;
+    NSString *_deletionRule;
 }
 
 @property (nonatomic, assign, getter=isMandatory) BOOL mandatory;
@@ -46,8 +46,8 @@ These allow a pluggable, more precise property description. */
 predetermined set. */
 @interface ETMultiOptionsRole : ETRoleDescription
 {
-	@private
-	NSArray *_allowedOptions;
+    @private
+    NSArray *_allowedOptions;
 }
 
 /** The ETKeyValuePair objects that represent the options.
@@ -65,9 +65,9 @@ You can use a localized string as the pair key to present the options in the UI.
 @abstract Description of a property's role, whose value is a number. */
 @interface ETNumberRole : ETRoleDescription
 {
-	@private
-	NSInteger _minimum;
-	NSInteger _maximum;
+    @private
+    NSInteger _minimum;
+    NSInteger _maximum;
 }
 
 @property (nonatomic, assign) NSInteger minimum;

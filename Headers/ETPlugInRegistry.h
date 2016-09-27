@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2004 Uli Kusterer, Quentin Mathe
+    Copyright (C) 2004 Uli Kusterer, Quentin Mathe
  
-	Date:  August 2004
-	License:  Modified BSD (see COPYING)
+    Date:  August 2004
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -34,11 +34,11 @@ own entries as needed. The keys ETPlugInRegistry adds to this dictionary are:
 ETPlugInRegistry is thread-safe. */
 @interface ETPlugInRegistry : NSObject
 {
-	@private
-	NSMutableArray *plugIns; /* List of available plug-ins, with dictionaries for each. */
-	NSMutableDictionary *plugInPaths; /* Key is file path, value is entry in plug-ins. */
+    @private
+    NSMutableArray *plugIns; /* List of available plug-ins, with dictionaries for each. */
+    NSMutableDictionary *plugInPaths; /* Key is file path, value is entry in plug-ins. */
     BOOL shouldInstantiate; /* Instantiate the principal class of each plug-in. */
-	NSLock *lock;
+    NSLock *lock;
 }
 
 /** @taskunit Initialization */

@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
@@ -22,9 +22,9 @@ Causal connection is ensured through the implementation of -valueForProperty:
 and -setValue:forProperty:. */
 @interface ETAdaptiveModelObject : NSObject
 {
-	@private
-	NSMutableDictionary *_properties;
-	ETEntityDescription *_description;
+    @private
+    NSMutableDictionary *_properties;
+    ETEntityDescription *_description;
 }
 
 /** @taskunit Property Value Coding */

@@ -31,66 +31,66 @@
 #  define __has_feature(x) 0
 #endif
 
-#if	__has_feature(objc_arc)
+#if __has_feature(objc_arc)
 
-#ifndef	RETAIN
-#define	RETAIN(object)		(object)
+#ifndef RETAIN
+#define RETAIN(object)      (object)
 #endif
-#ifndef	RELEASE
-#define	RELEASE(object)		
+#ifndef RELEASE
+#define RELEASE(object)     
 #endif
-#ifndef	AUTORELEASE
-#define	AUTORELEASE(object)	(object)
-#endif
-
-#ifndef	TEST_RETAIN
-#define	TEST_RETAIN(object)	(object)
-#endif
-#ifndef	TEST_RELEASE
-#define	TEST_RELEASE(object)
-#endif
-#ifndef	TEST_AUTORELEASE
-#define	TEST_AUTORELEASE(object)	(object)
+#ifndef AUTORELEASE
+#define AUTORELEASE(object) (object)
 #endif
 
-#ifndef	ASSIGN
-#define	ASSIGN(object,value)	object = (value)
+#ifndef TEST_RETAIN
+#define TEST_RETAIN(object) (object)
 #endif
-#ifndef	ASSIGNCOPY
-#define	ASSIGNCOPY(object,value)	object = [(value) copy]
+#ifndef TEST_RELEASE
+#define TEST_RELEASE(object)
 #endif
-#ifndef	DESTROY
-#define	DESTROY(object) 	object = nil
+#ifndef TEST_AUTORELEASE
+#define TEST_AUTORELEASE(object)    (object)
+#endif
+
+#ifndef ASSIGN
+#define ASSIGN(object,value)    object = (value)
+#endif
+#ifndef ASSIGNCOPY
+#define ASSIGNCOPY(object,value)    object = [(value) copy]
+#endif
+#ifndef DESTROY
+#define DESTROY(object)     object = nil
 #endif
 
 #else
 
-#define	RETAIN(object)		[(id)(object) retain]
-#define	RELEASE(object)		[(object) release]
-#define	AUTORELEASE(object)	[(id)(object) autorelease]
+#define RETAIN(object)      [(id)(object) retain]
+#define RELEASE(object)     [(object) release]
+#define AUTORELEASE(object) [(id)(object) autorelease]
 
-#define	TEST_RETAIN(object)	({\
+#define TEST_RETAIN(object) ({\
 id __object = (id)(object); (__object != nil) ? [__object retain] : nil; })
 
-#define	TEST_RELEASE(object)	({\
+#define TEST_RELEASE(object)    ({\
 id __object = (id)(object); if (__object != nil) [__object release]; })
 
-#define	TEST_AUTORELEASE(object)	({\
+#define TEST_AUTORELEASE(object)    ({\
 id __object = (id)(object); (__object != nil) ? [__object autorelease] : nil; })
 
-#define	ASSIGN(object,value)	({\
+#define ASSIGN(object,value)    ({\
   id __object = (id)(object); \
   object = [((id)value) retain]; \
   [__object release]; \
 })
 
-#define	ASSIGNCOPY(object,value)	({\
+#define ASSIGNCOPY(object,value)    ({\
   id __object = (id)(object); \
   object = [((id)value) copy];\
   [__object release]; \
 })
 
-#define	DESTROY(object) 	({ \
+#define DESTROY(object)     ({ \
   id __o = object; \
   object = nil; \
   [__o release]; \

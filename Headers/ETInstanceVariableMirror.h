@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen, Quentin Mathe
+    Copyright (C) 2009 Eric Wasylishen, Quentin Mathe
  
-	Date:  June 2009
-	License: Modified BSD (see COPYING)
+    Date:  June 2009
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -20,10 +20,10 @@ If the ivar isn't an object type, the ivar is not traversable.<br />
 See also ETViewModelLayout in EtoileUI. */
 @interface ETInstanceVariableMirror : NSObject <ETInstanceVariableMirror, ETCollection>
 {
-	@private
-	Ivar _ivar;
-	id <ETMirror> _ownerMirror;
-	id <ETObjectMirror> _cachedValueMirror;
+    @private
+    Ivar _ivar;
+    id <ETMirror> _ownerMirror;
+    id <ETObjectMirror> _cachedValueMirror;
 }
 
 /** <init />

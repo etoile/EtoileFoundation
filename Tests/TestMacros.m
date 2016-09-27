@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2016 Eric Wasylishen
+    Copyright (C) 2016 Eric Wasylishen
  
-	Date:  January 2016
-	License: Modified BSD (see COPYING)
+    Date:  January 2016
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>

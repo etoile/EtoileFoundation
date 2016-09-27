@@ -1,34 +1,34 @@
 /*
-	ETThreadedObject.m
+    ETThreadedObject.m
 
-	Copyright (C) 2007 David Chisnall
+    Copyright (C) 2007 David Chisnall
 
-	Author:  David Chisnall <csdavec@swan.ac.uk>
-	Date:  January 2007
+    Author:  David Chisnall <csdavec@swan.ac.uk>
+    Date:  January 2007
 
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions are met:
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
 
-	* Redistributions of source code must retain the above copyright notice,
-	  this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-	  this list of conditions and the following disclaimer in the documentation
-	  and/or other materials provided with the distribution.
-	* Neither the name of the Etoile project nor the names of its contributors
-	  may be used to endorse or promote products derived from this software
-	  without specific prior written permission.
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+    * Neither the name of the Etoile project nor the names of its contributors
+      may be used to endorse or promote products derived from this software
+      without specific prior written permission.
 
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-	THE POSSIBILITY OF SUCH DAMAGE.
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+    ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+    THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "ETThreadedObject.h"
@@ -45,7 +45,7 @@
 #warning Potentially unsafe memory operations being used
 static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 {
-	*ptr += value;
+    *ptr += value;
 }
 #endif
 
@@ -107,20 +107,20 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * thread will be waiting on if it is in blocking mode.
  */
 #define INSERT(x,r) do {\
-	/* Wait for space in the buffer */\
-	while (ISFULL)\
-	{\
-		sched_yield();\
-	}\
-	invocations[MASK(producer)] = x;\
-	invocations[MASK(producer+1)] = r;\
-	__sync_fetch_and_add(&producer, 2);\
-	if (producer - consumer == 2)\
-	{\
-		pthread_mutex_lock(&mutex);\
-		pthread_cond_signal(&conditionVariable);\
-		pthread_mutex_unlock(&mutex);\
-	}\
+    /* Wait for space in the buffer */\
+    while (ISFULL)\
+    {\
+        sched_yield();\
+    }\
+    invocations[MASK(producer)] = x;\
+    invocations[MASK(producer+1)] = r;\
+    __sync_fetch_and_add(&producer, 2);\
+    if (producer - consumer == 2)\
+    {\
+        pthread_mutex_lock(&mutex);\
+        pthread_cond_signal(&conditionVariable);\
+        pthread_mutex_unlock(&mutex);\
+    }\
 } while(0);
 /**
  * Removing an element from the queue involves the following steps:
@@ -134,32 +134,32 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * 3) Incrememt the consumer counter.
  */
 #define REMOVE(x,r) do {\
-	while (ISEMPTY)\
-	{\
-		if (terminate) { return; }\
-		if (idle && [object shouldIdle])\
-		{\
-			[object idle];\
-		}\
-		else\
-		{\
-			pthread_mutex_lock(&mutex);\
-			if (ISEMPTY)\
-			{\
-					pthread_cond_wait(&conditionVariable, &mutex);\
-			}\
-			pthread_mutex_unlock(&mutex);\
-		}\
-	}\
-	x = invocations[MASK(consumer)];\
-	r = invocations[MASK(consumer+1)];\
-	__sync_fetch_and_add(&consumer, 2);\
+    while (ISEMPTY)\
+    {\
+        if (terminate) { return; }\
+        if (idle && [object shouldIdle])\
+        {\
+            [object idle];\
+        }\
+        else\
+        {\
+            pthread_mutex_lock(&mutex);\
+            if (ISEMPTY)\
+            {\
+                    pthread_cond_wait(&conditionVariable, &mutex);\
+            }\
+            pthread_mutex_unlock(&mutex);\
+        }\
+    }\
+    x = invocations[MASK(consumer)];\
+    r = invocations[MASK(consumer+1)];\
+    __sync_fetch_and_add(&consumer, 2);\
 } while(0);
 
 
 @interface ETThreadedObject ()
 {
-	NSConditionLock *returnConcrete;
+    NSConditionLock *returnConcrete;
 }
 @end
 
@@ -168,170 +168,170 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 // Remove this when GNUstep is fixed.
 + (void) initialize
 {
-	if (Nil != NSClassFromString(@"GSFFCallInvocation"))
-	{
-		NSLog(@"WARNING: You are using FFCall-based NSInvocations.  "
-				"This will result in random stack corruption.  "
-				"Any bugs you file will be ignored.");
-	}
+    if (Nil != NSClassFromString(@"GSFFCallInvocation"))
+    {
+        NSLog(@"WARNING: You are using FFCall-based NSInvocations.  "
+                "This will result in random stack corruption.  "
+                "Any bugs you file will be ignored.");
+    }
 }
 
 /* Designated initializer */
 - (id) init
 {
-	return [self initWithObject: nil];
+    return [self initWithObject: nil];
 }
 
 - (id) initWithClass: (Class)aClass
 {
-	return [self initWithObject: [[aClass alloc] init]];
+    return [self initWithObject: [[aClass alloc] init]];
 }
 
 - (id) initWithObject: (id)anObject
 {
-	pthread_cond_init(&conditionVariable, NULL);
-	pthread_mutex_init(&mutex, NULL);
-	returnConcrete = [NSConditionLock new];
-	// Retained in the creating thread.
-	object = anObject;
-	return self;
+    pthread_cond_init(&conditionVariable, NULL);
+    pthread_mutex_init(&mutex, NULL);
+    returnConcrete = [NSConditionLock new];
+    // Retained in the creating thread.
+    object = anObject;
+    return self;
 }
 
 - (void) dealloc
 {
-	/* Instruct worker thread to exit */
-	pthread_mutex_lock(&mutex);
-	terminate = YES;
+    /* Instruct worker thread to exit */
+    pthread_mutex_lock(&mutex);
+    terminate = YES;
 
-	/* Wait for worker thread to let us know which thread object belongs to it*/
-	while (thread == nil)
-	{
-		pthread_cond_signal(&conditionVariable);
-		pthread_mutex_unlock(&mutex);
-		pthread_mutex_lock(&mutex);
-	}
-	pthread_cond_signal(&conditionVariable);
-	pthread_mutex_unlock(&mutex);
+    /* Wait for worker thread to let us know which thread object belongs to it*/
+    while (thread == nil)
+    {
+        pthread_cond_signal(&conditionVariable);
+        pthread_mutex_unlock(&mutex);
+        pthread_mutex_lock(&mutex);
+    }
+    pthread_cond_signal(&conditionVariable);
+    pthread_mutex_unlock(&mutex);
 
-	/* Wait for worker thread to terminate */
-	// FIXME: [thread waitForTermination];
-	[thread release];
+    /* Wait for worker thread to terminate */
+    // FIXME: [thread waitForTermination];
+    [thread release];
 
-	/* Destroy synchronisation objects */
-	pthread_cond_destroy(&conditionVariable);
-	pthread_mutex_destroy(&mutex);
+    /* Destroy synchronisation objects */
+    pthread_cond_destroy(&conditionVariable);
+    pthread_mutex_destroy(&mutex);
 
-	[object release];
-	[returnConcrete release];
+    [object release];
+    [returnConcrete release];
 
-	[super dealloc];
+    [super dealloc];
 }
 
 - (void) runloop: (id)sender
 {
-	thread = [[NSThread currentThread] retain];
-	BOOL idle = [object conformsToProtocol: @protocol(Idle)];
-	while (object)
-	{
-		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-		/* Take the first invocation from the queue */
-		NSInvocation * anInvocation;
+    thread = [[NSThread currentThread] retain];
+    BOOL idle = [object conformsToProtocol: @protocol(Idle)];
+    while (object)
+    {
+        NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+        /* Take the first invocation from the queue */
+        NSInvocation * anInvocation;
 
-		ETThreadProxyReturn *retVal;
-		REMOVE(anInvocation, retVal);
+        ETThreadProxyReturn *retVal;
+        REMOVE(anInvocation, retVal);
 
-		[anInvocation invokeWithTarget:object];
-		if (retVal != nil)
-		{
-			id realReturn;
-			[anInvocation getReturnValue:&realReturn];
-			[retVal setProxyObject:realReturn];
-			/*
-			  Proxy return object is created with a retain count of 2 and an
-			  autorelease count of 1 in the main thread.  This will set it to a
-			  retain count of 1 and an autorelease count of 1 if it has not
-			  been used, or dealloc it if it has
-			*/
-			//[retVal release];
-		}
-		else
-		{
-			[returnConcrete lock];
-			[returnConcrete unlockWithCondition: 1];
-		}
+        [anInvocation invokeWithTarget:object];
+        if (retVal != nil)
+        {
+            id realReturn;
+            [anInvocation getReturnValue:&realReturn];
+            [retVal setProxyObject:realReturn];
+            /*
+              Proxy return object is created with a retain count of 2 and an
+              autorelease count of 1 in the main thread.  This will set it to a
+              retain count of 1 and an autorelease count of 1 if it has not
+              been used, or dealloc it if it has
+            */
+            //[retVal release];
+        }
+        else
+        {
+            [returnConcrete lock];
+            [returnConcrete unlockWithCondition: 1];
+        }
 
-		[anInvocation setTarget: nil];
-		[anInvocation release];
-		[pool release];
-	}
-	NSLog(@"Thread exiting");
-	[NSThread exit];
+        [anInvocation setTarget: nil];
+        [anInvocation release];
+        [pool release];
+    }
+    NSLog(@"Thread exiting");
+    [NSThread exit];
 }
 
 - (NSMethodSignature *) methodSignatureForSelector: (SEL)aSelector
 {
-	return [object methodSignatureForSelector:aSelector];
+    return [object methodSignatureForSelector:aSelector];
 }
 
 - (id) returnProxy
 {
-	return proxy;
+    return proxy;
 }
 
 - (void) forwardInvocation: (NSInvocation *)anInvocation
 {
-	BOOL concreteType = NO;
+    BOOL concreteType = NO;
 
-	if (![anInvocation argumentsRetained])
-	{
-		[anInvocation retainArguments];
-	}
+    if (![anInvocation argumentsRetained])
+    {
+        [anInvocation retainArguments];
+    }
 
-	ETThreadProxyReturn * retVal = nil;
-	char returnType = [[anInvocation methodSignature] methodReturnType][0];
+    ETThreadProxyReturn * retVal = nil;
+    char returnType = [[anInvocation methodSignature] methodReturnType][0];
 
-	if (returnType == '@')
-	{
-		retVal = [[[ETThreadProxyReturn alloc] init] autorelease];
-		proxy = retVal;
-		/*
-		  This is a hack to force the invocation to stop blocking the caller.
-		*/
-		SEL selector = [anInvocation selector];
-		[anInvocation setSelector:@selector(returnProxy)];
-		[anInvocation invokeWithTarget:self];
-		[anInvocation setSelector:selector];
-	}
-	//Non-void, non-object, return
-	else if (returnType != 'v')
-	{
-		/*
-		 * This is a hack.. if the method returns a concrete type (eg not an
-		 * object) the result is immediately assigned as soon a
-		 * forwardInvocation: ends.  As the invocation is not yet invoked, that
-		 * means we get default values instead of the correct returned value
-		 * (eg, with a method returning an int, say 42, the actual value
-		 * returned will be 0) But as we can't call the invocation ourself
-		 * (that would break the invocations order) we need to wait until the
-		 * runloop invoke it. We could use a condition variable to signal that
-		 * the invocation is ready, but a faster way is to poll until the
-		 * invocation is done (no context switch that way).  There doesn't seem
-		 * to be a method returning the invocation status, therefore we simply
-		 * increment the retain count before adding the invocation to the
-		 * runloop.  In the runloop we decrement the retain count once the
-		 * invocation is invoked, and we just wait until the retain count
-		 * equals the original count.
-		 */
-		concreteType = YES;
-	}
-	[anInvocation retain];
-	INSERT(anInvocation, retVal);
+    if (returnType == '@')
+    {
+        retVal = [[[ETThreadProxyReturn alloc] init] autorelease];
+        proxy = retVal;
+        /*
+          This is a hack to force the invocation to stop blocking the caller.
+        */
+        SEL selector = [anInvocation selector];
+        [anInvocation setSelector:@selector(returnProxy)];
+        [anInvocation invokeWithTarget:self];
+        [anInvocation setSelector:selector];
+    }
+    //Non-void, non-object, return
+    else if (returnType != 'v')
+    {
+        /*
+         * This is a hack.. if the method returns a concrete type (eg not an
+         * object) the result is immediately assigned as soon a
+         * forwardInvocation: ends.  As the invocation is not yet invoked, that
+         * means we get default values instead of the correct returned value
+         * (eg, with a method returning an int, say 42, the actual value
+         * returned will be 0) But as we can't call the invocation ourself
+         * (that would break the invocations order) we need to wait until the
+         * runloop invoke it. We could use a condition variable to signal that
+         * the invocation is ready, but a faster way is to poll until the
+         * invocation is done (no context switch that way).  There doesn't seem
+         * to be a method returning the invocation status, therefore we simply
+         * increment the retain count before adding the invocation to the
+         * runloop.  In the runloop we decrement the retain count once the
+         * invocation is invoked, and we just wait until the retain count
+         * equals the original count.
+         */
+        concreteType = YES;
+    }
+    [anInvocation retain];
+    INSERT(anInvocation, retVal);
 
-	if (concreteType)
-	{
-		[returnConcrete lockWhenCondition: 1];
-		[returnConcrete unlockWithCondition: 0];
-	}
+    if (concreteType)
+    {
+        [returnConcrete lockWhenCondition: 1];
+        [returnConcrete unlockWithCondition: 0];
+    }
 }
 
 @end

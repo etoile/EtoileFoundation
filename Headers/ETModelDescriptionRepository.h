@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2010 Quentin Mathe
+    Copyright (C) 2010 Quentin Mathe
 
-	Date:  March 2010
-	License:  Modified BSD (see COPYING)
+    Date:  March 2010
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -11,7 +11,7 @@
 
 // NOTE: NSMapTable is not available on iOS (see implementation)
 @class ETModelElementDescription, ETEntityDescription, ETPackageDescription, 
-	ETPropertyDescription, NSMapTable;
+    ETPropertyDescription, NSMapTable;
 
 /** @group Metamodel
 @abstract Repository used to store the entity descriptions at runtime.
@@ -113,12 +113,12 @@ done adding descriptions and the repository content is in a coherent state that
 won't raise warnings.  */
 @interface ETModelDescriptionRepository : NSObject <ETCollection, ETCollectionMutation>
 {
-	@private
-	NSMutableSet *_unresolvedDescriptions; /* Used to build the repository */
-	NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */
-	NSMapTable *_entityDescriptionsByClass;
-	NSMapTable *_classesByEntityDescription;
-	BOOL _needsConstantStringLookupHack;
+    @private
+    NSMutableSet *_unresolvedDescriptions; /* Used to build the repository */
+    NSMutableDictionary *_descriptionsByName; /* Descriptions registered in the repositiory */
+    NSMapTable *_entityDescriptionsByClass;
+    NSMapTable *_classesByEntityDescription;
+    BOOL _needsConstantStringLookupHack;
 }
 
 
@@ -172,7 +172,7 @@ See -setEntityDescription:forClass:.
  
 For resolveNow, see -collectEntityDescriptionsFromClass:excludedClasses:resolveNow:. */
 - (void) registerEntityDescriptionsForClasses: (NSSet *)classes
-								   resolveNow: (BOOL)resolve;
+                                   resolveNow: (BOOL)resolve;
 
 /** @taskunit Registering and Enumerating Descriptions */
 

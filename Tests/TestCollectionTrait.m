@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2011 Quentin Mathe
+    Copyright (C) 2011 Quentin Mathe
 
-	Date:  May 2011
-	License:  Modified BSD (see COPYING)
+    Date:  May 2011
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -14,7 +14,7 @@
 
 @interface AbstractTestCollection : NSObject <UKTest>
 {
-	NSMutableArray *collection;
+    NSMutableArray *collection;
 }
 @end
 
@@ -29,15 +29,15 @@
 
 - (id) init
 {
-	SUPERINIT;
-	collection = [[NSMutableArray alloc] init];
-	return self;
+    SUPERINIT;
+    collection = [[NSMutableArray alloc] init];
+    return self;
 }
 
 - (void) dealloc
 {
-	DESTROY(collection);
-	[super dealloc];
+    DESTROY(collection);
+    [super dealloc];
 }
 
 // TODO: We need the trait exclude operator to apply a trait and conserve 
@@ -45,17 +45,17 @@
 /*
 - (BOOL) isOrdered
 {
-	return YES;
+    return YES;
 }
 
 - (id) content
 {
-	return collection;
+    return collection;
 }
 
 - (NSArray *) contentArray
 {
-	return [NSArray arrayWithArray: collection];
+    return [NSArray arrayWithArray: collection];
 }
 */
 
@@ -66,81 +66,81 @@
 
 + (void) initialize
 {
-	[self applyTraitFromClass: [ETCollectionTrait class]];
+    [self applyTraitFromClass: [ETCollectionTrait class]];
 }
 
 - (BOOL) isOrdered
 {
-	return YES;
+    return YES;
 }
 
 - (id) content
 {
-	return collection;
+    return collection;
 }
 
 - (NSArray *) contentArray
 {
-	return [NSArray arrayWithArray: collection];
+    return [NSArray arrayWithArray: collection];
 }
 
 - (void) checkFixedCollectionCharacteristics
 {
-	UKTrue([self isOrdered]);
-	UKObjectsSame(collection, [self content]);
-	UKObjectsNotSame(collection, [self contentArray]);
-	UKObjectsEqual(collection, [self contentArray]);
-	UKObjectKindOf([self objectEnumerator], NSEnumerator);
+    UKTrue([self isOrdered]);
+    UKObjectsSame(collection, [self content]);
+    UKObjectsNotSame(collection, [self contentArray]);
+    UKObjectsEqual(collection, [self contentArray]);
+    UKObjectKindOf([self objectEnumerator], NSEnumerator);
 }
 
 - (void) testEmptyCollection
 {
-	[self checkFixedCollectionCharacteristics];
-	UKIntsEqual(0, [self count]);
-	UKTrue([self isEmpty]);
-	UKFalse([self containsObject: @"Unknown"]);
-	UKFalse([self containsCollection: S(@"Unknown")]);
+    [self checkFixedCollectionCharacteristics];
+    UKIntsEqual(0, [self count]);
+    UKTrue([self isEmpty]);
+    UKFalse([self containsObject: @"Unknown"]);
+    UKFalse([self containsCollection: S(@"Unknown")]);
 }
 
 - (void) testMutateCollection
 {
-	[collection addObject: @"Whatever"];
+    [collection addObject: @"Whatever"];
 
-	[self checkFixedCollectionCharacteristics];
-	UKIntsEqual(1, [self count]);
-	UKFalse([self isEmpty]);
-	UKTrue([self containsObject: @"Whatever"]);
+    [self checkFixedCollectionCharacteristics];
+    UKIntsEqual(1, [self count]);
+    UKFalse([self isEmpty]);
+    UKTrue([self containsObject: @"Whatever"]);
 
-	[collection addObject: @"Something"];
+    [collection addObject: @"Something"];
 
-	[self checkFixedCollectionCharacteristics];
-	UKIntsEqual(2, [self count]);
-	UKFalse([self isEmpty]);
-	UKTrue([self containsObject: @"Something"]);
+    [self checkFixedCollectionCharacteristics];
+    UKIntsEqual(2, [self count]);
+    UKFalse([self isEmpty]);
+    UKTrue([self containsObject: @"Something"]);
 
-	[collection removeAllObjects];
+    [collection removeAllObjects];
 }
 
 - (void) testContainsCollection
 {
-	NSArray *cities = A(@"Edmonton", @"Paris", @"Swansea");
+    NSArray *cities = A(@"Edmonton", @"Paris", @"Swansea");
 
-	UKTrue([self containsCollection: self]);
+    UKTrue([self containsCollection: self]);
 
-	[collection addObjectsFromArray: cities];
+    [collection addObjectsFromArray: cities];
 
-	UKTrue([self containsCollection: self]);
-	UKTrue([self containsCollection: [NSCountedSet setWithArray: cities]]);
-	// FIXME:
-	//UKTrue([self containsCollection: [NSDictionary dictionaryWithObjects: cities forKeys: A(@"A", @"B", "C")]]);
+    UKTrue([self containsCollection: self]);
+    UKTrue([self containsCollection: [NSCountedSet setWithArray: cities]]);
+    // FIXME:
+    //UKTrue([self containsCollection: [NSDictionary dictionaryWithObjects: cities forKeys: A(@"A", @"B", "C")]]);
 
-	[collection addObject: @"Nowhere"];
+    [collection addObject: @"Nowhere"];
 
-	UKTrue([self containsCollection: [NSSet setWithArray: cities]]);
-	UKTrue([self containsCollection: A(@"Paris")]);
-	UKFalse([self containsCollection: A(@"Swansea", @"London")]);
+    UKTrue([self containsCollection: [NSSet setWithArray: cities]]);
+    UKTrue([self containsCollection: A(@"Paris")]);
+    UKFalse([self containsCollection: A(@"Swansea", @"London")]);
 
-	[collection removeAllObjects];
+    [collection removeAllObjects];
 }
 
 @end
@@ -150,88 +150,88 @@
 
 + (void) initialize
 {
-	[self applyTraitFromClass: [ETCollectionTrait class]];
-	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+    [self applyTraitFromClass: [ETCollectionTrait class]];
+    [self applyTraitFromClass: [ETMutableCollectionTrait class]];
 }
 
 - (BOOL) isOrdered
 {
-	return YES;
+    return YES;
 }
 
 - (id) content
 {
-	return collection;
+    return collection;
 }
 
 - (NSArray *) contentArray
 {
-	return [NSArray arrayWithArray: collection];
+    return [NSArray arrayWithArray: collection];
 }
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	if (index == ETUndeterminedIndex)
-	{
-		[collection addObject: object];
-	}
-	else
-	{
-		[collection insertObject: object atIndex: index];
-	}
+    if (index == ETUndeterminedIndex)
+    {
+        [collection addObject: object];
+    }
+    else
+    {
+        [collection insertObject: object atIndex: index];
+    }
 }
 
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	if (index == ETUndeterminedIndex)
-	{
-		[collection removeObject: object];
-	}
-	else
-	{
-		[collection removeObjectAtIndex: index];
-	}
+    if (index == ETUndeterminedIndex)
+    {
+        [collection removeObject: object];
+    }
+    else
+    {
+        [collection removeObjectAtIndex: index];
+    }
 }
 
 - (id) init
 {
-	SUPERINIT;
-	/* Insertion order matters */
-	[collection addObject: @"Kyoto"];
-	[collection addObject: @"Paris"];
-	[collection addObject: @"London"];
-	return self;
+    SUPERINIT;
+    /* Insertion order matters */
+    [collection addObject: @"Kyoto"];
+    [collection addObject: @"Paris"];
+    [collection addObject: @"London"];
+    return self;
 }
 
 - (void) testInsert
 {
-	[self insertObject: @"Swansea" atIndex: 1];
+    [self insertObject: @"Swansea" atIndex: 1];
 
-	UKStringsEqual(@"Swansea", [collection objectAtIndex: 1]);
+    UKStringsEqual(@"Swansea", [collection objectAtIndex: 1]);
 }
 
 - (void) testAdd
 {
-	[self addObject: @"Anchorage"];
+    [self addObject: @"Anchorage"];
 
-	UKStringsEqual(@"Anchorage", [collection lastObject]);
+    UKStringsEqual(@"Anchorage", [collection lastObject]);
 }
 
 - (void) testRemove
 {
-	[self removeObjectAtIndex: 0];
+    [self removeObjectAtIndex: 0];
 
-	UKFalse([self containsObject: @"Kyoto"]);
+    UKFalse([self containsObject: @"Kyoto"]);
 
-	/* The index has priority over the object (first argument) */
-	[self removeObject: @"London" atIndex: 0 hint: nil];
+    /* The index has priority over the object (first argument) */
+    [self removeObject: @"London" atIndex: 0 hint: nil];
 
-	UKFalse([collection containsObject: @"Paris"]);
-	UKTrue([collection containsObject: @"London"]);
+    UKFalse([collection containsObject: @"Paris"]);
+    UKTrue([collection containsObject: @"London"]);
 
-	[self removeObject: @"London"];
+    [self removeObject: @"London"];
 
-	UKFalse([collection containsObject: @"London"]);
+    UKFalse([collection containsObject: @"London"]);
 
 }
 

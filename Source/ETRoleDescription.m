@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -18,12 +18,12 @@
 
 - (ETPropertyDescription *) parent
 {
-	return nil;
+    return nil;
 }
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	return [ETValidationResult validResult: value];
+    return [ETValidationResult validResult: value];
 }
 
 @end
@@ -35,20 +35,20 @@
 
 - (void) dealloc
 {
-	DESTROY(_deletionRule);
-	[super dealloc];
+    DESTROY(_deletionRule);
+    [super dealloc];
 }
 
 - (void) setMandatory: (BOOL)isMandatory
 {
-	[[self parent] checkNotFrozen];
-	_mandatory = isMandatory;
+    [[self parent] checkNotFrozen];
+    _mandatory = isMandatory;
 }
 
 - (void) setDeletionRule: (NSString *)deletionRule
 {
-	[[self parent] checkNotFrozen];
-	ASSIGNCOPY(_deletionRule, deletionRule);
+    [[self parent] checkNotFrozen];
+    ASSIGNCOPY(_deletionRule, deletionRule);
 }
 
 @end
@@ -60,28 +60,28 @@
 
 - (void) dealloc
 {
-	DESTROY(_allowedOptions);
-	[super dealloc];
+    DESTROY(_allowedOptions);
+    [super dealloc];
 }
 
 - (void) setAllowedOptions: (NSArray *)options
 {
-	[[self parent] checkNotFrozen];
-	ASSIGNCOPY(_allowedOptions, options);
+    [[self parent] checkNotFrozen];
+    ASSIGNCOPY(_allowedOptions, options);
 }
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	if ([(id)[(ETKeyValuePair *)[_allowedOptions mappedCollection] value] containsObject: value])
-	{
-		return [ETValidationResult validResult: value];
-	}
-	else
-	{
-		return [ETValidationResult validationResultWithValue: nil
-													 isValid: NO
-													   error: @"Value not in the allowable set"];
-	}
+    if ([(id)[(ETKeyValuePair *)[_allowedOptions mappedCollection] value] containsObject: value])
+    {
+        return [ETValidationResult validResult: value];
+    }
+    else
+    {
+        return [ETValidationResult validationResultWithValue: nil
+                                                     isValid: NO
+                                                       error: @"Value not in the allowable set"];
+    }
 }
 
 @end
@@ -93,33 +93,33 @@
 
 - (void)setMinimum: (NSInteger)min
 {
-	[[self parent] checkNotFrozen];
-	_minimum = min;
+    [[self parent] checkNotFrozen];
+    _minimum = min;
 }
 
 - (void)setMaximum: (NSInteger)max
 {
-	[[self parent] checkNotFrozen];
-	_maximum = max;
+    [[self parent] checkNotFrozen];
+    _maximum = max;
 }
 
 - (ETValidationResult *) validateValue: (id)value forKey: (NSString *)key
 {
-	NSInteger intValue = [value integerValue];
+    NSInteger intValue = [value integerValue];
 
-	if (intValue <= _maximum && intValue >= _minimum)
-	{
-		return [ETValidationResult validResult: value];
-	}
-	else
-	{
-		NSNumber *invalidValue =
-			[NSNumber numberWithInt: MAX(_minimum, MIN(_maximum, intValue))];
+    if (intValue <= _maximum && intValue >= _minimum)
+    {
+        return [ETValidationResult validResult: value];
+    }
+    else
+    {
+        NSNumber *invalidValue =
+            [NSNumber numberWithInt: MAX(_minimum, MIN(_maximum, intValue))];
 
-		return [ETValidationResult validationResultWithValue: invalidValue
-													 isValid: NO
-													   error: @"Value outside the allowable range"];
-	}
+        return [ETValidationResult validationResultWithValue: invalidValue
+                                                     isValid: NO
+                                                       error: @"Value outside the allowable range"];
+    }
 }
 
 @end

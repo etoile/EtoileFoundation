@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2013 Quentin Mathe
+    Copyright (C) 2013 Quentin Mathe
 
-	Date:  May 2013
-	License: Modified BSD (see COPYING)
+    Date:  May 2013
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -35,12 +35,12 @@ just the first property (e.g. currentColor) that belongs to the represented obje
 and not subsequent properties (e.g. redComoponent) in other objects. */
 @interface ETMutableObjectViewpoint : NSObject <ETPropertyViewpoint>
 {
-	@private
-	id _representedObject;
-	id _name;
-	BOOL _usesKeyValueCodingForAccessingValueProperties;
-	@protected
-	BOOL _isSettingValue;
+    @private
+    id _representedObject;
+    id _name;
+    BOOL _usesKeyValueCodingForAccessingValueProperties;
+    @protected
+    BOOL _isSettingValue;
 }
 
 /** @taskunit Initialization */

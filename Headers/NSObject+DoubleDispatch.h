@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2007 Quentin Mathe
+    Copyright (C) 2007 Quentin Mathe
 
-	Date:  November 2007
-	License:  Modified BSD (see COPYING)
+    Date:  November 2007
+    License:  Modified BSD (see COPYING)
  */
  
 #import <Foundation/NSObject.h>
@@ -30,7 +30,7 @@ Here is a visitor example:
 
 + (NSString *) typePrefix
 {
-	return @"ET";
+    return @"ET";
 }
 
 @end
@@ -42,26 +42,26 @@ Here is a visitor example:
 
 - (id) visitWindow: (NSWindow *)aWindow
 {
-	NSLog(@"Visiting window %@", aWindow);
-	return [self visit: [aWindow contentView]];
+    NSLog(@"Visiting window %@", aWindow);
+    return [self visit: [aWindow contentView]];
 }
 
 - (id) visitView: (NSView *)aView
 {
-	NSLog(@"Visiting view %@", aView);
-	for (NSView *subview in [aView subviews])
-	{
-		[self visit: subview];
-	}
-	return nil;
+    NSLog(@"Visiting view %@", aView);
+    for (NSView *subview in [aView subviews])
+    {
+        [self visit: subview];
+    }
+    return nil;
 }
 
 // Show how you can include the class name prefix and how such a method has 
 // priority over a method without any type prefix such as -visitView:.
 - (id) visitETView: (ETView *)aSpecialView
 {
-	NSLog(@"Visiting special view %@", aSpecialView);
-	return nil;
+    NSLog(@"Visiting special view %@", aSpecialView);
+    return nil;
 }
 
 @end

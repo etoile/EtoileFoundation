@@ -2,13 +2,13 @@
 
 @interface ETXMLWriter : NSObject <ETXMLWriting> 
 {
-	BOOL autoindent;
-	NSMutableString *buffer;
-	NSMutableArray *tagStack;
-	NSMutableString *indentString;
-	NSCondition	*condition;
-	NSInteger subwriterCount;
-	BOOL inOpenTag;
+    BOOL autoindent;
+    NSMutableString *buffer;
+    NSMutableArray *tagStack;
+    NSMutableString *indentString;
+    NSCondition *condition;
+    NSInteger subwriterCount;
+    BOOL inOpenTag;
 }
 /**
  * Writes the XML header and character set marker.  Calling this method after
@@ -102,7 +102,7 @@
  */
 @interface ETXMLSocketWriter : ETXMLWriter 
 {
-	ETSocket *socket;	
+    ETSocket *socket;   
 }
 - (void)setSocket: (ETSocket*)aSocket;
 @end

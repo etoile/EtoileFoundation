@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2004 Uli Kusterer, Quentin Mathe
+    Copyright (C) 2004 Uli Kusterer, Quentin Mathe
  
-	Date:  August 2004
-	License:  Modified BSD (see COPYING)
+    Date:  August 2004
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -19,25 +19,25 @@ static ETPlugInRegistry *sharedPluginRegistry = nil;
 + (NSString *) applicationSupportDirectoryName
 {
 #ifdef GNUSTEP
-	return @"ApplicationSupport";
+    return @"ApplicationSupport";
 #else
-	return @"Application Support";
+    return @"Application Support";
 #endif
 }
 
 + (void) initialize
 {
-	if ([self class] != [ETPlugInRegistry class])
-		return;
+    if ([self class] != [ETPlugInRegistry class])
+        return;
 
-	fm = [NSFileManager defaultManager];
-	sharedPluginRegistry = [[ETPlugInRegistry alloc] init];
+    fm = [NSFileManager defaultManager];
+    sharedPluginRegistry = [[ETPlugInRegistry alloc] init];
 }
 
 /** Returns UKPluginsRegistry shared instance (singleton). */
 + (id) sharedRegistry
 {
-	return sharedPluginRegistry;
+    return sharedPluginRegistry;
 }
 
 /** <init />
@@ -48,20 +48,20 @@ multiple registries at the same time, or implement a subclass that creates its
 own singleton. */
 - (id) init
 {
-	SUPERINIT
-	plugIns = [[NSMutableArray alloc] init];
-	plugInPaths = [[NSMutableDictionary alloc] init];
+    SUPERINIT
+    plugIns = [[NSMutableArray alloc] init];
+    plugInPaths = [[NSMutableDictionary alloc] init];
     shouldInstantiate = YES;
-	lock = [[NSLock alloc] init];
-	return self;
+    lock = [[NSLock alloc] init];
+    return self;
 }
 
 - (void) dealloc
 {
-	[plugIns release];
-	[plugInPaths release];
-	[lock release];
-	[super dealloc];
+    [plugIns release];
+    [plugInPaths release];
+    [lock release];
+    [super dealloc];
 }
 
 // TODO: Implement UTI check support for type parameter.
@@ -82,13 +82,13 @@ Normally this is the only method you need to call to load a plug-in.
 Raises an NSInvalidArgumentException if ext is nil. */
 - (void) loadPlugInsOfType: (NSString *)ext
 {
-	NILARG_EXCEPTION_TEST(ext);
+    NILARG_EXCEPTION_TEST(ext);
 
-	FOREACH([self searchPaths], path, NSString *)
-	{
-		[self loadPlugInsFromPath: path ofType: ext];
-	}
-	[self loadPlugInsFromPath: [[NSBundle mainBundle] builtInPlugInsPath] ofType: ext];
+    FOREACH([self searchPaths], path, NSString *)
+    {
+        [self loadPlugInsFromPath: path ofType: ext];
+    }
+    [self loadPlugInsFromPath: [[NSBundle mainBundle] builtInPlugInsPath] ofType: ext];
 }
 
 // TODO: Implement UTI check support for type parameter.
@@ -99,40 +99,40 @@ extension matching <var>ext</var>. Finally loads these plug-ins by calling
 Raises an NSInvalidArgumentException if folder or ext is nil.*/
 - (void) loadPlugInsFromPath: (NSString *)folder ofType: (NSString *)ext
 {
-	NILARG_EXCEPTION_TEST(folder);
-	NILARG_EXCEPTION_TEST(ext);
+    NILARG_EXCEPTION_TEST(folder);
+    NILARG_EXCEPTION_TEST(ext);
 
-	NSDirectoryEnumerator *e = [fm enumeratorAtPath: folder];
-	NSString *fileName = nil;
+    NSDirectoryEnumerator *e = [fm enumeratorAtPath: folder];
+    NSString *fileName = nil;
 
-	while ((fileName = [e nextObject]) != nil )
-	{
-		[e skipDescendents];
+    while ((fileName = [e nextObject]) != nil )
+    {
+        [e skipDescendents];
 
-		BOOL isHidden = ([fileName characterAtIndex: 0] == '.');
-		BOOL isRequestedType = [[fileName pathExtension] isEqualToString: ext];
+        BOOL isHidden = ([fileName characterAtIndex: 0] == '.');
+        BOOL isRequestedType = [[fileName pathExtension] isEqualToString: ext];
 
-		if (isHidden || isRequestedType == NO)
-			continue;
+        if (isHidden || isRequestedType == NO)
+            continue;
 
-		NS_DURING
+        NS_DURING
 
-			[self loadPlugInAtPath: [folder stringByAppendingPathComponent: fileName]];
+            [self loadPlugInAtPath: [folder stringByAppendingPathComponent: fileName]];
             
-		NS_HANDLER
+        NS_HANDLER
 
-			NSLog(@"WARNING: Failed to load plug-ins at path %@ - %@", 
-				folder, localException);
+            NSLog(@"WARNING: Failed to load plug-ins at path %@ - %@", 
+                folder, localException);
 
-		NS_ENDHANDLER
-	}
+        NS_ENDHANDLER
+    }
 }
 
 /* EtoileUI overrides this private method with a category to implement the 
 image loading that requires the AppKit. */
 - (id) loadIconForPath: (NSString *)aString
 {
-	return nil;
+    return nil;
 }
 
 /** Returns the paths where plug-ins should be searched by -loadPlugInsOfType:.
@@ -142,23 +142,23 @@ If the executable is a tool rather than an application, returns an empty array.
 TODO: Allow to customize search paths. */
 - (NSArray *) searchPaths
 {
-	NSBundle *bundle = [NSBundle mainBundle];
+    NSBundle *bundle = [NSBundle mainBundle];
     NSArray *basePaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-	NSString *appName = [[bundle infoDictionary] objectForKey: @"NSExecutable"];
+    NSString *appName = [[bundle infoDictionary] objectForKey: @"NSExecutable"];
     if (appName == nil)
-	{
+    {
         appName = [[bundle infoDictionary] objectForKey: @"CFBundleExecutable"];
-	}
-	/* The main bundle corresponds surely to a tool */
-	if (appName == nil)
-	{
-		return [NSArray array];
-	}
-	NSString *plugInDir = [[[[self class] applicationSupportDirectoryName] 
-		stringByAppendingPathComponent: appName] 
+    }
+    /* The main bundle corresponds surely to a tool */
+    if (appName == nil)
+    {
+        return [NSArray array];
+    }
+    NSString *plugInDir = [[[[self class] applicationSupportDirectoryName] 
+        stringByAppendingPathComponent: appName] 
         stringByAppendingPathComponent: @"PlugIns"];
 
-	return (id)[[basePaths mappedCollection] stringByAppendingPathComponent: plugInDir];
+    return (id)[[basePaths mappedCollection] stringByAppendingPathComponent: plugInDir];
 }
 
 /** Returns the plug-in name from the given bundle info dictionary.
@@ -175,26 +175,26 @@ Valid <em>name</em> keys in the plug-in property list are:
 If there is no valid key, returns <em>Unknown</em>. */
 - (NSString *) plugInNameForBundle: (NSBundle *)bundle
 {
-	NSString *name = [[bundle infoDictionary] objectForKey: @"CFBundleName"];
+    NSString *name = [[bundle infoDictionary] objectForKey: @"CFBundleName"];
 
-	if (name == nil)
-	{
-		name = [[bundle infoDictionary] objectForKey: @"NSPrefPaneIconLabel"];
-	}
-	if (name == nil)
-	{
-		name = [[bundle infoDictionary] objectForKey: @"ApplicationName"];
-	}
-	if (name == nil)
-	{
-		name = [[bundle infoDictionary] objectForKey: @"NSExecutable"];
-	}
-	if (name == nil)
-	{
-		name = @"Unknown";
-	}
+    if (name == nil)
+    {
+        name = [[bundle infoDictionary] objectForKey: @"NSPrefPaneIconLabel"];
+    }
+    if (name == nil)
+    {
+        name = [[bundle infoDictionary] objectForKey: @"ApplicationName"];
+    }
+    if (name == nil)
+    {
+        name = [[bundle infoDictionary] objectForKey: @"NSExecutable"];
+    }
+    if (name == nil)
+    {
+        name = @"Unknown";
+    }
 
-	return name;
+    return name;
 }
 
 /** Returns the plug-in identifier from the given bundle info dictionary.
@@ -208,17 +208,17 @@ Valid <em>identifier</em> keys in the plug-in property list are:
 If there is no valid key, returns the bundle path. */
 - (NSString *) plugInIdentifierForBundle: (NSBundle *)bundle
 {
-	NSString *identifier = [bundle bundleIdentifier];
-	
-	if (identifier == nil)
-	{
-		NSLog(@"WARNING: Plug-in %@ has no identifier, path will be used %@ in this role.", 
-			identifier, [bundle bundlePath]);
+    NSString *identifier = [bundle bundleIdentifier];
+    
+    if (identifier == nil)
+    {
+        NSLog(@"WARNING: Plug-in %@ has no identifier, path will be used %@ in this role.", 
+            identifier, [bundle bundlePath]);
 
-		identifier = [bundle bundlePath];
-	}
+        identifier = [bundle bundlePath];
+    }
 
-	return identifier;
+    return identifier;
 }
 
 /** Returns the plug-in icon path from the given bundle info dictionary.
@@ -235,22 +235,22 @@ Valid <em>image</em> path keys in the plug-in property list are:
 If there is no valid key, returns nil. */
 - (NSString *) plugInIconPathForBundle: (NSBundle *)bundle
 {
-	NSString *iconPath = [[bundle infoDictionary] objectForKey: @"CFBundleIcon"];
+    NSString *iconPath = [[bundle infoDictionary] objectForKey: @"CFBundleIcon"];
 
-	if (iconPath == nil)
-	{
-		[[bundle infoDictionary] objectForKey: @"NSPrefPaneIconFile"];;
-	}
-	if (iconPath == nil)
-	{
-		iconPath = [[bundle infoDictionary] objectForKey: @"NSIcon"];
-	}
-	if (iconPath == nil)
-	{
-		iconPath = [[bundle infoDictionary] objectForKey: @"ApplicationIcon"];
-	}
+    if (iconPath == nil)
+    {
+        [[bundle infoDictionary] objectForKey: @"NSPrefPaneIconFile"];;
+    }
+    if (iconPath == nil)
+    {
+        iconPath = [[bundle infoDictionary] objectForKey: @"NSIcon"];
+    }
+    if (iconPath == nil)
+    {
+        iconPath = [[bundle infoDictionary] objectForKey: @"ApplicationIcon"];
+    }
 
-	return iconPath;
+    return iconPath;
 }
 
 /** Loads the plug-in bundle located at <var>path</var>.
@@ -266,58 +266,58 @@ read in NSBundle description values returned by -infoDictionary.
 Raises an NSInvalidArgumentException if path is nil. */
 - (NSMutableDictionary *) loadPlugInAtPath: (NSString *)path
 {
-	[lock lock];
+    [lock lock];
 
-	NILARG_EXCEPTION_TEST(path);
+    NILARG_EXCEPTION_TEST(path);
 
-	NSMutableDictionary *info = [plugInPaths objectForKey: path];
+    NSMutableDictionary *info = [plugInPaths objectForKey: path];
 
     // TODO: Implement plug-in schema conformance test in a dedicated method. 
-	// We would be able to call it in subclasses to validate plug-ins in a 
-	// specific method e.g. -validatePreferencePane.
-	// If useful, a custom plug-in schema could be provided with the bundle plist.
+    // We would be able to call it in subclasses to validate plug-ins in a 
+    // specific method e.g. -validatePreferencePane.
+    // If useful, a custom plug-in schema could be provided with the bundle plist.
 
-	if (info != nil)
-	{
-		[lock unlock];
-		return info;
-	}
-	NSBundle *bundle = [NSBundle bundleWithPath: path];
-	NSString *name = [self plugInNameForBundle: bundle];
-	NSString *identifier = [self plugInIdentifierForBundle: bundle];
-	NSString *iconPath = [self plugInIconPathForBundle: bundle];
-	id image = [self loadIconForPath: iconPath];
-	
-	/* When image loading has failed, we set its value to null object in
-	   in order to be able to create info dictionary without glitches a
-	   'nil' value would produce (like subsequent elements being ignored). */
-	if (image == nil)
-	{
-		image = [NSNull null];
-	}
+    if (info != nil)
+    {
+        [lock unlock];
+        return info;
+    }
+    NSBundle *bundle = [NSBundle bundleWithPath: path];
+    NSString *name = [self plugInNameForBundle: bundle];
+    NSString *identifier = [self plugInIdentifierForBundle: bundle];
+    NSString *iconPath = [self plugInIconPathForBundle: bundle];
+    id image = [self loadIconForPath: iconPath];
+    
+    /* When image loading has failed, we set its value to null object in
+       in order to be able to create info dictionary without glitches a
+       'nil' value would produce (like subsequent elements being ignored). */
+    if (image == nil)
+    {
+        image = [NSNull null];
+    }
 
-	info = [NSMutableDictionary dictionaryWithObjectsAndKeys: bundle, @"bundle", 
-		identifier, @"identifier", image, @"image", name, @"name", path, @"path", 
-		[bundle principalClass], @"class", nil];
+    info = [NSMutableDictionary dictionaryWithObjectsAndKeys: bundle, @"bundle", 
+        identifier, @"identifier", image, @"image", name, @"name", path, @"path", 
+        [bundle principalClass], @"class", nil];
 
-	if ([self shouldInstantiatePlugInClass])
-	{
-		if ([bundle principalClass] == Nil)
-		{
-			[lock unlock];
-			[NSException raise: @"ETInvalidPlugInException"
-			            format: @""];
-		}
-		id obj = [[[[bundle principalClass] alloc] init] autorelease];
-		
-		[info setObject: obj forKey: @"instance"];
-	}
-	[plugIns addObject: info];
-	[plugInPaths setObject: info forKey: path];
+    if ([self shouldInstantiatePlugInClass])
+    {
+        if ([bundle principalClass] == Nil)
+        {
+            [lock unlock];
+            [NSException raise: @"ETInvalidPlugInException"
+                        format: @""];
+        }
+        id obj = [[[[bundle principalClass] alloc] init] autorelease];
+        
+        [info setObject: obj forKey: @"instance"];
+    }
+    [plugIns addObject: info];
+    [plugInPaths setObject: info forKey: path];
 
-	[lock unlock];
+    [lock unlock];
 
-	return info;
+    return info;
 }
 
 /** Returns the currently registered plug-ins (loaded by the way).
@@ -325,7 +325,7 @@ Raises an NSInvalidArgumentException if path is nil. */
 An empty array is returned when no plug-ins have been registered. */
 - (NSArray *) loadedPlugIns
 {
-	return plugIns;
+    return plugIns;
 }
 
 /** Returns whether plug-in class should be instantiated at loading time by 

@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2007 David Chisnall, Quentin Mathe, Eric Wasylishen
+    Copyright (C) 2007 David Chisnall, Quentin Mathe, Eric Wasylishen
  
-	Date:  July 2007
-	License:  Modified BSD (see COPYING)
+    Date:  July 2007
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/NSObject.h>
@@ -25,8 +25,8 @@ You can use -isEqual: to check the equality between two ETUUID instances.
 ETUUID does not have a designated initializer. */
 @interface ETUUID : NSObject <NSCopying>
 {
-	@private
-	unsigned char uuid[16];
+    @private
+    unsigned char uuid[16];
 }
 
 /** @taskunit Initialization */

@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2007 David Chisnall, Quentin Mathe, Eric Wasylishen
+    Copyright (C) 2007 David Chisnall, Quentin Mathe, Eric Wasylishen
  
-	Date:  July 2007
-	License:  Modified BSD (see COPYING)
+    Date:  July 2007
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -23,20 +23,20 @@
 #if defined(__FreeBSD__) || defined(__OpenBSD) || defined(__DragonFly__) || defined(__APPLE__) 
 static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 {
-	*((uint32_t*)&bytes[0]) = arc4random();
-	*((uint32_t*)&bytes[4]) = arc4random();
-	*((uint32_t*)&bytes[8]) = arc4random();
-	*((uint32_t*)&bytes[12]) = arc4random();
+    *((uint32_t*)&bytes[0]) = arc4random();
+    *((uint32_t*)&bytes[4]) = arc4random();
+    *((uint32_t*)&bytes[8]) = arc4random();
+    *((uint32_t*)&bytes[12]) = arc4random();
 }
 #else
 #include <openssl/rand.h>
 static void ETUUIDGet16RandomBytes(unsigned char bytes[16])
 {
-	if (1 != RAND_pseudo_bytes(bytes, 16))
-	{
-		[NSException raise: NSGenericException
-					format: @"libcrypto can't automatically seed its random numer generator on your OS"];
-	}
+    if (1 != RAND_pseudo_bytes(bytes, 16))
+    {
+        [NSException raise: NSGenericException
+                    format: @"libcrypto can't automatically seed its random numer generator on your OS"];
+    }
 }
 #endif
 
@@ -47,20 +47,20 @@ static Class ETUUIDClass;
 
 + (void) initialize
 {
-	if (self == [ETUUID class])
-	{
-		ETUUIDClass = self;
-	}
+    if (self == [ETUUID class])
+    {
+        ETUUIDClass = self;
+    }
 }
 
 + (id) UUID
 {
-	return AUTORELEASE([[self alloc] init]);
+    return AUTORELEASE([[self alloc] init]);
 }
 
 + (id) UUIDWithString: (NSString *)aString
 {
-	return AUTORELEASE([[self alloc] initWithString: aString]);
+    return AUTORELEASE([[self alloc] initWithString: aString]);
 }
 
 + (ETUUID *) UUIDWithData: (NSData *)aData
@@ -71,69 +71,69 @@ static Class ETUUIDClass;
 
 - (id) init
 {
-	SUPERINIT
+    SUPERINIT
 
-	// Initialise with random data.
-	ETUUIDGet16RandomBytes(uuid);
-	// Clear bits 6 and 7
-	CLOCK_SEQ_HI_AND_RESERVED(uuid) &= (unsigned char)63;
-	// Set bit 6
-	CLOCK_SEQ_HI_AND_RESERVED(uuid) |= (unsigned char)64;
-	// Clear the top 4 bits
-	TIME_HI_AND_VERSION(uuid) &= 4095;
-	// Set the top 4 bits to the version
-	TIME_HI_AND_VERSION(uuid) |= 16384;
-	return self;
+    // Initialise with random data.
+    ETUUIDGet16RandomBytes(uuid);
+    // Clear bits 6 and 7
+    CLOCK_SEQ_HI_AND_RESERVED(uuid) &= (unsigned char)63;
+    // Set bit 6
+    CLOCK_SEQ_HI_AND_RESERVED(uuid) |= (unsigned char)64;
+    // Clear the top 4 bits
+    TIME_HI_AND_VERSION(uuid) &= 4095;
+    // Set the top 4 bits to the version
+    TIME_HI_AND_VERSION(uuid) |= 16384;
+    return self;
 }
 
 - (id) initWithUUID: (const unsigned char *)aUUID
 {
-	SUPERINIT
+    SUPERINIT
 
-	memcpy(&uuid, aUUID, 16);
+    memcpy(&uuid, aUUID, 16);
 
-	return self;
+    return self;
 }
 
 - (id) initWithString: (NSString *)aString
 {
-	NILARG_EXCEPTION_TEST(aString);
-	
-	if ([aString length] != 36)
-	{
-		[NSException raise: NSInvalidArgumentException
-		            format: @"%@ not 36 characters in length", aString];
-	}
-	
-	SUPERINIT;
+    NILARG_EXCEPTION_TEST(aString);
+    
+    if ([aString length] != 36)
+    {
+        [NSException raise: NSInvalidArgumentException
+                    format: @"%@ not 36 characters in length", aString];
+    }
+    
+    SUPERINIT;
 
-	const char *data = [aString UTF8String];
-	int scanned = sscanf(data, "%x-%hx-%hx-%2hhx%2hhx-%2hhx%2hhx%2hhx%2hhx%2hhx%2hhx", 
-	   &TIME_LOW(uuid), 
-	   &TIME_MID(uuid),
-	   &TIME_HI_AND_VERSION(uuid),
-	   &CLOCK_SEQ_HI_AND_RESERVED(uuid),
-	   &CLOCK_SEQ_LOW(uuid),
-	   &NODE(uuid)[0],
-	   &NODE(uuid)[1],
-	   &NODE(uuid)[2],
-	   &NODE(uuid)[3],
-	   &NODE(uuid)[4],
-	   &NODE(uuid)[5]);
+    const char *data = [aString UTF8String];
+    int scanned = sscanf(data, "%x-%hx-%hx-%2hhx%2hhx-%2hhx%2hhx%2hhx%2hhx%2hhx%2hhx", 
+       &TIME_LOW(uuid), 
+       &TIME_MID(uuid),
+       &TIME_HI_AND_VERSION(uuid),
+       &CLOCK_SEQ_HI_AND_RESERVED(uuid),
+       &CLOCK_SEQ_LOW(uuid),
+       &NODE(uuid)[0],
+       &NODE(uuid)[1],
+       &NODE(uuid)[2],
+       &NODE(uuid)[3],
+       &NODE(uuid)[4],
+       &NODE(uuid)[5]);
 
-	if (scanned != 11)
-	{
-		[self release];
-		[NSException raise: NSInvalidArgumentException
-		            format: @"%@ not a well formed UUID", aString];
-	}
-	
-	return self;
+    if (scanned != 11)
+    {
+        [self release];
+        [NSException raise: NSInvalidArgumentException
+                    format: @"%@ not a well formed UUID", aString];
+    }
+    
+    return self;
 }
 
 - (id) copyWithZone: (NSZone *)zone
 {
-	return RETAIN(self);
+    return RETAIN(self);
 }
 
 /* Returns the UUID hash.
@@ -149,61 +149,61 @@ static Class ETUUIDClass;
 */
 - (NSUInteger) hash
 {
-	return *((uint64_t *)uuid);
+    return *((uint64_t *)uuid);
 }
 
 - (BOOL) isEqual: (id)anObject
 {
-	const unsigned char *other_uuid;
-	
-	if (anObject == self)
-	{
-		return YES;
-	}
-	else if (object_getClass(anObject) == ETUUIDClass)
-	{
-		other_uuid = ((ETUUID *)anObject)->uuid;
-	}
-	else
-	{
-		// Slow path
-		if (![anObject isKindOfClass: [self class]])
-		{
-			return NO;
-		}
-		other_uuid = [anObject UUIDValue];
-	}
-		
-	for (unsigned i=0; i<16; i++)
-	{
-		if (uuid[i] != other_uuid[i])
-		{
-			return NO;
-		}
-	}
-	return YES;
+    const unsigned char *other_uuid;
+    
+    if (anObject == self)
+    {
+        return YES;
+    }
+    else if (object_getClass(anObject) == ETUUIDClass)
+    {
+        other_uuid = ((ETUUID *)anObject)->uuid;
+    }
+    else
+    {
+        // Slow path
+        if (![anObject isKindOfClass: [self class]])
+        {
+            return NO;
+        }
+        other_uuid = [anObject UUIDValue];
+    }
+        
+    for (unsigned i=0; i<16; i++)
+    {
+        if (uuid[i] != other_uuid[i])
+        {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (NSString *) stringValue
 {
-	return [NSString stringWithFormat:
-		@"%0.8x-%0.4hx-%0.4hx-%0.2hhx%0.2hhx-%0.2hhx%0.2hhx%0.2hhx%0.2hhx%0.2hhx%0.2hhx", 
-		   TIME_LOW(uuid), 
-		   TIME_MID(uuid),
-		   TIME_HI_AND_VERSION(uuid),
-		   CLOCK_SEQ_HI_AND_RESERVED(uuid),
-		   CLOCK_SEQ_LOW(uuid),
-		   NODE(uuid)[0],
-		   NODE(uuid)[1],
-		   NODE(uuid)[2],
-		   NODE(uuid)[3],
-		   NODE(uuid)[4],
-		   NODE(uuid)[5]];
+    return [NSString stringWithFormat:
+        @"%0.8x-%0.4hx-%0.4hx-%0.2hhx%0.2hhx-%0.2hhx%0.2hhx%0.2hhx%0.2hhx%0.2hhx%0.2hhx", 
+           TIME_LOW(uuid), 
+           TIME_MID(uuid),
+           TIME_HI_AND_VERSION(uuid),
+           CLOCK_SEQ_HI_AND_RESERVED(uuid),
+           CLOCK_SEQ_LOW(uuid),
+           NODE(uuid)[0],
+           NODE(uuid)[1],
+           NODE(uuid)[2],
+           NODE(uuid)[3],
+           NODE(uuid)[4],
+           NODE(uuid)[5]];
 }
 
 - (const unsigned char *) UUIDValue
 {
-	return uuid;
+    return uuid;
 }
 
 - (NSData *) dataValue
@@ -213,7 +213,7 @@ static Class ETUUIDClass;
 
 - (NSString*) description
 {
-	return [self stringValue];
+    return [self stringValue];
 }
 @end
 
@@ -222,11 +222,11 @@ static Class ETUUIDClass;
 
 + (NSString *) UUIDString
 {
-	ETUUID *uuid = [[ETUUID alloc] init];
-	NSString *str = [uuid stringValue];
+    ETUUID *uuid = [[ETUUID alloc] init];
+    NSString *str = [uuid stringValue];
 
-	RELEASE(uuid);
-	return str;
+    RELEASE(uuid);
+    return str;
 }
 
 @end
@@ -236,19 +236,19 @@ static Class ETUUIDClass;
 
 - (ETUUID *) UUIDForKey: (NSString *)aKey
 {
-	NSString *uuidString = [self stringForKey: aKey];
+    NSString *uuidString = [self stringForKey: aKey];
 
-	if (uuidString == nil)
-	{
-		return nil;
-	}
+    if (uuidString == nil)
+    {
+        return nil;
+    }
 
-	return [ETUUID UUIDWithString: uuidString];
+    return [ETUUID UUIDWithString: uuidString];
 }
 
 - (void) setUUID: (ETUUID *)aUUID forKey: (NSString *)aKey
 {
-	[self setObject: [aUUID stringValue] forKey: aKey];
+    [self setObject: [aUUID stringValue] forKey: aKey];
 }
 
 @end

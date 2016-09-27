@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2012 David Chisnall
+    Copyright (C) 2012 David Chisnall
  
-	Date:  January 2012
-	License:  Modified BSD (see COPYING)
+    Date:  January 2012
+    License:  Modified BSD (see COPYING)
  */
 
 #ifdef __cplusplus
@@ -18,51 +18,51 @@ namespace etoile
  */
 class ETFastEnumerationIterator
 {
-	bool isEnd;
-	int i;
-	int count;
-	__unsafe_unretained id buffer[16];
-	NSFastEnumerationState state;
-	__unsafe_unretained id<NSFastEnumeration> obj;
-	long mutated;
+    bool isEnd;
+    int i;
+    int count;
+    __unsafe_unretained id buffer[16];
+    NSFastEnumerationState state;
+    __unsafe_unretained id<NSFastEnumeration> obj;
+    long mutated;
 public:
-	ETFastEnumerationIterator(id<NSFastEnumeration> object, bool end=false)
-		: isEnd(false), i(0), count(0), state({0}), obj(object)
-	{
-		if (end)
-		{
-			isEnd = true;
-			return;
-		}
-		count = [obj countByEnumeratingWithState: &state objects: buffer count: 16];
-		mutated = *state.mutationsPtr;
-	}
-	id operator*() const
-	{
-		if (*state.mutationsPtr != mutated)
-		{
-			objc_enumerationMutation(obj);
-		}
-		return state.itemsPtr[i];
-	}
-	const ETFastEnumerationIterator& operator++()
-	{
-		i++;
-		if (i >= count)
-		{
-			count = [obj countByEnumeratingWithState: &state objects: buffer count: 16];
-			i = 0;
-		}
-		return *this;
-	}
-	bool operator!=(const ETFastEnumerationIterator &e)
-	{
-		if (e.isEnd)
-		{
-			return !((e.obj == obj) && (count == 0));
-		}
-		return true;
-	}
+    ETFastEnumerationIterator(id<NSFastEnumeration> object, bool end=false)
+        : isEnd(false), i(0), count(0), state({0}), obj(object)
+    {
+        if (end)
+        {
+            isEnd = true;
+            return;
+        }
+        count = [obj countByEnumeratingWithState: &state objects: buffer count: 16];
+        mutated = *state.mutationsPtr;
+    }
+    id operator*() const
+    {
+        if (*state.mutationsPtr != mutated)
+        {
+            objc_enumerationMutation(obj);
+        }
+        return state.itemsPtr[i];
+    }
+    const ETFastEnumerationIterator& operator++()
+    {
+        i++;
+        if (i >= count)
+        {
+            count = [obj countByEnumeratingWithState: &state objects: buffer count: 16];
+            i = 0;
+        }
+        return *this;
+    }
+    bool operator!=(const ETFastEnumerationIterator &e)
+    {
+        if (e.isEnd)
+        {
+            return !((e.obj == obj) && (count == 0));
+        }
+        return true;
+    }
 };
 }
 /**
@@ -71,7 +71,7 @@ public:
  */
 etoile::ETFastEnumerationIterator begin(id<NSFastEnumeration>obj)
 {
-	return etoile::ETFastEnumerationIterator(obj);
+    return etoile::ETFastEnumerationIterator(obj);
 }
 
 /**
@@ -80,7 +80,7 @@ etoile::ETFastEnumerationIterator begin(id<NSFastEnumeration>obj)
  */
 etoile::ETFastEnumerationIterator end(id<NSFastEnumeration>obj)
 {
-	return etoile::ETFastEnumerationIterator(obj, true);
+    return etoile::ETFastEnumerationIterator(obj, true);
 }
 
 #endif

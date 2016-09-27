@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2007 David Chisnall
+    Copyright (C) 2007 David Chisnall
 
-	Date:  September 2007
-	License:  Modified BSD (see COPYING)
+    Date:  September 2007
+    License:  Modified BSD (see COPYING)
  */
 
 /* EtoileFoundation core */

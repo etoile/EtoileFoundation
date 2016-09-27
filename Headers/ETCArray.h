@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2005 David Chisnall
+    Copyright (C) 2005 David Chisnall
 
-	Date:  October 2005
-	License:  Modified BSD (see COPYING)
+    Date:  October 2005
+    License:  Modified BSD (see COPYING)
  */
 
 #ifndef __ET_C_ARRAY_INCLUDED__

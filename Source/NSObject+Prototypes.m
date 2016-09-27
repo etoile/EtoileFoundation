@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2008 David Chisnall
+    Copyright (C) 2008 David Chisnall
 
-	Date:  December 2008
-	License:  Modified BSD (see COPYING)
+    Date:  December 2008
+    License:  Modified BSD (see COPYING)
  */
 
 #import "NSObject+Prototypes.h"
@@ -17,76 +17,76 @@
 @implementation NSObject (ETPrototypes)
 + (BOOL)addInstanceMethod: (SEL)aSelector fromBlock: (id)aBlock
 {
-	IMP imp = imp_implementationWithBlock(aBlock);
-	if (0 == imp) { return NO; }
-	char *encoding = block_copyIMPTypeEncoding_np(aBlock);
-	class_replaceMethod(self, aSelector, imp, encoding);
-	free(encoding);
-	return YES;
+    IMP imp = imp_implementationWithBlock(aBlock);
+    if (0 == imp) { return NO; }
+    char *encoding = block_copyIMPTypeEncoding_np(aBlock);
+    class_replaceMethod(self, aSelector, imp, encoding);
+    free(encoding);
+    return YES;
 }
 + (BOOL)addClassMethod: (SEL)aSelector fromBlock: (id)aBlock
 {
-	return [object_getClass(self) addInstanceMethod: aSelector fromBlock: aBlock];
+    return [object_getClass(self) addInstanceMethod: aSelector fromBlock: aBlock];
 }
 - (BOOL)addMethod: (SEL)aSelector fromBlock: (id)aBlock
 {
-	IMP imp = imp_implementationWithBlock(aBlock);
-	if (0 == imp) { return NO; }
-	char *encoding = block_copyIMPTypeEncoding_np(aBlock);
-	if (NULL == encoding) { return NO; }
-	object_replaceMethod_np(self, aSelector, imp, encoding);
-	free(encoding);
-	return YES;
+    IMP imp = imp_implementationWithBlock(aBlock);
+    if (0 == imp) { return NO; }
+    char *encoding = block_copyIMPTypeEncoding_np(aBlock);
+    if (NULL == encoding) { return NO; }
+    object_replaceMethod_np(self, aSelector, imp, encoding);
+    free(encoding);
+    return YES;
 }
 - (void)setMethod: (IMP)aMethod forSelector: (SEL)aSelector
 {
-	object_replaceMethod_np(self, aSelector, aMethod, sel_getType_np(aSelector));
+    object_replaceMethod_np(self, aSelector, aMethod, sel_getType_np(aSelector));
 }
 - (id) clone
 {
-	return object_clone_np(self);
+    return object_clone_np(self);
 }
 - (BOOL) isPrototype
 {
-	return object_getPrototype_np(self) != nil;
+    return object_getPrototype_np(self) != nil;
 }
 - (id) prototype
 {
-	return object_getPrototype_np(self);
+    return object_getPrototype_np(self);
 }
 // FIXME: This alters the behavior for all NSObject subclasses and cause silent 
 // failures in classes such as NSDictionary when an exception is expected.
 #if 0
 - (void)setValue: (id)aValue forUndefinedKey: (NSString*)aKey
 {
-	SEL sel = NSSelectorFromString(aKey);
-	objc_setAssociatedObject(self, 
-	                         (void*)sel_getName(sel),
-	                         aValue,
-	                         OBJC_ASSOCIATION_RETAIN);
-	static id blockClass;
-	if (Nil == blockClass)
-	{
-		blockClass = objc_lookUpClass("_NSBlock");
-	}
-	if ([aValue isKindOfClass: blockClass] )
-	{
-		IMP imp = imp_implementationWithBlock(aValue);
-		if (0 != imp)
-		{
-			char *encoding = block_copyIMPTypeEncoding_np(aValue);
-			if (NULL != encoding)
-			{
-				object_replaceMethod_np(self, sel, imp, encoding);
-				free(encoding);
-			}
-		}
-	}
+    SEL sel = NSSelectorFromString(aKey);
+    objc_setAssociatedObject(self, 
+                             (void*)sel_getName(sel),
+                             aValue,
+                             OBJC_ASSOCIATION_RETAIN);
+    static id blockClass;
+    if (Nil == blockClass)
+    {
+        blockClass = objc_lookUpClass("_NSBlock");
+    }
+    if ([aValue isKindOfClass: blockClass] )
+    {
+        IMP imp = imp_implementationWithBlock(aValue);
+        if (0 != imp)
+        {
+            char *encoding = block_copyIMPTypeEncoding_np(aValue);
+            if (NULL != encoding)
+            {
+                object_replaceMethod_np(self, sel, imp, encoding);
+                free(encoding);
+            }
+        }
+    }
 }
 #endif
 - (id) slotValueForKey:(NSString *)aKey
 {
-	return objc_getAssociatedObject(self, (void*)sel_getName(NSSelectorFromString(aKey)));
+    return objc_getAssociatedObject(self, (void*)sel_getName(NSSelectorFromString(aKey)));
 }
 @end
 #endif // OBJC_CAP_PROTOTYPES

@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2008 Günther Noack
+    Copyright (C) 2008 Günther Noack
  
-	Date:  November 2008
-	License:  Modified BSD (see COPYING)
+    Date:  November 2008
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -23,27 +23,27 @@
 @implementation ETTranscript
 + (void) show: (NSObject*) anObject
 {
-	[self appendString: [anObject description]];
+    [self appendString: [anObject description]];
 }
 
 + (void) appendString: (NSString*) aString
 {
-	id<ETTranscriptDelegate> delegate = 
-		[[[NSThread currentThread] threadDictionary] 
-			objectForKey: kTranscriptDelegate];
-	if (nil == delegate)
-	{
-		printf("%s", [aString UTF8String]);
-	}
-	else
-	{
-		[delegate appendTranscriptString: aString];
-	}
+    id<ETTranscriptDelegate> delegate = 
+        [[[NSThread currentThread] threadDictionary] 
+            objectForKey: kTranscriptDelegate];
+    if (nil == delegate)
+    {
+        printf("%s", [aString UTF8String]);
+    }
+    else
+    {
+        [delegate appendTranscriptString: aString];
+    }
 }
 
 + (void) cr
 {
-	[self appendString: @"\n"];
+    [self appendString: @"\n"];
 }
 @end
 

@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2009 Quentin Mathe
+    Copyright (C) 2009 Quentin Mathe
 
-	Date:  June 2009
-	License: Modified BSD (see COPYING)
+    Date:  June 2009
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -17,21 +17,21 @@
 
 - (NSString *) bark
 {
-	return @"Ouaf";
+    return @"Ouaf";
 }
 
 - (void) testIfResponds
 {
-	id otherObject = AUTORELEASE([[NSObject alloc] init]);
+    id otherObject = AUTORELEASE([[NSObject alloc] init]);
 
-	UKObjectsEqual([self bark], [[self ifResponds] bark]);
-	UKNil((__bridge void*)[[otherObject ifResponds] bark]);
+    UKObjectsEqual([self bark], [[self ifResponds] bark]);
+    UKNil((__bridge void*)[[otherObject ifResponds] bark]);
 
-	/* NSProxy implements -description and -class but -className is only 
-	   implemented on NSObject (Cocoa scripting addition). */
-	UKObjectsNotEqual([self description], [[self ifResponds] description]);
-	UKObjectsEqual(NSClassFromString(@"ETIfRespondsProxy"), [[self ifResponds] class]);
-	UKObjectsEqual([self className], [[self ifResponds] className]);
+    /* NSProxy implements -description and -class but -className is only 
+       implemented on NSObject (Cocoa scripting addition). */
+    UKObjectsNotEqual([self description], [[self ifResponds] description]);
+    UKObjectsEqual(NSClassFromString(@"ETIfRespondsProxy"), [[self ifResponds] class]);
+    UKObjectsEqual([self className], [[self ifResponds] className]);
 }
 
 @end

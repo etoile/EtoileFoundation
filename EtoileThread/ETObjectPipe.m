@@ -25,7 +25,7 @@
 #warning Potentially unsafe memory operations being used
 static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
 {
-	*ptr += value;
+    *ptr += value;
 }
 #endif
 
@@ -74,27 +74,27 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * thread that will remove an element from the buffer.
  */
 #define INSERT(x,direction) do {\
-	int count = 0;\
-	/* Wait for space in the buffer */\
-	while (ISFULL(direction ## Producer, direction ## Consumer))\
-	{\
-		if (++count % 20 == 0)\
-		{\
-			[direction ## Condition signal];\
-		}\
-		if (count % 39 == 0)\
-		{\
-			sched_yield();\
-		}\
-	}\
-	queue[MASK(direction ## Producer)] = x;\
-	__sync_fetch_and_add(&direction ## Producer, 1);\
-	if (direction ## Producer - direction ## Consumer == 1)\
-	{\
-		[direction ## Condition lock];\
-		[direction ## Condition signal];\
-		[direction ## Condition unlock];\
-	}\
+    int count = 0;\
+    /* Wait for space in the buffer */\
+    while (ISFULL(direction ## Producer, direction ## Consumer))\
+    {\
+        if (++count % 20 == 0)\
+        {\
+            [direction ## Condition signal];\
+        }\
+        if (count % 39 == 0)\
+        {\
+            sched_yield();\
+        }\
+    }\
+    queue[MASK(direction ## Producer)] = x;\
+    __sync_fetch_and_add(&direction ## Producer, 1);\
+    if (direction ## Producer - direction ## Consumer == 1)\
+    {\
+        [direction ## Condition lock];\
+        [direction ## Condition signal];\
+        [direction ## Condition unlock];\
+    }\
 } while(0)
 /**
  * Removing an element from the queue involves the following steps:
@@ -108,143 +108,143 @@ static inline void __sync_fetch_and_add(unsigned long *ptr, unsigned int value)
  * 3) Increment the consumer counter.
  */
 #define REMOVE(x,direction) do {\
-	if (ISEMPTY(direction ## Producer, direction ## Consumer))\
-	{\
-		if (disconnect) { return nil; }\
-		else\
-		{\
-			[direction ## Condition lock];\
-			if (ISEMPTY(direction ## Producer, direction ## Consumer))\
-			{\
-				[direction ## Condition wait];\
-			}\
-			[direction ## Condition unlock];\
-		}\
-	}\
-	x = queue[MASK(direction ## Consumer)];\
-	queue[MASK(direction ## Consumer)] = nil;\
-	__sync_fetch_and_add(&direction ## Consumer, 1);\
+    if (ISEMPTY(direction ## Producer, direction ## Consumer))\
+    {\
+        if (disconnect) { return nil; }\
+        else\
+        {\
+            [direction ## Condition lock];\
+            if (ISEMPTY(direction ## Producer, direction ## Consumer))\
+            {\
+                [direction ## Condition wait];\
+            }\
+            [direction ## Condition unlock];\
+        }\
+    }\
+    x = queue[MASK(direction ## Consumer)];\
+    queue[MASK(direction ## Consumer)] = nil;\
+    __sync_fetch_and_add(&direction ## Consumer, 1);\
 } while(0)
 
 @interface ETObjectPipe ()
 {
-	/** The ring buffer. */
-	id queue[RING_BUFFER_SIZE];
-	/** Producer free-running counter for requests. */
-	uint32_t requestProducer;
-	/** Consumer free-running counter for requests. */
-	uint32_t requestConsumer;
-	/** Producer free-running counter for replies. */
-	uint32_t replyProducer;
-	/** Consumer free-running counter for replies. */
-	uint32_t replyConsumer;
-	/** 
-	 * Condition variable used to signal a transition from locked to lockless
-	 * mode for requests.
-	 */
-	NSCondition *requestCondition;
-	/** 
-	 * Condition variable used to signal a transition from locked to lockless
-	 * mode for replies.
-	 */
-	NSCondition *replyCondition;
-	/** Flag used to interrupt the object in locked mode */
-	volatile BOOL disconnect;
+    /** The ring buffer. */
+    id queue[RING_BUFFER_SIZE];
+    /** Producer free-running counter for requests. */
+    uint32_t requestProducer;
+    /** Consumer free-running counter for requests. */
+    uint32_t requestConsumer;
+    /** Producer free-running counter for replies. */
+    uint32_t replyProducer;
+    /** Consumer free-running counter for replies. */
+    uint32_t replyConsumer;
+    /** 
+     * Condition variable used to signal a transition from locked to lockless
+     * mode for requests.
+     */
+    NSCondition *requestCondition;
+    /** 
+     * Condition variable used to signal a transition from locked to lockless
+     * mode for replies.
+     */
+    NSCondition *replyCondition;
+    /** Flag used to interrupt the object in locked mode */
+    volatile BOOL disconnect;
 }
 @end
 
 @implementation ETObjectPipe
 - (id)init
 {
-	SUPERINIT;
-	requestCondition  = [NSCondition new];
-	replyCondition  = [NSCondition new];
-	if (NULL == queue || nil == replyCondition || nil == requestCondition)
-	{
-		[self release];
-		return nil;
-	}
-	return self;
+    SUPERINIT;
+    requestCondition  = [NSCondition new];
+    replyCondition  = [NSCondition new];
+    if (NULL == queue || nil == replyCondition || nil == requestCondition)
+    {
+        [self release];
+        return nil;
+    }
+    return self;
 }
 - (void)dealloc
 {
-	for (unsigned int i=0 ; i<RING_BUFFER_SIZE ; i++)
-	{
-		[queue[i] release];
-	}
-	[requestCondition release];
-	[replyCondition release];
-	[super dealloc];
+    for (unsigned int i=0 ; i<RING_BUFFER_SIZE ; i++)
+    {
+        [queue[i] release];
+    }
+    [requestCondition release];
+    [replyCondition release];
+    [super dealloc];
 }
 - (void)sendRequest: (id)anObject
 {
-	if (disconnect) { return; }
-	INSERT(anObject, request);
+    if (disconnect) { return; }
+    INSERT(anObject, request);
 }
 - (id)nextRequest
 {
-	id obj;
-	REMOVE(obj, request);
-	return obj;
+    id obj;
+    REMOVE(obj, request);
+    return obj;
 }
 - (id)pollForRequest
 {
-	if (ISEMPTY(requestProducer, requestConsumer))
-	{
-		return nil;
-	}
-	id obj = queue[MASK(requestConsumer)];
-	queue[MASK(requestConsumer)] = nil;
-	__sync_fetch_and_add(&requestConsumer, 1);
-	return obj;
+    if (ISEMPTY(requestProducer, requestConsumer))
+    {
+        return nil;
+    }
+    id obj = queue[MASK(requestConsumer)];
+    queue[MASK(requestConsumer)] = nil;
+    __sync_fetch_and_add(&requestConsumer, 1);
+    return obj;
 }
 - (BOOL)isPipeFull
 {
-	return ISFULL(requestProducer, replyConsumer);
+    return ISFULL(requestProducer, replyConsumer);
 }
 - (id)pollForReply
 {
-	// If there is a reply waiting, get it without blocking
-	if (replyConsumer < replyProducer)
-	{
-		id reply = queue[MASK(replyConsumer)];
-		queue[MASK(replyConsumer)] = nil;
-		__sync_fetch_and_add(&replyConsumer, 1);
-		return reply;
-	}
-	// If the queue is not full, return and let the caller create a new request
-	// object to insert.
-	else if (!ISFULL(requestProducer, replyConsumer))
-	{
-		return nil;
-	}
-	// If the queue is full, block until the other end produces a reply.
-	return [self nextReply];
+    // If there is a reply waiting, get it without blocking
+    if (replyConsumer < replyProducer)
+    {
+        id reply = queue[MASK(replyConsumer)];
+        queue[MASK(replyConsumer)] = nil;
+        __sync_fetch_and_add(&replyConsumer, 1);
+        return reply;
+    }
+    // If the queue is not full, return and let the caller create a new request
+    // object to insert.
+    else if (!ISFULL(requestProducer, replyConsumer))
+    {
+        return nil;
+    }
+    // If the queue is full, block until the other end produces a reply.
+    return [self nextReply];
 }
 - (NSCondition*)requestCondition
 {
-	return requestCondition;
+    return requestCondition;
 }
 - (void)setRequestCondition: (NSCondition*)aCondition
 {
-	ASSIGN(requestCondition, aCondition);
+    ASSIGN(requestCondition, aCondition);
 }
 - (void)sendReply: (id)anObject
 {
-	if (disconnect) { return; }
-	INSERT(anObject, reply);
+    if (disconnect) { return; }
+    INSERT(anObject, reply);
 }
 - (id)nextReply
 {
-	id obj;
-	REMOVE(obj, reply);
-	return obj;
+    id obj;
+    REMOVE(obj, reply);
+    return obj;
 }
 - (void)disconnect
 {
-	disconnect = YES;
-	// Wake up any threads that are waiting on either end.
-	[requestCondition broadcast];
-	[replyCondition broadcast];
+    disconnect = YES;
+    // Wake up any threads that are waiting on either end.
+    [requestCondition broadcast];
+    [replyCondition broadcast];
 }
 @end

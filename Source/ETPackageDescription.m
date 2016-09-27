@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2010 Quentin Mathe
+    Copyright (C) 2010 Quentin Mathe
 
-	Date:  March 2010
-	License:  Modified BSD (see COPYING)
+    Date:  March 2010
+    License:  Modified BSD (see COPYING)
  */
 
 #import "ETPackageDescription.h"
@@ -22,210 +22,210 @@
 
 + (void) initialize
 {
-	if (self != [ETPackageDescription class])
-		return;
+    if (self != [ETPackageDescription class])
+        return;
 
-	[self applyTraitFromClass: [ETCollectionTrait class]];
-	[self applyTraitFromClass: [ETMutableCollectionTrait class]];
+    [self applyTraitFromClass: [ETCollectionTrait class]];
+    [self applyTraitFromClass: [ETMutableCollectionTrait class]];
 }
 
 + (ETEntityDescription *) newEntityDescription
 {
-	ETEntityDescription *selfDesc = [self newBasicEntityDescription];
+    ETEntityDescription *selfDesc = [self newBasicEntityDescription];
 
-	if ([[selfDesc name] isEqual: [ETPackageDescription className]] == NO)
-		return selfDesc;
+    if ([[selfDesc name] isEqual: [ETPackageDescription className]] == NO)
+        return selfDesc;
 
-	ETPropertyDescription *owner =
-		[ETPropertyDescription descriptionWithName: @"owner"
-		                                      type: (id)@"ETEntityDescription"];
-	ETPropertyDescription *entityDescriptions =
-		[ETPropertyDescription descriptionWithName: @"entityDescriptions"
-		                                      type: (id)@"ETEntityDescription"];
-	[entityDescriptions setMultivalued: YES];
-	[entityDescriptions setOpposite: (id)@"ETEntityDescription.owner"];
-	ETPropertyDescription *propertyDescriptions =
-		[ETPropertyDescription descriptionWithName: @"propertyDescriptions"
-		                                     type: (id)@"ETPropertyDescription"];
-	[propertyDescriptions setMultivalued: YES];
-	[propertyDescriptions setOpposite: (id)@"ETPropertyDescription.package"];
+    ETPropertyDescription *owner =
+        [ETPropertyDescription descriptionWithName: @"owner"
+                                              type: (id)@"ETEntityDescription"];
+    ETPropertyDescription *entityDescriptions =
+        [ETPropertyDescription descriptionWithName: @"entityDescriptions"
+                                              type: (id)@"ETEntityDescription"];
+    [entityDescriptions setMultivalued: YES];
+    [entityDescriptions setOpposite: (id)@"ETEntityDescription.owner"];
+    ETPropertyDescription *propertyDescriptions =
+        [ETPropertyDescription descriptionWithName: @"propertyDescriptions"
+                                             type: (id)@"ETPropertyDescription"];
+    [propertyDescriptions setMultivalued: YES];
+    [propertyDescriptions setOpposite: (id)@"ETPropertyDescription.package"];
 
-	[selfDesc setPropertyDescriptions: A(owner, entityDescriptions, propertyDescriptions)];
+    [selfDesc setPropertyDescriptions: A(owner, entityDescriptions, propertyDescriptions)];
 
-	return selfDesc;
+    return selfDesc;
 }
 
 - (id) initWithName: (NSString *)aName
 {
-	self = [super initWithName: aName];
-	if (nil == self) return nil;
+    self = [super initWithName: aName];
+    if (nil == self) return nil;
 
-	_entityDescriptions = [[NSMutableSet alloc] init];
-	_propertyDescriptions = [[NSMutableSet alloc] init];
+    _entityDescriptions = [[NSMutableSet alloc] init];
+    _propertyDescriptions = [[NSMutableSet alloc] init];
 
-	return self;
+    return self;
 }
 
 - (void) dealloc
 {
-	DESTROY(_entityDescriptions);
-	DESTROY(_propertyDescriptions);
-	[super dealloc];
+    DESTROY(_entityDescriptions);
+    DESTROY(_propertyDescriptions);
+    [super dealloc];
 }
 
 - (BOOL) isPackageDescription
 {
-	return YES;
+    return YES;
 }
 
 - (NSString *) typeDescription
 {
-	return @"Package";
+    return @"Package";
 }
 
 - (void) setVersion: (NSUInteger)version
 {
-	[self checkNotFrozen];
-	_version = version;
+    [self checkNotFrozen];
+    _version = version;
 }
 
 - (void) addEntityDescription: (ETEntityDescription *)anEntityDescription
 {
-	[self checkNotFrozen];
-	ETPackageDescription *owner = [anEntityDescription owner];
+    [self checkNotFrozen];
+    ETPackageDescription *owner = [anEntityDescription owner];
 
-	if (nil != owner)
-	{
-		[owner removeEntityDescription: anEntityDescription];
-	}
-	[anEntityDescription setOwner: self];
-	[_entityDescriptions addObject: anEntityDescription];
+    if (nil != owner)
+    {
+        [owner removeEntityDescription: anEntityDescription];
+    }
+    [anEntityDescription setOwner: self];
+    [_entityDescriptions addObject: anEntityDescription];
 
-	NSMutableSet *conflictingExtensions = [NSMutableSet setWithSet: _propertyDescriptions];
-	[[[conflictingExtensions filter] owner] isEqual: anEntityDescription];
-	[_propertyDescriptions minusSet: conflictingExtensions];
+    NSMutableSet *conflictingExtensions = [NSMutableSet setWithSet: _propertyDescriptions];
+    [[[conflictingExtensions filter] owner] isEqual: anEntityDescription];
+    [_propertyDescriptions minusSet: conflictingExtensions];
 }
 
 - (void) removeEntityDescription: (ETEntityDescription *)anEntityDescription
 {
-	[self checkNotFrozen];
-	[anEntityDescription setOwner: nil];
-	[_entityDescriptions removeObject: anEntityDescription];
+    [self checkNotFrozen];
+    [anEntityDescription setOwner: nil];
+    [_entityDescriptions removeObject: anEntityDescription];
 }
 
 - (void) setEntityDescriptions: (NSSet *)entityDescriptions
 {
-	[self checkNotFrozen];
-	FOREACH([NSSet setWithSet: _entityDescriptions], oldEntityDesc, ETEntityDescription *)
-	{
-		[self removeEntityDescription: oldEntityDesc];
-	}
-	FOREACH(entityDescriptions, newEntityDesc, ETEntityDescription *)
-	{
-		[self addEntityDescription: newEntityDesc];
-	}
+    [self checkNotFrozen];
+    FOREACH([NSSet setWithSet: _entityDescriptions], oldEntityDesc, ETEntityDescription *)
+    {
+        [self removeEntityDescription: oldEntityDesc];
+    }
+    FOREACH(entityDescriptions, newEntityDesc, ETEntityDescription *)
+    {
+        [self addEntityDescription: newEntityDesc];
+    }
 }
 
 - (NSSet *) entityDescriptions
 {
-	return AUTORELEASE([_entityDescriptions copy]);
+    return AUTORELEASE([_entityDescriptions copy]);
 }
 
 - (void) addPropertyDescription: (ETPropertyDescription *)propertyDescription
 {
-	[self checkNotFrozen];
-	INVALIDARG_EXCEPTION_TEST(propertyDescription, nil != propertyDescription);
-	INVALIDARG_EXCEPTION_TEST(propertyDescription,
-		NO == [_entityDescriptions containsObject: [propertyDescription owner]]);
+    [self checkNotFrozen];
+    INVALIDARG_EXCEPTION_TEST(propertyDescription, nil != propertyDescription);
+    INVALIDARG_EXCEPTION_TEST(propertyDescription,
+        NO == [_entityDescriptions containsObject: [propertyDescription owner]]);
 
-	ETPackageDescription *package = [propertyDescription package];
+    ETPackageDescription *package = [propertyDescription package];
 
-	if (nil != package)
-	{
-		[package removePropertyDescription: propertyDescription];
-	}
-	[propertyDescription setPackage: self];
-	[_propertyDescriptions addObject: propertyDescription];
+    if (nil != package)
+    {
+        [package removePropertyDescription: propertyDescription];
+    }
+    [propertyDescription setPackage: self];
+    [_propertyDescriptions addObject: propertyDescription];
 }
 
 - (void) removePropertyDescription: (ETPropertyDescription *)propertyDescription
 {
-	[self checkNotFrozen];
-	[propertyDescription setPackage: nil];
-	[_propertyDescriptions removeObject: propertyDescription];
+    [self checkNotFrozen];
+    [propertyDescription setPackage: nil];
+    [_propertyDescriptions removeObject: propertyDescription];
 }
 
 - (void) setPropertyDescriptions: (NSSet *)propertyDescriptions
 {
-	[self checkNotFrozen];
-	FOREACH([NSSet setWithSet: _propertyDescriptions], oldPropertyDesc, ETPropertyDescription *)
-	{
-		[self removePropertyDescription: oldPropertyDesc];
-	}
-	FOREACH(propertyDescriptions, newPropertyDesc, ETPropertyDescription *)
-	{
-		[self addPropertyDescription: newPropertyDesc];
-	}
+    [self checkNotFrozen];
+    FOREACH([NSSet setWithSet: _propertyDescriptions], oldPropertyDesc, ETPropertyDescription *)
+    {
+        [self removePropertyDescription: oldPropertyDesc];
+    }
+    FOREACH(propertyDescriptions, newPropertyDesc, ETPropertyDescription *)
+    {
+        [self addPropertyDescription: newPropertyDesc];
+    }
 }
 
 - (NSSet *) propertyDescriptions
 {
-	return AUTORELEASE([_propertyDescriptions copy]);
+    return AUTORELEASE([_propertyDescriptions copy]);
 }
 
 - (void) checkConstraints: (NSMutableArray *)warnings
 {
-	FOREACH([self entityDescriptions], entityDesc, ETEntityDescription *)
-	{
-		[entityDesc checkConstraints: warnings];
-	}
+    FOREACH([self entityDescriptions], entityDesc, ETEntityDescription *)
+    {
+        [entityDesc checkConstraints: warnings];
+    }
 }
 
 - (id) content
 {
-	return _entityDescriptions;
+    return _entityDescriptions;
 }
 
 - (NSArray *) contentArray
 {
-	return [_entityDescriptions allObjects];
+    return [_entityDescriptions allObjects];
 }
 
 - (void) addObject: (id)object
 {
-	[self checkNotFrozen];
-	[self addEntityDescription: object];
+    [self checkNotFrozen];
+    [self addEntityDescription: object];
 }
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	[self checkNotFrozen];
-	[self addEntityDescription: object];
-	[_entityDescriptions removeObject: object];
-	[_entityDescriptions insertObject: object atIndex: index];
+    [self checkNotFrozen];
+    [self addEntityDescription: object];
+    [_entityDescriptions removeObject: object];
+    [_entityDescriptions insertObject: object atIndex: index];
 }
 
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	[self checkNotFrozen];
-	[self removeEntityDescription: object];
+    [self checkNotFrozen];
+    [self removeEntityDescription: object];
 }
 
 - (void)makeFrozen
 {
-	if (_isFrozen)
-		return;
-	
-	_isFrozen = YES;
-	
-	for (ETEntityDescription *desc in _entityDescriptions)
-	{
-		[desc makeFrozen];
-	}
-	for (ETPropertyDescription *desc in _propertyDescriptions)
-	{
-		[desc makeFrozen];
-	}
+    if (_isFrozen)
+        return;
+    
+    _isFrozen = YES;
+    
+    for (ETEntityDescription *desc in _entityDescriptions)
+    {
+        [desc makeFrozen];
+    }
+    for (ETPropertyDescription *desc in _propertyDescriptions)
+    {
+        [desc makeFrozen];
+    }
 }
 
 @end

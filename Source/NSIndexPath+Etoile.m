@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2007 Quentin Mathe
+    Copyright (C) 2007 Quentin Mathe
 
-	Date:  September 2007
-	License:  Modified BSD (see COPYING)
+    Date:  September 2007
+    License:  Modified BSD (see COPYING)
  */
 
 #import "NSIndexPath+Etoile.h"
@@ -14,7 +14,7 @@
 /** Returns a new autoreleased empty index path. */
 + (NSIndexPath *) indexPath
 {
-	return AUTORELEASE([[NSIndexPath alloc] init]);
+    return AUTORELEASE([[NSIndexPath alloc] init]);
 }
 
 /** Returns a new autoreleased index path initialized with a index path string
@@ -23,44 +23,44 @@ representation.
 The string representation must use <em>.</em> as separator. For example, <em>5.6.7</em>. */
 + (NSIndexPath *) indexPathWithString: (NSString *)aPath
 {
-	NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes: NULL length: 0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes: NULL length: 0];
 
-	FOREACH([aPath componentsSeparatedByString: @"."], component, NSString *)
-	{
-		indexPath = [indexPath indexPathByAddingIndex: [component integerValue]];
-	}
+    FOREACH([aPath componentsSeparatedByString: @"."], component, NSString *)
+    {
+        indexPath = [indexPath indexPathByAddingIndex: [component integerValue]];
+    }
 
-	return indexPath;
+    return indexPath;
 }
 
 /** Returns the first path component in the index path. */
 - (NSUInteger) firstIndex
 {
-	return [self indexAtPosition: 0];
+    return [self indexAtPosition: 0];
 }
 
 /** Returns the last path component in the index path. */
 - (NSUInteger) lastIndex
 {
-	return [self indexAtPosition: [self length] - 1];
+    return [self indexAtPosition: [self length] - 1];
 }
 
 /** Returns a new autoreleased index path by removing the first path component. */
 - (NSIndexPath *) indexPathByRemovingFirstIndex
 {
-	/*unsigned int *indexes = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * [self length]);
-	unsigned int *buffer = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * ([self length] - 1));*/
-	NSUInteger *indexes = calloc(sizeof(NSUInteger), [self length]);
-	NSUInteger *buffer = calloc(sizeof(NSUInteger), [self length] - 1);
+    /*unsigned int *indexes = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * [self length]);
+    unsigned int *buffer = NSZoneMalloc(NSDefaultMallocZone(), sizeof(unsigned int) * ([self length] - 1));*/
+    NSUInteger *indexes = calloc(sizeof(NSUInteger), [self length]);
+    NSUInteger *buffer = calloc(sizeof(NSUInteger), [self length] - 1);
 
-	[self getIndexes: indexes];
-	buffer = memcpy(buffer, &indexes[1], sizeof(NSUInteger) * ([self length] -1));
-	//NSZoneFree(NSDefaultMallocZone(), indexes);
-	free(indexes);
-	NSIndexPath *thePath = [NSIndexPath indexPathWithIndexes: buffer
-	                                                  length: [self length] - 1];
-	free(buffer);
-	return thePath;
+    [self getIndexes: indexes];
+    buffer = memcpy(buffer, &indexes[1], sizeof(NSUInteger) * ([self length] -1));
+    //NSZoneFree(NSDefaultMallocZone(), indexes);
+    free(indexes);
+    NSIndexPath *thePath = [NSIndexPath indexPathWithIndexes: buffer
+                                                      length: [self length] - 1];
+    free(buffer);
+    return thePath;
 }
 
 /** Returns an autoreleased string representation by joining each index path
@@ -71,21 +71,21 @@ e.g. '5/6/7' with '/' as separator or '5.6.7' with '.' as separator.
 Will raise an NSInvalidArgumentException if the separator is nil. */
 - (NSString *) stringByJoiningIndexPathWithSeparator: (NSString *)separator
 {
-	NILARG_EXCEPTION_TEST(separator);
+    NILARG_EXCEPTION_TEST(separator);
 
-	if ([self length] == 0)
-		return @"";
+    if ([self length] == 0)
+        return @"";
 
-	NSString *path = [NSString stringWithFormat: @"%lu", (unsigned long)[self firstIndex]];
-	int indexCount = [self length];
+    NSString *path = [NSString stringWithFormat: @"%lu", (unsigned long)[self firstIndex]];
+    int indexCount = [self length];
 
-	for (int i = 1; i < indexCount; i++)
-	{
-		path = [path stringByAppendingString:
-			[NSString stringWithFormat: @"%@%lu", separator, (unsigned long)[self indexAtPosition: i]]];
-	}
+    for (int i = 1; i < indexCount; i++)
+    {
+        path = [path stringByAppendingString:
+            [NSString stringWithFormat: @"%@%lu", separator, (unsigned long)[self indexAtPosition: i]]];
+    }
 
-	return path;
+    return path;
 }
 
 /** Returns a string representation of the receiver.
@@ -96,7 +96,7 @@ like '6.name'. -valueForKey: and -valueForKeyPath: would try to lookup 5 and 6
 as ivar or method names. */
 - (NSString *) stringValue
 {
-	return [self stringByJoiningIndexPathWithSeparator: @"."];
+    return [self stringByJoiningIndexPathWithSeparator: @"."];
 }
 
 @end

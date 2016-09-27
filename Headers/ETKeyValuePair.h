@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2010 Quentin Mathe
+    Copyright (C) 2010 Quentin Mathe
 
-	Date:  May 2010
-	License: Modified BSD (see COPYING)
+    Date:  May 2010
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -20,10 +20,10 @@ to an ordered dictionary or a multi-value collection.
 For now, ETKeyValuePair doesn't support subclassing. */
 @interface ETKeyValuePair : NSObject <NSCopying, ETViewpoint>
 {
-	@private
-	NSString *_key;
-	id _value;
-	id _representedObject;
+    @private
+    NSString *_key;
+    id _value;
+    id _representedObject;
 }
 
 /** @taskunit Initialization */

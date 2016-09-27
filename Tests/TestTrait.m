@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2011 Quentin Mathe
+    Copyright (C) 2011 Quentin Mathe
  
-	Date:  June 2011
-	License:  Modified BSD (see COPYING)
+    Date:  June 2011
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -122,16 +122,16 @@
 
 - (BOOL) isOrdered
 {
-	return YES;
+    return YES;
 }
 
 - (void) testApplyTrait
 {
-	[[self class] applyTraitFromClass: [BasicTrait class]];
+    [[self class] applyTraitFromClass: [BasicTrait class]];
 
-	UKTrue([self respondsToSelector: @selector(bip)]);
-	UKStringsEqual(@"Nowhere", [self wanderWhere: 5]);
-	UKTrue([self isOrdered]);
+    UKTrue([self respondsToSelector: @selector(bip)]);
+    UKStringsEqual(@"Nowhere", [self wanderWhere: 5]);
+    UKTrue([self isOrdered]);
 }
 
 @end
@@ -140,17 +140,17 @@
 
 - (BOOL) isOrdered
 {
-	return YES;
+    return YES;
 }
 
 - (void) testApplyTrait
 {
-	[[self class] applyTraitFromClass: [ComplexTrait class]];
+    [[self class] applyTraitFromClass: [ComplexTrait class]];
 
-	UKFalse([self respondsToSelector: @selector(bip)]);
-	UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
-	UKTrue([self isOrdered]);
-	UKIntsEqual(3, [self intValue]);	
+    UKFalse([self respondsToSelector: @selector(bip)]);
+    UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
+    UKTrue([self isOrdered]);
+    UKIntsEqual(3, [self intValue]);    
 }
 
 @end
@@ -159,15 +159,15 @@
 
 - (void) testApplyTrait
 {
-	[[self class] applyTraitFromClass: [BasicTrait class]
-	              excludedMethodNames: S(@"isOrdered")
-	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
+    [[self class] applyTraitFromClass: [BasicTrait class]
+                  excludedMethodNames: S(@"isOrdered")
+                   aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
 
-	UKTrue([self respondsToSelector: @selector(bip)]);
-	UKTrue([self respondsToSelector: @selector(lost:)]);
-	UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
-	UKStringsEqual(@"Nowhere", [self lost: 5]);
-	UKFalse([self respondsToSelector: @selector(isOrdered)]);
+    UKTrue([self respondsToSelector: @selector(bip)]);
+    UKTrue([self respondsToSelector: @selector(lost:)]);
+    UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
+    UKStringsEqual(@"Nowhere", [self lost: 5]);
+    UKFalse([self respondsToSelector: @selector(isOrdered)]);
 }
 
 @end
@@ -176,18 +176,18 @@
 
 - (void) testApplyTrait
 {
-	[[self class] applyTraitFromClass: [BasicTrait class]
-	              excludedMethodNames: S(@"isOrdered")
-	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
-	[[self class] applyTraitFromClass: [ComplexTrait class]];
+    [[self class] applyTraitFromClass: [BasicTrait class]
+                  excludedMethodNames: S(@"isOrdered")
+                   aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
+    [[self class] applyTraitFromClass: [ComplexTrait class]];
 
-	UKTrue([self respondsToSelector: @selector(bip)]);
-	UKTrue([self respondsToSelector: @selector(lost:)]);
-	UKStringsEqual(@"Nowhere", [self lost: 5]);
-	UKTrue([self respondsToSelector: @selector(wanderWhere:)]);
-	UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
-	UKFalse([self respondsToSelector: @selector(isOrdered)]);
-	UKIntsEqual(3, [self intValue]);
+    UKTrue([self respondsToSelector: @selector(bip)]);
+    UKTrue([self respondsToSelector: @selector(lost:)]);
+    UKStringsEqual(@"Nowhere", [self lost: 5]);
+    UKTrue([self respondsToSelector: @selector(wanderWhere:)]);
+    UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
+    UKFalse([self respondsToSelector: @selector(isOrdered)]);
+    UKIntsEqual(3, [self intValue]);
 }
 
 @end
@@ -196,20 +196,20 @@
 
 - (void) testApplyTrait
 {
-	[[CompositeTrait class] applyTraitFromClass: [BasicTrait class]
-	                        excludedMethodNames: S(@"isOrdered")
-	                         aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
-	[[CompositeTrait class] applyTraitFromClass: [ComplexTrait class]];
+    [[CompositeTrait class] applyTraitFromClass: [BasicTrait class]
+                            excludedMethodNames: S(@"isOrdered")
+                             aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
+    [[CompositeTrait class] applyTraitFromClass: [ComplexTrait class]];
 
-	[[self class] applyTraitFromClass: [CompositeTrait class]];
+    [[self class] applyTraitFromClass: [CompositeTrait class]];
 
-	UKTrue([self respondsToSelector: @selector(bip)]);
-	UKTrue([self respondsToSelector: @selector(lost:)]);
-	UKStringsEqual(@"Nowhere", [self lost: 5]);
-	UKTrue([self respondsToSelector: @selector(wanderWhere:)]);
-	UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
-	UKFalse([self respondsToSelector: @selector(isOrdered)]);
-	UKIntsEqual(3, [self intValue]);
+    UKTrue([self respondsToSelector: @selector(bip)]);
+    UKTrue([self respondsToSelector: @selector(lost:)]);
+    UKStringsEqual(@"Nowhere", [self lost: 5]);
+    UKTrue([self respondsToSelector: @selector(wanderWhere:)]);
+    UKStringsEqual(@"Somewhere", [self wanderWhere: 5]);
+    UKFalse([self respondsToSelector: @selector(isOrdered)]);
+    UKIntsEqual(3, [self intValue]);
 }
 
 @end
@@ -218,13 +218,13 @@
 
 - (void) testApplyTrait
 {
-	[[Trait1 class] applyTraitFromClass: [Subtrait class]];
-	[[Trait2 class] applyTraitFromClass: [Subtrait class]];
-	
-	[[self class] applyTraitFromClass: [Trait2 class]];
-	[[self class] applyTraitFromClass: [Trait1 class]];
+    [[Trait1 class] applyTraitFromClass: [Subtrait class]];
+    [[Trait2 class] applyTraitFromClass: [Subtrait class]];
+    
+    [[self class] applyTraitFromClass: [Trait2 class]];
+    [[self class] applyTraitFromClass: [Trait1 class]];
 
-	UKStringsEqual(@"Mike", [self name]);
+    UKStringsEqual(@"Mike", [self name]);
 }
 
 @end
@@ -233,18 +233,18 @@
 
 - (NSString *) wanderWhere: (NSUInteger)aLocation
 {
-	return @"Anywhere";
+    return @"Anywhere";
 }
 
 - (void) testApplyTrait
-{	
-	[[self class] applyTraitFromClass: [BasicTrait class]];
-	// Although both trait classes implement -wanderWhere:, no exception 
-	// should be raised, because the target class implements its own 
-	// -wanderWhere: version.
-	[[self class] applyTraitFromClass: [ComplexTrait class]];
+{   
+    [[self class] applyTraitFromClass: [BasicTrait class]];
+    // Although both trait classes implement -wanderWhere:, no exception 
+    // should be raised, because the target class implements its own 
+    // -wanderWhere: version.
+    [[self class] applyTraitFromClass: [ComplexTrait class]];
 
-	UKStringsEqual(@"Anywhere", [self wanderWhere: 9]);
+    UKStringsEqual(@"Anywhere", [self wanderWhere: 9]);
 }
 
 @end
@@ -253,43 +253,43 @@
 
 - (BOOL) isOrdered
 {
-	return YES;
+    return YES;
 }
 
 - (NSString *) lost: (NSUInteger)aLocation
 {
-	return @"Anywhere";
+    return @"Anywhere";
 }
 
 - (int) intValue 
 {
-	return 100; 
+    return 100; 
 }
 
 - (void) testApplyTrait
 {
-	[[self class] applyTraitFromClass: [BasicTrait class]
-	              excludedMethodNames: S(@"isOrdered")
-	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")
-	                   allowsOverride: YES];
+    [[self class] applyTraitFromClass: [BasicTrait class]
+                  excludedMethodNames: S(@"isOrdered")
+                   aliasedMethodNames: D(@"lost:", @"wanderWhere:")
+                       allowsOverride: YES];
 
-	UKTrue([self respondsToSelector: @selector(bip)]);
-	UKTrue([self respondsToSelector: @selector(lost:)]);
-	UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
-	UKStringsEqual(@"Nowhere", [self lost: 5]);
-	UKTrue([self isOrdered]);
+    UKTrue([self respondsToSelector: @selector(bip)]);
+    UKTrue([self respondsToSelector: @selector(lost:)]);
+    UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
+    UKStringsEqual(@"Nowhere", [self lost: 5]);
+    UKTrue([self isOrdered]);
 
-	[[self class] applyTraitFromClass: [ComplexTrait class]
-	              excludedMethodNames: [NSSet set]
-	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")
-	                   allowsOverride: YES];
+    [[self class] applyTraitFromClass: [ComplexTrait class]
+                  excludedMethodNames: [NSSet set]
+                   aliasedMethodNames: D(@"lost:", @"wanderWhere:")
+                       allowsOverride: YES];
 
-	UKTrue([self respondsToSelector: @selector(bip)]);
-	UKTrue([self respondsToSelector: @selector(lost:)]);
-	UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
-	UKStringsEqual(@"Somewhere", [self lost: 5]);
-	UKTrue([self isOrdered]);
-	UKIntsEqual(3, [self intValue]);
+    UKTrue([self respondsToSelector: @selector(bip)]);
+    UKTrue([self respondsToSelector: @selector(lost:)]);
+    UKFalse([self respondsToSelector: @selector(wanderWhere:)]);
+    UKStringsEqual(@"Somewhere", [self lost: 5]);
+    UKTrue([self isOrdered]);
+    UKIntsEqual(3, [self intValue]);
 }
 
 @end

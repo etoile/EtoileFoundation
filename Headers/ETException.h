@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2008 David Chisnall
+    Copyright (C) 2008 David Chisnall
 
-	Date:  March 2008
-	License:  Modified BSD (see COPYING)
+    Date:  March 2008
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -54,8 +54,8 @@ typedef ETExceptionType (*ETHandler)(NSException * userInfo);
  * current lexical scope.
  */
 #define SET_HANDLER(exception, handler) \
-	[NSException pushHandler:handler forException:exception];\
-	NSString *  __attribute__((cleanup(pophandler))) wibble##handler = exception;
+    [NSException pushHandler:handler forException:exception];\
+    NSString *  __attribute__((cleanup(pophandler))) wibble##handler = exception;
 /**
  * Function installed as a cleanup function by SET_HANDLER to pop the added
  * exception off the stack when the current lexical scope is exited.
@@ -74,8 +74,8 @@ extern void pophandler(void* exception);
  * NS_RESTARTABLE_DURING.
  */
 #define NS_RESTARTABLE_HANDLER \
-		NS_HANDLER\
-		if(GLOBAL_EXCEPTION_STATE == EXCEPTION_RETRY)\
-		{\
-			goto retry_exception;\
-		}}
+        NS_HANDLER\
+        if(GLOBAL_EXCEPTION_STATE == EXCEPTION_RETRY)\
+        {\
+            goto retry_exception;\
+        }}

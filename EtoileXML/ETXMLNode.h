@@ -24,13 +24,13 @@
  * Note: ETXMLNode objects are always mutable, and should be treated as such.
  */
 @interface ETXMLNode : NSObject <ETXMLParserDelegate> {
-	NSMutableArray * elements;
-	unsigned int children;
-	NSMutableDictionary * childrenByName;
-	NSMutableDictionary * attributes;
-	id parser;
-	NSString * nodeType;
-	NSMutableString * plainCDATA;
+    NSMutableArray * elements;
+    unsigned int children;
+    NSMutableDictionary * childrenByName;
+    NSMutableDictionary * attributes;
+    id parser;
+    NSString * nodeType;
+    NSMutableString * plainCDATA;
 }
 /**
  * Create a new instance of the class with the specified type.  [ETXMLNode

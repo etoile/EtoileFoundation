@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
  
-	Date:  June 2009
-	License: Modified BSD (see COPYING)
+    Date:  June 2009
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -13,9 +13,9 @@
 @abstract Mirror class that represents an Objective-C method.*/
 @interface ETMethodMirror : NSObject <ETMethodMirror>
 {
-	@private
-	Method _method;
-	BOOL _isClassMethod;
+    @private
+    Method _method;
+    BOOL _isClassMethod;
 }
 + (id) mirrorWithMethod: (Method)method isClassMethod: (BOOL)isClassMethod;
 - (id) initWithMethod: (Method)method isClassMethod: (BOOL)isClassMethod;
@@ -28,9 +28,9 @@
  */
 @interface ETMethodDescriptionMirror : NSObject <ETMethodMirror>
 {
-	@private
-	NSString *_name;
-	BOOL _isClassMethod;
+    @private
+    NSString *_name;
+    BOOL _isClassMethod;
 }
 + (id) mirrorWithMethodName: (const char *)name isClassMethod: (BOOL)isClassMethod;
 - (id) initWithMethodName: (const char *)name isClassMethod: (BOOL)isClassMethod;

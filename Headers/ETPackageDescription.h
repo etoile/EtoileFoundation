@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2010 Quentin Mathe
+    Copyright (C) 2010 Quentin Mathe
 
-	Date:  March 2010
-	License:  Modified BSD (see COPYING)
+    Date:  March 2010
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -25,11 +25,11 @@ From a Model Builder perspective, a package is the document you work on to
 specify a data model.  */
 @interface ETPackageDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
-	@private
-	NSMutableSet *_entityDescriptions;
-	NSMutableSet *_propertyDescriptions;
-	NSUInteger _version;
-	BOOL _supportsNamespace;
+    @private
+    NSMutableSet *_entityDescriptions;
+    NSMutableSet *_propertyDescriptions;
+    NSUInteger _version;
+    BOOL _supportsNamespace;
 }
 
 

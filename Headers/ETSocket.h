@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 David Chisnall
+    Copyright (C) 2009 David Chisnall
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -17,24 +17,24 @@
  */
 @interface ETSocket : NSObject
 {
-	/** Buffer used for receiving data. */
-	unsigned char buffer[512];
-	/** File handle encapsulating the socket.  Used for runloop integration. */
-	NSFileHandle *handle;
-	/** Reference to the delegate. */
-	id delegate;
-	/** OpenSSL context. */
-	void *ssl;
-	/** OpenSSL context. */
-	void *sslContext;
-	/** Array of filters used for filtering the output. */
-	NSMutableArray *outFilters;
-	/** Array of filters used for filtering the input. */
-	NSMutableArray *inFilters;
+    /** Buffer used for receiving data. */
+    unsigned char buffer[512];
+    /** File handle encapsulating the socket.  Used for runloop integration. */
+    NSFileHandle *handle;
+    /** Reference to the delegate. */
+    id delegate;
+    /** OpenSSL context. */
+    void *ssl;
+    /** OpenSSL context. */
+    void *sslContext;
+    /** Array of filters used for filtering the output. */
+    NSMutableArray *outFilters;
+    /** Array of filters used for filtering the input. */
+    NSMutableArray *inFilters;
     /** EOF Counter */
     NSInteger eofCounter;
-	/** YES if the connection is broken, NO otherwise */
-	BOOL connectionIsBroken;
+    /** YES if the connection is broken, NO otherwise */
+    BOOL connectionIsBroken;
 }
 /**
  * Returns YES if the connection is broken, NO otherwise
@@ -67,10 +67,10 @@
  */
 @interface ETListenSocket: ETSocket
 {
-	/**
-	 * Tracks whether the socket is already accepting connections.
-	 */
-	BOOL hasAccept;
+    /**
+     * Tracks whether the socket is already accepting connections.
+     */
+    BOOL hasAccept;
 }
 /**
  * Returns a socket listening aPort for an address of the local machine.

@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen, Quentin Mathe
+    Copyright (C) 2009 Eric Wasylishen, Quentin Mathe
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
@@ -113,31 +113,31 @@
  */
 @interface ETPropertyDescription : ETModelElementDescription
 {
-	@private
-	BOOL _derived;
-	BOOL _container;
-	BOOL _multivalued;
-	BOOL _ordered;
-	BOOL _keyed;
-	BOOL _persistent;
-	BOOL _readOnly;
-	BOOL _showsItemDetails;
-	NSArray *_detailedPropertyNames;
-	id _commitDescriptor;
-	ETPropertyDescription *_opposite;
-	ETEntityDescription *_owner;
-	ETPackageDescription *_package;
-	ETEntityDescription *_type;
-	ETRoleDescription *_role;
-	BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
-	BOOL _indexed;
-	NSString *_valueTransformerName;
-	ETEntityDescription *_persistentType;
-	NSString *_oppositeName;
-	NSString *_ownerName;
-	NSString *_packageName;
-	NSString *_typeName;
-	NSString *_persistentTypeName;
+    @private
+    BOOL _derived;
+    BOOL _container;
+    BOOL _multivalued;
+    BOOL _ordered;
+    BOOL _keyed;
+    BOOL _persistent;
+    BOOL _readOnly;
+    BOOL _showsItemDetails;
+    NSArray *_detailedPropertyNames;
+    id _commitDescriptor;
+    ETPropertyDescription *_opposite;
+    ETEntityDescription *_owner;
+    ETPackageDescription *_package;
+    ETEntityDescription *_type;
+    ETRoleDescription *_role;
+    BOOL _isSettingOpposite; /* Flag to exit when -setOpposite: is reentered */
+    BOOL _indexed;
+    NSString *_valueTransformerName;
+    ETEntityDescription *_persistentType;
+    NSString *_oppositeName;
+    NSString *_ownerName;
+    NSString *_packageName;
+    NSString *_typeName;
+    NSString *_persistentTypeName;
 }
 
 

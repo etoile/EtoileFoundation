@@ -26,6 +26,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 @implementation TRXHTMLTest
 - (IBAction) update:(id)sender;
 {
-	[[outHTML textStorage] setAttributedString:[NSAttributedString attributedStringWithHTML:[inHTML string]]];
+    [[outHTML textStorage] setAttributedString:[NSAttributedString attributedStringWithHTML:[inHTML string]]];
 }
 @end

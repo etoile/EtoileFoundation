@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2007 Quentin Mathe
+    Copyright (C) 2007 Quentin Mathe
 
-	Date:  December 2007
-	License:  Modified BSD (see COPYING)
+    Date:  December 2007
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -77,7 +77,7 @@ reimplement the parts that matter.
 For example, ETMutableObjectViewpoint uses this trait. */
 @interface ETViewpointTrait : NSObject <ETViewpoint>
 {
-	
+    
 }
 
 /** Returns YES. */

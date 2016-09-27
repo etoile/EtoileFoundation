@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2009 Niels Grewe
+    Copyright (C) 2009 Niels Grewe
 
-	Date:  June 2009
-	License:  Modified BSD (see COPYING)
+    Date:  June 2009
+    License:  Modified BSD (see COPYING)
  */
 
 /*
@@ -13,57 +13,57 @@
 
 - (id)map
 {
-	return [[[ETCollectionMutationMapProxy alloc] initWithCollection: self]
-	                                                           autorelease];
+    return [[[ETCollectionMutationMapProxy alloc] initWithCollection: self]
+                                                               autorelease];
 }
 
 - (id)filter
 {
-	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self] autorelease];
+    return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self] autorelease];
 }
 
 - (id)filterOut
 {
-	return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self
-	                                                          andInvert: YES] autorelease];
+    return [[[ETCollectionMutationFilterProxy alloc] initWithCollection: self
+                                                              andInvert: YES] autorelease];
 }
 - (id)zipWithCollection: (id<NSObject,ETCollection>)aCollection
 {
-	return [[[ETCollectionMutationZipProxy alloc] initWithCollection: self
-	                                                   andCollection: (id)aCollection] autorelease];
+    return [[[ETCollectionMutationZipProxy alloc] initWithCollection: self
+                                                       andCollection: (id)aCollection] autorelease];
 }
 
 - (void)mapWithBlock: (id)aBlock
 {
-	ETHOMMapCollectionWithBlockOrInvocationToTarget(
-	                                  (const id<ETCollectionObject>*) &self,
-	                                                                  aBlock,
-	                                                                     YES,
-	                            (const id<ETMutableCollectionObject>*) &self);
+    ETHOMMapCollectionWithBlockOrInvocationToTarget(
+                                      (const id<ETCollectionObject>*) &self,
+                                                                      aBlock,
+                                                                         YES,
+                                (const id<ETMutableCollectionObject>*) &self);
 }
 
 - (void)zipWithCollection: (id<NSObject,ETCollection>)aCollection
                  andBlock: (id)aBlock
 {
-	ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,(id<ETCollectionObject> *)&aCollection,
-	                                                  aBlock,YES,
-	                                                  &self);
+    ETHOMZipCollectionsWithBlockOrInvocationAndTarget(&self,(id<ETCollectionObject> *)&aCollection,
+                                                      aBlock,YES,
+                                                      &self);
 }
 
 #if __has_feature(blocks)
 - (void)filterWithBlock: (BOOL(^)(id))aBlock
               andInvert: (BOOL)invert
 {
-	ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(&self,aBlock,YES,invert);
+    ETHOMFilterMutableCollectionWithBlockOrInvocationAndInvert(&self,aBlock,YES,invert);
 }
 
 - (void)filterWithBlock: (BOOL(^)(id))aBlock
 {
-	[self filterWithBlock: aBlock andInvert: NO];
+    [self filterWithBlock: aBlock andInvert: NO];
 }
 
 - (void)filterOutWithBlock: (BOOL(^)(id))aBlock
 {
-	[self filterWithBlock: aBlock andInvert: YES];
+    [self filterWithBlock: aBlock andInvert: YES];
 }
 #endif

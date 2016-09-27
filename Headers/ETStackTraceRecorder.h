@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2010 Quentin Mathe
+    Copyright (C) 2010 Quentin Mathe
 
-	Date:  June 2010
-	License:  Modified BSD (see COPYING)
+    Date:  June 2010
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -58,11 +58,11 @@ ETStackTraceRecorder is thread-safe (not fully yet), multiple threads can invoke
 -recordForObject:. */
 @interface ETStackTraceRecorder : NSObject
 {
-	@private
-	NSMapTable *_tracesByObject;
-	NSThread *_recordThread;
-	NSLock *_lock;
-	NSMutableSet *_allocMonitoredClasses;
+    @private
+    NSMapTable *_tracesByObject;
+    NSThread *_recordThread;
+    NSLock *_lock;
+    NSMutableSet *_allocMonitoredClasses;
 }
 
 /** @taskunit Initialization */
@@ -106,7 +106,7 @@ You usually don't need to instantiate stack trace objects directly,
 ETStackTraceRecorder does it. */
 @interface ETStackTrace : NSObject
 {
-	NSArray *_callStackSymbols;
+    NSArray *_callStackSymbols;
 }
 
 - (id) init;

@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2007 Quentin Mathe
+    Copyright (C) 2007 Quentin Mathe
  
-	Date:  September 2007
-	License: Modified BSD (see COPYING)
+    Date:  September 2007
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -216,9 +216,9 @@ priority must be given to the index to locate the objects to remove. */
 
 typedef enum
 {
-	ETCollectionMutationKindInsertion,
-	ETCollectionMutationKindRemoval,
-	ETCollectionMutationKindReplacement
+    ETCollectionMutationKindInsertion,
+    ETCollectionMutationKindRemoval,
+    ETCollectionMutationKindReplacement
 } ETCollectionMutationKind;
 
 /** @group Collection Protocols
@@ -311,11 +311,11 @@ optimization (the else branch is good enough).
 <example>
 if ([[aCollection content] isArray] == NO)
 {
-	[personIvarArray addObjectsFromArray: (NSArray *)aCollection];
+    [personIvarArray addObjectsFromArray: (NSArray *)aCollection];
 }
 else
 {
-	[personIvarArray addObjectsFromArray: [aCollection contentArray]];
+    [personIvarArray addObjectsFromArray: [aCollection contentArray]];
 }
 </example>
 
@@ -356,7 +356,7 @@ so.
 <example>
 @interface MyCollection : NSObject &gt;ETCollection, ETCollectionMutation&lt;
 {
-	NSMutableArray *things;
+    NSMutableArray *things;
 }
 
 @end
@@ -365,47 +365,47 @@ so.
 
 + (void) initialize
 {
-	if (self != [MyCollection class])
-		return;
+    if (self != [MyCollection class])
+        return;
 
-	[self applyTraitFromClass: [ETCollection class]];
-	[self applyTraitFromClass: [ETMutableCollection class]];
+    [self applyTraitFromClass: [ETCollection class]];
+    [self applyTraitFromClass: [ETMutableCollection class]];
 }
 
 // Omitted initialization and deallocation methods
 
 - (id) content
 {
-	return things;
+    return things;
 }
 
 - (NSArray *) contentArray
 {
-	return [NSArray arrayWithArray: things];
+    return [NSArray arrayWithArray: things];
 }
 
 - (void) insertObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	if (index == ETUndeterminedIndex)
-	{
-		[things addObject: object];
-	}
-	else
-	{
-		[things insertObject: object atIndex: index];
-	}
+    if (index == ETUndeterminedIndex)
+    {
+        [things addObject: object];
+    }
+    else
+    {
+        [things insertObject: object atIndex: index];
+    }
 }
 
 - (void) removeObject: (id)object atIndex: (NSUInteger)index hint: (id)hint
 {
-	if (index == ETUndeterminedIndex)
-	{
-		[things removeObject: object];
-	}
-	else
-	{
-		[things removeObjectAtIndex: index];
-	}
+    if (index == ETUndeterminedIndex)
+    {
+        [things removeObject: object];
+    }
+    else
+    {
+        [things removeObjectAtIndex: index];
+    }
 }
 
 @end 

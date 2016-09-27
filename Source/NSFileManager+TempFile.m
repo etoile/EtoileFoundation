@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2008 David Chisnall
+    Copyright (C) 2008 David Chisnall
  
-	Date:  March 2008
-	License:  Modified BSD (see COPYING)
+    Date:  March 2008
+    License:  Modified BSD (see COPYING)
  */
 
 #import "NSFileManager+TempFile.h"
@@ -16,58 +16,58 @@
 
 char *mkdtemp(char *pattern)
 {
-	if (!mktemp(pattern) || mkdir(pattern, 0700))
-	{
-		return NULL;
-	}
-	return pattern;
+    if (!mktemp(pattern) || mkdir(pattern, 0700))
+    {
+        return NULL;
+    }
+    return pattern;
 }
 #endif
 
 static char * makeTempPattern(void)
 {
-	NSString * patternString = NSTemporaryDirectory();
-	patternString = 
-		[patternString stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
-	// Make sure that this application's temporary directory exists.
-	NSError *error = nil;
-	BOOL isDir;
-	BOOL success = [[NSFileManager defaultManager] fileExistsAtPath: patternString
-	                                                    isDirectory: &isDir];
-	success &= isDir;
-	if (!success)
-	{
-		success = [[NSFileManager defaultManager] createDirectoryAtPath: patternString
-		                                    withIntermediateDirectories: YES
-		                                                     attributes: nil
-		                                                          error: &error];
-	}
-	if (success == NO)
-	{
-		NSLog(@"Failed to create a temporary directory: %@", error);
-		return NULL;
-	}
-	patternString = [patternString stringByAppendingPathComponent:@"tmpXXXXXXXX"];
-	return strdup([patternString UTF8String]);
+    NSString * patternString = NSTemporaryDirectory();
+    patternString = 
+        [patternString stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
+    // Make sure that this application's temporary directory exists.
+    NSError *error = nil;
+    BOOL isDir;
+    BOOL success = [[NSFileManager defaultManager] fileExistsAtPath: patternString
+                                                        isDirectory: &isDir];
+    success &= isDir;
+    if (!success)
+    {
+        success = [[NSFileManager defaultManager] createDirectoryAtPath: patternString
+                                            withIntermediateDirectories: YES
+                                                             attributes: nil
+                                                                  error: &error];
+    }
+    if (success == NO)
+    {
+        NSLog(@"Failed to create a temporary directory: %@", error);
+        return NULL;
+    }
+    patternString = [patternString stringByAppendingPathComponent:@"tmpXXXXXXXX"];
+    return strdup([patternString UTF8String]);
 }
 
 @implementation NSFileManager (ETTempFile)
 - (NSFileHandle*) tempFile
 {
-	char * pattern = makeTempPattern();
-	int fd = mkstemp(pattern);
-	free(pattern);
-	return [[[NSFileHandle alloc] initWithFileDescriptor:fd] autorelease];
+    char * pattern = makeTempPattern();
+    int fd = mkstemp(pattern);
+    free(pattern);
+    return [[[NSFileHandle alloc] initWithFileDescriptor:fd] autorelease];
 }
 - (NSString*) tempDirectory
 {
-	char * pattern = makeTempPattern();
-	NSString * dirName = nil;
-	if (NULL != mkdtemp(pattern))
-	{
-		dirName = [NSString stringWithUTF8String:pattern];
-		free(pattern);
-	}
-	return dirName;
+    char * pattern = makeTempPattern();
+    NSString * dirName = nil;
+    if (NULL != mkdtemp(pattern))
+    {
+        dirName = [NSString stringWithUTF8String:pattern];
+        free(pattern);
+    }
+    return dirName;
 }
 @end

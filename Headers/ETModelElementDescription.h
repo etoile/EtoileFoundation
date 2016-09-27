@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -233,13 +233,13 @@ long as only one of them is non-NULL at a time (roughly speaking, UML puts the
 constraint at runtime, FAME puts the constraint at compile time). */
 @interface ETModelElementDescription : NSObject
 {
-	@private
-	NSString *_name;
-	NSString *_displayName;
-	NSString *_itemIdentifier;
-	BOOL _isMetaMetamodel;
-	@protected
-	BOOL _isFrozen;
+    @private
+    NSString *_name;
+    NSString *_displayName;
+    NSString *_itemIdentifier;
+    BOOL _isMetaMetamodel;
+    @protected
+    BOOL _isFrozen;
 }
 
 

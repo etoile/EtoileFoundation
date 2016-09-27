@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -16,10 +16,10 @@
  */
 @interface ETValidationResult : NSObject
 {
-	@private
-	id _value;
-	NSString *_error;
-	BOOL _isValid;
+    @private
+    id _value;
+    NSString *_error;
+    BOOL _isValid;
 }
 
 

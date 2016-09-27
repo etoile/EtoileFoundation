@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2008 David Chisnall
+    Copyright (C) 2008 David Chisnall
 
-	Date:  June 2008
-	License:  Modified BSD (see COPYING)
+    Date:  June 2008
+    License:  Modified BSD (see COPYING)
  */
 
 /**

@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2007 Quentin Mathe
+    Copyright (C) 2007 Quentin Mathe
 
-	Date:  August 2007
-	License:  Modified BSD (see COPYING)
+    Date:  August 2007
+    License:  Modified BSD (see COPYING)
  */
  
 #import "NSIndexSet+Etoile.h"
@@ -15,19 +15,19 @@ stored in the receiver.
 Each resulting index path only contains a single index. */
 - (NSArray *) indexPaths
 {
-	NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity: [self count]];
-	/* Will set lastIndex to 0 or NSNotFound */
-	NSUInteger lastIndex = [self indexGreaterThanOrEqualToIndex: 0];
+    NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity: [self count]];
+    /* Will set lastIndex to 0 or NSNotFound */
+    NSUInteger lastIndex = [self indexGreaterThanOrEqualToIndex: 0];
 
-	if (lastIndex == NSNotFound)
-		return nil;
+    if (lastIndex == NSNotFound)
+        return nil;
 
-	do
-	{
-		[indexPaths addObject: [NSIndexPath indexPathWithIndex: lastIndex]];
-	} while ((lastIndex = [self indexGreaterThanIndex: lastIndex]) != NSNotFound);
-	
-	return indexPaths;
+    do
+    {
+        [indexPaths addObject: [NSIndexPath indexPathWithIndex: lastIndex]];
+    } while ((lastIndex = [self indexGreaterThanIndex: lastIndex]) != NSNotFound);
+    
+    return indexPaths;
 }
 
 @end
@@ -40,14 +40,14 @@ Each resulting index path only contains a single index. */
 If the receiver contains index, this index gets removed, else this index gets added. */
 - (void) invertIndex: (unsigned int)index
 {
-	if ([self containsIndex: index])
-	{
-		[self removeIndex: index];
-	}
-	else
-	{
-		[self addIndex: index];
-	}
+    if ([self containsIndex: index])
+    {
+        [self removeIndex: index];
+    }
+    else
+    {
+        [self addIndex: index];
+    }
 }
 
 @end

@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2013 Quentin Mathe
+    Copyright (C) 2013 Quentin Mathe
 
-	Date:  May 2013
-	License: Modified BSD (see COPYING)
+    Date:  May 2013
+    License: Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -26,8 +26,8 @@ ETCollectionViewpoint exposes these other collections as the main collection is
 usually exposed. */
 @interface ETUnionViewpoint : ETCollectionViewpoint
 {
-	NSString *_contentKeyPath;
-	NSMutableDictionary *_observations;
+    NSString *_contentKeyPath;
+    NSMutableDictionary *_observations;
 }
 
 + (id) mixedValueMarker;

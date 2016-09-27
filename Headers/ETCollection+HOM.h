@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Niels Grewe
+    Copyright (C) 2009 Niels Grewe
 
-	Date:  June 2009
-	License:  Modified BSD (see COPYING)
+    Date:  June 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>

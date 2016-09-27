@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2008 David Chisnall
+    Copyright (C) 2008 David Chisnall
  
-	Date:  December 2008
-	License:  Modified BSD (see COPYING)
+    Date:  December 2008
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/NSObject.h>

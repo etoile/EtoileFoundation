@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2007 David Chisnall, Quentin Mathe
+    Copyright (C) 2007 David Chisnall, Quentin Mathe
 
-	Date:  October 2007
-	License:  Modified BSD (see COPYING)
+    Date:  October 2007
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -83,10 +83,10 @@ For example:
 // Traits should be applied as early as possible usually, that's why we use +initialize
 + (void) initialize
 {
-	if (self != [MyClass class])
-		return;
+    if (self != [MyClass class])
+        return;
 
-	[aTargetClass applyTraitFromClass: aTraitClass];
+    [aTargetClass applyTraitFromClass: aTraitClass];
 }
 </example>
 
@@ -97,14 +97,14 @@ ComplexTrait) to another trait (CompositeTrait), then the resulting is applied
 to the target class (the receiver's class).
 
 <example>
-	// -wanderWhere: from Basic method will be renamed -lost: in CompositeTrait
-	[[CompositeTrait class] applyTraitFromClass: [BasicTrait class]
-	                        excludedMethodNames: S(@"isOrdered")
-	                         aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
+    // -wanderWhere: from Basic method will be renamed -lost: in CompositeTrait
+    [[CompositeTrait class] applyTraitFromClass: [BasicTrait class]
+                            excludedMethodNames: S(@"isOrdered")
+                             aliasedMethodNames: D(@"lost:", @"wanderWhere:")];
 
-	[[CompositeTrait class] applyTraitFromClass: [ComplexTrait class]];
+    [[CompositeTrait class] applyTraitFromClass: [ComplexTrait class]];
 
-	[[self class] applyTraitFromClass: [CompositeTrait class]];
+    [[self class] applyTraitFromClass: [CompositeTrait class]];
 </example>
 
 As a concrete example, collection protocols are now implemented by most classes 
@@ -125,11 +125,11 @@ states target class overrides trait methods), which means methods in the target
 class can be replaced by methods from a trait.
 
 <example>
-	// With YES, we allow the trait to override/replace methods in the target class
-	[[self class] applyTraitFromClass: [BasicTrait class]
-	              excludedMethodNames: S(@"isOrdered")
-	               aliasedMethodNames: D(@"lost:", @"wanderWhere:")
-	                   allowsOverride: YES];
+    // With YES, we allow the trait to override/replace methods in the target class
+    [[self class] applyTraitFromClass: [BasicTrait class]
+                  excludedMethodNames: S(@"isOrdered")
+                   aliasedMethodNames: D(@"lost:", @"wanderWhere:")
+                       allowsOverride: YES];
 </example>
 
 Trait applications are commutative, so the ordering in which you apply traits 

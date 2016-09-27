@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2009 Eric Wasylishen
+    Copyright (C) 2009 Eric Wasylishen
 
-	Date:  January 2009
-	License:  Modified BSD (see COPYING)
+    Date:  January 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
@@ -42,51 +42,51 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 + (void) initialize
 {
-	if (self == [ETUTI class])
-	{
-		UTIInstances = [[NSMutableDictionary alloc] init];
+    if (self == [ETUTI class])
+    {
+        UTIInstances = [[NSMutableDictionary alloc] init];
 
-		/* EtoileFoundation Bundle */
+        /* EtoileFoundation Bundle */
 
-		NSBundle *etoileFoundationBundle = [NSBundle bundleForClass: [ETUTI class]];
+        NSBundle *etoileFoundationBundle = [NSBundle bundleForClass: [ETUTI class]];
 #if TARGET_OS_IPHONE
-		NSString *etoileFoundationResources = @"EtoileFoundation";
+        NSString *etoileFoundationResources = @"EtoileFoundation";
 #else
-		NSString *etoileFoundationResources = nil;
+        NSString *etoileFoundationResources = nil;
 #endif
 
-		[self registerTypesFromBundle: etoileFoundationBundle
-		                  inDirectory: etoileFoundationResources];
+        [self registerTypesFromBundle: etoileFoundationBundle
+                          inDirectory: etoileFoundationResources];
 
-		/* Loaded Framework Bundles */
+        /* Loaded Framework Bundles */
 
-		for (NSBundle *framework in [NSBundle allFrameworks])
-		{
-			if ([framework isEqual: etoileFoundationBundle])
-				continue;
+        for (NSBundle *framework in [NSBundle allFrameworks])
+        {
+            if ([framework isEqual: etoileFoundationBundle])
+                continue;
 
-			[self registerTypesFromBundle: framework];
-		}
+            [self registerTypesFromBundle: framework];
+        }
 
-		/* Main Bundle (e.g. application document types) */
+        /* Main Bundle (e.g. application document types) */
 
-		[self registerTypesFromBundle: [NSBundle mainBundle]];		
-	}
+        [self registerTypesFromBundle: [NSBundle mainBundle]];      
+    }
 }
 
 + (ETUTI *) typeWithString: (NSString *)aString
 {
-	ETUTI *cached = [UTIInstances objectForKey: aString];
+    ETUTI *cached = [UTIInstances objectForKey: aString];
 
-	if (cached == nil && [aString hasPrefix: ETObjCClassUTIPrefix]
-		&& NSClassFromString(ETUTILastComponent(aString)) != Nil)
-	{
-		return [ETUTI registerTypeWithString: aString
-		                         description: @"Objective-C Class"
-		                    supertypeStrings: nil
-		                            typeTags: nil];
-	}
-	return cached;
+    if (cached == nil && [aString hasPrefix: ETObjCClassUTIPrefix]
+        && NSClassFromString(ETUTILastComponent(aString)) != Nil)
+    {
+        return [ETUTI registerTypeWithString: aString
+                                 description: @"Objective-C Class"
+                            supertypeStrings: nil
+                                    typeTags: nil];
+    }
+    return cached;
 }
 
 + (ETUTI *) typeWithPath: (NSString *)aPath
@@ -96,18 +96,18 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 + (ETUTI *) typeWithFileExtension: (NSString *)anExtension
 {
-	//FIXME: just returns the first UTI it finds matching the extension
-	FOREACH(UTIInstances, aType, ETUTI *)
-	{
-		FOREACH([aType fileExtensions], ext, NSString *)
-		{
-			if ([ext isEqual: anExtension])
-			{
-				return aType;
-			}
-		}
-	}
-	return nil;
+    //FIXME: just returns the first UTI it finds matching the extension
+    FOREACH(UTIInstances, aType, ETUTI *)
+    {
+        FOREACH([aType fileExtensions], ext, NSString *)
+        {
+            if ([ext isEqual: anExtension])
+            {
+                return aType;
+            }
+        }
+    }
+    return nil;
 }
 
 + (ETUTI *) typeWithMIMEType: (NSString *)aMIME
@@ -118,9 +118,9 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
                 FOREACH([aType MIMETypes], mime, NSString *)
                 {
                         if ([mime isEqual: aMIME])
-			{
+            {
                                 return aType;
-			}
+            }
                 }
         }
         return nil;
@@ -128,8 +128,8 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 + (ETUTI *) typeWithClass: (Class)aClass
 {
-	return [ETUTI typeWithString:
-		[ETObjCClassUTIPrefix stringByAppendingString: NSStringFromClass(aClass)]];
+    return [ETUTI typeWithString:
+        [ETObjCClassUTIPrefix stringByAppendingString: NSStringFromClass(aClass)]];
 }
 
 + (ETUTI *) registerTypeWithString: (NSString *)aString
@@ -137,183 +137,183 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
                   supertypeStrings: (NSArray *)supertypeNames
                           typeTags: (NSDictionary *)tags                                                                                                                                                                         
 {
-	ETUTI *aType = [[ETUTI alloc] initWithString: aString
-	                                 description: description
-	                                    typeTags: tags];
-	[aType setSupertypesFromStrings: supertypeNames];
-	[UTIInstances setObject: aType forKey: aString];
-	return [aType autorelease];
+    ETUTI *aType = [[ETUTI alloc] initWithString: aString
+                                     description: description
+                                        typeTags: tags];
+    [aType setSupertypesFromStrings: supertypeNames];
+    [UTIInstances setObject: aType forKey: aString];
+    return [aType autorelease];
 }
 
 + (void) registerTypesFromBundle: (NSBundle *)aBundle
 {
-	[self registerTypesFromBundle: aBundle inDirectory: nil];
+    [self registerTypesFromBundle: aBundle inDirectory: nil];
 }
 
 + (void) registerTypesFromBundle: (NSBundle *)aBundle inDirectory: (NSString *)aDirectory
 {
-	NILARG_EXCEPTION_TEST(aBundle);
+    NILARG_EXCEPTION_TEST(aBundle);
 
-	NSString *path = [aBundle pathForResource: @"UTIDefinitions" 
-	                                   ofType: @"plist"
-	                              inDirectory: aDirectory];
-	[ETUTI registerUTIDefinitions: [ETUTI propertyListWithPath: path]];
-	
-	path = [aBundle pathForResource: @"UTIClassBindings" 
-	                         ofType: @"plist"
-	                    inDirectory: aDirectory];
-	[ETUTI registerClassBindings: [ETUTI propertyListWithPath: path]];
+    NSString *path = [aBundle pathForResource: @"UTIDefinitions" 
+                                       ofType: @"plist"
+                                  inDirectory: aDirectory];
+    [ETUTI registerUTIDefinitions: [ETUTI propertyListWithPath: path]];
+    
+    path = [aBundle pathForResource: @"UTIClassBindings" 
+                             ofType: @"plist"
+                        inDirectory: aDirectory];
+    [ETUTI registerClassBindings: [ETUTI propertyListWithPath: path]];
 }
 
 + (ETUTI *) transientTypeWithSupertypeStrings: (NSArray *)supertypeNames
 {
-	ETUTI *result = [[ETUTI alloc] initWithString: nil description: nil typeTags: nil];
-	[result setSupertypesFromStrings: supertypeNames];
-	return [result autorelease];
+    ETUTI *result = [[ETUTI alloc] initWithString: nil description: nil typeTags: nil];
+    [result setSupertypesFromStrings: supertypeNames];
+    return [result autorelease];
 }
 
 + (ETUTI *) transientTypeWithSupertypes: (NSArray *)supertypes
 {
-	ETUTI *result = [[ETUTI alloc] initWithString: nil description: nil typeTags: nil];
-	result->supertypes = [[NSArray alloc] initWithArray: supertypes];
-	return [result autorelease];
+    ETUTI *result = [[ETUTI alloc] initWithString: nil description: nil typeTags: nil];
+    result->supertypes = [[NSArray alloc] initWithArray: supertypes];
+    return [result autorelease];
 }
 
 
 - (NSString *) stringValue
 {
-	return string;
+    return string;
 }
 
 - (Class) classValue
 {
-	if (NO == [string hasPrefix: @"org.etoile-project.objc.class."])
-	{
-		return Nil;
-	}
-	NSUInteger prefixLength = 30;
-	ETAssert([string length] > prefixLength);
+    if (NO == [string hasPrefix: @"org.etoile-project.objc.class."])
+    {
+        return Nil;
+    }
+    NSUInteger prefixLength = 30;
+    ETAssert([string length] > prefixLength);
 
-	return NSClassFromString([string pathExtension]);
+    return NSClassFromString([string pathExtension]);
 }
 
 - (NSString *) typeDescription
 {
-	return description;
+    return description;
 }
 
 - (NSString *) description /* NSObject */
 {
-	return [self stringValue];
+    return [self stringValue];
 }
 
 - (NSArray *) fileExtensions
 {
-	return (NSArray *)[typeTags objectForKey: kETUTITagClassFileExtension];
+    return (NSArray *)[typeTags objectForKey: kETUTITagClassFileExtension];
 }
 
 - (NSArray *) MIMETypes
 {
-	return (NSArray *)[typeTags objectForKey: kETUTITagClassMIMEType];
+    return (NSArray *)[typeTags objectForKey: kETUTITagClassMIMEType];
 }
 
 - (NSArray *) supertypes
 {
-	NSMutableArray *result = [NSMutableArray arrayWithArray: supertypes];	// supertypes could be nil.
+    NSMutableArray *result = [NSMutableArray arrayWithArray: supertypes];   // supertypes could be nil.
 
-	if ([[self stringValue] hasPrefix:ETObjCClassUTIPrefix])
-	{
-		NSString *selfClassName = ETUTILastComponent([self stringValue]);
-		Class class = NSClassFromString(selfClassName);
+    if ([[self stringValue] hasPrefix:ETObjCClassUTIPrefix])
+    {
+        NSString *selfClassName = ETUTILastComponent([self stringValue]);
+        Class class = NSClassFromString(selfClassName);
 
-		// This is a hack to work around the fact that NSClassFromString will
-		// sometimes return a private subclass of the requested class.
-		// (for example, NSClassFromString(@"NSImage") == [CLImage class])
-		while (nil != class &&
-		       ![NSStringFromClass(class) isEqualToString: selfClassName])
-		{
-			class = [class superclass];
-		}
+        // This is a hack to work around the fact that NSClassFromString will
+        // sometimes return a private subclass of the requested class.
+        // (for example, NSClassFromString(@"NSImage") == [CLImage class])
+        while (nil != class &&
+               ![NSStringFromClass(class) isEqualToString: selfClassName])
+        {
+            class = [class superclass];
+        }
 
-		Class superclass = [class superclass];
+        Class superclass = [class superclass];
 
-		if (superclass != Nil)
-		{
-			[result addObject: [ETUTI typeWithClass: superclass]];
-		}
-	}
-	return result;
+        if (superclass != Nil)
+        {
+            [result addObject: [ETUTI typeWithClass: superclass]];
+        }
+    }
+    return result;
 }
 
 - (NSArray *) allSupertypes
 {
-	NSMutableArray *allSupertypes = [NSMutableArray array];
-	NSMutableArray *moreSupertypes = [NSMutableArray array];
+    NSMutableArray *allSupertypes = [NSMutableArray array];
+    NSMutableArray *moreSupertypes = [NSMutableArray array];
 
-	for (ETUTI *supertype in [self supertypes])
-	{
-		if ([allSupertypes containsObject: supertypes])
-			continue;
+    for (ETUTI *supertype in [self supertypes])
+    {
+        if ([allSupertypes containsObject: supertypes])
+            continue;
 
-		[allSupertypes addObject: supertype];
-		[moreSupertypes addObject: supertype];
-	}
-	for (ETUTI *supertype in moreSupertypes)
-	{
-		[allSupertypes addObjectsFromArray: [supertype allSupertypes]];
-	}
-	return allSupertypes;
+        [allSupertypes addObject: supertype];
+        [moreSupertypes addObject: supertype];
+    }
+    for (ETUTI *supertype in moreSupertypes)
+    {
+        [allSupertypes addObjectsFromArray: [supertype allSupertypes]];
+    }
+    return allSupertypes;
 }
 
 - (NSArray *) subtypes
 {
-	NSMutableArray *result = [NSMutableArray array];
-	NSEnumerator *utiEnumerator = [UTIInstances objectEnumerator];
-	FOREACHE(UTIInstances, type, ETUTI *, utiEnumerator)
-	{
-		if ([type->supertypes containsObject: self])
-			[result addObject: type];
-	}
-	//FIXME: handle the case where self is an objc class UTI
-	return result;
+    NSMutableArray *result = [NSMutableArray array];
+    NSEnumerator *utiEnumerator = [UTIInstances objectEnumerator];
+    FOREACHE(UTIInstances, type, ETUTI *, utiEnumerator)
+    {
+        if ([type->supertypes containsObject: self])
+            [result addObject: type];
+    }
+    //FIXME: handle the case where self is an objc class UTI
+    return result;
 }
 
 - (NSArray *) allSubtypes
 {
-	NSMutableArray *result = [NSMutableArray array];
-	FOREACH([UTIInstances allValues], type, ETUTI *)
-	{
-		if ([type conformsToType: self] && type != self)
-			[result addObject: type];
-	}
-	//FIXME: handle the case where self is an objc class UTI
-	return result;
+    NSMutableArray *result = [NSMutableArray array];
+    FOREACH([UTIInstances allValues], type, ETUTI *)
+    {
+        if ([type conformsToType: self] && type != self)
+            [result addObject: type];
+    }
+    //FIXME: handle the case where self is an objc class UTI
+    return result;
 }
 
 - (BOOL) conformsToType: (ETUTI *)aType
 {
-	if (aType == self)
-	{
-		return YES;
-	}
-	FOREACH([self supertypes], supertype, ETUTI *)
-	{
-		if (supertype == self)
-		{
-			[NSException raise: NSInternalInconsistencyException
-			            format: @"UTI %@ is a supertype of itself", self];
-		}
-		if ([supertype conformsToType: aType])
-		{
-			return YES;
-		}
-	}
-	return NO;
+    if (aType == self)
+    {
+        return YES;
+    }
+    FOREACH([self supertypes], supertype, ETUTI *)
+    {
+        if (supertype == self)
+        {
+            [NSException raise: NSInternalInconsistencyException
+                        format: @"UTI %@ is a supertype of itself", self];
+        }
+        if ([supertype conformsToType: aType])
+        {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (id) copyWithZone: (NSZone *)aZone
 {
-	return RETAIN(self);	
+    return RETAIN(self);    
 }
 
 @end
@@ -325,108 +325,108 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
                description: (NSString *)aDescription
                   typeTags: (NSDictionary *)tags
 {
-	SUPERINIT
-	ASSIGN(string, aString);
-	ASSIGN(description, aDescription);
-	ASSIGN(typeTags, tags);
-	return self;
+    SUPERINIT
+    ASSIGN(string, aString);
+    ASSIGN(description, aDescription);
+    ASSIGN(typeTags, tags);
+    return self;
 }
 
 - (id) init
 {
-	return nil;
+    return nil;
 }
 
 - (void) dealloc
 {
-	[string release];
-	[description release];
-	[supertypes release];
-	[typeTags release];
-	[super dealloc];
+    [string release];
+    [description release];
+    [supertypes release];
+    [typeTags release];
+    [super dealloc];
 }
 
 - (void) setSupertypesFromStrings: (NSArray *)supertypeStrings
 {
-	[supertypes release];
-	supertypes = [[NSMutableArray alloc] init];
-	FOREACH(supertypeStrings, supertypeString, NSString *)
-	{
-		ETUTI *supertype = [ETUTI typeWithString: supertypeString];
-		if (supertype == nil)
-		{
-			[NSException raise: NSInvalidArgumentException
-			            format: @"Attempted to use non-existant UTI %@ as a supertype", supertypeString];
-		}
-		[(NSMutableArray *)supertypes addObject: supertype];
-	}
+    [supertypes release];
+    supertypes = [[NSMutableArray alloc] init];
+    FOREACH(supertypeStrings, supertypeString, NSString *)
+    {
+        ETUTI *supertype = [ETUTI typeWithString: supertypeString];
+        if (supertype == nil)
+        {
+            [NSException raise: NSInvalidArgumentException
+                        format: @"Attempted to use non-existant UTI %@ as a supertype", supertypeString];
+        }
+        [(NSMutableArray *)supertypes addObject: supertype];
+    }
 }
 
 + (id) propertyListWithPath: (NSString *)path
 {
-	if (path == nil)
-		return nil;
+    if (path == nil)
+        return nil;
 
-	NSData *data = [NSData dataWithContentsOfFile: path];
-	return [NSPropertyListSerialization propertyListFromData: data
-	                                        mutabilityOption: NSPropertyListImmutable
-	                                                  format: NULL
-	                                        errorDescription: NULL];
+    NSData *data = [NSData dataWithContentsOfFile: path];
+    return [NSPropertyListSerialization propertyListFromData: data
+                                            mutabilityOption: NSPropertyListImmutable
+                                                      format: NULL
+                                            errorDescription: NULL];
 }
 
 + (void) registerUTIDefinitions: (NSArray *)UTIDictionaries
 {
-	if (UTIDictionaries == nil)
-		return;
+    if (UTIDictionaries == nil)
+        return;
 
-	NSMutableArray *duplicateIdentifiers = [NSMutableArray array];
+    NSMutableArray *duplicateIdentifiers = [NSMutableArray array];
 
-	FOREACH(UTIDictionaries, aTypeDict, NSDictionary *)
-	{
-		NSString *typeIdentifier = [aTypeDict valueForKey: @"UTTypeIdentifier"];
-		BOOL isRegistered = ([UTIInstances objectForKey: typeIdentifier] != nil);
+    FOREACH(UTIDictionaries, aTypeDict, NSDictionary *)
+    {
+        NSString *typeIdentifier = [aTypeDict valueForKey: @"UTTypeIdentifier"];
+        BOOL isRegistered = ([UTIInstances objectForKey: typeIdentifier] != nil);
 
-		if (isRegistered)
-		{
-			[duplicateIdentifiers addObject: typeIdentifier];
-			continue;
-		}
-		
-		ETUTI *aType = [[ETUTI alloc] initWithString: typeIdentifier                               
-		                                 description: [aTypeDict valueForKey: @"UTTypeDescription"]
-		                                    typeTags: [aTypeDict valueForKey: @"UTTypeTagSpecification"]];
-		[UTIInstances setObject: aType forKey: typeIdentifier];
-		[aType release];
-	}
+        if (isRegistered)
+        {
+            [duplicateIdentifiers addObject: typeIdentifier];
+            continue;
+        }
+        
+        ETUTI *aType = [[ETUTI alloc] initWithString: typeIdentifier                               
+                                         description: [aTypeDict valueForKey: @"UTTypeDescription"]
+                                            typeTags: [aTypeDict valueForKey: @"UTTypeTagSpecification"]];
+        [UTIInstances setObject: aType forKey: typeIdentifier];
+        [aType release];
+    }
 
-	if ([duplicateIdentifiers isEmpty] == NO)
-	{
-		NSLog(@"WARNING: Failed to register UTIs %@. These identifiers are "
-			"already in use.", duplicateIdentifiers);
-	}
+    if ([duplicateIdentifiers isEmpty] == NO)
+    {
+        NSLog(@"WARNING: Failed to register UTIs %@. These identifiers are "
+            "already in use.", duplicateIdentifiers);
+    }
 
-	FOREACH(UTIDictionaries, aTypeDict2, NSDictionary *)
-	{
-		[[UTIInstances objectForKey: [aTypeDict2 valueForKey: @"UTTypeIdentifier"]]
-			setSupertypesFromStrings: [aTypeDict2 valueForKey: @"UTTypeConformsTo"]];
-	}
+    FOREACH(UTIDictionaries, aTypeDict2, NSDictionary *)
+    {
+        [[UTIInstances objectForKey: [aTypeDict2 valueForKey: @"UTTypeIdentifier"]]
+            setSupertypesFromStrings: [aTypeDict2 valueForKey: @"UTTypeConformsTo"]];
+    }
 }
 
 + (void) registerClassBindings: (NSArray *)classBindings
 {
-	if (classBindings == nil)
-		return;
+    if (classBindings == nil)
+        return;
 
-	FOREACH(classBindings, classBinding, NSDictionary *)
-	{
-		NSString *className = [classBinding valueForKey: @"UTClassName"];
-		NSArray *supertypeNames = [classBinding valueForKey: @"UTTypeConformsTo"];
-		[ETUTI registerTypeWithString: [ETObjCClassUTIPrefix stringByAppendingString: className]
-		                  description: @"Objective-C Class"
-		             supertypeStrings: supertypeNames
-		                     typeTags: nil];
+    FOREACH(classBindings, classBinding, NSDictionary *)
+    {
+        NSString *className = [classBinding valueForKey: @"UTClassName"];
+        NSArray *supertypeNames = [classBinding valueForKey: @"UTTypeConformsTo"];
+        [ETUTI registerTypeWithString: [ETObjCClassUTIPrefix stringByAppendingString: className]
+                          description: @"Objective-C Class"
+                     supertypeStrings: supertypeNames
+                             typeTags: nil];
 
-	}
+    }
 }
 
 @end
@@ -434,10 +434,10 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
 
 NSString *ETUTILastComponent(NSString *aTypeString)
 {
-	NSRange lastPeriod = [aTypeString rangeOfString:@"." options:NSBackwardsSearch];
-	if (lastPeriod.location != NSNotFound)
+    NSRange lastPeriod = [aTypeString rangeOfString:@"." options:NSBackwardsSearch];
+    if (lastPeriod.location != NSNotFound)
         {
                 return [aTypeString substringFromIndex: (lastPeriod.location + 1)];
         }
-	return @"";
+    return @"";
 }

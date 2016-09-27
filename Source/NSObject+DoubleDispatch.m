@@ -1,8 +1,8 @@
 /*
-	Copyright (C) 2007 Quentin Mathe
+    Copyright (C) 2007 Quentin Mathe
 
-	Date:  November 2007
-	License:  Modified BSD (see COPYING)
+    Date:  November 2007
+    License:  Modified BSD (see COPYING)
  */
 
 #import "NSObject+DoubleDispatch.h"
@@ -14,68 +14,68 @@
 
 - (NSString *) doubleDispatchPrefix
 {
-	return @"visit";
+    return @"visit";
 }
 
 - (SEL) doubleDispatchSelectorWithObject: (id)object ofType: (NSString *)aType
 {
-	NSString *methodName = [[[self doubleDispatchPrefix] 
-		stringByAppendingString: aType] stringByAppendingString: @":"];
-	return NSSelectorFromString(methodName);
+    NSString *methodName = [[[self doubleDispatchPrefix] 
+        stringByAppendingString: aType] stringByAppendingString: @":"];
+    return NSSelectorFromString(methodName);
 }
 
 - (id) visit: (id)object
 {
-	BOOL dummy = NO;
-	return [self visit: object result: &dummy];
+    BOOL dummy = NO;
+    return [self visit: object result: &dummy];
 }
 
 - (id) visit: (id)object result: (BOOL *)performed
 {
-	NSString *typeName = [object className];
-	id item = [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
-	                          withObject: object 
-	                              result: performed];
+    NSString *typeName = [object className];
+    id item = [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
+                              withObject: object 
+                                  result: performed];
 
-	if (*performed || [typeName hasPrefix: [[object class] typePrefix]] == NO)
-		return item;
+    if (*performed || [typeName hasPrefix: [[object class] typePrefix]] == NO)
+        return item;
 
-	typeName = [typeName substringFromIndex: [[[object class] typePrefix] length]];
+    typeName = [typeName substringFromIndex: [[[object class] typePrefix] length]];
 
-	return [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
-	                       withObject: object 
-	                           result: performed];
+    return [self tryToPerformSelector: [self doubleDispatchSelectorWithObject: object ofType: typeName]
+                           withObject: object 
+                               result: performed];
 }
 
 - (BOOL) supportsDoubleDispatchWithObject: (id)object
 {
-	NSString *typeName = [object className];
-	SEL selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
+    NSString *typeName = [object className];
+    SEL selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
 
-	if ([self respondsToSelector: selector])
-		return YES;
+    if ([self respondsToSelector: selector])
+        return YES;
 
-	if ([typeName hasPrefix: [[object class] typePrefix]] == NO)
-		return NO;
+    if ([typeName hasPrefix: [[object class] typePrefix]] == NO)
+        return NO;
 
-	typeName = [typeName substringFromIndex: [[[object class] typePrefix] length]];
-	selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
+    typeName = [typeName substringFromIndex: [[[object class] typePrefix] length]];
+    selector = [self doubleDispatchSelectorWithObject: object ofType: typeName];
 
-	return [self respondsToSelector: selector];
+    return [self respondsToSelector: selector];
 }
 
 - (id) tryToPerformSelector: (SEL)selector withObject: (id)object result: (BOOL *)performed
 {
-	if ([self respondsToSelector: selector])
-	{
-		*performed = YES;
-		return [self performSelector: selector withObject: object];
-	}
-	else
-	{
-		*performed = NO;
-		return nil;
-	}
+    if ([self respondsToSelector: selector])
+    {
+        *performed = YES;
+        return [self performSelector: selector withObject: object];
+    }
+    else
+    {
+        *performed = NO;
+        return nil;
+    }
 }
 
 @end

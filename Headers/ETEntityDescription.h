@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2009 Eric Wasylishen, Quentin Mathe
+    Copyright (C) 2009 Eric Wasylishen, Quentin Mathe
 
-	Date:  July 2009
-	License:  Modified BSD (see COPYING)
+    Date:  July 2009
+    License:  Modified BSD (see COPYING)
  */
 
 #import <EtoileFoundation/ETPropertyValueCoding.h>
@@ -25,22 +25,22 @@
  */
 @interface ETEntityDescription : ETModelElementDescription <ETCollection, ETCollectionMutation>
 {
-	@private
-	BOOL _abstract;
-	NSMutableDictionary *_propertyDescriptions;
-	ETEntityDescription *_parent;
-	NSPointerArray *_children;
-	ETPackageDescription *_owner;
-	NSString *_parentName;
-	NSString *_ownerName;
-	NSString *_localizedDescription;
-	NSArray *_UIBuilderPropertyNames;
-	NSString *_diffAlgorithm;
-	
-	NSArray *_cachedAllPropertyDescriptions;
-	NSDictionary *_cachedAllPropertyDescriptionsByName;
-	NSArray *_cachedAllPropertyDescriptionNames;
-	NSArray *_cachedAllPersistentPropertyDescriptions;
+    @private
+    BOOL _abstract;
+    NSMutableDictionary *_propertyDescriptions;
+    ETEntityDescription *_parent;
+    NSPointerArray *_children;
+    ETPackageDescription *_owner;
+    NSString *_parentName;
+    NSString *_ownerName;
+    NSString *_localizedDescription;
+    NSArray *_UIBuilderPropertyNames;
+    NSString *_diffAlgorithm;
+    
+    NSArray *_cachedAllPropertyDescriptions;
+    NSDictionary *_cachedAllPropertyDescriptionsByName;
+    NSArray *_cachedAllPropertyDescriptionNames;
+    NSArray *_cachedAllPersistentPropertyDescriptions;
 }
 
 

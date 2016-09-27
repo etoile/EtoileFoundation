@@ -1,8 +1,8 @@
 /**
-	Copyright (C) 2010 Quentin Mathe
+    Copyright (C) 2010 Quentin Mathe
 
-	Date:  January 2010
-	License:  Modified BSD (see COPYING)
+    Date:  January 2010
+    License:  Modified BSD (see COPYING)
  */
 
 #import <Foundation/Foundation.h>
