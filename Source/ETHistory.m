@@ -134,7 +134,7 @@
         return nil;
     }
 
-    for (int i = peekIndex - [history count] + 1; i > 0; i--)
+    for (NSUInteger i = peekIndex - [history count] + 1; i > 0; i--)
     {
         id object = [future nextObject];
 

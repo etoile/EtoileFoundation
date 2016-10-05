@@ -125,7 +125,7 @@
     id test2 = [ETReflection reflectClass: [TestClass2 class]];
     
     UKStringsEqual(@"ivar2", [[[test2 instanceVariableMirrors] objectAtIndex: 0] name]);
-    UKIntsEqual(1, [[test2 instanceVariableMirrors] count]);
+    UKIntsEqual(1, (int)[[test2 instanceVariableMirrors] count]);
     UKTrue([[test2 allInstanceVariableMirrors] count] > 2);
 }
 
@@ -134,7 +134,7 @@
     id test2 = [ETReflection reflectClass: [TestClass2 class]];
     
     UKStringsEqual(@"foo", [[[test2 methodMirrors] objectAtIndex: 0] name]);
-    UKIntsEqual(1, [[test2 methodMirrors] count]);
+    UKIntsEqual(1, (int)[[test2 methodMirrors] count]);
 
     UKTrue([[test2 allMethodMirrors] count] > 10);
 

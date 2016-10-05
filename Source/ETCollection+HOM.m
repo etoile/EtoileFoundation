@@ -171,7 +171,7 @@ typedef struct
     id object = nil;
     if (counter < maxElements)
     {
-        object = objectAtIndex(contents, @selector(objectAtIndex), counter);
+        object = objectAtIndex(contents, @selector(objectAtIndex:), counter);
         counter++;
     }
     else

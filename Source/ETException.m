@@ -79,7 +79,7 @@ IMP nsexception_raise;
                 GLOBAL_EXCEPTION_STATE = EXCEPTION_ABORT;
         }
     }
-    nsexception_raise(self, _cmd);
+    nsexception_raise();
 }
 @end
 

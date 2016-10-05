@@ -156,8 +156,8 @@ static ETModelDescriptionRepository *mainRepo = nil;
 {
     Class class = NSClassFromString(className);
     NSString *typePrefix = (Nil != class ? [class typePrefix] : (NSString *)@"");
-    int prefixEnd = [className rangeOfString: typePrefix
-                                     options: NSAnchoredSearch].length;
+    NSUInteger prefixEnd = [className rangeOfString: typePrefix
+                                            options: NSAnchoredSearch].length;
 
     return [className substringFromIndex: prefixEnd];
 }

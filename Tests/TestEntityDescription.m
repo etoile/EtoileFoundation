@@ -241,7 +241,7 @@
 
 - (void) testDefaultPackageVersion
 {
-    UKIntsEqual(0, package.version);
+    UKIntsEqual(0, (int)package.version);
 }
 
 @end

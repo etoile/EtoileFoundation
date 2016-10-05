@@ -23,13 +23,13 @@
 
     [self recordStackTrace];
 
-    UKIntsEqual(1, [[self recordedStackTraces] count]);
+    UKIntsEqual(1, (int)[[self recordedStackTraces] count]);
     ETStackTrace *trace1 = [[self recordedStackTraces] firstObject];
     UKTrue([trace1 numberOfFrames] > 1);
 
     [self recordStackTrace];
 
-    UKIntsEqual(2, [[self recordedStackTraces] count]);
+    UKIntsEqual(2, (int)[[self recordedStackTraces] count]);
     ETStackTrace *trace2 = [[self recordedStackTraces] lastObject];
     UKObjectsNotEqual(trace1, trace2);
     UKTrue([trace2 numberOfFrames] > 1);

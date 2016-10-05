@@ -45,7 +45,7 @@
     if (nil == propertyIndent) propertyIndent = @"";
     BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
     NSArray *allKeys = [self allKeys];
-    int n = [self count];
+    NSUInteger n = [self count];
 
     [desc appendString: @"{"];
 

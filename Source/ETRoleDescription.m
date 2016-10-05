@@ -114,7 +114,7 @@
     else
     {
         NSNumber *invalidValue =
-            [NSNumber numberWithInt: MAX(_minimum, MIN(_maximum, intValue))];
+            [NSNumber numberWithInteger: MAX(_minimum, MIN(_maximum, intValue))];
 
         return [ETValidationResult validationResultWithValue: invalidValue
                                                      isValid: NO
