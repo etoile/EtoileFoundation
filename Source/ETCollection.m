@@ -623,7 +623,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
     if (nil == propertyIndent) propertyIndent = @"";
     BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
     NSArray *objects = [self allObjects];
-    NSUInteger n = [objects count];
+    NSInteger n = [objects count];
 
     [desc appendString: @"{"];
 

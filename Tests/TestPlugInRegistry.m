@@ -93,10 +93,10 @@
 {
     [self checkPlugInLoadingPreconditionsForPath: [self plugInPath]];
 
-    int initialCount = (int)[[registry loadedPlugIns] count];
+    NSUInteger initialCount = [[registry loadedPlugIns] count];
     NSDictionary *plugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, (int)[[registry loadedPlugIns] count]);
+    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 
     UKNotNil(plugIn);
     UKObjectKindOf([plugIn objectForKey: @"bundle"], NSBundle);
@@ -110,7 +110,7 @@
 
     NSDictionary *samePlugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, (int)[[registry loadedPlugIns] count]);
+    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
     UKObjectsSame(plugIn, samePlugIn);
 }
 
@@ -120,10 +120,10 @@
 
     [registry setShouldInstantiatePlugInClass: NO];
 
-    int initialCount = (int)[[registry loadedPlugIns] count];
+    NSUInteger initialCount = [[registry loadedPlugIns] count];
     NSDictionary *plugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, (int)[[registry loadedPlugIns] count]);
+    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
 
     UKNotNil(plugIn);
     UKObjectKindOf([plugIn objectForKey: @"bundle"], NSBundle);
@@ -140,7 +140,7 @@
 
     NSDictionary *samePlugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
-    UKIntsEqual(initialCount + 1, (int)[[registry loadedPlugIns] count]);
+    UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
     UKObjectsSame(plugIn, samePlugIn);
     UKNil([plugIn objectForKey: @"instance"]);
 }

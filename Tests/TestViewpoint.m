@@ -191,8 +191,8 @@
 
 - (void) testValueForProperty
 {
-    UKIntsEqual((int)[[person emails] count], (int)[[emails valueForProperty: @"count"] unsignedIntegerValue]);
-    UKIntsEqual((int)[[person groupNames] count], (int)[[groupNames valueForProperty: @"count"] unsignedIntegerValue]);
+    UKIntsEqual([[person emails] count], [[emails valueForProperty: @"count"] unsignedIntegerValue]);
+    UKIntsEqual([[person groupNames] count], [[groupNames valueForProperty: @"count"] unsignedIntegerValue]);
     UKObjectsSame([[person groupNames] lastObject], [groupNames valueForProperty: @"lastObject"]);
 }
 
@@ -220,7 +220,7 @@
     [groupNames insertObject: @"Elsewhere" atIndex: 1 hint: nil];
     
     UKTrue([[[person emails] arrayRepresentation] containsObject: pair]);
-    UKIntsEqual((int)oldEmailCount + 1, (int)[[person emails] count]);
+    UKIntsEqual(oldEmailCount + 1, [[person emails] count]);
     UKObjectsEqual(A(@"Somebody", @"Elsewhere", @"Nobody"), [person groupNames]);
 }
 
@@ -233,7 +233,7 @@
     [groupNames removeObject: nil atIndex: 1 hint: nil];
     
     UKNil([[person emails] objectForKey: [pair key]]);
-    UKIntsEqual((int)oldEmailCount - 1, (int)[[person emails] count]);
+    UKIntsEqual(oldEmailCount - 1, [[person emails] count]);
     UKObjectsEqual(A(@"Somebody"), [person groupNames]);
 }
            

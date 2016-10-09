@@ -20,8 +20,8 @@
     id indexPath1 = [[NSIndexPath indexPathWithIndex: 5] indexPathByAddingIndex: 2];
     id indexPath2 = [indexPath1 indexPathByRemovingFirstIndex];
 
-    UKIntsEqual(2, (int)[indexPath2 firstIndex]);
-    UKIntsEqual((int)NSNotFound, (int)[[indexPath2 indexPathByRemovingFirstIndex] firstIndex]);
+    UKIntsEqual(2, [indexPath2 firstIndex]);
+    UKIntsEqual(NSNotFound, [[indexPath2 indexPathByRemovingFirstIndex] firstIndex]);
 }
 
 - (void) testIndexPathByJoiningIndexWithSeparator

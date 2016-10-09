@@ -96,7 +96,7 @@
 - (void) testEmptyCollection
 {
     [self checkFixedCollectionCharacteristics];
-    UKIntsEqual(0, (int)[self count]);
+    UKIntsEqual(0, [self count]);
     UKTrue([self isEmpty]);
     UKFalse([self containsObject: @"Unknown"]);
     UKFalse([self containsCollection: S(@"Unknown")]);
@@ -107,14 +107,14 @@
     [collection addObject: @"Whatever"];
 
     [self checkFixedCollectionCharacteristics];
-    UKIntsEqual(1, (int)[self count]);
+    UKIntsEqual(1, [self count]);
     UKFalse([self isEmpty]);
     UKTrue([self containsObject: @"Whatever"]);
 
     [collection addObject: @"Something"];
 
     [self checkFixedCollectionCharacteristics];
-    UKIntsEqual(2, (int)[self count]);
+    UKIntsEqual(2, [self count]);
     UKFalse([self isEmpty]);
     UKTrue([self containsObject: @"Something"]);
 
