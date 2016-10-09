@@ -240,7 +240,7 @@ BOOL ETGetInstanceVariableValueForKey(id object, id *value, NSString *key)
     assert(key != nil);
 
     const char *baseName = [key UTF8String];
-    int baseLength = strlen(baseName);
+    size_t baseLength = strlen(baseName);
     char name[baseLength + 4];
     const char *ivarName;
 
@@ -438,7 +438,7 @@ BOOL ETSetInstanceVariableValueForKey(id object, id value, NSString *key)
     assert(key != nil);
 
     const char *baseName = [key UTF8String];
-    int baseLength = strlen(baseName);
+    size_t baseLength = strlen(baseName);
     char name[baseLength + 4];
     const char *ivarName;
 

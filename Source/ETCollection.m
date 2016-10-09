@@ -623,7 +623,7 @@ The constraints to respect are detailed in -[(ETCollectionMutation) removeObject
     if (nil == propertyIndent) propertyIndent = @"";
     BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
     NSArray *objects = [self allObjects];
-    int n = [objects count];
+    NSInteger n = [objects count];
 
     [desc appendString: @"{"];
 
@@ -698,23 +698,23 @@ NSCountedSet is always mutable and has not immutable equivalent. */
 - (NSArray *) contentArray
 {
     NSMutableArray *indexes = [NSMutableArray arrayWithCapacity: [self count]];
-    int nbOfIndexes = [self count];
-    int nbOfCopiedIndexes = -1;
+    NSUInteger nbOfIndexes = [self count];
+    NSInteger nbOfCopiedIndexes = -1;
     NSUInteger *copiedIndexes = calloc(sizeof(NSUInteger), nbOfIndexes);
     
     nbOfCopiedIndexes = [self getIndexes: copiedIndexes maxCount: nbOfIndexes
         inIndexRange: NULL];
     
     NSAssert2(nbOfCopiedIndexes > -1, @"Invalid number of copied indexes for "
-        @"%@, expected value is %d", self, nbOfIndexes);
+        @"%@, expected value is %d", self, (unsigned int)nbOfIndexes);
     
     // NOTE: i < [self count] prevents the loop to be entered, because negative  
     // int (i) doesn't appear to be inferior to unsigned int (count)
     for (int i = 0; i < nbOfIndexes; i++)
     {
-        unsigned int index = copiedIndexes[i];
+        NSUInteger index = copiedIndexes[i];
             
-        [indexes addObject: [NSNumber numberWithInt: index]];
+        [indexes addObject: [NSNumber numberWithUnsignedInteger: index]];
     }
     
     free(copiedIndexes);

@@ -13,7 +13,9 @@ void pophandler(void* exception)
     [NSException popHandlerForException: *(NSString**)exception];
 }
 
-IMP nsexception_raise;
+typedef void (*nsexception_raise_type)(id, SEL);
+
+nsexception_raise_type nsexception_raise;
 
 @implementation NSException (ETException)
 + (void) pushHandler:(ETHandler)aHandler forException:(NSString*)aName
@@ -46,7 +48,7 @@ IMP nsexception_raise;
     if (0 != nsexception_raise) { return; }
     Class nsexception = objc_getClass("NSException");
     SEL raise = @selector(raise);
-    nsexception_raise = class_getMethodImplementation(nsexception, raise);
+    nsexception_raise = (nsexception_raise_type) class_getMethodImplementation(nsexception, raise);
     Method m = class_getInstanceMethod(self, raise);
     class_replaceMethod(nsexception,
                         raise,

@@ -94,7 +94,7 @@ NSArray *personsNamedJohn = [persons filteredArrayUsingPredicate:
     if (values == nil)
         return result;
     
-    int n = [values count];
+    NSUInteger n = [values count];
     
     for (int i = 0; i < n; i++)
     {
@@ -131,7 +131,7 @@ Nil is returned when no object can be matched. */
     NSString *propertyIndent = [options objectForKey: kETDescriptionOptionPropertyIndent];
     if (nil == propertyIndent) propertyIndent = @"";
     BOOL usesNewLineIndent = ([propertyIndent isEqualToString: @""] == NO);
-    int n = [self count];
+    NSUInteger n = [self count];
 
     [desc appendString: @"("];
 

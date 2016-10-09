@@ -93,7 +93,7 @@
 {
     [self checkPlugInLoadingPreconditionsForPath: [self plugInPath]];
 
-    int initialCount = [[registry loadedPlugIns] count];    
+    NSUInteger initialCount = [[registry loadedPlugIns] count];
     NSDictionary *plugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
     UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);
@@ -120,7 +120,7 @@
 
     [registry setShouldInstantiatePlugInClass: NO];
 
-    int initialCount = [[registry loadedPlugIns] count];
+    NSUInteger initialCount = [[registry loadedPlugIns] count];
     NSDictionary *plugIn = [registry loadPlugInAtPath: [self plugInPath]];
 
     UKIntsEqual(initialCount + 1, [[registry loadedPlugIns] count]);

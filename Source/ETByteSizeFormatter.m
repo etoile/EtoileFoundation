@@ -30,7 +30,7 @@ MB, two digits for GB and three digits for TB. */
     NSParameterAssert([anObject isKindOfClass: [NSNumber class]]);
 
     NSArray *sizeUnits = A(_(@"B"), _(@"KB"), _(@"MB"), _(@"GB"), _(@"TB"));
-    int nbOfUnits = [sizeUnits count];
+    NSUInteger nbOfUnits = [sizeUnits count];
     CGFloat value = [anObject floatValue];
     int unitLevel = 0;
 

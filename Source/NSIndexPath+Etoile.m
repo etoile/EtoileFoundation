@@ -77,9 +77,9 @@ Will raise an NSInvalidArgumentException if the separator is nil. */
         return @"";
 
     NSString *path = [NSString stringWithFormat: @"%lu", (unsigned long)[self firstIndex]];
-    int indexCount = [self length];
+    NSUInteger indexCount = [self length];
 
-    for (int i = 1; i < indexCount; i++)
+    for (NSUInteger i = 1; i < indexCount; i++)
     {
         path = [path stringByAppendingString:
             [NSString stringWithFormat: @"%@%lu", separator, (unsigned long)[self indexAtPosition: i]]];

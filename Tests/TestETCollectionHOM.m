@@ -279,8 +279,8 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testMapCountedSet
 {
     INPUT_MUTABLE_COUNTED_SET
-    int countOfFoo = [countedSet countForObject: @"foo"];
-    int countOfBar = [countedSet countForObject: @"bar"];
+    NSUInteger countOfFoo = [countedSet countForObject: @"foo"];
+    NSUInteger countOfBar = [countedSet countForObject: @"bar"];
     [[countedSet map] uppercaseString];
 
     UKTrue([countedSet containsObject: @"FOO"]);
@@ -573,7 +573,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
     NSArray *first = A(@"foo", @"FOO");
     NSArray *second = A(@"bar", @"BAR",@"bar");
-    NSArray *result = (NSArray*)[[first zippedCollectionWithCollection: second] stringByAppendingString: nil];
+    NSArray *result = (NSArray*)[[first zippedCollectionWithCollection: second] stringByAppendingString: @""];
 
     if (2 == [result count])
     {
@@ -590,7 +590,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testZippedDictionary
 {
     INPUT_DICTIONARY
-    NSDictionary *result = (NSDictionary*)[[inputDictionary zippedCollectionWithCollection: inputDictionary] stringByAppendingString: nil];
+    NSDictionary *result = (NSDictionary*)[[inputDictionary zippedCollectionWithCollection: inputDictionary] stringByAppendingString: @""];
 
     UKObjectsEqual([result objectForKey: @"one"],@"foofoo");
     UKObjectsEqual([result objectForKey: @"two"],@"barbar");
@@ -599,7 +599,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testZippedSet
 {
     INPUT_SET
-    NSSet *result = (NSSet*)[[inputSet zippedCollectionWithCollection: inputSet] stringByAppendingString: nil];
+    NSSet *result = (NSSet*)[[inputSet zippedCollectionWithCollection: inputSet] stringByAppendingString: @""];
 
     // FIXME: This test wrongly assumes that sets are ordered. Since the
     // implementation behaves that way, that's not a problem (yet).
@@ -611,7 +611,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 {
     INPUT_COUNTED_SET
     NSCountedSet *result = (NSCountedSet*)[[inputCountedSet zippedCollectionWithCollection: inputCountedSet]
-                                            stringByAppendingString: nil];
+                                            stringByAppendingString: @""];
 
     UKTrue([result containsObject: @"foofoo"]);
     UKTrue([result containsObject: @"barbar"]);
@@ -650,7 +650,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testZipArray
 {
     INPUT_MUTABLE_ARRAY
-    [[array zipWithCollection: array] stringByAppendingString: nil];
+    [[array zipWithCollection: array] stringByAppendingString:@""];
 
     UKTrue([array containsObject: @"foofoo"]);
     UKTrue([array containsObject: @"barbar"]);
@@ -661,7 +661,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testZipDict
 {
     INPUT_MUTABLE_DICTIONARY
-    [[dictionary zipWithCollection: dictionary] stringByAppendingString: nil];
+    [[dictionary zipWithCollection: dictionary] stringByAppendingString:@""];
 
     UKObjectsEqual(@"foofoo",[dictionary objectForKey: @"one"]);
     UKObjectsEqual(@"barbar",[dictionary objectForKey: @"two"]);
@@ -670,7 +670,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testZipSet
 {
     INPUT_MUTABLE_SET
-    [[set zipWithCollection: set] stringByAppendingString: nil];
+    [[set zipWithCollection: set] stringByAppendingString: @""];
 
     UKTrue([set containsObject: @"foofoo"]);
     UKTrue([set containsObject: @"barbar"]);
@@ -681,7 +681,7 @@ DEALLOC( [stringAttribute release]; [numericAttribute release];)
 - (void)testZipCountedSet
 {
     INPUT_MUTABLE_COUNTED_SET
-    [[countedSet zipWithCollection: countedSet] stringByAppendingString: nil];
+    [[countedSet zipWithCollection: countedSet] stringByAppendingString: @""];
 
     UKIntsEqual(2,[countedSet countForObject: @"foofoo"]);
     UKIntsEqual(1,[countedSet countForObject: @"barbar"]);
