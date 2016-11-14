@@ -146,7 +146,12 @@
     return newObject;
 }
 
-DEALLOC( [stringAttribute release]; [numericAttribute release];)
+- (void)dealloc
+{
+    [stringAttribute release]; 
+    [numericAttribute release];
+    [super dealloc];
+}
 
 @end
 
