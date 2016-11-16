@@ -110,8 +110,11 @@
     [repo collectEntityDescriptionsFromClass: [ETModelElementDescription class]
                              excludedClasses: primitiveDescClasses
                                   resolveNow: YES];
-
-#if TARGET_OS_IPHONE
+#if GNUSTEP
+    // With GNUstep, the test suite and framework are compiled together as a test bundle.
+    ETPackageDescription *etoileFoundationPackage =
+        [repo descriptionForName: @"org.etoile-project.EtoileFoundation"];
+#elif TARGET_OS_IPHONE
     // With iOS, the test suite is packaged as an application.
     ETPackageDescription *etoileFoundationPackage =
         [repo descriptionForName: @"org.etoile-project.TestEtoileFoundation"];
