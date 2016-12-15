@@ -1,6 +1,33 @@
 notifications:
   email:
     recipients:
-      - etoile-testbuild@gna.org
-language: objective-c
-script: ./travis-ci-checkout-deps-and-run-tests.sh
+     - etoile-testbuild@gna.org
+
+language: generic
+compiler: gcc
+os:
+  - linux
+  - osx
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      language: cpp
+      env: TEST_BUILD=gnustep
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-3.8
+          packages:
+            - clang-3.8
+    - os: osx
+      language: objective-c
+      env: TEST_BUILD=mac
+  exclude:
+    - language: generic
+
+script:
+  - if [[ $TRAVIS_OS_NAME == 'osx' && $TEST_BUILD == 'mac' ]]; then ./test-macosx.sh; fi
+  - if [[ $TRAVIS_OS_NAME == 'linux' && $TEST_BUILD == 'gnustep' ]]; then ./test-linux.sh; fi
