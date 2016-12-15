@@ -57,5 +57,6 @@ cd ..
 # EtoileFoundation
 git clean -dfx
 wget https://raw.githubusercontent.com/etoile/Etoile/master/etoile.make
-make -j8 messages=yes && make messages=yes test=yes && ukrun -q || exit 1
+# Skip EtoileXML which requires the AppKit
+make -j8 messages=yes etoilexml=no && make messages=yes test=yes && ukrun -q || exit 1
 

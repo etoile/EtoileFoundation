@@ -4,7 +4,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 ifeq ($(test), yes)
 SUBPROJECTS = Tests/PlugInExample
-else
+else ifneq ($(etoilexml), no)
 SUBPROJECTS = EtoileXML
 endif
 
