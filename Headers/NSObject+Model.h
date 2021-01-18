@@ -23,7 +23,7 @@
 /** @taskunit Common Representations */
 
 - (id) objectValue;
-- (NSString *) stringValue;
+@property (nonatomic, readonly) NSString *stringValue;
 
 - (BOOL) isCommonObjectValue;
 - (BOOL) isString;
