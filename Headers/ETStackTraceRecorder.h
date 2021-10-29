@@ -9,7 +9,7 @@
 
 // NOTE: -[NSThread callStackSymbols] was introduced with Mac OS X 10.6.
 // MAC_OS_X_VERSION_MIN_REQUIRED seems to be defined even while targeting iOS.
-#if defined(GNUSTEP) || MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6 && !(TARGET_OS_IPHONE)
+#if defined(GNUSTEP) || (MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && !(TARGET_OS_IPHONE))
 
 /** @group Debugging
 @abstract A debug utility to record stack traces in relation to an instance.

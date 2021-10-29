@@ -50,20 +50,21 @@
        explicitly and exclude some classes. */
     ASSIGN(repo, [[[ETModelDescriptionRepository alloc] init] autorelease]);
 
-    /* For testing purpose, we just exclude NSMutableString class but
-       it is not the expected way to set up a repository (see +mainRepository). */
-    NSSet *excludedClasses = [S([NSMutableString class])
-        setByAddingObjectsFromArray: [NSMutableString allSubclasses]];
-    [repo collectEntityDescriptionsFromClass: [NSObject class]
+    /* Don't pass NSObject, because this code path initializes excluded classes 
+       by putting them into sets and dictionaries. Some classes are forbidden 
+       to be initialized on macOS 10.9 and higher. */
+    NSSet *excludedClasses = [S([NSCountedSet class])
+        setByAddingObjectsFromArray: [NSCountedSet allSubclasses]];
+    [repo collectEntityDescriptionsFromClass: [NSSet class]
                              excludedClasses: excludedClasses
                                   resolveNow: YES];
 
-    ETEntityDescription *root = [repo descriptionForName: @"NSObject"];
-    ETEntityDescription *string = [repo descriptionForName: @"NSString"];
+    ETEntityDescription *root = [repo descriptionForName: @"NSSet"];
+    ETEntityDescription *mutableSet = [repo descriptionForName: @"NSMutableSet"];
 
-    UKObjectsSame(root, [repo entityDescriptionForClass: [NSObject class]]);
-    UKObjectsSame(string, [repo entityDescriptionForClass: [NSString class]]);
-    UKObjectsSame(string, [repo entityDescriptionForClass: [NSMutableString class]]);
+    UKObjectsSame(root, [repo entityDescriptionForClass: [NSSet class]]);
+    UKObjectsSame(mutableSet, [repo entityDescriptionForClass: [NSMutableSet class]]);
+    UKObjectsSame(mutableSet, [repo entityDescriptionForClass: [NSCountedSet class]]);
 }
 
 /* On Mac OS X, [@"" class] and NSClassFromString( @"__NSCFConstantString")

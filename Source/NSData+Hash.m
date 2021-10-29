@@ -138,8 +138,7 @@
 
 - (NSString *)base64String
 {
-#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0)
-    || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_9)
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000 || __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
     return [self base64EncodedStringWithOptions: 0];
 #else
     return [self base64Encoding];
@@ -152,9 +151,8 @@
 
 - (NSData*)base64DecodedData
 {
-#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0)
-    || (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_9)
-    return [[NSData alloc] initWithBase64EncodedString: base64String options: 0];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000 || __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+    return [[NSData alloc] initWithBase64EncodedString: self options: 0];
 #else
     return [[NSData alloc] initWithBase64Encoding: self];
 #endif

@@ -10,7 +10,7 @@
 #import "EtoileCompatibility.h"
 #import "Macros.h"
 
-#if defined(GNUSTEP) || (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6 && !(TARGET_OS_IPHONE))
+#if defined(GNUSTEP) || (MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && !(TARGET_OS_IPHONE))
 
 @interface ETStackTraceRecorder (Private)
 - (void) didAllocObject: (id)anObject ofClass: (Class)aClass;

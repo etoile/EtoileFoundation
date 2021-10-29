@@ -206,12 +206,12 @@ static NSString *anonymousPackageName = @"Anonymous";
     SUPERINIT;
     _unresolvedDescriptions = [[NSMutableSet alloc] init];
     _descriptionsByName = [[NSMutableDictionary alloc] init];
-#if TARGET_OS_IPHONE
-    ASSIGN(_entityDescriptionsByClass, [NSMapTable strongToStrongObjectsMapTable]);
-    ASSIGN(_classesByEntityDescription, [NSMapTable strongToStrongObjectsMapTable]);
-#else
+#ifdef GNUSTEP
     ASSIGN(_entityDescriptionsByClass, [NSMapTable mapTableWithStrongToStrongObjects]);
     ASSIGN(_classesByEntityDescription, [NSMapTable mapTableWithStrongToStrongObjects]);
+#else
+    ASSIGN(_entityDescriptionsByClass, [NSMapTable strongToStrongObjectsMapTable]);
+    ASSIGN(_classesByEntityDescription, [NSMapTable strongToStrongObjectsMapTable]);
 #endif
     [self setUpWithCPrimitives: [self newCPrimitives]
               objectPrimitives: [self newObjectPrimitives]];
