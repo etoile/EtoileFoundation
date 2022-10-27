@@ -1987,6 +1987,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -2018,6 +2019,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
