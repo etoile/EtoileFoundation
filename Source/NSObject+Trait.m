@@ -198,7 +198,7 @@ static NSMutableSet *methodNamesForClass(Class aClass)
 
 @synthesize trait, excludedMethodNames, aliasedMethodNames, skippedMethodNames, overridenMethods;
 
-void ETApplyCollectionTraits();
+void ETApplyCollectionTraits(void);
 
 + (void) load
 {

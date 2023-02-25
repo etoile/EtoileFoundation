@@ -25,7 +25,7 @@ const NSUInteger ETUndeterminedIndex = NSNotFound;
 // ETTraitApplication private class in NSObject+Trait.m
 static int loading = 8 + 2 + 1;
 
-void ETApplyCollectionTraits()
+void ETApplyCollectionTraits(void)
 {
     if (--loading != 0) return;
 

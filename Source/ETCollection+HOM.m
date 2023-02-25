@@ -1420,7 +1420,7 @@ not -[super methodSignatureForSelector:]. */
     id __unsafe_unretained objects[count];
     id __unsafe_unretained keys[count];
 
-    [self getObjects: objects andKeys: keys];
+    [self getObjects: objects andKeys: keys count: count];
 
     if (info != NULL)
     {

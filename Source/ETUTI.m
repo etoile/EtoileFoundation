@@ -368,10 +368,10 @@ NSString * const kETUTITagClassFileExtension = @"public.filename-extension";
         return nil;
 
     NSData *data = [NSData dataWithContentsOfFile: path];
-    return [NSPropertyListSerialization propertyListFromData: data
-                                            mutabilityOption: NSPropertyListImmutable
+    return [NSPropertyListSerialization propertyListWithData: data
+                                                     options: NSPropertyListImmutable
                                                       format: NULL
-                                            errorDescription: NULL];
+                                                       error: NULL];
 }
 
 + (void) registerUTIDefinitions: (NSArray *)UTIDictionaries
